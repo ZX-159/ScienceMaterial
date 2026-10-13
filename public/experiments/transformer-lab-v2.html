@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>变压器原理实验室 · Transformer Principle · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 变压器原理实验室</h1>
+  <div class="sub">Transformer Principle · chu-er-xia/b4-c10 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 变压器实验台</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 升压 vs 降压</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 远距离输电</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 要点</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<!-- ① 变压器实验台 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svgtr" viewBox="0 0 660 480"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="tr_sidetitle">读数</h3>
+    <div class="statline">
+      <span class="chip hl big" id="c_u2">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="c_u1">—</span>
+      <span class="chip blu" id="c_rt">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="tr_k1"></div>
+    <div class="kbox red" data-i18n-html="tr_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 升压 vs 降压 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="ud_figtitle">同一个原理，两种接法</h3>
+    <svg id="svgud" viewBox="0 0 660 440"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="ud_sidetitle">口诀</h3>
+    <div class="kbox grn" data-i18n-html="ud_k1"></div>
+    <div class="kbox blue" data-i18n-html="ud_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 远距离输电 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb2">—</div>
+    <svg id="svgtx" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="tx_sidetitle">线路账本</h3>
+    <div class="statline">
+      <span class="chip hl big" id="c_eff">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="c_i">—</span>
+      <span class="chip" id="c_loss">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip blu" id="c_vd">—</span>
+    </div>
+    <div class="kbox blue" data-i18n-html="tx_k3"></div>
+    <div class="kbox" data-i18n-html="tx_k1"></div>
+    <div class="kbox grn" data-i18n-html="tx_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 要点 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="cmp_title">变压器要点总表</h3>
+    <div id="cmpwrap"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="sm_title">一句话总结</h3>
+    <div class="kbox grn" data-i18n-html="sm_k1"></div>
+    <div class="kbox" data-i18n-html="sm_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ 测验 -->
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl"><span data-i18n="dk_u1">电源 V₁</span>
+      <input type="range" id="u1sl" min="50" max="250" step="10" value="220">
+      <span class="mono" id="u1lab">220 V</span></span>
+    <span class="dl"><span data-i18n="dk_n1">原线圈 n₁</span>
+      <input type="range" id="n1sl" min="1" max="10" step="1" value="2">
+      <span class="mono" id="n1lab">200</span></span>
+    <span class="dl"><span data-i18n="dk_n2">副线圈 n₂</span>
+      <input type="range" id="n2sl" min="1" max="10" step="1" value="6">
+      <span class="mono" id="n2lab">600</span></span>
+    <button class="tgl" id="acdc" data-i18n="dk_dc">⎓ 接直流试试</button>
+  </div>
+
+  <div class="dsec" id="d1">
+    <span class="dl" data-i18n="dk_hint1">💡 左边升压给电网，右边降压给用电器</span>
+  </div>
+
+  <div class="dsec" id="d2">
+    <span class="dl"><span data-i18n="dk_ut">输电电压</span>
+      <input type="range" id="utsl" min="250" max="10000" step="250" value="500">
+      <span class="mono" id="utlab">500 V</span></span>
+    <button class="prep" id="lowp" data-i18n="dk_lowp">低压直送 250V</button>
+    <button class="prep" id="highp" data-i18n="dk_highp">升压输电 10000V</button>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="dk_hint3">💡 表格按"匝数比→电压→电流"一条线记</span>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'变压器原理实验室',
+ subtitle:'互感原理 · 匝数比 · 远距离输电 —— 初中科学课堂演示工具',
+ tab0:'① 变压器实验台',tab1:'② 升压 vs 降压',tab2:'③ 远距离输电',tab3:'④ 要点',tab4:'⑤ 测验',
+ tr_sidetitle:'读数',
+ tr_k1:'变压器的原理是<b>互感</b>：原线圈接<b>交流电</b>，铁芯里的磁通量不停变化，穿过副线圈——副线圈就感应出电压。电压比等于匝数比：<b>V₁/V₂ = n₁/n₂</b>。',
+ tr_k2:'⚠️ 变压器<b>不能变直流</b>！直流电流恒定 → 磁通量不变化 → 副线圈没有感应电压。按下方「⎓ 接直流试试」亲眼看灯泡熄灭。',
+ ud_figtitle:'同一个原理，两种接法',
+ ud_sidetitle:'口诀',
+ ud_k1:'<b>匝数多的一边电压高。</b>副线圈匝数比原线圈多 → 升压；少 → 降压。理想变压器功率不变：电压升几倍，电流就降几倍。',
+ ud_k2:'生活里的位置：<b>发电站出门先升压</b>（送上电网），<b>到你家楼下再降压</b>（变电站），<b>手机充电器里还有一颗小小的降压变压器</b>（220V→5V 左右）。',
+ tx_sidetitle:'线路账本',
+ tx_k3:'<b>为什么高压时小点反而走得慢？</b>没有画反！小点的<b>速度=电流</b>（每秒流过多少电荷），<b>大小=电压</b>（每份电荷带多少能量）。功率固定 P=V×I：电压升高，每份电荷驮的能量变多，就不需要那么多电荷奔跑——像 40 辆小摩托送货换成 1 辆重载卡车慢慢开。注意沿线的压降只有 I·R（高压时才 4V）——10000V 是两线之间的电位差，不是沿线的"推力"。',
+ tx_k1:'输电线是有电阻的，发热损耗 <b>P损 = I²R</b>——跟<b>电流的平方</b>成正比！同样送 10000W：电压升高 40 倍，电流就小 40 倍，线损变成原来的 <b>1/1600</b>。这就是"高压输电"的全部理由。',
+ tx_k2:'真实世界：马来西亚国家电网的输电电压有 <b>132kV、275kV、500kV</b>——比这里的滑杆还高几十倍，就是为了把 I²R 压到最低；到住宅区再一路降回 240V。',
+ cmp_title:'变压器要点总表',
+ sm_title:'一句话总结',
+ sm_k1:'<b>交流 → 磁通变化 → 互感。匝数多的一边电压高；升压则电流小。</b>',
+ sm_k2:'远距离输电三步：<b>升压送出 → 高压小电流过线（I²R 损耗小）→ 降压入户</b>。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_u1:'电源 V₁', dk_n1:'原线圈 n₁', dk_n2:'副线圈 n₂', dk_dc:'⎓ 接直流试试',
+ dk_hint1:'💡 左边升压给电网，右边降压给用电器',
+ dk_ut:'输电电压', dk_lowp:'低压直送 250V', dk_highp:'升压输电 10000V',
+ dk_hint3:'💡 表格按"匝数比→电压→电流"一条线记',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0a:'原线圈 ', qb0b:' 匝接在 ', qb0c:' 的交流电源上，副线圈 ', qb0d:' 匝。输出电压 V₂ 是多少？',
+ qb0dc:'原线圈接直流电源，副线圈会输出电压吗？',
+ turns:'匝', volt:'V',
+ lb_core:'铁芯', lb_p:'原线圈', lb_s:'副线圈', lb_src:'交流电源', lb_srcdc:'直流电源', lb_bulb:'灯泡',
+ up:'升压变压器 n₂ > n₁', down:'降压变压器 n₂ < n₁', same:'等压 n₂ = n₁',
+ dcwarn:'⚠ 直流：磁通不变化 → 副线圈没有输出！',
+ flux:'磁通量（方向不停交替）', fluxdc:'磁通量恒定（没有变化）',
+ u2chip:'输出 V₂', u1chip:'输入 V₁', rtchip:'匝数比 n₁:n₂',
+ ud_upT:'升压 1 : 3', ud_dnT:'降压 3 : 1',
+ ud_upA:'发电站 → 电网', ud_dnA:'电网 → 充电器',
+ in_:'输入', out_:'输出',
+ qb2a:'发电厂输出功率 ', qb2b:'，输电线总电阻 ', qb2c:'。用 ', qb2d:' 输电，线路损耗多少？到家还剩多少？',
+ effchip:'到家效率', ichip:'线路电流', losschip:'线损', vdchip:'沿线压降 I·R',
+ legdots:'小点：速度＝电流 · 大小＝每份电荷带的能量（电压）',
+ plant:'发电厂', stepup:'升压', stepdn:'降压', home:'住户',
+ barhome:'到家', barloss:'线损 I²R',
+ hot:'烫！',
+ cmpH:['','关键点','记忆钩子'],
+ cmpR:[['原理','互感：交流 → 磁通变化 → 副线圈感应出电压','只能变交流，不能变直流'],
+       ['电压比','V₁/V₂ = n₁/n₂','匝数多的一边电压高'],
+       ['升压变压器','n₂ > n₁，电压升高、电流变小','发电站出口'],
+       ['降压变压器','n₂ < n₁，电压降低、电流变大','变电站、充电器'],
+       ['理想变压器','输入功率 = 输出功率（P₁ = P₂）','电压×电流 两边相等'],
+       ['远距离输电','先升压：电流小 → I²R 线损小','P损 = I²R，跟电流平方成正比']],
+ mth:''
+},
+en:{
+ title:'Transformer Lab',
+ subtitle:'Mutual induction · turns ratio · long-distance transmission — junior-high classroom demo',
+ tab0:'① Transformer Bench',tab1:'② Step-up vs Step-down',tab2:'③ Power Transmission',tab3:'④ Review',tab4:'⑤ Quiz',
+ tr_sidetitle:'Readings',
+ tr_k1:'A transformer works by <b>mutual induction</b>: AC in the primary keeps the core\u2019s magnetic flux changing, that flux threads the secondary — so the secondary gets an induced voltage. The ratio is the turns ratio: <b>V₁/V₂ = n₁/n₂</b>.',
+ tr_k2:'⚠️ A transformer <b>cannot transform DC</b>! Steady current → constant flux → no induced voltage in the secondary. Press "⎓ try DC" below and watch the bulb die.',
+ ud_figtitle:'One principle, two hook-ups',
+ ud_sidetitle:'The rule',
+ ud_k1:'<b>The side with more turns has the higher voltage.</b> More secondary turns → step-up; fewer → step-down. An ideal transformer keeps power unchanged: voltage up N times means current down N times.',
+ ud_k2:'Where they live: <b>step-up at the power station gate</b> (onto the grid), <b>step-down at your neighbourhood substation</b>, and <b>a tiny step-down transformer inside every phone charger</b> (230V → ~5V).',
+ tx_sidetitle:'The line\u2019s ledger',
+ tx_k3:'<b>Why do the dots move SLOWER at high voltage?</b> Not a mistake! Dot <b>speed = current</b> (charge passing per second) and dot <b>size = voltage</b> (energy carried per charge). With fixed power P=V×I, raising the voltage loads each charge with more energy, so far fewer charges need to flow — 40 scooters replaced by one heavy truck rolling calmly. And the drop ALONG the line is only I·R (just 4 V at high voltage) — the 10000 V is between the two wires, not a push along them.',
+ tx_k1:'Transmission lines have resistance, and heating loss is <b>P_loss = I²R</b> — proportional to the <b>square</b> of the current! Same 10000 W delivered: raise the voltage 40× and the current drops 40×, so line loss falls to <b>1/1600</b>. That is the entire reason for high-voltage transmission.',
+ tx_k2:'Real world: Malaysia\u2019s national grid transmits at <b>132 kV, 275 kV and 500 kV</b> — tens of times beyond this slider — precisely to crush I²R; then steps back down to 240 V for homes.',
+ cmp_title:'Transformer essentials',
+ sm_title:'In one line',
+ sm_k1:'<b>AC → changing flux → mutual induction. More turns, higher voltage; step up the voltage, and the current steps down.</b>',
+ sm_k2:'Transmission in three moves: <b>step up → send a small current at high voltage (small I²R) → step down at the other end</b>.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_u1:'Supply V₁', dk_n1:'Primary n₁', dk_n2:'Secondary n₂', dk_dc:'⎓ try DC',
+ dk_hint1:'💡 Left steps up onto the grid; right steps down for appliances',
+ dk_ut:'Line voltage', dk_lowp:'Send at 250 V', dk_highp:'Step up to 10000 V',
+ dk_hint3:'💡 Read the table along one line: turns → voltage → current',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0a:'The primary has ', qb0b:' turns on a ', qb0c:' AC supply; the secondary has ', qb0d:' turns. What is the output voltage V₂?',
+ qb0dc:'The primary is connected to a DC supply. Does the secondary give any output?',
+ turns:'', volt:'V',
+ lb_core:'iron core', lb_p:'primary', lb_s:'secondary', lb_src:'AC supply', lb_srcdc:'DC supply', lb_bulb:'bulb',
+ up:'STEP-UP  n₂ > n₁', down:'STEP-DOWN  n₂ < n₁', same:'1 : 1  n₂ = n₁',
+ dcwarn:'⚠ DC: flux never changes → no output in the secondary!',
+ flux:'magnetic flux (direction keeps alternating)', fluxdc:'flux constant (no change)',
+ u2chip:'Output V₂', u1chip:'Input V₁', rtchip:'Turns n₁:n₂',
+ ud_upT:'Step-up 1 : 3', ud_dnT:'Step-down 3 : 1',
+ ud_upA:'power station → grid', ud_dnA:'grid → charger',
+ in_:'in', out_:'out',
+ qb2a:'A power plant outputs ', qb2b:'; the line\u2019s total resistance is ', qb2c:'. Transmitting at ', qb2d:', how much power is lost in the line, and how much reaches the homes?',
+ effchip:'Delivered', ichip:'Line current', losschip:'Line loss', vdchip:'Drop along line I·R',
+ legdots:'dots: speed = current · size = energy per charge (voltage)',
+ plant:'plant', stepup:'step-up', stepdn:'step-down', home:'homes',
+ barhome:'delivered', barloss:'line loss I²R',
+ hot:'HOT!',
+ cmpH:['','Key point','Memory hook'],
+ cmpR:[['Principle','mutual induction: AC → changing flux → induced voltage in the secondary','AC only — never DC'],
+       ['Voltage ratio','V₁/V₂ = n₁/n₂','more turns = higher voltage'],
+       ['Step-up','n₂ > n₁: voltage up, current down','power-station gate'],
+       ['Step-down','n₂ < n₁: voltage down, current up','substations, chargers'],
+       ['Ideal transformer','power in = power out (P₁ = P₂)','U×I equal on both sides'],
+       ['Transmission','step up first: small current → small I²R loss','P_loss = I²R — square of the current']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock (5 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= physics ================= */
+var TR={u1:220,n1:2,n2:6,ac:true};   // n in ×100 turns
+var PHI=0;                            // shared AC phase
+var P0=10000, RL=4;                   // plant power (W), line resistance (Ω)
+var TX={u:500,ph:0};                  // transmission voltage + line-dot phase
+function trU2(u1,n1,n2,ac){ return ac ? u1*n2/n1 : 0; }
+function txCalc(P,R,U){
+  var Iv=P/U;
+  var loss=Iv*Iv*R;
+  if(loss>P)loss=P;
+  return {I:Iv,loss:loss,home:P-loss,eff:(P-loss)/P};
+}
+/* ================= TAB 0 · TRANSFORMER BENCH ================= */
+function coilStrands(x0,x1,y0,y1,n,col){
+  var s='',k;
+  if(n<1)n=1;
+  for(k=0;k<n;k++){
+    var y=(n===1)?(y0+y1)/2 : y0+k*(y1-y0)/(n-1);
+    s+='<line x1="'+x0+'" y1="'+y.toFixed(1)+'" x2="'+x1+'" y2="'+(y+11).toFixed(1)+'" stroke="'+col+'" stroke-width="6" stroke-linecap="round"/>';
+  }
+  return s;
+}
+function corePath(s){
+  // core ring: left limb x250..292, right 428..470, top y100..142, bottom y338..380
+  s+='<rect x="250" y="100" width="220" height="42" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<rect x="250" y="338" width="220" height="42" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<rect x="250" y="100" width="42" height="280" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<rect x="428" y="100" width="42" height="280" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  var k;
+  for(k=1;k<4;k++){
+    s+='<line x1="'+(250+k*10)+'" y1="145" x2="'+(250+k*10)+'" y2="335" stroke="#8A8070" stroke-width="1" opacity="0.4"/>';
+    s+='<line x1="'+(428+k*10)+'" y1="145" x2="'+(428+k*10)+'" y2="335" stroke="#8A8070" stroke-width="1" opacity="0.4"/>';
+  }
+  return s;
+}
+function fluxAnim(s,ac){
+  // flux dots shuttle along the rectangular centerline; corner arrows flip with sin(PHI)
+  var C=[[271,121],[449,121],[449,359],[271,359]];
+  var per=[],i,k;
+  var Ltot=0;
+  for(i=0;i<4;i++){
+    var a=C[i],b=C[(i+1)%4];
+    var l=Math.abs(b[0]-a[0])+Math.abs(b[1]-a[1]);
+    per.push(l);Ltot+=l;
+  }
+  var sn=ac?Math.sin(PHI):0;
+  var shift=ac?0.045*sn:0;
+  for(k=0;k<14;k++){
+    var t=((k/14+shift)%1+1)%1, d=t*Ltot, acc=0;
+    for(i=0;i<4;i++){
+      if(d<=acc+per[i]){
+        var f=(d-acc)/per[i];
+        var a2=C[i],b2=C[(i+1)%4];
+        var x=a2[0]+(b2[0]-a2[0])*f, y=a2[1]+(b2[1]-a2[1])*f;
+        s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4" fill="#2C7D8C" opacity="'+(ac?(0.35+0.55*Math.abs(sn)).toFixed(2):'0.30')+'"/>';
+        break;
+      }
+      acc+=per[i];
+    }
+  }
+  // corner direction arrows (flip with the half-cycle)
+  if(ac){
+    var dir=sn>=0?1:-1;
+    var ar=[[360,121,1,0],[449,240,0,1],[360,359,-1,0],[271,240,0,-1]];
+    for(k=0;k<4;k++){
+      var ax=ar[k][0],ay=ar[k][1],dx=ar[k][2]*dir,dy=ar[k][3]*dir;
+      s+='<path d="M '+(ax+dx*14)+' '+(ay+dy*14)+' l '+(-dx*10-dy*6)+' '+(-dy*10+dx*6)+' l '+(dy*12)+' '+(-dx*12)+' Z" fill="#2C7D8C" opacity="'+(0.35+0.55*Math.abs(sn)).toFixed(2)+'"/>';
+    }
+  }
+  return s;
+}
+function drawTR(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="480" rx="14" fill="#FBF7EC"/>';
+  var ac=TR.ac;
+  var u2=trU2(TR.u1,TR.n1,TR.n2,ac);
+  s=corePath(s);
+  s=fluxAnim(s,ac);
+  // AC/DC source (left)
+  s+='<circle cx="70" cy="240" r="30" fill="#FFFDF7" stroke="#4B4437" stroke-width="3.5"/>';
+  if(ac){
+    s+='<path d="M 52 240 q 9 -14 18 0 q 9 14 18 0" fill="none" stroke="#4B4437" stroke-width="3"/>';
+  }else{
+    s+='<line x1="56" y1="234" x2="84" y2="234" stroke="#4B4437" stroke-width="3"/>';
+    s+='<line x1="58" y1="246" x2="66" y2="246" stroke="#4B4437" stroke-width="3"/>';
+    s+='<line x1="70" y1="246" x2="78" y2="246" stroke="#4B4437" stroke-width="3"/>';
+  }
+  s+=tl(70,292,14,'#6B6252',T(ac?'lb_src':'lb_srcdc'));
+  s+=tl(70,312,15,'#4B4437','V₁ = '+TR.u1+' V');
+  // primary leads
+  s+='<path d="M 70 210 L 70 168 L 240 168" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<path d="M 70 270 L 70 332 L 240 332" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  // primary coil (left limb)
+  s+=coilStrands(238,304,168,320,TR.n1,'#B5652A');
+  // secondary coil (right limb)
+  s+=coilStrands(416,482,168,320,TR.n2,'#8A5A2B');
+  // secondary leads to the bulb
+  s+='<path d="M 482 168 L 590 168 L 590 205" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<path d="M 482 332 L 590 332 L 590 275" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  // bulb, glow ∝ V₂
+  var gl=clamp(u2/500,0,1.35);
+  if(gl>0.04){
+    s+='<circle cx="590" cy="240" r="'+(20+26*gl).toFixed(0)+'" fill="#F5C445" opacity="'+(0.16+0.38*clamp(gl,0,1)).toFixed(2)+'"/>';
+  }
+  s+='<circle cx="590" cy="240" r="18" fill="'+(gl>0.04?'#F5C445':'#FFFDF7')+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="580" y1="230" x2="600" y2="250" stroke="#4B4437" stroke-width="2.2"/>';
+  s+='<line x1="580" y1="250" x2="600" y2="230" stroke="#4B4437" stroke-width="2.2"/>';
+  s+=tl(590,292,14,'#6B6252',T('lb_bulb'));
+  s+=tl(590,312,15,'#2C7D8C','V₂ = '+(Math.round(u2*10)/10)+' V');
+  // current dots on leads (shuttle for AC, drift for DC on the primary only)
+  var k;
+  var PPTS=[[70,210],[70,168],[240,168]];
+  var SPTS=[[482,168],[590,168],[590,205]];
+  var off=ac?0.06*Math.sin(PHI):((PHI*0.05)%1);
+  for(k=0;k<3;k++){
+    var t=((k/3+off)%1+1)%1;
+    var p1=ptOnPolyline(PPTS,t);
+    s+='<circle cx="'+p1.x.toFixed(1)+'" cy="'+p1.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    var p2=ptOnPolyline([[240,332],[70,332],[70,270]],t);   // return leg: coil → source (one loop, not two outflows)
+    s+='<circle cx="'+p2.x.toFixed(1)+'" cy="'+p2.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    if(ac){
+      var p3=ptOnPolyline(SPTS,t);
+      s+='<circle cx="'+p3.x.toFixed(1)+'" cy="'+p3.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+      var p4=ptOnPolyline([[590,275],[590,332],[482,332]],t);  // return leg: bulb → coil
+      s+='<circle cx="'+p4.x.toFixed(1)+'" cy="'+p4.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    }
+  }
+  // labels
+  s+=tl(271,88,15,'#6B6252',T('lb_core'));
+  s+=tl(271,412,15,'#B5652A',T('lb_p')+' n₁ = '+TR.n1*100+' '+T('turns'));
+  s+=tl(449,412,15,'#8A5A2B',T('lb_s')+' n₂ = '+TR.n2*100+' '+T('turns'));
+  s+=tlplain(360,442,13,'#8A8070',T(ac?'flux':'fluxdc'));
+  // badge
+  var bt,bc;
+  if(!ac){bt=T('dcwarn');bc='#D9542B'}
+  else if(TR.n2>TR.n1){bt=T('up');bc='#D9542B'}
+  else if(TR.n2<TR.n1){bt=T('down');bc='#2C7D8C'}
+  else{bt=T('same');bc='#6B6252'}
+  s+=tl(360,52,18,bc,bt);
+  $('svgtr').innerHTML=PAINT(s);
+  // qbox + chips
+  var qb=$('qb0');
+  if(ac){
+    qb.innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0a')+'<b>n₁ = '+(TR.n1*100)+'</b>'+T('qb0b')+'<b>V₁ = '+TR.u1+' V</b>'+T('qb0c')+'<b>n₂ = '+(TR.n2*100)+'</b>'+T('qb0d');
+  }else{
+    qb.innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0dc');
+  }
+  $('c_u2').textContent=T('u2chip')+' '+(ac?(Math.round(u2*10)/10)+' V':'0 V');
+  $('c_u1').textContent=T('u1chip')+' '+TR.u1+' V';
+  $('c_rt').textContent=T('rtchip')+' = '+TR.n1+' : '+TR.n2;
+}
+function ptOnPolyline(P,t){
+  var L=0,segs=[],i;
+  for(i=0;i<P.length-1;i++){
+    var dx=P[i+1][0]-P[i][0],dy=P[i+1][1]-P[i][1];
+    var l=Math.sqrt(dx*dx+dy*dy);
+    segs.push(l);L+=l;
+  }
+  var d=clamp(t,0,1)*L,acc=0;
+  for(i=0;i<segs.length;i++){
+    if(d<=acc+segs[i]||i===segs.length-1){
+      var f=clamp((d-acc)/segs[i],0,1);
+      return {x:P[i][0]+(P[i+1][0]-P[i][0])*f, y:P[i][1]+(P[i+1][1]-P[i][1])*f};
+    }
+    acc+=segs[i];
+  }
+  return {x:P[0][0],y:P[0][1]};
+}
+
+/* ================= TAB 1 · STEP-UP vs STEP-DOWN ================= */
+function trMini(ox,n1v,n2v,uin,uout,titleK,appK,col){
+  var s='';
+  var cy=200;
+  // mini core
+  s+='<rect x="'+(ox+96)+'" y="'+(cy-88)+'" width="118" height="24" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+='<rect x="'+(ox+96)+'" y="'+(cy+64)+'" width="118" height="24" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+='<rect x="'+(ox+96)+'" y="'+(cy-88)+'" width="24" height="176" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+='<rect x="'+(ox+190)+'" y="'+(cy-88)+'" width="24" height="176" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+=coilStrands(ox+88,ox+128,cy-56,cy+48,n1v,'#B5652A');
+  s+=coilStrands(ox+182,ox+222,cy-56,cy+48,n2v,'#8A5A2B');
+  // shuttle flux dots on the mini ring
+  var C=[[ox+108,cy-76],[ox+202,cy-76],[ox+202,cy+76],[ox+108,cy+76]];
+  var sn=Math.sin(PHI), shift=0.045*sn, k, i;
+  var per=[],Ltot=0;
+  for(i=0;i<4;i++){
+    var a=C[i],b=C[(i+1)%4];
+    var l=Math.abs(b[0]-a[0])+Math.abs(b[1]-a[1]);
+    per.push(l);Ltot+=l;
+  }
+  for(k=0;k<8;k++){
+    var t=((k/8+shift)%1+1)%1, d=t*Ltot, acc=0;
+    for(i=0;i<4;i++){
+      if(d<=acc+per[i]){
+        var f=(d-acc)/per[i];
+        var a2=C[i],b2=C[(i+1)%4];
+        s+='<circle cx="'+(a2[0]+(b2[0]-a2[0])*f).toFixed(1)+'" cy="'+(a2[1]+(b2[1]-a2[1])*f).toFixed(1)+'" r="3.2" fill="#2C7D8C" opacity="'+(0.3+0.5*Math.abs(sn)).toFixed(2)+'"/>';
+        break;
+      }
+      acc+=per[i];
+    }
+  }
+  // voltage bars in/out
+  var hIn=clamp(uin/700,0,1)*150, hOut=clamp(uout/700,0,1)*150;
+  s+='<rect x="'+(ox+18)+'" y="'+(cy+72-hIn).toFixed(0)+'" width="34" height="'+hIn.toFixed(0)+'" fill="#DA9526" opacity="0.85" rx="4"/>';
+  s+='<rect x="'+(ox+258)+'" y="'+(cy+72-hOut).toFixed(0)+'" width="34" height="'+hOut.toFixed(0)+'" fill="'+col+'" opacity="0.9" rx="4"/>';
+  s+=tl(ox+35,cy+94,14,'#8A6A1E',uin+' V');
+  s+=tl(ox+275,cy+94,14,col,uout+' V');
+  s+=tlplain(ox+35,cy+112,12,'#8A8070',T('in_'));
+  s+=tlplain(ox+275,cy+112,12,'#8A8070',T('out_'));
+  // arrows
+  s+='<path d="M '+(ox+58)+' '+(cy)+' l 24 0 m 0 0 l -9 -7 m 9 7 l -9 7" fill="none" stroke="#8A8070" stroke-width="3"/>';
+  s+='<path d="M '+(ox+222)+' '+(cy)+' l 24 0 m 0 0 l -9 -7 m 9 7 l -9 7" fill="none" stroke="#8A8070" stroke-width="3"/>';
+  s+=tl(ox+155,cy-108,17,col,T(titleK));
+  s+=tl(ox+155,cy+130,14,'#6B6252',T(appK));
+  s+=tlplain(ox+112,cy+94,12,'#B5652A','n₁='+n1v);
+  s+=tlplain(ox+200,cy+94,12,'#8A5A2B','n₂='+n2v);
+  return s;
+}
+function drawUD(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="440" rx="14" fill="#FBF7EC"/>';
+  s+=trMini(10,2,6,220,660,'ud_upT','ud_upA','#D9542B');
+  s+='<line x1="330" y1="40" x2="330" y2="400" stroke="#E3DCCB" stroke-width="2" stroke-dasharray="6 6"/>';
+  s+=trMini(340,6,2,660,220,'ud_dnT','ud_dnA','#2C7D8C');
+  $('svgud').innerHTML=PAINT(s);
+}
+/* ================= TAB 2 · POWER TRANSMISSION ================= */
+function trSymbol(x,y,lblK,nl,nr){
+  var s='';
+  s+='<rect x="'+(x-30)+'" y="'+(y-42)+'" width="60" height="84" rx="8" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+  var k;
+  var spL=Math.min(17,66/nl), rL=Math.min(7,spL*0.44);
+  for(k=0;k<nl;k++){
+    var cyL=y-((nl-1)/2-k)*spL;
+    s+='<circle cx="'+(x-11)+'" cy="'+cyL.toFixed(1)+'" r="'+rL.toFixed(1)+'" fill="none" stroke="#B5652A" stroke-width="3"/>';
+  }
+  var spR=Math.min(17,66/nr), rR=Math.min(7,spR*0.44);
+  for(k=0;k<nr;k++){
+    var cyR=y-((nr-1)/2-k)*spR;
+    s+='<circle cx="'+(x+11)+'" cy="'+cyR.toFixed(1)+'" r="'+rR.toFixed(1)+'" fill="none" stroke="#8A5A2B" stroke-width="3"/>';
+  }
+  s+='<line x1="'+x+'" y1="'+(y-34)+'" x2="'+x+'" y2="'+(y+34)+'" stroke="#8A8070" stroke-width="3"/>';
+  s+='<line x1="'+(x+4)+'" y1="'+(y-34)+'" x2="'+(x+4)+'" y2="'+(y+34)+'" stroke="#8A8070" stroke-width="3"/>';
+  s+=tl(x,y+62,14,'#6B6252',T(lblK));
+  return s;
+}
+function drawTX(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="470" rx="14" fill="#FBF7EC"/>';
+  var r=txCalc(P0,RL,TX.u);
+  var lossf=r.loss/P0;
+  // plant
+  s+='<rect x="30" y="180" width="80" height="80" rx="8" fill="#E8E2D4" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<circle cx="70" cy="212" r="16" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<path d="M 60 212 q 5 -8 10 0 q 5 8 10 0" fill="none" stroke="#4B4437" stroke-width="2.2"/>';
+  s+=tl(70,248,14,'#4B4437',T('plant'));
+  s+=tl(70,286,14,'#6B6252','P = '+P0+' W');
+  s+='<line x1="110" y1="220" x2="140" y2="220" stroke="#4B4437" stroke-width="3.5"/>';
+  s+=trSymbol(170,220,'stepup',2,5);   // few primary turns → many secondary turns
+  // transmission wires + pylons
+  s+='<line x1="200" y1="206" x2="460" y2="206" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="200" y1="234" x2="460" y2="234" stroke="#4B4437" stroke-width="3"/>';
+  // heat overlay ∝ loss fraction
+  if(lossf>0.01){
+    s+='<line x1="200" y1="206" x2="460" y2="206" stroke="#D9542B" stroke-width="6" opacity="'+(0.85*lossf).toFixed(2)+'"/>';
+    s+='<line x1="200" y1="234" x2="460" y2="234" stroke="#D9542B" stroke-width="6" opacity="'+(0.85*lossf).toFixed(2)+'"/>';
+  }
+  var k;
+  for(k=0;k<3;k++){
+    var px=252+k*78;
+    s+='<path d="M '+(px-14)+' 256 L '+px+' 190 L '+(px+14)+' 256" fill="none" stroke="#8A8070" stroke-width="3"/>';
+    s+='<line x1="'+(px-9)+'" y1="222" x2="'+(px+9)+'" y2="222" stroke="#8A8070" stroke-width="2.5"/>';
+  }
+  // heat squiggles when loss is big
+  if(lossf>0.1){
+    var nh=Math.round(lossf*8);
+    for(k=0;k<nh;k++){
+      var hx=225+k*30;
+      s+='<path d="M '+hx+' 192 q 4 -8 0 -14 q -4 -6 0 -13" fill="none" stroke="#D9542B" stroke-width="2.5" opacity="0.8"/>';
+    }
+    s+=tl(330,158,15,'#D9542B','🔥 '+T('hot')+' I²R = '+Math.round(r.loss)+' W');
+  }
+  // line current dots — speed ∝ I (slower at high voltage!)
+  var dr=(3+4.5*TX.u/10000).toFixed(1);   // dot size = energy per charge (voltage)
+  for(k=0;k<6;k++){
+    var t=((TX.ph+k/6)%1+1)%1;
+    s+='<circle cx="'+(200+260*t).toFixed(1)+'" cy="206" r="'+dr+'" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    s+='<circle cx="'+(460-260*t).toFixed(1)+'" cy="234" r="'+dr+'" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+  }
+  s+=tl(330,286,15,'#2C7D8C','V = '+TX.u+' V · I = '+(Math.round(r.I*100)/100)+' A');
+  s+=tl(330,310,14,'#B5652A',T('vdchip')+' = '+(Math.round(r.I*RL*10)/10)+' V');
+  s+=tlplain(330,358,12,'#8A8070',T('legdots'));
+  s+='<line x1="200" y1="220" x2="140" y2="220" stroke="#4B4437" stroke-width="0"/>';
+  s+=trSymbol(490,220,'stepdn',5,2);   // many → few
+  s+='<line x1="520" y1="220" x2="548" y2="220" stroke="#4B4437" stroke-width="3.5"/>';
+  // house + bulb ∝ efficiency
+  s+='<path d="M 548 220 L 588 190 L 628 220 L 628 292 L 548 292 Z" fill="#E8E2D4" stroke="#8A8070" stroke-width="2.5"/>';
+  var gl=clamp(r.eff,0,1);
+  if(gl>0.05){
+    s+='<circle cx="588" cy="252" r="'+(12+18*gl).toFixed(0)+'" fill="#F5C445" opacity="'+(0.2+0.4*gl).toFixed(2)+'"/>';
+  }
+  s+='<circle cx="588" cy="252" r="11" fill="'+(gl>0.05?'#F5C445':'#FFFDF7')+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tl(588,316,14,'#4B4437',T('home'));
+  s+=tl(588,336,14,'#2F7D4F',Math.round(r.home)+' W');
+  // stacked energy bar
+  var L=60,W=540,y=396,h=34;
+  var wH=W*r.home/P0, wL=W-wH;
+  s+='<rect x="'+L+'" y="'+y+'" width="'+wH.toFixed(0)+'" height="'+h+'" fill="#2F7D4F" rx="4"/>';
+  s+='<rect x="'+(L+wH).toFixed(0)+'" y="'+y+'" width="'+wL.toFixed(0)+'" height="'+h+'" fill="#D9542B" rx="4"/>';
+  s+='<rect x="'+L+'" y="'+y+'" width="'+W+'" height="'+h+'" fill="none" stroke="#4B4437" stroke-width="2.5" rx="4"/>';
+  if(wH>70)s+=tl(L+wH/2,y+23,14,'#FFFDF7',T('barhome')+' '+Math.round(r.home)+' W');
+  if(wL>70)s+=tl(L+wH+wL/2,y+23,14,'#FFFDF7',T('barloss')+' '+Math.round(r.loss)+' W');
+  else if(wL>2)s+=tl(L+W+4,y+23,13,'#D9542B',Math.round(r.loss)+' W','start');
+  $('svgtx').innerHTML=PAINT(s);
+  // qbox + chips
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb2a')+'<b>P = '+P0+' W</b>'+T('qb2b')+'<b>R = '+RL+' Ω</b>'+T('qb2c')+'<b>V = '+TX.u+' V</b>'+T('qb2d');
+  $('c_eff').textContent=T('effchip')+' '+(Math.round(r.eff*1000)/10)+'%';
+  $('c_i').textContent=T('ichip')+' I = '+(Math.round(r.I*100)/100)+' A';
+  $('c_loss').textContent=T('losschip')+' '+Math.round(r.loss)+' W';
+  $('c_vd').textContent=T('vdchip')+' = '+(Math.round(r.I*RL*10)/10)+' V';
+}
+
+/* ================= TAB 3 · REVIEW ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP3(){buildCmp()}
+
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. A transformer works because of…',o:[
+    ['Static electricity',0,'Nothing static here — the flux must CHANGE.'],
+    ['Mutual induction: changing flux induces a voltage in the secondary',1,'Correct — AC keeps the core flux changing, and the changing flux threads the secondary coil.'],
+    ['Heating in the iron core',0,'Core heating is a LOSS, not the working principle.'],
+    ['Chemical reactions in the coils',0,'No chemistry — just electromagnetism.']]},
+   {q:'2. A STEP-UP transformer must have…',o:[
+    ['n₂ > n₁',1,'Correct — more secondary turns, higher secondary voltage.'],
+    ['n₂ < n₁',0,'Fewer secondary turns means step-DOWN.'],
+    ['n₂ = n₁',0,'Equal turns give equal voltage.'],
+    ['A bigger iron core',0,'Core size doesn\u2019t set the ratio — the turns do.']]},
+   {q:'3. n₁=200, n₂=1000, V₁=220 V. Then V₂ = ?',o:[
+    ['44 V',0,'That\u2019s dividing by 5 — but n₂ is LARGER, so voltage goes UP.'],
+    ['220 V',0,'Voltage only stays equal when the turns are equal.'],
+    ['1100 V',1,'Correct — V₂ = V₁ × n₂/n₁ = 220 × 5 = 1100 V.'],
+    ['5000 V',0,'The ratio is 1000/200 = 5, so 220 × 5 = 1100 V.']]},
+   {q:'4. Connect the primary to a DC battery. The secondary…',o:[
+    ['Outputs the same voltage',0,'Steady current → constant flux → nothing induced.'],
+    ['Outputs a higher voltage',0,'No changing flux, no induction — ratio is irrelevant.'],
+    ['Gives no output (flux never changes)',1,'Correct — transformers only work on AC. Steady DC keeps the flux constant, so the secondary sees no change.'],
+    ['Explodes immediately',0,'It just silently does nothing useful (the primary may overheat later, but there is NO output).']]},
+   {q:'5. An ideal transformer steps voltage UP 5×. The current…',o:[
+    ['Also rises 5×',0,'Then power would grow 25× out of nowhere!'],
+    ['Stays the same',0,'Power in = power out forces the current to change.'],
+    ['Drops to 1/5',1,'Correct — P = UI is unchanged, so 5× the voltage means 1/5 the current.'],
+    ['Becomes zero',0,'A load still draws current — just 5× less.']]},
+   {q:'6. Why transmit electricity at HIGH voltage?',o:[
+    ['High voltage travels faster',0,'Electrical signals travel at essentially the same speed regardless.'],
+    ['Smaller current → much smaller I²R line loss',1,'Correct — loss goes as the SQUARE of current: 40× the voltage means 1/1600 the loss.'],
+    ['Wires are cheaper at high voltage',0,'Insulation actually costs MORE — the saving is in the I²R loss.'],
+    ['It prevents lightning strikes',0,'Nothing to do with lightning.']]},
+   {q:'7. The transformer inside a phone charger is a…',o:[
+    ['Step-up transformer',0,'230 V → 5 V is a big step DOWN.'],
+    ['Step-down transformer',1,'Correct — mains voltage steps down to about 5 V for the phone.'],
+    ['1:1 transformer',0,'1:1 wouldn\u2019t change 230 V at all.'],
+    ['DC transformer',0,'There is no such thing — transformers need AC.']]}
+  ];
+  return [
+   {q:'1. 变压器的工作原理是……',o:[
+    ['静电感应',0,'不是静电——关键在磁通量的"变化"。'],
+    ['互感：变化的磁通量在副线圈中感应出电压',1,'正确——交流让铁芯磁通不停变化，这变化穿过副线圈就感应出电压。'],
+    ['铁芯发热',0,'铁芯发热是损耗，不是工作原理。'],
+    ['线圈里的化学反应',0,'没有化学——纯粹的电磁感应。']]},
+   {q:'2. 升压变压器必须满足……',o:[
+    ['n₂ > n₁',1,'正确——副线圈匝数多，电压就高。'],
+    ['n₂ < n₁',0,'副线圈匝数少是降压。'],
+    ['n₂ = n₁',0,'匝数相等电压不变。'],
+    ['铁芯更大',0,'铁芯大小不决定比例——匝数比才决定。']]},
+   {q:'3. n₁=200 匝，n₂=1000 匝，V₁=220 V，则 V₂ = ？',o:[
+    ['44 V',0,'那是除以 5——但 n₂ 更多，电压应该升高。'],
+    ['220 V',0,'只有匝数相等时电压才不变。'],
+    ['1100 V',1,'正确——V₂ = V₁ × n₂/n₁ = 220 × 5 = 1100 V。'],
+    ['5000 V',0,'比例是 1000/200 = 5 倍，220 × 5 = 1100 V。']]},
+   {q:'4. 把原线圈接到直流电池上，副线圈会……',o:[
+    ['输出相同的电压',0,'电流恒定 → 磁通不变 → 感应不出任何东西。'],
+    ['输出更高的电压',0,'磁通不变化就没有感应，匝数比帮不上忙。'],
+    ['没有输出（磁通量不变化）',1,'正确——变压器只对交流有效。稳定的直流让磁通恒定，副线圈感应不到变化。'],
+    ['立刻爆炸',0,'它只是安静地不工作（原线圈久了可能过热，但副线圈没有输出）。']]},
+   {q:'5. 理想变压器把电压升高 5 倍，电流会……',o:[
+    ['也升高 5 倍',0,'那功率就凭空变成 25 倍了！'],
+    ['保持不变',0,'输入功率 = 输出功率，电流必须跟着变。'],
+    ['降为原来的 1/5',1,'正确——P = UI 不变：电压升 5 倍，电流就降为 1/5。'],
+    ['变为零',0,'负载照样取电流——只是小了 5 倍。']]},
+   {q:'6. 远距离输电为什么用高压？',o:[
+    ['高压电跑得更快',0,'电的传播速度和电压高低没有关系。'],
+    ['电流小 → I²R 线损小得多',1,'正确——损耗跟电流的平方成正比：电压升 40 倍，损耗降到 1/1600。'],
+    ['高压电线更便宜',0,'绝缘反而更贵——省的是 I²R 损耗。'],
+    ['可以防雷击',0,'和雷电没有关系。']]},
+   {q:'7. 手机充电器里的变压器是……',o:[
+    ['升压变压器',0,'230V → 5V 是大幅降压。'],
+    ['降压变压器',1,'正确——市电降到 5V 左右给手机用。'],
+    ['1:1 变压器',0,'1:1 什么都不改变。'],
+    ['直流变压器',0,'世界上没有这种东西——变压器必须用交流。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  if(CUR===0){
+    PHI+=0.055;
+    drawTR();
+  }else if(CUR===1){
+    PHI+=0.055;
+    drawUD();
+  }else if(CUR===2){
+    var r=txCalc(P0,RL,TX.u);
+    TX.ph=(TX.ph+r.I*0.0022)%1;
+    drawTX();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawTR,drawUD,drawTX,drawP3,drawQZ];
+  SUMMARY=[
+    function(){
+      var u2=trU2(TR.u1,TR.n1,TR.n2,TR.ac);
+      return 'V₁ '+TR.u1+'V · n₁:n₂ = '+TR.n1+':'+TR.n2+' → V₂ '+(Math.round(u2*10)/10)+'V'+(TR.ac?'':' (DC!)');
+    },
+    function(){return T('ud_figtitle')},
+    function(){
+      var r=txCalc(P0,RL,TX.u);
+      return 'U '+TX.u+'V · I '+(Math.round(r.I*100)/100)+'A · '+T('losschip')+' '+Math.round(r.loss)+'W';
+    },
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs();
+  $('u1sl').addEventListener('input',function(){
+    TR.u1=+this.value; $('u1lab').textContent=TR.u1+' V';
+  });
+  $('n1sl').addEventListener('input',function(){
+    TR.n1=+this.value; $('n1lab').textContent=TR.n1*100;
+  });
+  $('n2sl').addEventListener('input',function(){
+    TR.n2=+this.value; $('n2lab').textContent=TR.n2*100;
+  });
+  $('acdc').addEventListener('click',function(){
+    TR.ac=!TR.ac;
+    this.classList.toggle('on',!TR.ac);
+  });
+  $('utsl').addEventListener('input',function(){
+    TX.u=+this.value; $('utlab').textContent=TX.u+' V';
+  });
+  $('lowp').addEventListener('click',function(){
+    TX.u=250; $('utsl').value=250; $('utlab').textContent='250 V';
+  });
+  $('highp').addEventListener('click',function(){
+    TX.u=10000; $('utsl').value=10000; $('utlab').textContent='10000 V';
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // slider sweeps on the bench
+  showTab(0);
+  var n1s=[1,2,5,10],n2s=[1,3,6,10];
+  for(i=0;i<4;i++){
+    TR.n1=n1s[i];TR.n2=n2s[i];TR.u1=50+i*60;
+    PHI=i*0.7; drawTR();
+  }
+  TR.ac=false; drawTR();
+  TR.ac=true; TR.u1=220;TR.n1=2;TR.n2=6; drawTR();
+  // step-up/down minis across phases
+  showTab(1);
+  for(i=0;i<8;i++){PHI=i*0.9;drawUD()}
+  // transmission sweep
+  showTab(2);
+  var us=[250,500,1000,2500,5000,10000];
+  for(i=0;i<us.length;i++){TX.u=us[i];TX.ph=i/7;drawTX()}
+  TX.u=500;
+  // quiz pager
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'变压器原理实验室',
+ subtitle:'互感原理 · 匝数比 · 远距离输电 —— 初中科学课堂演示工具',
+ tab0:'① 变压器实验台',tab1:'② 升压 vs 降压',tab2:'③ 远距离输电',tab3:'④ 要点',tab4:'⑤ 测验',
+ tr_sidetitle:'读数',
+ tr_k1:'变压器的原理是<b>互感</b>：原线圈接<b>交流电</b>，铁芯里的磁通量不停变化，穿过副线圈——副线圈就感应出电压。电压比等于匝数比：<b>V₁/V₂ = n₁/n₂</b>。',
+ tr_k2:'⚠️ 变压器<b>不能变直流</b>！直流电流恒定 → 磁通量不变化 → 副线圈没有感应电压。按下方「⎓ 接直流试试」亲眼看灯泡熄灭。',
+ ud_figtitle:'同一个原理，两种接法',
+ ud_sidetitle:'口诀',
+ ud_k1:'<b>匝数多的一边电压高。</b>副线圈匝数比原线圈多 → 升压；少 → 降压。理想变压器功率不变：电压升几倍，电流就降几倍。',
+ ud_k2:'生活里的位置：<b>发电站出门先升压</b>（送上电网），<b>到你家楼下再降压</b>（变电站），<b>手机充电器里还有一颗小小的降压变压器</b>（220V→5V 左右）。',
+ tx_sidetitle:'线路账本',
+ tx_k3:'<b>为什么高压时小点反而走得慢？</b>没有画反！小点的<b>速度=电流</b>（每秒流过多少电荷），<b>大小=电压</b>（每份电荷带多少能量）。功率固定 P=V×I：电压升高，每份电荷驮的能量变多，就不需要那么多电荷奔跑——像 40 辆小摩托送货换成 1 辆重载卡车慢慢开。注意沿线的压降只有 I·R（高压时才 4V）——10000V 是两线之间的电位差，不是沿线的"推力"。',
+ tx_k1:'输电线是有电阻的，发热损耗 <b>P损 = I²R</b>——跟<b>电流的平方</b>成正比！同样送 10000W：电压升高 40 倍，电流就小 40 倍，线损变成原来的 <b>1/1600</b>。这就是"高压输电"的全部理由。',
+ tx_k2:'真实世界：马来西亚国家电网的输电电压有 <b>132kV、275kV、500kV</b>——比这里的滑杆还高几十倍，就是为了把 I²R 压到最低；到住宅区再一路降回 240V。',
+ cmp_title:'变压器要点总表',
+ sm_title:'一句话总结',
+ sm_k1:'<b>交流 → 磁通变化 → 互感。匝数多的一边电压高；升压则电流小。</b>',
+ sm_k2:'远距离输电三步：<b>升压送出 → 高压小电流过线（I²R 损耗小）→ 降压入户</b>。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_u1:'电源 V₁', dk_n1:'原线圈 n₁', dk_n2:'副线圈 n₂', dk_dc:'⎓ 接直流试试',
+ dk_hint1:'💡 左边升压给电网，右边降压给用电器',
+ dk_ut:'输电电压', dk_lowp:'低压直送 250V', dk_highp:'升压输电 10000V',
+ dk_hint3:'💡 表格按"匝数比→电压→电流"一条线记',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0a:'原线圈 ', qb0b:' 匝接在 ', qb0c:' 的交流电源上，副线圈 ', qb0d:' 匝。输出电压 V₂ 是多少？',
+ qb0dc:'原线圈接直流电源，副线圈会输出电压吗？',
+ turns:'匝', volt:'V',
+ lb_core:'铁芯', lb_p:'原线圈', lb_s:'副线圈', lb_src:'交流电源', lb_srcdc:'直流电源', lb_bulb:'灯泡',
+ up:'升压变压器 n₂ > n₁', down:'降压变压器 n₂ < n₁', same:'等压 n₂ = n₁',
+ dcwarn:'⚠ 直流：磁通不变化 → 副线圈没有输出！',
+ flux:'磁通量（方向不停交替）', fluxdc:'磁通量恒定（没有变化）',
+ u2chip:'输出 V₂', u1chip:'输入 V₁', rtchip:'匝数比 n₁:n₂',
+ ud_upT:'升压 1 : 3', ud_dnT:'降压 3 : 1',
+ ud_upA:'发电站 → 电网', ud_dnA:'电网 → 充电器',
+ in_:'输入', out_:'输出',
+ qb2a:'发电厂输出功率 ', qb2b:'，输电线总电阻 ', qb2c:'。用 ', qb2d:' 输电，线路损耗多少？到家还剩多少？',
+ effchip:'到家效率', ichip:'线路电流', losschip:'线损', vdchip:'沿线压降 I·R',
+ legdots:'小点：速度＝电流 · 大小＝每份电荷带的能量（电压）',
+ plant:'发电厂', stepup:'升压', stepdn:'降压', home:'住户',
+ barhome:'到家', barloss:'线损 I²R',
+ hot:'烫！',
+ cmpH:['','关键点','记忆钩子'],
+ cmpR:[['原理','互感：交流 → 磁通变化 → 副线圈感应出电压','只能变交流，不能变直流'],
+       ['电压比','V₁/V₂ = n₁/n₂','匝数多的一边电压高'],
+       ['升压变压器','n₂ > n₁，电压升高、电流变小','发电站出口'],
+       ['降压变压器','n₂ < n₁，电压降低、电流变大','变电站、充电器'],
+       ['理想变压器','输入功率 = 输出功率（P₁ = P₂）','电压×电流 两边相等'],
+       ['远距离输电','先升压：电流小 → I²R 线损小','P损 = I²R，跟电流平方成正比']],
+ mth:''
+},
+en:{
+ title:'Transformer Lab',
+ subtitle:'Mutual induction · turns ratio · long-distance transmission — junior-high classroom demo',
+ tab0:'① Transformer Bench',tab1:'② Step-up vs Step-down',tab2:'③ Power Transmission',tab3:'④ Review',tab4:'⑤ Quiz',
+ tr_sidetitle:'Readings',
+ tr_k1:'A transformer works by <b>mutual induction</b>: AC in the primary keeps the core\u2019s magnetic flux changing, that flux threads the secondary — so the secondary gets an induced voltage. The ratio is the turns ratio: <b>V₁/V₂ = n₁/n₂</b>.',
+ tr_k2:'⚠️ A transformer <b>cannot transform DC</b>! Steady current → constant flux → no induced voltage in the secondary. Press "⎓ try DC" below and watch the bulb die.',
+ ud_figtitle:'One principle, two hook-ups',
+ ud_sidetitle:'The rule',
+ ud_k1:'<b>The side with more turns has the higher voltage.</b> More secondary turns → step-up; fewer → step-down. An ideal transformer keeps power unchanged: voltage up N times means current down N times.',
+ ud_k2:'Where they live: <b>step-up at the power station gate</b> (onto the grid), <b>step-down at your neighbourhood substation</b>, and <b>a tiny step-down transformer inside every phone charger</b> (230V → ~5V).',
+ tx_sidetitle:'The line\u2019s ledger',
+ tx_k3:'<b>Why do the dots move SLOWER at high voltage?</b> Not a mistake! Dot <b>speed = current</b> (charge passing per second) and dot <b>size = voltage</b> (energy carried per charge). With fixed power P=V×I, raising the voltage loads each charge with more energy, so far fewer charges need to flow — 40 scooters replaced by one heavy truck rolling calmly. And the drop ALONG the line is only I·R (just 4 V at high voltage) — the 10000 V is between the two wires, not a push along them.',
+ tx_k1:'Transmission lines have resistance, and heating loss is <b>P_loss = I²R</b> — proportional to the <b>square</b> of the current! Same 10000 W delivered: raise the voltage 40× and the current drops 40×, so line loss falls to <b>1/1600</b>. That is the entire reason for high-voltage transmission.',
+ tx_k2:'Real world: Malaysia\u2019s national grid transmits at <b>132 kV, 275 kV and 500 kV</b> — tens of times beyond this slider — precisely to crush I²R; then steps back down to 240 V for homes.',
+ cmp_title:'Transformer essentials',
+ sm_title:'In one line',
+ sm_k1:'<b>AC → changing flux → mutual induction. More turns, higher voltage; step up the voltage, and the current steps down.</b>',
+ sm_k2:'Transmission in three moves: <b>step up → send a small current at high voltage (small I²R) → step down at the other end</b>.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_u1:'Supply V₁', dk_n1:'Primary n₁', dk_n2:'Secondary n₂', dk_dc:'⎓ try DC',
+ dk_hint1:'💡 Left steps up onto the grid; right steps down for appliances',
+ dk_ut:'Line voltage', dk_lowp:'Send at 250 V', dk_highp:'Step up to 10000 V',
+ dk_hint3:'💡 Read the table along one line: turns → voltage → current',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0a:'The primary has ', qb0b:' turns on a ', qb0c:' AC supply; the secondary has ', qb0d:' turns. What is the output voltage V₂?',
+ qb0dc:'The primary is connected to a DC supply. Does the secondary give any output?',
+ turns:'', volt:'V',
+ lb_core:'iron core', lb_p:'primary', lb_s:'secondary', lb_src:'AC supply', lb_srcdc:'DC supply', lb_bulb:'bulb',
+ up:'STEP-UP  n₂ > n₁', down:'STEP-DOWN  n₂ < n₁', same:'1 : 1  n₂ = n₁',
+ dcwarn:'⚠ DC: flux never changes → no output in the secondary!',
+ flux:'magnetic flux (direction keeps alternating)', fluxdc:'flux constant (no change)',
+ u2chip:'Output V₂', u1chip:'Input V₁', rtchip:'Turns n₁:n₂',
+ ud_upT:'Step-up 1 : 3', ud_dnT:'Step-down 3 : 1',
+ ud_upA:'power station → grid', ud_dnA:'grid → charger',
+ in_:'in', out_:'out',
+ qb2a:'A power plant outputs ', qb2b:'; the line\u2019s total resistance is ', qb2c:'. Transmitting at ', qb2d:', how much power is lost in the line, and how much reaches the homes?',
+ effchip:'Delivered', ichip:'Line current', losschip:'Line loss', vdchip:'Drop along line I·R',
+ legdots:'dots: speed = current · size = energy per charge (voltage)',
+ plant:'plant', stepup:'step-up', stepdn:'step-down', home:'homes',
+ barhome:'delivered', barloss:'line loss I²R',
+ hot:'HOT!',
+ cmpH:['','Key point','Memory hook'],
+ cmpR:[['Principle','mutual induction: AC → changing flux → induced voltage in the secondary','AC only — never DC'],
+       ['Voltage ratio','V₁/V₂ = n₁/n₂','more turns = higher voltage'],
+       ['Step-up','n₂ > n₁: voltage up, current down','power-station gate'],
+       ['Step-down','n₂ < n₁: voltage down, current up','substations, chargers'],
+       ['Ideal transformer','power in = power out (P₁ = P₂)','U×I equal on both sides'],
+       ['Transmission','step up first: small current → small I²R loss','P_loss = I²R — square of the current']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock (5 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= physics ================= */
+var TR={u1:220,n1:2,n2:6,ac:true};   // n in ×100 turns
+var PHI=0;                            // shared AC phase
+var P0=10000, RL=4;                   // plant power (W), line resistance (Ω)
+var TX={u:500,ph:0};                  // transmission voltage + line-dot phase
+function trU2(u1,n1,n2,ac){ return ac ? u1*n2/n1 : 0; }
+function txCalc(P,R,U){
+  var Iv=P/U;
+  var loss=Iv*Iv*R;
+  if(loss>P)loss=P;
+  return {I:Iv,loss:loss,home:P-loss,eff:(P-loss)/P};
+}
+/* ================= TAB 0 · TRANSFORMER BENCH ================= */
+function coilStrands(x0,x1,y0,y1,n,col){
+  var s='',k;
+  if(n<1)n=1;
+  for(k=0;k<n;k++){
+    var y=(n===1)?(y0+y1)/2 : y0+k*(y1-y0)/(n-1);
+    s+='<line x1="'+x0+'" y1="'+y.toFixed(1)+'" x2="'+x1+'" y2="'+(y+11).toFixed(1)+'" stroke="'+col+'" stroke-width="6" stroke-linecap="round"/>';
+  }
+  return s;
+}
+function corePath(s){
+  // core ring: left limb x250..292, right 428..470, top y100..142, bottom y338..380
+  s+='<rect x="250" y="100" width="220" height="42" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<rect x="250" y="338" width="220" height="42" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<rect x="250" y="100" width="42" height="280" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<rect x="428" y="100" width="42" height="280" fill="#B9AE95" stroke="#8A8070" stroke-width="2.5"/>';
+  var k;
+  for(k=1;k<4;k++){
+    s+='<line x1="'+(250+k*10)+'" y1="145" x2="'+(250+k*10)+'" y2="335" stroke="#8A8070" stroke-width="1" opacity="0.4"/>';
+    s+='<line x1="'+(428+k*10)+'" y1="145" x2="'+(428+k*10)+'" y2="335" stroke="#8A8070" stroke-width="1" opacity="0.4"/>';
+  }
+  return s;
+}
+function fluxAnim(s,ac){
+  // flux dots shuttle along the rectangular centerline; corner arrows flip with sin(PHI)
+  var C=[[271,121],[449,121],[449,359],[271,359]];
+  var per=[],i,k;
+  var Ltot=0;
+  for(i=0;i<4;i++){
+    var a=C[i],b=C[(i+1)%4];
+    var l=Math.abs(b[0]-a[0])+Math.abs(b[1]-a[1]);
+    per.push(l);Ltot+=l;
+  }
+  var sn=ac?Math.sin(PHI):0;
+  var shift=ac?0.045*sn:0;
+  for(k=0;k<14;k++){
+    var t=((k/14+shift)%1+1)%1, d=t*Ltot, acc=0;
+    for(i=0;i<4;i++){
+      if(d<=acc+per[i]){
+        var f=(d-acc)/per[i];
+        var a2=C[i],b2=C[(i+1)%4];
+        var x=a2[0]+(b2[0]-a2[0])*f, y=a2[1]+(b2[1]-a2[1])*f;
+        s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4" fill="#2C7D8C" opacity="'+(ac?(0.35+0.55*Math.abs(sn)).toFixed(2):'0.30')+'"/>';
+        break;
+      }
+      acc+=per[i];
+    }
+  }
+  // corner direction arrows (flip with the half-cycle)
+  if(ac){
+    var dir=sn>=0?1:-1;
+    var ar=[[360,121,1,0],[449,240,0,1],[360,359,-1,0],[271,240,0,-1]];
+    for(k=0;k<4;k++){
+      var ax=ar[k][0],ay=ar[k][1],dx=ar[k][2]*dir,dy=ar[k][3]*dir;
+      s+='<path d="M '+(ax+dx*14)+' '+(ay+dy*14)+' l '+(-dx*10-dy*6)+' '+(-dy*10+dx*6)+' l '+(dy*12)+' '+(-dx*12)+' Z" fill="#2C7D8C" opacity="'+(0.35+0.55*Math.abs(sn)).toFixed(2)+'"/>';
+    }
+  }
+  return s;
+}
+function drawTR(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="480" rx="14" fill="#FBF7EC"/>';
+  var ac=TR.ac;
+  var u2=trU2(TR.u1,TR.n1,TR.n2,ac);
+  s=corePath(s);
+  s=fluxAnim(s,ac);
+  // AC/DC source (left)
+  s+='<circle cx="70" cy="240" r="30" fill="#FFFDF7" stroke="#4B4437" stroke-width="3.5"/>';
+  if(ac){
+    s+='<path d="M 52 240 q 9 -14 18 0 q 9 14 18 0" fill="none" stroke="#4B4437" stroke-width="3"/>';
+  }else{
+    s+='<line x1="56" y1="234" x2="84" y2="234" stroke="#4B4437" stroke-width="3"/>';
+    s+='<line x1="58" y1="246" x2="66" y2="246" stroke="#4B4437" stroke-width="3"/>';
+    s+='<line x1="70" y1="246" x2="78" y2="246" stroke="#4B4437" stroke-width="3"/>';
+  }
+  s+=tl(70,292,14,'#6B6252',T(ac?'lb_src':'lb_srcdc'));
+  s+=tl(70,312,15,'#4B4437','V₁ = '+TR.u1+' V');
+  // primary leads
+  s+='<path d="M 70 210 L 70 168 L 240 168" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<path d="M 70 270 L 70 332 L 240 332" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  // primary coil (left limb)
+  s+=coilStrands(238,304,168,320,TR.n1,'#B5652A');
+  // secondary coil (right limb)
+  s+=coilStrands(416,482,168,320,TR.n2,'#8A5A2B');
+  // secondary leads to the bulb
+  s+='<path d="M 482 168 L 590 168 L 590 205" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<path d="M 482 332 L 590 332 L 590 275" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  // bulb, glow ∝ V₂
+  var gl=clamp(u2/500,0,1.35);
+  if(gl>0.04){
+    s+='<circle cx="590" cy="240" r="'+(20+26*gl).toFixed(0)+'" fill="#F5C445" opacity="'+(0.16+0.38*clamp(gl,0,1)).toFixed(2)+'"/>';
+  }
+  s+='<circle cx="590" cy="240" r="18" fill="'+(gl>0.04?'#F5C445':'#FFFDF7')+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="580" y1="230" x2="600" y2="250" stroke="#4B4437" stroke-width="2.2"/>';
+  s+='<line x1="580" y1="250" x2="600" y2="230" stroke="#4B4437" stroke-width="2.2"/>';
+  s+=tl(590,292,14,'#6B6252',T('lb_bulb'));
+  s+=tl(590,312,15,'#2C7D8C','V₂ = '+(Math.round(u2*10)/10)+' V');
+  // current dots on leads (shuttle for AC, drift for DC on the primary only)
+  var k;
+  var PPTS=[[70,210],[70,168],[240,168]];
+  var SPTS=[[482,168],[590,168],[590,205]];
+  var off=ac?0.06*Math.sin(PHI):((PHI*0.05)%1);
+  for(k=0;k<3;k++){
+    var t=((k/3+off)%1+1)%1;
+    var p1=ptOnPolyline(PPTS,t);
+    s+='<circle cx="'+p1.x.toFixed(1)+'" cy="'+p1.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    var p2=ptOnPolyline([[240,332],[70,332],[70,270]],t);   // return leg: coil → source (one loop, not two outflows)
+    s+='<circle cx="'+p2.x.toFixed(1)+'" cy="'+p2.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    if(ac){
+      var p3=ptOnPolyline(SPTS,t);
+      s+='<circle cx="'+p3.x.toFixed(1)+'" cy="'+p3.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+      var p4=ptOnPolyline([[590,275],[590,332],[482,332]],t);  // return leg: bulb → coil
+      s+='<circle cx="'+p4.x.toFixed(1)+'" cy="'+p4.y.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    }
+  }
+  // labels
+  s+=tl(271,88,15,'#6B6252',T('lb_core'));
+  s+=tl(271,412,15,'#B5652A',T('lb_p')+' n₁ = '+TR.n1*100+' '+T('turns'));
+  s+=tl(449,412,15,'#8A5A2B',T('lb_s')+' n₂ = '+TR.n2*100+' '+T('turns'));
+  s+=tlplain(360,442,13,'#8A8070',T(ac?'flux':'fluxdc'));
+  // badge
+  var bt,bc;
+  if(!ac){bt=T('dcwarn');bc='#D9542B'}
+  else if(TR.n2>TR.n1){bt=T('up');bc='#D9542B'}
+  else if(TR.n2<TR.n1){bt=T('down');bc='#2C7D8C'}
+  else{bt=T('same');bc='#6B6252'}
+  s+=tl(360,52,18,bc,bt);
+  $('svgtr').innerHTML=PAINT(s);
+  // qbox + chips
+  var qb=$('qb0');
+  if(ac){
+    qb.innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0a')+'<b>n₁ = '+(TR.n1*100)+'</b>'+T('qb0b')+'<b>V₁ = '+TR.u1+' V</b>'+T('qb0c')+'<b>n₂ = '+(TR.n2*100)+'</b>'+T('qb0d');
+  }else{
+    qb.innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0dc');
+  }
+  $('c_u2').textContent=T('u2chip')+' '+(ac?(Math.round(u2*10)/10)+' V':'0 V');
+  $('c_u1').textContent=T('u1chip')+' '+TR.u1+' V';
+  $('c_rt').textContent=T('rtchip')+' = '+TR.n1+' : '+TR.n2;
+}
+function ptOnPolyline(P,t){
+  var L=0,segs=[],i;
+  for(i=0;i<P.length-1;i++){
+    var dx=P[i+1][0]-P[i][0],dy=P[i+1][1]-P[i][1];
+    var l=Math.sqrt(dx*dx+dy*dy);
+    segs.push(l);L+=l;
+  }
+  var d=clamp(t,0,1)*L,acc=0;
+  for(i=0;i<segs.length;i++){
+    if(d<=acc+segs[i]||i===segs.length-1){
+      var f=clamp((d-acc)/segs[i],0,1);
+      return {x:P[i][0]+(P[i+1][0]-P[i][0])*f, y:P[i][1]+(P[i+1][1]-P[i][1])*f};
+    }
+    acc+=segs[i];
+  }
+  return {x:P[0][0],y:P[0][1]};
+}
+
+/* ================= TAB 1 · STEP-UP vs STEP-DOWN ================= */
+function trMini(ox,n1v,n2v,uin,uout,titleK,appK,col){
+  var s='';
+  var cy=200;
+  // mini core
+  s+='<rect x="'+(ox+96)+'" y="'+(cy-88)+'" width="118" height="24" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+='<rect x="'+(ox+96)+'" y="'+(cy+64)+'" width="118" height="24" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+='<rect x="'+(ox+96)+'" y="'+(cy-88)+'" width="24" height="176" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+='<rect x="'+(ox+190)+'" y="'+(cy-88)+'" width="24" height="176" fill="#B9AE95" stroke="#8A8070" stroke-width="2"/>';
+  s+=coilStrands(ox+88,ox+128,cy-56,cy+48,n1v,'#B5652A');
+  s+=coilStrands(ox+182,ox+222,cy-56,cy+48,n2v,'#8A5A2B');
+  // shuttle flux dots on the mini ring
+  var C=[[ox+108,cy-76],[ox+202,cy-76],[ox+202,cy+76],[ox+108,cy+76]];
+  var sn=Math.sin(PHI), shift=0.045*sn, k, i;
+  var per=[],Ltot=0;
+  for(i=0;i<4;i++){
+    var a=C[i],b=C[(i+1)%4];
+    var l=Math.abs(b[0]-a[0])+Math.abs(b[1]-a[1]);
+    per.push(l);Ltot+=l;
+  }
+  for(k=0;k<8;k++){
+    var t=((k/8+shift)%1+1)%1, d=t*Ltot, acc=0;
+    for(i=0;i<4;i++){
+      if(d<=acc+per[i]){
+        var f=(d-acc)/per[i];
+        var a2=C[i],b2=C[(i+1)%4];
+        s+='<circle cx="'+(a2[0]+(b2[0]-a2[0])*f).toFixed(1)+'" cy="'+(a2[1]+(b2[1]-a2[1])*f).toFixed(1)+'" r="3.2" fill="#2C7D8C" opacity="'+(0.3+0.5*Math.abs(sn)).toFixed(2)+'"/>';
+        break;
+      }
+      acc+=per[i];
+    }
+  }
+  // voltage bars in/out
+  var hIn=clamp(uin/700,0,1)*150, hOut=clamp(uout/700,0,1)*150;
+  s+='<rect x="'+(ox+18)+'" y="'+(cy+72-hIn).toFixed(0)+'" width="34" height="'+hIn.toFixed(0)+'" fill="#DA9526" opacity="0.85" rx="4"/>';
+  s+='<rect x="'+(ox+258)+'" y="'+(cy+72-hOut).toFixed(0)+'" width="34" height="'+hOut.toFixed(0)+'" fill="'+col+'" opacity="0.9" rx="4"/>';
+  s+=tl(ox+35,cy+94,14,'#8A6A1E',uin+' V');
+  s+=tl(ox+275,cy+94,14,col,uout+' V');
+  s+=tlplain(ox+35,cy+112,12,'#8A8070',T('in_'));
+  s+=tlplain(ox+275,cy+112,12,'#8A8070',T('out_'));
+  // arrows
+  s+='<path d="M '+(ox+58)+' '+(cy)+' l 24 0 m 0 0 l -9 -7 m 9 7 l -9 7" fill="none" stroke="#8A8070" stroke-width="3"/>';
+  s+='<path d="M '+(ox+222)+' '+(cy)+' l 24 0 m 0 0 l -9 -7 m 9 7 l -9 7" fill="none" stroke="#8A8070" stroke-width="3"/>';
+  s+=tl(ox+155,cy-108,17,col,T(titleK));
+  s+=tl(ox+155,cy+130,14,'#6B6252',T(appK));
+  s+=tlplain(ox+112,cy+94,12,'#B5652A','n₁='+n1v);
+  s+=tlplain(ox+200,cy+94,12,'#8A5A2B','n₂='+n2v);
+  return s;
+}
+function drawUD(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="440" rx="14" fill="#FBF7EC"/>';
+  s+=trMini(10,2,6,220,660,'ud_upT','ud_upA','#D9542B');
+  s+='<line x1="330" y1="40" x2="330" y2="400" stroke="#E3DCCB" stroke-width="2" stroke-dasharray="6 6"/>';
+  s+=trMini(340,6,2,660,220,'ud_dnT','ud_dnA','#2C7D8C');
+  $('svgud').innerHTML=PAINT(s);
+}
+/* ================= TAB 2 · POWER TRANSMISSION ================= */
+function trSymbol(x,y,lblK,nl,nr){
+  var s='';
+  s+='<rect x="'+(x-30)+'" y="'+(y-42)+'" width="60" height="84" rx="8" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+  var k;
+  var spL=Math.min(17,66/nl), rL=Math.min(7,spL*0.44);
+  for(k=0;k<nl;k++){
+    var cyL=y-((nl-1)/2-k)*spL;
+    s+='<circle cx="'+(x-11)+'" cy="'+cyL.toFixed(1)+'" r="'+rL.toFixed(1)+'" fill="none" stroke="#B5652A" stroke-width="3"/>';
+  }
+  var spR=Math.min(17,66/nr), rR=Math.min(7,spR*0.44);
+  for(k=0;k<nr;k++){
+    var cyR=y-((nr-1)/2-k)*spR;
+    s+='<circle cx="'+(x+11)+'" cy="'+cyR.toFixed(1)+'" r="'+rR.toFixed(1)+'" fill="none" stroke="#8A5A2B" stroke-width="3"/>';
+  }
+  s+='<line x1="'+x+'" y1="'+(y-34)+'" x2="'+x+'" y2="'+(y+34)+'" stroke="#8A8070" stroke-width="3"/>';
+  s+='<line x1="'+(x+4)+'" y1="'+(y-34)+'" x2="'+(x+4)+'" y2="'+(y+34)+'" stroke="#8A8070" stroke-width="3"/>';
+  s+=tl(x,y+62,14,'#6B6252',T(lblK));
+  return s;
+}
+function drawTX(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="470" rx="14" fill="#FBF7EC"/>';
+  var r=txCalc(P0,RL,TX.u);
+  var lossf=r.loss/P0;
+  // plant
+  s+='<rect x="30" y="180" width="80" height="80" rx="8" fill="#E8E2D4" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<circle cx="70" cy="212" r="16" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<path d="M 60 212 q 5 -8 10 0 q 5 8 10 0" fill="none" stroke="#4B4437" stroke-width="2.2"/>';
+  s+=tl(70,248,14,'#4B4437',T('plant'));
+  s+=tl(70,286,14,'#6B6252','P = '+P0+' W');
+  s+='<line x1="110" y1="220" x2="140" y2="220" stroke="#4B4437" stroke-width="3.5"/>';
+  s+=trSymbol(170,220,'stepup',2,5);   // few primary turns → many secondary turns
+  // transmission wires + pylons
+  s+='<line x1="200" y1="206" x2="460" y2="206" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="200" y1="234" x2="460" y2="234" stroke="#4B4437" stroke-width="3"/>';
+  // heat overlay ∝ loss fraction
+  if(lossf>0.01){
+    s+='<line x1="200" y1="206" x2="460" y2="206" stroke="#D9542B" stroke-width="6" opacity="'+(0.85*lossf).toFixed(2)+'"/>';
+    s+='<line x1="200" y1="234" x2="460" y2="234" stroke="#D9542B" stroke-width="6" opacity="'+(0.85*lossf).toFixed(2)+'"/>';
+  }
+  var k;
+  for(k=0;k<3;k++){
+    var px=252+k*78;
+    s+='<path d="M '+(px-14)+' 256 L '+px+' 190 L '+(px+14)+' 256" fill="none" stroke="#8A8070" stroke-width="3"/>';
+    s+='<line x1="'+(px-9)+'" y1="222" x2="'+(px+9)+'" y2="222" stroke="#8A8070" stroke-width="2.5"/>';
+  }
+  // heat squiggles when loss is big
+  if(lossf>0.1){
+    var nh=Math.round(lossf*8);
+    for(k=0;k<nh;k++){
+      var hx=225+k*30;
+      s+='<path d="M '+hx+' 192 q 4 -8 0 -14 q -4 -6 0 -13" fill="none" stroke="#D9542B" stroke-width="2.5" opacity="0.8"/>';
+    }
+    s+=tl(330,158,15,'#D9542B','🔥 '+T('hot')+' I²R = '+Math.round(r.loss)+' W');
+  }
+  // line current dots — speed ∝ I (slower at high voltage!)
+  var dr=(3+4.5*TX.u/10000).toFixed(1);   // dot size = energy per charge (voltage)
+  for(k=0;k<6;k++){
+    var t=((TX.ph+k/6)%1+1)%1;
+    s+='<circle cx="'+(200+260*t).toFixed(1)+'" cy="206" r="'+dr+'" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    s+='<circle cx="'+(460-260*t).toFixed(1)+'" cy="234" r="'+dr+'" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+  }
+  s+=tl(330,286,15,'#2C7D8C','V = '+TX.u+' V · I = '+(Math.round(r.I*100)/100)+' A');
+  s+=tl(330,310,14,'#B5652A',T('vdchip')+' = '+(Math.round(r.I*RL*10)/10)+' V');
+  s+=tlplain(330,358,12,'#8A8070',T('legdots'));
+  s+='<line x1="200" y1="220" x2="140" y2="220" stroke="#4B4437" stroke-width="0"/>';
+  s+=trSymbol(490,220,'stepdn',5,2);   // many → few
+  s+='<line x1="520" y1="220" x2="548" y2="220" stroke="#4B4437" stroke-width="3.5"/>';
+  // house + bulb ∝ efficiency
+  s+='<path d="M 548 220 L 588 190 L 628 220 L 628 292 L 548 292 Z" fill="#E8E2D4" stroke="#8A8070" stroke-width="2.5"/>';
+  var gl=clamp(r.eff,0,1);
+  if(gl>0.05){
+    s+='<circle cx="588" cy="252" r="'+(12+18*gl).toFixed(0)+'" fill="#F5C445" opacity="'+(0.2+0.4*gl).toFixed(2)+'"/>';
+  }
+  s+='<circle cx="588" cy="252" r="11" fill="'+(gl>0.05?'#F5C445':'#FFFDF7')+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tl(588,316,14,'#4B4437',T('home'));
+  s+=tl(588,336,14,'#2F7D4F',Math.round(r.home)+' W');
+  // stacked energy bar
+  var L=60,W=540,y=396,h=34;
+  var wH=W*r.home/P0, wL=W-wH;
+  s+='<rect x="'+L+'" y="'+y+'" width="'+wH.toFixed(0)+'" height="'+h+'" fill="#2F7D4F" rx="4"/>';
+  s+='<rect x="'+(L+wH).toFixed(0)+'" y="'+y+'" width="'+wL.toFixed(0)+'" height="'+h+'" fill="#D9542B" rx="4"/>';
+  s+='<rect x="'+L+'" y="'+y+'" width="'+W+'" height="'+h+'" fill="none" stroke="#4B4437" stroke-width="2.5" rx="4"/>';
+  if(wH>70)s+=tl(L+wH/2,y+23,14,'#FFFDF7',T('barhome')+' '+Math.round(r.home)+' W');
+  if(wL>70)s+=tl(L+wH+wL/2,y+23,14,'#FFFDF7',T('barloss')+' '+Math.round(r.loss)+' W');
+  else if(wL>2)s+=tl(L+W+4,y+23,13,'#D9542B',Math.round(r.loss)+' W','start');
+  $('svgtx').innerHTML=PAINT(s);
+  // qbox + chips
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb2a')+'<b>P = '+P0+' W</b>'+T('qb2b')+'<b>R = '+RL+' Ω</b>'+T('qb2c')+'<b>V = '+TX.u+' V</b>'+T('qb2d');
+  $('c_eff').textContent=T('effchip')+' '+(Math.round(r.eff*1000)/10)+'%';
+  $('c_i').textContent=T('ichip')+' I = '+(Math.round(r.I*100)/100)+' A';
+  $('c_loss').textContent=T('losschip')+' '+Math.round(r.loss)+' W';
+  $('c_vd').textContent=T('vdchip')+' = '+(Math.round(r.I*RL*10)/10)+' V';
+}
+
+/* ================= TAB 3 · REVIEW ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP3(){buildCmp()}
+
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. A transformer works because of…',o:[
+    ['Static electricity',0,'Nothing static here — the flux must CHANGE.'],
+    ['Mutual induction: changing flux induces a voltage in the secondary',1,'Correct — AC keeps the core flux changing, and the changing flux threads the secondary coil.'],
+    ['Heating in the iron core',0,'Core heating is a LOSS, not the working principle.'],
+    ['Chemical reactions in the coils',0,'No chemistry — just electromagnetism.']]},
+   {q:'2. A STEP-UP transformer must have…',o:[
+    ['n₂ > n₁',1,'Correct — more secondary turns, higher secondary voltage.'],
+    ['n₂ < n₁',0,'Fewer secondary turns means step-DOWN.'],
+    ['n₂ = n₁',0,'Equal turns give equal voltage.'],
+    ['A bigger iron core',0,'Core size doesn\u2019t set the ratio — the turns do.']]},
+   {q:'3. n₁=200, n₂=1000, V₁=220 V. Then V₂ = ?',o:[
+    ['44 V',0,'That\u2019s dividing by 5 — but n₂ is LARGER, so voltage goes UP.'],
+    ['220 V',0,'Voltage only stays equal when the turns are equal.'],
+    ['1100 V',1,'Correct — V₂ = V₁ × n₂/n₁ = 220 × 5 = 1100 V.'],
+    ['5000 V',0,'The ratio is 1000/200 = 5, so 220 × 5 = 1100 V.']]},
+   {q:'4. Connect the primary to a DC battery. The secondary…',o:[
+    ['Outputs the same voltage',0,'Steady current → constant flux → nothing induced.'],
+    ['Outputs a higher voltage',0,'No changing flux, no induction — ratio is irrelevant.'],
+    ['Gives no output (flux never changes)',1,'Correct — transformers only work on AC. Steady DC keeps the flux constant, so the secondary sees no change.'],
+    ['Explodes immediately',0,'It just silently does nothing useful (the primary may overheat later, but there is NO output).']]},
+   {q:'5. An ideal transformer steps voltage UP 5×. The current…',o:[
+    ['Also rises 5×',0,'Then power would grow 25× out of nowhere!'],
+    ['Stays the same',0,'Power in = power out forces the current to change.'],
+    ['Drops to 1/5',1,'Correct — P = UI is unchanged, so 5× the voltage means 1/5 the current.'],
+    ['Becomes zero',0,'A load still draws current — just 5× less.']]},
+   {q:'6. Why transmit electricity at HIGH voltage?',o:[
+    ['High voltage travels faster',0,'Electrical signals travel at essentially the same speed regardless.'],
+    ['Smaller current → much smaller I²R line loss',1,'Correct — loss goes as the SQUARE of current: 40× the voltage means 1/1600 the loss.'],
+    ['Wires are cheaper at high voltage',0,'Insulation actually costs MORE — the saving is in the I²R loss.'],
+    ['It prevents lightning strikes',0,'Nothing to do with lightning.']]},
+   {q:'7. The transformer inside a phone charger is a…',o:[
+    ['Step-up transformer',0,'230 V → 5 V is a big step DOWN.'],
+    ['Step-down transformer',1,'Correct — mains voltage steps down to about 5 V for the phone.'],
+    ['1:1 transformer',0,'1:1 wouldn\u2019t change 230 V at all.'],
+    ['DC transformer',0,'There is no such thing — transformers need AC.']]}
+  ];
+  return [
+   {q:'1. 变压器的工作原理是……',o:[
+    ['静电感应',0,'不是静电——关键在磁通量的"变化"。'],
+    ['互感：变化的磁通量在副线圈中感应出电压',1,'正确——交流让铁芯磁通不停变化，这变化穿过副线圈就感应出电压。'],
+    ['铁芯发热',0,'铁芯发热是损耗，不是工作原理。'],
+    ['线圈里的化学反应',0,'没有化学——纯粹的电磁感应。']]},
+   {q:'2. 升压变压器必须满足……',o:[
+    ['n₂ > n₁',1,'正确——副线圈匝数多，电压就高。'],
+    ['n₂ < n₁',0,'副线圈匝数少是降压。'],
+    ['n₂ = n₁',0,'匝数相等电压不变。'],
+    ['铁芯更大',0,'铁芯大小不决定比例——匝数比才决定。']]},
+   {q:'3. n₁=200 匝，n₂=1000 匝，V₁=220 V，则 V₂ = ？',o:[
+    ['44 V',0,'那是除以 5——但 n₂ 更多，电压应该升高。'],
+    ['220 V',0,'只有匝数相等时电压才不变。'],
+    ['1100 V',1,'正确——V₂ = V₁ × n₂/n₁ = 220 × 5 = 1100 V。'],
+    ['5000 V',0,'比例是 1000/200 = 5 倍，220 × 5 = 1100 V。']]},
+   {q:'4. 把原线圈接到直流电池上，副线圈会……',o:[
+    ['输出相同的电压',0,'电流恒定 → 磁通不变 → 感应不出任何东西。'],
+    ['输出更高的电压',0,'磁通不变化就没有感应，匝数比帮不上忙。'],
+    ['没有输出（磁通量不变化）',1,'正确——变压器只对交流有效。稳定的直流让磁通恒定，副线圈感应不到变化。'],
+    ['立刻爆炸',0,'它只是安静地不工作（原线圈久了可能过热，但副线圈没有输出）。']]},
+   {q:'5. 理想变压器把电压升高 5 倍，电流会……',o:[
+    ['也升高 5 倍',0,'那功率就凭空变成 25 倍了！'],
+    ['保持不变',0,'输入功率 = 输出功率，电流必须跟着变。'],
+    ['降为原来的 1/5',1,'正确——P = UI 不变：电压升 5 倍，电流就降为 1/5。'],
+    ['变为零',0,'负载照样取电流——只是小了 5 倍。']]},
+   {q:'6. 远距离输电为什么用高压？',o:[
+    ['高压电跑得更快',0,'电的传播速度和电压高低没有关系。'],
+    ['电流小 → I²R 线损小得多',1,'正确——损耗跟电流的平方成正比：电压升 40 倍，损耗降到 1/1600。'],
+    ['高压电线更便宜',0,'绝缘反而更贵——省的是 I²R 损耗。'],
+    ['可以防雷击',0,'和雷电没有关系。']]},
+   {q:'7. 手机充电器里的变压器是……',o:[
+    ['升压变压器',0,'230V → 5V 是大幅降压。'],
+    ['降压变压器',1,'正确——市电降到 5V 左右给手机用。'],
+    ['1:1 变压器',0,'1:1 什么都不改变。'],
+    ['直流变压器',0,'世界上没有这种东西——变压器必须用交流。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  if(CUR===0){
+    PHI+=0.055;
+    drawTR();
+  }else if(CUR===1){
+    PHI+=0.055;
+    drawUD();
+  }else if(CUR===2){
+    var r=txCalc(P0,RL,TX.u);
+    TX.ph=(TX.ph+r.I*0.0022)%1;
+    drawTX();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawTR,drawUD,drawTX,drawP3,drawQZ];
+  SUMMARY=[
+    function(){
+      var u2=trU2(TR.u1,TR.n1,TR.n2,TR.ac);
+      return 'V₁ '+TR.u1+'V · n₁:n₂ = '+TR.n1+':'+TR.n2+' → V₂ '+(Math.round(u2*10)/10)+'V'+(TR.ac?'':' (DC!)');
+    },
+    function(){return T('ud_figtitle')},
+    function(){
+      var r=txCalc(P0,RL,TX.u);
+      return 'U '+TX.u+'V · I '+(Math.round(r.I*100)/100)+'A · '+T('losschip')+' '+Math.round(r.loss)+'W';
+    },
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs();
+  $('u1sl').addEventListener('input',function(){
+    TR.u1=+this.value; $('u1lab').textContent=TR.u1+' V';
+  });
+  $('n1sl').addEventListener('input',function(){
+    TR.n1=+this.value; $('n1lab').textContent=TR.n1*100;
+  });
+  $('n2sl').addEventListener('input',function(){
+    TR.n2=+this.value; $('n2lab').textContent=TR.n2*100;
+  });
+  $('acdc').addEventListener('click',function(){
+    TR.ac=!TR.ac;
+    this.classList.toggle('on',!TR.ac);
+  });
+  $('utsl').addEventListener('input',function(){
+    TX.u=+this.value; $('utlab').textContent=TX.u+' V';
+  });
+  $('lowp').addEventListener('click',function(){
+    TX.u=250; $('utsl').value=250; $('utlab').textContent='250 V';
+  });
+  $('highp').addEventListener('click',function(){
+    TX.u=10000; $('utsl').value=10000; $('utlab').textContent='10000 V';
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // slider sweeps on the bench
+  showTab(0);
+  var n1s=[1,2,5,10],n2s=[1,3,6,10];
+  for(i=0;i<4;i++){
+    TR.n1=n1s[i];TR.n2=n2s[i];TR.u1=50+i*60;
+    PHI=i*0.7; drawTR();
+  }
+  TR.ac=false; drawTR();
+  TR.ac=true; TR.u1=220;TR.n1=2;TR.n2=6; drawTR();
+  // step-up/down minis across phases
+  showTab(1);
+  for(i=0;i<8;i++){PHI=i*0.9;drawUD()}
+  // transmission sweep
+  showTab(2);
+  var us=[250,500,1000,2500,5000,10000];
+  for(i=0;i<us.length;i++){TX.u=us[i];TX.ph=i/7;drawTX()}
+  TX.u=500;
+  // quiz pager
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='transformer-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

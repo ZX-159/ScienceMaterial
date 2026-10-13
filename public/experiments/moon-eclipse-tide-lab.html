@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>月相日食潮汐实验室 · Moon Eclipse Tide · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 地月运动实验室</h1>
+  <div class="sub">Moon Eclipse Tide · chu-yi-xia/b2-c10 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 月相</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 日食</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 月食</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 潮汐</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 要点·测验</button>
+  <button class="tab" data-tab="5" data-i18n="tab5">⑥ 测验</button>
+</div>
+
+<!-- ①月相 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="ph_figtitle">俯视图：从北极上空看（拖动月球绕地球转）</h3>
+    <svg id="svgph" viewBox="0 0 660 540"></svg>
+    <div class="kbox" data-i18n-html="ph_k1"><b>月亮自己不发光</b>——永远只有<b>朝向太阳的一半</b>被照亮。我们在地球上看到被照亮部分的<b>不同角度</b>，就是月相变化。</div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="ph_sidetitle">从地球上看到的月亮</h3>
+    <svg id="svgphside" viewBox="0 0 330 300"></svg>
+    <div class="statline">
+      <span class="chip hl" id="phname">—</span>
+      <span class="chip" id="phday">—</span>
+      <span class="chip" id="phlunar">—</span>
+      <span class="chip blu" id="phfrac">—</span>
+    </div>
+    <div class="kbox blue" id="phsee">—</div>
+    <div class="kbox" data-i18n-html="ph_k2">口诀：<b>上弦月亮右半</b>，<b>下弦月亮左半</b>（北半球）。一个完整周期约 <b>29.5 天</b>，这就是农历一个月。</div>
+  </div>
+ </div>
+</div>
+
+<!-- ②日食 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="se_figtitle">日食：月球挡住太阳（拖动地球上的小人，改变月地距离）</h3>
+    <svg id="svgse" viewBox="0 0 660 430"></svg>
+    <div class="kbox" data-i18n-html="se_k1">日食只可能发生在<b>新月（农历初一）</b>：月球位于<b>太阳和地球之间</b>。<b>本影</b>里看到日全食，<b>半影</b>里看到日偏食；月球离地球较远、本影没碰到地面时，正对处看到<b>日环食</b>。</div>
+    <div class="kbox red" data-i18n-html="se_k2">⚠️ <b>安全提示：</b>绝对不可以用肉眼、普通墨镜或望远镜直视太阳！观察日食必须使用<b>专用日食眼镜</b>或投影法。</div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="se_sidetitle">小人抬头看到的天空</h3>
+    <svg id="svgsesky" viewBox="0 0 330 300"></svg>
+    <div class="statline">
+      <span class="chip hl" id="setype">—</span>
+      <span class="chip" id="sedist">—</span>
+    </div>
+    <div class="kbox blue" id="senote">—</div>
+  </div>
+ </div>
+</div>
+
+<!-- ③月食 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="le_figtitle">月食：月球走进地球的影子（上下拖动月球）</h3>
+    <svg id="svgle" viewBox="0 0 660 430"></svg>
+    <div class="kbox" data-i18n-html="le_k1">月食只可能发生在<b>满月（农历十五、十六）</b>：地球位于<b>太阳和月球之间</b>。月球全部进入<b>本影</b>→月全食；部分进入→月偏食；只进入半影→半影月食（只是稍微变暗）。</div>
+    <div class="kbox grn" data-i18n-html="le_k2">月食时<b>半个地球（夜晚一侧）都能看到</b>，而且<b>可以直接用眼睛看</b>——因为月亮不刺眼。</div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="le_sidetitle">为什么月全食是红色的？</h3>
+    <svg id="svgleatm" viewBox="0 0 330 260"></svg>
+    <div class="statline">
+      <span class="chip hl" id="letype">—</span>
+      <span class="chip" id="lecolor">—</span>
+    </div>
+    <div class="kbox blue" id="lenote">—</div>
+  </div>
+ </div>
+</div>
+
+<!-- ④潮汐 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="td_figtitle">俯视图：海水的两个隆起（拖动月球，按 ▶ 让地球自转）</h3>
+    <svg id="svgtd" viewBox="0 0 660 500"></svg>
+    <div class="kbox" data-i18n-html="td_k1">月球（和太阳）的引力把海水拉出<b>两个隆起</b>：一个正对月球，一个背对月球。地球每天在两个隆起里各转过一次，所以海边通常<b>一天两次涨潮、两次退潮</b>。</div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="td_sidetitle">红点观察者的一天：潮位曲线</h3>
+    <svg id="svgtdcurve" viewBox="0 0 330 250"></svg>
+    <div class="statline">
+      <span class="chip hl" id="tdtype">—</span>
+      <span class="chip" id="tdphase">—</span>
+      <span class="chip blu" id="tdrange">—</span>
+    </div>
+    <div class="kbox blue" data-i18n-html="td_k2"><b>大潮</b>：新月或满月，日、月引潮力<b>同一直线</b>，隆起叠加，潮差最大。<b>小潮</b>：上弦或下弦，两者<b>互相垂直</b>，互相抵消一部分，潮差最小。</div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤要点·测验 -->
+<div class="panel" id="p4">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="tx_figtitle">为什么不是每个月都有日食月食？（拖动倾角滑杆）</h3>
+    <svg id="svgtx" viewBox="0 0 660 320"></svg>
+    <div class="kbox" data-i18n-html="tx_k1">月球轨道与地球公转轨道面（黄道面）有约 <b>5°</b> 的夹角。大多数新月/满月时，月球从影子的<b>上方或下方</b>经过，没有对齐。只有月球刚好走到两个轨道面的<b>交点附近</b>时才会发生日食或月食。把倾角拉到 0°，你会看到每个月都发生！</div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="tx_cmptitle">日食 vs 月食 对照表</h3>
+    <table class="cmp" id="cmptable"></table>
+  </div>
+ </div>
+</div>
+
+<!-- ⑥ 测验 -->
+<div class="panel" id="p5">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="qzlist" style="margin-top:10px"></div>
+ </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum">—</div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl"><span data-i18n="dk_day">农历日期</span>
+      <input type="range" id="rday" min="0" max="29.5" step="0.1" value="3">
+      <span class="mono" id="vday">3.0</span></span>
+    <button class="dbtn" id="phplay">▶ <span data-i18n="dk_playmonth">播放一个月</span></button>
+    <button class="tgl" id="phlock" data-i18n="dk_lock">🔴 同一面标记</button>
+  </div>
+
+  <div class="dsec" id="d1">
+    <span class="dl"><span data-i18n="dk_mdist">月地距离</span>
+      <input type="range" id="rmd" min="360" max="470" step="1" value="452">
+      <span class="mono" id="vmd">—</span></span>
+    <span class="dl" style="color:#6B6252" data-i18n="dk_draghint1">💡 上下拖动地球上的小人</span>
+  </div>
+
+  <div class="dsec" id="d2">
+    <button class="tgl on" id="leatm" data-i18n="dk_atm">🌍 地球有大气</button>
+    <span class="dl" style="color:#6B6252" data-i18n="dk_draghint2">💡 上下拖动右侧的月球</span>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl"><span data-i18n="dk_moonpos">月球位置</span>
+      <input type="range" id="rtphi" min="0" max="360" step="1" value="0">
+      <span class="mono" id="vtphi">0°</span></span>
+    <button class="dbtn" id="tdplay">▶ <span data-i18n="dk_spin">地球自转</span></button>
+    <button class="tgl" id="tdsep" data-i18n="dk_sep">显示月潮/日潮分解</button>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl"><span data-i18n="dk_tilt">轨道倾角</span>
+      <input type="range" id="rtilt" min="0" max="10" step="0.1" value="5.1">
+      <span class="mono" id="vtilt">5.1°</span></span>
+    <span class="dl"><span data-i18n="dk_node">月球位置(一年)</span>
+      <input type="range" id="rnode" min="0" max="360" step="1" value="60">
+      <span class="mono" id="vnode">—</span></span>
+    <button class="dbtn" id="txplay">▶ <span data-i18n="dk_year">播放一年</span></button>
+  </div>
+
+  <div class="dsec" id="d5">
+    <span class="dl" data-i18n="dk_hint5">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'地月运动实验室',
+ subtitle:'月相 · 日食与月食 · 潮汐 —— 初中科学课堂演示工具（拖一拖，看一看）',
+ tab0:'① 月相',tab1:'② 日食',tab2:'③ 月食',tab3:'④ 潮汐',tab4:'⑤ 要点·测验',
+ ph_figtitle:'俯视图：从北极上空看（拖动月球绕地球转）',
+ ph_sidetitle:'从地球上看到的月亮',
+ ph_k1:'<b>月亮自己不发光</b>——永远只有<b>朝向太阳的一半</b>被照亮。我们在地球上看到被照亮部分的<b>不同角度</b>，就是月相变化。',
+ ph_k2:'口诀：<b>上弦月亮右半</b>，<b>下弦月亮左半</b>（北半球）。一个完整周期约 <b>29.5 天</b>，这就是农历一个月。',
+ se_figtitle:'日食：月球挡住太阳（拖动地球上的小人，改变月地距离）',
+ se_sidetitle:'小人抬头看到的天空',
+ se_k1:'日食只可能发生在<b>新月（农历初一）</b>：月球位于<b>太阳和地球之间</b>。<b>本影</b>里看到日全食，<b>半影</b>里看到日偏食；月球离地球较远、本影没碰到地面时，正对处看到<b>日环食</b>。',
+ se_k2:'⚠️ <b>安全提示：</b>绝对不可以用肉眼、普通墨镜或望远镜直视太阳！观察日食必须使用<b>专用日食眼镜</b>或投影法。',
+ le_figtitle:'月食：月球走进地球的影子（上下拖动月球）',
+ le_sidetitle:'为什么月全食是红色的？',
+ le_k1:'月食只可能发生在<b>满月（农历十五、十六）</b>：地球位于<b>太阳和月球之间</b>。月球全部进入<b>本影</b>→月全食；部分进入→月偏食；只进入半影→半影月食（只是稍微变暗）。',
+ le_k2:'月食时<b>半个地球（夜晚一侧）都能看到</b>，而且<b>可以直接用眼睛看</b>——因为月亮不刺眼。',
+ td_figtitle:'俯视图：海水的两个隆起（拖动月球，按 ▶ 让地球自转）',
+ td_sidetitle:'红点观察者的一天：潮位曲线',
+ td_k1:'月球（和太阳）的引力把海水拉出<b>两个隆起</b>：一个正对月球，一个背对月球。地球每天在两个隆起里各转过一次，所以海边通常<b>一天两次涨潮、两次退潮</b>。',
+ td_k2:'<b>大潮</b>：新月或满月，日、月引潮力<b>同一直线</b>，隆起叠加，潮差最大。<b>小潮</b>：上弦或下弦，两者<b>互相垂直</b>，互相抵消一部分，潮差最小。',
+ tx_figtitle:'为什么不是每个月都有日食月食？（拖动倾角滑杆）',
+ tx_k1:'月球轨道与地球公转轨道面（黄道面）有约 <b>5°</b> 的夹角。大多数新月/满月时，月球从影子的<b>上方或下方</b>经过，没有对齐。只有月球刚好走到两个轨道面的<b>交点附近</b>时才会发生日食或月食。把倾角拉到 0°，你会看到每个月都发生！',
+ tx_cmptitle:'���食 vs 月食 对照表',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ tab5:'⑥ 测验', dk_hint5:'💡 答对才会解锁下一题',
+ dk_day:'农历日期', dk_playmonth:'播放一个月', dk_lock:'🔴 同一面标记',
+ dk_mdist:'月地距离', dk_draghint1:'💡 上下拖动地球上的小人',
+ dk_atm:'🌍 地球有大气', dk_draghint2:'💡 上下拖动右侧的月球',
+ dk_moonpos:'月球位置', dk_spin:'地球自转', dk_sep:'显示月潮/日潮分解',
+ dk_tilt:'轨道倾角', dk_node:'月球位置(一年)', dk_year:'播放一年',
+ foot:'初中科学 · 太阳系单元 · 课堂演示用',
+ sun:'太阳', sunlight:'阳光', earth:'地球', moon:'月球', moonorbit:'月球轨道',
+ dragme:'拖我', day:'第', dayu:'天', lit:'被照亮', see:'看到',
+ umbra:'本影', penumbra:'半影', antumbra:'伪本影(本影延长)',
+ total:'日全食', annular:'日环食', partial:'日偏食', noecl:'没有日食',
+ ltotal:'月全食', lpartial:'月偏食', lpen:'半影月食', lno:'没有月食',
+ observer:'观察者', near:'较近', far:'较远',
+ highA:'高潮', lowA:'低潮', spring:'大潮', neap:'小潮',
+ lunartide:'月潮隆起', solartide:'日潮隆起', combined:'实际海面',
+ range:'潮差', hour:'时',
+ ecliptic:'黄道面（地球影子所在平面）', moonpath:'月球轨道(倾斜)',
+ nodept:'交点', shadowband:'地球影子区',
+ eclyes:'✅ 对齐了 → 发生日食/月食！', eclno:'❌ 从影子上/下方经过 → 没有食',
+ newm:'新月',waxc:'蛾眉月',firstq:'上弦月',waxg:'盈凸月',fullm:'满月',
+ wang:'亏凸月',lastq:'下弦月',wanc:'残月'
+},
+en:{
+ title:'Earth–Moon Motion Lab',
+ subtitle:'Moon Phases · Eclipses · Tides — an interactive classroom demo for junior-high science',
+ tab0:'① Phases',tab1:'② Solar Eclipse',tab2:'③ Lunar Eclipse',tab3:'④ Tides',tab4:'⑤ Review & Quiz',
+ ph_figtitle:'Top view from above the North Pole (drag the Moon around Earth)',
+ ph_sidetitle:'The Moon as seen from Earth',
+ ph_k1:'<b>The Moon does not glow by itself</b> — only the half <b>facing the Sun</b> is ever lit. From Earth we see this lit half from <b>different angles</b>: that is what phases are.',
+ ph_k2:'Memory aid (N. hemisphere): <b>first quarter — right half lit</b>, <b>last quarter — left half lit</b>. One full cycle ≈ <b>29.5 days</b> — one month of the lunar calendar.',
+ se_figtitle:'Solar eclipse: the Moon blocks the Sun (drag the observer; slide the Moon–Earth distance)',
+ se_sidetitle:'What the observer sees in the sky',
+ se_k1:'A solar eclipse can only happen at <b>new moon</b>: the Moon sits <b>between the Sun and Earth</b>. Inside the <b>umbra</b> you see a total eclipse; in the <b>penumbra</b>, a partial one. When the Moon is farther away and the umbra fails to reach the ground, the point directly in line sees an <b>annular eclipse</b>.',
+ se_k2:'⚠️ <b>Safety:</b> NEVER look at the Sun directly — not with bare eyes, sunglasses, or telescopes! Use <b>certified eclipse glasses</b> or a pinhole projection.',
+ le_figtitle:'Lunar eclipse: the Moon enters Earth\u2019s shadow (drag the Moon up/down)',
+ le_sidetitle:'Why does a total lunar eclipse look red?',
+ le_k1:'A lunar eclipse can only happen at <b>full moon</b>: Earth sits <b>between the Sun and the Moon</b>. Moon fully inside the <b>umbra</b> → total; partly inside → partial; only in the penumbra → penumbral (just slightly dimmer).',
+ le_k2:'A lunar eclipse is visible from the <b>entire night side of Earth</b>, and it is <b>safe to watch directly</b> — moonlight is not dazzling.',
+ td_figtitle:'Top view: the two ocean bulges (drag the Moon; press ▶ to spin Earth)',
+ td_sidetitle:'One day for the red observer: the tide curve',
+ td_k1:'The Moon\u2019s (and the Sun\u2019s) gravity pulls the ocean into <b>two bulges</b>: one facing the Moon and one on the opposite side. Each day Earth rotates through both, so most coasts get <b>two high tides and two low tides a day</b>.',
+ td_k2:'<b>Spring tide</b>: new or full moon — Sun and Moon pull <b>along one line</b>, bulges add up, biggest range. <b>Neap tide</b>: first or last quarter — they pull <b>at right angles</b> and partly cancel, smallest range.',
+ tx_figtitle:'Why isn\u2019t there an eclipse every month? (drag the tilt slider)',
+ tx_k1:'The Moon\u2019s orbit is tilted about <b>5°</b> from the plane of Earth\u2019s orbit (the ecliptic). At most new/full moons the Moon passes <b>above or below</b> the shadow — no alignment. Eclipses only happen when the Moon is near a <b>node</b>, where the two planes cross. Drag the tilt to 0° and watch an eclipse happen every month!',
+ tx_cmptitle:'Solar vs Lunar Eclipse',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ tab5:'⑥ Quiz', dk_hint5:'💡 Answer correctly to unlock the next question',
+ dk_day:'Lunar day', dk_playmonth:'Play one month', dk_lock:'🔴 Same-face marker',
+ dk_mdist:'Moon–Earth distance', dk_draghint1:'💡 Drag the observer up/down',
+ dk_atm:'🌍 Earth has atmosphere', dk_draghint2:'💡 Drag the Moon up/down',
+ dk_moonpos:'Moon position', dk_spin:'Spin Earth', dk_sep:'Show lunar/solar bulges',
+ dk_tilt:'Orbit tilt', dk_node:'Moon position (year)', dk_year:'Play one year',
+ foot:'Junior-high science · Solar System unit · for classroom projection',
+ sun:'Sun', sunlight:'Sunlight', earth:'Earth', moon:'Moon', moonorbit:'Moon\u2019s orbit',
+ dragme:'drag me', day:'Day', dayu:'', lit:'lit', see:'seen',
+ umbra:'Umbra', penumbra:'Penumbra', antumbra:'Antumbra (extended)',
+ total:'Total eclipse', annular:'Annular eclipse', partial:'Partial eclipse', noecl:'No eclipse',
+ ltotal:'Total lunar eclipse', lpartial:'Partial lunar eclipse', lpen:'Penumbral eclipse', lno:'No eclipse',
+ observer:'Observer', near:'near', far:'far',
+ highA:'High tide', lowA:'Low tide', spring:'SPRING tide', neap:'NEAP tide',
+ lunartide:'Lunar bulge', solartide:'Solar bulge', combined:'Actual sea surface',
+ range:'Range', hour:'h',
+ ecliptic:'Ecliptic plane (where Earth\u2019s shadow lies)', moonpath:'Moon\u2019s orbit (tilted)',
+ nodept:'Node', shadowband:'Earth\u2019s shadow zone',
+ eclyes:'✅ Aligned → eclipse happens!', eclno:'❌ Passes above/below the shadow → no eclipse',
+ newm:'New Moon',waxc:'Waxing Crescent',firstq:'First Quarter',waxg:'Waxing Gibbous',
+ fullm:'Full Moon',wang:'Waning Gibbous',lastq:'Last Quarter',wanc:'Waning Crescent'
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* halo text — halo colour chosen by fill luminance */
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+/* pointer position in viewBox coords */
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false});
+  svg.addEventListener('pointercancel',function(){down=false});
+}
+
+
+/* ===== theme (light/dark for projector) ===== */
+var DARK=false;
+var THMAP={'#FFFDF7':'#1E2637','#E3DCCB':'#39435C','#26221B':'#EDE7D6','#4B4437':'#D2CCBC',
+'#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];      // per-tab render fn
+var SUMMARY=[];     // per-tab dock-summary fn
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<6;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  stopAllPlay();
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='ftconcl'||kb.id==='dtconcl')continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* play-loop management */
+var RAF=0;
+function stopAllPlay(){
+  if(RAF){cancelAnimationFrame(RAF);RAF=0}
+  PH.playing=false;TD.playing=false;TX.playing=false;
+  $('phplay').classList.remove('on');$('tdplay').classList.remove('on');$('txplay').classList.remove('on');
+}
+
+/* ================= TAB 1 · MOON PHASES ================= */
+var PH={d:3, lock:false, playing:false};
+var PHC={cx:330,cy:280,R:180,rm:22,re:34};
+var PHNAMES=['newm','waxc','firstq','waxg','fullm','wang','lastq','wanc'];
+function phaseIndex(phi){ // phi 0..360 elongation
+  var i=Math.round(phi/45)%8; return i;
+}
+function phaseName(phi){
+  // exact quarters get exact names; else nearest of 8
+  return T(PHNAMES[phaseIndex(phi)]);
+}
+function lunarDate(d){
+  var n=Math.floor(d)+1; if(n>30)n=30;
+  if(LANG==='en')return 'Lunar day '+n;
+  var tens=['初','十','廿','三'];
+  var ones=['十','一','二','三','四','五','六','七','八','九'];
+  if(n===10)return '农历初十'; if(n===20)return '农历二十'; if(n===30)return '农历三十';
+  return '农历'+tens[Math.floor(n/10)]+ones[n%10];
+}
+function seeTime(phi){
+  var i=phaseIndex(phi);
+  var zh=['和太阳同升同落，整天看不见','傍晚西边低空，日落后不久落下','傍晚升到正南，上半夜可见，半夜落下','傍晚偏东升起，大半夜可见','太阳落它就升，整夜可见','天黑后较晚升起，后半夜到清晨可见','半夜升起，下半夜可���，清晨在正南','清晨东边低空，天亮前短暂可见'];
+  var en=['Rises and sets with the Sun — invisible all day','Low in the west at dusk; sets soon after the Sun','Due south at dusk; visible first half of the night','Rises in the east at dusk; up most of the night','Rises at sunset — visible ALL night','Rises later in the evening; visible after midnight till dawn','Rises at midnight; due south at dawn','Low in the east at dawn, briefly visible'];
+  return (LANG==='en'?en:zh)[i];
+}
+/* lit-shape path for the phase disc, radius R, elongation phi (0=new) */
+function litPath(phi,R){
+  var e=phi%360; if(e<0)e+=360;
+  var waning=e>180;
+  var pe=waning?360-e:e;           // 0..180
+  var rx=Math.abs(Math.cos(d2r(pe)))*R;
+  var d;
+  if(pe<=0.5)return {d:'',sx:1};
+  if(Math.abs(pe-90)<0.5){
+    d='M 0 '+(-R)+' A '+R+' '+R+' 0 0 1 0 '+R+' L 0 '+(-R)+' Z';
+  }else if(pe<90){ // crescent: right limb out, terminator bulges right (sweep 0)
+    d='M 0 '+(-R)+' A '+R+' '+R+' 0 0 1 0 '+R+' A '+rx.toFixed(1)+' '+R+' 0 0 0 0 '+(-R)+' Z';
+  }else{ // gibbous: right limb + terminator bulging left (sweep 1)
+    d='M 0 '+(-R)+' A '+R+' '+R+' 0 0 1 0 '+R+' A '+rx.toFixed(1)+' '+R+' 0 0 1 0 '+(-R)+' Z';
+  }
+  return {d:d, sx:waning?-1:1};
+}
+function drawPH(){
+  var s=$('svgph'),c=PHC;
+  var phi=PH.d/29.5*360;
+  var ang=d2r(180-phi);
+  var mx=c.cx+c.R*Math.cos(ang), my=c.cy+c.R*Math.sin(ang);
+  var h='';
+  // space bg
+  h+='<rect x="0" y="0" width="660" height="540" rx="10" fill="'+'#141C33'+'"/>';
+  var st='',i;
+  for(i=0;i<40;i++){var sx=(i*137)%660,sy=(i*89+31)%540;st+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  h+=st;
+  // sunlight arrows from left
+  for(i=0;i<5;i++){
+    var yy=90+i*90;
+    h+='<line x1="14" y1="'+yy+'" x2="92" y2="'+yy+'" stroke="#F2C14E" stroke-width="4"/>'+
+       '<path d="M 92 '+yy+' l -14 -8 l 0 16 Z" fill="#F2C14E"/>';
+  }
+  h+=tl(52,52,16,'#F2C14E',T('sunlight'));
+  // orbit
+  h+='<circle cx="'+c.cx+'" cy="'+c.cy+'" r="'+c.R+'" fill="none" stroke="#3A466B" stroke-width="2" stroke-dasharray="7 7"/>';
+  h+=tl(c.cx+c.R*0.74,c.cy-c.R*0.78,14,'#8FA0C7',T('moonorbit'));
+  // 8 snap markers with mini-phase icons
+  for(i=0;i<8;i++){
+    var p2=i*45, a2=d2r(180-p2);
+    var px=c.cx+c.R*Math.cos(a2), py=c.cy+c.R*Math.sin(a2);
+    var lp=litPath(p2,9);
+    h+='<g transform="translate('+Math.round(px)+' '+Math.round(py)+')">'+
+       '<circle r="11" fill="#141C33" stroke="#3A466B" stroke-width="1.5"/>'+
+       '<circle r="9" fill="#2A3352"/>'+
+       (lp.d?'<g transform="scale('+lp.sx+' 1)"><path d="'+lp.d+'" fill="#E8E2D0"/></g>':'')+'</g>';
+  }
+  // Earth (day side faces sun = left)
+  h+='<g transform="translate('+c.cx+' '+c.cy+')">'+
+     '<circle r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M 0 '+(-c.re)+' A '+c.re+' '+c.re+' 0 0 0 0 '+c.re+' Z" fill="#4FA3D1"/>'+
+     '<path d="M -12 -14 q 8 -6 16 2 q -6 10 -16 6 Z" fill="#2F7D4F" opacity="0.9"/>'+
+     '<path d="M -4 8 q 10 -4 14 6 q -8 8 -14 2 Z" fill="#2F7D4F" opacity="0.9"/>'+
+     '</g>';
+  h+=tl(c.cx,c.cy+c.re+22,15,'#F5F1E8',T('earth'));
+  // line earth->moon
+  h+='<line x1="'+c.cx+'" y1="'+c.cy+'" x2="'+Math.round(mx)+'" y2="'+Math.round(my)+'" stroke="#5A6489" stroke-width="1.5" stroke-dasharray="4 5"/>';
+  // Moon: left half (sun side) lit
+  h+='<g transform="translate('+Math.round(mx)+' '+Math.round(my)+')">'+
+     '<circle r="'+(c.rm+12)+'" fill="rgba(218,149,38,0.18)"/>'+
+     '<circle r="'+c.rm+'" fill="#4A4E63"/>'+
+     '<path d="M 0 '+(-c.rm)+' A '+c.rm+' '+c.rm+' 0 0 0 0 '+c.rm+' Z" fill="#E8E2D0"/>'+
+     '<circle r="'+c.rm+'" fill="none" stroke="#DA9526" stroke-width="2.5"/>';
+  if(PH.lock){
+    var ux=c.cx-mx, uy=c.cy-my, ul=Math.hypot(ux,uy);
+    h+='<circle cx="'+(ux/ul*(c.rm-5)).toFixed(0)+'" cy="'+(uy/ul*(c.rm-5)).toFixed(0)+'" r="4.5" fill="#D9542B"/>';
+  }
+  h+='</g>';
+  h+=tl(mx,my-c.rm-12,15,'#F2C14E',T('moon')+' 🖐 '+T('dragme'));
+  // day/night labels on earth sides
+  h+=tl(c.cx-c.re-30,c.cy+5,13,'#8FA0C7',LANG==='en'?'day':'白天');
+  h+=tl(c.cx+c.re+30,c.cy+5,13,'#8FA0C7',LANG==='en'?'night':'��晚');
+  s.innerHTML=PAINT(h);
+  drawPHside(phi);
+  // stats
+  $('phname').textContent=phaseName(phi);
+  $('phday').textContent=(LANG==='en'?'Day ':'第 ')+PH.d.toFixed(1)+(LANG==='en'?' / 29.5':' / 29.5 天');
+  $('phlunar').textContent=lunarDate(PH.d);
+  var frac=(1-Math.cos(d2r(phi)))/2;
+  $('phfrac').textContent=(LANG==='en'?'Lit ':'照亮 ')+Math.round(frac*100)+'%';
+  $('phsee').textContent='🕗 '+seeTime(phi);
+  $('vday').textContent=PH.d.toFixed(1);
+  $('rday').value=PH.d;
+  updSummary();
+}
+function drawPHside(phi){
+  var s=$('svgphside');
+  var R=95,cx=165,cy=125;
+  var lp=litPath(phi,R);
+  var h='<rect x="0" y="0" width="330" height="300" rx="10" fill="#141C33"/>';
+  var i;
+  for(i=0;i<24;i++){var sx2=(i*151+40)%330,sy2=(i*97+20)%300;h+='<circle cx="'+sx2+'" cy="'+sy2+'" r="1.2" fill="#8FA0C7"/>'}
+  h+='<g transform="translate('+cx+' '+cy+')">'+
+     '<circle r="'+R+'" fill="#232B47"/>'+
+     '<circle r="'+R+'" fill="none" stroke="#3A466B" stroke-width="2"/>';
+  if(lp.d)h+='<g transform="scale('+lp.sx+' 1)"><path d="'+lp.d+'" fill="#F0EBDA"/>'+
+     '<circle cx="-30" cy="-20" r="9" fill="rgba(38,34,27,0.10)"/>'+
+     '<circle cx="20" cy="30" r="12" fill="rgba(38,34,27,0.10)"/>'+
+     '<circle cx="35" cy="-40" r="6" fill="rgba(38,34,27,0.10)"/></g>';
+  h+='</g>';
+  h+=tl(cx,cy+R+38,16,'#F5F1E8',phaseName(phi));
+  s.innerHTML=PAINT(h);
+}
+function initPH(){
+  var s=$('svgph'),c=PHC;
+  makeDrag(s,660,540,function(p){
+    var a=Math.atan2(p.y-c.cy,p.x-c.cx);          // screen angle
+    var phi=180-a*180/Math.PI; phi=((phi%360)+360)%360;
+    PH.d=phi/360*29.5;
+    drawPH();
+  });
+  $('rday').addEventListener('input',function(){PH.d=+this.value;drawPH()});
+  $('phlock').addEventListener('click',function(){
+    PH.lock=!PH.lock;this.classList.toggle('on',PH.lock);drawPH();
+  });
+  $('phplay').addEventListener('click',function(){
+    if(PH.playing){stopAllPlay();return}
+    stopAllPlay();PH.playing=true;this.classList.add('on');
+    var step=function(){
+      if(!PH.playing)return;
+      PH.d+=0.06; if(PH.d>=29.5)PH.d-=29.5;
+      drawPH(); RAF=requestAnimationFrame(step);
+    };
+    RAF=requestAnimationFrame(step);
+  });
+}
+SUMMARY[0]=function(){return T('tab0')+' · '+(LANG==='en'?'Day ':'第')+PH.d.toFixed(1)+(LANG==='en'?'':'天')+' · '+phaseName(PH.d/29.5*360)};
+/* ================= TAB 2 · SOLAR ECLIPSE ================= */
+var SE={mx:452, oa:0};   // moon x; observer angle (deg, 0 = leftmost point of Earth, +up)
+var SEC={sx:88,sy:210,rs:72, ex:572,ey:210,re:44, rm:13};
+/* half-widths of shadow cones at horizontal position x (measured from axis y=sy) */
+function seWidths(x){
+  var D=SE.mx-SEC.sx;
+  var wu=SEC.rm-(x-SE.mx)*(SEC.rs-SEC.rm)/D;   // umbra (>0) / antumbra (<0)
+  var wp=SEC.rm+(x-SE.mx)*(SEC.rs+SEC.rm)/D;   // penumbra
+  return {wu:wu,wp:wp,D:D};
+}
+function seObserver(){
+  var a=d2r(180-SE.oa);   // screen angle: 180 = left point
+  return {x:SEC.ex+SEC.re*Math.cos(a), y:SEC.ey-SEC.re*Math.sin(d2r(SE.oa))};
+}
+function seClassify(){
+  var o=seObserver(), w=seWidths(o.x), off=Math.abs(o.y-SEC.sy);
+  if(w.wu>0 && off<=w.wu)return 'total';
+  if(w.wu<=0 && off<=-w.wu)return 'annular';
+  if(off<=w.wp)return 'partial';
+  return 'noecl';
+}
+function drawSE(){
+  var s=$('svgse'),c=SEC;
+  var h='<rect x="0" y="0" width="660" height="430" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<36;i++){var sx=(i*149+15)%660,sy=(i*83+22)%430;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  var mx=SE.mx,my=c.sy;
+  var D=mx-c.sx;
+  // penumbra polygon: internal tangents through crossing point P between S and M
+  // simplified straight-edge construction using top/bottom edge points of sun and moon
+  var far=660;
+  function edge(x1,y1,x2,y2,X){ // extend line (x1,y1)-(x2,y2) to x=X, return y
+    return y1+(y2-y1)*(X-x1)/(x2-x1);
+  }
+  // penumbra edges: sun top -> moon bottom, sun bottom -> moon top
+  var pTop=edge(c.sx,c.sy-c.rs, mx,my+c.rm, far);
+  var pBot=edge(c.sx,c.sy+c.rs, mx,my-c.rm, far);
+  h+='<path d="M '+mx+' '+(my+c.rm)+' L '+far+' '+pTop.toFixed(0)+' L '+far+' '+pBot.toFixed(0)+' L '+mx+' '+(my-c.rm)+' Z" fill="rgba(90,100,137,0.30)"/>';
+  // umbra edges: sun top -> moon top, sun bottom -> moon bottom (converge)
+  var apex=mx + c.rm*D/(c.rs-c.rm);
+  h+='<path d="M '+mx+' '+(my-c.rm)+' L '+apex.toFixed(0)+' '+my+' L '+mx+' '+(my+c.rm)+' Z" fill="rgba(10,12,22,0.92)"/>';
+  // antumbra beyond apex (dashed outline)
+  if(apex<far){
+    var aTop=edge(c.sx,c.sy+c.rs, mx,my-c.rm, far);
+    var aBot=edge(c.sx,c.sy-c.rs, mx,my+c.rm, far);
+    h+='<path d="M '+apex.toFixed(0)+' '+my+' L '+far+' '+aTop.toFixed(0)+' L '+far+' '+aBot.toFixed(0)+' Z" fill="rgba(44,125,140,0.20)" stroke="#2C7D8C" stroke-width="1.5" stroke-dasharray="5 5"/>';
+  }
+  // sun
+  h+='<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+(c.rs+14)+'" fill="rgba(242,193,78,0.20)"/>'+
+     '<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+c.rs+'" fill="#F2C14E"/>'+
+     '<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+c.rs+'" fill="none" stroke="#DA9526" stroke-width="3"/>';
+  h+=tl(c.sx,c.sy+5,18,'#26221B',T('sun'));
+  // moon
+  h+='<circle cx="'+mx+'" cy="'+my+'" r="'+c.rm+'" fill="#B9B2A0" stroke="#F5F1E8" stroke-width="2"/>';
+  h+=tl(mx,my-c.rm-10,14,'#F5F1E8',T('moon'));
+  // earth with day side facing sun; night right
+  h+='<circle cx="'+c.ex+'" cy="'+c.ey+'" r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M '+c.ex+' '+(c.ey-c.re)+' A '+c.re+' '+c.re+' 0 0 0 '+c.ex+' '+(c.ey+c.re)+' Z" fill="#4FA3D1"/>';
+  h+=tl(c.ex,c.ey+c.re+20,15,'#F5F1E8',T('earth'));
+  // labels for zones
+  h+=tl((mx+apex)/2,my-6,14,'#F5F1E8',T('umbra'));
+  var wlab=seWidths(mx+55);
+  h+=tl(mx+55,my+wlab.wp*0.65+6,14,'#AEB8D6',T('penumbra'));
+  if(apex<far-40)h+=tl((apex+far)/2,my+34,13,'#7FB6C2',T('antumbra'));
+  // observer
+  var o=seObserver();
+  var cls=seClassify();
+  var col=cls==='total'?'#D9542B':cls==='annular'?'#DA9526':cls==='partial'?'#2C7D8C':'#8FA0C7';
+  h+='<line x1="'+Math.round(o.x)+'" y1="'+Math.round(o.y)+'" x2="'+mx+'" y2="'+my+'" stroke="'+col+'" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.8"/>';
+  h+='<circle cx="'+Math.round(o.x)+'" cy="'+Math.round(o.y)+'" r="14" fill="rgba(217,84,43,0.25)"/>'+
+     '<circle cx="'+Math.round(o.x)+'" cy="'+Math.round(o.y)+'" r="6.5" fill="#D9542B" stroke="#FFFFFF" stroke-width="2"/>';
+  h+=tl(o.x+4,o.y-18,14,'#F5F1E8','🖐 '+T('observer'));
+  s.innerHTML=PAINT(h);
+  drawSEsky(cls);
+  var far2=SE.mx>=440;
+  $('setype').textContent=T(cls);
+  $('sedist').textContent=(LANG==='en'?'Moon: ':'月球：')+T(far2?'near':'far');
+  $('vmd').textContent=T(SE.mx>=440?'near':'far');
+  var notes={
+    total:{zh:'小人在【本影】里：太阳被完全挡住，白天变黑，能看到日冕。',
+           en:'Inside the UMBRA: the Sun is fully blocked — daytime darkness, corona visible.'},
+    annular:{zh:'月球较远，本影没碰到地面。小人在【伪本影】里：月亮"不够大"，挡不住整个太阳，留下一圈金环。',
+           en:'The Moon is farther, so the umbra falls short of the ground. In the ANTUMBRA the Moon looks too small — a ring of Sun remains.'},
+    partial:{zh:'小人在【半影】里：太阳只被挡住一部分，像被咬了一口。',
+           en:'Inside the PENUMBRA: only part of the Sun is covered — a "bite" is missing.'},
+    noecl:{zh:'小人在影子外面：看到完整的太阳，没有日食。把小人拖进影子里试试！',
+           en:'Outside the shadows: the full Sun is visible. Drag the observer into a shadow!'}
+  };
+  $('senote').textContent=notes[cls][LANG];
+  updSummary();
+}
+function drawSEsky(cls){
+  var s=$('svgsesky');
+  var o=seObserver(),c=SEC;
+  // apparent radii & offset
+  var dS=Math.hypot(o.x-c.sx,o.y-c.sy), dM=Math.hypot(o.x-SE.mx,o.y-c.sy);
+  var aS=c.rs/dS, aM=c.rm/dM;
+  var angS=Math.atan2(c.sy-o.y,c.sx-o.x), angM=Math.atan2(c.sy-o.y,SE.mx-o.x);
+  var doff=(angM-angS);
+  var RS=62;                      // display sun radius
+  var RM=RS*aM/aS;
+  var OFF=clamp(doff/aS*62,-200,200);
+  var cx=165,cy=128;
+  var h='<rect x="0" y="0" width="330" height="300" rx="10" fill="'+(cls==='total'?'#0B1020':'#7FB6DC')+'"/>';
+  if(cls==='total'){
+    var i;for(i=0;i<18;i++){var sx=(i*151+40)%330,sy=(i*97+20)%260;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  }
+  // sun disc
+  h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+RS+'" fill="#F2C14E"/>';
+  if(cls==='total')h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(RS+16)+'" fill="none" stroke="rgba(242,241,232,0.7)" stroke-width="10"/>';
+  // moon disc covering
+  h+='<circle cx="'+(cx+OFF).toFixed(0)+'" cy="'+cy+'" r="'+RM.toFixed(0)+'" fill="'+(cls==='total'?'#0B1020':'#26221B')+'"/>';
+  // ground
+  h+='<rect x="0" y="252" width="330" height="48" fill="'+(cls==='total'?'#1A2438':'#2F7D4F')+'"/>';
+  h+='<circle cx="60" cy="252" r="9" fill="#D9542B"/><rect x="56" y="252" width="8" height="26" rx="3" fill="#D9542B"/>';
+  h+=tl(165,286,14,cls==='total'?'#F5F1E8':'#F5F1E8',T(cls));
+  s.innerHTML=PAINT(h);
+}
+function initSE(){
+  var s=$('svgse'),c=SEC;
+  makeDrag(s,660,430,function(p){
+    // vertical drag anywhere moves the observer along Earth's sun-facing limb
+    SE.oa=clamp((c.ey-p.y)*1.4, -75,75);
+    drawSE();
+  });
+  $('rmd').addEventListener('input',function(){SE.mx=+this.value;drawSE()});
+}
+SUMMARY[1]=function(){return T('tab1')+' · '+T(seClassify())};
+
+/* ================= TAB 3 · LUNAR ECLIPSE ================= */
+var LE={my:120, atm:true};
+var LEC={sx:84,sy:200,rs:62, ex:392,ey:200,re:36, mxx:530, rm:14};
+function leWidths(x){
+  var D=LEC.ex-LEC.sx;
+  var wu=LEC.re-(x-LEC.ex)*(LEC.rs-LEC.re)/D;
+  var wp=LEC.re+(x-LEC.ex)*(LEC.rs+LEC.re)/D;
+  return {wu:wu,wp:wp};
+}
+function leClassify(){
+  var w=leWidths(LEC.mxx), off=Math.abs(LE.my-LEC.ey);
+  if(off+LEC.rm<=w.wu)return 'ltotal';
+  if(off-LEC.rm<w.wu)return 'lpartial';
+  if(off-LEC.rm<w.wp)return 'lpen';
+  return 'lno';
+}
+function drawLE(){
+  var s=$('svgle'),c=LEC;
+  var h='<rect x="0" y="0" width="660" height="430" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<36;i++){var sx=(i*149+15)%660,sy=(i*83+22)%430;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  var far=660;
+  function edge(x1,y1,x2,y2,X){return y1+(y2-y1)*(X-x1)/(x2-x1)}
+  // penumbra of earth
+  var pTop=edge(c.sx,c.sy-c.rs, c.ex,c.ey+c.re, far);
+  var pBot=edge(c.sx,c.sy+c.rs, c.ex,c.ey-c.re, far);
+  h+='<path d="M '+c.ex+' '+(c.ey+c.re)+' L '+far+' '+pTop.toFixed(0)+' L '+far+' '+pBot.toFixed(0)+' L '+c.ex+' '+(c.ey-c.re)+' Z" fill="rgba(90,100,137,0.30)"/>';
+  // umbra cone (apex beyond view)
+  var D=c.ex-c.sx;
+  var uTop=edge(c.sx,c.sy-c.rs, c.ex,c.ey-c.re, far);
+  var uBot=edge(c.sx,c.sy+c.rs, c.ex,c.ey+c.re, far);
+  var ufill=LE.atm?'rgba(60,18,10,0.92)':'rgba(8,10,18,0.95)';
+  h+='<path d="M '+c.ex+' '+(c.ey-c.re)+' L '+far+' '+uTop.toFixed(0)+' L '+far+' '+uBot.toFixed(0)+' L '+c.ex+' '+(c.ey+c.re)+' Z" fill="'+ufill+'"/>';
+  void D;
+  // sun
+  h+='<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+(c.rs+14)+'" fill="rgba(242,193,78,0.20)"/>'+
+     '<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+c.rs+'" fill="#F2C14E"/>';
+  h+=tl(c.sx,c.sy+5,18,'#26221B',T('sun'));
+  // earth + atmosphere ring
+  if(LE.atm)h+='<circle cx="'+c.ex+'" cy="'+c.ey+'" r="'+(c.re+6)+'" fill="none" stroke="rgba(127,182,220,0.55)" stroke-width="6"/>';
+  h+='<circle cx="'+c.ex+'" cy="'+c.ey+'" r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M '+c.ex+' '+(c.ey-c.re)+' A '+c.re+' '+c.re+' 0 0 0 '+c.ex+' '+(c.ey+c.re)+' Z" fill="#4FA3D1"/>';
+  h+=tl(c.ex,c.ey+c.re+24,15,'#F5F1E8',T('earth'));
+  // zone labels
+  h+=tl(c.ex+78,c.ey+6,14,'#F5F1E8',T('umbra'));
+  h+=tl(c.ex+78,c.ey-c.re-22,14,'#AEB8D6',T('penumbra'));
+  // moon path guide
+  h+='<line x1="'+c.mxx+'" y1="40" x2="'+c.mxx+'" y2="390" stroke="#3A466B" stroke-width="2" stroke-dasharray="6 6"/>';
+  // moon with shading by zone bands, clipped
+  var w=leWidths(c.mxx);
+  var cls=leClassify();
+  var moonbase=cls==='lpen'?'#CFC9B8':'#E8E2D0';
+  h+='<defs><clipPath id="mclip"><circle cx="'+c.mxx+'" cy="'+Math.round(LE.my)+'" r="'+c.rm+'"/></clipPath></defs>';
+  h+='<circle cx="'+c.mxx+'" cy="'+Math.round(LE.my)+'" r="'+c.rm+'" fill="'+moonbase+'"/>';
+  // umbra band across moon
+  var redc=LE.atm?'#8C2F1B':'#0B0D16';
+  h+='<g clip-path="url(#mclip)">'+
+     '<rect x="'+(c.mxx-30)+'" y="'+(c.ey-w.wp).toFixed(0)+'" width="60" height="'+(2*w.wp).toFixed(0)+'" fill="rgba(20,24,40,0.30)"/>'+
+     '<rect x="'+(c.mxx-30)+'" y="'+ (c.ey-w.wu).toFixed(0)+'" width="60" height="'+(2*w.wu).toFixed(0)+'" fill="'+redc+'"/>'+
+     '</g>';
+  h+='<circle cx="'+c.mxx+'" cy="'+Math.round(LE.my)+'" r="'+c.rm+'" fill="none" stroke="#DA9526" stroke-width="2.5"/>';
+  h+=tl(c.mxx-4,Math.round(LE.my)-c.rm-10,15,'#F2C14E','🖐 '+T('moon'));
+  s.innerHTML=PAINT(h);
+  drawLEatm();
+  $('letype').textContent=T(cls);
+  var colzh={ltotal:LE.atm?'古铜红色':'几乎全黑',lpartial:'缺了一块',lpen:'稍微变暗',lno:'明亮满月'};
+  var colen={ltotal:LE.atm?'copper red':'nearly black',lpartial:'bite missing',lpen:'slightly dim',lno:'bright full moon'};
+  $('lecolor').textContent=(LANG==='en'?colen:colzh)[cls];
+  var notes={
+    ltotal:{zh:LE.atm?'月球完全在本影里。太阳光穿过地球大气时，蓝光被散射掉、红光被折射弯进影子里，照在月亮上——所以是"红月亮"。':'没有大气折射红光，本影里一片漆黑，月亮几乎消失。',
+            en:LE.atm?'The Moon is fully inside the umbra. Sunlight passing through Earth\u2019s atmosphere loses its blue (scattered away) while red light bends into the shadow and lights the Moon — the "blood moon".':'With no atmosphere to bend red light in, the umbra is pitch dark and the Moon almost disappears.'},
+    lpartial:{zh:'月球一部分在本影里（暗红/黑），一部分在外面（亮）——月偏食。',en:'Part of the Moon is in the umbra (dark red), part outside (bright) — a partial eclipse.'},
+    lpen:{zh:'月球只进入半影：亮度稍降，不仔细看几乎察觉不到。',en:'Only in the penumbra: the Moon just dims slightly — hard to notice.'},
+    lno:{zh:'月球在影子外：正常的明亮满月。把月球拖进影子里试试！',en:'Outside the shadow: an ordinary bright full moon. Drag it into the shadow!'}
+  };
+  $('lenote').textContent=notes[cls][LANG];
+  updSummary();
+}
+function drawLEatm(){
+  var s=$('svgleatm');
+  var cx=95,cy=130,re=44;
+  var h='<rect x="0" y="0" width="330" height="260" rx="10" fill="#141C33"/>';
+  // incoming white light arrows
+  h+='<line x1="6" y1="86" x2="46" y2="86" stroke="#F2C14E" stroke-width="4"/>'+
+     '<line x1="6" y1="174" x2="46" y2="174" stroke="#F2C14E" stroke-width="4"/>';
+  h+=tl(26,72,13,'#F2C14E',T('sunlight'));
+  if(LE.atm){
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(re+9)+'" fill="none" stroke="rgba(127,182,220,0.5)" stroke-width="9"/>';
+    // blue scattered out
+    h+='<path d="M 60 84 q 14 -18 30 -26" fill="none" stroke="#4FA3D1" stroke-width="3" stroke-dasharray="4 4"/>'+
+       '<path d="M 60 176 q 14 18 30 26" fill="none" stroke="#4FA3D1" stroke-width="3" stroke-dasharray="4 4"/>';
+    h+=tl(122,46,13,'#4FA3D1',LANG==='en'?'blue scattered away':'蓝光被散射掉');
+    // red refracted inward toward moon
+    h+='<path d="M 46 86 Q '+cx+' 88 300 126" fill="none" stroke="#D9542B" stroke-width="4"/>'+
+       '<path d="M 46 174 Q '+cx+' 172 300 134" fill="none" stroke="#D9542B" stroke-width="4"/>';
+    h+=tl(210,102,13,'#D9542B',LANG==='en'?'red bends into the shadow':'红光折射弯进影子');
+  }
+  h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+re+'" fill="#1F5E8C"/>';
+  h+=tl(cx,cy+5,14,'#F5F1E8',T('earth'));
+  // moon at right
+  h+='<circle cx="292" cy="130" r="16" fill="'+(LE.atm?'#8C2F1B':'#181B29')+'" stroke="#DA9526" stroke-width="2"/>';
+  h+=tl(292,164,13,'#F5F1E8',T('moon'));
+  if(!LE.atm)h+=tl(165,236,14,'#8FA0C7',LANG==='en'?'No atmosphere → black moon':'没有大气 → 月亮变黑');
+  s.innerHTML=PAINT(h);
+}
+function initLE(){
+  var s=$('svgle');
+  makeDrag(s,660,430,function(p){
+    LE.my=clamp(p.y,55,375);
+    drawLE();
+  });
+  $('leatm').addEventListener('click',function(){
+    LE.atm=!LE.atm;this.classList.toggle('on',LE.atm);drawLE();
+  });
+}
+SUMMARY[2]=function(){return T('tab2')+' · '+T(leClassify())};
+/* ================= TAB 4 · TIDES ================= */
+var TD={phi:0, rot:0, playing:false, sep:false};   // phi = moon elongation from sun dir; rot = earth rotation deg
+var TDC={cx:320,cy:250,re:56,base:42,Am:22,As:10,Rorb:186,rm:18};
+function tideR(theta,thM){ // sea-surface radius at earth angle theta (screen rad), moon at thM
+  var c=TDC;
+  return c.re+c.base+c.Am*Math.cos(2*(theta-thM))+c.As*Math.cos(2*(theta-Math.PI));
+}
+function envPath(fn){
+  var pts=[],i;
+  for(i=0;i<=72;i++){
+    var th=i/72*2*Math.PI;
+    var r=fn(th);
+    pts.push((TDC.cx+r*Math.cos(th)).toFixed(1)+' '+(TDC.cy+r*Math.sin(th)).toFixed(1));
+  }
+  return 'M '+pts.join(' L ')+' Z';
+}
+function tideStats(){
+  var c=TDC;
+  var phi=TD.phi;
+  // amplitude of combined semidiurnal signal: vector sum of two cos(2θ) components offset by 2*angle between axes
+  var dAng=d2r(phi);        // angle between moon axis and sun axis
+  var A=Math.sqrt(c.Am*c.Am+c.As*c.As+2*c.Am*c.As*Math.cos(2*dAng));
+  var maxA=c.Am+c.As, minA=c.Am-c.As;
+  var springish=A>(maxA+minA)/2;
+  return {A:A,springish:springish};
+}
+function drawTD(){
+  var s=$('svgtd'),c=TDC;
+  var phi=TD.phi;
+  var thM=d2r(180-phi);     // moon screen angle (same convention as tab1)
+  var h='<rect x="0" y="0" width="660" height="500" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<36;i++){var sx=(i*149+15)%660,sy=(i*83+22)%500;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  // sun arrows from left
+  for(i=0;i<4;i++){
+    var yy=110+i*90;
+    h+='<line x1="12" y1="'+yy+'" x2="76" y2="'+yy+'" stroke="#F2C14E" stroke-width="4"/>'+
+       '<path d="M 76 '+yy+' l -13 -7 l 0 14 Z" fill="#F2C14E"/>';
+  }
+  h+=tl(44,88,15,'#F2C14E',T('sun')+' →');
+  // orbit
+  h+='<circle cx="'+c.cx+'" cy="'+c.cy+'" r="'+c.Rorb+'" fill="none" stroke="#3A466B" stroke-width="2" stroke-dasharray="7 7"/>';
+  // separate envelopes (dashed) if toggled
+  if(TD.sep){
+    h+='<path d="'+envPath(function(th){return c.re+c.base+c.Am*Math.cos(2*(th-thM))})+'" fill="none" stroke="#DA9526" stroke-width="2.5" stroke-dasharray="6 5"/>';
+    h+='<path d="'+envPath(function(th){return c.re+c.base+c.As*Math.cos(2*(th-Math.PI))})+'" fill="none" stroke="#4FA3D1" stroke-width="2.5" stroke-dasharray="6 5"/>';
+  }
+  // combined water envelope
+  h+='<path d="'+envPath(function(th){return tideR(th,thM)})+'" fill="rgba(79,163,209,0.35)" stroke="#4FA3D1" stroke-width="3"/>';
+  // earth
+  h+='<circle cx="'+c.cx+'" cy="'+c.cy+'" r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M '+(c.cx-14)+' '+(c.cy-22)+' q 12 -8 24 2 q -8 14 -24 8 Z" fill="#2F7D4F"/>'+
+     '<path d="M '+(c.cx-4)+' '+(c.cy+8)+' q 14 -6 20 8 q -10 12 -20 4 Z" fill="#2F7D4F"/>';
+  h+=tl(c.cx,c.cy+5,15,'#F5F1E8',T('earth'));
+  // observer on earth surface at rotation angle
+  var oth=d2r(TD.rot);
+  var ox=c.cx+(c.re-2)*Math.cos(oth), oy=c.cy+(c.re-2)*Math.sin(oth);
+  h+='<circle cx="'+ox.toFixed(0)+'" cy="'+oy.toFixed(0)+'" r="7" fill="#D9542B" stroke="#fff" stroke-width="2"/>';
+  // water depth marker at observer: line to sea surface
+  var rw=tideR(oth,thM);
+  var wx=c.cx+rw*Math.cos(oth), wy=c.cy+rw*Math.sin(oth);
+  h+='<line x1="'+ox.toFixed(0)+'" y1="'+oy.toFixed(0)+'" x2="'+wx.toFixed(0)+'" y2="'+wy.toFixed(0)+'" stroke="#D9542B" stroke-width="3"/>';
+  // moon
+  var mx=c.cx+c.Rorb*Math.cos(thM), my=c.cy+c.Rorb*Math.sin(thM);
+  h+='<line x1="'+c.cx+'" y1="'+c.cy+'" x2="'+mx.toFixed(0)+'" y2="'+my.toFixed(0)+'" stroke="#5A6489" stroke-width="1.5" stroke-dasharray="4 5"/>';
+  h+='<circle cx="'+mx.toFixed(0)+'" cy="'+my.toFixed(0)+'" r="'+c.rm+'" fill="#4A4E63"/>'+
+     '<path d="M '+mx.toFixed(0)+' '+(my-c.rm).toFixed(0)+' A '+c.rm+' '+c.rm+' 0 0 0 '+mx.toFixed(0)+' '+(my+c.rm).toFixed(0)+' Z" fill="#E8E2D0"/>'+
+     '<circle cx="'+mx.toFixed(0)+'" cy="'+my.toFixed(0)+'" r="'+c.rm+'" fill="none" stroke="#DA9526" stroke-width="2.5"/>';
+  h+=tl(mx,my-c.rm-10,15,'#F2C14E','🖐 '+T('moon'));
+  // legend
+  h+=tl(560,36,14,'#4FA3D1',T('combined'),'end');
+  if(TD.sep){
+    h+=tl(560,58,13,'#DA9526',T('lunartide'),'end');
+    h+=tl(560,78,13,'#4FA3D1',T('solartide'),'end');
+  }
+  s.innerHTML=PAINT(h);
+  drawTDcurve();
+  var st=tideStats();
+  var phn=phaseName(phi);
+  $('tdtype').textContent=st.springish?('🌊 '+T('spring')):('〰 '+T('neap'));
+  $('tdphase').textContent=(LANG==='en'?'Phase: ':'月相：')+phn;
+  $('tdrange').textContent=T('range')+' ≈ '+(2*st.A/ (2*(TDC.Am+TDC.As)) *100).toFixed(0)+'%';
+  $('vtphi').textContent=Math.round(TD.phi)+'°';
+  $('rtphi').value=TD.phi;
+  updSummary();
+}
+function drawTDcurve(){
+  var s=$('svgtdcurve'),c=TDC;
+  var W=330,H=250,L=40,R2=316,Tp=26,B=200;
+  var thM=d2r(180-TD.phi);
+  var h='<rect x="0" y="0" width="'+W+'" height="'+H+'" rx="10" fill="#FFFDF7" stroke="#E3DCCB" stroke-width="2"/>';
+  // axes, FIXED scale: y from -(Am+As) to +(Am+As)
+  var Amax=c.Am+c.As;
+  function X(t){return L+(R2-L)*t/24}
+  function Y(v){return (Tp+B)/2 - v/Amax*(B-Tp)/2}
+  h+='<line x1="'+L+'" y1="'+Y(0).toFixed(0)+'" x2="'+R2+'" y2="'+Y(0).toFixed(0)+'" stroke="#E3DCCB" stroke-width="1.5"/>';
+  var i;
+  for(i=0;i<=24;i+=6){
+    h+='<line x1="'+X(i).toFixed(0)+'" y1="'+B+'" x2="'+X(i).toFixed(0)+'" y2="'+(B+5)+'" stroke="#8A8070" stroke-width="1.5"/>';
+    h+=tlplain(X(i),B+20,13,'#6B6252',i+(LANG==='en'?'h':'时'));
+  }
+  // curve: observer angle over 24h: earth spins 360° (plus a bit, ignore) => tide height vs t
+  var pts=[];
+  for(i=0;i<=96;i++){
+    var t=i/96*24;
+    var th=d2r(TD.rot)+d2r(t/24*360);
+    var v=c.Am*Math.cos(2*(th-thM))+c.As*Math.cos(2*(th-Math.PI));
+    pts.push(X(t).toFixed(1)+' '+Y(v).toFixed(1));
+  }
+  h+='<path d="M '+pts.join(' L ')+'" fill="none" stroke="#2C7D8C" stroke-width="3"/>';
+  // current marker at t=0
+  var v0=c.Am*Math.cos(2*(d2r(TD.rot)-thM))+c.As*Math.cos(2*(d2r(TD.rot)-Math.PI));
+  h+='<circle cx="'+X(0).toFixed(0)+'" cy="'+Y(v0).toFixed(0)+'" r="6" fill="#D9542B" stroke="#fff" stroke-width="2"/>';
+  h+=tl(L+6,Tp+2,13,'#2F7D4F',T('highA'),'start');
+  h+=tl(L+6,B-2,13,'#D9542B',T('lowA'),'start');
+  h+=tlplain(W/2,H-8,13,'#6B6252',LANG==='en'?'≈ 2 highs + 2 lows per day':'一天约两次高潮、两次低潮');
+  s.innerHTML=PAINT(h);
+}
+function initTD(){
+  var s=$('svgtd'),c=TDC;
+  makeDrag(s,660,500,function(p){
+    var d=Math.hypot(p.x-c.cx,p.y-c.cy);
+    if(d>c.re+c.base+c.Am+c.As+8){    // outside water => drag moon
+      var a=Math.atan2(p.y-c.cy,p.x-c.cx);
+      var phi=180-a*180/Math.PI; phi=((phi%360)+360)%360;
+      TD.phi=phi;
+    }else{                             // inside => drag observer
+      TD.rot=Math.atan2(p.y-c.cy,p.x-c.cx)*180/Math.PI;
+    }
+    drawTD();
+  });
+  $('rtphi').addEventListener('input',function(){TD.phi=+this.value;drawTD()});
+  $('tdsep').addEventListener('click',function(){
+    TD.sep=!TD.sep;this.classList.toggle('on',TD.sep);drawTD();
+  });
+  $('tdplay').addEventListener('click',function(){
+    if(TD.playing){stopAllPlay();return}
+    stopAllPlay();TD.playing=true;this.classList.add('on');
+    var step=function(){
+      if(!TD.playing)return;
+      TD.rot=(TD.rot+0.8)%360;
+      TD.phi=(TD.phi+0.8/29.5)%360;   // moon also creeps => next-day 50-min delay hinted
+      drawTD(); RAF=requestAnimationFrame(step);
+    };
+    RAF=requestAnimationFrame(step);
+  });
+}
+SUMMARY[3]=function(){var st=tideStats();return T('tab3')+' · '+(st.springish?T('spring'):T('neap'))+' · '+Math.round(TD.phi)+'°'};
+
+/* ================= TAB 5 · TILT + TABLE + QUIZ ================= */
+var TX={tilt:5.1, node:60, playing:false};
+function txOffset(){ // vertical miss distance of moon vs shadow at syzygy, in px
+  return 90*Math.sin(d2r(TX.tilt))/Math.sin(d2r(10))*Math.sin(d2r(TX.node));
+}
+function txEclipse(){
+  return Math.abs(txOffset())<=16;   // shadow half-height + moon radius allowance
+}
+function drawTX(){
+  var s=$('svgtx');
+  var W=660,H=320,cy=160;
+  var h='<rect x="0" y="0" width="'+W+'" height="'+H+'" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<28;i++){var sx=(i*151+30)%660,sy=(i*97+18)%320;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  // ecliptic plane band (earth shadow zone)
+  h+='<rect x="40" y="'+(cy-14)+'" width="580" height="28" fill="rgba(44,125,140,0.25)" stroke="#2C7D8C" stroke-width="1.5"/>';
+  h+=tl(330,cy-24,14,'#7FB6C2',T('shadowband')+' · '+T('ecliptic'));
+  // tilted moon path: sinusoid across the year: y = A*sin(node angle along x)
+  var A=90*Math.sin(d2r(TX.tilt))/Math.sin(d2r(10));
+  var pts=[];
+  for(i=0;i<=100;i++){
+    var xx=40+i/100*580;
+    var yy=cy - A*Math.sin(i/100*2*Math.PI);
+    pts.push(xx.toFixed(1)+' '+yy.toFixed(1));
+  }
+  h+='<path d="M '+pts.join(' L ')+'" fill="none" stroke="#DA9526" stroke-width="3"/>';
+  h+=tl(96,cy-A*Math.sin(d2r(35))-12,14,'#DA9526',T('moonpath'));
+  // nodes at crossings x where sin=0: i=0,50,100
+  h+='<circle cx="40" cy="'+cy+'" r="6" fill="#2F7D4F" stroke="#fff" stroke-width="2"/>'+
+     '<circle cx="330" cy="'+cy+'" r="6" fill="#2F7D4F" stroke="#fff" stroke-width="2"/>'+
+     '<circle cx="620" cy="'+cy+'" r="6" fill="#2F7D4F" stroke="#fff" stroke-width="2"/>';
+  h+=tl(330,cy+30,13,'#7ED09A',T('nodept'));
+  // moon at node-angle position
+  var mx=40+TX.node/360*580;
+  var my=cy - A*Math.sin(d2r(TX.node));
+  var ok=txEclipse();
+  h+='<circle cx="'+mx.toFixed(0)+'" cy="'+my.toFixed(0)+'" r="12" fill="'+(ok?'#8C2F1B':'#E8E2D0')+'" stroke="'+(ok?'#D9542B':'#DA9526')+'" stroke-width="3"/>';
+  h+=tl(mx,my-22,14,'#F2C14E',T('moon'));
+  // verdict
+  h+=tl(330,H-18,16,ok?'#7ED09A':'#F2A08C',T(ok?'eclyes':'eclno'));
+  s.innerHTML=PAINT(h);
+  $('vtilt').textContent=TX.tilt.toFixed(1)+'°';
+  $('vnode').textContent=Math.round(TX.node)+'°';
+  $('rtilt').value=TX.tilt;$('rnode').value=TX.node;
+  updSummary();
+}
+function buildCmp(){
+  var rows;
+  if(LANG==='en'){
+    rows=[['','Solar eclipse 🌞','Lunar eclipse 🌕'],
+      ['Order','Sun – Moon – Earth','Sun – Earth – Moon'],
+      ['Moon phase','New moon (lunar day 1)','Full moon (day 15–16)'],
+      ['What is blocked','Moon blocks sunlight to Earth','Earth blocks sunlight to Moon'],
+      ['Who can see it','Only a narrow band on Earth','Entire night side of Earth'],
+      ['Types','Total / Annular / Partial','Total / Partial / Penumbral'],
+      ['Safe to watch?','❌ Needs eclipse glasses','✅ Naked eye is fine'],
+      ['Special look','Corona; day turns dark','Copper-red "blood moon"']];
+  }else{
+    rows=[['','日食 🌞','月食 🌕'],
+      ['三球顺序','太阳 – 月球 – 地球','太阳 – 地球 – 月球'],
+      ['发生月相','新月（农历初一）','满月（农历十五、十六）'],
+      ['谁挡住谁','月球挡住射向地球的阳光','地球挡住射向月球的阳光'],
+      ['可见范围','地球上一条狭窄地带','半个地球（夜晚一侧）都可见'],
+      ['种类','日全食 / 日环食 / 日偏食','月全食 / 月偏食 / 半影月食'],
+      ['能直接看吗','❌ 必须用日食眼镜','✅ 肉眼直接看没问题'],
+      ['特别现象','日冕；白天变黑','古铜红色的"红月亮"']];
+  }
+  var h='',i,j;
+  for(i=0;i<rows.length;i++){
+    h+='<tr>';
+    for(j=0;j<3;j++)h+=(i===0?'<th>':'<td>')+rows[i][j]+(i===0?'</th>':'</td>');
+    h+='</tr>';
+  }
+  $('cmptable').innerHTML=PAINT(h);
+}
+/* quiz */
+var QZ=[
+ {q:{zh:'1. 上弦月大约出现在农历的哪一天？',en:'1. Around which lunar-calendar day is FIRST QUARTER?'},
+  o:[{t:{zh:'初一',en:'Day 1'},f:{zh:'初一是新月——月球在日地之间，看不见。',en:'Day 1 is NEW moon — invisible.'}},
+     {t:{zh:'初七、初八',en:'Day 7–8'},ok:1,f:{zh:'✅ 正确！一个周期 29.5 天，走完 1/4 约 7.4 天。',en:'✅ Right — a quarter of 29.5 days ≈ 7.4.'}},
+     {t:{zh:'十五、十六',en:'Day 15–16'},f:{zh:'十五十六是满月。',en:'Day 15–16 is FULL moon.'}},
+     {t:{zh:'廿二、廿三',en:'Day 22–23'},f:{zh:'那是下弦月（左半亮）。',en:'That is LAST quarter (left half lit).'}}]},
+ {q:{zh:'2. 日食发生时，月相一定是？',en:'2. A solar eclipse can only happen at which phase?'},
+  o:[{t:{zh:'满月',en:'Full moon'},f:{zh:'满月时月球在地球背后，挡不住太阳——那是月食的位置。',en:'At full moon the Moon is behind Earth — that is the LUNAR eclipse position.'}},
+     {t:{zh:'新月',en:'New moon'},ok:1,f:{zh:'✅ 正确！月球必须在太阳和地球之间才能挡住阳光。',en:'✅ Right — the Moon must sit between Sun and Earth.'}},
+     {t:{zh:'上弦月',en:'First quarter'},f:{zh:'上弦月时三球成直角，挡不住。',en:'At quarter phases the three bodies form a right angle.'}},
+     {t:{zh:'任何月相都可以',en:'Any phase'},f:{zh:'必须三球接近一条直线，只有新月满足。',en:'The three must be nearly in line — only new moon works.'}}]},
+ {q:{zh:'3. 月全食时月亮呈古铜红色，原因是？',en:'3. Why does the Moon turn copper-red in a total lunar eclipse?'},
+  o:[{t:{zh:'月球表面在燃烧',en:'The Moon is burning'},f:{zh:'月球没有氧气，不可能燃烧。',en:'No oxygen on the Moon — nothing burns.'}},
+     {t:{zh:'地球大气把红光折射进影子里',en:'Earth\u2019s atmosphere bends red light into the shadow'},ok:1,f:{zh:'✅ 正确！蓝光被散射掉，红光折射弯进本影照亮月球。',en:'✅ Right — blue is scattered away, red refracts into the umbra.'}},
+     {t:{zh:'太阳变红了',en:'The Sun turns red'},f:{zh:'太阳没有变，变的是到达月球的光。',en:'The Sun is unchanged; the light path changed.'}},
+     {t:{zh:'月球发出红光',en:'The Moon glows red by itself'},f:{zh:'月亮自己不发光——这是本单元第一句话！',en:'The Moon does not glow by itself — lesson one!'}}]},
+ {q:{zh:'4. 大潮（潮差最大）发生在什么时候？',en:'4. When do SPRING tides (largest range) occur?'},
+  o:[{t:{zh:'新月和满月',en:'New moon and full moon'},ok:1,f:{zh:'✅ 正确！日、月、地成一直线，两股引潮力叠加。',en:'✅ Right — Sun, Moon, Earth in line: the two pulls add up.'}},
+     {t:{zh:'上弦月和下弦月',en:'First and last quarter'},f:{zh:'弦月时日月互相垂直，互相抵消——那是小潮。',en:'At quarters the pulls are perpendicular and partly cancel — NEAP tides.'}},
+     {t:{zh:'只有满月',en:'Only at full moon'},f:{zh:'新月时也在同一直线上（同侧），同样叠加。',en:'New moon also aligns the pulls — same effect.'}},
+     {t:{zh:'每天都一样',en:'Same every day'},f:{zh:'拖动第④页的月球看看潮差的变化！',en:'Drag the Moon in tab ④ and watch the range change!'}}]},
+ {q:{zh:'5. 为什么不是每个新月都有日食？',en:'5. Why isn\u2019t there a solar eclipse at every new moon?'},
+  o:[{t:{zh:'月球有时转得太快',en:'The Moon sometimes moves too fast'},f:{zh:'速度不是原因。',en:'Speed is not the reason.'}},
+     {t:{zh:'月球轨道与黄道面有约 5° 夹角',en:'The Moon\u2019s orbit is tilted ~5° from the ecliptic'},ok:1,f:{zh:'✅ 正确！大多数新月，月球从太阳上方或下方经过。',en:'✅ Right — at most new moons it passes above or below the Sun.'}},
+     {t:{zh:'白天看不到月亮',en:'We can\u2019t see the Moon in daytime'},f:{zh:'看不看得到不影响食是否发生。',en:'Visibility doesn\u2019t decide whether an eclipse happens.'}},
+     {t:{zh:'地球自转太快',en:'Earth spins too fast'},f:{zh:'自转决定谁看得到，不决定发不发生。',en:'Rotation decides WHO sees it, not WHETHER it happens.'}}]},
+ {q:{zh:'6. 海边通常一天有几次高潮？为什么？',en:'6. How many high tides a day at most coasts? Why?'},
+  o:[{t:{zh:'1 次——月球一天绕地球一圈',en:'1 — the Moon circles Earth daily'},f:{zh:'月球绕地球一圈要 27 天多，不是一天。',en:'The Moon takes over 27 days per orbit, not one day.'}},
+     {t:{zh:'2 次——地球每天转过两个隆起',en:'2 — Earth spins through TWO bulges daily'},ok:1,f:{zh:'✅ 正确！正对月球和背对月球各有一个隆起。',en:'✅ Right — one bulge faces the Moon, one is opposite.'}},
+     {t:{zh:'2 次——月球一天升起两次',en:'2 — the Moon rises twice a day'},f:{zh:'次数对，理由错：月球一天只升起一次。',en:'Right count, wrong reason: the Moon rises once a day.'}},
+     {t:{zh:'4 次——日潮加月潮',en:'4 — solar plus lunar tides'},f:{zh:'日潮和月潮叠加改变潮差，不改变次数。',en:'The solar tide changes the RANGE, not the count.'}}]},
+ {q:{zh:'7. 观���日偏食，正确的方法是？',en:'7. The correct way to watch a partial solar eclipse?'},
+  o:[{t:{zh:'戴普通墨镜看',en:'Ordinary sunglasses'},f:{zh:'❌ 墨镜完全不够！仍会灼伤视网膜。',en:'❌ Not nearly enough — retina damage is still possible.'}},
+     {t:{zh:'直接看，反正被挡住了',en:'Look directly — it\u2019s covered anyway'},f:{zh:'❌ 只要露出一丝太阳就足以伤眼。',en:'❌ Even a sliver of Sun can injure your eyes.'}},
+     {t:{zh:'使用专用日食眼镜或投影法',en:'Certified eclipse glasses or pinhole projection'},ok:1,f:{zh:'✅ 正确！这是唯一安全的方式。月食才可以直接看。',en:'✅ Right — the only safe methods. (Lunar eclipses ARE safe to view directly.)'}},
+     {t:{zh:'透过手机屏幕看',en:'Through a phone screen'},f:{zh:'❌ 长时间对准会损坏镜头，也可能反射伤眼；请用日食眼镜。',en:'❌ Risky for the camera and your eyes — use eclipse glasses.'}}]}
+];
+var QZdone=[];
+var QZi=0,QZpick=[],QZlock=[];
+function qzHead(){
+  var N=QZ.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZdone[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var h='',j,i,N=QZ.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('qzlist').innerHTML=PAINT('<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>');
+    return;
+  }
+  var d=QZ[QZi];
+  h+='<div class="q"><div class="qt">'+d.q[LANG]+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-oi="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j].t[LANG]+'</button>'+
+       '<div class="fb" id="fbq_'+j+'">'+d.o[j].f[LANG]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('qzlist').innerHTML=PAINT(h);
+  var btns=document.querySelectorAll('#qzlist .opt');
+  for(i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(){
+      if(QZlock[QZi])return;
+      var oi=+this.getAttribute('data-oi');
+      QZpick[QZi]=oi;
+      var ok=!!QZ[QZi].o[oi].ok;
+      if(QZdone[QZi]===undefined)QZdone[QZi]=ok;
+      if(ok)QZlock[QZi]=true;
+      restoreQ();
+      qzHead();
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function restoreQ(){
+  var d=QZ[QZi],j;
+  var ops=document.querySelectorAll('#qzlist .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var ok=!!d.o[oi].ok;
+  ops[oi].classList.add(ok?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZlock[QZi]?'':'none';
+}
+function updScore(){qzHead()}
+
+function initTX(){
+  $('rtilt').addEventListener('input',function(){TX.tilt=+this.value;drawTX()});
+  $('rnode').addEventListener('input',function(){TX.node=+this.value;drawTX()});
+  $('txplay').addEventListener('click',function(){
+    if(TX.playing){stopAllPlay();return}
+    stopAllPlay();TX.playing=true;this.classList.add('on');
+    var step=function(){
+      if(!TX.playing)return;
+      TX.node=(TX.node+1.2)%360;
+      drawTX(); RAF=requestAnimationFrame(step);
+    };
+    RAF=requestAnimationFrame(step);
+  });
+  $('qzreset').addEventListener('click',function(){QZdone=[];QZpick=[];QZlock=[];QZi=0;buildQuiz();updSummary()});
+}
+SUMMARY[4]=function(){return T('tab4')+' · '+TX.tilt.toFixed(1)+'° · '+T(txEclipse()?'eclyes':'eclno')};
+
+/* ================= boot ================= */
+RENDER[0]=drawPH;RENDER[1]=drawSE;RENDER[2]=drawLE;RENDER[3]=drawTD;
+var QZbuilt=false;
+RENDER[4]=function(){drawTX();buildCmp()};
+RENDER[5]=function(){buildQuiz()};
+SUMMARY[5]=function(){return T('qz_title')+' '+$('qzscore').textContent};
+function setLang(l){
+  LANG=l;
+  document.documentElement.setAttribute('lang',l==='en'?'en':'zh');
+  $('langbtn').textContent=l==='en'?'中':'EN';
+  applyI18n();
+  buildQuiz();
+  RENDER[CUR]();
+  updSummary();
+}
+$('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+initTabs();initPH();initSE();initLE();initTD();initTX();
+initExp();
+drawPH();
+window.__test=function(){
+  var i,j;
+  for(i=0;i<6;i++){RENDER[i]()}
+  for(i=0;i<=295;i+=5){PH.d=i/10;drawPH()}
+  PH.lock=true;drawPH();PH.lock=false;
+  for(i=360;i<=470;i+=10){SE.mx=i;for(j=-75;j<=75;j+=15){SE.oa=j;drawSE()}}
+  for(i=55;i<=375;i+=10){LE.my=i;drawLE()}
+  LE.atm=false;drawLE();LE.atm=true;
+  TD.sep=true;
+  for(i=0;i<360;i+=15){TD.phi=i;TD.rot=i*0.7;drawTD()}
+  TD.sep=false;drawTD();
+  for(i=0;i<=100;i+=5){TX.tilt=i/10;TX.node=i*3.6;drawTX()}
+  buildCmp();
+  for(i=0;i<QZ.length;i++){QZi=i;buildQuiz()}
+  QZi=0;QZpick=[0];QZlock=[];buildQuiz();
+  QZdone=[];QZpick=[];QZi=0;buildQuiz();
+  DARK=true;for(i=0;i<6;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<6;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'地月运动实验室',
+ subtitle:'月相 · 日食与月食 · 潮汐 —— 初中科学课堂演示工具（拖一拖，看一看）',
+ tab0:'① 月相',tab1:'② 日食',tab2:'③ 月食',tab3:'④ 潮汐',tab4:'⑤ 要点·测验',
+ ph_figtitle:'俯视图：从北极上空看（拖动月球绕地球转）',
+ ph_sidetitle:'从地球上看到的月亮',
+ ph_k1:'<b>月亮自己不发光</b>——永远只有<b>朝向太阳的一半</b>被照亮。我们在地球上看到被照亮部分的<b>不同角度</b>，就是月相变化。',
+ ph_k2:'口诀：<b>上弦月亮右半</b>，<b>下弦月亮左半</b>（北半球）。一个完整周期约 <b>29.5 天</b>，这就是农历一个月。',
+ se_figtitle:'日食：月球挡住太阳（拖动地球上的小人，改变月地距离）',
+ se_sidetitle:'小人抬头看到的天空',
+ se_k1:'日食只可能发生在<b>新月（农历初一）</b>：月球位于<b>太阳和地球之间</b>。<b>本影</b>里看到日全食，<b>半影</b>里看到日偏食；月球离地球较远、本影没碰到地面时，正对处看到<b>日环食</b>。',
+ se_k2:'⚠️ <b>安全提示：</b>绝对不可以用肉眼、普通墨镜或望远镜直视太阳！观察日食必须使用<b>专用日食眼镜</b>或投影法。',
+ le_figtitle:'月食：月球走进地球的影子（上下拖动月球）',
+ le_sidetitle:'为什么月全食是红色的？',
+ le_k1:'月食只可能发生在<b>满月（农历十五、十六）</b>：地球位于<b>太阳和月球之间</b>。月球全部进入<b>本影</b>→月全食；部分进入→月偏食；只进入半影→半影月食（只是稍微变暗）。',
+ le_k2:'月食时<b>半个地球（夜晚一侧）都能看到</b>，而且<b>可以直接用眼睛看</b>——因为月亮不刺眼。',
+ td_figtitle:'俯视图：海水的两个隆起（拖动月球，按 ▶ 让地球自转）',
+ td_sidetitle:'红点观察者的一天：潮位曲线',
+ td_k1:'月球（和太阳）的引力把海水拉出<b>两个隆起</b>：一个正对月球，一个背对月球。地球每天在两个隆起里各转过一次，所以海边通常<b>一天两次涨潮、两次退潮</b>。',
+ td_k2:'<b>大潮</b>：新月或满月，日、月引潮力<b>同一直线</b>，隆起叠加，潮差最大。<b>小潮</b>：上弦或下弦，两者<b>互相垂直</b>，互相抵消一部分，潮差最小。',
+ tx_figtitle:'为什么不是每个月都有日食月食？（拖动倾角滑杆）',
+ tx_k1:'月球轨道与地球公转轨道面（黄道面）有约 <b>5°</b> 的夹角。大多数新月/满月时，月球从影子的<b>上方或下方</b>经过，没有对齐。只有月球刚好走到两个轨道面的<b>交点附近</b>时才会发生日食或月食。把倾角拉到 0°，你会看到每个月都发生！',
+ tx_cmptitle:'���食 vs 月食 对照表',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ tab5:'⑥ 测验', dk_hint5:'💡 答对才会解锁下一题',
+ dk_day:'农历日期', dk_playmonth:'播放一个月', dk_lock:'🔴 同一面标记',
+ dk_mdist:'月地距离', dk_draghint1:'💡 上下拖动地球上的小人',
+ dk_atm:'🌍 地球有大气', dk_draghint2:'💡 上下拖动右侧的月球',
+ dk_moonpos:'月球位置', dk_spin:'地球自转', dk_sep:'显示月潮/日潮分解',
+ dk_tilt:'轨道倾角', dk_node:'月球位置(一年)', dk_year:'播放一年',
+ foot:'初中科学 · 太阳系单元 · 课堂演示用',
+ sun:'太阳', sunlight:'阳光', earth:'地球', moon:'月球', moonorbit:'月球轨道',
+ dragme:'拖我', day:'第', dayu:'天', lit:'被照亮', see:'看到',
+ umbra:'本影', penumbra:'半影', antumbra:'伪本影(本影延长)',
+ total:'日全食', annular:'日环食', partial:'日偏食', noecl:'没有日食',
+ ltotal:'月全食', lpartial:'月偏食', lpen:'半影月食', lno:'没有月食',
+ observer:'观察者', near:'较近', far:'较远',
+ highA:'高潮', lowA:'低潮', spring:'大潮', neap:'小潮',
+ lunartide:'月潮隆起', solartide:'日潮隆起', combined:'实际海面',
+ range:'潮差', hour:'时',
+ ecliptic:'黄道面（地球影子所在平面）', moonpath:'月球轨道(倾斜)',
+ nodept:'交点', shadowband:'地球影子区',
+ eclyes:'✅ 对齐了 → 发生日食/月食！', eclno:'❌ 从影子上/下方经过 → 没有食',
+ newm:'新月',waxc:'蛾眉月',firstq:'上弦月',waxg:'盈凸月',fullm:'满月',
+ wang:'亏凸月',lastq:'下弦月',wanc:'残月'
+},
+en:{
+ title:'Earth–Moon Motion Lab',
+ subtitle:'Moon Phases · Eclipses · Tides — an interactive classroom demo for junior-high science',
+ tab0:'① Phases',tab1:'② Solar Eclipse',tab2:'③ Lunar Eclipse',tab3:'④ Tides',tab4:'⑤ Review & Quiz',
+ ph_figtitle:'Top view from above the North Pole (drag the Moon around Earth)',
+ ph_sidetitle:'The Moon as seen from Earth',
+ ph_k1:'<b>The Moon does not glow by itself</b> — only the half <b>facing the Sun</b> is ever lit. From Earth we see this lit half from <b>different angles</b>: that is what phases are.',
+ ph_k2:'Memory aid (N. hemisphere): <b>first quarter — right half lit</b>, <b>last quarter — left half lit</b>. One full cycle ≈ <b>29.5 days</b> — one month of the lunar calendar.',
+ se_figtitle:'Solar eclipse: the Moon blocks the Sun (drag the observer; slide the Moon–Earth distance)',
+ se_sidetitle:'What the observer sees in the sky',
+ se_k1:'A solar eclipse can only happen at <b>new moon</b>: the Moon sits <b>between the Sun and Earth</b>. Inside the <b>umbra</b> you see a total eclipse; in the <b>penumbra</b>, a partial one. When the Moon is farther away and the umbra fails to reach the ground, the point directly in line sees an <b>annular eclipse</b>.',
+ se_k2:'⚠️ <b>Safety:</b> NEVER look at the Sun directly — not with bare eyes, sunglasses, or telescopes! Use <b>certified eclipse glasses</b> or a pinhole projection.',
+ le_figtitle:'Lunar eclipse: the Moon enters Earth\u2019s shadow (drag the Moon up/down)',
+ le_sidetitle:'Why does a total lunar eclipse look red?',
+ le_k1:'A lunar eclipse can only happen at <b>full moon</b>: Earth sits <b>between the Sun and the Moon</b>. Moon fully inside the <b>umbra</b> → total; partly inside → partial; only in the penumbra → penumbral (just slightly dimmer).',
+ le_k2:'A lunar eclipse is visible from the <b>entire night side of Earth</b>, and it is <b>safe to watch directly</b> — moonlight is not dazzling.',
+ td_figtitle:'Top view: the two ocean bulges (drag the Moon; press ▶ to spin Earth)',
+ td_sidetitle:'One day for the red observer: the tide curve',
+ td_k1:'The Moon\u2019s (and the Sun\u2019s) gravity pulls the ocean into <b>two bulges</b>: one facing the Moon and one on the opposite side. Each day Earth rotates through both, so most coasts get <b>two high tides and two low tides a day</b>.',
+ td_k2:'<b>Spring tide</b>: new or full moon — Sun and Moon pull <b>along one line</b>, bulges add up, biggest range. <b>Neap tide</b>: first or last quarter — they pull <b>at right angles</b> and partly cancel, smallest range.',
+ tx_figtitle:'Why isn\u2019t there an eclipse every month? (drag the tilt slider)',
+ tx_k1:'The Moon\u2019s orbit is tilted about <b>5°</b> from the plane of Earth\u2019s orbit (the ecliptic). At most new/full moons the Moon passes <b>above or below</b> the shadow — no alignment. Eclipses only happen when the Moon is near a <b>node</b>, where the two planes cross. Drag the tilt to 0° and watch an eclipse happen every month!',
+ tx_cmptitle:'Solar vs Lunar Eclipse',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ tab5:'⑥ Quiz', dk_hint5:'💡 Answer correctly to unlock the next question',
+ dk_day:'Lunar day', dk_playmonth:'Play one month', dk_lock:'🔴 Same-face marker',
+ dk_mdist:'Moon–Earth distance', dk_draghint1:'💡 Drag the observer up/down',
+ dk_atm:'🌍 Earth has atmosphere', dk_draghint2:'💡 Drag the Moon up/down',
+ dk_moonpos:'Moon position', dk_spin:'Spin Earth', dk_sep:'Show lunar/solar bulges',
+ dk_tilt:'Orbit tilt', dk_node:'Moon position (year)', dk_year:'Play one year',
+ foot:'Junior-high science · Solar System unit · for classroom projection',
+ sun:'Sun', sunlight:'Sunlight', earth:'Earth', moon:'Moon', moonorbit:'Moon\u2019s orbit',
+ dragme:'drag me', day:'Day', dayu:'', lit:'lit', see:'seen',
+ umbra:'Umbra', penumbra:'Penumbra', antumbra:'Antumbra (extended)',
+ total:'Total eclipse', annular:'Annular eclipse', partial:'Partial eclipse', noecl:'No eclipse',
+ ltotal:'Total lunar eclipse', lpartial:'Partial lunar eclipse', lpen:'Penumbral eclipse', lno:'No eclipse',
+ observer:'Observer', near:'near', far:'far',
+ highA:'High tide', lowA:'Low tide', spring:'SPRING tide', neap:'NEAP tide',
+ lunartide:'Lunar bulge', solartide:'Solar bulge', combined:'Actual sea surface',
+ range:'Range', hour:'h',
+ ecliptic:'Ecliptic plane (where Earth\u2019s shadow lies)', moonpath:'Moon\u2019s orbit (tilted)',
+ nodept:'Node', shadowband:'Earth\u2019s shadow zone',
+ eclyes:'✅ Aligned → eclipse happens!', eclno:'❌ Passes above/below the shadow → no eclipse',
+ newm:'New Moon',waxc:'Waxing Crescent',firstq:'First Quarter',waxg:'Waxing Gibbous',
+ fullm:'Full Moon',wang:'Waning Gibbous',lastq:'Last Quarter',wanc:'Waning Crescent'
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* halo text — halo colour chosen by fill luminance */
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+/* pointer position in viewBox coords */
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false});
+  svg.addEventListener('pointercancel',function(){down=false});
+}
+
+
+/* ===== theme (light/dark for projector) ===== */
+var DARK=false;
+var THMAP={'#FFFDF7':'#1E2637','#E3DCCB':'#39435C','#26221B':'#EDE7D6','#4B4437':'#D2CCBC',
+'#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];      // per-tab render fn
+var SUMMARY=[];     // per-tab dock-summary fn
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<6;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  stopAllPlay();
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='ftconcl'||kb.id==='dtconcl')continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* play-loop management */
+var RAF=0;
+function stopAllPlay(){
+  if(RAF){cancelAnimationFrame(RAF);RAF=0}
+  PH.playing=false;TD.playing=false;TX.playing=false;
+  $('phplay').classList.remove('on');$('tdplay').classList.remove('on');$('txplay').classList.remove('on');
+}
+
+/* ================= TAB 1 · MOON PHASES ================= */
+var PH={d:3, lock:false, playing:false};
+var PHC={cx:330,cy:280,R:180,rm:22,re:34};
+var PHNAMES=['newm','waxc','firstq','waxg','fullm','wang','lastq','wanc'];
+function phaseIndex(phi){ // phi 0..360 elongation
+  var i=Math.round(phi/45)%8; return i;
+}
+function phaseName(phi){
+  // exact quarters get exact names; else nearest of 8
+  return T(PHNAMES[phaseIndex(phi)]);
+}
+function lunarDate(d){
+  var n=Math.floor(d)+1; if(n>30)n=30;
+  if(LANG==='en')return 'Lunar day '+n;
+  var tens=['初','十','廿','三'];
+  var ones=['十','一','二','三','四','五','六','七','八','九'];
+  if(n===10)return '农历初十'; if(n===20)return '农历二十'; if(n===30)return '农历三十';
+  return '农历'+tens[Math.floor(n/10)]+ones[n%10];
+}
+function seeTime(phi){
+  var i=phaseIndex(phi);
+  var zh=['和太阳同升同落，整天看不见','傍晚西边低空，日落后不久落下','傍晚升到正南，上半夜可见，半夜落下','傍晚偏东升起，大半夜可见','太阳落它就升，整夜可见','天黑后较晚升起，后半夜到清晨可见','半夜升起，下半夜可���，清晨在正南','清晨东边低空，天亮前短暂可见'];
+  var en=['Rises and sets with the Sun — invisible all day','Low in the west at dusk; sets soon after the Sun','Due south at dusk; visible first half of the night','Rises in the east at dusk; up most of the night','Rises at sunset — visible ALL night','Rises later in the evening; visible after midnight till dawn','Rises at midnight; due south at dawn','Low in the east at dawn, briefly visible'];
+  return (LANG==='en'?en:zh)[i];
+}
+/* lit-shape path for the phase disc, radius R, elongation phi (0=new) */
+function litPath(phi,R){
+  var e=phi%360; if(e<0)e+=360;
+  var waning=e>180;
+  var pe=waning?360-e:e;           // 0..180
+  var rx=Math.abs(Math.cos(d2r(pe)))*R;
+  var d;
+  if(pe<=0.5)return {d:'',sx:1};
+  if(Math.abs(pe-90)<0.5){
+    d='M 0 '+(-R)+' A '+R+' '+R+' 0 0 1 0 '+R+' L 0 '+(-R)+' Z';
+  }else if(pe<90){ // crescent: right limb out, terminator bulges right (sweep 0)
+    d='M 0 '+(-R)+' A '+R+' '+R+' 0 0 1 0 '+R+' A '+rx.toFixed(1)+' '+R+' 0 0 0 0 '+(-R)+' Z';
+  }else{ // gibbous: right limb + terminator bulging left (sweep 1)
+    d='M 0 '+(-R)+' A '+R+' '+R+' 0 0 1 0 '+R+' A '+rx.toFixed(1)+' '+R+' 0 0 1 0 '+(-R)+' Z';
+  }
+  return {d:d, sx:waning?-1:1};
+}
+function drawPH(){
+  var s=$('svgph'),c=PHC;
+  var phi=PH.d/29.5*360;
+  var ang=d2r(180-phi);
+  var mx=c.cx+c.R*Math.cos(ang), my=c.cy+c.R*Math.sin(ang);
+  var h='';
+  // space bg
+  h+='<rect x="0" y="0" width="660" height="540" rx="10" fill="'+'#141C33'+'"/>';
+  var st='',i;
+  for(i=0;i<40;i++){var sx=(i*137)%660,sy=(i*89+31)%540;st+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  h+=st;
+  // sunlight arrows from left
+  for(i=0;i<5;i++){
+    var yy=90+i*90;
+    h+='<line x1="14" y1="'+yy+'" x2="92" y2="'+yy+'" stroke="#F2C14E" stroke-width="4"/>'+
+       '<path d="M 92 '+yy+' l -14 -8 l 0 16 Z" fill="#F2C14E"/>';
+  }
+  h+=tl(52,52,16,'#F2C14E',T('sunlight'));
+  // orbit
+  h+='<circle cx="'+c.cx+'" cy="'+c.cy+'" r="'+c.R+'" fill="none" stroke="#3A466B" stroke-width="2" stroke-dasharray="7 7"/>';
+  h+=tl(c.cx+c.R*0.74,c.cy-c.R*0.78,14,'#8FA0C7',T('moonorbit'));
+  // 8 snap markers with mini-phase icons
+  for(i=0;i<8;i++){
+    var p2=i*45, a2=d2r(180-p2);
+    var px=c.cx+c.R*Math.cos(a2), py=c.cy+c.R*Math.sin(a2);
+    var lp=litPath(p2,9);
+    h+='<g transform="translate('+Math.round(px)+' '+Math.round(py)+')">'+
+       '<circle r="11" fill="#141C33" stroke="#3A466B" stroke-width="1.5"/>'+
+       '<circle r="9" fill="#2A3352"/>'+
+       (lp.d?'<g transform="scale('+lp.sx+' 1)"><path d="'+lp.d+'" fill="#E8E2D0"/></g>':'')+'</g>';
+  }
+  // Earth (day side faces sun = left)
+  h+='<g transform="translate('+c.cx+' '+c.cy+')">'+
+     '<circle r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M 0 '+(-c.re)+' A '+c.re+' '+c.re+' 0 0 0 0 '+c.re+' Z" fill="#4FA3D1"/>'+
+     '<path d="M -12 -14 q 8 -6 16 2 q -6 10 -16 6 Z" fill="#2F7D4F" opacity="0.9"/>'+
+     '<path d="M -4 8 q 10 -4 14 6 q -8 8 -14 2 Z" fill="#2F7D4F" opacity="0.9"/>'+
+     '</g>';
+  h+=tl(c.cx,c.cy+c.re+22,15,'#F5F1E8',T('earth'));
+  // line earth->moon
+  h+='<line x1="'+c.cx+'" y1="'+c.cy+'" x2="'+Math.round(mx)+'" y2="'+Math.round(my)+'" stroke="#5A6489" stroke-width="1.5" stroke-dasharray="4 5"/>';
+  // Moon: left half (sun side) lit
+  h+='<g transform="translate('+Math.round(mx)+' '+Math.round(my)+')">'+
+     '<circle r="'+(c.rm+12)+'" fill="rgba(218,149,38,0.18)"/>'+
+     '<circle r="'+c.rm+'" fill="#4A4E63"/>'+
+     '<path d="M 0 '+(-c.rm)+' A '+c.rm+' '+c.rm+' 0 0 0 0 '+c.rm+' Z" fill="#E8E2D0"/>'+
+     '<circle r="'+c.rm+'" fill="none" stroke="#DA9526" stroke-width="2.5"/>';
+  if(PH.lock){
+    var ux=c.cx-mx, uy=c.cy-my, ul=Math.hypot(ux,uy);
+    h+='<circle cx="'+(ux/ul*(c.rm-5)).toFixed(0)+'" cy="'+(uy/ul*(c.rm-5)).toFixed(0)+'" r="4.5" fill="#D9542B"/>';
+  }
+  h+='</g>';
+  h+=tl(mx,my-c.rm-12,15,'#F2C14E',T('moon')+' 🖐 '+T('dragme'));
+  // day/night labels on earth sides
+  h+=tl(c.cx-c.re-30,c.cy+5,13,'#8FA0C7',LANG==='en'?'day':'白天');
+  h+=tl(c.cx+c.re+30,c.cy+5,13,'#8FA0C7',LANG==='en'?'night':'��晚');
+  s.innerHTML=PAINT(h);
+  drawPHside(phi);
+  // stats
+  $('phname').textContent=phaseName(phi);
+  $('phday').textContent=(LANG==='en'?'Day ':'第 ')+PH.d.toFixed(1)+(LANG==='en'?' / 29.5':' / 29.5 天');
+  $('phlunar').textContent=lunarDate(PH.d);
+  var frac=(1-Math.cos(d2r(phi)))/2;
+  $('phfrac').textContent=(LANG==='en'?'Lit ':'照亮 ')+Math.round(frac*100)+'%';
+  $('phsee').textContent='🕗 '+seeTime(phi);
+  $('vday').textContent=PH.d.toFixed(1);
+  $('rday').value=PH.d;
+  updSummary();
+}
+function drawPHside(phi){
+  var s=$('svgphside');
+  var R=95,cx=165,cy=125;
+  var lp=litPath(phi,R);
+  var h='<rect x="0" y="0" width="330" height="300" rx="10" fill="#141C33"/>';
+  var i;
+  for(i=0;i<24;i++){var sx2=(i*151+40)%330,sy2=(i*97+20)%300;h+='<circle cx="'+sx2+'" cy="'+sy2+'" r="1.2" fill="#8FA0C7"/>'}
+  h+='<g transform="translate('+cx+' '+cy+')">'+
+     '<circle r="'+R+'" fill="#232B47"/>'+
+     '<circle r="'+R+'" fill="none" stroke="#3A466B" stroke-width="2"/>';
+  if(lp.d)h+='<g transform="scale('+lp.sx+' 1)"><path d="'+lp.d+'" fill="#F0EBDA"/>'+
+     '<circle cx="-30" cy="-20" r="9" fill="rgba(38,34,27,0.10)"/>'+
+     '<circle cx="20" cy="30" r="12" fill="rgba(38,34,27,0.10)"/>'+
+     '<circle cx="35" cy="-40" r="6" fill="rgba(38,34,27,0.10)"/></g>';
+  h+='</g>';
+  h+=tl(cx,cy+R+38,16,'#F5F1E8',phaseName(phi));
+  s.innerHTML=PAINT(h);
+}
+function initPH(){
+  var s=$('svgph'),c=PHC;
+  makeDrag(s,660,540,function(p){
+    var a=Math.atan2(p.y-c.cy,p.x-c.cx);          // screen angle
+    var phi=180-a*180/Math.PI; phi=((phi%360)+360)%360;
+    PH.d=phi/360*29.5;
+    drawPH();
+  });
+  $('rday').addEventListener('input',function(){PH.d=+this.value;drawPH()});
+  $('phlock').addEventListener('click',function(){
+    PH.lock=!PH.lock;this.classList.toggle('on',PH.lock);drawPH();
+  });
+  $('phplay').addEventListener('click',function(){
+    if(PH.playing){stopAllPlay();return}
+    stopAllPlay();PH.playing=true;this.classList.add('on');
+    var step=function(){
+      if(!PH.playing)return;
+      PH.d+=0.06; if(PH.d>=29.5)PH.d-=29.5;
+      drawPH(); RAF=requestAnimationFrame(step);
+    };
+    RAF=requestAnimationFrame(step);
+  });
+}
+SUMMARY[0]=function(){return T('tab0')+' · '+(LANG==='en'?'Day ':'第')+PH.d.toFixed(1)+(LANG==='en'?'':'天')+' · '+phaseName(PH.d/29.5*360)};
+/* ================= TAB 2 · SOLAR ECLIPSE ================= */
+var SE={mx:452, oa:0};   // moon x; observer angle (deg, 0 = leftmost point of Earth, +up)
+var SEC={sx:88,sy:210,rs:72, ex:572,ey:210,re:44, rm:13};
+/* half-widths of shadow cones at horizontal position x (measured from axis y=sy) */
+function seWidths(x){
+  var D=SE.mx-SEC.sx;
+  var wu=SEC.rm-(x-SE.mx)*(SEC.rs-SEC.rm)/D;   // umbra (>0) / antumbra (<0)
+  var wp=SEC.rm+(x-SE.mx)*(SEC.rs+SEC.rm)/D;   // penumbra
+  return {wu:wu,wp:wp,D:D};
+}
+function seObserver(){
+  var a=d2r(180-SE.oa);   // screen angle: 180 = left point
+  return {x:SEC.ex+SEC.re*Math.cos(a), y:SEC.ey-SEC.re*Math.sin(d2r(SE.oa))};
+}
+function seClassify(){
+  var o=seObserver(), w=seWidths(o.x), off=Math.abs(o.y-SEC.sy);
+  if(w.wu>0 && off<=w.wu)return 'total';
+  if(w.wu<=0 && off<=-w.wu)return 'annular';
+  if(off<=w.wp)return 'partial';
+  return 'noecl';
+}
+function drawSE(){
+  var s=$('svgse'),c=SEC;
+  var h='<rect x="0" y="0" width="660" height="430" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<36;i++){var sx=(i*149+15)%660,sy=(i*83+22)%430;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  var mx=SE.mx,my=c.sy;
+  var D=mx-c.sx;
+  // penumbra polygon: internal tangents through crossing point P between S and M
+  // simplified straight-edge construction using top/bottom edge points of sun and moon
+  var far=660;
+  function edge(x1,y1,x2,y2,X){ // extend line (x1,y1)-(x2,y2) to x=X, return y
+    return y1+(y2-y1)*(X-x1)/(x2-x1);
+  }
+  // penumbra edges: sun top -> moon bottom, sun bottom -> moon top
+  var pTop=edge(c.sx,c.sy-c.rs, mx,my+c.rm, far);
+  var pBot=edge(c.sx,c.sy+c.rs, mx,my-c.rm, far);
+  h+='<path d="M '+mx+' '+(my+c.rm)+' L '+far+' '+pTop.toFixed(0)+' L '+far+' '+pBot.toFixed(0)+' L '+mx+' '+(my-c.rm)+' Z" fill="rgba(90,100,137,0.30)"/>';
+  // umbra edges: sun top -> moon top, sun bottom -> moon bottom (converge)
+  var apex=mx + c.rm*D/(c.rs-c.rm);
+  h+='<path d="M '+mx+' '+(my-c.rm)+' L '+apex.toFixed(0)+' '+my+' L '+mx+' '+(my+c.rm)+' Z" fill="rgba(10,12,22,0.92)"/>';
+  // antumbra beyond apex (dashed outline)
+  if(apex<far){
+    var aTop=edge(c.sx,c.sy+c.rs, mx,my-c.rm, far);
+    var aBot=edge(c.sx,c.sy-c.rs, mx,my+c.rm, far);
+    h+='<path d="M '+apex.toFixed(0)+' '+my+' L '+far+' '+aTop.toFixed(0)+' L '+far+' '+aBot.toFixed(0)+' Z" fill="rgba(44,125,140,0.20)" stroke="#2C7D8C" stroke-width="1.5" stroke-dasharray="5 5"/>';
+  }
+  // sun
+  h+='<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+(c.rs+14)+'" fill="rgba(242,193,78,0.20)"/>'+
+     '<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+c.rs+'" fill="#F2C14E"/>'+
+     '<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+c.rs+'" fill="none" stroke="#DA9526" stroke-width="3"/>';
+  h+=tl(c.sx,c.sy+5,18,'#26221B',T('sun'));
+  // moon
+  h+='<circle cx="'+mx+'" cy="'+my+'" r="'+c.rm+'" fill="#B9B2A0" stroke="#F5F1E8" stroke-width="2"/>';
+  h+=tl(mx,my-c.rm-10,14,'#F5F1E8',T('moon'));
+  // earth with day side facing sun; night right
+  h+='<circle cx="'+c.ex+'" cy="'+c.ey+'" r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M '+c.ex+' '+(c.ey-c.re)+' A '+c.re+' '+c.re+' 0 0 0 '+c.ex+' '+(c.ey+c.re)+' Z" fill="#4FA3D1"/>';
+  h+=tl(c.ex,c.ey+c.re+20,15,'#F5F1E8',T('earth'));
+  // labels for zones
+  h+=tl((mx+apex)/2,my-6,14,'#F5F1E8',T('umbra'));
+  var wlab=seWidths(mx+55);
+  h+=tl(mx+55,my+wlab.wp*0.65+6,14,'#AEB8D6',T('penumbra'));
+  if(apex<far-40)h+=tl((apex+far)/2,my+34,13,'#7FB6C2',T('antumbra'));
+  // observer
+  var o=seObserver();
+  var cls=seClassify();
+  var col=cls==='total'?'#D9542B':cls==='annular'?'#DA9526':cls==='partial'?'#2C7D8C':'#8FA0C7';
+  h+='<line x1="'+Math.round(o.x)+'" y1="'+Math.round(o.y)+'" x2="'+mx+'" y2="'+my+'" stroke="'+col+'" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.8"/>';
+  h+='<circle cx="'+Math.round(o.x)+'" cy="'+Math.round(o.y)+'" r="14" fill="rgba(217,84,43,0.25)"/>'+
+     '<circle cx="'+Math.round(o.x)+'" cy="'+Math.round(o.y)+'" r="6.5" fill="#D9542B" stroke="#FFFFFF" stroke-width="2"/>';
+  h+=tl(o.x+4,o.y-18,14,'#F5F1E8','🖐 '+T('observer'));
+  s.innerHTML=PAINT(h);
+  drawSEsky(cls);
+  var far2=SE.mx>=440;
+  $('setype').textContent=T(cls);
+  $('sedist').textContent=(LANG==='en'?'Moon: ':'月球：')+T(far2?'near':'far');
+  $('vmd').textContent=T(SE.mx>=440?'near':'far');
+  var notes={
+    total:{zh:'小人在【本影】里：太阳被完全挡住，白天变黑，能看到日冕。',
+           en:'Inside the UMBRA: the Sun is fully blocked — daytime darkness, corona visible.'},
+    annular:{zh:'月球较远，本影没碰到地面。小人在【伪本影】里：月亮"不够大"，挡不住整个太阳，留下一圈金环。',
+           en:'The Moon is farther, so the umbra falls short of the ground. In the ANTUMBRA the Moon looks too small — a ring of Sun remains.'},
+    partial:{zh:'小人在【半影】里：太阳只被挡住一部分，像被咬了一口。',
+           en:'Inside the PENUMBRA: only part of the Sun is covered — a "bite" is missing.'},
+    noecl:{zh:'小人在影子外面：看到完整的太阳，没有日食。把小人拖进影子里试试！',
+           en:'Outside the shadows: the full Sun is visible. Drag the observer into a shadow!'}
+  };
+  $('senote').textContent=notes[cls][LANG];
+  updSummary();
+}
+function drawSEsky(cls){
+  var s=$('svgsesky');
+  var o=seObserver(),c=SEC;
+  // apparent radii & offset
+  var dS=Math.hypot(o.x-c.sx,o.y-c.sy), dM=Math.hypot(o.x-SE.mx,o.y-c.sy);
+  var aS=c.rs/dS, aM=c.rm/dM;
+  var angS=Math.atan2(c.sy-o.y,c.sx-o.x), angM=Math.atan2(c.sy-o.y,SE.mx-o.x);
+  var doff=(angM-angS);
+  var RS=62;                      // display sun radius
+  var RM=RS*aM/aS;
+  var OFF=clamp(doff/aS*62,-200,200);
+  var cx=165,cy=128;
+  var h='<rect x="0" y="0" width="330" height="300" rx="10" fill="'+(cls==='total'?'#0B1020':'#7FB6DC')+'"/>';
+  if(cls==='total'){
+    var i;for(i=0;i<18;i++){var sx=(i*151+40)%330,sy=(i*97+20)%260;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  }
+  // sun disc
+  h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+RS+'" fill="#F2C14E"/>';
+  if(cls==='total')h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(RS+16)+'" fill="none" stroke="rgba(242,241,232,0.7)" stroke-width="10"/>';
+  // moon disc covering
+  h+='<circle cx="'+(cx+OFF).toFixed(0)+'" cy="'+cy+'" r="'+RM.toFixed(0)+'" fill="'+(cls==='total'?'#0B1020':'#26221B')+'"/>';
+  // ground
+  h+='<rect x="0" y="252" width="330" height="48" fill="'+(cls==='total'?'#1A2438':'#2F7D4F')+'"/>';
+  h+='<circle cx="60" cy="252" r="9" fill="#D9542B"/><rect x="56" y="252" width="8" height="26" rx="3" fill="#D9542B"/>';
+  h+=tl(165,286,14,cls==='total'?'#F5F1E8':'#F5F1E8',T(cls));
+  s.innerHTML=PAINT(h);
+}
+function initSE(){
+  var s=$('svgse'),c=SEC;
+  makeDrag(s,660,430,function(p){
+    // vertical drag anywhere moves the observer along Earth's sun-facing limb
+    SE.oa=clamp((c.ey-p.y)*1.4, -75,75);
+    drawSE();
+  });
+  $('rmd').addEventListener('input',function(){SE.mx=+this.value;drawSE()});
+}
+SUMMARY[1]=function(){return T('tab1')+' · '+T(seClassify())};
+
+/* ================= TAB 3 · LUNAR ECLIPSE ================= */
+var LE={my:120, atm:true};
+var LEC={sx:84,sy:200,rs:62, ex:392,ey:200,re:36, mxx:530, rm:14};
+function leWidths(x){
+  var D=LEC.ex-LEC.sx;
+  var wu=LEC.re-(x-LEC.ex)*(LEC.rs-LEC.re)/D;
+  var wp=LEC.re+(x-LEC.ex)*(LEC.rs+LEC.re)/D;
+  return {wu:wu,wp:wp};
+}
+function leClassify(){
+  var w=leWidths(LEC.mxx), off=Math.abs(LE.my-LEC.ey);
+  if(off+LEC.rm<=w.wu)return 'ltotal';
+  if(off-LEC.rm<w.wu)return 'lpartial';
+  if(off-LEC.rm<w.wp)return 'lpen';
+  return 'lno';
+}
+function drawLE(){
+  var s=$('svgle'),c=LEC;
+  var h='<rect x="0" y="0" width="660" height="430" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<36;i++){var sx=(i*149+15)%660,sy=(i*83+22)%430;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  var far=660;
+  function edge(x1,y1,x2,y2,X){return y1+(y2-y1)*(X-x1)/(x2-x1)}
+  // penumbra of earth
+  var pTop=edge(c.sx,c.sy-c.rs, c.ex,c.ey+c.re, far);
+  var pBot=edge(c.sx,c.sy+c.rs, c.ex,c.ey-c.re, far);
+  h+='<path d="M '+c.ex+' '+(c.ey+c.re)+' L '+far+' '+pTop.toFixed(0)+' L '+far+' '+pBot.toFixed(0)+' L '+c.ex+' '+(c.ey-c.re)+' Z" fill="rgba(90,100,137,0.30)"/>';
+  // umbra cone (apex beyond view)
+  var D=c.ex-c.sx;
+  var uTop=edge(c.sx,c.sy-c.rs, c.ex,c.ey-c.re, far);
+  var uBot=edge(c.sx,c.sy+c.rs, c.ex,c.ey+c.re, far);
+  var ufill=LE.atm?'rgba(60,18,10,0.92)':'rgba(8,10,18,0.95)';
+  h+='<path d="M '+c.ex+' '+(c.ey-c.re)+' L '+far+' '+uTop.toFixed(0)+' L '+far+' '+uBot.toFixed(0)+' L '+c.ex+' '+(c.ey+c.re)+' Z" fill="'+ufill+'"/>';
+  void D;
+  // sun
+  h+='<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+(c.rs+14)+'" fill="rgba(242,193,78,0.20)"/>'+
+     '<circle cx="'+c.sx+'" cy="'+c.sy+'" r="'+c.rs+'" fill="#F2C14E"/>';
+  h+=tl(c.sx,c.sy+5,18,'#26221B',T('sun'));
+  // earth + atmosphere ring
+  if(LE.atm)h+='<circle cx="'+c.ex+'" cy="'+c.ey+'" r="'+(c.re+6)+'" fill="none" stroke="rgba(127,182,220,0.55)" stroke-width="6"/>';
+  h+='<circle cx="'+c.ex+'" cy="'+c.ey+'" r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M '+c.ex+' '+(c.ey-c.re)+' A '+c.re+' '+c.re+' 0 0 0 '+c.ex+' '+(c.ey+c.re)+' Z" fill="#4FA3D1"/>';
+  h+=tl(c.ex,c.ey+c.re+24,15,'#F5F1E8',T('earth'));
+  // zone labels
+  h+=tl(c.ex+78,c.ey+6,14,'#F5F1E8',T('umbra'));
+  h+=tl(c.ex+78,c.ey-c.re-22,14,'#AEB8D6',T('penumbra'));
+  // moon path guide
+  h+='<line x1="'+c.mxx+'" y1="40" x2="'+c.mxx+'" y2="390" stroke="#3A466B" stroke-width="2" stroke-dasharray="6 6"/>';
+  // moon with shading by zone bands, clipped
+  var w=leWidths(c.mxx);
+  var cls=leClassify();
+  var moonbase=cls==='lpen'?'#CFC9B8':'#E8E2D0';
+  h+='<defs><clipPath id="mclip"><circle cx="'+c.mxx+'" cy="'+Math.round(LE.my)+'" r="'+c.rm+'"/></clipPath></defs>';
+  h+='<circle cx="'+c.mxx+'" cy="'+Math.round(LE.my)+'" r="'+c.rm+'" fill="'+moonbase+'"/>';
+  // umbra band across moon
+  var redc=LE.atm?'#8C2F1B':'#0B0D16';
+  h+='<g clip-path="url(#mclip)">'+
+     '<rect x="'+(c.mxx-30)+'" y="'+(c.ey-w.wp).toFixed(0)+'" width="60" height="'+(2*w.wp).toFixed(0)+'" fill="rgba(20,24,40,0.30)"/>'+
+     '<rect x="'+(c.mxx-30)+'" y="'+ (c.ey-w.wu).toFixed(0)+'" width="60" height="'+(2*w.wu).toFixed(0)+'" fill="'+redc+'"/>'+
+     '</g>';
+  h+='<circle cx="'+c.mxx+'" cy="'+Math.round(LE.my)+'" r="'+c.rm+'" fill="none" stroke="#DA9526" stroke-width="2.5"/>';
+  h+=tl(c.mxx-4,Math.round(LE.my)-c.rm-10,15,'#F2C14E','🖐 '+T('moon'));
+  s.innerHTML=PAINT(h);
+  drawLEatm();
+  $('letype').textContent=T(cls);
+  var colzh={ltotal:LE.atm?'古铜红色':'几乎全黑',lpartial:'缺了一块',lpen:'稍微变暗',lno:'明亮满月'};
+  var colen={ltotal:LE.atm?'copper red':'nearly black',lpartial:'bite missing',lpen:'slightly dim',lno:'bright full moon'};
+  $('lecolor').textContent=(LANG==='en'?colen:colzh)[cls];
+  var notes={
+    ltotal:{zh:LE.atm?'月球完全在本影里。太阳光穿过地球大气时，蓝光被散射掉、红光被折射弯进影子里，照在月亮上——所以是"红月亮"。':'没有大气折射红光，本影里一片漆黑，月亮几乎消失。',
+            en:LE.atm?'The Moon is fully inside the umbra. Sunlight passing through Earth\u2019s atmosphere loses its blue (scattered away) while red light bends into the shadow and lights the Moon — the "blood moon".':'With no atmosphere to bend red light in, the umbra is pitch dark and the Moon almost disappears.'},
+    lpartial:{zh:'月球一部分在本影里（暗红/黑），一部分在外面（亮）——月偏食。',en:'Part of the Moon is in the umbra (dark red), part outside (bright) — a partial eclipse.'},
+    lpen:{zh:'月球只进入半影：亮度稍降，不仔细看几乎察觉不到。',en:'Only in the penumbra: the Moon just dims slightly — hard to notice.'},
+    lno:{zh:'月球在影子外：正常的明亮满月。把月球拖进影子里试试！',en:'Outside the shadow: an ordinary bright full moon. Drag it into the shadow!'}
+  };
+  $('lenote').textContent=notes[cls][LANG];
+  updSummary();
+}
+function drawLEatm(){
+  var s=$('svgleatm');
+  var cx=95,cy=130,re=44;
+  var h='<rect x="0" y="0" width="330" height="260" rx="10" fill="#141C33"/>';
+  // incoming white light arrows
+  h+='<line x1="6" y1="86" x2="46" y2="86" stroke="#F2C14E" stroke-width="4"/>'+
+     '<line x1="6" y1="174" x2="46" y2="174" stroke="#F2C14E" stroke-width="4"/>';
+  h+=tl(26,72,13,'#F2C14E',T('sunlight'));
+  if(LE.atm){
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(re+9)+'" fill="none" stroke="rgba(127,182,220,0.5)" stroke-width="9"/>';
+    // blue scattered out
+    h+='<path d="M 60 84 q 14 -18 30 -26" fill="none" stroke="#4FA3D1" stroke-width="3" stroke-dasharray="4 4"/>'+
+       '<path d="M 60 176 q 14 18 30 26" fill="none" stroke="#4FA3D1" stroke-width="3" stroke-dasharray="4 4"/>';
+    h+=tl(122,46,13,'#4FA3D1',LANG==='en'?'blue scattered away':'蓝光被散射掉');
+    // red refracted inward toward moon
+    h+='<path d="M 46 86 Q '+cx+' 88 300 126" fill="none" stroke="#D9542B" stroke-width="4"/>'+
+       '<path d="M 46 174 Q '+cx+' 172 300 134" fill="none" stroke="#D9542B" stroke-width="4"/>';
+    h+=tl(210,102,13,'#D9542B',LANG==='en'?'red bends into the shadow':'红光折射弯进影子');
+  }
+  h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+re+'" fill="#1F5E8C"/>';
+  h+=tl(cx,cy+5,14,'#F5F1E8',T('earth'));
+  // moon at right
+  h+='<circle cx="292" cy="130" r="16" fill="'+(LE.atm?'#8C2F1B':'#181B29')+'" stroke="#DA9526" stroke-width="2"/>';
+  h+=tl(292,164,13,'#F5F1E8',T('moon'));
+  if(!LE.atm)h+=tl(165,236,14,'#8FA0C7',LANG==='en'?'No atmosphere → black moon':'没有大气 → 月亮变黑');
+  s.innerHTML=PAINT(h);
+}
+function initLE(){
+  var s=$('svgle');
+  makeDrag(s,660,430,function(p){
+    LE.my=clamp(p.y,55,375);
+    drawLE();
+  });
+  $('leatm').addEventListener('click',function(){
+    LE.atm=!LE.atm;this.classList.toggle('on',LE.atm);drawLE();
+  });
+}
+SUMMARY[2]=function(){return T('tab2')+' · '+T(leClassify())};
+/* ================= TAB 4 · TIDES ================= */
+var TD={phi:0, rot:0, playing:false, sep:false};   // phi = moon elongation from sun dir; rot = earth rotation deg
+var TDC={cx:320,cy:250,re:56,base:42,Am:22,As:10,Rorb:186,rm:18};
+function tideR(theta,thM){ // sea-surface radius at earth angle theta (screen rad), moon at thM
+  var c=TDC;
+  return c.re+c.base+c.Am*Math.cos(2*(theta-thM))+c.As*Math.cos(2*(theta-Math.PI));
+}
+function envPath(fn){
+  var pts=[],i;
+  for(i=0;i<=72;i++){
+    var th=i/72*2*Math.PI;
+    var r=fn(th);
+    pts.push((TDC.cx+r*Math.cos(th)).toFixed(1)+' '+(TDC.cy+r*Math.sin(th)).toFixed(1));
+  }
+  return 'M '+pts.join(' L ')+' Z';
+}
+function tideStats(){
+  var c=TDC;
+  var phi=TD.phi;
+  // amplitude of combined semidiurnal signal: vector sum of two cos(2θ) components offset by 2*angle between axes
+  var dAng=d2r(phi);        // angle between moon axis and sun axis
+  var A=Math.sqrt(c.Am*c.Am+c.As*c.As+2*c.Am*c.As*Math.cos(2*dAng));
+  var maxA=c.Am+c.As, minA=c.Am-c.As;
+  var springish=A>(maxA+minA)/2;
+  return {A:A,springish:springish};
+}
+function drawTD(){
+  var s=$('svgtd'),c=TDC;
+  var phi=TD.phi;
+  var thM=d2r(180-phi);     // moon screen angle (same convention as tab1)
+  var h='<rect x="0" y="0" width="660" height="500" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<36;i++){var sx=(i*149+15)%660,sy=(i*83+22)%500;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  // sun arrows from left
+  for(i=0;i<4;i++){
+    var yy=110+i*90;
+    h+='<line x1="12" y1="'+yy+'" x2="76" y2="'+yy+'" stroke="#F2C14E" stroke-width="4"/>'+
+       '<path d="M 76 '+yy+' l -13 -7 l 0 14 Z" fill="#F2C14E"/>';
+  }
+  h+=tl(44,88,15,'#F2C14E',T('sun')+' →');
+  // orbit
+  h+='<circle cx="'+c.cx+'" cy="'+c.cy+'" r="'+c.Rorb+'" fill="none" stroke="#3A466B" stroke-width="2" stroke-dasharray="7 7"/>';
+  // separate envelopes (dashed) if toggled
+  if(TD.sep){
+    h+='<path d="'+envPath(function(th){return c.re+c.base+c.Am*Math.cos(2*(th-thM))})+'" fill="none" stroke="#DA9526" stroke-width="2.5" stroke-dasharray="6 5"/>';
+    h+='<path d="'+envPath(function(th){return c.re+c.base+c.As*Math.cos(2*(th-Math.PI))})+'" fill="none" stroke="#4FA3D1" stroke-width="2.5" stroke-dasharray="6 5"/>';
+  }
+  // combined water envelope
+  h+='<path d="'+envPath(function(th){return tideR(th,thM)})+'" fill="rgba(79,163,209,0.35)" stroke="#4FA3D1" stroke-width="3"/>';
+  // earth
+  h+='<circle cx="'+c.cx+'" cy="'+c.cy+'" r="'+c.re+'" fill="#1F5E8C"/>'+
+     '<path d="M '+(c.cx-14)+' '+(c.cy-22)+' q 12 -8 24 2 q -8 14 -24 8 Z" fill="#2F7D4F"/>'+
+     '<path d="M '+(c.cx-4)+' '+(c.cy+8)+' q 14 -6 20 8 q -10 12 -20 4 Z" fill="#2F7D4F"/>';
+  h+=tl(c.cx,c.cy+5,15,'#F5F1E8',T('earth'));
+  // observer on earth surface at rotation angle
+  var oth=d2r(TD.rot);
+  var ox=c.cx+(c.re-2)*Math.cos(oth), oy=c.cy+(c.re-2)*Math.sin(oth);
+  h+='<circle cx="'+ox.toFixed(0)+'" cy="'+oy.toFixed(0)+'" r="7" fill="#D9542B" stroke="#fff" stroke-width="2"/>';
+  // water depth marker at observer: line to sea surface
+  var rw=tideR(oth,thM);
+  var wx=c.cx+rw*Math.cos(oth), wy=c.cy+rw*Math.sin(oth);
+  h+='<line x1="'+ox.toFixed(0)+'" y1="'+oy.toFixed(0)+'" x2="'+wx.toFixed(0)+'" y2="'+wy.toFixed(0)+'" stroke="#D9542B" stroke-width="3"/>';
+  // moon
+  var mx=c.cx+c.Rorb*Math.cos(thM), my=c.cy+c.Rorb*Math.sin(thM);
+  h+='<line x1="'+c.cx+'" y1="'+c.cy+'" x2="'+mx.toFixed(0)+'" y2="'+my.toFixed(0)+'" stroke="#5A6489" stroke-width="1.5" stroke-dasharray="4 5"/>';
+  h+='<circle cx="'+mx.toFixed(0)+'" cy="'+my.toFixed(0)+'" r="'+c.rm+'" fill="#4A4E63"/>'+
+     '<path d="M '+mx.toFixed(0)+' '+(my-c.rm).toFixed(0)+' A '+c.rm+' '+c.rm+' 0 0 0 '+mx.toFixed(0)+' '+(my+c.rm).toFixed(0)+' Z" fill="#E8E2D0"/>'+
+     '<circle cx="'+mx.toFixed(0)+'" cy="'+my.toFixed(0)+'" r="'+c.rm+'" fill="none" stroke="#DA9526" stroke-width="2.5"/>';
+  h+=tl(mx,my-c.rm-10,15,'#F2C14E','🖐 '+T('moon'));
+  // legend
+  h+=tl(560,36,14,'#4FA3D1',T('combined'),'end');
+  if(TD.sep){
+    h+=tl(560,58,13,'#DA9526',T('lunartide'),'end');
+    h+=tl(560,78,13,'#4FA3D1',T('solartide'),'end');
+  }
+  s.innerHTML=PAINT(h);
+  drawTDcurve();
+  var st=tideStats();
+  var phn=phaseName(phi);
+  $('tdtype').textContent=st.springish?('🌊 '+T('spring')):('〰 '+T('neap'));
+  $('tdphase').textContent=(LANG==='en'?'Phase: ':'月相：')+phn;
+  $('tdrange').textContent=T('range')+' ≈ '+(2*st.A/ (2*(TDC.Am+TDC.As)) *100).toFixed(0)+'%';
+  $('vtphi').textContent=Math.round(TD.phi)+'°';
+  $('rtphi').value=TD.phi;
+  updSummary();
+}
+function drawTDcurve(){
+  var s=$('svgtdcurve'),c=TDC;
+  var W=330,H=250,L=40,R2=316,Tp=26,B=200;
+  var thM=d2r(180-TD.phi);
+  var h='<rect x="0" y="0" width="'+W+'" height="'+H+'" rx="10" fill="#FFFDF7" stroke="#E3DCCB" stroke-width="2"/>';
+  // axes, FIXED scale: y from -(Am+As) to +(Am+As)
+  var Amax=c.Am+c.As;
+  function X(t){return L+(R2-L)*t/24}
+  function Y(v){return (Tp+B)/2 - v/Amax*(B-Tp)/2}
+  h+='<line x1="'+L+'" y1="'+Y(0).toFixed(0)+'" x2="'+R2+'" y2="'+Y(0).toFixed(0)+'" stroke="#E3DCCB" stroke-width="1.5"/>';
+  var i;
+  for(i=0;i<=24;i+=6){
+    h+='<line x1="'+X(i).toFixed(0)+'" y1="'+B+'" x2="'+X(i).toFixed(0)+'" y2="'+(B+5)+'" stroke="#8A8070" stroke-width="1.5"/>';
+    h+=tlplain(X(i),B+20,13,'#6B6252',i+(LANG==='en'?'h':'时'));
+  }
+  // curve: observer angle over 24h: earth spins 360° (plus a bit, ignore) => tide height vs t
+  var pts=[];
+  for(i=0;i<=96;i++){
+    var t=i/96*24;
+    var th=d2r(TD.rot)+d2r(t/24*360);
+    var v=c.Am*Math.cos(2*(th-thM))+c.As*Math.cos(2*(th-Math.PI));
+    pts.push(X(t).toFixed(1)+' '+Y(v).toFixed(1));
+  }
+  h+='<path d="M '+pts.join(' L ')+'" fill="none" stroke="#2C7D8C" stroke-width="3"/>';
+  // current marker at t=0
+  var v0=c.Am*Math.cos(2*(d2r(TD.rot)-thM))+c.As*Math.cos(2*(d2r(TD.rot)-Math.PI));
+  h+='<circle cx="'+X(0).toFixed(0)+'" cy="'+Y(v0).toFixed(0)+'" r="6" fill="#D9542B" stroke="#fff" stroke-width="2"/>';
+  h+=tl(L+6,Tp+2,13,'#2F7D4F',T('highA'),'start');
+  h+=tl(L+6,B-2,13,'#D9542B',T('lowA'),'start');
+  h+=tlplain(W/2,H-8,13,'#6B6252',LANG==='en'?'≈ 2 highs + 2 lows per day':'一天约两次高潮、两次低潮');
+  s.innerHTML=PAINT(h);
+}
+function initTD(){
+  var s=$('svgtd'),c=TDC;
+  makeDrag(s,660,500,function(p){
+    var d=Math.hypot(p.x-c.cx,p.y-c.cy);
+    if(d>c.re+c.base+c.Am+c.As+8){    // outside water => drag moon
+      var a=Math.atan2(p.y-c.cy,p.x-c.cx);
+      var phi=180-a*180/Math.PI; phi=((phi%360)+360)%360;
+      TD.phi=phi;
+    }else{                             // inside => drag observer
+      TD.rot=Math.atan2(p.y-c.cy,p.x-c.cx)*180/Math.PI;
+    }
+    drawTD();
+  });
+  $('rtphi').addEventListener('input',function(){TD.phi=+this.value;drawTD()});
+  $('tdsep').addEventListener('click',function(){
+    TD.sep=!TD.sep;this.classList.toggle('on',TD.sep);drawTD();
+  });
+  $('tdplay').addEventListener('click',function(){
+    if(TD.playing){stopAllPlay();return}
+    stopAllPlay();TD.playing=true;this.classList.add('on');
+    var step=function(){
+      if(!TD.playing)return;
+      TD.rot=(TD.rot+0.8)%360;
+      TD.phi=(TD.phi+0.8/29.5)%360;   // moon also creeps => next-day 50-min delay hinted
+      drawTD(); RAF=requestAnimationFrame(step);
+    };
+    RAF=requestAnimationFrame(step);
+  });
+}
+SUMMARY[3]=function(){var st=tideStats();return T('tab3')+' · '+(st.springish?T('spring'):T('neap'))+' · '+Math.round(TD.phi)+'°'};
+
+/* ================= TAB 5 · TILT + TABLE + QUIZ ================= */
+var TX={tilt:5.1, node:60, playing:false};
+function txOffset(){ // vertical miss distance of moon vs shadow at syzygy, in px
+  return 90*Math.sin(d2r(TX.tilt))/Math.sin(d2r(10))*Math.sin(d2r(TX.node));
+}
+function txEclipse(){
+  return Math.abs(txOffset())<=16;   // shadow half-height + moon radius allowance
+}
+function drawTX(){
+  var s=$('svgtx');
+  var W=660,H=320,cy=160;
+  var h='<rect x="0" y="0" width="'+W+'" height="'+H+'" rx="10" fill="#141C33"/>';
+  var i;for(i=0;i<28;i++){var sx=(i*151+30)%660,sy=(i*97+18)%320;h+='<circle cx="'+sx+'" cy="'+sy+'" r="1.2" fill="#8FA0C7"/>'}
+  // ecliptic plane band (earth shadow zone)
+  h+='<rect x="40" y="'+(cy-14)+'" width="580" height="28" fill="rgba(44,125,140,0.25)" stroke="#2C7D8C" stroke-width="1.5"/>';
+  h+=tl(330,cy-24,14,'#7FB6C2',T('shadowband')+' · '+T('ecliptic'));
+  // tilted moon path: sinusoid across the year: y = A*sin(node angle along x)
+  var A=90*Math.sin(d2r(TX.tilt))/Math.sin(d2r(10));
+  var pts=[];
+  for(i=0;i<=100;i++){
+    var xx=40+i/100*580;
+    var yy=cy - A*Math.sin(i/100*2*Math.PI);
+    pts.push(xx.toFixed(1)+' '+yy.toFixed(1));
+  }
+  h+='<path d="M '+pts.join(' L ')+'" fill="none" stroke="#DA9526" stroke-width="3"/>';
+  h+=tl(96,cy-A*Math.sin(d2r(35))-12,14,'#DA9526',T('moonpath'));
+  // nodes at crossings x where sin=0: i=0,50,100
+  h+='<circle cx="40" cy="'+cy+'" r="6" fill="#2F7D4F" stroke="#fff" stroke-width="2"/>'+
+     '<circle cx="330" cy="'+cy+'" r="6" fill="#2F7D4F" stroke="#fff" stroke-width="2"/>'+
+     '<circle cx="620" cy="'+cy+'" r="6" fill="#2F7D4F" stroke="#fff" stroke-width="2"/>';
+  h+=tl(330,cy+30,13,'#7ED09A',T('nodept'));
+  // moon at node-angle position
+  var mx=40+TX.node/360*580;
+  var my=cy - A*Math.sin(d2r(TX.node));
+  var ok=txEclipse();
+  h+='<circle cx="'+mx.toFixed(0)+'" cy="'+my.toFixed(0)+'" r="12" fill="'+(ok?'#8C2F1B':'#E8E2D0')+'" stroke="'+(ok?'#D9542B':'#DA9526')+'" stroke-width="3"/>';
+  h+=tl(mx,my-22,14,'#F2C14E',T('moon'));
+  // verdict
+  h+=tl(330,H-18,16,ok?'#7ED09A':'#F2A08C',T(ok?'eclyes':'eclno'));
+  s.innerHTML=PAINT(h);
+  $('vtilt').textContent=TX.tilt.toFixed(1)+'°';
+  $('vnode').textContent=Math.round(TX.node)+'°';
+  $('rtilt').value=TX.tilt;$('rnode').value=TX.node;
+  updSummary();
+}
+function buildCmp(){
+  var rows;
+  if(LANG==='en'){
+    rows=[['','Solar eclipse 🌞','Lunar eclipse 🌕'],
+      ['Order','Sun – Moon – Earth','Sun – Earth – Moon'],
+      ['Moon phase','New moon (lunar day 1)','Full moon (day 15–16)'],
+      ['What is blocked','Moon blocks sunlight to Earth','Earth blocks sunlight to Moon'],
+      ['Who can see it','Only a narrow band on Earth','Entire night side of Earth'],
+      ['Types','Total / Annular / Partial','Total / Partial / Penumbral'],
+      ['Safe to watch?','❌ Needs eclipse glasses','✅ Naked eye is fine'],
+      ['Special look','Corona; day turns dark','Copper-red "blood moon"']];
+  }else{
+    rows=[['','日食 🌞','月食 🌕'],
+      ['三球顺序','太阳 – 月球 – 地球','太阳 – 地球 – 月球'],
+      ['发生月相','新月（农历初一）','满月（农历十五、十六）'],
+      ['谁挡住谁','月球挡住射向地球的阳光','地球挡住射向月球的阳光'],
+      ['可见范围','地球上一条狭窄地带','半个地球（夜晚一侧）都可见'],
+      ['种类','日全食 / 日环食 / 日偏食','月全食 / 月偏食 / 半影月食'],
+      ['能直接看吗','❌ 必须用日食眼镜','✅ 肉眼直接看没问题'],
+      ['特别现象','日冕；白天变黑','古铜红色的"红月亮"']];
+  }
+  var h='',i,j;
+  for(i=0;i<rows.length;i++){
+    h+='<tr>';
+    for(j=0;j<3;j++)h+=(i===0?'<th>':'<td>')+rows[i][j]+(i===0?'</th>':'</td>');
+    h+='</tr>';
+  }
+  $('cmptable').innerHTML=PAINT(h);
+}
+/* quiz */
+var QZ=[
+ {q:{zh:'1. 上弦月大约出现在农历的哪一天？',en:'1. Around which lunar-calendar day is FIRST QUARTER?'},
+  o:[{t:{zh:'初一',en:'Day 1'},f:{zh:'初一是新月——月球在日地之间，看不见。',en:'Day 1 is NEW moon — invisible.'}},
+     {t:{zh:'初七、初八',en:'Day 7–8'},ok:1,f:{zh:'✅ 正确！一个周期 29.5 天，走完 1/4 约 7.4 天。',en:'✅ Right — a quarter of 29.5 days ≈ 7.4.'}},
+     {t:{zh:'十五、十六',en:'Day 15–16'},f:{zh:'十五十六是满月。',en:'Day 15–16 is FULL moon.'}},
+     {t:{zh:'廿二、廿三',en:'Day 22–23'},f:{zh:'那是下弦月（左半亮）。',en:'That is LAST quarter (left half lit).'}}]},
+ {q:{zh:'2. 日食发生时，月相一定是？',en:'2. A solar eclipse can only happen at which phase?'},
+  o:[{t:{zh:'满月',en:'Full moon'},f:{zh:'满月时月球在地球背后，挡不住太阳——那是月食的位置。',en:'At full moon the Moon is behind Earth — that is the LUNAR eclipse position.'}},
+     {t:{zh:'新月',en:'New moon'},ok:1,f:{zh:'✅ 正确！月球必须在太阳和地球之间才能挡住阳光。',en:'✅ Right — the Moon must sit between Sun and Earth.'}},
+     {t:{zh:'上弦月',en:'First quarter'},f:{zh:'上弦月时三球成直角，挡不住。',en:'At quarter phases the three bodies form a right angle.'}},
+     {t:{zh:'任何月相都可以',en:'Any phase'},f:{zh:'必须三球接近一条直线，只有新月满足。',en:'The three must be nearly in line — only new moon works.'}}]},
+ {q:{zh:'3. 月全食时月亮呈古铜红色，原因是？',en:'3. Why does the Moon turn copper-red in a total lunar eclipse?'},
+  o:[{t:{zh:'月球表面在燃烧',en:'The Moon is burning'},f:{zh:'月球没有氧气，不可能燃烧。',en:'No oxygen on the Moon — nothing burns.'}},
+     {t:{zh:'地球大气把红光折射进影子里',en:'Earth\u2019s atmosphere bends red light into the shadow'},ok:1,f:{zh:'✅ 正确！蓝光被散射掉，红光折射弯进本影照亮月球。',en:'✅ Right — blue is scattered away, red refracts into the umbra.'}},
+     {t:{zh:'太阳变红了',en:'The Sun turns red'},f:{zh:'太阳没有变，变的是到达月球的光。',en:'The Sun is unchanged; the light path changed.'}},
+     {t:{zh:'月球发出红光',en:'The Moon glows red by itself'},f:{zh:'月亮自己不发光——这是本单元第一句话！',en:'The Moon does not glow by itself — lesson one!'}}]},
+ {q:{zh:'4. 大潮（潮差最大）发生在什么时候？',en:'4. When do SPRING tides (largest range) occur?'},
+  o:[{t:{zh:'新月和满月',en:'New moon and full moon'},ok:1,f:{zh:'✅ 正确！日、月、地成一直线，两股引潮力叠加。',en:'✅ Right — Sun, Moon, Earth in line: the two pulls add up.'}},
+     {t:{zh:'上弦月和下弦月',en:'First and last quarter'},f:{zh:'弦月时日月互相垂直，互相抵消——那是小潮。',en:'At quarters the pulls are perpendicular and partly cancel — NEAP tides.'}},
+     {t:{zh:'只有满月',en:'Only at full moon'},f:{zh:'新月时也在同一直线上（同侧），同样叠加。',en:'New moon also aligns the pulls — same effect.'}},
+     {t:{zh:'每天都一样',en:'Same every day'},f:{zh:'拖动第④页的月球看看潮差的变化！',en:'Drag the Moon in tab ④ and watch the range change!'}}]},
+ {q:{zh:'5. 为什么不是每个新月都有日食？',en:'5. Why isn\u2019t there a solar eclipse at every new moon?'},
+  o:[{t:{zh:'月球有时转得太快',en:'The Moon sometimes moves too fast'},f:{zh:'速度不是原因。',en:'Speed is not the reason.'}},
+     {t:{zh:'月球轨道与黄道面有约 5° 夹角',en:'The Moon\u2019s orbit is tilted ~5° from the ecliptic'},ok:1,f:{zh:'✅ 正确！大多数新月，月球从太阳上方或下方经过。',en:'✅ Right — at most new moons it passes above or below the Sun.'}},
+     {t:{zh:'白天看不到月亮',en:'We can\u2019t see the Moon in daytime'},f:{zh:'看不看得到不影响食是否发生。',en:'Visibility doesn\u2019t decide whether an eclipse happens.'}},
+     {t:{zh:'地球自转太快',en:'Earth spins too fast'},f:{zh:'自转决定谁看得到，不决定发不发生。',en:'Rotation decides WHO sees it, not WHETHER it happens.'}}]},
+ {q:{zh:'6. 海边通常一天有几次高潮？为什么？',en:'6. How many high tides a day at most coasts? Why?'},
+  o:[{t:{zh:'1 次——月球一天绕地球一圈',en:'1 — the Moon circles Earth daily'},f:{zh:'月球绕地球一圈要 27 天多，不是一天。',en:'The Moon takes over 27 days per orbit, not one day.'}},
+     {t:{zh:'2 次——地球每天转过两个隆起',en:'2 — Earth spins through TWO bulges daily'},ok:1,f:{zh:'✅ 正确！正对月球和背对月球各有一个隆起。',en:'✅ Right — one bulge faces the Moon, one is opposite.'}},
+     {t:{zh:'2 次——月球一天升起两次',en:'2 — the Moon rises twice a day'},f:{zh:'次数对，理由错：月球一天只升起一次。',en:'Right count, wrong reason: the Moon rises once a day.'}},
+     {t:{zh:'4 次——日潮加月潮',en:'4 — solar plus lunar tides'},f:{zh:'日潮和月潮叠加改变潮差，不改变次数。',en:'The solar tide changes the RANGE, not the count.'}}]},
+ {q:{zh:'7. 观���日偏食，正确的方法是？',en:'7. The correct way to watch a partial solar eclipse?'},
+  o:[{t:{zh:'戴普通墨镜看',en:'Ordinary sunglasses'},f:{zh:'❌ 墨镜完全不够！仍会灼伤视网膜。',en:'❌ Not nearly enough — retina damage is still possible.'}},
+     {t:{zh:'直接看，反正被挡住了',en:'Look directly — it\u2019s covered anyway'},f:{zh:'❌ 只要露出一丝太阳就足以伤眼。',en:'❌ Even a sliver of Sun can injure your eyes.'}},
+     {t:{zh:'使用专用日食眼镜或投影法',en:'Certified eclipse glasses or pinhole projection'},ok:1,f:{zh:'✅ 正确！这是唯一安全的方式。月食才可以直接看。',en:'✅ Right — the only safe methods. (Lunar eclipses ARE safe to view directly.)'}},
+     {t:{zh:'透过手机屏幕看',en:'Through a phone screen'},f:{zh:'❌ 长时间对准会损坏镜头，也可能反射伤眼；请用日食眼镜。',en:'❌ Risky for the camera and your eyes — use eclipse glasses.'}}]}
+];
+var QZdone=[];
+var QZi=0,QZpick=[],QZlock=[];
+function qzHead(){
+  var N=QZ.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZdone[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var h='',j,i,N=QZ.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('qzlist').innerHTML=PAINT('<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>');
+    return;
+  }
+  var d=QZ[QZi];
+  h+='<div class="q"><div class="qt">'+d.q[LANG]+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-oi="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j].t[LANG]+'</button>'+
+       '<div class="fb" id="fbq_'+j+'">'+d.o[j].f[LANG]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('qzlist').innerHTML=PAINT(h);
+  var btns=document.querySelectorAll('#qzlist .opt');
+  for(i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(){
+      if(QZlock[QZi])return;
+      var oi=+this.getAttribute('data-oi');
+      QZpick[QZi]=oi;
+      var ok=!!QZ[QZi].o[oi].ok;
+      if(QZdone[QZi]===undefined)QZdone[QZi]=ok;
+      if(ok)QZlock[QZi]=true;
+      restoreQ();
+      qzHead();
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function restoreQ(){
+  var d=QZ[QZi],j;
+  var ops=document.querySelectorAll('#qzlist .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var ok=!!d.o[oi].ok;
+  ops[oi].classList.add(ok?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZlock[QZi]?'':'none';
+}
+function updScore(){qzHead()}
+
+function initTX(){
+  $('rtilt').addEventListener('input',function(){TX.tilt=+this.value;drawTX()});
+  $('rnode').addEventListener('input',function(){TX.node=+this.value;drawTX()});
+  $('txplay').addEventListener('click',function(){
+    if(TX.playing){stopAllPlay();return}
+    stopAllPlay();TX.playing=true;this.classList.add('on');
+    var step=function(){
+      if(!TX.playing)return;
+      TX.node=(TX.node+1.2)%360;
+      drawTX(); RAF=requestAnimationFrame(step);
+    };
+    RAF=requestAnimationFrame(step);
+  });
+  $('qzreset').addEventListener('click',function(){QZdone=[];QZpick=[];QZlock=[];QZi=0;buildQuiz();updSummary()});
+}
+SUMMARY[4]=function(){return T('tab4')+' · '+TX.tilt.toFixed(1)+'° · '+T(txEclipse()?'eclyes':'eclno')};
+
+/* ================= boot ================= */
+RENDER[0]=drawPH;RENDER[1]=drawSE;RENDER[2]=drawLE;RENDER[3]=drawTD;
+var QZbuilt=false;
+RENDER[4]=function(){drawTX();buildCmp()};
+RENDER[5]=function(){buildQuiz()};
+SUMMARY[5]=function(){return T('qz_title')+' '+$('qzscore').textContent};
+function setLang(l){
+  LANG=l;
+  document.documentElement.setAttribute('lang',l==='en'?'en':'zh');
+  $('langbtn').textContent=l==='en'?'中':'EN';
+  applyI18n();
+  buildQuiz();
+  RENDER[CUR]();
+  updSummary();
+}
+$('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+initTabs();initPH();initSE();initLE();initTD();initTX();
+initExp();
+drawPH();
+window.__test=function(){
+  var i,j;
+  for(i=0;i<6;i++){RENDER[i]()}
+  for(i=0;i<=295;i+=5){PH.d=i/10;drawPH()}
+  PH.lock=true;drawPH();PH.lock=false;
+  for(i=360;i<=470;i+=10){SE.mx=i;for(j=-75;j<=75;j+=15){SE.oa=j;drawSE()}}
+  for(i=55;i<=375;i+=10){LE.my=i;drawLE()}
+  LE.atm=false;drawLE();LE.atm=true;
+  TD.sep=true;
+  for(i=0;i<360;i+=15){TD.phi=i;TD.rot=i*0.7;drawTD()}
+  TD.sep=false;drawTD();
+  for(i=0;i<=100;i+=5){TX.tilt=i/10;TX.node=i*3.6;drawTX()}
+  buildCmp();
+  for(i=0;i<QZ.length;i++){QZi=i;buildQuiz()}
+  QZi=0;QZpick=[0];QZlock=[];buildQuiz();
+  QZdone=[];QZpick=[];QZi=0;buildQuiz();
+  DARK=true;for(i=0;i<6;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<6;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='moon-eclipse-tide-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+  // Ensure hint exists for usability
+  try{
+    if(!document.querySelector('.hint-line') && !document.querySelector('.note')){
+      const bar=document.querySelector('.ctlbar'); if(bar){const h=document.createElement('div');h.className='hint-line';h.textContent='💡 拖一拖·调一调 — 拖动滑块和画布探索';bar.appendChild(h);}
+    }
+  }catch{}
+})();
+</script>
+</body>
+</html>

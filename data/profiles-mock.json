@@ -1,0 +1,10 @@
+[
+  {
+    "id": "test-user-1",
+    "email": "test@sciencematerial.my",
+    "displayName": "Test User",
+    "role": "user",
+    "labAccessStatus": "none",
+    "createdAt": "2026-10-13T00:00:00.000Z"
+  }
+]

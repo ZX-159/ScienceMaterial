@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>木质部、韧皮部与蒸腾 · Plant Transport · ScienceMaterial</title>
+<meta name="description" content="Two transport tissues. Two different journeys through a plant.">
+<style>
+:root{color-scheme:light;--paper:#fffefb;--bg:#f2f1e9;--line:#DDD9CF;--ink:#1C2C42;--muted:#68786F;--teal:#146e61;--teal-soft:#e4eee4;--app-height:100vh}
+*{box-sizing:border-box}html,body{margin:0;min-height:var(--app-height,100vh)}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;display:flex;flex-direction:column;height:var(--app-height,100vh);overflow:hidden}
+.toolbar{height:52px;min-height:52px;padding:0 14px;background:rgba(255,254,251,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex:none}
+.hleft{flex:1;min-width:0;display:flex;align-items:center;gap:8px;overflow:hidden}
+.hleft h1{font-size:13px;font-weight:700;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}
+.sub{font-size:11px;color:var(--muted)}
+.hbtns{display:flex;gap:6px;margin-left:auto}
+.hbtn{border:1px solid var(--line);background:#fffefb;border-radius:10px;padding:6px 10px;font-size:11px;cursor:pointer}
+.hbtn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}
+.main{flex:1;display:flex;min-height:0;overflow:hidden}
+.workspace{flex:1;min-width:0;display:flex;flex-direction:column;padding:14px;gap:12px;overflow:auto}
+.intro{display:flex;justify-content:space-between;gap:12px}
+.eyebrow{font:600 10px/1.4 ui-monospace;color:var(--teal);letter-spacing:.08em;text-transform:uppercase}
+.scene-card{flex:1;display:flex;flex-direction:column;min-height:380px;border:1px solid var(--line);border-radius:16px;background:var(--paper);overflow:hidden}
+.scene-top{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);font-size:11px}
+.canvas-wrap{flex:1;position:relative;min-height:320px;background:#f9fbf3}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scene-bottom{display:flex;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--line);font-size:11px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--line)}
+.metric{background:#fffefb;padding:8px 10px;min-height:60px}
+.metric .label{font-size:10px;color:var(--muted)}
+.metric .value{font:600 18px/1.2 ui-monospace}
+.side-panel{width:300px;min-width:300px;border-left:1px solid var(--line);background:#fffefb;display:flex;flex-direction:column}
+.panel-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:8px;border-bottom:1px solid var(--line)}
+.panel-tabs button{border:0;background:transparent;padding:8px 4px;font-size:11px;cursor:pointer;border-radius:8px}
+.panel-tabs button.on{background:var(--teal-soft);color:var(--teal);font-weight:600}
+.panel-scroll{flex:1;overflow:auto;padding:14px}
+.control{margin-bottom:16px}
+.control-head{display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;font-weight:600}
+.range-row{display:flex;align-items:center;gap:6px}
+input[type=range]{flex:1}
+.qbox{border-left:3px solid var(--teal);background:var(--teal-soft);padding:10px 12px;border-radius:0 10px 10px 0;margin:10px 0;font-size:12px}
+.kbox{border-left:3px solid #C9A227;background:#FFF8E1;padding:10px 12px;border-radius:0 10px 10px 0;margin:10px 0;font-size:12px}
+.statline{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{font-size:10px;border:1px solid var(--line);border-radius:999px;padding:3px 8px;background:#fffefb}
+.chip.hl{background:var(--teal);color:#fff;border-color:var(--teal)}
+.panel{display:none}
+.panel.on{display:block}
+#dock{border-top:1px solid var(--line);background:#fffefb;padding:8px 12px;display:flex;gap:8px;flex-wrap:wrap;font-size:11px}
+.dsec{display:none}.dsec.on{display:flex;gap:8px;align-items:center}
+</style>
+</head>
+<body>
+<header class="toolbar">
+  <div class="hleft">
+    <svg width="20" height="20" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg>
+    <h1>木质部、韧皮部与蒸腾 · Plant Transport</h1>
+    <div class="sub">Two transport tissues. Two different journeys through a plant.</div>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn" id="langBtn">EN</button>
+    <button class="hbtn" id="themeBtn">🌙</button>
+    <button class="hbtn primary" id="resetBtn">↺ Reset</button>
+  </div>
+</header>
+
+<div class="tabs" style="display:flex;gap:4px;padding:8px 14px;border-bottom:1px solid var(--line);background:#fffefb">
+  <button class="tab on" data-tab="0" style="border:1px solid var(--line);border-radius:10px;padding:6px 12px;background:var(--teal);color:#fff">① 实验台</button>
+  <button class="tab" data-tab="1" style="border:1px solid var(--line);border-radius:10px;padding:6px 12px;background:#fffefb">② 图表·数据</button>
+  <button class="tab" data-tab="2" style="border:1px solid var(--line);border-radius:10px;padding:6px 12px;background:#fffefb">③ 要点·公式</button>
+  <button class="tab" data-tab="3" style="border:1px solid var(--line);border-radius:10px;padding:6px 12px;background:#fffefb">④ 测验</button>
+</div>
+
+<main class="main">
+  <section class="workspace">
+    <div class="intro">
+      <div>
+        <div class="eyebrow">ScienceMaterial · plant-transport</div>
+        <h2>木质部、韧皮部与蒸腾</h2>
+        <p>Two transport tissues. Two different journeys through a plant. — 拖一拖、调一调，观察变化。包含实验台、图表数据、要点公式、测验四个标签页。</p>
+      </div>
+    </div>
+
+    <div class="panel on" id="p0">
+      <div class="scene-card">
+        <div class="scene-top">
+          <span id="sceneCaption">Interactive Lab · 木质部、韧皮部与蒸腾</span>
+          <span class="status" id="status">Ready · plant-transport</span>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="scene" width="1200" height="600"></canvas>
+        </div>
+        <div class="scene-bottom">
+          <span id="hint">调节参数，观察实验现象</span>
+          <div style="display:flex;gap:6px">
+            <button class="hbtn" id="playBtn">▶ Play</button>
+            <button class="hbtn" id="resetBtn2">↺ Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="metrics" id="metrics">
+        <div class="metric"><div class="label">Parameter A</div><div class="value" id="mA">1.0</div><div class="label">unit</div></div>
+        <div class="metric"><div class="label">Parameter B</div><div class="value" id="mB">2.0</div><div class="label">unit</div></div>
+        <div class="metric"><div class="label">Result</div><div class="value" id="mR">3.0</div><div class="label">calculated</div></div>
+        <div class="metric"><div class="label">Time</div><div class="value" id="mT">0.0</div><div class="label">s</div></div>
+      </div>
+      <div class="qbox" id="qb0">题目：木质部、韧皮部与蒸腾中，调节参数A从1.0到2.0，结果如何变化？</div>
+      <div class="kbox" id="kb0">要点：Two transport tissues. Two different journeys through a plant. — 通过实验观察定量关系。</div>
+    </div>
+
+    <div class="panel" id="p1">
+      <div class="scene-card">
+        <div class="scene-top"><span>图表·数据 · Chart & Data</span><span id="chartStatus">Chart ready</span></div>
+        <div class="canvas-wrap" style="background:#fffefb">
+          <canvas id="chart" width="800" height="400" style="position:relative;width:100%;height:100%"></canvas>
+        </div>
+        <div class="scene-bottom"><span>数据表格</span></div>
+      </div>
+      <div class="statline" id="chips1"><span class="chip hl" id="chipA">A=1.0</span><span class="chip" id="chipB">B=2.0</span><span class="chip" id="chipR">R=3.0</span></div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px" id="dataTable">
+        <thead><tr><th style="border:1px solid #DDD9CF;padding:6px">Parameter A</th><th style="border:1px solid #DDD9CF;padding:6px">Result</th><th style="border:1px solid #DDD9CF;padding:6px">Time</th></tr></thead>
+        <tbody id="dataBody"><tr><td style="border:1px solid #DDD9CF;padding:6px">1.0</td><td style="border:1px solid #DDD9CF;padding:6px">3.0</td><td style="border:1px solid #DDD9CF;padding:6px">0.0s</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="panel" id="p2">
+      <h3>要点·公式 · Key Points</h3>
+      <div class="kbox">核心公式：Result = f(A, B) — 具体关系由实验测定。</div>
+      <div class="kbox" style="border-left-color:#2C7D8C;background:#E0F2F7">实验方法：控制变量，改变一个参数，记录结果，绘制图表，分析规律。</div>
+    </div>
+
+    <div class="panel" id="p3">
+      <h3>测验 · Quiz</h3>
+      <div class="statline"><span class="chip" id="qzprog">Q1 / 3</span><span class="chip hl" id="qzscore">Score: 0</span></div>
+      <div id="quiz"></div>
+    </div>
+  </section>
+
+  <aside class="side-panel">
+    <div class="panel-tabs">
+      <button class="on" data-tab="lab">Lab</button>
+      <button data-tab="chart">Chart</button>
+      <button data-tab="points">Points</button>
+      <button data-tab="quiz">Quiz</button>
+    </div>
+    <div class="panel-scroll">
+      <div class="control">
+        <div class="control-head"><span>Parameter A</span><output id="oA">1.0</output></div>
+        <div class="range-row"><input type="range" id="rA" min="0.1" max="5" step="0.1" value="1.0"><span id="vA" style="font-family:ui-monospace">1.0</span></div>
+      </div>
+      <div class="control">
+        <div class="control-head"><span>Parameter B</span><output id="oB">2.0</output></div>
+        <div class="range-row"><input type="range" id="rB" min="0.1" max="10" step="0.1" value="2.0"><span id="vB" style="font-family:ui-monospace">2.0</span></div>
+      </div>
+      <div class="control">
+        <div class="control-head"><span>Time</span><output id="oT">0.0s</output></div>
+        <div class="range-row"><button class="hbtn" id="playSide">▶ Play</button><button class="hbtn" id="resetSide">↺ Reset</button></div>
+      </div>
+      <div class="kbox" id="kboxSide">调节参数A和B，观察结果变化，记录数据，绘制图表。</div>
+    </div>
+  </aside>
+</main>
+
+<div id="dock">
+  <div class="dsec on" id="d0"><span>① 实验台 · 调节参数，观察现象</span><span class="chip hl" id="dockA">A=1.0</span><span class="chip" id="dockR">R=3.0</span></div>
+  <div class="dsec" id="d1"><span>② 图表随实验实时绘制</span></div>
+  <div class="dsec" id="d2"><span>③ 要点总结</span></div>
+  <div class="dsec" id="d3"><span>④ 测验</span></div>
+</div>
+
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial · plant-transport</span></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+let A=1.0, B=2.0, t=0, running=true, score=0, qIdx=0;
+let data=[];
+const canvas=$('scene'), ctx=canvas.getContext('2d');
+const chart=$('chart'), cctx=chart.getContext('2d');
+
+function resize(){
+  const dpr=window.devicePixelRatio||1;
+  let rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr; canvas.height=rect.height*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  let rect2=chart.getBoundingClientRect();
+  chart.width=rect2.width*dpr; chart.height=rect2.height*dpr;
+  cctx.setTransform(dpr,0,0,dpr,0,0);
+  draw(); drawChart();
+}
+window.addEventListener('resize', resize);
+
+function calcResult(a,b){ return (a*b + Math.sin(t)*0.2).toFixed(2); }
+
+function draw(){
+  const rect=canvas.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f9fbf3'; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#DDD9CF'; ctx.lineWidth=0.5;
+  for(let x=0;x<W;x+=40){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for(let y=0;y<H;y+=40){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+  const cx=W/2, cy=H/2;
+  const r=30 + A*15;
+  ctx.fillStyle='#146e61'; ctx.beginPath(); ctx.arc(cx + Math.sin(t)*20, cy, r, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#1C2C42'; ctx.font='600 12px -apple-system'; ctx.textAlign='center';
+  ctx.fillText(`A=${A.toFixed(1)} B=${B.toFixed(1)} R=${calcResult(A,B)}`, cx, 30);
+  ctx.fillText('木质部、韧皮部与蒸腾', cx, H-20);
+  ctx.fillStyle='#C9A227'; ctx.beginPath(); ctx.arc(cx - Math.cos(t)*B*10, cy + Math.sin(t)*B*5, 15 + B*2, 0, Math.PI*2); ctx.fill();
+}
+
+function drawChart(){
+  const rect=chart.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  cctx.clearRect(0,0,W,H);
+  cctx.fillStyle='#fffefb'; cctx.fillRect(0,0,W,H);
+  cctx.strokeStyle='#DDD9CF'; cctx.strokeRect(0,0,W,H);
+  if(data.length<2) return;
+  const maxA=Math.max(...data.map(d=>d.A)), minA=Math.min(...data.map(d=>d.A));
+  const maxR=Math.max(...data.map(d=>parseFloat(d.R))), minR=Math.min(...data.map(d=>parseFloat(d.R)));
+  const pad=40;
+  cctx.strokeStyle='#1C2C42'; cctx.lineWidth=1;
+  cctx.beginPath(); cctx.moveTo(pad, H-pad); cctx.lineTo(W-pad, H-pad); cctx.stroke();
+  cctx.beginPath(); cctx.moveTo(pad, pad); cctx.lineTo(pad, H-pad); cctx.stroke();
+  cctx.strokeStyle='#146e61'; cctx.lineWidth=2;
+  cctx.beginPath();
+  data.forEach((d,i)=>{
+    const x=pad + (d.A-minA)/(maxA-minA||1)*(W-2*pad);
+    const y=H-pad - (parseFloat(d.R)-minR)/(maxR-minR||1)*(H-2*pad);
+    if(i===0) cctx.moveTo(x,y); else cctx.lineTo(x,y);
+  });
+  cctx.stroke();
+  cctx.fillStyle='#146e61';
+  data.forEach(d=>{
+    const x=pad + (d.A-minA)/(maxA-minA||1)*(W-2*pad);
+    const y=H-pad - (parseFloat(d.R)-minR)/(maxR-minR||1)*(H-2*pad);
+    cctx.beginPath(); cctx.arc(x,y,4,0,Math.PI*2); cctx.fill();
+  });
+}
+
+function updateMetrics(){
+  const R=calcResult(A,B);
+  const els={
+    mA:$('mA'), mB:$('mB'), mR:$('mR'), mT:$('mT'),
+    chipA:$('chipA'), chipB:$('chipB'), chipR:$('chipR'),
+    chipSideA:$('chipSideA'), chipSideB:$('chipSideB'),
+    dockA:$('dockA'), dockR:$('dockR'),
+    vA:$('vA'), vB:$('vB'), oA:$('oA'), oB:$('oB'), oT:$('oT'),
+    status:$('status')
+  };
+  if(els.mA) els.mA.textContent=A.toFixed(1);
+  if(els.mB) els.mB.textContent=B.toFixed(1);
+  if(els.mR) els.mR.textContent=R;
+  if(els.mT) els.mT.textContent=t.toFixed(1);
+  if(els.chipA) els.chipA.textContent='A='+A.toFixed(1);
+  if(els.chipB) els.chipB.textContent='B='+B.toFixed(1);
+  if(els.chipR) els.chipR.textContent='R='+R;
+  if(els.chipSideA) els.chipSideA.textContent='A='+A.toFixed(1);
+  if(els.chipSideB) els.chipSideB.textContent='B='+B.toFixed(1);
+  if(els.dockA) els.dockA.textContent='A='+A.toFixed(1);
+  if(els.dockR) els.dockR.textContent='R='+R;
+  if(els.vA) els.vA.textContent=A.toFixed(1);
+  if(els.vB) els.vB.textContent=B.toFixed(1);
+  if(els.oA) els.oA.textContent=A.toFixed(1);
+  if(els.oB) els.oB.textContent=B.toFixed(1);
+  if(els.oT) els.oT.textContent=t.toFixed(1)+'s';
+  if(els.status) els.status.textContent='A='+A.toFixed(1)+' B='+B.toFixed(1)+' R='+R;
+}
+
+function addData(){
+  data.push({A: A, R: calcResult(A,B), t: t.toFixed(1)});
+  if(data.length>20) data.shift();
+  const tbody=$('dataBody');
+  if(tbody) tbody.innerHTML=data.map(d=>`<tr><td style="border:1px solid #DDD9CF;padding:6px">${d.A.toFixed(1)}</td><td style="border:1px solid #DDD9CF;padding:6px">${d.R}</td><td style="border:1px solid #DDD9CF;padding:6px">${d.t}s</td></tr>`).join('');
+  drawChart();
+}
+
+function showTab(i){
+  document.querySelectorAll('.tab').forEach((el,k)=>{ 
+    const on=k===i;
+    el.classList.toggle('on', on);
+    el.style.background=on?'#146e61':'#fffefb';
+    el.style.color=on?'#fff':'#1C2C42';
+  });
+  document.querySelectorAll('.panel').forEach((el,k)=>el.classList.toggle('on', k===i));
+  document.querySelectorAll('#dock .dsec').forEach((el,k)=>el.classList.toggle('on', k===i));
+  document.querySelectorAll('.panel-tabs button').forEach((el,k)=>el.classList.toggle('on', k===i));
+  if(i===1) drawChart();
+}
+
+document.querySelectorAll('.tab').forEach((btn,i)=>btn.addEventListener('click',()=>showTab(i)));
+document.querySelectorAll('.panel-tabs button').forEach((btn,i)=>btn.addEventListener('click',()=>showTab(i)));
+
+const rA=$('rA'), rB=$('rB');
+if(rA) rA.addEventListener('input', e=>{ A=parseFloat(e.target.value); updateMetrics(); draw(); });
+if(rB) rB.addEventListener('input', e=>{ B=parseFloat(e.target.value); updateMetrics(); draw(); });
+const resetBtn=$('resetBtn');
+if(resetBtn) resetBtn.addEventListener('click', ()=>{ A=1.0; B=2.0; t=0; data=[]; if(rA) rA.value=A; if(rB) rB.value=B; updateMetrics(); draw(); drawChart(); const db=$('dataBody'); if(db) db.innerHTML=''; });
+const resetBtn2=$('resetBtn2'); if(resetBtn2) resetBtn2.addEventListener('click', ()=>resetBtn.click());
+const resetSide=$('resetSide'); if(resetSide) resetSide.addEventListener('click', ()=>resetBtn.click());
+const playBtn=$('playBtn'); if(playBtn) playBtn.addEventListener('click', ()=>{ running=!running; playBtn.textContent=running?'⏸ Pause':'▶ Play'; });
+const playSide=$('playSide'); if(playSide) playSide.addEventListener('click', ()=>playBtn.click());
+
+const quizzes=[
+  {q: '木质部、韧皮部与蒸腾中，A增大，R如何变化？', opts: ['增大','减小','不变','先增后减'], a: 0, exp: 'R与A正相关'},
+  {q: '控制变量是指？', opts: ['改变所有变量','保持其他变量不变','不做实验','随机改变'], a: 1, exp: '控制变量保持不变，只改变自变量'},
+  {q: '木质部、韧皮部与蒸腾的单位是什么？', opts: ['m','s','取决于具体物理量','无单位'], a: 2, exp: '取决于具体物理量'},
+];
+function renderQuiz(){
+  const quizEl=$('quiz');
+  if(!quizEl) return;
+  const q=quizzes[qIdx];
+  quizEl.innerHTML=`<div class="qbox">${q.q}</div><div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">${q.opts.map((o,i)=>`<label style="display:flex;gap:8px;padding:10px;border:1px solid #DDD9CF;border-radius:10px;cursor:pointer"><input type="radio" name="q" value="${i}">${o}</label>`).join('')}<button class="hbtn primary" id="submitQ">提交</button><div id="qFb" class="kbox" style="display:none"></div></div>`;
+  const prog=$('qzprog'); if(prog) prog.textContent=`Q${qIdx+1} / ${quizzes.length}`;
+  const submit=$('submitQ');
+  if(submit) submit.addEventListener('click', ()=>{
+    const sel=document.querySelector('input[name="q"]:checked');
+    if(!sel) return;
+    const correct=parseInt(sel.value)===q.a;
+    const fb=$('qFb');
+    if(!fb) return;
+    fb.style.display='block';
+    fb.textContent=correct? '✓ 正确！'+q.exp : '✗ 错误，正确答案：'+q.opts[q.a]+' — '+q.exp;
+    fb.style.borderLeftColor=correct?'#2F7D4F':'#D9542B';
+    if(correct){ score++; const sc=$('qzscore'); if(sc) sc.textContent='Score: '+score; qIdx=(qIdx+1)%quizzes.length; setTimeout(renderQuiz, 1500); }
+  });
+}
+renderQuiz();
+
+function loop(){
+  if(running){ t+=0.02; updateMetrics(); draw(); if(Math.floor(t*10)%20===0) addData(); }
+  requestAnimationFrame(loop);
+}
+resize();
+updateMetrics();
+draw();
+drawChart();
+loop();
+
+window.addEventListener('message', e=>{
+  const d=e.data; if(!d) return;
+  if(d==='reset' || d.type==='reset'){ A=1.0; B=2.0; t=0; data=[]; updateMetrics(); draw(); }
+});
+
+setTimeout(()=>{ try{ parent.postMessage({type:'ready', id:'plant-transport'}, '*'); }catch{} }, 500);
+</script>
+</body>
+</html>

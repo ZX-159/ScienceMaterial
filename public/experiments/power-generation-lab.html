@@ -1,0 +1,2568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>发电与能量守恒探究实验室 · Power Generation · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="hleft">
+    <div class="brand">ScienceMaterial</div>
+    <h1><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> ⚡ <span data-i="title"></span></h1>
+    <div class="sub">Power Generation · chu-san-shang/b5-c7 · ScienceMaterial</div>
+  </div>
+  <div class="chips">
+    <span data-i="chip1"></span>
+    <span data-i="chip2"></span>
+    <span style="color:var(--neg); border-color:rgba(63,208,108,.55)" data-i="chip3"></span>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="hbtn" id="themeBtn" onclick="toggleTheme()"></button>
+    <button class="hbtn" onclick="toggleFull()"><span data-i="btnFull"></span></button>
+    <button class="hbtn" onclick="resetActive()">↺ <span data-i="btnReset"></span></button>
+  </div>
+</header>
+
+<main>
+  <div class="left">
+    <nav class="tabs">
+      <button id="tab-lab" class="on" onclick="setMode('lab')"><span data-i="tabLab"></span></button>
+      <button id="tab-cmp" onclick="setMode('cmp')"><span data-i="tabCmp"></span></button>
+      <button id="tab-quiz" onclick="setMode('quiz')"><span data-i="tabQuiz"></span></button>
+      <button id="tab-game" onclick="setMode('game')"><span data-i="tabGame"></span></button>
+    </nav>
+
+    <div class="stage">
+      <section class="panel on" id="panel-lab">
+        <div class="cvarea"><canvas id="cv-lab" width="2000" height="728"></canvas></div>
+        <div class="rail">
+          <div class="rail-t" data-i="presetLabel"></div>
+          <button class="railbtn" data-p="pr1" onclick="presetDemo('pr1')"><span data-i="pr1"></span></button>
+          <button class="railbtn" data-p="pr2" onclick="presetDemo('pr2')"><span data-i="pr2"></span></button>
+          <button class="railbtn" data-p="pr3" onclick="presetDemo('pr3')"><span data-i="pr3"></span></button>
+          <button class="railbtn" data-p="pr4" onclick="presetDemo('pr4')"><span data-i="pr4"></span></button>
+          <button class="railbtn" data-p="pr5" onclick="presetDemo('pr5')"><span data-i="pr5"></span></button>
+          <button class="railbtn" data-p="pr6" onclick="presetDemo('pr6')"><span data-i="pr6"></span></button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-cmp">
+        <div class="duo">
+          <div class="box">
+            <div class="track-label" id="ca-name"></div>
+            <div class="cvwrap"><canvas id="cv-ca" width="880" height="760"></canvas></div>
+            <div class="minictl" id="ca-cond"></div>
+          </div>
+          <div class="box">
+            <div class="track-label" id="cb-name"></div>
+            <div class="cvwrap"><canvas id="cv-cb" width="880" height="760"></canvas></div>
+            <div class="minictl" id="cb-cond"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-quiz">
+        <div class="quiz-wrap">
+          <div class="q-timer" id="q-timer"><i id="q-timer-bar"></i></div>
+          <div class="quiz-emoji" id="q-emoji"></div>
+          <div class="quiz-q" id="q-text"></div>
+          <div class="quiz-btns" id="q-opts"></div>
+          <div class="quiz-exp" id="q-exp"></div>
+          <div class="quiz-nav">
+            <button class="btn" id="q-next" style="display:none" onclick="nextQ()"><span data-i="next"></span> ➜</button>
+            <button class="btn ghost" id="q-restart" style="display:none" onclick="restartQ()">🔄 <span data-i="again"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-game">
+        <div class="gamehud">
+          <span class="gt"><span data-i="gRound"></span> <b id="g-round">1</b>/3</span>
+          <span class="gt" id="g-goal-hud"></span>
+          <span class="gt" id="g-cap-hud"></span>
+          <span class="gtime" id="g-time">45</span>
+        </div>
+        <div id="game-cvhost"></div>
+      </section>
+    </div>
+
+    <div class="ctlbar">
+      <div class="ctl-group on" id="ctl-lab">
+        <div class="rowline">
+          <span class="ctl-label" data-i="srcLabel"></span>
+          <button class="sbtn mini pick" data-src="hydro" onclick="setPlant('hydro')"><span data-i="b_hydro"></span></button>
+          <button class="sbtn mini" data-src="wind" onclick="setPlant('wind')"><span data-i="b_wind"></span></button>
+          <button class="sbtn mini" data-src="thermal" onclick="setPlant('thermal')"><span data-i="b_thermal"></span></button>
+        </div>
+        <div class="rowline">
+          <label class="ctl"><span data-i="slN"></span>
+            <input type="range" id="s-n" min="0" max="3000" step="100" value="1500" oninput="setN(+this.value)">
+            <output id="s-n-o">1500</output>
+          </label>
+          <label class="ctl"><span data-i="slT"></span>
+            <input type="range" id="s-t" min="100" max="300" step="10" value="200" oninput="setTurns(+this.value)">
+            <output id="s-t-o">200</output>
+          </label>
+          <label class="ctl"><span data-i="slB"></span>
+            <input type="range" id="s-b" min="0.2" max="0.8" step="0.05" value="0.5" oninput="setB(+this.value)">
+            <output id="s-b-o">0.50 T</output>
+          </label>
+        </div>
+        <div class="hint-line" data-i="labHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-cmp">
+        <div class="rowline">
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(0)">📕 <span data-i="cp1"></span></button>
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(1)">📗 <span data-i="cp2"></span></button>
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(2)">📙 <span data-i="cp3"></span></button>
+        </div>
+        <div class="rowline">
+          <span class="ctl-label" data-i="guessQ"></span>
+          <button class="sbtn" data-g="a" onclick="pickGuess(this)"><span data-i="gMoreA"></span></button>
+          <button class="sbtn" data-g="same" onclick="pickGuess(this)"><span data-i="gSame"></span></button>
+          <button class="sbtn" data-g="b" onclick="pickGuess(this)"><span data-i="gMoreB"></span></button>
+          <button class="btn" id="cmp-run" onclick="runCmp()" disabled>⏱ <span data-i="runCmp"></span></button>
+        </div>
+        <div class="hint-line" data-i="cmpHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-quiz">
+        <div class="hint-line" data-i="quizHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-game">
+        <div class="rowline">
+          <span class="ctl-label" data-i="srcLabel"></span>
+          <button class="sbtn mini pick" data-src="hydro" onclick="setPlant('hydro')"><span data-i="b_hydro"></span></button>
+          <button class="sbtn mini" data-src="wind" onclick="setPlant('wind')"><span data-i="b_wind"></span></button>
+          <button class="sbtn mini" data-src="thermal" onclick="setPlant('thermal')"><span data-i="b_thermal"></span></button>
+          <button class="btn" id="g-act" onclick="gameAct()"></button>
+        </div>
+        <div class="rowline">
+          <label class="ctl"><span data-i="slN"></span>
+            <input type="range" id="g-s-n" min="0" max="3000" step="100" value="1500" oninput="setN(+this.value)">
+            <output id="g-s-n-o">1500</output>
+          </label>
+          <label class="ctl"><span data-i="slT"></span>
+            <input type="range" id="g-s-t" min="100" max="300" step="10" value="200" oninput="setTurns(+this.value)">
+            <output id="g-s-t-o">200</output>
+          </label>
+          <label class="ctl"><span data-i="slB"></span>
+            <input type="range" id="g-s-b" min="0.2" max="0.8" step="0.05" value="0.5" oninput="setB(+this.value)">
+            <output id="g-s-b-o">0.50 T</output>
+          </label>
+        </div>
+        <div class="hint-line" data-i="gHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sb on" id="sb-lab">
+      <div>
+        <div class="sb-title" data-i="outLabel"></div>
+        <div class="bigang"><b id="l-out">40.0</b><i> kW</i></div>
+      </div>
+      <span class="netchip" id="l-state"></span>
+      <div class="mini3">
+        <div><span data-i="kEff"></span><b id="l-eff">85</b></div>
+        <div><span data-i="kIn"></span><b id="l-in">47.1</b></div>
+        <div><span data-i="kLoss"></span><b id="l-loss">7.1</b></div>
+      </div>
+      <button class="explain-btn" data-exp="l" onclick="toggleExplain('l')"><span data-i="expOpen"></span></button>
+      <div class="explain" id="exp-l">
+        <div class="statusbox" id="l-status"></div>
+        <div class="concl" id="l-conclude"></div>
+      </div>
+      <div class="rec-head">
+        <button class="rec-btn" onclick="recordData()">📌 <span data-i="recBtn"></span></button>
+        <button class="rec-clear" onclick="clearRec()" data-i="recClear"></button>
+      </div>
+      <table class="rec">
+        <thead><tr><th data-i="thSrc"></th><th data-i="thN"></th><th data-i="thOut"></th><th data-i="thEff"></th><th style="width:24%"></th></tr></thead>
+        <tbody id="rec-body"></tbody>
+      </table>
+    </div>
+
+    <div class="sb" id="sb-cmp">
+      <div class="sb-title" data-i="outLabelCmp"></div>
+      <div class="cmp-angs">
+        <div class="one"><span id="s-ca-name"></span><b id="c-out-a">0.0</b><em> kW</em></div>
+        <div class="one"><span id="s-cb-name"></span><b id="c-out-b">0.0</b><em> kW</em></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kIn"></span><b id="c-in-a">--</b></div>
+        <div><span data-i="kEff"></span><b id="c-eff-a">--</b></div>
+        <div><span data-i="kLoss"></span><b id="c-loss-a">--</b></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kIn"></span><b id="c-in-b">--</b></div>
+        <div><span data-i="kEff"></span><b id="c-eff-b">--</b></div>
+        <div><span data-i="kLoss"></span><b id="c-loss-b">--</b></div>
+      </div>
+      <div class="feedback" id="cmp-fb"></div>
+      <div class="concl" id="cmp-conclude"></div>
+    </div>
+
+    <div class="sb" id="sb-quiz">
+      <div class="sb-title" data-i="score"></div>
+      <div class="scorebig"><b id="q-score-n">0</b><span> / 8</span></div>
+      <div class="qdots" id="q-prog"></div>
+      <div class="statusbox" id="q-side-hint"></div>
+    </div>
+
+    <div class="sb" id="sb-game">
+      <div>
+        <div class="sb-title" data-i="outLabel"></div>
+        <div class="bigang"><b id="g-out">0.0</b><i> kW</i></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="gTgt"></span><b id="g-tgt">--</b></div>
+        <div><span data-i="gCap"></span><b id="g-cap">--</b></div>
+        <div><span data-i="kIn"></span><b id="g-in">--</b></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="score"></div>
+        <div class="scorebig"><b id="g-score">0</b></div>
+      </div>
+      <div class="statusbox" id="g-status"></div>
+    </div>
+
+    <footer id="credit"></footer>
+  </aside>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   Quiz bank (from the source file, trimmed to 3 options each)
+============================================================ */
+const QUIZ_ZH = [
+  { e:'💧', q:'水力发电中，水库里高处的水一开始储存的是什么能？',
+    o:['动能','重力势能','化学能'], a:1,
+    x:'水被拦蓄在高处，储存<em>重力势能</em>；落下时转化为<em>动能</em>，冲击水轮机变成<em>机械能</em>，最后由发电机转化为电能。切回「演示实验」按 💧 水力，看画面里的落差 h。' },
+  { e:'🌬️', q:'风力发电的能量转化顺序是？',
+    o:['动能 → 机械能 → 电能','重力势能 → 动能 → 电能','化学能 → 内能 → 电能'], a:0,
+    x:'风本来就在<em>流动</em>，一开始就具有<em>动能</em>，不需要先被举高，所以链条只有 <em>3 段</em>。演示实验里选风力，看画面下方的转化链。' },
+  { e:'🔥', q:'火力发电完整的能量转化链是？',
+    o:['重力势能 → 动能 → 机械能 → 电能','内能 → 化学能 → 机械能 → 电能','化学能 → 内能 → 机械能 → 电能'], a:2,
+    x:'煤储存<em>化学能</em>；燃烧放热 → <em>内能</em>（高温高压蒸汽）；蒸汽推动汽轮机 → <em>机械能</em>；发电机 → 电能。注意顺序不能颠倒：先燃烧才有内能。' },
+  { e:'⚙️', q:'水力、风力、火力发电共同的最后一步是什么？',
+    o:['锅炉把化学能转化为内能','发电机利用电磁感应把机械能转化为电能','水轮机把动能转化为机械能'], a:1,
+    x:'三种方式最后一步<em>完全相同</em>——都是发电机靠<em>电磁感应</em>把机械能转化为电能。区别只在前半段：用落下的水、流动的风，还是高温蒸汽去推涡轮。' },
+  { e:'♻️', q:'某火力发电厂输入 100 份化学能，只有约 40 份变成有用电能，其余 60 份到哪里去了？',
+    o:['凭空消失了','变成废热（冷却水、烟气带走）散失到环境中，总量仍然守恒','又变回了额外的电能'], a:1,
+    x:'能量<em>不会消失</em>：40 份电能 ＋ 60 份废热 ＝ <em>100 份</em>。废热主要被冷却塔的冷却水和烟囱的高温烟气带走。回演示实验看侧栏那条守恒式。' },
+  { e:'💡', q:'既然能量是守恒的、总量不会减少，为什么还要节约能源？',
+    o:['因为每次转化都有一部分变成散失的废热，这部分很难再被利用','因为能量会越用越少，总量会减少','因为能量守恒定律在生活中不成立'], a:0,
+    x:'能量<em>总量</em>确实守恒，但每次转化都有一部分变成<em>散失到环境中的废热</em>，分散开来后很难再收集利用——能量转化是<em>有方向性</em>的。节能节的是「还能用的那部分」。' },
+  { e:'🌍', q:'下列关于三种发电方式的说法，正确的是？',
+    o:['风力发电的效率比水力发电高','水力和风力用的是可再生能源，发电时基本不排放 CO₂','火力发电用的煤属于可再生能源'], a:1,
+    x:'水力、风力属于<em>可再生</em>能源，发电时基本不排放 CO₂；火力烧的煤是<em>不可再生</em>的，会排放 CO₂，但输出稳定可控。效率上水力约 85%，风力约 40%。' },
+  { e:'🔄', q:'摇手摇发电机时，摇得越快灯越亮，手也越费力。为什么会越费力？',
+    o:['因为要输出更多电能，就必须从手臂拿走更多机械能','因为电能会凭空产生，手只是引子','因为转得快时磁铁会变重'], a:0,
+    x:'灯亮起来的电能<em>不是凭空冒出来的</em>，全部来自你手臂做功的<em>机械能</em>。输出电能越多，每秒要消耗的机械能就越多，自然越费力——这正是<em>能量守恒</em>。' },
+];
+const QUIZ_EN = [
+  { e:'💧', q:'In a hydro plant, what energy does the water stored high in the reservoir have first?',
+    o:['Kinetic energy','Gravitational potential energy','Chemical energy'], a:1,
+    x:'Water held high stores <em>gravitational PE</em>; falling turns it into <em>kinetic energy</em>, the turbine turns it into <em>mechanical energy</em>, the generator into electrical. Switch to the Demo Lab and look at the head h.' },
+  { e:'🌬️', q:'What is the energy conversion order for wind power?',
+    o:['Kinetic → mechanical → electrical','Gravitational PE → kinetic → electrical','Chemical → internal → electrical'], a:0,
+    x:'Wind is <em>already moving</em>, so it starts with <em>kinetic energy</em> — nothing has to be lifted first, so the chain has only <em>3 links</em>. Pick Wind in the Demo Lab and read the chain.' },
+  { e:'🔥', q:'What is the full energy chain of a thermal (coal) power station?',
+    o:['Grav. PE → kinetic → mechanical → electrical','Internal → chemical → mechanical → electrical','Chemical → internal → mechanical → electrical'], a:2,
+    x:'Coal stores <em>chemical energy</em>; burning releases heat → <em>internal energy</em> (high-pressure steam); steam drives the turbine → <em>mechanical</em>; generator → electrical. The order cannot be swapped.' },
+  { e:'⚙️', q:'What is the LAST step shared by hydro, wind and thermal power?',
+    o:['The boiler turns chemical energy into internal energy','The generator uses induction to turn mechanical energy into electrical energy','The turbine turns kinetic energy into mechanical energy'], a:1,
+    x:'The last step is <em>identical</em> in all three — the generator uses <em>electromagnetic induction</em>. Only the first half differs: falling water, moving air, or hot steam driving the turbine.' },
+  { e:'♻️', q:'A coal plant takes in 100 units of chemical energy but only ~40 become useful electricity. Where do the other 60 go?',
+    o:['They simply vanish','They become waste heat (cooling water, flue gas) spread into the surroundings — the total is still conserved','They turn back into extra electricity'], a:1,
+    x:'Energy <em>never vanishes</em>: 40 units of electricity ＋ 60 units of waste heat ＝ <em>100 units</em>. Most waste heat leaves via the cooling tower and the chimney. Check the conservation line in the sidebar.' },
+  { e:'💡', q:'If energy is conserved and never decreases, why do we still need to save energy?',
+    o:['Because every conversion turns part of it into scattered waste heat that is very hard to use again','Because energy really does get used up and the total shrinks','Because conservation of energy does not hold in real life'], a:0,
+    x:'The <em>total</em> is conserved, but each conversion spills part of it as <em>waste heat spread into the surroundings</em>, which is very hard to collect again — conversion has a <em>direction</em>. Saving energy means saving the usable part.' },
+  { e:'🌍', q:'Which statement about the three ways of generating power is correct?',
+    o:['Wind power is more efficient than hydro power','Hydro and wind use renewable sources and emit almost no CO₂ while generating','The coal used in thermal plants is a renewable resource'], a:1,
+    x:'Hydro and wind are <em>renewable</em> and emit almost no CO₂ while running; coal is <em>non-renewable</em> and emits CO₂, but its output is steady and controllable. Hydro ≈ 85% efficient, wind ≈ 40%.' },
+  { e:'🔄', q:'Cranking a hand generator faster makes the lamp brighter AND makes your arm work harder. Why harder?',
+    o:['Because more electrical output must be taken from more mechanical energy in your arm','Because electricity appears from nothing and your hand only triggers it','Because the magnet gets heavier when it spins fast'], a:0,
+    x:'The electrical energy lighting the lamp does <em>not</em> come from nowhere — it all comes from the <em>mechanical work</em> of your arm. More output per second means more mechanical energy per second: <em>conservation of energy</em>.' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'发电与能量守恒探究实验室', subtitle:'水力 · 风力 · 火力 —— 能量只是换了形式，总量不会凭空增减',
+  chip1:'能量守恒：输入 ＝ 有用输出 ＋ 损耗', chip2:'发电机：机械能 →（电磁感应）→ 电能', chip3:'效率高 ≠ 能量变多，只是废热少',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 发电挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  srcLabel:'能源：', b_hydro:'💧 水力', b_wind:'🌬️ 风力', b_thermal:'🔥 火力',
+  n_hydro:'💧 水力发电站', n_wind:'🌬️ 风力发电机', n_thermal:'🔥 火力发电厂',
+  sub_hydro:'✅ 可再生 · 基本不排放 CO₂ · 较稳定（受水量、季节影响）',
+  sub_wind:'✅ 可再生 · 基本不排放 CO₂ · 不稳定（没风就发不了电）',
+  sub_thermal:'❌ 不可再生 · 排放 CO₂ · 稳定可控（随时加煤调节）',
+  st_hydro:'可再生', st_wind:'可再生', st_thermal:'不可再生',
+  loss_hydro:'损耗去向：水流阻力 ＋ 水轮机与发电机的摩擦发热',
+  loss_wind:'损耗去向：风不可能被完全利用（理论上限约 59%）＋ 摩擦发热',
+  loss_thermal:'损耗去向：冷却水与烟气带走的废热最多，还有各处摩擦发热',
+  slN:'🔄 转速', slT:'🌀 匝数', slB:'🧲 磁场',
+  presetLabel:'一键预设：',
+  pr1:'💧水力 85%', pr2:'🌬️风力 40%', pr3:'🔥火力 40%', pr4:'🔄转速×2', pr5:'🧲磁场×2', pr6:'⏹停机',
+  labHint:'先选能源（决定输入的能量形式和效率），再拉三条滑条（转速 / 线圈匝数 / 磁场强度）—— 盯住侧栏那条守恒式：拉大任何一条，两边始终相等。',
+  outLabel:'输出电功率', outLabelCmp:'有用电能（输出）',
+  kEff:'效率 %', kIn:'输入 kW', kLoss:'损耗 kW',
+  e_gpe:'重力势能', e_ke:'动能', e_me:'机械能', e_ee:'电能', e_ce:'化学能', e_ie:'内能',
+  v_fall:'水从高处落下', v_hit:'冲击水轮机', v_gen:'发电机·电磁感应', v_blow:'吹动叶片', v_burn:'燃烧放热', v_steam:'蒸汽推动汽轮机',
+  cap_h0:'水被拦蓄在高处 → 储存重力势能', cap_h1:'水沿管道落下，越流越快 → 重力势能变成动能',
+  cap_h2:'水流冲击水轮机 → 动能变成机械能', cap_h3:'发电机转动 → 机械能变成电能',
+  cap_w0:'流动的空气本身具有动能', cap_w1:'风吹动叶片 → 动能变成机械能', cap_w2:'发电机转动 → 机械能变成电能',
+  cap_t0:'煤储存着化学能', cap_t1:'燃烧放热 → 化学能变成内能（高温高压蒸汽）',
+  cap_t2:'蒸汽冲击汽轮机 → 内能变成机械能', cap_t3:'发电机转动 → 机械能变成电能',
+  cvNow:'此刻：', cvFlow:'能量流向图 · 条带宽度就是能量的份数',
+  cvIn:'输入 {p} kW', cvUse:'⚡ 有用电能', cvLoss:'🔥 损耗废热',
+  cvEq:'效率 {e}% ｜ 输入 {pin} ＝ 有用电能 {pout} ＋ 损耗废热 {ploss}（kW）',
+  cvGen:'⚙️ 发电机（电磁感应）', cvCoil:'线圈', cvLamp:'💡 灯泡', cvShaft:'转轴',
+  cvTurbH:'水轮机', cvTurbW:'风轮叶片', cvTurbT:'汽轮机',
+  cvRes:'💧 水库', cvHead:'落差 h', cvPipe:'引水管', cvWind:'🌬️ 风 · 空气的动能',
+  cvCoal:'⛏️ 煤·化学能', cvBoiler:'🔥 锅炉', cvChim:'烟囱·CO₂', cvCool:'❄️ 冷却塔·废热', cvSteam:'💨 高温高压蒸汽',
+  cvStop:'⏸ 转速 0 · 不发电', cvRun:'▶ 发电中 · {r} 转/分',
+  f_formula:'输入 <b>{pin} kW</b> ＝ 有用电能 <b>{pout} kW</b> ＋ 损耗废热 <b>{ploss} kW</b>',
+  live_off:'转速 0：线圈<b>不切割磁感线</b>，没有感应电流 —— 电不会凭空产生。',
+  live_on:'效率 <b>{e}%</b>：每输入 100 份能量，只有 <b>{e}</b> 份变成电能，其余 <b>{r}</b> 份变成废热散掉。',
+  r_start:'👉 <em>开始发电</em>：线圈切割磁感线，产生感应电流。',
+  r_stop:'👉 <em>停机</em>：没有相对运动，就没有电。',
+  r_switch:'👉 <em>换了能源</em>：输入的能量形式和效率都变了，守恒式照样成立。',
+  c_same:'📌 三种发电方式的<em>最后一步完全相同</em>：发电机靠<em>电磁感应</em>把机械能变成电能。区别只在前半段 —— <em>用什么去推涡轮</em>：落下的水？流动的风？还是燃煤产生的高温蒸汽？',
+  c_pr1:'📌 💧 水力：<em>重力势能 → 动能 → 机械能 → 电能</em>。落差越大、水量越多，输入的重力势能越多；效率约 <em>85%</em>，损耗主要是水流阻力与摩擦发热。',
+  c_pr2:'📌 🌬️ 风力：<em>动能 → 机械能 → 电能</em>，只有 3 段 —— 风本来就在动，不必先「举高」。效率约 <em>40%</em>：风不可能被完全利用（理论上限约 59%）。',
+  c_pr3:'📌 🔥 火力：<em>化学能 → 内能 → 机械能 → 电能</em>。煤燃烧放热 → 高温高压蒸汽 → 推动汽轮机。效率约 <em>40%</em>，<em>冷却水与烟气带走的废热最多</em>。',
+  c_pr4:'📌 转速加倍，输出电功率变成 <em>4 倍</em>（P ∝ n²）—— 但输入功率也同时变成 4 倍。<em>多发的电不是白来的</em>，涡轮必须被推得更用力。',
+  c_pr5:'📌 磁场加倍，感应电动势加倍，输出也变 <em>4 倍</em>；输入功率同样变 4 倍。<em>加强磁场造不出能量</em>，只是把更多输入转成电。',
+  c_pr6:'📌 转速 0 → 线圈不切割磁感线 → <em>没有感应电流</em>：输出 0、输入也 0。<em>电不会凭空产生</em>，必须有线圈与磁场的相对运动。',
+  recBtn:'记录数据', recClear:'清空', thSrc:'能源', thN:'转速', thOut:'输出', thEff:'效率',
+  cmpHint:'先按预设 → 全班猜一猜 → 再按「同时开始」验证。两边的份数都由效率真算，两条带永远加成输入。',
+  cp1:'💧水力 vs 🔥火力', cp2:'🌬️风力 vs 🔥火力', cp3:'火力加倍输入 vs 水力',
+  cp1a:'💧 水力发电（输入 100 kW）', cp1b:'🔥 火力发电（输入 100 kW）',
+  cp1ac:'效率 85% · 有用 85 kW · 损耗 15 kW', cp1bc:'效率 40% · 有用 40 kW · 损耗 60 kW',
+  cp2a:'🌬️ 风力发电（输入 100 kW）', cp2b:'🔥 火力发电（输入 100 kW）',
+  cp2ac:'效率 40% · 有用 40 kW · 损耗 60 kW', cp2bc:'效率 40% · 有用 40 kW · 损耗 60 kW',
+  cp3a:'🔥 火力发电（输入 200 kW）', cp3b:'💧 水力发电（输入 100 kW）',
+  cp3ac:'输入是乙的两倍，但效率只有 40%', cp3bc:'输入只有甲的一半，效率却有 85%',
+  guessQ:'猜一猜：哪边的有用电能更多？', gMoreA:'甲更多', gSame:'一样多', gMoreB:'乙更多', runCmp:'同时开始',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  cc_1:'📌 同样输入 100 kW：水力得到 <em>85 kW</em> 电，火力只有 <em>40 kW</em>，差别全在<em>效率</em>。但两边都满足 <em>输入 ＝ 有用 ＋ 损耗</em>：85＋15＝100，40＋60＝100。',
+  cc_2:'📌 风力和火力效率都约 <em>40%</em>，同样输入下有用电能<em>一样多</em>。可是风力烧的是<em>免费又可再生</em>的风，火力烧的是不可再生、还排 CO₂ 的煤。',
+  cc_3:'📌 火力输入是水力的<em>两倍</em>，有用电能却<em>更少</em>（80 vs 85）。<em>效率决定了有多少输入真的变成电</em>，多烧煤只是把更多能量变成废热。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！能量守恒与三种发电你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手拉一遍滑条，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场做给全班看。',
+  gRound:'回合', gTgt:'目标 kW', gCap:'上限 kW',
+  gLock:'🎯 锁定', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gHint:'全班指挥一位同学：在<b>不超过输入上限</b>的前提下，把输出电功率调到目标值。想清楚 —— 输入 ＝ 输出 ÷ 效率。',
+  gGo:'目标输出 <b>{t} kW</b>，输入不得超过 <b>{c} kW</b>。先想：哪种能源的效率够高？',
+  gWin:'🎯 输出 <b>{o} kW</b>（目标 {t}），输入 <b>{i} kW</b> ✔ ＋<b>{p}</b> 分。',
+  gOver:'❌ 输入 <b>{i} kW</b> 超过上限 {c} kW —— 效率不够高，换个能源试试。0 分。',
+  gTimeUp:'⏰ 时间到，本轮 0 分。提示：输入 ＝ 输出 ÷ 效率。',
+  gFinal:'最终得分', gRank1:'🏆 能量守恒大师！', gRank2:'👍 效率感觉很好！', gRank3:'💪 回演示实验再练几次！',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Power & Energy Conservation Lab', subtitle:'Hydro · wind · thermal — energy only changes form; the total never changes',
+  chip1:'Conservation: input = useful output + loss', chip2:'Generator: mechanical →(induction)→ electrical', chip3:'Higher efficiency ≠ more energy, just less waste',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Power Challenge',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  srcLabel:'Source:', b_hydro:'💧 Hydro', b_wind:'🌬️ Wind', b_thermal:'🔥 Thermal',
+  n_hydro:'💧 Hydroelectric station', n_wind:'🌬️ Wind turbine', n_thermal:'🔥 Thermal power station',
+  sub_hydro:'✅ Renewable · almost no CO₂ · fairly steady (depends on water & season)',
+  sub_wind:'✅ Renewable · almost no CO₂ · unsteady (no wind, no power)',
+  sub_thermal:'❌ Non-renewable · emits CO₂ · steady and controllable',
+  st_hydro:'renewable', st_wind:'renewable', st_thermal:'non-renewable',
+  loss_hydro:'Losses: flow resistance ＋ friction heat in turbine and generator',
+  loss_wind:'Losses: wind can never be fully used (theoretical cap ≈59%) ＋ friction heat',
+  loss_thermal:'Losses: cooling water and flue gas carry away the most heat, plus friction',
+  slN:'🔄 Speed', slT:'🌀 Turns', slB:'🧲 Field',
+  presetLabel:'Presets:',
+  pr1:'💧Hydro 85%', pr2:'🌬️Wind 40%', pr3:'🔥Coal 40%', pr4:'🔄Speed×2', pr5:'🧲Field×2', pr6:'⏹Stop',
+  labHint:'Pick a source (it fixes the input energy form and the efficiency), then drag the three sliders (speed / coil turns / field). Watch the conservation line in the sidebar — both sides always match.',
+  outLabel:'Electrical output', outLabelCmp:'Useful electrical output',
+  kEff:'Eff. %', kIn:'Input kW', kLoss:'Loss kW',
+  e_gpe:'Grav. PE', e_ke:'Kinetic', e_me:'Mechanical', e_ee:'Electrical', e_ce:'Chemical', e_ie:'Internal',
+  v_fall:'water falls', v_hit:'to turbine', v_gen:'to generator', v_blow:'turns blades', v_burn:'burns', v_steam:'steam drives',
+  cap_h0:'Water held high → stores gravitational PE', cap_h1:'Water falls down the pipe, faster and faster → PE becomes kinetic energy',
+  cap_h2:'The jet hits the water turbine → kinetic becomes mechanical energy', cap_h3:'The generator spins → mechanical becomes electrical energy',
+  cap_w0:'Moving air already carries kinetic energy', cap_w1:'Wind turns the blades → kinetic becomes mechanical energy', cap_w2:'The generator spins → mechanical becomes electrical energy',
+  cap_t0:'Coal stores chemical energy', cap_t1:'Burning releases heat → chemical becomes internal energy (hot steam)',
+  cap_t2:'Steam drives the turbine → internal becomes mechanical energy', cap_t3:'The generator spins → mechanical becomes electrical energy',
+  cvNow:'Now: ', cvFlow:'Energy flow · ribbon width = number of units',
+  cvIn:'Input {p} kW', cvUse:'⚡ Useful', cvLoss:'🔥 Waste heat',
+  cvEq:'Eff {e}% ｜ input {pin} ＝ useful {pout} ＋ waste heat {ploss} (kW)',
+  cvGen:'⚙️ Generator (induction)', cvCoil:'coil', cvLamp:'💡 lamp', cvShaft:'shaft',
+  cvTurbH:'water turbine', cvTurbW:'rotor blades', cvTurbT:'steam turbine',
+  cvRes:'💧 Reservoir', cvHead:'head h', cvPipe:'penstock', cvWind:'🌬️ Wind · kinetic energy of air',
+  cvCoal:'⛏️ Coal · chemical', cvBoiler:'🔥 Boiler', cvChim:'chimney · CO₂', cvCool:'❄️ Cooling tower', cvSteam:'💨 High-pressure steam',
+  cvStop:'⏸ Speed 0 · no power', cvRun:'▶ Generating · {r} rpm',
+  f_formula:'Input <b>{pin} kW</b> ＝ useful <b>{pout} kW</b> ＋ waste heat <b>{ploss} kW</b>',
+  live_off:'Speed 0: the coil <b>cuts no field lines</b>, so there is no induced current — electricity never appears from nothing.',
+  live_on:'Efficiency <b>{e}%</b>: of every 100 units of input, only <b>{e}</b> become electricity; the other <b>{r}</b> leave as waste heat.',
+  r_start:'👉 <em>Generating</em>: the coil cuts field lines and an induced current appears.',
+  r_stop:'👉 <em>Stopped</em>: no relative motion, no electricity.',
+  r_switch:'👉 <em>Source changed</em>: the input form and the efficiency changed — the conservation line still balances.',
+  c_same:'📌 The <em>last step is identical</em> in all three: the generator uses <em>induction</em> to turn mechanical energy into electrical energy. Only the first half differs — <em>what drives the turbine</em>: falling water, moving air, or hot steam?',
+  c_pr1:'📌 💧 Hydro: <em>grav. PE → kinetic → mechanical → electrical</em>. A bigger head and more water mean more input PE; efficiency ≈ <em>85%</em>, losses are flow resistance and friction heat.',
+  c_pr2:'📌 🌬️ Wind: <em>kinetic → mechanical → electrical</em> — only 3 links, because air is already moving. Efficiency ≈ <em>40%</em>: wind can never be fully used (cap ≈59%).',
+  c_pr3:'📌 🔥 Thermal: <em>chemical → internal → mechanical → electrical</em>. Coal burns → hot high-pressure steam → steam turbine. Efficiency ≈ <em>40%</em>; <em>cooling water and flue gas carry away the most heat</em>.',
+  c_pr4:'📌 Double the speed and the electrical output becomes <em>4×</em> (P ∝ n²) — but the input power becomes 4× as well. <em>The extra electricity is not free</em>: the turbine must be pushed harder.',
+  c_pr5:'📌 Double the field and the induced emf doubles, so output is <em>4×</em>; the required input is 4× too. <em>A stronger magnet creates no energy</em>, it only converts more of the input.',
+  c_pr6:'📌 Speed 0 → the coil cuts no field lines → <em>no induced current</em>: output 0, input 0. <em>Electricity never appears from nothing</em>; coil and field must move relative to each other.',
+  recBtn:'Record data', recClear:'Clear', thSrc:'Source', thN:'rpm', thOut:'Out', thEff:'Eff',
+  cmpHint:'Load a preset → let the class predict → press "Start both" to check. Both sides are computed from the real efficiencies, and the two ribbons always add up to the input.',
+  cp1:'💧Hydro vs 🔥Coal', cp2:'🌬️Wind vs 🔥Coal', cp3:'Coal 2× input vs Hydro',
+  cp1a:'💧 Hydro (input 100 kW)', cp1b:'🔥 Thermal (input 100 kW)',
+  cp1ac:'eff 85% · useful 85 kW · loss 15 kW', cp1bc:'eff 40% · useful 40 kW · loss 60 kW',
+  cp2a:'🌬️ Wind (input 100 kW)', cp2b:'🔥 Thermal (input 100 kW)',
+  cp2ac:'eff 40% · useful 40 kW · loss 60 kW', cp2bc:'eff 40% · useful 40 kW · loss 60 kW',
+  cp3a:'🔥 Thermal (input 200 kW)', cp3b:'💧 Hydro (input 100 kW)',
+  cp3ac:'twice the input of B, but only 40% efficient', cp3bc:'half the input of A, yet 85% efficient',
+  guessQ:'Predict: which side gives more useful electricity?', gMoreA:'A more', gSame:'Same', gMoreB:'B more', runCmp:'Start both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  cc_1:'📌 Same 100 kW input: hydro gives <em>85 kW</em> of electricity, coal only <em>40 kW</em> — the difference is <em>efficiency</em>. Both still obey <em>input ＝ useful ＋ loss</em>: 85+15=100, 40+60=100.',
+  cc_2:'📌 Wind and coal are both about <em>40%</em> efficient, so the same input gives the <em>same</em> useful output. But wind burns something <em>free and renewable</em>; coal is non-renewable and emits CO₂.',
+  cc_3:'📌 The coal plant takes in <em>twice</em> as much yet produces <em>less</em> electricity (80 vs 85). <em>Efficiency decides how much of the input really becomes electricity</em>; burning more coal just makes more waste heat.',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect — you own energy conservation!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Drag the sliders in the Demo Lab, then try again!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and show it live.',
+  gRound:'Round', gTgt:'Target kW', gCap:'Cap kW',
+  gLock:'🎯 Lock in', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gHint:'The class guides one player: reach the target electrical output <b>without exceeding the input cap</b>. Think: input ＝ output ÷ efficiency.',
+  gGo:'Target output <b>{t} kW</b>, input must stay under <b>{c} kW</b>. Which source is efficient enough?',
+  gWin:'🎯 Output <b>{o} kW</b> (target {t}), input <b>{i} kW</b> ✔ ＋<b>{p}</b> points.',
+  gOver:'❌ Input <b>{i} kW</b> exceeds the cap of {c} kW — that source is not efficient enough. 0 points.',
+  gTimeUp:'⏰ Time! 0 points this round. Hint: input ＝ output ÷ efficiency.',
+  gFinal:'Final score', gRank1:'🏆 Conservation master!', gRank2:'👍 Good feel for efficiency!', gRank3:'💪 Practise in the Demo Lab!',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    metal:'#9fb0bb', metalDark:'#5d6f7b', axis:'rgba(255,255,255,.34)',
+    ground:'#16263a', groundLine:'rgba(255,255,255,.22)',
+    water:'#2f8ec2', waterEdge:'rgba(180,220,245,.85)', mountain:'#26374b',
+    coal:'#2b2b2b', coalDot:'#5b5b5b',
+    flameA:'#ff8a3d', flameB:'#ffd166', smokeRGB:'190,196,200', steam:'rgba(235,245,252,.92)',
+    useful:'#3fd06c', usefulSoft:'rgba(63,208,108,.82)',
+    loss:'#ff6a5a', lossSoft:'rgba(255,106,90,.82)',
+    amber:'#ffc94d', blue:'#7cc4ff',
+    poleN:'#ff5d55', poleS:'#3e7cb1', coil:'#e0a63a',
+    bulbOn:'#ffe07a', bulbOff:'#3a4756',
+    node:'rgba(255,255,255,.07)', nodeLine:'rgba(255,255,255,.28)',
+    nodeOn:'#ffc94d', nodeOnInk:'#0c1626', glowRGB:'255,201,77',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.66)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    metal:'#8e9aa2', metalDark:'#5a6b73', axis:'rgba(30,42,54,.38)',
+    ground:'#efead9', groundLine:'#d6ceb6',
+    water:'#60a6d0', waterEdge:'rgba(62,110,150,.9)', mountain:'#e4ddc8',
+    coal:'#3a3a3a', coalDot:'#5d5d5d',
+    flameA:'#e4573d', flameB:'#f0b43c', smokeRGB:'140,144,148', steam:'rgba(198,214,224,.95)',
+    useful:'#1fa050', usefulSoft:'rgba(31,160,80,.82)',
+    loss:'#e0443c', lossSoft:'rgba(224,68,60,.82)',
+    amber:'#a06d00', blue:'#2f6690',
+    poleN:'#e0443c', poleS:'#3e7cb1', coil:'#b5651d',
+    bulbOn:'#f0c93f', bulbOff:'#e3e6e4',
+    node:'#f2f4ef', nodeLine:'rgba(30,42,54,.22)',
+    nodeOn:'#ffc94d', nodeOnInk:'#22303d', glowRGB:'199,158,28',
+  },
+};
+let THEME = 'dark';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'dark'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  applyTheme();
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  labSync();
+  renderRec();
+  cmpLabels();
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')) gameSync();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+13;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-10,yy-h/2,w+20,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+function ribbon(c,x0,aT,aB,x1,bT,bB,fill){
+  const d=(x1-x0)*0.45;
+  c.beginPath();
+  c.moveTo(x0,aT);
+  c.bezierCurveTo(x0+d,aT,x1-d,bT,x1,bT);
+  c.lineTo(x1,bB);
+  c.bezierCurveTo(x1-d,bB,x0+d,aB,x0,aB);
+  c.closePath(); c.fillStyle=fill; c.fill();
+}
+function bez(x0,y0,x1,y1,u){
+  const d=(x1-x0)*0.45;
+  const c1x=x0+d, c2x=x1-d, v=1-u;
+  return [v*v*v*x0+3*v*v*u*c1x+3*v*u*u*c2x+u*u*u*x1,
+          v*v*v*y0+3*v*v*u*y0+3*v*u*u*y1+u*u*u*y1];
+}
+function prand(i){ const v=Math.sin(i*127.1+311.7)*43758.5453; return v-Math.floor(v); }
+
+/* ============================================================
+   Physics model (kept from the source file's numbers)
+   - each plant fixes the input energy form and the whole-plant efficiency
+   - generator: emf ∝ N·B·n  →  P_out ∝ (N·B·n)²   (source: 越快越费力 �� 电流²)
+   - P_in = P_out / η ,  P_loss = P_in − P_out  ⇒  P_in ≡ P_out + P_loss
+============================================================ */
+const PLANTS = {
+  hydro:{ key:'hydro', eff:0.85,
+    chain:['e_gpe','e_ke','e_me','e_ee'], via:['v_fall','v_hit','v_gen'],
+    capt:['cap_h0','cap_h1','cap_h2','cap_h3'], renew:true },
+  wind:{ key:'wind', eff:0.40,
+    chain:['e_ke','e_me','e_ee'], via:['v_blow','v_gen'],
+    capt:['cap_w0','cap_w1','cap_w2'], renew:true },
+  thermal:{ key:'thermal', eff:0.40,
+    chain:['e_ce','e_ie','e_me','e_ee'], via:['v_burn','v_steam','v_gen'],
+    capt:['cap_t0','cap_t1','cap_t2','cap_t3'], renew:false },
+};
+const N0 = 1500, T0 = 200, B0 = 0.5, P0 = 40;   /* reference point → 40.0 kW */
+const LAB = { plant:'hydro', n:1500, turns:200, B:0.5 };
+const VIS = { rot:0, out:0, phase:0, stage:0, time:0 };
+
+function pl(){ return PLANTS[LAB.plant]; }
+function uOf(){ return (LAB.n/N0)*(LAB.turns/T0)*(LAB.B/B0); }
+function pOut(){ const u=uOf(); return P0*u*u; }
+function effOf(){ return pl().eff; }
+function pIn(){ return pOut()/effOf(); }
+/* displayed numbers: derive loss from the two rounded values so the
+   equation on screen always balances exactly */
+function readings(){
+  const po = +pOut().toFixed(1);
+  const pi = +pIn().toFixed(1);
+  const plo = +(pi-po).toFixed(1);
+  return { po:po, pi:pi, pl:plo, eff:Math.round(effOf()*100) };
+}
+
+/* ============================================================
+   Tab 1: Demo lab canvas (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 364;
+const GY_ = 300;                       /* ground line */
+const TXc = 316, TYc = 196, TRr = 48;  /* turbine */
+const GCX = 455, GCY = 195, GHW = 56;  /* generator coil */
+const SKx0 = 556, SKx1 = 606, SKrx = 800, SKox = 846;  /* sankey blocks */
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+
+function drawGround(c){
+  c.fillStyle=C().ground; c.fillRect(14,GY_,248,26);
+  line(c,14,GY_,262,GY_,C().groundLine,2);
+}
+function drawHydroSide(c){
+  const T=VIS.time;
+  c.fillStyle=C().mountain;
+  c.beginPath(); c.moveTo(14,124); c.lineTo(48,88); c.lineTo(112,82); c.lineTo(146,118);
+  c.lineTo(146,GY_); c.lineTo(14,GY_); c.closePath(); c.fill();
+  c.strokeStyle=C().groundLine; c.lineWidth=1.6; c.stroke();
+  /* reservoir */
+  c.fillStyle=C().water;
+  c.beginPath(); c.moveTo(18,126);
+  for(let x=18;x<=146;x+=6) c.lineTo(x, 126-2.2*Math.sin(x*0.09+T*1.6));
+  c.lineTo(146,206); c.lineTo(18,206); c.closePath(); c.fill();
+  /* dam */
+  c.fillStyle=C().metal; rrect(c,146,112,16,GY_-112,3); c.fill();
+  c.strokeStyle=C().metalDark; c.lineWidth=2; rrect(c,146,112,16,GY_-112,3); c.stroke();
+  /* head arrow */
+  line(c,22,126,150,126,C().loss,1.4,[5,4]);
+  line(c,22,214,190,214,C().loss,1.4,[5,4]);
+  line(c,32,126,32,214,C().loss,2.2);
+  c.fillStyle=C().loss;
+  c.beginPath(); c.moveTo(32,126); c.lineTo(27,135); c.lineTo(37,135); c.closePath(); c.fill();
+  c.beginPath(); c.moveTo(32,214); c.lineTo(27,205); c.lineTo(37,205); c.closePath(); c.fill();
+  tchip(c,t('cvHead'),84,170,'800 14px '+CV_FONT,C().loss,'center',W_W,W_H);
+  TX(c,t('cvRes'),80,102,'700 14px '+CV_FONT,C().cvText,'center','middle');
+  /* penstock */
+  line(c,160,190,270,216,C().metal,20);
+  line(c,160,190,270,216,C().metalDark,13);
+  c.save();
+  c.strokeStyle=C().water; c.lineWidth=10;
+  if(c.setLineDash){ c.setLineDash([20,16]); c.lineDashOffset=-(VIS.time*130)%36; }
+  c.beginPath(); c.moveTo(160,190); c.lineTo(270,216); c.stroke();
+  c.restore();
+  TX(c,t('cvPipe'),214,168,'700 13px '+CV_FONT,C().blue,'center','middle');
+  /* splash */
+  for(let k=0;k<5;k++){
+    const u=(VIS.time*1.5+k*0.2)%1;
+    circle(c,272+u*18,214-u*22-Math.sin(u*3.14)*8,3.4-u*1.6,C().waterEdge,null,0);
+  }
+}
+function drawWindSide(c){
+  for(let k=0;k<4;k++){
+    const y=104+k*52;
+    const off=(VIS.time*120+k*60)%300;
+    c.strokeStyle=C().blue; c.lineWidth=2.6; c.lineCap='round';
+    for(let s=0;s<2;s++){
+      const x0=-110+off+s*150;
+      if(x0>230) continue;
+      c.beginPath(); c.moveTo(Math.max(14,x0),y);
+      for(let d=0;d<=80;d+=8){ const xx=x0+d; if(xx<14) continue; if(xx>246) break; c.lineTo(xx, y+4*Math.sin(xx*0.06+VIS.time*3)); }
+      c.stroke();
+      const xe=Math.min(x0+80,246);
+      if(xe>20){ c.fillStyle=C().blue; c.beginPath(); c.moveTo(xe,y-5); c.lineTo(xe+9,y); c.lineTo(xe,y+5); c.closePath(); c.fill(); }
+    }
+  }
+  TX(c,t('cvWind'),138,272,'800 15px '+CV_FONT,C().blue,'center','middle');
+  /* tower */
+  c.fillStyle=C().panel; c.strokeStyle=C().metal; c.lineWidth=2.4;
+  c.beginPath(); c.moveTo(TXc-15,GY_); c.lineTo(TXc-7,TYc+10); c.lineTo(TXc+7,TYc+10); c.lineTo(TXc+15,GY_);
+  c.closePath(); c.fill(); c.stroke();
+}
+function drawThermalSide(c){
+  const T=VIS.time;
+  /* coal pile */
+  c.fillStyle=C().coal;
+  c.beginPath(); c.moveTo(18,GY_); c.lineTo(44,262); c.lineTo(70,GY_); c.closePath(); c.fill();
+  for(let k=0;k<6;k++) circle(c,28+((k*13)%36),GY_-8-((k*11)%24),3.6,C().coalDot,null,0);
+  TX(c,t('cvCoal'),44,318,'700 13px '+CV_FONT,C().cvText,'center','middle');
+  /* conveyor */
+  line(c,60,274,96,258,C().metal,6);
+  for(let k=0;k<3;k++){
+    const u=(T*0.55+k*0.33)%1;
+    circle(c,60+36*u,274-16*u-5,4,C().coal,null,0);
+  }
+  /* boiler */
+  c.fillStyle=C().panel; rrect(c,92,230,74,70,7); c.fill();
+  c.strokeStyle=C().metalDark; c.lineWidth=2.6; rrect(c,92,230,74,70,7); c.stroke();
+  c.save();
+  c.beginPath(); c.rect(95,234,68,64); c.clip();
+  for(let k=0;k<6;k++){
+    const bx=103+k*11, ph=T*5+k, hgt=18+7*Math.sin(ph)+5*Math.sin(ph*1.7);
+    c.fillStyle = k%2 ? C().flameA : C().flameB;
+    c.beginPath(); c.moveTo(bx-6,GY_-4); c.quadraticCurveTo(bx-5,GY_-4-hgt*0.7,bx,GY_-4-hgt);
+    c.quadraticCurveTo(bx+5,GY_-4-hgt*0.7,bx+6,GY_-4); c.closePath(); c.fill();
+  }
+  c.restore();
+  TX(c,t('cvBoiler'),129,244,'700 13px '+CV_FONT,C().flameA,'center','middle');
+  /* chimney */
+  c.fillStyle=C().panel; rrect(c,98,150,20,80,3); c.fill();
+  c.strokeStyle=C().metalDark; c.lineWidth=2.2; rrect(c,98,150,20,80,3); c.stroke();
+  for(let k=0;k<5;k++){
+    const u=(T*0.42+k*0.2)%1;
+    c.fillStyle='rgba('+C().smokeRGB+','+(0.42*(1-u)).toFixed(3)+')';
+    c.beginPath(); c.arc(108+u*30,148-u*56,6+u*11,0,6.283); c.fill();
+  }
+  TX(c,t('cvChim'),108,132,'700 13px '+CV_FONT,C().loss,'center','middle');
+  /* cooling tower */
+  c.fillStyle=C().panel;
+  c.beginPath(); c.moveTo(180,GY_); c.quadraticCurveTo(200,264,196,238);
+  c.lineTo(234,238); c.quadraticCurveTo(230,264,250,GY_); c.closePath(); c.fill();
+  c.strokeStyle=C().metal; c.lineWidth=2.2; c.stroke();
+  for(let k=0;k<4;k++){
+    const u=(T*0.4+k*0.25)%1;
+    c.fillStyle='rgba('+C().smokeRGB+','+(0.45*(1-u)).toFixed(3)+')';
+    c.beginPath(); c.arc(215-u*6,236-u*40,8+u*11,0,6.283); c.fill();
+  }
+  TX(c,t('cvCool'),215,318,'700 13px '+CV_FONT,C().loss,'center','middle');
+  /* steam pipe to turbine */
+  c.strokeStyle=C().metal; c.lineWidth=14; c.lineJoin='round'; c.lineCap='round';
+  c.beginPath(); c.moveTo(150,230); c.lineTo(150,196); c.lineTo(268,196); c.stroke();
+  c.strokeStyle=C().metalDark; c.lineWidth=8;
+  c.beginPath(); c.moveTo(150,230); c.lineTo(150,196); c.lineTo(268,196); c.stroke();
+  for(let k=0;k<6;k++){
+    const u=(T*0.5+k/6)%1, tot=34+118, dd=u*tot;
+    let x,y;
+    if(dd<34){ x=150; y=230-dd; } else { x=150+(dd-34); y=196; }
+    circle(c,x,y,4.2,C().steam,null,0);
+  }
+  TX(c,t('cvSteam'),210,176,'700 13px '+CV_FONT,C().blue,'center','middle');
+}
+function drawTurbine(c){
+  const k=LAB.plant;
+  c.save(); c.translate(TXc,TYc); c.rotate(VIS.rot);
+  if(k==='hydro'){
+    c.strokeStyle=C().metalDark; c.lineWidth=4;
+    for(let i=0;i<8;i++){
+      const a=i*Math.PI/4;
+      c.beginPath(); c.moveTo(0,0); c.lineTo(Math.cos(a)*TRr,Math.sin(a)*TRr); c.stroke();
+      c.save(); c.rotate(a); c.translate(TRr-7,0); c.rotate(0.7);
+      c.fillStyle=C().metal; rrect(c,-7,-10,14,20,4); c.fill();
+      c.strokeStyle=C().metalDark; c.lineWidth=1.8; rrect(c,-7,-10,14,20,4); c.stroke();
+      c.restore(); c.strokeStyle=C().metalDark; c.lineWidth=4;
+    }
+    circle(c,0,0,TRr,null,C().metal,3.4);
+  } else if(k==='wind'){
+    for(let i=0;i<3;i++){
+      c.save(); c.rotate(i*2.0944);
+      c.fillStyle=C().panel; c.strokeStyle=C().metal; c.lineWidth=2;
+      c.beginPath(); c.moveTo(0,-8); c.quadraticCurveTo(50,-14,80,-4);
+      c.quadraticCurveTo(52,6,0,9); c.closePath(); c.fill(); c.stroke();
+      c.restore();
+    }
+  } else {
+    circle(c,0,0,TRr-14,C().panel,C().metal,2);
+    for(let i=0;i<12;i++){
+      c.save(); c.rotate(i*6.283/12); c.translate(TRr-18,0); c.rotate(0.55);
+      c.fillStyle=C().metal; rrect(c,-5,-9,10,18,3); c.fill();
+      c.strokeStyle=C().metalDark; c.lineWidth=1.4; rrect(c,-5,-9,10,18,3); c.stroke();
+      c.restore();
+    }
+  }
+  circle(c,0,0,10,C().metalDark,null,0);
+  c.restore();
+  TX(c, t(k==='hydro'?'cvTurbH':k==='wind'?'cvTurbW':'cvTurbT'), TXc, 322, '700 14px '+CV_FONT, C().cvText,'center','middle');
+}
+function drawGenerator(c, bright){
+  /* shaft */
+  line(c,TXc+TRr-4,GCY,GCX-GHW-6,GCY,C().metal,8);
+  TX(c,t('cvGen'),GCX,100,'700 15px '+CV_FONT,C().cvText,'center','middle');
+  /* poles */
+  c.fillStyle=C().poleN; rrect(c,392,118,126,22,7); c.fill();
+  TX(c,'N',GCX,129,'900 16px '+CV_FONT,'#ffffff','center','middle');
+  c.fillStyle=C().poleS; rrect(c,392,252,126,22,7); c.fill();
+  TX(c,'S',GCX,263,'900 16px '+CV_FONT,'#ffffff','center','middle');
+  /* field lines */
+  for(let i=0;i<5;i++){
+    const x=400+i*29;
+    line(c,x,140,x,252,C().poleS,1.4,[6,5]);
+    c.fillStyle=C().poleS;
+    c.beginPath(); c.moveTo(x,206); c.lineTo(x-4,198); c.lineTo(x+4,198); c.closePath(); c.fill();
+  }
+  /* rotating coil */
+  const cs=Math.cos(VIS.rot), sn=Math.sin(VIS.rot);
+  const y1=GCY-46*cs, y2=GCY+46*cs, ox=46*sn*0.28;
+  const cut=Math.abs(cs)*clamp(uOf()/2.4,0,1);
+  if(cut>0.04){
+    circle(c,GCX-GHW+ox,y1,11,'rgba('+C().glowRGB+','+(0.15+0.45*cut).toFixed(3)+')',null,0);
+    circle(c,GCX+GHW-ox,y2,11,'rgba('+C().glowRGB+','+(0.15+0.45*cut).toFixed(3)+')',null,0);
+  }
+  c.save(); c.lineJoin='round'; c.lineCap='round';
+  c.beginPath();
+  c.moveTo(GCX-GHW+ox,y1); c.lineTo(GCX+GHW+ox,y1);
+  c.lineTo(GCX+GHW-ox,y2); c.lineTo(GCX-GHW-ox,y2); c.closePath();
+  c.strokeStyle=C().coil; c.lineWidth=6; c.stroke();
+  c.restore();
+  TX(c,t('cvCoil'),GCX,286,'700 13px '+CV_FONT,C().coil,'center','middle');
+  /* lamp */
+  if(bright>0.02){
+    for(let i=3;i>=1;i--) circle(c,GCX,GY_+4,15+i*8,'rgba('+C().glowRGB+','+(0.09*bright).toFixed(3)+')',null,0);
+  }
+  circle(c,GCX,GY_+4,15, bright>0.02?C().bulbOn:C().bulbOff, C().metal,2.2);
+  TX(c,t('cvLamp'),GCX,336,'700 13px '+CV_FONT,C().cvText,'center','middle');
+}
+function drawChain(c){
+  const P=pl(), n=P.chain.length;
+  const NW=150, AW=86, total=n*NW+(n-1)*AW, x0=(W_W-total)/2;
+  for(let i=0;i<n;i++){
+    const x=x0+i*(NW+AW), on=(VIS.stage===i);
+    rrect(c,x,358,NW,42,10);
+    c.fillStyle = on ? C().nodeOn : C().node; c.fill();
+    c.strokeStyle = on ? C().nodeOn : C().nodeLine; c.lineWidth = on?2.4:1.4; c.stroke();
+    TX(c,t(P.chain[i]),x+NW/2,379,'800 16px '+CV_FONT, on?C().nodeOnInk:C().cvText,'center','middle');
+    if(i<n-1){
+      const ax=x+NW+AW/2, act=(VIS.stage===i+1);
+      TX(c,'→',ax,370,'800 18px '+CV_FONT, act?C().amber:C().cvTextDim,'center','middle');
+      TX(c,t(P.via[i]),ax,392,'700 13px '+CV_FONT, act?C().amber:C().cvTextDim,'center','middle');
+    }
+  }
+}
+function drawSankey(c, r){
+  const eff=r.eff/100, H=180, inTop=100;
+  const hU=H*eff, hL=H-hU;
+  const uTop=88, wTop=uTop+hU+18;
+  TX(c,t('cvFlow'),768,50,'700 15px '+CV_FONT,C().cvTextDim,'center','middle');
+  TX(c,tf('cvIn',{p:r.pi.toFixed(1)}),600,80,'800 15px '+CV_FONT,C().cvText,'center','middle');
+  /* input block */
+  c.fillStyle=C().blue; rrect(c,SKx0,inTop,SKx1-SKx0,H,6); c.fill();
+  TX(c,t(pl().chain[0]),581,314,'700 13px '+CV_FONT,C().blue,'center','middle');
+  /* ribbons */
+  ribbon(c,SKx1+4,inTop,inTop+hU,SKrx,uTop,uTop+hU,C().usefulSoft);
+  ribbon(c,SKx1+4,inTop+hU,inTop+H,SKrx,wTop,wTop+hL,C().lossSoft);
+  /* flowing dots */
+  for(let k=0;k<5;k++){
+    const u=((VIS.time*0.3+k/5)%1);
+    const p1=bez(SKx1+4,inTop+hU/2,SKrx,uTop+hU/2,u);
+    circle(c,p1[0],p1[1],3.2,'rgba(255,255,255,.85)',null,0);
+    const p2=bez(SKx1+4,inTop+hU+hL/2,SKrx,wTop+hL/2,u);
+    circle(c,p2[0],p2[1],3.2,'rgba(255,255,255,.8)',null,0);
+  }
+  /* output blocks */
+  c.fillStyle=C().useful; c.fillRect(SKrx,uTop,SKox-SKrx,hU);
+  c.fillStyle=C().loss;   c.fillRect(SKrx,wTop,SKox-SKrx,hL);
+  /* labels */
+  TX(c,t('cvUse'),856,uTop+hU/2-10,'700 13px '+CV_FONT,C().useful,'left','middle');
+  TX(c,r.po.toFixed(1)+' kW',856,uTop+hU/2+11,'900 16px '+CV_FONT,C().useful,'left','middle');
+  TX(c,t('cvLoss'),856,wTop+hL/2-10,'700 13px '+CV_FONT,C().loss,'left','middle');
+  TX(c,r.pl.toFixed(1)+' kW',856,wTop+hL/2+11,'900 16px '+CV_FONT,C().loss,'left','middle');
+  TX(c,t('loss_'+LAB.plant),768,336,'700 13px '+CV_FONT,C().cvTextDim,'center','middle');
+}
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const r = readings();
+  const bright = clamp(uOf()/2.0,0,1);
+
+  /* header line */
+  TX(c, t('n_'+LAB.plant), 16, 20, '800 16px '+CV_FONT, C().cvText, 'left','middle');
+  TX(c, t('sub_'+LAB.plant), 984, 20, '700 13px '+CV_FONT, C().cvTextDim, 'right','middle');
+
+  drawGround(c);
+  if(LAB.plant==='hydro') drawHydroSide(c);
+  else if(LAB.plant==='wind') drawWindSide(c);
+  else drawThermalSide(c);
+  drawTurbine(c);
+  drawGenerator(c, bright);
+  drawSankey(c, r);
+  /* status */
+  TX(c, LAB.n<=0 ? t('cvStop') : tf('cvRun',{r:LAB.n}), 984, W_H-14,
+     '700 13px '+CV_FONT, LAB.n<=0?C().cvTextDim:C().useful, 'right','middle');
+}
+
+/* ---------- sidebar messages ---------- */
+let FLASH = null, CONCL = null;
+function renderMsg(){
+  const r = readings();
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const formula = tf('f_formula',{pin:r.pi.toFixed(1), pout:r.po.toFixed(1), ploss:r.pl.toFixed(1)});
+  const live = LAB.n<=0 ? t('live_off') : tf('live_on',{e:r.eff, r:100-r.eff});
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + live + '<br>' + t('loss_'+LAB.plant);
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- setters (shared by lab + game control bars) ---------- */
+function syncSliders(){
+  const pairs = [['s-n','g-s-n',LAB.n],['s-t','g-s-t',LAB.turns],['s-b','g-s-b',LAB.B]];
+  pairs.forEach(function(p){
+    const a=$(p[0]), b=$(p[1]);
+    if(a && +a.value!==p[2]) a.value=p[2];
+    if(b && +b.value!==p[2]) b.value=p[2];
+  });
+  const nTxt = LAB.n, tTxt = LAB.turns, bTxt = LAB.B.toFixed(2)+' T';
+  ['s-n-o','g-s-n-o'].forEach(function(id){ if($(id)) $(id).textContent = nTxt; });
+  ['s-t-o','g-s-t-o'].forEach(function(id){ if($(id)) $(id).textContent = tTxt; });
+  ['s-b-o','g-s-b-o'].forEach(function(id){ if($(id)) $(id).textContent = bTxt; });
+}
+function labSync(){
+  const r = readings();
+  if($('l-out')) $('l-out').textContent = r.po.toFixed(1);
+  if($('l-eff')) $('l-eff').textContent = r.eff;
+  if($('l-in')) $('l-in').textContent = r.pi.toFixed(1);
+  if($('l-loss')) $('l-loss').textContent = r.pl.toFixed(1);
+  const bd = $('l-state');
+  if(bd){
+    bd.innerHTML = t('n_'+LAB.plant)+'<small>'+t('sub_'+LAB.plant)+'</small>';
+    bd.style.color = pl().renew ? '#1d7a3a' : '#b8432f';
+    bd.style.borderColor = pl().renew ? '#2e9e52' : 'var(--pos)';
+  }
+  if($('g-out')) $('g-out').textContent = r.po.toFixed(1);
+  if($('g-in')) $('g-in').textContent = r.pi.toFixed(1);
+  syncSliders();
+  renderMsg();
+}
+function setPlant(k){
+  if(!PLANTS[k] || LAB.plant===k) { if(PLANTS[k]) labSync(); return; }
+  LAB.plant = k;
+  VIS.stage = 0; VIS.phase = 0;
+  FLASH = 'r_switch'; CONCL = 'c_same';
+  document.querySelectorAll('.sbtn[data-src]').forEach(b=>b.classList.toggle('pick', b.dataset.src===k));
+  labSync();
+}
+function setN(v){
+  const was = LAB.n;
+  LAB.n = clamp(v,0,3000);
+  if(was<=0 && LAB.n>0) FLASH='r_start';
+  else if(was>0 && LAB.n<=0) FLASH='r_stop';
+  labSync();
+}
+function setTurns(v){ LAB.turns = clamp(v,100,300); labSync(); }
+function setB(v){ LAB.B = clamp(v,0.2,0.8); labSync(); }
+function labSet(p,n,tu,b){
+  LAB.plant=p; LAB.n=n; LAB.turns=tu; LAB.B=b;
+  VIS.stage=0; VIS.phase=0;
+  document.querySelectorAll('.sbtn[data-src]').forEach(x=>x.classList.toggle('pick', x.dataset.src===p));
+  labSync();
+}
+function labReset(){ FLASH=null; CONCL=null; labSet('hydro',1500,200,0.5); }
+
+/* ---------- one-click presets (the source file's static diagrams) ---------- */
+function presetDemo(id){
+  setMode('lab');
+  if(id==='pr1') labSet('hydro',1800,220,0.55);
+  else if(id==='pr2') labSet('wind',1200,200,0.5);
+  else if(id==='pr3') labSet('thermal',1800,220,0.55);
+  else if(id==='pr4') labSet(LAB.plant, clamp(LAB.n*2,0,3000), LAB.turns, LAB.B);
+  else if(id==='pr5') labSet(LAB.plant, LAB.n, LAB.turns, clamp(LAB.B*2,0.2,0.8));
+  else if(id==='pr6') labSet(LAB.plant, 0, LAB.turns, LAB.B);
+  FLASH = id==='pr6' ? 'r_stop' : null;
+  CONCL = 'c_'+id;
+  renderMsg();
+  const btn = document.querySelector('.rail [data-p="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  const r = readings();
+  recRows.push({ p:LAB.plant, n:LAB.n, out:r.po, eff:r.eff, renew:pl().renew });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.out); });
+  body.innerHTML = recRows.map(function(r){
+    const pct = top>1e-6 ? Math.max(6, r.out/top*100) : 0;
+    const nm = t('b_'+r.p);
+    return '<tr><td>'+nm+'</td><td>'+r.n+'</td><td>'+r.out.toFixed(1)+'</td><td>'+r.eff+'%</td>'+
+      '<td><div class="bar '+(r.renew?'re':'nre')+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare (two energy-flow diagrams, world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CMP_PRESETS = [
+  { a:{ plant:'hydro',   pin:100, nameK:'cp1a', condK:'cp1ac' },
+    b:{ plant:'thermal', pin:100, nameK:'cp1b', condK:'cp1bc' }, concl:'cc_1' },
+  { a:{ plant:'wind',    pin:100, nameK:'cp2a', condK:'cp2ac' },
+    b:{ plant:'thermal', pin:100, nameK:'cp2b', condK:'cp2bc' }, concl:'cc_2' },
+  { a:{ plant:'thermal', pin:200, nameK:'cp3a', condK:'cp3ac' },
+    b:{ plant:'hydro',   pin:100, nameK:'cp3b', condK:'cp3bc' }, concl:'cc_3' },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+function side(w){ return CMP_PRESETS[CMP.preset][w]; }
+function sideVals(s){
+  const eff = PLANTS[s.plant].eff;
+  const po = +(s.pin*eff).toFixed(1);
+  const plo = +(s.pin-po).toFixed(1);
+  return { pin:s.pin, po:po, pl:plo, eff:Math.round(eff*100) };
+}
+function cmpScale(){
+  return 150 / Math.max(side('a').pin, side('b').pin);
+}
+function drawCmpSide(c, s, p){
+  const v = sideVals(s), k = cmpScale();
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,CM_W*SC,CM_H*SC);
+  c.setTransform(SC,0,0,SC,0,0);
+
+  const H = v.pin*k, cy = 176, inTop = cy - H/2;
+  const hU = H*v.eff/100*p, hL = H*(1-v.eff/100)*p;
+  const uTop = cy - H/2 - 6, wTop = uTop + H*v.eff/100 + 16;
+  const x0 = 26, x1 = 72, xr = 250, xo = 292;
+
+  TX(c, t('n_'+s.plant), CM_W/2, 26, '800 16px '+CV_FONT, C().cvText, 'center','middle');
+  TX(c, tf('cvIn',{p:v.pin.toFixed(1)}), CM_W/2, 50, '700 14px '+CV_FONT, C().cvTextDim, 'center','middle');
+
+  c.fillStyle=C().blue; rrect(c,x0,inTop,x1-x0,H,6); c.fill();
+  TX(c, t(PLANTS[s.plant].chain[0]), x0+(x1-x0)/2, inTop+H+18, '700 13px '+CV_FONT, C().blue, 'center','middle');
+
+  if(p>0.001){
+    ribbon(c,x1+3,inTop,inTop+H*v.eff/100,xr,uTop,uTop+H*v.eff/100,
+      'rgba('+(THEME==='dark'?'63,208,108':'31,160,80')+','+(0.82*p).toFixed(3)+')');
+    ribbon(c,x1+3,inTop+H*v.eff/100,inTop+H,xr,wTop,wTop+H*(1-v.eff/100),
+      'rgba('+(THEME==='dark'?'255,106,90':'224,68,60')+','+(0.82*p).toFixed(3)+')');
+    for(let m=0;m<4;m++){
+      const u=((VIS.time*0.35+m/4)%1);
+      const q1=bez(x1+3,inTop+H*v.eff/200,xr,uTop+H*v.eff/200,u);
+      circle(c,q1[0],q1[1],3,'rgba(255,255,255,.85)',null,0);
+      const q2=bez(x1+3,inTop+H*(1+v.eff/100)/2,xr,wTop+H*(1-v.eff/100)/2,u);
+      circle(c,q2[0],q2[1],3,'rgba(255,255,255,.8)',null,0);
+    }
+    c.fillStyle=C().useful; c.fillRect(xr,uTop,xo-xr,hU);
+    c.fillStyle=C().loss;   c.fillRect(xr,wTop,xo-xr,hL);
+  }
+  TX(c, t('cvUse'), 302, uTop+H*v.eff/200-10, '700 13px '+CV_FONT, C().useful,'left','middle');
+  TX(c, (v.po*p).toFixed(1)+' kW', 302, uTop+H*v.eff/200+11, '900 15px '+CV_FONT, C().useful,'left','middle');
+  TX(c, t('cvLoss'), 302, wTop+H*(1-v.eff/100)/2-10, '700 13px '+CV_FONT, C().loss,'left','middle');
+  TX(c, (v.pl*p).toFixed(1)+' kW', 302, wTop+H*(1-v.eff/100)/2+11, '900 15px '+CV_FONT, C().loss,'left','middle');
+
+  TX(c, (v.po*p).toFixed(1)+' kW', CM_W/2, 320, '900 27px '+CV_FONT, C().useful,'center','middle');
+  TX(c, v.pin.toFixed(1)+' ＝ '+(v.po).toFixed(1)+' ＋ '+(v.pl).toFixed(1)+'  (kW)',
+     CM_W/2, 350, '700 14px '+CV_FONT, C().cvTextDim,'center','middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, side('a'), CMP.p);
+  drawCmpSide(ctxB, side('b'), CMP.p);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const a = sideVals(side('a')), b = sideVals(side('b'));
+  $('c-out-a').textContent = (a.po*CMP.p).toFixed(1);
+  $('c-out-b').textContent = (b.po*CMP.p).toFixed(1);
+  $('c-in-a').textContent = a.pin.toFixed(0);
+  $('c-eff-a').textContent = a.eff;
+  $('c-loss-a').textContent = (a.pl*CMP.p).toFixed(1);
+  $('c-in-b').textContent = b.pin.toFixed(0);
+  $('c-eff-b').textContent = b.eff;
+  $('c-loss-b').textContent = (b.pl*CMP.p).toFixed(1);
+}
+function cmpLabels(){
+  $('ca-name').textContent = t(side('a').nameK);
+  $('cb-name').textContent = t(side('b').nameK);
+  $('ca-cond').textContent = t(side('a').condK);
+  $('cb-cond').textContent = t(side('b').condK);
+  $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = sideVals(side('a')), b = sideVals(side('b'));
+  const real = Math.abs(a.po-b.po) < 0.05 ? 'same' : (a.po>b.po ? 'a' : 'b');
+  const detail = '（'+(LANG==='zh'?'甲':'A')+' '+a.po.toFixed(1)+' kW · '+
+                 (LANG==='zh'?'乙':'B')+' '+b.po.toFixed(1)+' kW）';
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Power challenge (target output under an input cap)
+   — reuses the demo-lab engine and canvas, no duplicated physics
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 45;
+const GAME_POOL = [
+  { tgt:60,  cap:75  },   /* needs eff >= 80%  → hydro only */
+  { tgt:120, cap:320 },   /* eff >= 37.5%      → any source */
+  { tgt:300, cap:360 },   /* eff >= 83%        → hydro only */
+  { tgt:24,  cap:60  },   /* eff >= 40%        → wind/coal just make it */
+  { tgt:400, cap:500 },   /* eff >= 80%        → hydro only */
+];
+const GAME = { round:0, score:0, tgt:0, cap:0, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GAME_POOL.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  const r = GAME_POOL[GAME.order[GAME.round-1]];
+  GAME.tgt = r.tgt; GAME.cap = r.cap;
+  labSet('thermal', 1000, 200, 0.5);
+  FLASH = null; CONCL = null;
+  $('g-status').innerHTML = tf('gGo',{t:GAME.tgt, c:GAME.cap});
+  gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) endRound('time');
+  }, 1000);
+}
+function endRound(how){
+  stopGTimer();
+  const r = readings();
+  let pts = 0;
+  if(how==='lock'){
+    if(r.pi > GAME.cap + 1e-6){
+      $('g-status').innerHTML = tf('gOver',{i:r.pi.toFixed(1), c:GAME.cap});
+    } else {
+      const err = Math.abs(r.po-GAME.tgt)/GAME.tgt;
+      pts = err<=0.02 ? 100 : err<=0.05 ? 80 : err<=0.10 ? 50 : err<=0.20 ? 20 : 5;
+      GAME.score += pts;
+      $('g-status').innerHTML = tf('gWin',{o:r.po.toFixed(1), t:GAME.tgt, i:r.pi.toFixed(1), p:pts});
+    }
+  } else {
+    $('g-status').innerHTML = t('gTimeUp');
+  }
+  $('g-score').textContent = GAME.score;
+  GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+  if(GAME.phase === 'done'){
+    const rk = GAME.score>=260 ? t('gRank1') : GAME.score>=150 ? t('gRank2') : t('gRank3');
+    $('g-status').innerHTML += '<br>' + t('gFinal')+' '+GAME.score+' — '+rk;
+  }
+  gameSync();
+}
+function gameAct(){
+  if(GAME.phase==='aim') endRound('lock');
+  else if(GAME.phase==='next') nextRound();
+  else startGame();
+}
+function gameSync(){
+  const r = readings();
+  $('g-round').textContent = GAME.round;
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-tgt').textContent = GAME.tgt;
+  $('g-cap').textContent = GAME.cap;
+  $('g-out').textContent = r.po.toFixed(1);
+  $('g-in').textContent = r.pi.toFixed(1);
+  $('g-goal-hud').innerHTML = t('gTgt')+' <b>'+GAME.tgt+'</b>';
+  $('g-cap-hud').innerHTML = t('gCap')+' <b>'+GAME.cap+'</b>';
+  $('g-act').textContent = GAME.phase==='aim' ? t('gLock') : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+  $('g-score').textContent = GAME.score;
+  document.querySelectorAll('#ctl-game [data-src]').forEach(b=>{ b.disabled = GAME.phase!=='aim'; });
+  document.querySelectorAll('#ctl-game input[type=range]').forEach(b=>{ b.disabled = GAME.phase!=='aim'; });
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    VIS.time += dt;
+    VIS.rot += dt * (LAB.n/N0) * (LAB.plant==='wind' ? 2.1 : 3.0);
+    if(VIS.rot>1e5) VIS.rot = VIS.rot % 6.283185;
+    VIS.phase += dt;
+    if(VIS.phase > 2.0){ VIS.phase = 0; VIS.stage = (VIS.stage+1) % pl().chain.length; }
+    if(VIS.stage >= pl().chain.length) VIS.stage = 0;
+    drawLab();
+  } else if($('panel-cmp').classList.contains('on')){
+    VIS.time += dt;
+    if(CMP.running){
+      CMP.p += dt/5;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; drawCmpBoth(); finishCmp(); }
+      else drawCmpBoth();
+    } else if(CMP.p > 0) drawCmpBoth();
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  CMP.running = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); labSync(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+labSet('hydro',1500,200,0.5);
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+</script>
+
+<script>
+
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   Quiz bank (from the source file, trimmed to 3 options each)
+============================================================ */
+const QUIZ_ZH = [
+  { e:'💧', q:'水力发电中，水库里高处的水一开始储存的是什么能？',
+    o:['动能','重力势能','化学能'], a:1,
+    x:'水被拦蓄在高处，储存<em>重力势能</em>；落下时转化为<em>动能</em>，冲击水轮机变成<em>机械能</em>，最后由发电机转化为电能。切回「演示实验」按 💧 水力，看画面里的落差 h。' },
+  { e:'🌬️', q:'风力发电的能量转化顺序是？',
+    o:['动能 → 机械能 → 电能','重力势能 → 动能 → 电能','化学能 → 内能 → 电能'], a:0,
+    x:'风本来就在<em>流动</em>，一开始就具有<em>动能</em>，不需要先被举高，所以链条只有 <em>3 段</em>。演示实验里选风力，看画面下方的转化链。' },
+  { e:'🔥', q:'火力发电完整的能量转化链是？',
+    o:['重力势能 → 动能 → 机械能 → 电能','内能 → 化学能 → 机械能 → 电能','化学能 → 内能 → 机械能 → 电能'], a:2,
+    x:'煤储存<em>化学能</em>；燃烧放热 → <em>内能</em>（高温高压蒸汽）；蒸汽推动汽轮机 → <em>机械能</em>；发电机 → 电能。注意顺序不能颠倒：先燃烧才有内能。' },
+  { e:'⚙️', q:'水力、风力、火力发电共同的最后一步是什么？',
+    o:['锅炉把化学能转化为内能','发电机利用电磁感应把机械能转化为电能','水轮机把动能转化为机械能'], a:1,
+    x:'三种方式最后一步<em>完全相同</em>——都是发电机靠<em>电磁感应</em>把机械能转化为电能。区别只在前半段：用落下的水、流动的风，还是高温蒸汽去推涡轮。' },
+  { e:'♻️', q:'某火力发电厂输入 100 份化学能，只有约 40 份变成有用电能，其余 60 份到哪里去了？',
+    o:['凭空消失了','变成废热（冷却水、烟气带走）散失到环境中，总量仍然守恒','又变回了额外的电能'], a:1,
+    x:'能量<em>不会消失</em>：40 份电能 ＋ 60 份废热 ＝ <em>100 份</em>。废热主要被冷却塔的冷却水和烟囱的高温烟气带走。回演示实验看侧栏那条守恒式。' },
+  { e:'💡', q:'既然能量是守恒的、总量不会减少，为什么还要节约能源？',
+    o:['因为每次转化都有一部分变成散失的废热，这部分很难再被利用','因为能量会越用越少，总量会减少','因为能量守恒定律在生活中不成立'], a:0,
+    x:'能量<em>总量</em>确实守恒，但每次转化都有一部分变成<em>散失到环境中的废热</em>，分散开来后很难再收集利用——能量转化是<em>有方向性</em>的。节能节的是「还能用的那部分」。' },
+  { e:'🌍', q:'下列关于三种发电方式的说法，正确的是？',
+    o:['风力发电的效率比水力发电高','水力和风力用的是可再生能源，发电时基本不排放 CO₂','火力发电用的煤属于可再生能源'], a:1,
+    x:'水力、风力属于<em>可再生</em>能源，发电时基本不排放 CO₂；火力烧的煤是<em>不可再生</em>的，会排放 CO₂，但输出稳定可控。效率上水力约 85%，风力约 40%。' },
+  { e:'🔄', q:'摇手摇发电机时，摇得越快灯越亮，手也越费力。为什么会越费力？',
+    o:['因为要输出更多电能，就必须从手臂拿走更多机械能','因为电能会凭空产生，手只是引子','因为转得快时磁铁会变重'], a:0,
+    x:'灯亮起来的电能<em>不是凭空冒出来的</em>，全部来自你手臂做功的<em>机械能</em>。输出电能越多，每秒要消耗的机械能就越多，自然越费力——这正是<em>能量守恒</em>。' },
+];
+const QUIZ_EN = [
+  { e:'💧', q:'In a hydro plant, what energy does the water stored high in the reservoir have first?',
+    o:['Kinetic energy','Gravitational potential energy','Chemical energy'], a:1,
+    x:'Water held high stores <em>gravitational PE</em>; falling turns it into <em>kinetic energy</em>, the turbine turns it into <em>mechanical energy</em>, the generator into electrical. Switch to the Demo Lab and look at the head h.' },
+  { e:'🌬️', q:'What is the energy conversion order for wind power?',
+    o:['Kinetic → mechanical → electrical','Gravitational PE → kinetic → electrical','Chemical → internal → electrical'], a:0,
+    x:'Wind is <em>already moving</em>, so it starts with <em>kinetic energy</em> — nothing has to be lifted first, so the chain has only <em>3 links</em>. Pick Wind in the Demo Lab and read the chain.' },
+  { e:'🔥', q:'What is the full energy chain of a thermal (coal) power station?',
+    o:['Grav. PE → kinetic → mechanical → electrical','Internal → chemical → mechanical → electrical','Chemical → internal → mechanical → electrical'], a:2,
+    x:'Coal stores <em>chemical energy</em>; burning releases heat → <em>internal energy</em> (high-pressure steam); steam drives the turbine → <em>mechanical</em>; generator → electrical. The order cannot be swapped.' },
+  { e:'⚙️', q:'What is the LAST step shared by hydro, wind and thermal power?',
+    o:['The boiler turns chemical energy into internal energy','The generator uses induction to turn mechanical energy into electrical energy','The turbine turns kinetic energy into mechanical energy'], a:1,
+    x:'The last step is <em>identical</em> in all three — the generator uses <em>electromagnetic induction</em>. Only the first half differs: falling water, moving air, or hot steam driving the turbine.' },
+  { e:'♻️', q:'A coal plant takes in 100 units of chemical energy but only ~40 become useful electricity. Where do the other 60 go?',
+    o:['They simply vanish','They become waste heat (cooling water, flue gas) spread into the surroundings — the total is still conserved','They turn back into extra electricity'], a:1,
+    x:'Energy <em>never vanishes</em>: 40 units of electricity ＋ 60 units of waste heat ＝ <em>100 units</em>. Most waste heat leaves via the cooling tower and the chimney. Check the conservation line in the sidebar.' },
+  { e:'💡', q:'If energy is conserved and never decreases, why do we still need to save energy?',
+    o:['Because every conversion turns part of it into scattered waste heat that is very hard to use again','Because energy really does get used up and the total shrinks','Because conservation of energy does not hold in real life'], a:0,
+    x:'The <em>total</em> is conserved, but each conversion spills part of it as <em>waste heat spread into the surroundings</em>, which is very hard to collect again — conversion has a <em>direction</em>. Saving energy means saving the usable part.' },
+  { e:'🌍', q:'Which statement about the three ways of generating power is correct?',
+    o:['Wind power is more efficient than hydro power','Hydro and wind use renewable sources and emit almost no CO₂ while generating','The coal used in thermal plants is a renewable resource'], a:1,
+    x:'Hydro and wind are <em>renewable</em> and emit almost no CO₂ while running; coal is <em>non-renewable</em> and emits CO₂, but its output is steady and controllable. Hydro ≈ 85% efficient, wind ≈ 40%.' },
+  { e:'🔄', q:'Cranking a hand generator faster makes the lamp brighter AND makes your arm work harder. Why harder?',
+    o:['Because more electrical output must be taken from more mechanical energy in your arm','Because electricity appears from nothing and your hand only triggers it','Because the magnet gets heavier when it spins fast'], a:0,
+    x:'The electrical energy lighting the lamp does <em>not</em> come from nowhere — it all comes from the <em>mechanical work</em> of your arm. More output per second means more mechanical energy per second: <em>conservation of energy</em>.' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'发电与能量守恒探究实验室', subtitle:'水力 · 风力 · 火力 —— 能量只是换了形式，总量不会凭空增减',
+  chip1:'能量守恒：输入 ＝ 有用输出 ＋ 损耗', chip2:'发电机：机械能 →（电磁感应）→ 电能', chip3:'效率高 ≠ 能量变多，只是废热少',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 发电挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  srcLabel:'能源：', b_hydro:'💧 水力', b_wind:'🌬️ 风力', b_thermal:'🔥 火力',
+  n_hydro:'💧 水力发电站', n_wind:'🌬️ 风力发电机', n_thermal:'🔥 火力发电厂',
+  sub_hydro:'✅ 可再生 · 基本不排放 CO₂ · 较稳定（受水量、季节影响）',
+  sub_wind:'✅ 可再生 · 基本不排放 CO₂ · 不稳定（没风就发不了电）',
+  sub_thermal:'❌ 不可再生 · 排放 CO₂ · 稳定可控（随时加煤调节）',
+  st_hydro:'可再生', st_wind:'可再生', st_thermal:'不可再生',
+  loss_hydro:'损耗去向：水流阻力 ＋ 水轮机与发电机的摩擦发热',
+  loss_wind:'损耗去向：风不可能被完全利用（理论上限约 59%）＋ 摩擦发热',
+  loss_thermal:'损耗去向：冷却水与烟气带走的废热最多，还有各处摩擦发热',
+  slN:'🔄 转速', slT:'🌀 匝数', slB:'🧲 磁场',
+  presetLabel:'一键预设：',
+  pr1:'💧水力 85%', pr2:'🌬️风力 40%', pr3:'🔥火力 40%', pr4:'🔄转速×2', pr5:'🧲磁场×2', pr6:'⏹停机',
+  labHint:'先选能源（决定输入的能量形式和效率），再拉三条滑条（转速 / 线圈匝数 / 磁场强度）—— 盯住侧栏那条守恒式：拉大任何一条，两边始终相等。',
+  outLabel:'输出电功率', outLabelCmp:'有用电能（输出）',
+  kEff:'效率 %', kIn:'输入 kW', kLoss:'损耗 kW',
+  e_gpe:'重力势能', e_ke:'动能', e_me:'机械能', e_ee:'电能', e_ce:'化学能', e_ie:'内能',
+  v_fall:'水从高处落下', v_hit:'冲击水轮机', v_gen:'发电机·电磁感应', v_blow:'吹动叶片', v_burn:'燃烧放热', v_steam:'蒸汽推动汽轮机',
+  cap_h0:'水被拦蓄在高处 → 储存重力势能', cap_h1:'水沿管道落下，越流越快 → 重力势能变成动能',
+  cap_h2:'水流冲击水轮机 → 动能变成机械能', cap_h3:'发电机转动 → 机械能变成电能',
+  cap_w0:'流动的空气本身具有动能', cap_w1:'风吹动叶片 → 动能变成机械能', cap_w2:'发电机转动 → 机械能变成电能',
+  cap_t0:'煤储存着化学能', cap_t1:'燃烧放热 → 化学能变成内能（高温高压蒸汽）',
+  cap_t2:'蒸汽冲击汽轮机 → 内能变成机械能', cap_t3:'发电机转动 → 机械能变成电能',
+  cvNow:'此刻：', cvFlow:'能量流向图 · 条带宽度就是能量的份数',
+  cvIn:'输入 {p} kW', cvUse:'⚡ 有用电能', cvLoss:'🔥 损耗废热',
+  cvEq:'效率 {e}% ｜ 输入 {pin} ＝ 有用电能 {pout} ＋ 损耗废热 {ploss}（kW）',
+  cvGen:'⚙️ 发电机（电磁感应）', cvCoil:'线圈', cvLamp:'💡 灯泡', cvShaft:'转轴',
+  cvTurbH:'水轮机', cvTurbW:'风轮叶片', cvTurbT:'汽轮机',
+  cvRes:'💧 水库', cvHead:'落差 h', cvPipe:'引水管', cvWind:'🌬️ 风 · 空气的动能',
+  cvCoal:'⛏️ 煤·化学能', cvBoiler:'🔥 锅炉', cvChim:'烟囱·CO₂', cvCool:'❄️ 冷却塔·废热', cvSteam:'💨 高温高压蒸汽',
+  cvStop:'⏸ 转速 0 · 不发电', cvRun:'▶ 发电中 · {r} 转/分',
+  f_formula:'输入 <b>{pin} kW</b> ＝ 有用电能 <b>{pout} kW</b> ＋ 损耗废热 <b>{ploss} kW</b>',
+  live_off:'转速 0：线圈<b>不切割磁感线</b>，没有感应电流 —— 电不会凭空产生。',
+  live_on:'效率 <b>{e}%</b>：每输入 100 份能量，只有 <b>{e}</b> 份变成电能，其余 <b>{r}</b> 份变成废热散掉。',
+  r_start:'👉 <em>开始发电</em>：线圈切割磁感线，产生感应电流。',
+  r_stop:'👉 <em>停机</em>：没有相对运动，就没有电。',
+  r_switch:'👉 <em>换了能源</em>：输入的能量形式和效率都变了，守恒式照样成立。',
+  c_same:'📌 三种发电方式的<em>最后一步完全相同</em>：发电机靠<em>电磁感应</em>把机械能变成电能。区别只在前半段 —— <em>用什么去推涡轮</em>：落下的水？流动的风？还是燃煤产生的高温蒸汽？',
+  c_pr1:'📌 💧 水力：<em>重力势能 → 动能 → 机械能 → 电能</em>。落差越大、水量越多，输入的重力势能越多；效率约 <em>85%</em>，损耗主要是水流阻力与摩擦发热。',
+  c_pr2:'📌 🌬️ 风力：<em>动能 → 机械能 → 电能</em>，只有 3 段 —— 风本来就在动，不必先「举高」。效率约 <em>40%</em>：风不可能被完全利用（理论上限约 59%）。',
+  c_pr3:'📌 🔥 火力：<em>化学能 → 内能 → 机械能 → 电能</em>。煤燃烧放热 → 高温高压蒸汽 → 推动汽轮机。效率约 <em>40%</em>，<em>冷却水与烟气带走的废热最多</em>。',
+  c_pr4:'📌 转速加倍，输出电功率变成 <em>4 倍</em>（P ∝ n²）—— 但输入功率也同时变成 4 倍。<em>多发的电不是白来的</em>，涡轮必须被推得更用力。',
+  c_pr5:'📌 磁场加倍，感应电动势加倍，输出也变 <em>4 倍</em>；输入功率同样变 4 倍。<em>加强磁场造不出能量</em>，只是把更多输入转成电。',
+  c_pr6:'📌 转速 0 → 线圈不切割磁感线 → <em>没有感应电流</em>：输出 0、输入也 0。<em>电不会凭空产生</em>，必须有线圈与磁场的相对运动。',
+  recBtn:'记录数据', recClear:'清空', thSrc:'能源', thN:'转速', thOut:'输出', thEff:'效率',
+  cmpHint:'先按预设 → 全班猜一猜 → 再按「同时开始」验证。两边的份数都由效率真算，两条带永远加成输入。',
+  cp1:'💧水力 vs 🔥火力', cp2:'🌬️风力 vs 🔥火力', cp3:'火力加倍输入 vs 水力',
+  cp1a:'💧 水力发电（输入 100 kW）', cp1b:'🔥 火力发电（输入 100 kW）',
+  cp1ac:'效率 85% · 有用 85 kW · 损耗 15 kW', cp1bc:'效率 40% · 有用 40 kW · 损耗 60 kW',
+  cp2a:'🌬️ 风力发电（输入 100 kW）', cp2b:'🔥 火力发电（输入 100 kW）',
+  cp2ac:'效率 40% · 有用 40 kW · 损耗 60 kW', cp2bc:'效率 40% · 有用 40 kW · 损耗 60 kW',
+  cp3a:'🔥 火力发电（输入 200 kW）', cp3b:'💧 水力发电（输入 100 kW）',
+  cp3ac:'输入是乙的两倍，但效率只有 40%', cp3bc:'输入只有甲的一半，效率却有 85%',
+  guessQ:'猜一猜：哪边的有用电能更多？', gMoreA:'甲更多', gSame:'一样多', gMoreB:'乙更多', runCmp:'同时开始',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  cc_1:'📌 同样输入 100 kW：水力得到 <em>85 kW</em> 电，火力只有 <em>40 kW</em>，差别全在<em>效率</em>。但两边都满足 <em>输入 ＝ 有用 ＋ 损耗</em>：85＋15＝100，40＋60＝100。',
+  cc_2:'📌 风力和火力效率都约 <em>40%</em>，同样输入下有用电能<em>一样多</em>。可是风力烧的是<em>免费又可再生</em>的风，火力烧的是不可再生、还排 CO₂ 的煤。',
+  cc_3:'📌 火力输入是水力的<em>两倍</em>，有用电能却<em>更少</em>（80 vs 85）。<em>效率决定了有多少输入真的变成电</em>，多烧煤只是把更多能量变成废热。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！能量守恒与三种发电你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手拉一遍滑条，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场做给全班看。',
+  gRound:'回合', gTgt:'目标 kW', gCap:'上限 kW',
+  gLock:'🎯 锁定', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gHint:'全班指挥一位同学：在<b>不超过输入上限</b>的前提下，把输出电功率调到目标值。想清楚 —— 输入 ＝ 输出 ÷ 效率。',
+  gGo:'目标输出 <b>{t} kW</b>，输入不得超过 <b>{c} kW</b>。先想：哪种能源的效率够高？',
+  gWin:'🎯 输出 <b>{o} kW</b>（目标 {t}），输入 <b>{i} kW</b> ✔ ＋<b>{p}</b> 分。',
+  gOver:'❌ 输入 <b>{i} kW</b> 超过上限 {c} kW —— 效率不够高，换个能源试试。0 分。',
+  gTimeUp:'⏰ 时间到，本轮 0 分。提示：输入 ＝ 输出 ÷ 效率。',
+  gFinal:'最终得分', gRank1:'🏆 能量守恒大师！', gRank2:'👍 效率感觉很好！', gRank3:'💪 回演示实验再练几次！',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Power & Energy Conservation Lab', subtitle:'Hydro · wind · thermal — energy only changes form; the total never changes',
+  chip1:'Conservation: input = useful output + loss', chip2:'Generator: mechanical →(induction)→ electrical', chip3:'Higher efficiency ≠ more energy, just less waste',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Power Challenge',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  srcLabel:'Source:', b_hydro:'💧 Hydro', b_wind:'🌬️ Wind', b_thermal:'🔥 Thermal',
+  n_hydro:'💧 Hydroelectric station', n_wind:'🌬️ Wind turbine', n_thermal:'🔥 Thermal power station',
+  sub_hydro:'✅ Renewable · almost no CO₂ · fairly steady (depends on water & season)',
+  sub_wind:'✅ Renewable · almost no CO₂ · unsteady (no wind, no power)',
+  sub_thermal:'❌ Non-renewable · emits CO₂ · steady and controllable',
+  st_hydro:'renewable', st_wind:'renewable', st_thermal:'non-renewable',
+  loss_hydro:'Losses: flow resistance ＋ friction heat in turbine and generator',
+  loss_wind:'Losses: wind can never be fully used (theoretical cap ≈59%) ＋ friction heat',
+  loss_thermal:'Losses: cooling water and flue gas carry away the most heat, plus friction',
+  slN:'🔄 Speed', slT:'🌀 Turns', slB:'🧲 Field',
+  presetLabel:'Presets:',
+  pr1:'💧Hydro 85%', pr2:'🌬️Wind 40%', pr3:'🔥Coal 40%', pr4:'🔄Speed×2', pr5:'🧲Field×2', pr6:'⏹Stop',
+  labHint:'Pick a source (it fixes the input energy form and the efficiency), then drag the three sliders (speed / coil turns / field). Watch the conservation line in the sidebar — both sides always match.',
+  outLabel:'Electrical output', outLabelCmp:'Useful electrical output',
+  kEff:'Eff. %', kIn:'Input kW', kLoss:'Loss kW',
+  e_gpe:'Grav. PE', e_ke:'Kinetic', e_me:'Mechanical', e_ee:'Electrical', e_ce:'Chemical', e_ie:'Internal',
+  v_fall:'water falls', v_hit:'to turbine', v_gen:'to generator', v_blow:'turns blades', v_burn:'burns', v_steam:'steam drives',
+  cap_h0:'Water held high → stores gravitational PE', cap_h1:'Water falls down the pipe, faster and faster → PE becomes kinetic energy',
+  cap_h2:'The jet hits the water turbine → kinetic becomes mechanical energy', cap_h3:'The generator spins → mechanical becomes electrical energy',
+  cap_w0:'Moving air already carries kinetic energy', cap_w1:'Wind turns the blades → kinetic becomes mechanical energy', cap_w2:'The generator spins → mechanical becomes electrical energy',
+  cap_t0:'Coal stores chemical energy', cap_t1:'Burning releases heat → chemical becomes internal energy (hot steam)',
+  cap_t2:'Steam drives the turbine → internal becomes mechanical energy', cap_t3:'The generator spins → mechanical becomes electrical energy',
+  cvNow:'Now: ', cvFlow:'Energy flow · ribbon width = number of units',
+  cvIn:'Input {p} kW', cvUse:'⚡ Useful', cvLoss:'🔥 Waste heat',
+  cvEq:'Eff {e}% ｜ input {pin} ＝ useful {pout} ＋ waste heat {ploss} (kW)',
+  cvGen:'⚙️ Generator (induction)', cvCoil:'coil', cvLamp:'💡 lamp', cvShaft:'shaft',
+  cvTurbH:'water turbine', cvTurbW:'rotor blades', cvTurbT:'steam turbine',
+  cvRes:'💧 Reservoir', cvHead:'head h', cvPipe:'penstock', cvWind:'🌬️ Wind · kinetic energy of air',
+  cvCoal:'⛏️ Coal · chemical', cvBoiler:'🔥 Boiler', cvChim:'chimney · CO₂', cvCool:'❄️ Cooling tower', cvSteam:'💨 High-pressure steam',
+  cvStop:'⏸ Speed 0 · no power', cvRun:'▶ Generating · {r} rpm',
+  f_formula:'Input <b>{pin} kW</b> ＝ useful <b>{pout} kW</b> ＋ waste heat <b>{ploss} kW</b>',
+  live_off:'Speed 0: the coil <b>cuts no field lines</b>, so there is no induced current — electricity never appears from nothing.',
+  live_on:'Efficiency <b>{e}%</b>: of every 100 units of input, only <b>{e}</b> become electricity; the other <b>{r}</b> leave as waste heat.',
+  r_start:'👉 <em>Generating</em>: the coil cuts field lines and an induced current appears.',
+  r_stop:'👉 <em>Stopped</em>: no relative motion, no electricity.',
+  r_switch:'👉 <em>Source changed</em>: the input form and the efficiency changed — the conservation line still balances.',
+  c_same:'📌 The <em>last step is identical</em> in all three: the generator uses <em>induction</em> to turn mechanical energy into electrical energy. Only the first half differs — <em>what drives the turbine</em>: falling water, moving air, or hot steam?',
+  c_pr1:'📌 💧 Hydro: <em>grav. PE → kinetic → mechanical → electrical</em>. A bigger head and more water mean more input PE; efficiency ≈ <em>85%</em>, losses are flow resistance and friction heat.',
+  c_pr2:'📌 🌬️ Wind: <em>kinetic → mechanical → electrical</em> — only 3 links, because air is already moving. Efficiency ≈ <em>40%</em>: wind can never be fully used (cap ≈59%).',
+  c_pr3:'📌 🔥 Thermal: <em>chemical → internal → mechanical → electrical</em>. Coal burns → hot high-pressure steam → steam turbine. Efficiency ≈ <em>40%</em>; <em>cooling water and flue gas carry away the most heat</em>.',
+  c_pr4:'📌 Double the speed and the electrical output becomes <em>4×</em> (P ∝ n²) — but the input power becomes 4× as well. <em>The extra electricity is not free</em>: the turbine must be pushed harder.',
+  c_pr5:'📌 Double the field and the induced emf doubles, so output is <em>4×</em>; the required input is 4× too. <em>A stronger magnet creates no energy</em>, it only converts more of the input.',
+  c_pr6:'📌 Speed 0 → the coil cuts no field lines → <em>no induced current</em>: output 0, input 0. <em>Electricity never appears from nothing</em>; coil and field must move relative to each other.',
+  recBtn:'Record data', recClear:'Clear', thSrc:'Source', thN:'rpm', thOut:'Out', thEff:'Eff',
+  cmpHint:'Load a preset → let the class predict → press "Start both" to check. Both sides are computed from the real efficiencies, and the two ribbons always add up to the input.',
+  cp1:'💧Hydro vs 🔥Coal', cp2:'🌬️Wind vs 🔥Coal', cp3:'Coal 2× input vs Hydro',
+  cp1a:'💧 Hydro (input 100 kW)', cp1b:'🔥 Thermal (input 100 kW)',
+  cp1ac:'eff 85% · useful 85 kW · loss 15 kW', cp1bc:'eff 40% · useful 40 kW · loss 60 kW',
+  cp2a:'🌬️ Wind (input 100 kW)', cp2b:'🔥 Thermal (input 100 kW)',
+  cp2ac:'eff 40% · useful 40 kW · loss 60 kW', cp2bc:'eff 40% · useful 40 kW · loss 60 kW',
+  cp3a:'🔥 Thermal (input 200 kW)', cp3b:'💧 Hydro (input 100 kW)',
+  cp3ac:'twice the input of B, but only 40% efficient', cp3bc:'half the input of A, yet 85% efficient',
+  guessQ:'Predict: which side gives more useful electricity?', gMoreA:'A more', gSame:'Same', gMoreB:'B more', runCmp:'Start both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  cc_1:'📌 Same 100 kW input: hydro gives <em>85 kW</em> of electricity, coal only <em>40 kW</em> — the difference is <em>efficiency</em>. Both still obey <em>input ＝ useful ＋ loss</em>: 85+15=100, 40+60=100.',
+  cc_2:'📌 Wind and coal are both about <em>40%</em> efficient, so the same input gives the <em>same</em> useful output. But wind burns something <em>free and renewable</em>; coal is non-renewable and emits CO₂.',
+  cc_3:'📌 The coal plant takes in <em>twice</em> as much yet produces <em>less</em> electricity (80 vs 85). <em>Efficiency decides how much of the input really becomes electricity</em>; burning more coal just makes more waste heat.',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect — you own energy conservation!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Drag the sliders in the Demo Lab, then try again!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and show it live.',
+  gRound:'Round', gTgt:'Target kW', gCap:'Cap kW',
+  gLock:'🎯 Lock in', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gHint:'The class guides one player: reach the target electrical output <b>without exceeding the input cap</b>. Think: input ＝ output ÷ efficiency.',
+  gGo:'Target output <b>{t} kW</b>, input must stay under <b>{c} kW</b>. Which source is efficient enough?',
+  gWin:'🎯 Output <b>{o} kW</b> (target {t}), input <b>{i} kW</b> ✔ ＋<b>{p}</b> points.',
+  gOver:'❌ Input <b>{i} kW</b> exceeds the cap of {c} kW — that source is not efficient enough. 0 points.',
+  gTimeUp:'⏰ Time! 0 points this round. Hint: input ＝ output ÷ efficiency.',
+  gFinal:'Final score', gRank1:'🏆 Conservation master!', gRank2:'👍 Good feel for efficiency!', gRank3:'💪 Practise in the Demo Lab!',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    metal:'#9fb0bb', metalDark:'#5d6f7b', axis:'rgba(255,255,255,.34)',
+    ground:'#16263a', groundLine:'rgba(255,255,255,.22)',
+    water:'#2f8ec2', waterEdge:'rgba(180,220,245,.85)', mountain:'#26374b',
+    coal:'#2b2b2b', coalDot:'#5b5b5b',
+    flameA:'#ff8a3d', flameB:'#ffd166', smokeRGB:'190,196,200', steam:'rgba(235,245,252,.92)',
+    useful:'#3fd06c', usefulSoft:'rgba(63,208,108,.82)',
+    loss:'#ff6a5a', lossSoft:'rgba(255,106,90,.82)',
+    amber:'#ffc94d', blue:'#7cc4ff',
+    poleN:'#ff5d55', poleS:'#3e7cb1', coil:'#e0a63a',
+    bulbOn:'#ffe07a', bulbOff:'#3a4756',
+    node:'rgba(255,255,255,.07)', nodeLine:'rgba(255,255,255,.28)',
+    nodeOn:'#ffc94d', nodeOnInk:'#0c1626', glowRGB:'255,201,77',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.66)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    metal:'#8e9aa2', metalDark:'#5a6b73', axis:'rgba(30,42,54,.38)',
+    ground:'#efead9', groundLine:'#d6ceb6',
+    water:'#60a6d0', waterEdge:'rgba(62,110,150,.9)', mountain:'#e4ddc8',
+    coal:'#3a3a3a', coalDot:'#5d5d5d',
+    flameA:'#e4573d', flameB:'#f0b43c', smokeRGB:'140,144,148', steam:'rgba(198,214,224,.95)',
+    useful:'#1fa050', usefulSoft:'rgba(31,160,80,.82)',
+    loss:'#e0443c', lossSoft:'rgba(224,68,60,.82)',
+    amber:'#a06d00', blue:'#2f6690',
+    poleN:'#e0443c', poleS:'#3e7cb1', coil:'#b5651d',
+    bulbOn:'#f0c93f', bulbOff:'#e3e6e4',
+    node:'#f2f4ef', nodeLine:'rgba(30,42,54,.22)',
+    nodeOn:'#ffc94d', nodeOnInk:'#22303d', glowRGB:'199,158,28',
+  },
+};
+let THEME = 'light';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'light'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  THEME='light'; try{applyTheme();}catch(e){}
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  labSync();
+  renderRec();
+  cmpLabels();
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')) gameSync();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+13;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-10,yy-h/2,w+20,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+function ribbon(c,x0,aT,aB,x1,bT,bB,fill){
+  const d=(x1-x0)*0.45;
+  c.beginPath();
+  c.moveTo(x0,aT);
+  c.bezierCurveTo(x0+d,aT,x1-d,bT,x1,bT);
+  c.lineTo(x1,bB);
+  c.bezierCurveTo(x1-d,bB,x0+d,aB,x0,aB);
+  c.closePath(); c.fillStyle=fill; c.fill();
+}
+function bez(x0,y0,x1,y1,u){
+  const d=(x1-x0)*0.45;
+  const c1x=x0+d, c2x=x1-d, v=1-u;
+  return [v*v*v*x0+3*v*v*u*c1x+3*v*u*u*c2x+u*u*u*x1,
+          v*v*v*y0+3*v*v*u*y0+3*v*u*u*y1+u*u*u*y1];
+}
+function prand(i){ const v=Math.sin(i*127.1+311.7)*43758.5453; return v-Math.floor(v); }
+
+/* ============================================================
+   Physics model (kept from the source file's numbers)
+   - each plant fixes the input energy form and the whole-plant efficiency
+   - generator: emf ∝ N·B·n  →  P_out ∝ (N·B·n)²   (source: 越快越费力 �� 电流²)
+   - P_in = P_out / η ,  P_loss = P_in − P_out  ⇒  P_in ≡ P_out + P_loss
+============================================================ */
+const PLANTS = {
+  hydro:{ key:'hydro', eff:0.85,
+    chain:['e_gpe','e_ke','e_me','e_ee'], via:['v_fall','v_hit','v_gen'],
+    capt:['cap_h0','cap_h1','cap_h2','cap_h3'], renew:true },
+  wind:{ key:'wind', eff:0.40,
+    chain:['e_ke','e_me','e_ee'], via:['v_blow','v_gen'],
+    capt:['cap_w0','cap_w1','cap_w2'], renew:true },
+  thermal:{ key:'thermal', eff:0.40,
+    chain:['e_ce','e_ie','e_me','e_ee'], via:['v_burn','v_steam','v_gen'],
+    capt:['cap_t0','cap_t1','cap_t2','cap_t3'], renew:false },
+};
+const N0 = 1500, T0 = 200, B0 = 0.5, P0 = 40;   /* reference point → 40.0 kW */
+const LAB = { plant:'hydro', n:1500, turns:200, B:0.5 };
+const VIS = { rot:0, out:0, phase:0, stage:0, time:0 };
+
+function pl(){ return PLANTS[LAB.plant]; }
+function uOf(){ return (LAB.n/N0)*(LAB.turns/T0)*(LAB.B/B0); }
+function pOut(){ const u=uOf(); return P0*u*u; }
+function effOf(){ return pl().eff; }
+function pIn(){ return pOut()/effOf(); }
+/* displayed numbers: derive loss from the two rounded values so the
+   equation on screen always balances exactly */
+function readings(){
+  const po = +pOut().toFixed(1);
+  const pi = +pIn().toFixed(1);
+  const plo = +(pi-po).toFixed(1);
+  return { po:po, pi:pi, pl:plo, eff:Math.round(effOf()*100) };
+}
+
+/* ============================================================
+   Tab 1: Demo lab canvas (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 364;
+const GY_ = 300;                       /* ground line */
+const TXc = 316, TYc = 196, TRr = 48;  /* turbine */
+const GCX = 455, GCY = 195, GHW = 56;  /* generator coil */
+const SKx0 = 556, SKx1 = 606, SKrx = 800, SKox = 846;  /* sankey blocks */
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+
+function drawGround(c){
+  c.fillStyle=C().ground; c.fillRect(14,GY_,248,26);
+  line(c,14,GY_,262,GY_,C().groundLine,2);
+}
+function drawHydroSide(c){
+  const T=VIS.time;
+  c.fillStyle=C().mountain;
+  c.beginPath(); c.moveTo(14,124); c.lineTo(48,88); c.lineTo(112,82); c.lineTo(146,118);
+  c.lineTo(146,GY_); c.lineTo(14,GY_); c.closePath(); c.fill();
+  c.strokeStyle=C().groundLine; c.lineWidth=1.6; c.stroke();
+  /* reservoir */
+  c.fillStyle=C().water;
+  c.beginPath(); c.moveTo(18,126);
+  for(let x=18;x<=146;x+=6) c.lineTo(x, 126-2.2*Math.sin(x*0.09+T*1.6));
+  c.lineTo(146,206); c.lineTo(18,206); c.closePath(); c.fill();
+  /* dam */
+  c.fillStyle=C().metal; rrect(c,146,112,16,GY_-112,3); c.fill();
+  c.strokeStyle=C().metalDark; c.lineWidth=2; rrect(c,146,112,16,GY_-112,3); c.stroke();
+  /* head arrow */
+  line(c,22,126,150,126,C().loss,1.4,[5,4]);
+  line(c,22,214,190,214,C().loss,1.4,[5,4]);
+  line(c,32,126,32,214,C().loss,2.2);
+  c.fillStyle=C().loss;
+  c.beginPath(); c.moveTo(32,126); c.lineTo(27,135); c.lineTo(37,135); c.closePath(); c.fill();
+  c.beginPath(); c.moveTo(32,214); c.lineTo(27,205); c.lineTo(37,205); c.closePath(); c.fill();
+  tchip(c,t('cvHead'),84,170,'800 14px '+CV_FONT,C().loss,'center',W_W,W_H);
+  TX(c,t('cvRes'),80,102,'700 14px '+CV_FONT,C().cvText,'center','middle');
+  /* penstock */
+  line(c,160,190,270,216,C().metal,20);
+  line(c,160,190,270,216,C().metalDark,13);
+  c.save();
+  c.strokeStyle=C().water; c.lineWidth=10;
+  if(c.setLineDash){ c.setLineDash([20,16]); c.lineDashOffset=-(VIS.time*130)%36; }
+  c.beginPath(); c.moveTo(160,190); c.lineTo(270,216); c.stroke();
+  c.restore();
+  TX(c,t('cvPipe'),214,168,'700 13px '+CV_FONT,C().blue,'center','middle');
+  /* splash */
+  for(let k=0;k<5;k++){
+    const u=(VIS.time*1.5+k*0.2)%1;
+    circle(c,272+u*18,214-u*22-Math.sin(u*3.14)*8,3.4-u*1.6,C().waterEdge,null,0);
+  }
+}
+function drawWindSide(c){
+  for(let k=0;k<4;k++){
+    const y=104+k*52;
+    const off=(VIS.time*120+k*60)%300;
+    c.strokeStyle=C().blue; c.lineWidth=2.6; c.lineCap='round';
+    for(let s=0;s<2;s++){
+      const x0=-110+off+s*150;
+      if(x0>230) continue;
+      c.beginPath(); c.moveTo(Math.max(14,x0),y);
+      for(let d=0;d<=80;d+=8){ const xx=x0+d; if(xx<14) continue; if(xx>246) break; c.lineTo(xx, y+4*Math.sin(xx*0.06+VIS.time*3)); }
+      c.stroke();
+      const xe=Math.min(x0+80,246);
+      if(xe>20){ c.fillStyle=C().blue; c.beginPath(); c.moveTo(xe,y-5); c.lineTo(xe+9,y); c.lineTo(xe,y+5); c.closePath(); c.fill(); }
+    }
+  }
+  TX(c,t('cvWind'),138,272,'800 15px '+CV_FONT,C().blue,'center','middle');
+  /* tower */
+  c.fillStyle=C().panel; c.strokeStyle=C().metal; c.lineWidth=2.4;
+  c.beginPath(); c.moveTo(TXc-15,GY_); c.lineTo(TXc-7,TYc+10); c.lineTo(TXc+7,TYc+10); c.lineTo(TXc+15,GY_);
+  c.closePath(); c.fill(); c.stroke();
+}
+function drawThermalSide(c){
+  const T=VIS.time;
+  /* coal pile */
+  c.fillStyle=C().coal;
+  c.beginPath(); c.moveTo(18,GY_); c.lineTo(44,262); c.lineTo(70,GY_); c.closePath(); c.fill();
+  for(let k=0;k<6;k++) circle(c,28+((k*13)%36),GY_-8-((k*11)%24),3.6,C().coalDot,null,0);
+  TX(c,t('cvCoal'),44,318,'700 13px '+CV_FONT,C().cvText,'center','middle');
+  /* conveyor */
+  line(c,60,274,96,258,C().metal,6);
+  for(let k=0;k<3;k++){
+    const u=(T*0.55+k*0.33)%1;
+    circle(c,60+36*u,274-16*u-5,4,C().coal,null,0);
+  }
+  /* boiler */
+  c.fillStyle=C().panel; rrect(c,92,230,74,70,7); c.fill();
+  c.strokeStyle=C().metalDark; c.lineWidth=2.6; rrect(c,92,230,74,70,7); c.stroke();
+  c.save();
+  c.beginPath(); c.rect(95,234,68,64); c.clip();
+  for(let k=0;k<6;k++){
+    const bx=103+k*11, ph=T*5+k, hgt=18+7*Math.sin(ph)+5*Math.sin(ph*1.7);
+    c.fillStyle = k%2 ? C().flameA : C().flameB;
+    c.beginPath(); c.moveTo(bx-6,GY_-4); c.quadraticCurveTo(bx-5,GY_-4-hgt*0.7,bx,GY_-4-hgt);
+    c.quadraticCurveTo(bx+5,GY_-4-hgt*0.7,bx+6,GY_-4); c.closePath(); c.fill();
+  }
+  c.restore();
+  TX(c,t('cvBoiler'),129,244,'700 13px '+CV_FONT,C().flameA,'center','middle');
+  /* chimney */
+  c.fillStyle=C().panel; rrect(c,98,150,20,80,3); c.fill();
+  c.strokeStyle=C().metalDark; c.lineWidth=2.2; rrect(c,98,150,20,80,3); c.stroke();
+  for(let k=0;k<5;k++){
+    const u=(T*0.42+k*0.2)%1;
+    c.fillStyle='rgba('+C().smokeRGB+','+(0.42*(1-u)).toFixed(3)+')';
+    c.beginPath(); c.arc(108+u*30,148-u*56,6+u*11,0,6.283); c.fill();
+  }
+  TX(c,t('cvChim'),108,132,'700 13px '+CV_FONT,C().loss,'center','middle');
+  /* cooling tower */
+  c.fillStyle=C().panel;
+  c.beginPath(); c.moveTo(180,GY_); c.quadraticCurveTo(200,264,196,238);
+  c.lineTo(234,238); c.quadraticCurveTo(230,264,250,GY_); c.closePath(); c.fill();
+  c.strokeStyle=C().metal; c.lineWidth=2.2; c.stroke();
+  for(let k=0;k<4;k++){
+    const u=(T*0.4+k*0.25)%1;
+    c.fillStyle='rgba('+C().smokeRGB+','+(0.45*(1-u)).toFixed(3)+')';
+    c.beginPath(); c.arc(215-u*6,236-u*40,8+u*11,0,6.283); c.fill();
+  }
+  TX(c,t('cvCool'),215,318,'700 13px '+CV_FONT,C().loss,'center','middle');
+  /* steam pipe to turbine */
+  c.strokeStyle=C().metal; c.lineWidth=14; c.lineJoin='round'; c.lineCap='round';
+  c.beginPath(); c.moveTo(150,230); c.lineTo(150,196); c.lineTo(268,196); c.stroke();
+  c.strokeStyle=C().metalDark; c.lineWidth=8;
+  c.beginPath(); c.moveTo(150,230); c.lineTo(150,196); c.lineTo(268,196); c.stroke();
+  for(let k=0;k<6;k++){
+    const u=(T*0.5+k/6)%1, tot=34+118, dd=u*tot;
+    let x,y;
+    if(dd<34){ x=150; y=230-dd; } else { x=150+(dd-34); y=196; }
+    circle(c,x,y,4.2,C().steam,null,0);
+  }
+  TX(c,t('cvSteam'),210,176,'700 13px '+CV_FONT,C().blue,'center','middle');
+}
+function drawTurbine(c){
+  const k=LAB.plant;
+  c.save(); c.translate(TXc,TYc); c.rotate(VIS.rot);
+  if(k==='hydro'){
+    c.strokeStyle=C().metalDark; c.lineWidth=4;
+    for(let i=0;i<8;i++){
+      const a=i*Math.PI/4;
+      c.beginPath(); c.moveTo(0,0); c.lineTo(Math.cos(a)*TRr,Math.sin(a)*TRr); c.stroke();
+      c.save(); c.rotate(a); c.translate(TRr-7,0); c.rotate(0.7);
+      c.fillStyle=C().metal; rrect(c,-7,-10,14,20,4); c.fill();
+      c.strokeStyle=C().metalDark; c.lineWidth=1.8; rrect(c,-7,-10,14,20,4); c.stroke();
+      c.restore(); c.strokeStyle=C().metalDark; c.lineWidth=4;
+    }
+    circle(c,0,0,TRr,null,C().metal,3.4);
+  } else if(k==='wind'){
+    for(let i=0;i<3;i++){
+      c.save(); c.rotate(i*2.0944);
+      c.fillStyle=C().panel; c.strokeStyle=C().metal; c.lineWidth=2;
+      c.beginPath(); c.moveTo(0,-8); c.quadraticCurveTo(50,-14,80,-4);
+      c.quadraticCurveTo(52,6,0,9); c.closePath(); c.fill(); c.stroke();
+      c.restore();
+    }
+  } else {
+    circle(c,0,0,TRr-14,C().panel,C().metal,2);
+    for(let i=0;i<12;i++){
+      c.save(); c.rotate(i*6.283/12); c.translate(TRr-18,0); c.rotate(0.55);
+      c.fillStyle=C().metal; rrect(c,-5,-9,10,18,3); c.fill();
+      c.strokeStyle=C().metalDark; c.lineWidth=1.4; rrect(c,-5,-9,10,18,3); c.stroke();
+      c.restore();
+    }
+  }
+  circle(c,0,0,10,C().metalDark,null,0);
+  c.restore();
+  TX(c, t(k==='hydro'?'cvTurbH':k==='wind'?'cvTurbW':'cvTurbT'), TXc, 322, '700 14px '+CV_FONT, C().cvText,'center','middle');
+}
+function drawGenerator(c, bright){
+  /* shaft */
+  line(c,TXc+TRr-4,GCY,GCX-GHW-6,GCY,C().metal,8);
+  TX(c,t('cvGen'),GCX,100,'700 15px '+CV_FONT,C().cvText,'center','middle');
+  /* poles */
+  c.fillStyle=C().poleN; rrect(c,392,118,126,22,7); c.fill();
+  TX(c,'N',GCX,129,'900 16px '+CV_FONT,'#ffffff','center','middle');
+  c.fillStyle=C().poleS; rrect(c,392,252,126,22,7); c.fill();
+  TX(c,'S',GCX,263,'900 16px '+CV_FONT,'#ffffff','center','middle');
+  /* field lines */
+  for(let i=0;i<5;i++){
+    const x=400+i*29;
+    line(c,x,140,x,252,C().poleS,1.4,[6,5]);
+    c.fillStyle=C().poleS;
+    c.beginPath(); c.moveTo(x,206); c.lineTo(x-4,198); c.lineTo(x+4,198); c.closePath(); c.fill();
+  }
+  /* rotating coil */
+  const cs=Math.cos(VIS.rot), sn=Math.sin(VIS.rot);
+  const y1=GCY-46*cs, y2=GCY+46*cs, ox=46*sn*0.28;
+  const cut=Math.abs(cs)*clamp(uOf()/2.4,0,1);
+  if(cut>0.04){
+    circle(c,GCX-GHW+ox,y1,11,'rgba('+C().glowRGB+','+(0.15+0.45*cut).toFixed(3)+')',null,0);
+    circle(c,GCX+GHW-ox,y2,11,'rgba('+C().glowRGB+','+(0.15+0.45*cut).toFixed(3)+')',null,0);
+  }
+  c.save(); c.lineJoin='round'; c.lineCap='round';
+  c.beginPath();
+  c.moveTo(GCX-GHW+ox,y1); c.lineTo(GCX+GHW+ox,y1);
+  c.lineTo(GCX+GHW-ox,y2); c.lineTo(GCX-GHW-ox,y2); c.closePath();
+  c.strokeStyle=C().coil; c.lineWidth=6; c.stroke();
+  c.restore();
+  TX(c,t('cvCoil'),GCX,286,'700 13px '+CV_FONT,C().coil,'center','middle');
+  /* lamp */
+  if(bright>0.02){
+    for(let i=3;i>=1;i--) circle(c,GCX,GY_+4,15+i*8,'rgba('+C().glowRGB+','+(0.09*bright).toFixed(3)+')',null,0);
+  }
+  circle(c,GCX,GY_+4,15, bright>0.02?C().bulbOn:C().bulbOff, C().metal,2.2);
+  TX(c,t('cvLamp'),GCX,336,'700 13px '+CV_FONT,C().cvText,'center','middle');
+}
+function drawChain(c){
+  const P=pl(), n=P.chain.length;
+  const NW=150, AW=86, total=n*NW+(n-1)*AW, x0=(W_W-total)/2;
+  for(let i=0;i<n;i++){
+    const x=x0+i*(NW+AW), on=(VIS.stage===i);
+    rrect(c,x,358,NW,42,10);
+    c.fillStyle = on ? C().nodeOn : C().node; c.fill();
+    c.strokeStyle = on ? C().nodeOn : C().nodeLine; c.lineWidth = on?2.4:1.4; c.stroke();
+    TX(c,t(P.chain[i]),x+NW/2,379,'800 16px '+CV_FONT, on?C().nodeOnInk:C().cvText,'center','middle');
+    if(i<n-1){
+      const ax=x+NW+AW/2, act=(VIS.stage===i+1);
+      TX(c,'→',ax,370,'800 18px '+CV_FONT, act?C().amber:C().cvTextDim,'center','middle');
+      TX(c,t(P.via[i]),ax,392,'700 13px '+CV_FONT, act?C().amber:C().cvTextDim,'center','middle');
+    }
+  }
+}
+function drawSankey(c, r){
+  const eff=r.eff/100, H=180, inTop=100;
+  const hU=H*eff, hL=H-hU;
+  const uTop=88, wTop=uTop+hU+18;
+  TX(c,t('cvFlow'),768,50,'700 15px '+CV_FONT,C().cvTextDim,'center','middle');
+  TX(c,tf('cvIn',{p:r.pi.toFixed(1)}),600,80,'800 15px '+CV_FONT,C().cvText,'center','middle');
+  /* input block */
+  c.fillStyle=C().blue; rrect(c,SKx0,inTop,SKx1-SKx0,H,6); c.fill();
+  TX(c,t(pl().chain[0]),581,314,'700 13px '+CV_FONT,C().blue,'center','middle');
+  /* ribbons */
+  ribbon(c,SKx1+4,inTop,inTop+hU,SKrx,uTop,uTop+hU,C().usefulSoft);
+  ribbon(c,SKx1+4,inTop+hU,inTop+H,SKrx,wTop,wTop+hL,C().lossSoft);
+  /* flowing dots */
+  for(let k=0;k<5;k++){
+    const u=((VIS.time*0.3+k/5)%1);
+    const p1=bez(SKx1+4,inTop+hU/2,SKrx,uTop+hU/2,u);
+    circle(c,p1[0],p1[1],3.2,'rgba(255,255,255,.85)',null,0);
+    const p2=bez(SKx1+4,inTop+hU+hL/2,SKrx,wTop+hL/2,u);
+    circle(c,p2[0],p2[1],3.2,'rgba(255,255,255,.8)',null,0);
+  }
+  /* output blocks */
+  c.fillStyle=C().useful; c.fillRect(SKrx,uTop,SKox-SKrx,hU);
+  c.fillStyle=C().loss;   c.fillRect(SKrx,wTop,SKox-SKrx,hL);
+  /* labels */
+  TX(c,t('cvUse'),856,uTop+hU/2-10,'700 13px '+CV_FONT,C().useful,'left','middle');
+  TX(c,r.po.toFixed(1)+' kW',856,uTop+hU/2+11,'900 16px '+CV_FONT,C().useful,'left','middle');
+  TX(c,t('cvLoss'),856,wTop+hL/2-10,'700 13px '+CV_FONT,C().loss,'left','middle');
+  TX(c,r.pl.toFixed(1)+' kW',856,wTop+hL/2+11,'900 16px '+CV_FONT,C().loss,'left','middle');
+  TX(c,t('loss_'+LAB.plant),768,336,'700 13px '+CV_FONT,C().cvTextDim,'center','middle');
+}
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const r = readings();
+  const bright = clamp(uOf()/2.0,0,1);
+
+  /* header line */
+  TX(c, t('n_'+LAB.plant), 16, 20, '800 16px '+CV_FONT, C().cvText, 'left','middle');
+  TX(c, t('sub_'+LAB.plant), 984, 20, '700 13px '+CV_FONT, C().cvTextDim, 'right','middle');
+
+  drawGround(c);
+  if(LAB.plant==='hydro') drawHydroSide(c);
+  else if(LAB.plant==='wind') drawWindSide(c);
+  else drawThermalSide(c);
+  drawTurbine(c);
+  drawGenerator(c, bright);
+  drawSankey(c, r);
+  /* status */
+  TX(c, LAB.n<=0 ? t('cvStop') : tf('cvRun',{r:LAB.n}), 984, W_H-14,
+     '700 13px '+CV_FONT, LAB.n<=0?C().cvTextDim:C().useful, 'right','middle');
+}
+
+/* ---------- sidebar messages ---------- */
+let FLASH = null, CONCL = null;
+function renderMsg(){
+  const r = readings();
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const formula = tf('f_formula',{pin:r.pi.toFixed(1), pout:r.po.toFixed(1), ploss:r.pl.toFixed(1)});
+  const live = LAB.n<=0 ? t('live_off') : tf('live_on',{e:r.eff, r:100-r.eff});
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + live + '<br>' + t('loss_'+LAB.plant);
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- setters (shared by lab + game control bars) ---------- */
+function syncSliders(){
+  const pairs = [['s-n','g-s-n',LAB.n],['s-t','g-s-t',LAB.turns],['s-b','g-s-b',LAB.B]];
+  pairs.forEach(function(p){
+    const a=$(p[0]), b=$(p[1]);
+    if(a && +a.value!==p[2]) a.value=p[2];
+    if(b && +b.value!==p[2]) b.value=p[2];
+  });
+  const nTxt = LAB.n, tTxt = LAB.turns, bTxt = LAB.B.toFixed(2)+' T';
+  ['s-n-o','g-s-n-o'].forEach(function(id){ if($(id)) $(id).textContent = nTxt; });
+  ['s-t-o','g-s-t-o'].forEach(function(id){ if($(id)) $(id).textContent = tTxt; });
+  ['s-b-o','g-s-b-o'].forEach(function(id){ if($(id)) $(id).textContent = bTxt; });
+}
+function labSync(){
+  const r = readings();
+  if($('l-out')) $('l-out').textContent = r.po.toFixed(1);
+  if($('l-eff')) $('l-eff').textContent = r.eff;
+  if($('l-in')) $('l-in').textContent = r.pi.toFixed(1);
+  if($('l-loss')) $('l-loss').textContent = r.pl.toFixed(1);
+  const bd = $('l-state');
+  if(bd){
+    bd.innerHTML = t('n_'+LAB.plant)+'<small>'+t('sub_'+LAB.plant)+'</small>';
+    bd.style.color = pl().renew ? '#1d7a3a' : '#b8432f';
+    bd.style.borderColor = pl().renew ? '#2e9e52' : 'var(--pos)';
+  }
+  if($('g-out')) $('g-out').textContent = r.po.toFixed(1);
+  if($('g-in')) $('g-in').textContent = r.pi.toFixed(1);
+  syncSliders();
+  renderMsg();
+}
+function setPlant(k){
+  if(!PLANTS[k] || LAB.plant===k) { if(PLANTS[k]) labSync(); return; }
+  LAB.plant = k;
+  VIS.stage = 0; VIS.phase = 0;
+  FLASH = 'r_switch'; CONCL = 'c_same';
+  document.querySelectorAll('.sbtn[data-src]').forEach(b=>b.classList.toggle('pick', b.dataset.src===k));
+  labSync();
+}
+function setN(v){
+  const was = LAB.n;
+  LAB.n = clamp(v,0,3000);
+  if(was<=0 && LAB.n>0) FLASH='r_start';
+  else if(was>0 && LAB.n<=0) FLASH='r_stop';
+  labSync();
+}
+function setTurns(v){ LAB.turns = clamp(v,100,300); labSync(); }
+function setB(v){ LAB.B = clamp(v,0.2,0.8); labSync(); }
+function labSet(p,n,tu,b){
+  LAB.plant=p; LAB.n=n; LAB.turns=tu; LAB.B=b;
+  VIS.stage=0; VIS.phase=0;
+  document.querySelectorAll('.sbtn[data-src]').forEach(x=>x.classList.toggle('pick', x.dataset.src===p));
+  labSync();
+}
+function labReset(){ FLASH=null; CONCL=null; labSet('hydro',1500,200,0.5); }
+
+/* ---------- one-click presets (the source file's static diagrams) ---------- */
+function presetDemo(id){
+  setMode('lab');
+  if(id==='pr1') labSet('hydro',1800,220,0.55);
+  else if(id==='pr2') labSet('wind',1200,200,0.5);
+  else if(id==='pr3') labSet('thermal',1800,220,0.55);
+  else if(id==='pr4') labSet(LAB.plant, clamp(LAB.n*2,0,3000), LAB.turns, LAB.B);
+  else if(id==='pr5') labSet(LAB.plant, LAB.n, LAB.turns, clamp(LAB.B*2,0.2,0.8));
+  else if(id==='pr6') labSet(LAB.plant, 0, LAB.turns, LAB.B);
+  FLASH = id==='pr6' ? 'r_stop' : null;
+  CONCL = 'c_'+id;
+  renderMsg();
+  const btn = document.querySelector('.rail [data-p="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  const r = readings();
+  recRows.push({ p:LAB.plant, n:LAB.n, out:r.po, eff:r.eff, renew:pl().renew });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.out); });
+  body.innerHTML = recRows.map(function(r){
+    const pct = top>1e-6 ? Math.max(6, r.out/top*100) : 0;
+    const nm = t('b_'+r.p);
+    return '<tr><td>'+nm+'</td><td>'+r.n+'</td><td>'+r.out.toFixed(1)+'</td><td>'+r.eff+'%</td>'+
+      '<td><div class="bar '+(r.renew?'re':'nre')+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare (two energy-flow diagrams, world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CMP_PRESETS = [
+  { a:{ plant:'hydro',   pin:100, nameK:'cp1a', condK:'cp1ac' },
+    b:{ plant:'thermal', pin:100, nameK:'cp1b', condK:'cp1bc' }, concl:'cc_1' },
+  { a:{ plant:'wind',    pin:100, nameK:'cp2a', condK:'cp2ac' },
+    b:{ plant:'thermal', pin:100, nameK:'cp2b', condK:'cp2bc' }, concl:'cc_2' },
+  { a:{ plant:'thermal', pin:200, nameK:'cp3a', condK:'cp3ac' },
+    b:{ plant:'hydro',   pin:100, nameK:'cp3b', condK:'cp3bc' }, concl:'cc_3' },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+function side(w){ return CMP_PRESETS[CMP.preset][w]; }
+function sideVals(s){
+  const eff = PLANTS[s.plant].eff;
+  const po = +(s.pin*eff).toFixed(1);
+  const plo = +(s.pin-po).toFixed(1);
+  return { pin:s.pin, po:po, pl:plo, eff:Math.round(eff*100) };
+}
+function cmpScale(){
+  return 150 / Math.max(side('a').pin, side('b').pin);
+}
+function drawCmpSide(c, s, p){
+  const v = sideVals(s), k = cmpScale();
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,CM_W*SC,CM_H*SC);
+  c.setTransform(SC,0,0,SC,0,0);
+
+  const H = v.pin*k, cy = 176, inTop = cy - H/2;
+  const hU = H*v.eff/100*p, hL = H*(1-v.eff/100)*p;
+  const uTop = cy - H/2 - 6, wTop = uTop + H*v.eff/100 + 16;
+  const x0 = 26, x1 = 72, xr = 250, xo = 292;
+
+  TX(c, t('n_'+s.plant), CM_W/2, 26, '800 16px '+CV_FONT, C().cvText, 'center','middle');
+  TX(c, tf('cvIn',{p:v.pin.toFixed(1)}), CM_W/2, 50, '700 14px '+CV_FONT, C().cvTextDim, 'center','middle');
+
+  c.fillStyle=C().blue; rrect(c,x0,inTop,x1-x0,H,6); c.fill();
+  TX(c, t(PLANTS[s.plant].chain[0]), x0+(x1-x0)/2, inTop+H+18, '700 13px '+CV_FONT, C().blue, 'center','middle');
+
+  if(p>0.001){
+    ribbon(c,x1+3,inTop,inTop+H*v.eff/100,xr,uTop,uTop+H*v.eff/100,
+      'rgba('+(THEME==='dark'?'63,208,108':'31,160,80')+','+(0.82*p).toFixed(3)+')');
+    ribbon(c,x1+3,inTop+H*v.eff/100,inTop+H,xr,wTop,wTop+H*(1-v.eff/100),
+      'rgba('+(THEME==='dark'?'255,106,90':'224,68,60')+','+(0.82*p).toFixed(3)+')');
+    for(let m=0;m<4;m++){
+      const u=((VIS.time*0.35+m/4)%1);
+      const q1=bez(x1+3,inTop+H*v.eff/200,xr,uTop+H*v.eff/200,u);
+      circle(c,q1[0],q1[1],3,'rgba(255,255,255,.85)',null,0);
+      const q2=bez(x1+3,inTop+H*(1+v.eff/100)/2,xr,wTop+H*(1-v.eff/100)/2,u);
+      circle(c,q2[0],q2[1],3,'rgba(255,255,255,.8)',null,0);
+    }
+    c.fillStyle=C().useful; c.fillRect(xr,uTop,xo-xr,hU);
+    c.fillStyle=C().loss;   c.fillRect(xr,wTop,xo-xr,hL);
+  }
+  TX(c, t('cvUse'), 302, uTop+H*v.eff/200-10, '700 13px '+CV_FONT, C().useful,'left','middle');
+  TX(c, (v.po*p).toFixed(1)+' kW', 302, uTop+H*v.eff/200+11, '900 15px '+CV_FONT, C().useful,'left','middle');
+  TX(c, t('cvLoss'), 302, wTop+H*(1-v.eff/100)/2-10, '700 13px '+CV_FONT, C().loss,'left','middle');
+  TX(c, (v.pl*p).toFixed(1)+' kW', 302, wTop+H*(1-v.eff/100)/2+11, '900 15px '+CV_FONT, C().loss,'left','middle');
+
+  TX(c, (v.po*p).toFixed(1)+' kW', CM_W/2, 320, '900 27px '+CV_FONT, C().useful,'center','middle');
+  TX(c, v.pin.toFixed(1)+' ＝ '+(v.po).toFixed(1)+' ＋ '+(v.pl).toFixed(1)+'  (kW)',
+     CM_W/2, 350, '700 14px '+CV_FONT, C().cvTextDim,'center','middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, side('a'), CMP.p);
+  drawCmpSide(ctxB, side('b'), CMP.p);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const a = sideVals(side('a')), b = sideVals(side('b'));
+  $('c-out-a').textContent = (a.po*CMP.p).toFixed(1);
+  $('c-out-b').textContent = (b.po*CMP.p).toFixed(1);
+  $('c-in-a').textContent = a.pin.toFixed(0);
+  $('c-eff-a').textContent = a.eff;
+  $('c-loss-a').textContent = (a.pl*CMP.p).toFixed(1);
+  $('c-in-b').textContent = b.pin.toFixed(0);
+  $('c-eff-b').textContent = b.eff;
+  $('c-loss-b').textContent = (b.pl*CMP.p).toFixed(1);
+}
+function cmpLabels(){
+  $('ca-name').textContent = t(side('a').nameK);
+  $('cb-name').textContent = t(side('b').nameK);
+  $('ca-cond').textContent = t(side('a').condK);
+  $('cb-cond').textContent = t(side('b').condK);
+  $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = sideVals(side('a')), b = sideVals(side('b'));
+  const real = Math.abs(a.po-b.po) < 0.05 ? 'same' : (a.po>b.po ? 'a' : 'b');
+  const detail = '（'+(LANG==='zh'?'甲':'A')+' '+a.po.toFixed(1)+' kW · '+
+                 (LANG==='zh'?'乙':'B')+' '+b.po.toFixed(1)+' kW）';
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Power challenge (target output under an input cap)
+   — reuses the demo-lab engine and canvas, no duplicated physics
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 45;
+const GAME_POOL = [
+  { tgt:60,  cap:75  },   /* needs eff >= 80%  → hydro only */
+  { tgt:120, cap:320 },   /* eff >= 37.5%      → any source */
+  { tgt:300, cap:360 },   /* eff >= 83%        → hydro only */
+  { tgt:24,  cap:60  },   /* eff >= 40%        → wind/coal just make it */
+  { tgt:400, cap:500 },   /* eff >= 80%        → hydro only */
+];
+const GAME = { round:0, score:0, tgt:0, cap:0, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GAME_POOL.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  const r = GAME_POOL[GAME.order[GAME.round-1]];
+  GAME.tgt = r.tgt; GAME.cap = r.cap;
+  labSet('thermal', 1000, 200, 0.5);
+  FLASH = null; CONCL = null;
+  $('g-status').innerHTML = tf('gGo',{t:GAME.tgt, c:GAME.cap});
+  gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) endRound('time');
+  }, 1000);
+}
+function endRound(how){
+  stopGTimer();
+  const r = readings();
+  let pts = 0;
+  if(how==='lock'){
+    if(r.pi > GAME.cap + 1e-6){
+      $('g-status').innerHTML = tf('gOver',{i:r.pi.toFixed(1), c:GAME.cap});
+    } else {
+      const err = Math.abs(r.po-GAME.tgt)/GAME.tgt;
+      pts = err<=0.02 ? 100 : err<=0.05 ? 80 : err<=0.10 ? 50 : err<=0.20 ? 20 : 5;
+      GAME.score += pts;
+      $('g-status').innerHTML = tf('gWin',{o:r.po.toFixed(1), t:GAME.tgt, i:r.pi.toFixed(1), p:pts});
+    }
+  } else {
+    $('g-status').innerHTML = t('gTimeUp');
+  }
+  $('g-score').textContent = GAME.score;
+  GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+  if(GAME.phase === 'done'){
+    const rk = GAME.score>=260 ? t('gRank1') : GAME.score>=150 ? t('gRank2') : t('gRank3');
+    $('g-status').innerHTML += '<br>' + t('gFinal')+' '+GAME.score+' — '+rk;
+  }
+  gameSync();
+}
+function gameAct(){
+  if(GAME.phase==='aim') endRound('lock');
+  else if(GAME.phase==='next') nextRound();
+  else startGame();
+}
+function gameSync(){
+  const r = readings();
+  $('g-round').textContent = GAME.round;
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-tgt').textContent = GAME.tgt;
+  $('g-cap').textContent = GAME.cap;
+  $('g-out').textContent = r.po.toFixed(1);
+  $('g-in').textContent = r.pi.toFixed(1);
+  $('g-goal-hud').innerHTML = t('gTgt')+' <b>'+GAME.tgt+'</b>';
+  $('g-cap-hud').innerHTML = t('gCap')+' <b>'+GAME.cap+'</b>';
+  $('g-act').textContent = GAME.phase==='aim' ? t('gLock') : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+  $('g-score').textContent = GAME.score;
+  document.querySelectorAll('#ctl-game [data-src]').forEach(b=>{ b.disabled = GAME.phase!=='aim'; });
+  document.querySelectorAll('#ctl-game input[type=range]').forEach(b=>{ b.disabled = GAME.phase!=='aim'; });
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    VIS.time += dt;
+    VIS.rot += dt * (LAB.n/N0) * (LAB.plant==='wind' ? 2.1 : 3.0);
+    if(VIS.rot>1e5) VIS.rot = VIS.rot % 6.283185;
+    VIS.phase += dt;
+    if(VIS.phase > 2.0){ VIS.phase = 0; VIS.stage = (VIS.stage+1) % pl().chain.length; }
+    if(VIS.stage >= pl().chain.length) VIS.stage = 0;
+    drawLab();
+  } else if($('panel-cmp').classList.contains('on')){
+    VIS.time += dt;
+    if(CMP.running){
+      CMP.p += dt/5;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; drawCmpBoth(); finishCmp(); }
+      else drawCmpBoth();
+    } else if(CMP.p > 0) drawCmpBoth();
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  CMP.running = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); labSync(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+labSet('hydro',1500,200,0.5);
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+
+</script>
+<script>
+window.LAB_SLUG='power-generation-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>扩散作用实验室 · Diffusion · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 扩散作用实验室</h1>
+  <div class="sub">Diffusion · chu-er-xia/b4-c1 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 冷热水赛跑</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 三态中的扩散</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 浓度差与方向</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 生活实例·要点</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<!-- ① 冷热双杯 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svgdf" viewBox="0 0 660 520"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="df_sidetitle">比赛记录</h3>
+    <div class="statline">
+      <span class="chip" id="c_t">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip blu" id="c_cold">—</span>
+      <span class="chip hl" id="c_hot">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="df_k1"></div>
+    <div class="kbox red" data-i18n-html="df_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 三态 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb1">—</div>
+    <svg id="svg3s" viewBox="0 0 660 430"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="s3_sidetitle">谁跑得远？</h3>
+    <div class="statline">
+      <span class="chip" id="c3_t">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="s3_k1"></div>
+    <div class="kbox blue" data-i18n-html="s3_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 浓度差 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb2">—</div>
+    <svg id="svggr" viewBox="0 0 660 460"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="gr_sidetitle">数一数</h3>
+    <div class="statline">
+      <span class="chip hl" id="g_l">—</span>
+      <span class="chip blu" id="g_r">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="g_x">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="gr_k1"></div>
+    <div class="kbox grn" data-i18n-html="gr_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 实例要点 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="ex_figtitle">生活中的扩散</h3>
+    <svg id="svgex" viewBox="0 0 660 300"></svg>
+    <div id="extbl"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="ex_sidetitle">扩散告诉我们什么</h3>
+    <div class="kbox" data-i18n-html="ex_k1"></div>
+    <div class="kbox blue" data-i18n-html="ex_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ 测验 -->
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl"><span data-i18n="dk_cT">冷杯</span>
+      <input type="range" id="tcold" min="0" max="100" step="1" value="15">
+      <span class="mono" id="tclab">15 °C</span></span>
+    <span class="dl"><span data-i18n="dk_hT">热杯</span>
+      <input type="range" id="thot" min="0" max="100" step="1" value="85">
+      <span class="mono" id="thlab">85 °C</span></span>
+    <button class="dbtn" id="dfdrop">💧 <span data-i18n="dk_drop">同时滴入墨水</span></button>
+    <button class="tgl" id="dfreset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d1">
+    <button class="dbtn" id="s3play">▶ <span data-i18n="dk_go1">同时出发</span></button>
+    <button class="tgl" id="s3reset" data-i18n="dk_reset1">↺ 重置</button>
+    <span class="dl" data-i18n="dk_hint1">💡 同一种香味分子，放进三种不同的"人群"里</span>
+  </div>
+
+  <div class="dsec" id="d2">
+    <span class="dl"><span data-i18n="dk_gtl">左温</span>
+      <input type="range" id="grtl" min="0" max="100" step="1" value="40">
+      <span class="mono" id="grtllab">40 °C</span></span>
+    <span class="dl"><span data-i18n="dk_gtr">右温</span>
+      <input type="range" id="grtr" min="0" max="100" step="1" value="40">
+      <span class="mono" id="grtrlab">40 °C</span></span>
+    <span class="dl"><span data-i18n="dk_gl">左边粒子</span>
+      <input type="range" id="grnl" min="2" max="60" step="1" value="20">
+      <span class="mono" id="grnllab">20</span></span>
+    <span class="dl"><span data-i18n="dk_gr2">右边粒子</span>
+      <input type="range" id="grnr" min="0" max="60" step="1" value="20">
+      <span class="mono" id="grnrlab">20</span></span>
+    <button class="dbtn" id="grpull">🚪 <span data-i18n="dk_pull">抽掉隔板</span></button>
+    <button class="tgl" id="grreset" data-i18n="dk_reset2">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="dk_hint3">💡 判断标准：是不是"分子自己"跑过去的？</span>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'扩散作用实验室',
+ subtitle:'分子不停地做无规则运动 —— 扩散现象与影响因素 · 初中科学课堂演示工具',
+ tab0:'① 冷热水赛跑',tab1:'② 三态中的扩散',tab2:'③ 浓度差与方向',tab3:'④ 生活实例·要点',tab4:'⑤ 测验',
+ df_sidetitle:'比赛记录',
+ df_k1:'为什么热水里散得快？<b>温度越高，分子运动越剧烈</b>——热水分子撞得墨水分子到处跑。所以温度是扩散快慢的头号因素，这种和温度有关的分子运动也叫<b>热运动</b>。',
+ df_k2:'⚠️ 注意：墨水散开<b>不是</b>因为有人搅拌，也不是墨水"沉下去"——整个过程没有外力，全靠分子自己乱撞。这正是"分子在不停做无规则运动"的证据。',
+ s3_sidetitle:'谁跑得远？',
+ s3_k1:'同样的香味分子：在<b>气体</b>里几秒钟就飘满房间（分子间距大、一路畅通）；在<b>液体</b>里要挤开邻居慢慢钻（能扩散，但慢得多）；在<b>固体</b>里几乎被卡死——金块和铅块压在一起，<b>几年</b>才互相渗入几毫米。',
+ s3_k2:'结论：扩散快慢 <b>气体 &gt; 液体 &gt; 固体</b>。三种状态都能扩散——连固体也能，只是极慢。',
+ gr_sidetitle:'数一数', choco:'巧克力粒子', grey2:'灰色粒子', inR:'巧克力跑到右边', inL:'灰色跑到左边', netc:'巧克力净移动', netg:'灰色净移动',
+ gr_k1:'抽掉隔板后，<b>两个方向都有</b>粒子穿过界面（看两个计数器都在涨）——但从"浓"边出发的粒子多，所以<b>净移动方向是从浓到稀</b>，直到两边差不多均匀。',
+ gr_k2:'均匀之后扩散"停了"吗？没有！粒子照样来回穿越，只是两个方向的数量打平了——这叫<b>动态平衡</b>。分子永远不会停下来。',
+ ex_figtitle:'生活中的扩散',
+ ex_sidetitle:'扩散告诉我们什么',
+ ex_k1:'扩散现象证明了两件事：①<b>分子在不停地做无规则运动</b>；②<b>分子之间有间隙</b>（不然挤不进去）。',
+ ex_k2:'温度越高扩散越快 → 温度越高分子运动越剧烈。腌菜要几天、炒菜几分钟就入味，就是温度的功劳。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_cT:'冷杯', dk_hT:'热杯', dk_drop:'同时滴入墨水', dk_reset:'↺ 重置',
+ dk_go1:'同时出发', dk_reset1:'↺ 重置',
+ dk_hint1:'💡 同一种香味分子，放进三种不同的"人群"里',
+ dk_pull:'抽掉隔板', dk_reset2:'↺ 重置', dk_gtl:'左温', dk_gtr:'右温', dk_gl:'左边粒子', dk_gr2:'右边粒子',
+ dk_hint2:'💡 盯住两个计数器：两边都有粒子穿过，净移动从浓到稀',
+ dk_hint3:'💡 判断标准：是不是"分子自己"跑过去的？',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0:'在冷水和热水中<b>同时</b>各滴入一滴墨水（不搅拌）。哪一杯先变均匀？这说明扩散快慢与什么因素有关？',
+ qb1:'把同样的香味分子分别放进气体、液体、固体中。相同时间内，它们各能"钻"多远？',
+ qb2:'隔板左边全是巧克力色粒子，右边全是灰色粒子。抽掉隔板后，两种粒子会怎样移动？均匀之后分子还动吗？',
+ cold:'冷水', hot:'热水', mix:'混匀度', donetag:'✓ 已均匀',
+ timer:'计时', sec:'s', notdrop:'还没滴入墨水',
+ winhot:'热水先均匀！', windraw:'比赛进行中…',
+ g_lbl:'气体', l_lbl:'液体', s_lbl:'固体',
+ dist:'钻进距离', s3wait:'按 ▶ 同时出发',
+ slow_s:'几乎不动（几年才几毫米）',
+ grL:'左边', grR:'右边', cross_r:'→ 穿越', cross_l:'← 穿越',
+ wallon:'隔板挡住：谁也过不去', neteq:'两种粒子已互相渗透均匀：分子仍在来回穿越（动态平衡）',
+ netarrow:'净移动：浓 → 稀',
+ ex_flower:'花香飘满园', ex_flower2:'几秒~几分钟', ex_sugar:'糖在水中化开', ex_sugar2:'几分钟~几小时', ex_metal:'金铅互渗', ex_metal2:'压几年，渗几毫米',
+ exH:['影响因素','规律','生活证据'],
+ exR:[['温度','越高越快','炒菜几分钟入味，腌菜要好几天'],
+      ['物质状态','气体 > 液体 > 固体','香水满屋快；糖水慢；金铅要几年'],
+      ['浓度差','差别越大，净扩散越快','刚滴墨水时散得猛，快均匀时变慢']],
+ mth:''
+},
+en:{
+ title:'Diffusion Lab',
+ subtitle:'Molecules never stop moving randomly — diffusion and its factors · junior-high classroom demo',
+ tab0:'① Hot vs Cold Race',tab1:'② Diffusion in 3 States',tab2:'③ Concentration & Direction',tab3:'④ Everyday Examples',tab4:'⑤ Quiz',
+ df_sidetitle:'Race record',
+ df_k1:'Why is hot water faster? <b>The hotter, the more violently molecules move</b> — hot water molecules batter the ink everywhere. Temperature is factor #1, and this temperature-linked motion is called <b>thermal motion</b>.',
+ df_k2:'⚠️ Note: the ink spreads with <b>no stirring and no external force</b> — molecules do it all by their own random collisions. That is exactly the evidence that molecules never stop moving.',
+ s3_sidetitle:'Who travels furthest?',
+ s3_k1:'The same scent molecules: in a <b>gas</b> they fill a room in seconds (huge gaps, clear road); in a <b>liquid</b> they must squeeze past neighbours (diffuses, but far slower); in a <b>solid</b> they are nearly stuck — gold and lead pressed together interpenetrate only millimetres in <b>years</b>.',
+ s3_k2:'Conclusion: diffusion speed <b>gas &gt; liquid &gt; solid</b>. All three states diffuse — even solids, just extremely slowly.',
+ gr_sidetitle:'Count them', choco:'chocolate', grey2:'grey', inR:'chocolate now RIGHT', inL:'grey now LEFT', netc:'chocolate net flow', netg:'grey net flow',
+ gr_k1:'After the wall is pulled, particles cross <b>in both directions</b> (both counters keep climbing) — but more set off from the concentrated side, so the <b>net movement runs from high to low concentration</b> until both sides even out.',
+ gr_k2:'Does diffusion "stop" once uniform? No! Particles keep crossing both ways — the two rates simply balance. That is <b>dynamic equilibrium</b>. Molecules never stand still.',
+ ex_figtitle:'Diffusion in everyday life',
+ ex_sidetitle:'What diffusion proves',
+ ex_k1:'Diffusion proves two things: ① <b>molecules move randomly, without stopping</b>; ② <b>there are gaps between molecules</b> (or nothing could squeeze in).',
+ ex_k2:'Hotter → faster diffusion → hotter means more violent molecular motion. Stir-fries season in minutes; pickles take days.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_cT:'Cold cup', dk_hT:'Hot cup', dk_drop:'Drop ink in BOTH', dk_reset:'↺ Reset',
+ dk_go1:'Release together', dk_reset1:'↺ Reset',
+ dk_hint1:'💡 Same scent molecules, three different "crowds"',
+ dk_pull:'Pull the divider', dk_reset2:'↺ Reset', dk_gtl:'Left T', dk_gtr:'Right T', dk_gl:'Left count', dk_gr2:'Right count',
+ dk_hint2:'💡 Watch both counters: crossings go BOTH ways; net flow runs high → low',
+ dk_hint3:'💡 The test: did the molecules get there BY THEMSELVES?',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0:'Drop ink into cold and hot water <b>at the same moment</b> (no stirring). Which becomes uniform first, and what factor does that reveal?',
+ qb1:'Put identical scent molecules into a gas, a liquid and a solid. How far does each get in the same time?',
+ qb2:'Chocolate particles fill the left side; grey particles fill the right. After the divider is pulled, how do the two kinds move? Do they still move once mixed?',
+ cold:'COLD', hot:'HOT', mix:'mixed', donetag:'✓ uniform',
+ timer:'timer', sec:'s', notdrop:'no ink dropped yet',
+ winhot:'Hot water wins!', windraw:'race in progress…',
+ g_lbl:'gas', l_lbl:'liquid', s_lbl:'solid',
+ dist:'distance in', s3wait:'press ▶ to release',
+ slow_s:'barely moves (mm per YEAR)',
+ grL:'left', grR:'right', cross_r:'→ crossings', cross_l:'← crossings',
+ wallon:'Divider in place: nobody gets through', neteq:'Fully interpenetrated: particles still cross both ways (dynamic equilibrium)',
+ netarrow:'NET movement: high → low',
+ ex_flower:'Scent fills a garden', ex_flower2:'seconds–minutes', ex_sugar:'Sugar dissolving', ex_sugar2:'minutes–hours', ex_metal:'Gold–lead interdiffusion', ex_metal2:'years for millimetres',
+ exH:['Factor','Rule','Everyday evidence'],
+ exR:[['Temperature','hotter = faster','stir-fry seasons in minutes; pickles take days'],
+      ['State of matter','gas > liquid > solid','perfume fills a room fast; sugar-water slow; gold–lead takes years'],
+      ['Concentration difference','bigger gap = faster net flow','fresh ink spreads fast, slows as it evens out']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers (shared conventions) ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= ① two-beaker race model ================= */
+var DF={t:0,dropped:false,TA:15,TB:85,doneA:0,doneB:0};
+var NW=34,NI=30;
+var WA=[],WB=[],IA=[],IB=[];
+function bk(i){ return i?{x0:356,x1:608,y0:148,y1:436}:{x0:52,x1:304,y0:148,y1:436}; }
+function initDF(){
+  var k;
+  WA=[];WB=[];IA=[];IB=[];
+  DF.t=0;DF.dropped=false;DF.doneA=0;DF.doneB=0;
+  for(k=0;k<NW;k++){
+    var a=bk(0),b=bk(1);
+    WA.push({x:a.x0+14+rnd(k,11)*(a.x1-a.x0-28),y:a.y0+14+rnd(k,12)*(a.y1-a.y0-28),vx:0,vy:0});
+    WB.push({x:b.x0+14+rnd(k,13)*(b.x1-b.x0-28),y:b.y0+14+rnd(k,14)*(b.y1-b.y0-28),vx:0,vy:0});
+  }
+  for(k=0;k<NI;k++){
+    IA.push({x:0,y:0,vx:0,vy:0});
+    IB.push({x:0,y:0,vx:0,vy:0});
+  }
+}
+function dfDrop(){
+  var k;
+  DF.dropped=true;DF.t=0;DF.doneA=0;DF.doneB=0;
+  for(k=0;k<NI;k++){
+    var a=bk(0),b=bk(1);
+    var cxa=(a.x0+a.x1)/2,cxb=(b.x0+b.x1)/2;
+    IA[k].x=cxa+(rnd(k,21)-0.5)*30; IA[k].y=a.y0+12+rnd(k,22)*22; IA[k].vx=0; IA[k].vy=0.3;
+    IB[k].x=cxb+(rnd(k,23)-0.5)*30; IB[k].y=b.y0+12+rnd(k,24)*22; IB[k].vx=0; IB[k].vy=0.3;
+  }
+}
+function walk(list,b,cap,noise,off){
+  var k,fr=Math.floor(CLK*30);
+  for(k=0;k<list.length;k++){
+    var p=list[k];
+    p.vx+=(rnd(k+off,fr)-0.5)*noise;
+    p.vy+=(rnd(k+off,fr+500)-0.5)*noise;
+    var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+    if(v>cap){p.vx*=cap/v;p.vy*=cap/v}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<b.x0+9){p.x=b.x0+9;p.vx=Math.abs(p.vx)}
+    if(p.x>b.x1-9){p.x=b.x1-9;p.vx=-Math.abs(p.vx)}
+    if(p.y<b.y0+9){p.y=b.y0+9;p.vy=Math.abs(p.vy)}
+    if(p.y>b.y1-9){p.y=b.y1-9;p.vy=-Math.abs(p.vy)}
+  }
+}
+function mixOf(list,b){
+  /* 3x3 coarse grid: with 30 ink particles a uniform spread leaves a cell
+     empty only ~3% of the time, so full mixing really does read ~100% */
+  var cells={},k;
+  for(k=0;k<list.length;k++){
+    var cx=Math.floor((list[k].x-b.x0)/((b.x1-b.x0)/3));
+    var cy=Math.floor((list[k].y-b.y0)/((b.y1-b.y0)/3));
+    cells[clamp(cx,0,2)+'_'+clamp(cy,0,2)]=1;
+  }
+  var n=0,key;
+  for(key in cells)n++;
+  return n/9;
+}
+function inkCap(t){ return 0.5+t/100*1.5; }
+function dfStep(dt){
+  CLK+=dt;
+  walk(WA,bk(0),0.3+DF.TA/100*1.1,0.35,100);
+  walk(WB,bk(1),0.3+DF.TB/100*1.1,0.35,300);
+  if(!DF.dropped)return;
+  DF.t+=dt;
+  walk(IA,bk(0),inkCap(DF.TA),0.5,500);
+  walk(IB,bk(1),inkCap(DF.TB),0.5,700);
+  if(!DF.doneA&&mixOf(IA,bk(0))>=0.88)DF.doneA=DF.t;
+  if(!DF.doneB&&mixOf(IB,bk(1))>=0.88)DF.doneB=DF.t;
+}
+
+/* ================= ② three-state diffusion model ================= */
+var S3={run:false,t:0};
+var HG=[],HL=[],HS=[],D3=[[],[],[]];
+function s3box(b){ return {ox:16+b*216, oy:64, w:196, h:250}; }
+function initS3(){
+  var k,b;
+  S3.run=false;S3.t=0;
+  HG=[];HL=[];HS=[];D3=[[],[],[]];
+  for(k=0;k<9;k++){
+    var a=rnd(k,31)*6.28;
+    HG.push({x:24+rnd(k,32)*156,y:20+rnd(k,33)*208,vx:Math.cos(a)*1.6,vy:Math.sin(a)*1.6});
+  }
+  // liquid & solid media FILL the whole box: the dye must burrow THROUGH them
+  for(k=0;k<35;k++)HL.push({hx:24+(k%5)*38+(rnd(k,34)-0.5)*12, hy:26+Math.floor(k/5)*33+(rnd(k,35)-0.5)*10});
+  for(k=0;k<35;k++)HS.push({hx:30+(k%5)*34, hy:24+Math.floor(k/5)*33});
+  for(b=0;b<3;b++){
+    for(k=0;k<8;k++){
+      D3[b].push({x:16,y:52+k*22,sx:16,sy:52+k*22,ox:16,vx:0,vy:0});
+    }
+  }
+}
+function s3Step(dt){
+  var k,fr=Math.floor(CLK*30);
+  for(k=0;k<HG.length;k++){
+    var g=HG[k];
+    g.x+=g.vx;g.y+=g.vy;
+    if(g.x<12){g.x=12;g.vx=Math.abs(g.vx)}
+    if(g.x>184){g.x=184;g.vx=-Math.abs(g.vx)}
+    if(g.y<12){g.y=12;g.vy=Math.abs(g.vy)}
+    if(g.y>238){g.y=238;g.vy=-Math.abs(g.vy)}
+  }
+  if(!S3.run)return;
+  S3.t+=dt;
+  // gas dye: ballistic
+  for(k=0;k<8;k++){
+    var p=D3[0][k];
+    if(p.vx===0&&p.vy===0){var a=rnd(k,41)*3.14-1.57;p.vx=Math.cos(a)*2.2;p.vy=Math.sin(a)*2.2}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<12){p.x=12;p.vx=Math.abs(p.vx)}
+    if(p.x>184){p.x=184;p.vx=-Math.abs(p.vx)}
+    if(p.y<12){p.y=12;p.vy=Math.abs(p.vy)}
+    if(p.y>238){p.y=238;p.vy=-Math.abs(p.vy)}
+  }
+  // liquid dye: slow squeeze random walk
+  for(k=0;k<8;k++){
+    var q=D3[1][k];
+    q.vx+=(rnd(k,fr+30)-0.5)*0.32;
+    q.vy+=(rnd(k,fr+80)-0.5)*0.32;
+    var v=Math.sqrt(q.vx*q.vx+q.vy*q.vy)||1;
+    if(v>0.42){q.vx*=0.42/v;q.vy*=0.42/v}
+    q.x+=q.vx;q.y+=q.vy;
+    if(q.x<12){q.x=12;q.vx=Math.abs(q.vx)}
+    if(q.x>184){q.x=184;q.vx=-Math.abs(q.vx)}
+    if(q.y<12){q.y=12;q.vy=Math.abs(q.vy)}
+    if(q.y>238){q.y=238;q.vy=-Math.abs(q.vy)}
+  }
+  // solid dye: vibrate in place, imperceptible creep
+  for(k=0;k<8;k++){
+    var s=D3[2][k];
+    s.sx+=0.004;
+    s.x=s.sx+1.3*Math.sin(CLK*5+k);
+    s.y=s.sy+1.3*Math.cos(CLK*4.3+k);
+  }
+}
+function s3disp(b){
+  var k,s=0;
+  for(k=0;k<8;k++)s+=D3[b][k].x-D3[b][k].ox;
+  return s/8;
+}
+
+/* ================= ③ concentration-gradient model ================= */
+var GR={wall:true,cl:0,cr:0,Tl:40,Tr:40,n0l:20,n0r:20};
+var GX0=60,GX1=600,GY0=150,GY1=400,GW=330;
+var GP=[],WG=[];
+function grCap(T){ return 0.45+T/100*1.3; }
+function initGR(){
+  var k;
+  GR.wall=true;GR.cl=0;GR.cr=0;
+  GP=[];WG=[];
+  // chocolate substance fills the LEFT, grey substance fills the RIGHT
+  for(k=0;k<GR.n0l;k++)GP.push({x:GX0+16+rnd(k,51)*(GW-GX0-40),y:GY0+16+rnd(k,52)*(GY1-GY0-32),vx:0,vy:0});
+  for(k=0;k<GR.n0r;k++)WG.push({x:GW+16+rnd(k,53)*(GX1-GW-40),y:GY0+16+rnd(k,54)*(GY1-GY0-32),vx:0,vy:0});
+}
+function grPop(list,off,T){
+  var k,fr=Math.floor(CLK*30);
+  for(k=0;k<list.length;k++){
+    var p=list[k],px=p.x;
+    p.vx+=(rnd(k,fr+off)-0.5)*0.5;
+    p.vy+=(rnd(k,fr+off+60)-0.5)*0.5;
+    var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+    var cap=grCap(T);
+    if(v>cap){p.vx*=cap/v;p.vy*=cap/v}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<GX0+9){p.x=GX0+9;p.vx=Math.abs(p.vx)}
+    if(p.x>GX1-9){p.x=GX1-9;p.vx=-Math.abs(p.vx)}
+    if(p.y<GY0+9){p.y=GY0+9;p.vy=Math.abs(p.vy)}
+    if(p.y>GY1-9){p.y=GY1-9;p.vy=-Math.abs(p.vy)}
+    if(GR.wall){
+      if(px<GW&&p.x>=GW-8){p.x=GW-8;p.vx=-Math.abs(p.vx)}
+      if(px>GW&&p.x<=GW+8){p.x=GW+8;p.vx=Math.abs(p.vx)}
+    }else{
+      if(px<GW&&p.x>=GW)GR.cl++;
+      if(px>=GW&&p.x<GW)GR.cr++;
+    }
+  }
+}
+function grStep(dt){
+  // each substance carries its own side's temperature
+  grPop(GP,200,GR.Tl);
+  grPop(WG,900,GR.Tr);
+}
+function chocRight(){
+  var k,n=0;
+  for(k=0;k<GP.length;k++)if(GP[k].x>=GW)n++;
+  return n;
+}
+function greyLeft(){
+  var k,n=0;
+  for(k=0;k<WG.length;k++)if(WG[k].x<GW)n++;
+  return n;
+}
+function grNL(){ return GP.length-chocRight(); }
+/* ================= drawing ================= */
+function dot(x,y,r,col,op){
+  return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="'+col+'" stroke="#26221B" stroke-width="1.3" opacity="'+(op||0.92)+'"/>';
+}
+/* ---------- ① two beakers ---------- */
+function beakerShell(b,label,tcol,tval){
+  var s='';
+  s+='<path d="M '+(b.x0-6)+' '+(b.y0-14)+' L '+(b.x0-6)+' '+(b.y1+6)+' Q '+(b.x0-6)+' '+(b.y1+14)+' '+(b.x0+2)+' '+(b.y1+14)+' L '+(b.x1-2)+' '+(b.y1+14)+' Q '+(b.x1+6)+' '+(b.y1+14)+' '+(b.x1+6)+' '+(b.y1+6)+' L '+(b.x1+6)+' '+(b.y0-14)+'" fill="none" stroke="#8A8070" stroke-width="3.5"/>';
+  s+='<rect x="'+b.x0+'" y="'+b.y0+'" width="'+(b.x1-b.x0)+'" height="'+(b.y1-b.y0)+'" rx="6" fill="#2C7D8C" opacity="0.08"/>';
+  s+=tl((b.x0+b.x1)/2,b.y0-24,17,tcol,label+' '+tval+'°C');
+  return s;
+}
+function mixBar(b,mix,doneT,y){
+  var s='';
+  var w=b.x1-b.x0, f=clamp(mix,0,1);
+  s+='<rect x="'+b.x0+'" y="'+y+'" width="'+w+'" height="14" rx="7" fill="#E3DCCB"/>';
+  s+='<rect x="'+b.x0+'" y="'+y+'" width="'+(w*f).toFixed(0)+'" height="14" rx="7" fill="#2F7D4F"/>';
+  s+=tlplain(b.x0,y+30,13,'#6B6252',T('mix')+' '+Math.round(f*100)+'%','start');
+  if(doneT)s+=tl(b.x1,y+31,14,'#2F7D4F',T('donetag')+' '+doneT.toFixed(1)+' '+T('sec'),'end');
+  return s;
+}
+function drawDF(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="520" rx="14" fill="#FBF7EC"/>';
+  var A=bk(0),B=bk(1);
+  s+=beakerShell(A,T('cold'),'#2C7D8C',DF.TA);
+  s+=beakerShell(B,T('hot'),'#D9542B',DF.TB);
+  var k;
+  for(k=0;k<NW;k++){
+    s+=dot(WA[k].x,WA[k].y,6,'#9BB7C9',0.55);
+    s+=dot(WB[k].x,WB[k].y,6,'#9BB7C9',0.55);
+  }
+  if(DF.dropped){
+    for(k=0;k<NI;k++){
+      s+=dot(IA[k].x,IA[k].y,7,'#B5652A');
+      s+=dot(IB[k].x,IB[k].y,7,'#B5652A');
+    }
+    s+=mixBar(A,mixOf(IA,A),DF.doneA,462);
+    s+=mixBar(B,mixOf(IB,B),DF.doneB,462);
+    s+=tl(330,52,15,'#4B4437','⏱ '+DF.t.toFixed(1)+' '+T('sec'));
+    if(DF.doneB&&(!DF.doneA||DF.doneB<DF.doneA))s+=tl(330,80,16,'#D9542B',T('winhot'));
+  }else{
+    s+=tlplain(330,52,14,'#8A8070',T('notdrop'));
+  }
+  $('svgdf').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0');
+  $('c_t').textContent='⏱ '+(DF.dropped?DF.t.toFixed(1):'0.0')+' '+T('sec');
+  $('c_cold').textContent=T('cold')+' '+DF.TA+'°C · '+(DF.dropped?Math.round(mixOf(IA,A)*100):0)+'%';
+  $('c_hot').textContent=T('hot')+' '+DF.TB+'°C · '+(DF.dropped?Math.round(mixOf(IB,B)*100):0)+'%';
+}
+/* ---------- ② three states ---------- */
+function drawS3(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="430" rx="14" fill="#FBF7EC"/>';
+  var labels=[['g_lbl','#D9542B'],['l_lbl','#2C7D8C'],['s_lbl','#7FA8C9']];
+  var b,k;
+  for(b=0;b<3;b++){
+    var g=s3box(b);
+    s+='<rect x="'+g.ox+'" y="'+g.oy+'" width="'+g.w+'" height="'+g.h+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="2.5"/>';
+    s+=tl(g.ox+g.w/2,g.oy-12,16,labels[b][1],T(labels[b][0]));
+    if(b===0){
+      for(k=0;k<HG.length;k++)s+=dot(g.ox+HG[k].x,g.oy+HG[k].y,6,'#E0B27C',0.5);
+    }else if(b===1){
+      for(k=0;k<HL.length;k++){
+        var hx=HL[k].hx+2.2*Math.sin(CLK*4+k), hy=HL[k].hy+2.2*Math.cos(CLK*5+k);
+        s+=dot(g.ox+hx,g.oy+hy,7,'#7FB3BE',0.5);
+      }
+    }else{
+      for(k=0;k<HS.length;k++){
+        var sx=HS[k].hx+1.2*Math.sin(CLK*5+k), sy=HS[k].hy+1.2*Math.cos(CLK*4.3+k);
+        s+=dot(g.ox+sx,g.oy+sy,7,'#A9BFD2',0.6);
+      }
+    }
+    for(k=0;k<8;k++)s+=dot(g.ox+D3[b][k].x,g.oy+D3[b][k].y,6.5,'#7A3FA0');
+    // distance bar (fixed scale 0..170px)
+    var d=clamp(s3disp(b),0,170);
+    s+='<rect x="'+(g.ox)+'" y="'+(g.oy+g.h+16)+'" width="170" height="12" rx="6" fill="#E3DCCB"/>';
+    s+='<rect x="'+(g.ox)+'" y="'+(g.oy+g.h+16)+'" width="'+d.toFixed(0)+'" height="12" rx="6" fill="#7A3FA0"/>';
+    var lab=(b===2&&S3.t>2)?T('slow_s'):(Math.round(d)+' px');
+    s+=tlplain(g.ox,g.oy+g.h+46,12,'#6B6252',T('dist')+' '+lab,'start');
+  }
+  s+=tl(330,418,14,'#4B4437',S3.run?('⏱ '+S3.t.toFixed(1)+' '+T('sec')):T('s3wait'));
+  $('svg3s').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb1');
+  $('c3_t').textContent='⏱ '+S3.t.toFixed(1)+' '+T('sec');
+}
+/* ---------- ③ two substances interdiffusing ---------- */
+function netRow(y,col,name,nl,nr,n){
+  // net diffusion always runs from the fuller compartment to the emptier one:
+  // arrow length is PROPORTIONAL to |nl-nr|/n, direction follows the sign
+  var aw=Math.round(90*Math.abs(nl-nr)/Math.max(n,1));
+  var s='';
+  if(aw>=10){
+    s+='<line x1="'+(330-aw)+'" y1="'+y+'" x2="'+(330+aw)+'" y2="'+y+'" stroke="'+col+'" stroke-width="6"/>';
+    if(nl>nr)s+='<path d="M '+(330+aw)+' '+y+' l -12 -7 m 12 7 l -12 7" stroke="'+col+'" stroke-width="6" fill="none"/>';
+    else s+='<path d="M '+(330-aw)+' '+y+' l 12 -7 m -12 7 l 12 7" stroke="'+col+'" stroke-width="6" fill="none"/>';
+    s+=tl(330-aw-14,y+5,14,col,name+' '+nl,'end');
+    s+=tl(330+aw+14,y+5,14,col,nr+'','start');
+  }else{
+    s+=tl(330,y+5,14,col,name+' '+nl+' \u21cc '+nr);
+  }
+  return s;
+}
+function drawGR(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="460" rx="14" fill="#FBF7EC"/>';
+  s+='<rect x="'+GX0+'" y="'+GY0+'" width="'+(GX1-GX0)+'" height="'+(GY1-GY0)+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="3"/>';
+  var k;
+  for(k=0;k<WG.length;k++)s+=dot(WG[k].x,WG[k].y,7,'#9BB7C9',0.9);
+  for(k=0;k<GP.length;k++)s+=dot(GP[k].x,GP[k].y,7,'#B5652A');
+  var cR=chocRight(), gL=greyLeft();
+  if(GR.wall){
+    s+='<rect x="'+(GW-4)+'" y="'+(GY0-8)+'" width="8" height="'+(GY1-GY0+16)+'" rx="3" fill="#8A5A2B"/>';
+    s+=tl(GW,GY0-18,14,'#8A5A2B',T('wallon'));
+  }else{
+    s+='<line x1="'+GW+'" y1="'+GY0+'" x2="'+GW+'" y2="'+GY1+'" stroke="#B9AE95" stroke-width="1.5" stroke-dasharray="5 7"/>';
+    // per-substance count rows: real left/right counts at the arrow ends,
+    // arrow length PROPORTIONAL to the imbalance fraction (all-one-side = longest)
+    var cL=GP.length-cR, gR=WG.length-gL;
+    // count rows live in their own clear band ABOVE the box
+    s+=netRow(38,'#B5652A',T('choco'),cL,cR,GP.length);
+    if(WG.length>0)s+=netRow(72,'#8A8070',T('grey2'),gL,gR,WG.length);
+    var evenC=Math.abs(cR-GP.length/2)<=Math.max(2,GP.length*0.18);
+    var evenG=Math.abs(gL-WG.length/2)<=Math.max(2,WG.length*0.25);
+    if(evenC&&(WG.length===0||evenG))s+=tl(330,108,15,'#2F7D4F',T('neteq'));
+    s+=tlplain(GW-10,GY1+26,13,'#6B6252',T('cross_r')+' '+GR.cl,'end');
+    s+=tlplain(GW+10,GY1+26,13,'#6B6252',T('cross_l')+' '+GR.cr,'start');
+  }
+  s+=tl(GX0+8,GY0-18,15,'#B5652A',T('choco')+' '+GP.length+' · '+GR.Tl+'°C','start');
+  s+=tl(GX1-8,GY0-18,15,'#2C7D8C',T('grey2')+' '+WG.length+' · '+GR.Tr+'°C','end');
+  $('svggr').innerHTML=PAINT(s);
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb2');
+  $('g_l').textContent=T('inR')+' '+cR;
+  $('g_r').textContent=T('inL')+' '+gL;
+  $('g_x').textContent=T('cross_r')+' '+GR.cl+' · '+T('cross_l')+' '+GR.cr;
+}
+/* ---------- ④ examples ---------- */
+function drawEX(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="300" rx="14" fill="#FBF7EC"/>';
+  // flower scene
+  s+='<circle cx="80" cy="200" r="16" fill="#D9542B"/>';
+  var pk;
+  for(pk=0;pk<5;pk++){
+    var a2=pk/5*6.283;
+    s+='<circle cx="'+(80+22*Math.cos(a2)).toFixed(0)+'" cy="'+(200+22*Math.sin(a2)).toFixed(0)+'" r="11" fill="#E0904E"/>';
+  }
+  s+='<rect x="76" y="216" width="8" height="46" fill="#2F7D4F"/>';
+  for(pk=0;pk<7;pk++){
+    var ph=frac(CLK*0.12+pk*0.14);
+    var px=96+ph*96, py=196-ph*60+8*Math.sin(CLK*2+pk*2);
+    s+='<circle cx="'+px.toFixed(0)+'" cy="'+py.toFixed(0)+'" r="4" fill="#E0904E" opacity="'+(0.85-ph*0.5).toFixed(2)+'"/>';
+  }
+  s+=tl(110,282,14,'#4B4437',T('ex_flower'));
+  s+=tlplain(110,264,12,'#8A8070',T('ex_flower2'));
+  // sugar cup
+  s+='<path d="M 280 130 L 288 250 L 372 250 L 380 130" fill="#2C7D8C" opacity="0.13" stroke="#8A8070" stroke-width="3"/>';
+  s+='<rect x="316" y="222" width="28" height="20" rx="3" fill="#FFFDF7" stroke="#B9AE95" stroke-width="2"/>';
+  for(pk=0;pk<8;pk++){
+    var ph2=frac(CLK*0.06+pk*0.125);
+    var py2=236-ph2*84;
+    s+='<circle cx="'+(330+18*Math.sin(pk*2.3+CLK)).toFixed(0)+'" cy="'+py2.toFixed(0)+'" r="3.5" fill="#FFFFFF" opacity="'+(0.9-ph2*0.55).toFixed(2)+'" stroke="#B9AE95" stroke-width="1"/>';
+  }
+  s+=tl(330,282,14,'#4B4437',T('ex_sugar'));
+  s+=tlplain(330,264,12,'#8A8070',T('ex_sugar2'));
+  // gold-lead blocks
+  s+='<rect x="500" y="140" width="120" height="52" rx="4" fill="#C9A227" stroke="#8A5A2B" stroke-width="2.5"/>';
+  s+='<rect x="500" y="192" width="120" height="52" rx="4" fill="#6B7280" stroke="#4B4437" stroke-width="2.5"/>';
+  for(pk=0;pk<5;pk++){
+    s+='<circle cx="'+(514+pk*22)+'" cy="'+(198+rnd(pk,61)*8).toFixed(0)+'" r="3.5" fill="#C9A227"/>';
+    s+='<circle cx="'+(524+pk*22)+'" cy="'+(184-rnd(pk,62)*8).toFixed(0)+'" r="3.5" fill="#6B7280"/>';
+  }
+  s+=tl(560,282,14,'#4B4437',T('ex_metal'));
+  s+=tlplain(560,264,12,'#8A8070',T('ex_metal2'));
+  $('svgex').innerHTML=PAINT(s);
+}
+function buildEXT(){
+  var h='<table class="cmp"><tr>',k,j;
+  var Hh=T('exH'),R=T('exR');
+  for(k=0;k<Hh.length;k++)h+='<th>'+Hh[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('extbl').innerHTML=h;
+}
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. Diffusion is fastest in a…',o:[
+    ['Solid',0,'Solids diffuse SLOWEST — gold and lead take years for millimetres.'],
+    ['Liquid',0,'Faster than solids, but still squeezing past close neighbours.'],
+    ['Gas',1,'Correct — huge gaps between particles mean an almost clear road.'],
+    ['They are all equal',0,'The spacing between particles differs hugely — so does the speed.']]},
+   {q:'2. Ink spreads faster in hot water mainly because…',o:[
+    ['Hot water dissolves ink better',0,'Solubility is not the mechanism here — motion is.'],
+    ['Hotter molecules move more violently',1,'Correct — temperature measures how energetically molecules move; harder collisions spread the ink faster.'],
+    ['Hot water is lighter, so ink sinks faster',0,'Diffusion needs no sinking — it happens in every direction.'],
+    ['Heat makes ink particles bigger',0,'Particles never grow — classic trap.']]},
+   {q:'3. Diffusion is direct evidence that…',o:[
+    ['Molecules never stop moving randomly (and have gaps between them)',1,'Correct — spontaneous mixing with no external force needs both facts.'],
+    ['Molecules are visible',0,'We infer molecules from the phenomenon; we do not see them.'],
+    ['Hot things rise',0,'That is convection, a different (bulk-flow) process.'],
+    ['Liquids are heavier than gases',0,'Density is irrelevant to the evidence.']]},
+   {q:'4. Once the ink is evenly mixed, the molecules…',o:[
+    ['Stop moving',0,'Molecules NEVER stop — the classic misconception.'],
+    ['Keep moving; crossings simply balance in both directions',1,'Correct — dynamic equilibrium: motion continues, net movement is zero.'],
+    ['Move only when stirred',0,'Stirring is bulk flow; molecular motion needs no help.'],
+    ['Move backwards to unmix',0,'Un-mixing is statistically impossible at this scale.']]},
+   {q:'5. Gold and lead blocks pressed together for years show slight interpenetration. This tells us…',o:[
+    ['Solids can diffuse too, just extremely slowly',1,'Correct — even lattice-locked particles occasionally swap places.'],
+    ['Metals melt at room temperature',0,'No melting happened.'],
+    ['Gold is magnetic',0,'Magnetism is irrelevant.'],
+    ['It was a chemical reaction',0,'No new substance forms — it is physical mixing.']]},
+   {q:'6. After the divider is pulled, the NET movement of dye runs…',o:[
+    ['From high concentration to low',1,'Correct — both directions have crossings, but more leave the crowded side.'],
+    ['From low concentration to high',0,'Backwards — that would sharpen the difference, not level it.'],
+    ['Only left, never right',0,'Particles cross BOTH ways — watch the two counters.'],
+    ['Nowhere: the dye stays put',0,'Random motion guarantees spreading.']]},
+   {q:'7. Which of these is NOT diffusion?',o:[
+    ['Perfume smelt across a room',0,'That IS diffusion — scent molecules travel by themselves.'],
+    ['Dust swirling in a sunbeam when someone walks past',1,'Correct — dust grains are HUGE clumps pushed by air currents (bulk flow), not molecules moving by themselves.'],
+    ['Soy sauce slowly colouring a boiled egg',0,'That IS diffusion — molecules seep in.'],
+    ['Smelling fried chicken from the kitchen',0,'That IS diffusion (helped a little by convection, but molecular motion does the smelling).']]}
+  ];
+  return [
+   {q:'1. 扩散最快的是……',o:[
+    ['固体中',0,'固体最慢——金铅压几年才互渗几毫米。'],
+    ['液体中',0,'比固体快，但还要挤开紧挨的邻居。'],
+    ['气体中',1,'正确——粒子间距大，一路畅通。'],
+    ['三种一样快',0,'粒子间距差别巨大，速度当然不同。']]},
+   {q:'2. 墨水在热水中散得快，主要是因为……',o:[
+    ['热水更容易溶解墨水',0,'关键机制不是溶解，是分子运动。'],
+    ['温度越高，分子运动越剧烈',1,'正确——温度就是分子运动剧烈程度的标志，撞得越猛散得越快。'],
+    ['热水轻，墨水沉得快',0,'扩散不靠下沉——它向四面八方进行。'],
+    ['受热后墨水粒子变大了',0,'粒子不会变大——经典陷阱。']]},
+   {q:'3. 扩散现象直接证明了……',o:[
+    ['分子在不停地做无规则运动（且分子间有间隙）',1,'正确——没有任何外力却能自发混合，必须同时有这两点。'],
+    ['分子是肉眼可见的',0,'我们是从现象推断分子，并没有看见它。'],
+    ['热空气会上升',0,'那是对流，是整体流动，不是分子各自运动。'],
+    ['液体比气体重',0,'密度与这个证据无关。']]},
+   {q:'4. 墨水完全混匀之后，分子……',o:[
+    ['停止运动了',0,'分子永不停止——最经典的误区。'],
+    ['照样运动，只是两个方向的穿越数量打平了',1,'正确——动态平衡：运动继续，净移动为零。'],
+    ['只有搅拌时才动',0,'搅拌是整体流动，分子运动不需要帮忙。'],
+    ['会倒着运动重新分开',0,'在这个尺度上"自动分开"概率趋近于零。']]},
+   {q:'5. 金块和铅块压在一起几年后微微互渗，说明……',o:[
+    ['固体也能扩散，只是极慢',1,'正确——即使被晶格锁住，粒子偶尔也能换位。'],
+    ['金属在室温会熔化',0,'并没有熔化发生。'],
+    ['金有磁性',0,'磁性与此无关。'],
+    ['发生了化学反应',0,'没有新物质生成，是物理混合。']]},
+   {q:'6. 抽掉隔板后，染料的净移动方向是……',o:[
+    ['从浓到稀',1,'正确——两个方向都有粒子穿越，但从"人多"那边出发的更多。'],
+    ['从稀到浓',0,'反了——那会让差距更大，而不是变均匀。'],
+    ['只向左，绝不向右',0,'两个方向都有穿越——看两个计数器。'],
+    ['原地不动',0,'无规则运动保证它一定会散开。']]},
+   {q:'7. 下面哪个"不是"扩散？',o:[
+    ['满屋子闻到香水味',0,'这是扩散——香味分子自己跑过来。'],
+    ['有人走过，阳光下灰尘飞舞',1,'正确——灰尘是巨大的颗粒团，被气流推着走（整体流动），不是分子自己运动。'],
+    ['卤蛋慢慢入味变色',0,'这是扩散——分子渗进去。'],
+    ['在客厅闻到厨房的炸鸡香',0,'这是扩散（对流帮点忙，但闻到靠的是分子运动）。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildEXT(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  if(CUR===0){ dfStep(0.016); drawDF(); updSummary(); }
+  else if(CUR===1){ CLK+=0.016; s3Step(0.016); drawS3(); updSummary(); }
+  else if(CUR===2){ CLK+=0.016; grStep(0.016); drawGR(); updSummary(); }
+  else if(CUR===3){ CLK+=0.016; drawEX(); }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawDF,drawS3,drawGR,function(){drawEX();buildEXT()},drawQZ];
+  SUMMARY=[
+    function(){return T('cold')+' '+DF.TA+'° vs '+T('hot')+' '+DF.TB+'° · ⏱ '+(DF.dropped?DF.t.toFixed(1)+T('sec'):'—')},
+    function(){return T('s3_sidetitle')+' ⏱ '+S3.t.toFixed(1)+' '+T('sec')},
+    function(){return T('inR')+' '+chocRight()+' · '+T('inL')+' '+greyLeft()},
+    function(){return T('ex_figtitle')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initDF(); initS3(); initGR();
+  $('tcold').addEventListener('input',function(){DF.TA=+this.value;$('tclab').textContent=DF.TA+' °C'});
+  $('thot').addEventListener('input',function(){DF.TB=+this.value;$('thlab').textContent=DF.TB+' °C'});
+  $('dfdrop').addEventListener('click',function(){dfDrop()});
+  $('dfreset').addEventListener('click',function(){initDF();drawDF();updSummary()});
+  $('s3play').addEventListener('click',function(){S3.run=true;this.classList.add('on')});
+  $('s3reset').addEventListener('click',function(){initS3();$('s3play').classList.remove('on');drawS3();updSummary()});
+  $('grpull').addEventListener('click',function(){GR.wall=false;this.classList.add('on')});
+  $('grreset').addEventListener('click',function(){initGR();$('grpull').classList.remove('on');drawGR();updSummary()});
+  function grParam(id,lab,key,unit){
+    $(id).addEventListener('input',function(){
+      GR[key]=+this.value;$(lab).textContent=this.value+unit;
+      initGR();$('grpull').classList.remove('on');
+    });
+  }
+  // temperature changes apply LIVE (no reset); count changes re-init
+  function grTemp(id,lab,key){
+    $(id).addEventListener('input',function(){
+      GR[key]=+this.value;$(lab).textContent=this.value+' °C';
+    });
+  }
+  grTemp('grtl','grtllab','Tl');
+  grTemp('grtr','grtrlab','Tr');
+  grParam('grnl','grnllab','n0l','');
+  grParam('grnr','grnrlab','n0r','');
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildEXT(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  dfDrop();
+  for(i=0;i<400;i++){dfStep(0.016);if(i%100===0)drawDF()}
+  initDF();drawDF();
+  showTab(1);
+  S3.run=true;
+  for(i=0;i<300;i++){CLK+=0.016;s3Step(0.016);if(i%100===0)drawS3()}
+  initS3();drawS3();
+  showTab(2);
+  for(i=0;i<60;i++){CLK+=0.016;grStep(0.016)}
+  GR.wall=false;
+  for(i=0;i<300;i++){CLK+=0.016;grStep(0.016);if(i%100===0)drawGR()}
+  initGR();drawGR();
+  showTab(3);for(i=0;i<40;i++){CLK+=0.016;drawEX()}
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'扩散作用实验室',
+ subtitle:'分子不停地做无规则运动 —— 扩散现象与影响因素 · 初中科学课堂演示工具',
+ tab0:'① 冷热水赛跑',tab1:'② 三态中的扩散',tab2:'③ 浓度差与方向',tab3:'④ 生活实例·要点',tab4:'⑤ 测验',
+ df_sidetitle:'比赛记录',
+ df_k1:'为什么热水里散得快？<b>温度越高，分子运动越剧烈</b>——热水分子撞得墨水分子到处跑。所以温度是扩散快慢的头号因素，这种和温度有关的分子运动也叫<b>热运动</b>。',
+ df_k2:'⚠️ 注意：墨水散开<b>不是</b>因为有人搅拌，也不是墨水"沉下去"——整个过程没有外力，全靠分子自己乱撞。这正是"分子在不停做无规则运动"的证据。',
+ s3_sidetitle:'谁跑得远？',
+ s3_k1:'同样的香味分子：在<b>气体</b>里几秒钟就飘满房间（分子间距大、一路畅通）；在<b>液体</b>里要挤开邻居慢慢钻（能扩散，但慢得多）；在<b>固体</b>里几乎被卡死——金块和铅块压在一起，<b>几年</b>才互相渗入几毫米。',
+ s3_k2:'结论：扩散快慢 <b>气体 &gt; 液体 &gt; 固体</b>。三种状态都能扩散——连固体也能，只是极慢。',
+ gr_sidetitle:'数一数', choco:'巧克力粒子', grey2:'灰色粒子', inR:'巧克力跑到右边', inL:'灰色跑到左边', netc:'巧克力净移动', netg:'灰色净移动',
+ gr_k1:'抽掉隔板后，<b>两个方向都有</b>粒子穿过界面（看两个计数器都在涨）——但从"浓"边出发的粒子多，所以<b>净移动方向是从浓到稀</b>，直到两边差不多均匀。',
+ gr_k2:'均匀之后扩散"停了"吗？没有！粒子照样来回穿越，只是两个方向的数量打平了——这叫<b>动态平衡</b>。分子永远不会停下来。',
+ ex_figtitle:'生活中的扩散',
+ ex_sidetitle:'扩散告诉我们什么',
+ ex_k1:'扩散现象证明了两件事：①<b>分子在不停地做无规则运动</b>；②<b>分子之间有间隙</b>（不然挤不进去）。',
+ ex_k2:'温度越高扩散越快 → 温度越高分子运动越剧烈。腌菜要几天、炒菜几分钟就入味，就是温度的功劳。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_cT:'冷杯', dk_hT:'热杯', dk_drop:'同时滴入墨水', dk_reset:'↺ 重置',
+ dk_go1:'同时出发', dk_reset1:'↺ 重置',
+ dk_hint1:'💡 同一种香味分子，放进三种不同的"人群"里',
+ dk_pull:'抽掉隔板', dk_reset2:'↺ 重置', dk_gtl:'左温', dk_gtr:'右温', dk_gl:'左边粒子', dk_gr2:'右边粒子',
+ dk_hint2:'💡 盯住两个计数器：两边都有粒子穿过，净移动从浓到稀',
+ dk_hint3:'💡 判断标准：是不是"分子自己"跑过去的？',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0:'在冷水和热水中<b>同时</b>各滴入一滴墨水（不搅拌）。哪一杯先变均匀？这说明扩散快慢与什么因素有关？',
+ qb1:'把同样的香味分子分别放进气体、液体、固体中。相同时间内，它们各能"钻"多远？',
+ qb2:'隔板左边全是巧克力色粒子，右边全是灰色粒子。抽掉隔板后，两种粒子会怎样移动？均匀之后分子还动吗？',
+ cold:'冷水', hot:'热水', mix:'混匀度', donetag:'✓ 已均匀',
+ timer:'计时', sec:'s', notdrop:'还没滴入墨水',
+ winhot:'热水先均匀！', windraw:'比赛进行中…',
+ g_lbl:'气体', l_lbl:'液体', s_lbl:'固体',
+ dist:'钻进距离', s3wait:'按 ▶ 同时出发',
+ slow_s:'几乎不动（几年才几毫米）',
+ grL:'左边', grR:'右边', cross_r:'→ 穿越', cross_l:'← 穿越',
+ wallon:'隔板挡住：谁也过不去', neteq:'两种粒子已互相渗透均匀：分子仍在来回穿越（动态平衡）',
+ netarrow:'净移动：浓 → 稀',
+ ex_flower:'花香飘满园', ex_flower2:'几秒~几分钟', ex_sugar:'糖在水中化开', ex_sugar2:'几分钟~几小时', ex_metal:'金铅互渗', ex_metal2:'压几年，渗几毫米',
+ exH:['影响因素','规律','生活证据'],
+ exR:[['温度','越高越快','炒菜几分钟入味，腌菜要好几天'],
+      ['物质状态','气体 > 液体 > 固体','香水满屋快；糖水慢；金铅要几年'],
+      ['浓度差','差别越大，净扩散越快','刚滴墨水时散得猛，快均匀时变慢']],
+ mth:''
+},
+en:{
+ title:'Diffusion Lab',
+ subtitle:'Molecules never stop moving randomly — diffusion and its factors · junior-high classroom demo',
+ tab0:'① Hot vs Cold Race',tab1:'② Diffusion in 3 States',tab2:'③ Concentration & Direction',tab3:'④ Everyday Examples',tab4:'⑤ Quiz',
+ df_sidetitle:'Race record',
+ df_k1:'Why is hot water faster? <b>The hotter, the more violently molecules move</b> — hot water molecules batter the ink everywhere. Temperature is factor #1, and this temperature-linked motion is called <b>thermal motion</b>.',
+ df_k2:'⚠️ Note: the ink spreads with <b>no stirring and no external force</b> — molecules do it all by their own random collisions. That is exactly the evidence that molecules never stop moving.',
+ s3_sidetitle:'Who travels furthest?',
+ s3_k1:'The same scent molecules: in a <b>gas</b> they fill a room in seconds (huge gaps, clear road); in a <b>liquid</b> they must squeeze past neighbours (diffuses, but far slower); in a <b>solid</b> they are nearly stuck — gold and lead pressed together interpenetrate only millimetres in <b>years</b>.',
+ s3_k2:'Conclusion: diffusion speed <b>gas &gt; liquid &gt; solid</b>. All three states diffuse — even solids, just extremely slowly.',
+ gr_sidetitle:'Count them', choco:'chocolate', grey2:'grey', inR:'chocolate now RIGHT', inL:'grey now LEFT', netc:'chocolate net flow', netg:'grey net flow',
+ gr_k1:'After the wall is pulled, particles cross <b>in both directions</b> (both counters keep climbing) — but more set off from the concentrated side, so the <b>net movement runs from high to low concentration</b> until both sides even out.',
+ gr_k2:'Does diffusion "stop" once uniform? No! Particles keep crossing both ways — the two rates simply balance. That is <b>dynamic equilibrium</b>. Molecules never stand still.',
+ ex_figtitle:'Diffusion in everyday life',
+ ex_sidetitle:'What diffusion proves',
+ ex_k1:'Diffusion proves two things: ① <b>molecules move randomly, without stopping</b>; ② <b>there are gaps between molecules</b> (or nothing could squeeze in).',
+ ex_k2:'Hotter → faster diffusion → hotter means more violent molecular motion. Stir-fries season in minutes; pickles take days.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_cT:'Cold cup', dk_hT:'Hot cup', dk_drop:'Drop ink in BOTH', dk_reset:'↺ Reset',
+ dk_go1:'Release together', dk_reset1:'↺ Reset',
+ dk_hint1:'💡 Same scent molecules, three different "crowds"',
+ dk_pull:'Pull the divider', dk_reset2:'↺ Reset', dk_gtl:'Left T', dk_gtr:'Right T', dk_gl:'Left count', dk_gr2:'Right count',
+ dk_hint2:'💡 Watch both counters: crossings go BOTH ways; net flow runs high → low',
+ dk_hint3:'💡 The test: did the molecules get there BY THEMSELVES?',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0:'Drop ink into cold and hot water <b>at the same moment</b> (no stirring). Which becomes uniform first, and what factor does that reveal?',
+ qb1:'Put identical scent molecules into a gas, a liquid and a solid. How far does each get in the same time?',
+ qb2:'Chocolate particles fill the left side; grey particles fill the right. After the divider is pulled, how do the two kinds move? Do they still move once mixed?',
+ cold:'COLD', hot:'HOT', mix:'mixed', donetag:'✓ uniform',
+ timer:'timer', sec:'s', notdrop:'no ink dropped yet',
+ winhot:'Hot water wins!', windraw:'race in progress…',
+ g_lbl:'gas', l_lbl:'liquid', s_lbl:'solid',
+ dist:'distance in', s3wait:'press ▶ to release',
+ slow_s:'barely moves (mm per YEAR)',
+ grL:'left', grR:'right', cross_r:'→ crossings', cross_l:'← crossings',
+ wallon:'Divider in place: nobody gets through', neteq:'Fully interpenetrated: particles still cross both ways (dynamic equilibrium)',
+ netarrow:'NET movement: high → low',
+ ex_flower:'Scent fills a garden', ex_flower2:'seconds–minutes', ex_sugar:'Sugar dissolving', ex_sugar2:'minutes–hours', ex_metal:'Gold–lead interdiffusion', ex_metal2:'years for millimetres',
+ exH:['Factor','Rule','Everyday evidence'],
+ exR:[['Temperature','hotter = faster','stir-fry seasons in minutes; pickles take days'],
+      ['State of matter','gas > liquid > solid','perfume fills a room fast; sugar-water slow; gold–lead takes years'],
+      ['Concentration difference','bigger gap = faster net flow','fresh ink spreads fast, slows as it evens out']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers (shared conventions) ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= ① two-beaker race model ================= */
+var DF={t:0,dropped:false,TA:15,TB:85,doneA:0,doneB:0};
+var NW=34,NI=30;
+var WA=[],WB=[],IA=[],IB=[];
+function bk(i){ return i?{x0:356,x1:608,y0:148,y1:436}:{x0:52,x1:304,y0:148,y1:436}; }
+function initDF(){
+  var k;
+  WA=[];WB=[];IA=[];IB=[];
+  DF.t=0;DF.dropped=false;DF.doneA=0;DF.doneB=0;
+  for(k=0;k<NW;k++){
+    var a=bk(0),b=bk(1);
+    WA.push({x:a.x0+14+rnd(k,11)*(a.x1-a.x0-28),y:a.y0+14+rnd(k,12)*(a.y1-a.y0-28),vx:0,vy:0});
+    WB.push({x:b.x0+14+rnd(k,13)*(b.x1-b.x0-28),y:b.y0+14+rnd(k,14)*(b.y1-b.y0-28),vx:0,vy:0});
+  }
+  for(k=0;k<NI;k++){
+    IA.push({x:0,y:0,vx:0,vy:0});
+    IB.push({x:0,y:0,vx:0,vy:0});
+  }
+}
+function dfDrop(){
+  var k;
+  DF.dropped=true;DF.t=0;DF.doneA=0;DF.doneB=0;
+  for(k=0;k<NI;k++){
+    var a=bk(0),b=bk(1);
+    var cxa=(a.x0+a.x1)/2,cxb=(b.x0+b.x1)/2;
+    IA[k].x=cxa+(rnd(k,21)-0.5)*30; IA[k].y=a.y0+12+rnd(k,22)*22; IA[k].vx=0; IA[k].vy=0.3;
+    IB[k].x=cxb+(rnd(k,23)-0.5)*30; IB[k].y=b.y0+12+rnd(k,24)*22; IB[k].vx=0; IB[k].vy=0.3;
+  }
+}
+function walk(list,b,cap,noise,off){
+  var k,fr=Math.floor(CLK*30);
+  for(k=0;k<list.length;k++){
+    var p=list[k];
+    p.vx+=(rnd(k+off,fr)-0.5)*noise;
+    p.vy+=(rnd(k+off,fr+500)-0.5)*noise;
+    var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+    if(v>cap){p.vx*=cap/v;p.vy*=cap/v}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<b.x0+9){p.x=b.x0+9;p.vx=Math.abs(p.vx)}
+    if(p.x>b.x1-9){p.x=b.x1-9;p.vx=-Math.abs(p.vx)}
+    if(p.y<b.y0+9){p.y=b.y0+9;p.vy=Math.abs(p.vy)}
+    if(p.y>b.y1-9){p.y=b.y1-9;p.vy=-Math.abs(p.vy)}
+  }
+}
+function mixOf(list,b){
+  /* 3x3 coarse grid: with 30 ink particles a uniform spread leaves a cell
+     empty only ~3% of the time, so full mixing really does read ~100% */
+  var cells={},k;
+  for(k=0;k<list.length;k++){
+    var cx=Math.floor((list[k].x-b.x0)/((b.x1-b.x0)/3));
+    var cy=Math.floor((list[k].y-b.y0)/((b.y1-b.y0)/3));
+    cells[clamp(cx,0,2)+'_'+clamp(cy,0,2)]=1;
+  }
+  var n=0,key;
+  for(key in cells)n++;
+  return n/9;
+}
+function inkCap(t){ return 0.5+t/100*1.5; }
+function dfStep(dt){
+  CLK+=dt;
+  walk(WA,bk(0),0.3+DF.TA/100*1.1,0.35,100);
+  walk(WB,bk(1),0.3+DF.TB/100*1.1,0.35,300);
+  if(!DF.dropped)return;
+  DF.t+=dt;
+  walk(IA,bk(0),inkCap(DF.TA),0.5,500);
+  walk(IB,bk(1),inkCap(DF.TB),0.5,700);
+  if(!DF.doneA&&mixOf(IA,bk(0))>=0.88)DF.doneA=DF.t;
+  if(!DF.doneB&&mixOf(IB,bk(1))>=0.88)DF.doneB=DF.t;
+}
+
+/* ================= ② three-state diffusion model ================= */
+var S3={run:false,t:0};
+var HG=[],HL=[],HS=[],D3=[[],[],[]];
+function s3box(b){ return {ox:16+b*216, oy:64, w:196, h:250}; }
+function initS3(){
+  var k,b;
+  S3.run=false;S3.t=0;
+  HG=[];HL=[];HS=[];D3=[[],[],[]];
+  for(k=0;k<9;k++){
+    var a=rnd(k,31)*6.28;
+    HG.push({x:24+rnd(k,32)*156,y:20+rnd(k,33)*208,vx:Math.cos(a)*1.6,vy:Math.sin(a)*1.6});
+  }
+  // liquid & solid media FILL the whole box: the dye must burrow THROUGH them
+  for(k=0;k<35;k++)HL.push({hx:24+(k%5)*38+(rnd(k,34)-0.5)*12, hy:26+Math.floor(k/5)*33+(rnd(k,35)-0.5)*10});
+  for(k=0;k<35;k++)HS.push({hx:30+(k%5)*34, hy:24+Math.floor(k/5)*33});
+  for(b=0;b<3;b++){
+    for(k=0;k<8;k++){
+      D3[b].push({x:16,y:52+k*22,sx:16,sy:52+k*22,ox:16,vx:0,vy:0});
+    }
+  }
+}
+function s3Step(dt){
+  var k,fr=Math.floor(CLK*30);
+  for(k=0;k<HG.length;k++){
+    var g=HG[k];
+    g.x+=g.vx;g.y+=g.vy;
+    if(g.x<12){g.x=12;g.vx=Math.abs(g.vx)}
+    if(g.x>184){g.x=184;g.vx=-Math.abs(g.vx)}
+    if(g.y<12){g.y=12;g.vy=Math.abs(g.vy)}
+    if(g.y>238){g.y=238;g.vy=-Math.abs(g.vy)}
+  }
+  if(!S3.run)return;
+  S3.t+=dt;
+  // gas dye: ballistic
+  for(k=0;k<8;k++){
+    var p=D3[0][k];
+    if(p.vx===0&&p.vy===0){var a=rnd(k,41)*3.14-1.57;p.vx=Math.cos(a)*2.2;p.vy=Math.sin(a)*2.2}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<12){p.x=12;p.vx=Math.abs(p.vx)}
+    if(p.x>184){p.x=184;p.vx=-Math.abs(p.vx)}
+    if(p.y<12){p.y=12;p.vy=Math.abs(p.vy)}
+    if(p.y>238){p.y=238;p.vy=-Math.abs(p.vy)}
+  }
+  // liquid dye: slow squeeze random walk
+  for(k=0;k<8;k++){
+    var q=D3[1][k];
+    q.vx+=(rnd(k,fr+30)-0.5)*0.32;
+    q.vy+=(rnd(k,fr+80)-0.5)*0.32;
+    var v=Math.sqrt(q.vx*q.vx+q.vy*q.vy)||1;
+    if(v>0.42){q.vx*=0.42/v;q.vy*=0.42/v}
+    q.x+=q.vx;q.y+=q.vy;
+    if(q.x<12){q.x=12;q.vx=Math.abs(q.vx)}
+    if(q.x>184){q.x=184;q.vx=-Math.abs(q.vx)}
+    if(q.y<12){q.y=12;q.vy=Math.abs(q.vy)}
+    if(q.y>238){q.y=238;q.vy=-Math.abs(q.vy)}
+  }
+  // solid dye: vibrate in place, imperceptible creep
+  for(k=0;k<8;k++){
+    var s=D3[2][k];
+    s.sx+=0.004;
+    s.x=s.sx+1.3*Math.sin(CLK*5+k);
+    s.y=s.sy+1.3*Math.cos(CLK*4.3+k);
+  }
+}
+function s3disp(b){
+  var k,s=0;
+  for(k=0;k<8;k++)s+=D3[b][k].x-D3[b][k].ox;
+  return s/8;
+}
+
+/* ================= ③ concentration-gradient model ================= */
+var GR={wall:true,cl:0,cr:0,Tl:40,Tr:40,n0l:20,n0r:20};
+var GX0=60,GX1=600,GY0=150,GY1=400,GW=330;
+var GP=[],WG=[];
+function grCap(T){ return 0.45+T/100*1.3; }
+function initGR(){
+  var k;
+  GR.wall=true;GR.cl=0;GR.cr=0;
+  GP=[];WG=[];
+  // chocolate substance fills the LEFT, grey substance fills the RIGHT
+  for(k=0;k<GR.n0l;k++)GP.push({x:GX0+16+rnd(k,51)*(GW-GX0-40),y:GY0+16+rnd(k,52)*(GY1-GY0-32),vx:0,vy:0});
+  for(k=0;k<GR.n0r;k++)WG.push({x:GW+16+rnd(k,53)*(GX1-GW-40),y:GY0+16+rnd(k,54)*(GY1-GY0-32),vx:0,vy:0});
+}
+function grPop(list,off,T){
+  var k,fr=Math.floor(CLK*30);
+  for(k=0;k<list.length;k++){
+    var p=list[k],px=p.x;
+    p.vx+=(rnd(k,fr+off)-0.5)*0.5;
+    p.vy+=(rnd(k,fr+off+60)-0.5)*0.5;
+    var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+    var cap=grCap(T);
+    if(v>cap){p.vx*=cap/v;p.vy*=cap/v}
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<GX0+9){p.x=GX0+9;p.vx=Math.abs(p.vx)}
+    if(p.x>GX1-9){p.x=GX1-9;p.vx=-Math.abs(p.vx)}
+    if(p.y<GY0+9){p.y=GY0+9;p.vy=Math.abs(p.vy)}
+    if(p.y>GY1-9){p.y=GY1-9;p.vy=-Math.abs(p.vy)}
+    if(GR.wall){
+      if(px<GW&&p.x>=GW-8){p.x=GW-8;p.vx=-Math.abs(p.vx)}
+      if(px>GW&&p.x<=GW+8){p.x=GW+8;p.vx=Math.abs(p.vx)}
+    }else{
+      if(px<GW&&p.x>=GW)GR.cl++;
+      if(px>=GW&&p.x<GW)GR.cr++;
+    }
+  }
+}
+function grStep(dt){
+  // each substance carries its own side's temperature
+  grPop(GP,200,GR.Tl);
+  grPop(WG,900,GR.Tr);
+}
+function chocRight(){
+  var k,n=0;
+  for(k=0;k<GP.length;k++)if(GP[k].x>=GW)n++;
+  return n;
+}
+function greyLeft(){
+  var k,n=0;
+  for(k=0;k<WG.length;k++)if(WG[k].x<GW)n++;
+  return n;
+}
+function grNL(){ return GP.length-chocRight(); }
+/* ================= drawing ================= */
+function dot(x,y,r,col,op){
+  return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="'+col+'" stroke="#26221B" stroke-width="1.3" opacity="'+(op||0.92)+'"/>';
+}
+/* ---------- ① two beakers ---------- */
+function beakerShell(b,label,tcol,tval){
+  var s='';
+  s+='<path d="M '+(b.x0-6)+' '+(b.y0-14)+' L '+(b.x0-6)+' '+(b.y1+6)+' Q '+(b.x0-6)+' '+(b.y1+14)+' '+(b.x0+2)+' '+(b.y1+14)+' L '+(b.x1-2)+' '+(b.y1+14)+' Q '+(b.x1+6)+' '+(b.y1+14)+' '+(b.x1+6)+' '+(b.y1+6)+' L '+(b.x1+6)+' '+(b.y0-14)+'" fill="none" stroke="#8A8070" stroke-width="3.5"/>';
+  s+='<rect x="'+b.x0+'" y="'+b.y0+'" width="'+(b.x1-b.x0)+'" height="'+(b.y1-b.y0)+'" rx="6" fill="#2C7D8C" opacity="0.08"/>';
+  s+=tl((b.x0+b.x1)/2,b.y0-24,17,tcol,label+' '+tval+'°C');
+  return s;
+}
+function mixBar(b,mix,doneT,y){
+  var s='';
+  var w=b.x1-b.x0, f=clamp(mix,0,1);
+  s+='<rect x="'+b.x0+'" y="'+y+'" width="'+w+'" height="14" rx="7" fill="#E3DCCB"/>';
+  s+='<rect x="'+b.x0+'" y="'+y+'" width="'+(w*f).toFixed(0)+'" height="14" rx="7" fill="#2F7D4F"/>';
+  s+=tlplain(b.x0,y+30,13,'#6B6252',T('mix')+' '+Math.round(f*100)+'%','start');
+  if(doneT)s+=tl(b.x1,y+31,14,'#2F7D4F',T('donetag')+' '+doneT.toFixed(1)+' '+T('sec'),'end');
+  return s;
+}
+function drawDF(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="520" rx="14" fill="#FBF7EC"/>';
+  var A=bk(0),B=bk(1);
+  s+=beakerShell(A,T('cold'),'#2C7D8C',DF.TA);
+  s+=beakerShell(B,T('hot'),'#D9542B',DF.TB);
+  var k;
+  for(k=0;k<NW;k++){
+    s+=dot(WA[k].x,WA[k].y,6,'#9BB7C9',0.55);
+    s+=dot(WB[k].x,WB[k].y,6,'#9BB7C9',0.55);
+  }
+  if(DF.dropped){
+    for(k=0;k<NI;k++){
+      s+=dot(IA[k].x,IA[k].y,7,'#B5652A');
+      s+=dot(IB[k].x,IB[k].y,7,'#B5652A');
+    }
+    s+=mixBar(A,mixOf(IA,A),DF.doneA,462);
+    s+=mixBar(B,mixOf(IB,B),DF.doneB,462);
+    s+=tl(330,52,15,'#4B4437','⏱ '+DF.t.toFixed(1)+' '+T('sec'));
+    if(DF.doneB&&(!DF.doneA||DF.doneB<DF.doneA))s+=tl(330,80,16,'#D9542B',T('winhot'));
+  }else{
+    s+=tlplain(330,52,14,'#8A8070',T('notdrop'));
+  }
+  $('svgdf').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0');
+  $('c_t').textContent='⏱ '+(DF.dropped?DF.t.toFixed(1):'0.0')+' '+T('sec');
+  $('c_cold').textContent=T('cold')+' '+DF.TA+'°C · '+(DF.dropped?Math.round(mixOf(IA,A)*100):0)+'%';
+  $('c_hot').textContent=T('hot')+' '+DF.TB+'°C · '+(DF.dropped?Math.round(mixOf(IB,B)*100):0)+'%';
+}
+/* ---------- ② three states ---------- */
+function drawS3(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="430" rx="14" fill="#FBF7EC"/>';
+  var labels=[['g_lbl','#D9542B'],['l_lbl','#2C7D8C'],['s_lbl','#7FA8C9']];
+  var b,k;
+  for(b=0;b<3;b++){
+    var g=s3box(b);
+    s+='<rect x="'+g.ox+'" y="'+g.oy+'" width="'+g.w+'" height="'+g.h+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="2.5"/>';
+    s+=tl(g.ox+g.w/2,g.oy-12,16,labels[b][1],T(labels[b][0]));
+    if(b===0){
+      for(k=0;k<HG.length;k++)s+=dot(g.ox+HG[k].x,g.oy+HG[k].y,6,'#E0B27C',0.5);
+    }else if(b===1){
+      for(k=0;k<HL.length;k++){
+        var hx=HL[k].hx+2.2*Math.sin(CLK*4+k), hy=HL[k].hy+2.2*Math.cos(CLK*5+k);
+        s+=dot(g.ox+hx,g.oy+hy,7,'#7FB3BE',0.5);
+      }
+    }else{
+      for(k=0;k<HS.length;k++){
+        var sx=HS[k].hx+1.2*Math.sin(CLK*5+k), sy=HS[k].hy+1.2*Math.cos(CLK*4.3+k);
+        s+=dot(g.ox+sx,g.oy+sy,7,'#A9BFD2',0.6);
+      }
+    }
+    for(k=0;k<8;k++)s+=dot(g.ox+D3[b][k].x,g.oy+D3[b][k].y,6.5,'#7A3FA0');
+    // distance bar (fixed scale 0..170px)
+    var d=clamp(s3disp(b),0,170);
+    s+='<rect x="'+(g.ox)+'" y="'+(g.oy+g.h+16)+'" width="170" height="12" rx="6" fill="#E3DCCB"/>';
+    s+='<rect x="'+(g.ox)+'" y="'+(g.oy+g.h+16)+'" width="'+d.toFixed(0)+'" height="12" rx="6" fill="#7A3FA0"/>';
+    var lab=(b===2&&S3.t>2)?T('slow_s'):(Math.round(d)+' px');
+    s+=tlplain(g.ox,g.oy+g.h+46,12,'#6B6252',T('dist')+' '+lab,'start');
+  }
+  s+=tl(330,418,14,'#4B4437',S3.run?('⏱ '+S3.t.toFixed(1)+' '+T('sec')):T('s3wait'));
+  $('svg3s').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb1');
+  $('c3_t').textContent='⏱ '+S3.t.toFixed(1)+' '+T('sec');
+}
+/* ---------- ③ two substances interdiffusing ---------- */
+function netRow(y,col,name,nl,nr,n){
+  // net diffusion always runs from the fuller compartment to the emptier one:
+  // arrow length is PROPORTIONAL to |nl-nr|/n, direction follows the sign
+  var aw=Math.round(90*Math.abs(nl-nr)/Math.max(n,1));
+  var s='';
+  if(aw>=10){
+    s+='<line x1="'+(330-aw)+'" y1="'+y+'" x2="'+(330+aw)+'" y2="'+y+'" stroke="'+col+'" stroke-width="6"/>';
+    if(nl>nr)s+='<path d="M '+(330+aw)+' '+y+' l -12 -7 m 12 7 l -12 7" stroke="'+col+'" stroke-width="6" fill="none"/>';
+    else s+='<path d="M '+(330-aw)+' '+y+' l 12 -7 m -12 7 l 12 7" stroke="'+col+'" stroke-width="6" fill="none"/>';
+    s+=tl(330-aw-14,y+5,14,col,name+' '+nl,'end');
+    s+=tl(330+aw+14,y+5,14,col,nr+'','start');
+  }else{
+    s+=tl(330,y+5,14,col,name+' '+nl+' \u21cc '+nr);
+  }
+  return s;
+}
+function drawGR(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="460" rx="14" fill="#FBF7EC"/>';
+  s+='<rect x="'+GX0+'" y="'+GY0+'" width="'+(GX1-GX0)+'" height="'+(GY1-GY0)+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="3"/>';
+  var k;
+  for(k=0;k<WG.length;k++)s+=dot(WG[k].x,WG[k].y,7,'#9BB7C9',0.9);
+  for(k=0;k<GP.length;k++)s+=dot(GP[k].x,GP[k].y,7,'#B5652A');
+  var cR=chocRight(), gL=greyLeft();
+  if(GR.wall){
+    s+='<rect x="'+(GW-4)+'" y="'+(GY0-8)+'" width="8" height="'+(GY1-GY0+16)+'" rx="3" fill="#8A5A2B"/>';
+    s+=tl(GW,GY0-18,14,'#8A5A2B',T('wallon'));
+  }else{
+    s+='<line x1="'+GW+'" y1="'+GY0+'" x2="'+GW+'" y2="'+GY1+'" stroke="#B9AE95" stroke-width="1.5" stroke-dasharray="5 7"/>';
+    // per-substance count rows: real left/right counts at the arrow ends,
+    // arrow length PROPORTIONAL to the imbalance fraction (all-one-side = longest)
+    var cL=GP.length-cR, gR=WG.length-gL;
+    // count rows live in their own clear band ABOVE the box
+    s+=netRow(38,'#B5652A',T('choco'),cL,cR,GP.length);
+    if(WG.length>0)s+=netRow(72,'#8A8070',T('grey2'),gL,gR,WG.length);
+    var evenC=Math.abs(cR-GP.length/2)<=Math.max(2,GP.length*0.18);
+    var evenG=Math.abs(gL-WG.length/2)<=Math.max(2,WG.length*0.25);
+    if(evenC&&(WG.length===0||evenG))s+=tl(330,108,15,'#2F7D4F',T('neteq'));
+    s+=tlplain(GW-10,GY1+26,13,'#6B6252',T('cross_r')+' '+GR.cl,'end');
+    s+=tlplain(GW+10,GY1+26,13,'#6B6252',T('cross_l')+' '+GR.cr,'start');
+  }
+  s+=tl(GX0+8,GY0-18,15,'#B5652A',T('choco')+' '+GP.length+' · '+GR.Tl+'°C','start');
+  s+=tl(GX1-8,GY0-18,15,'#2C7D8C',T('grey2')+' '+WG.length+' · '+GR.Tr+'°C','end');
+  $('svggr').innerHTML=PAINT(s);
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb2');
+  $('g_l').textContent=T('inR')+' '+cR;
+  $('g_r').textContent=T('inL')+' '+gL;
+  $('g_x').textContent=T('cross_r')+' '+GR.cl+' · '+T('cross_l')+' '+GR.cr;
+}
+/* ---------- ④ examples ---------- */
+function drawEX(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="300" rx="14" fill="#FBF7EC"/>';
+  // flower scene
+  s+='<circle cx="80" cy="200" r="16" fill="#D9542B"/>';
+  var pk;
+  for(pk=0;pk<5;pk++){
+    var a2=pk/5*6.283;
+    s+='<circle cx="'+(80+22*Math.cos(a2)).toFixed(0)+'" cy="'+(200+22*Math.sin(a2)).toFixed(0)+'" r="11" fill="#E0904E"/>';
+  }
+  s+='<rect x="76" y="216" width="8" height="46" fill="#2F7D4F"/>';
+  for(pk=0;pk<7;pk++){
+    var ph=frac(CLK*0.12+pk*0.14);
+    var px=96+ph*96, py=196-ph*60+8*Math.sin(CLK*2+pk*2);
+    s+='<circle cx="'+px.toFixed(0)+'" cy="'+py.toFixed(0)+'" r="4" fill="#E0904E" opacity="'+(0.85-ph*0.5).toFixed(2)+'"/>';
+  }
+  s+=tl(110,282,14,'#4B4437',T('ex_flower'));
+  s+=tlplain(110,264,12,'#8A8070',T('ex_flower2'));
+  // sugar cup
+  s+='<path d="M 280 130 L 288 250 L 372 250 L 380 130" fill="#2C7D8C" opacity="0.13" stroke="#8A8070" stroke-width="3"/>';
+  s+='<rect x="316" y="222" width="28" height="20" rx="3" fill="#FFFDF7" stroke="#B9AE95" stroke-width="2"/>';
+  for(pk=0;pk<8;pk++){
+    var ph2=frac(CLK*0.06+pk*0.125);
+    var py2=236-ph2*84;
+    s+='<circle cx="'+(330+18*Math.sin(pk*2.3+CLK)).toFixed(0)+'" cy="'+py2.toFixed(0)+'" r="3.5" fill="#FFFFFF" opacity="'+(0.9-ph2*0.55).toFixed(2)+'" stroke="#B9AE95" stroke-width="1"/>';
+  }
+  s+=tl(330,282,14,'#4B4437',T('ex_sugar'));
+  s+=tlplain(330,264,12,'#8A8070',T('ex_sugar2'));
+  // gold-lead blocks
+  s+='<rect x="500" y="140" width="120" height="52" rx="4" fill="#C9A227" stroke="#8A5A2B" stroke-width="2.5"/>';
+  s+='<rect x="500" y="192" width="120" height="52" rx="4" fill="#6B7280" stroke="#4B4437" stroke-width="2.5"/>';
+  for(pk=0;pk<5;pk++){
+    s+='<circle cx="'+(514+pk*22)+'" cy="'+(198+rnd(pk,61)*8).toFixed(0)+'" r="3.5" fill="#C9A227"/>';
+    s+='<circle cx="'+(524+pk*22)+'" cy="'+(184-rnd(pk,62)*8).toFixed(0)+'" r="3.5" fill="#6B7280"/>';
+  }
+  s+=tl(560,282,14,'#4B4437',T('ex_metal'));
+  s+=tlplain(560,264,12,'#8A8070',T('ex_metal2'));
+  $('svgex').innerHTML=PAINT(s);
+}
+function buildEXT(){
+  var h='<table class="cmp"><tr>',k,j;
+  var Hh=T('exH'),R=T('exR');
+  for(k=0;k<Hh.length;k++)h+='<th>'+Hh[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('extbl').innerHTML=h;
+}
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. Diffusion is fastest in a…',o:[
+    ['Solid',0,'Solids diffuse SLOWEST — gold and lead take years for millimetres.'],
+    ['Liquid',0,'Faster than solids, but still squeezing past close neighbours.'],
+    ['Gas',1,'Correct — huge gaps between particles mean an almost clear road.'],
+    ['They are all equal',0,'The spacing between particles differs hugely — so does the speed.']]},
+   {q:'2. Ink spreads faster in hot water mainly because…',o:[
+    ['Hot water dissolves ink better',0,'Solubility is not the mechanism here — motion is.'],
+    ['Hotter molecules move more violently',1,'Correct — temperature measures how energetically molecules move; harder collisions spread the ink faster.'],
+    ['Hot water is lighter, so ink sinks faster',0,'Diffusion needs no sinking — it happens in every direction.'],
+    ['Heat makes ink particles bigger',0,'Particles never grow — classic trap.']]},
+   {q:'3. Diffusion is direct evidence that…',o:[
+    ['Molecules never stop moving randomly (and have gaps between them)',1,'Correct — spontaneous mixing with no external force needs both facts.'],
+    ['Molecules are visible',0,'We infer molecules from the phenomenon; we do not see them.'],
+    ['Hot things rise',0,'That is convection, a different (bulk-flow) process.'],
+    ['Liquids are heavier than gases',0,'Density is irrelevant to the evidence.']]},
+   {q:'4. Once the ink is evenly mixed, the molecules…',o:[
+    ['Stop moving',0,'Molecules NEVER stop — the classic misconception.'],
+    ['Keep moving; crossings simply balance in both directions',1,'Correct — dynamic equilibrium: motion continues, net movement is zero.'],
+    ['Move only when stirred',0,'Stirring is bulk flow; molecular motion needs no help.'],
+    ['Move backwards to unmix',0,'Un-mixing is statistically impossible at this scale.']]},
+   {q:'5. Gold and lead blocks pressed together for years show slight interpenetration. This tells us…',o:[
+    ['Solids can diffuse too, just extremely slowly',1,'Correct — even lattice-locked particles occasionally swap places.'],
+    ['Metals melt at room temperature',0,'No melting happened.'],
+    ['Gold is magnetic',0,'Magnetism is irrelevant.'],
+    ['It was a chemical reaction',0,'No new substance forms — it is physical mixing.']]},
+   {q:'6. After the divider is pulled, the NET movement of dye runs…',o:[
+    ['From high concentration to low',1,'Correct — both directions have crossings, but more leave the crowded side.'],
+    ['From low concentration to high',0,'Backwards — that would sharpen the difference, not level it.'],
+    ['Only left, never right',0,'Particles cross BOTH ways — watch the two counters.'],
+    ['Nowhere: the dye stays put',0,'Random motion guarantees spreading.']]},
+   {q:'7. Which of these is NOT diffusion?',o:[
+    ['Perfume smelt across a room',0,'That IS diffusion — scent molecules travel by themselves.'],
+    ['Dust swirling in a sunbeam when someone walks past',1,'Correct — dust grains are HUGE clumps pushed by air currents (bulk flow), not molecules moving by themselves.'],
+    ['Soy sauce slowly colouring a boiled egg',0,'That IS diffusion — molecules seep in.'],
+    ['Smelling fried chicken from the kitchen',0,'That IS diffusion (helped a little by convection, but molecular motion does the smelling).']]}
+  ];
+  return [
+   {q:'1. 扩散最快的是……',o:[
+    ['固体中',0,'固体最慢——金铅压几年才互渗几毫米。'],
+    ['液体中',0,'比固体快，但还要挤开紧挨的邻居。'],
+    ['气体中',1,'正确——粒子间距大，一路畅通。'],
+    ['三种一样快',0,'粒子间距差别巨大，速度当然不同。']]},
+   {q:'2. 墨水在热水中散得快，主要是因为……',o:[
+    ['热水更容易溶解墨水',0,'关键机制不是溶解，是分子运动。'],
+    ['温度越高，分子运动越剧烈',1,'正确——温度就是分子运动剧烈程度的标志，撞得越猛散得越快。'],
+    ['热水轻，墨水沉得快',0,'扩散不靠下沉——它向四面八方进行。'],
+    ['受热后墨水粒子变大了',0,'粒子不会变大——经典陷阱。']]},
+   {q:'3. 扩散现象直接证明了……',o:[
+    ['分子在不停地做无规则运动（且分子间有间隙）',1,'正确——没有任何外力却能自发混合，必须同时有这两点。'],
+    ['分子是肉眼可见的',0,'我们是从现象推断分子，并没有看见它。'],
+    ['热空气会上升',0,'那是对流，是整体流动，不是分子各自运动。'],
+    ['液体比气体重',0,'密度与这个证据无关。']]},
+   {q:'4. 墨水完全混匀之后，分子……',o:[
+    ['停止运动了',0,'分子永不停止——最经典的误区。'],
+    ['照样运动，只是两个方向的穿越数量打平了',1,'正确——动态平衡：运动继续，净移动为零。'],
+    ['只有搅拌时才动',0,'搅拌是整体流动，分子运动不需要帮忙。'],
+    ['会倒着运动重新分开',0,'在这个尺度上"自动分开"概率趋近于零。']]},
+   {q:'5. 金块和铅块压在一起几年后微微互渗，说明……',o:[
+    ['固体也能扩散，只是极慢',1,'正确——即使被晶格锁住，粒子偶尔也能换位。'],
+    ['金属在室温会熔化',0,'并没有熔化发生。'],
+    ['金有磁性',0,'磁性与此无关。'],
+    ['发生了化学反应',0,'没有新物质生成，是物理混合。']]},
+   {q:'6. 抽掉隔板后，染料的净移动方向是……',o:[
+    ['从浓到稀',1,'正确——两个方向都有粒子穿越，但从"人多"那边出发的更多。'],
+    ['从稀到浓',0,'反了——那会让差距更大，而不是变均匀。'],
+    ['只向左，绝不向右',0,'两个方向都有穿越——看两个计数器。'],
+    ['原地不动',0,'无规则运动保证它一定会散开。']]},
+   {q:'7. 下面哪个"不是"扩散？',o:[
+    ['满屋子闻到香水味',0,'这是扩散——香味分子自己跑过来。'],
+    ['有人走过，阳光下灰尘飞舞',1,'正确——灰尘是巨大的颗粒团，被气流推着走（整体流动），不是分子自己运动。'],
+    ['卤蛋慢慢入味变色',0,'这是扩散——分子渗进去。'],
+    ['在客厅闻到厨房的炸鸡香',0,'这是扩散（对流帮点忙，但闻到靠的是分子运动）。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildEXT(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  if(CUR===0){ dfStep(0.016); drawDF(); updSummary(); }
+  else if(CUR===1){ CLK+=0.016; s3Step(0.016); drawS3(); updSummary(); }
+  else if(CUR===2){ CLK+=0.016; grStep(0.016); drawGR(); updSummary(); }
+  else if(CUR===3){ CLK+=0.016; drawEX(); }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawDF,drawS3,drawGR,function(){drawEX();buildEXT()},drawQZ];
+  SUMMARY=[
+    function(){return T('cold')+' '+DF.TA+'° vs '+T('hot')+' '+DF.TB+'° · ⏱ '+(DF.dropped?DF.t.toFixed(1)+T('sec'):'—')},
+    function(){return T('s3_sidetitle')+' ⏱ '+S3.t.toFixed(1)+' '+T('sec')},
+    function(){return T('inR')+' '+chocRight()+' · '+T('inL')+' '+greyLeft()},
+    function(){return T('ex_figtitle')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initDF(); initS3(); initGR();
+  $('tcold').addEventListener('input',function(){DF.TA=+this.value;$('tclab').textContent=DF.TA+' °C'});
+  $('thot').addEventListener('input',function(){DF.TB=+this.value;$('thlab').textContent=DF.TB+' °C'});
+  $('dfdrop').addEventListener('click',function(){dfDrop()});
+  $('dfreset').addEventListener('click',function(){initDF();drawDF();updSummary()});
+  $('s3play').addEventListener('click',function(){S3.run=true;this.classList.add('on')});
+  $('s3reset').addEventListener('click',function(){initS3();$('s3play').classList.remove('on');drawS3();updSummary()});
+  $('grpull').addEventListener('click',function(){GR.wall=false;this.classList.add('on')});
+  $('grreset').addEventListener('click',function(){initGR();$('grpull').classList.remove('on');drawGR();updSummary()});
+  function grParam(id,lab,key,unit){
+    $(id).addEventListener('input',function(){
+      GR[key]=+this.value;$(lab).textContent=this.value+unit;
+      initGR();$('grpull').classList.remove('on');
+    });
+  }
+  // temperature changes apply LIVE (no reset); count changes re-init
+  function grTemp(id,lab,key){
+    $(id).addEventListener('input',function(){
+      GR[key]=+this.value;$(lab).textContent=this.value+' °C';
+    });
+  }
+  grTemp('grtl','grtllab','Tl');
+  grTemp('grtr','grtrlab','Tr');
+  grParam('grnl','grnllab','n0l','');
+  grParam('grnr','grnrlab','n0r','');
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildEXT(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  dfDrop();
+  for(i=0;i<400;i++){dfStep(0.016);if(i%100===0)drawDF()}
+  initDF();drawDF();
+  showTab(1);
+  S3.run=true;
+  for(i=0;i<300;i++){CLK+=0.016;s3Step(0.016);if(i%100===0)drawS3()}
+  initS3();drawS3();
+  showTab(2);
+  for(i=0;i<60;i++){CLK+=0.016;grStep(0.016)}
+  GR.wall=false;
+  for(i=0;i<300;i++){CLK+=0.016;grStep(0.016);if(i%100===0)drawGR()}
+  initGR();drawGR();
+  showTab(3);for(i=0;i<40;i++){CLK+=0.016;drawEX()}
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='diffusion-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

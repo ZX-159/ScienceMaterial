@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>日地运动与四季实验室 · Sun-Earth Seasons · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 日地运动与四季实验室</h1>
+  <div class="sub">Sun-Earth Seasons · chu-yi-xia/b2-c11 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 公转轨道</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 直射点</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 昼夜长短</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 正午高度与影子</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 要点·测验</button>
+  <button class="tab" data-tab="5" data-i18n="tab5">⑥ 测验</button>
+</div>
+
+<!-- ① 公转轨道 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="ob_figtitle">俯视图：地球绕太阳公转（拖动地球）</h3>
+    <svg id="svgorb" viewBox="0 0 660 540"></svg>
+    <div class="kbox" data-i18n-html="ob_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="ob_sidetitle">当前状态</h3>
+    <div class="statline">
+      <span class="chip hl" id="c_date0">—</span>
+      <span class="chip" id="c_dist">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip grn" id="c_ns">—</span>
+      <span class="chip blu" id="c_ss">—</span>
+    </div>
+    <div class="kbox red" data-i18n-html="ob_k2"></div>
+    <div class="kbox" data-i18n-html="ob_k3"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 直射点 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="dc_figtitle">侧视图：阳光照射地球（拖动日期滑杆）</h3>
+    <svg id="svgdec" viewBox="0 0 660 480"></svg>
+    <div class="kbox" data-i18n-html="dc_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="dc_sidetitle">直射点纬度 · 一年变化</h3>
+    <svg id="svgdecside" viewBox="0 0 330 260"></svg>
+    <div class="statline">
+      <span class="chip hl" id="c_date1">—</span>
+      <span class="chip" id="c_dec">—</span>
+      <span class="chip grn" id="c_event">—</span>
+    </div>
+    <div class="kbox blue" data-i18n-html="dc_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 昼夜长短 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="sk_figtitle">这个纬度看到的太阳路径（按 ▶ 播放一天）</h3>
+    <svg id="svgsky" viewBox="0 0 660 440"></svg>
+    <div class="kbox" data-i18n-html="sk_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="sk_sidetitle">昼长 · 一年变化</h3>
+    <svg id="svgskyside" viewBox="0 0 330 260"></svg>
+    <div class="statline">
+      <span class="chip hl" id="c_dl">—</span>
+      <span class="chip" id="c_rise">—</span>
+      <span class="chip" id="c_set">—</span>
+      <span class="chip blu" id="c_pol" style="display:none">—</span>
+    </div>
+    <div class="kbox grn" data-i18n-html="sk_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 正午高度与影子 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="sh_figtitle">正午的太阳和 1 米直杆的影子</h3>
+    <svg id="svgsh" viewBox="0 0 660 440"></svg>
+    <div class="kbox" data-i18n-html="sh_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="sh_sidetitle">正午太阳高度 · 一年变化</h3>
+    <svg id="svgshside" viewBox="0 0 330 260"></svg>
+    <div class="statline">
+      <span class="chip hl" id="c_alt">—</span>
+      <span class="chip" id="c_sh">—</span>
+      <span class="chip blu" id="c_dir">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="sh_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ 要点·测验 -->
+<div class="panel" id="p4">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="t0_figtitle">思想实验：如果地轴不倾斜？（北纬 40° 为例）</h3>
+    <svg id="svgt0" viewBox="0 0 660 300"></svg>
+    <div class="kbox red" data-i18n-html="t0_k1"></div>
+    <h3 style="margin-top:14px" data-i18n="cmp_title">二分二至 对照表</h3>
+    <div id="cmpwrap"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="ds_title">距离能解释四季吗？</h3>
+    <svg id="svgdist" viewBox="0 0 330 130"></svg>
+    <div class="kbox blue" data-i18n-html="ds_k1"></div>
+  </div>
+ </div>
+</div>
+
+
+<!-- ⑥ 测验 -->
+<div class="panel" id="p5">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl"><span data-i18n="dk_date">日期</span>
+      <input type="range" class="dayr" min="0" max="364" step="1" value="225">
+      <span class="mono daylab">—</span></span>
+    <button class="snapd" data-day="79" data-i18n="sn_ve">春分</button>
+    <button class="snapd" data-day="171" data-i18n="sn_ss">夏至</button>
+    <button class="snapd" data-day="265" data-i18n="sn_ae">秋分</button>
+    <button class="snapd" data-day="354" data-i18n="sn_ws">冬至</button>
+    <button class="dbtn" id="orbplay">▶ <span data-i18n="dk_year">播放一年</span></button>
+    <span class="dl" data-i18n="dk_hint0">💡 也可以直接拖动地球</span>
+  </div>
+
+  <div class="dsec" id="d1">
+    <span class="dl"><span data-i18n="dk_date">日期</span>
+      <input type="range" class="dayr" min="0" max="364" step="1" value="225">
+      <span class="mono daylab">—</span></span>
+    <button class="snapd" data-day="79" data-i18n="sn_ve">春分</button>
+    <button class="snapd" data-day="171" data-i18n="sn_ss">夏至</button>
+    <button class="snapd" data-day="265" data-i18n="sn_ae">秋分</button>
+    <button class="snapd" data-day="354" data-i18n="sn_ws">冬至</button>
+    <button class="dbtn" id="decplay">▶ <span data-i18n="dk_year">播放一年</span></button>
+  </div>
+
+  <div class="dsec" id="d2">
+    <span class="dl"><span data-i18n="dk_lat">纬度</span>
+      <input type="range" class="latr" min="-90" max="90" step="0.5" value="1.5">
+      <span class="mono latlab">—</span></span>
+    <button class="latp" data-lat="1.5" data-i18n="lp_jb">新山 1.5°N</button>
+    <button class="latp" data-lat="23.5" data-i18n="lp_tc">北回归线</button>
+    <button class="latp" data-lat="66.5" data-i18n="lp_ac">北极圈</button>
+    <button class="latp" data-lat="90" data-i18n="lp_np">北极点</button>
+    <span class="dl"><span data-i18n="dk_date">日期</span>
+      <input type="range" class="dayr" min="0" max="364" step="1" value="225">
+      <span class="mono daylab">—</span></span>
+    <button class="dbtn" id="skyplay">▶ <span data-i18n="dk_day">播放一天</span></button>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl"><span data-i18n="dk_lat">纬度</span>
+      <input type="range" class="latr" min="-90" max="90" step="0.5" value="1.5">
+      <span class="mono latlab">—</span></span>
+    <button class="latp" data-lat="1.5" data-i18n="lp_jb">新山 1.5°N</button>
+    <button class="latp" data-lat="40" data-i18n="lp_bj">北纬 40°</button>
+    <span class="dl"><span data-i18n="dk_date">日期</span>
+      <input type="range" class="dayr" min="0" max="364" step="1" value="225">
+      <span class="mono daylab">—</span></span>
+    <button class="snapd" data-day="171" data-i18n="sn_ss">夏至</button>
+    <button class="snapd" data-day="354" data-i18n="sn_ws">冬至</button>
+  </div>
+
+  <div class="dsec" id="d4">
+    <button class="tgl" id="t0tgl" data-i18n="dk_t0">🌍 地轴不倾斜（假设）</button>
+    <span class="dl" data-i18n="dk_hint4">💡 打开开关，看看两条曲线会怎样</span>
+  </div>
+
+  <div class="dsec" id="d5">
+    <span class="dl" data-i18n="dk_hint5">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'日地运动与四季实验室',
+ subtitle:'公转 · 直射点 · 昼夜长短 · 正午太阳高度 —— 初中科学课堂演示工具',
+ tab0:'① 公转轨道',tab1:'② 直射点',tab2:'③ 昼夜长短',tab3:'④ 正午高度与影子',tab4:'⑤ 要点·测验',
+ ob_figtitle:'俯视图：地球绕太阳公转（拖动地球）',
+ ob_sidetitle:'当前状态',
+ ob_k1:'地球绕太阳公转一圈约 <b>365 天</b>。注意 4 个位置的小地球：<b>地轴始终指向同一个方向（北极星附近）</b>，倾斜约 <b>23.5°</b>——正是这个"不变的倾斜"造成了四季。',
+ ob_k2:'⚠️ 常见误解：<b>"夏天是因为离太阳近"——错！</b>地球在 <b>1 月初离太阳最近</b>（近日点），那时北半球正是冬天；而且南北半球季节相反，距离说完全解释不了。',
+ ob_k3:'轨道其实<b>非常接近圆形</b>：最近 1.471 亿 km，最远 1.521 亿 km，只差约 3%。图中把椭圆画得夸张了一点，方便看清近日点和远日点。',
+ dc_figtitle:'侧视图：阳光照射地球（拖动日期滑杆）',
+ dc_sidetitle:'直射点纬度 · 一年变化',
+ dc_k1:'<b>直射</b>：阳光垂直射到地面，能量最<b>集中</b>，那里最热。<b>斜射</b>：同样一束光摊到更大的面积上，能量<b>分散</b>。因为地轴倾斜，<b>直射点一年内在南北回归线（23.5°N ↔ 23.5°S）之间来回移动</b>——这就是季节变化的引擎。',
+ dc_k2:'直射点走到最北（北回归线）= <b>夏至</b>；最南（南回归线）= <b>冬至</b>；经过赤道 = <b>春分 / 秋分</b>。它<b>永远离不开南北回归线之间</b>。',
+ sk_figtitle:'这个纬度看到的太阳路径（按 ▶ 播放一天）',
+ sk_sidetitle:'昼长 · 一年变化',
+ sk_k1:'太阳在天空中划出的<b>弧线越长、越高</b>，白天就越长、得到的热量越多。对北半球：<b>夏至</b>弧线最长最高（昼最长），<b>冬至</b>最短最低（昼最短），<b>春分秋分</b>昼夜各 12 小时。',
+ sk_k2:'新山在赤道附近（约 1.5°N），所以<b>全年昼夜几乎等长</b>、四季不明显。把纬度拉到北极圈以内，试试看<b>极昼</b>和<b>极夜</b>！',
+ sh_figtitle:'正午的太阳和 1 米直杆的影子',
+ sh_sidetitle:'正午太阳高度 · 一年变化',
+ sh_k1:'正午太阳高度角公式：<b>α = 90° − |当地纬度 − 直射点纬度|</b>。太阳越高，影子越<b>短</b>；太阳越低，影子越<b>长</b>。直射时 α = 90°，<b>立竿无影</b>！',
+ sh_k2:'新山在南北回归线之间，所以一年有<b>两次</b>太阳直射头顶；正午影子有时朝北、有时朝南。北回归线以北的地方，正午影子<b>永远朝北</b>。',
+ t0_figtitle:'思想实验：如果地轴不倾斜？（北纬 40° 为例）',
+ t0_k1:'把开关打开：昼长全年固定 12 小时、正午太阳高度全年不变——<b>没有四季了！</b>反过来说：<b>四季的根本原因 = 地轴倾斜 23.5° + 地球公转</b>。',
+ cmp_title:'二分二至 对照表',
+ ds_title:'距离能解释四季吗？',
+ ds_k1:'两条距离几乎一样长（只差 3%），而且<b>最近的时候北半球是冬天</b>。同一时刻南北半球季节还相反。所以：<b>距离不是四季的原因。</b>',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ tab5:'⑥ 测验', dk_hint5:'💡 答对才会解锁下一题',
+ dk_date:'日期', dk_lat:'纬度', dk_year:'播放一年', dk_day:'播放一天',
+ dk_hint0:'💡 也可以直接拖动地球', dk_t0:'🌍 地轴不倾斜（假设）',
+ dk_hint4:'💡 打开开关，看看两条曲线会怎样',
+ sn_ve:'春分', sn_ss:'夏至', sn_ae:'秋分', sn_ws:'冬至',
+ lp_jb:'新山 1.5°N', lp_tc:'北回归线', lp_ac:'北极圈', lp_np:'北极点', lp_bj:'北纬 40°',
+ foot:'© 2026 ScienceMaterial',
+ sun:'太阳', earth:'地球', dragme:'拖我', polaris:'✦ 北极星方向',
+ axis:'地轴', peri:'近日点(1月初) 1.471亿km', aph:'远日点(7月初) 1.521亿km',
+ ve:'春分 3月21日', ss:'夏至 6月21日', ae:'秋分 9月23日', ws:'冬至 12月21日',
+ nhemi:'北半球', shemi:'南半球',
+ sea0:'春', sea1:'夏', sea2:'秋', sea3:'冬',
+ dist:'日地距离', sunlight:'阳光', equator:'赤道',
+ tropicN:'北回归线 23.5°N', tropicS:'南回归线 23.5°S',
+ arcticN:'北极圈 66.5°N', arcticS:'南极圈 66.5°S',
+ subsolar:'直射点', terminator:'晨昏线', npole:'北极',
+ direct:'直射 · 能量集中', slant:'斜射 · 能量分散',
+ midnightsun:'☀ 极昼', polarnight:'🌑 极夜',
+ declab:'直射点纬度', evVE:'春分 · 直射赤道', evSS:'夏至 · 直射北回归线',
+ evAE:'秋分 · 直射赤道', evWS:'冬至 · 直射南回归线', evNone:'—',
+ daylen:'昼长', rise:'日出', set:'日落', hourU:'小时',
+ east:'东（日出侧）', west:'西（日落侧)', timeaxis:'时刻',
+ today:'今天', ssline:'夏至', wsline:'冬至', eqline:'赤道参考(全年12h)',
+ polday:'极昼 · 太阳整天不落', polnight:'极夜 · 太阳整天不升',
+ noonalt:'正午太阳高度', shlen:'影长', stick:'1米直杆',
+ shN:'影子朝北', shS:'影子朝南', shNo:'✨ 立竿无影（直射头顶）',
+ sunbelow:'极夜：正午太阳也在地平线下',
+ ground:'地面', formula:'α = 90° − |纬度 − 直射点纬度|',
+ t0left:'昼长（小时）', t0right:'正午太阳高度（°）',
+ t0real:'倾斜23.5°(真实)', t0zero:'不倾斜(假设)', noseason:'没有四季！',
+ dJan:'1月初(近日点)', dJul:'7月初(远日点)',
+ cmpH:['节气','日期','直射点','北半球昼长','北半球 / 南半球'],
+ cmpR:[['春分','3月21日前后','赤道','昼夜等长(12h)','春 / 秋'],
+       ['夏至','6月21日前后','北回归线 23.5°N','白天最长','夏 / 冬'],
+       ['秋分','9月23日前后','赤道','昼夜等长(12h)','秋 / 春'],
+       ['冬至','12月21日前后','南回归线 23.5°S','白天最短','冬 / 夏']],
+ mon:'月', deg:'°', cS:'南', cN:'北'
+},
+en:{
+ title:'Sun–Earth Motion & Seasons Lab',
+ subtitle:'Orbit · Subsolar point · Day length · Noon sun altitude — junior-high classroom demo',
+ tab0:'① Orbit',tab1:'② Subsolar Point',tab2:'③ Day & Night Length',tab3:'④ Noon Sun & Shadow',tab4:'⑤ Review & Quiz',
+ ob_figtitle:'Top view: Earth orbiting the Sun (drag Earth)',
+ ob_sidetitle:'Current state',
+ ob_k1:'Earth orbits the Sun once every <b>365 days</b>. Watch the four small Earths: the <b>axis always points the same way (near Polaris)</b>, tilted about <b>23.5°</b> — this unchanging tilt is what creates the seasons.',
+ ob_k2:'⚠️ Common misconception: <b>\u201cSummer happens because we are closer to the Sun\u201d — wrong!</b> Earth is <b>closest in early January</b> (perihelion) — northern winter! And the two hemispheres have opposite seasons at the same time, which distance can never explain.',
+ ob_k3:'The orbit is actually <b>very nearly a circle</b>: 147.1 vs 152.1 million km — only ~3% difference. The ellipse here is exaggerated so you can see perihelion and aphelion.',
+ dc_figtitle:'Side view: sunlight striking Earth (drag the date slider)',
+ dc_sidetitle:'Subsolar latitude through the year',
+ dc_k1:'<b>Direct rays</b> hit the ground vertically — energy is <b>concentrated</b>, so it is hottest there. <b>Slanted rays</b> spread the same light over a bigger area — energy is <b>diluted</b>. Because the axis is tilted, the <b>subsolar point swings between the two tropics (23.5°N ↔ 23.5°S)</b> every year — the engine of the seasons.',
+ dc_k2:'Subsolar point at its northernmost (Tropic of Cancer) = <b>June solstice</b>; southernmost = <b>December solstice</b>; crossing the equator = <b>equinoxes</b>. It <b>never leaves the tropics</b>.',
+ sk_figtitle:'The Sun\u2019s path seen from this latitude (press ▶ to play a day)',
+ sk_sidetitle:'Day length through the year',
+ sk_k1:'The <b>longer and higher</b> the Sun\u2019s arc, the longer the day and the more heat received. For the north: the <b>June solstice</b> arc is longest and highest, the <b>December solstice</b> shortest and lowest, and at the <b>equinoxes</b> day and night are both 12 h.',
+ sk_k2:'Johor Bahru sits near the equator (~1.5°N), so <b>day and night are nearly equal all year</b> and seasons are weak. Drag the latitude inside the Arctic Circle to see the <b>midnight sun</b> and <b>polar night</b>!',
+ sh_figtitle:'The noon Sun and the shadow of a 1-metre stick',
+ sh_sidetitle:'Noon sun altitude through the year',
+ sh_k1:'Noon altitude formula: <b>α = 90° − |your latitude − subsolar latitude|</b>. Higher Sun → <b>shorter</b> shadow; lower Sun → <b>longer</b> shadow. When the Sun is directly overhead, α = 90° and the stick has <b>no shadow at all</b>!',
+ sh_k2:'JB lies between the tropics, so the Sun passes directly overhead <b>twice a year</b>, and the noon shadow points sometimes north, sometimes south. North of the Tropic of Cancer the noon shadow <b>always points north</b>.',
+ t0_figtitle:'Thought experiment: what if the axis were NOT tilted? (latitude 40°N)',
+ t0_k1:'Flip the switch: day length locks at 12 h all year and the noon Sun never changes height — <b>no seasons!</b> Conclusion: <b>seasons = 23.5° axial tilt + revolution around the Sun</b>.',
+ cmp_title:'Equinoxes & Solstices',
+ ds_title:'Can distance explain seasons?',
+ ds_k1:'The two bars are almost the same length (~3% apart), and Earth is <b>closest during northern winter</b>. The hemispheres also have opposite seasons at the same moment. So: <b>distance is NOT the cause of seasons.</b>',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ tab5:'⑥ Quiz', dk_hint5:'💡 Answer correctly to unlock the next question',
+ dk_date:'Date', dk_lat:'Latitude', dk_year:'Play one year', dk_day:'Play one day',
+ dk_hint0:'💡 You can also drag Earth directly', dk_t0:'🌍 Untilted axis (what-if)',
+ dk_hint4:'💡 Flip the switch and watch both curves',
+ sn_ve:'Mar equinox', sn_ss:'Jun solstice', sn_ae:'Sep equinox', sn_ws:'Dec solstice',
+ lp_jb:'JB 1.5°N', lp_tc:'Tropic of Cancer', lp_ac:'Arctic Circle', lp_np:'North Pole', lp_bj:'40°N',
+ foot:'© 2026 ScienceMaterial',
+ sun:'Sun', earth:'Earth', dragme:'drag me', polaris:'✦ toward Polaris',
+ axis:'axis', peri:'Perihelion (early Jan) 147.1M km', aph:'Aphelion (early Jul) 152.1M km',
+ ve:'Mar equinox (Mar 21)', ss:'Jun solstice (Jun 21)', ae:'Sep equinox (Sep 23)', ws:'Dec solstice (Dec 21)',
+ nhemi:'N. hemisphere', shemi:'S. hemisphere',
+ sea0:'Spring', sea1:'Summer', sea2:'Autumn', sea3:'Winter',
+ dist:'Sun–Earth distance', sunlight:'Sunlight', equator:'Equator',
+ tropicN:'Tropic of Cancer 23.5°N', tropicS:'Tropic of Capricorn 23.5°S',
+ arcticN:'Arctic Circle 66.5°N', arcticS:'Antarctic Circle 66.5°S',
+ subsolar:'Subsolar point', terminator:'Terminator', npole:'N pole',
+ direct:'Direct · concentrated', slant:'Slanted · spread out',
+ midnightsun:'☀ Midnight sun', polarnight:'🌑 Polar night',
+ declab:'Subsolar latitude', evVE:'Equinox · Sun over equator', evSS:'Jun solstice · over Tropic of Cancer',
+ evAE:'Equinox · Sun over equator', evWS:'Dec solstice · over Tropic of Capricorn', evNone:'—',
+ daylen:'Day length', rise:'Sunrise', set:'Sunset', hourU:'h',
+ east:'East (sunrise)', west:'West (sunset)', timeaxis:'Time of day',
+ today:'Today', ssline:'Jun solstice', wsline:'Dec solstice', eqline:'Equator ref (12h all year)',
+ polday:'Midnight sun · never sets', polnight:'Polar night · never rises',
+ noonalt:'Noon sun altitude', shlen:'Shadow', stick:'1 m stick',
+ shN:'Shadow points N', shS:'Shadow points S', shNo:'✨ No shadow (Sun overhead)',
+ sunbelow:'Polar night: the Sun stays below the horizon even at noon',
+ ground:'Ground', formula:'α = 90° − |latitude − subsolar latitude|',
+ t0left:'Day length (hours)', t0right:'Noon altitude (°)',
+ t0real:'Tilt 23.5° (real)', t0zero:'No tilt (what-if)', noseason:'No seasons!',
+ dJan:'Early Jan (perihelion)', dJul:'Early Jul (aphelion)',
+ cmpH:['Event','Date','Subsolar point','N-hemis. day length','North / South season'],
+ cmpR:[['Mar equinox','~Mar 21','Equator','Day = night (12h)','Spring / Autumn'],
+       ['Jun solstice','~Jun 21','Tropic of Cancer 23.5°N','Longest day','Summer / Winter'],
+       ['Sep equinox','~Sep 23','Equator','Day = night (12h)','Autumn / Spring'],
+       ['Dec solstice','~Dec 21','Tropic of Capricorn 23.5°S','Shortest day','Winter / Summer']],
+ mon:'', deg:'°', cS:'S', cN:'N'
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function r2d(r){return r*180/Math.PI}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false});
+  svg.addEventListener('pointercancel',function(){down=false});
+}
+
+/* ================= astronomy math ================= */
+var MDAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
+var MEN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function decl(day){ return 23.44*Math.sin(2*Math.PI*(day-79)/365.25); }
+function dateStr(day){
+  var d=Math.floor(day)%365; if(d<0)d+=365;
+  var m=0; while(d>=MDAYS[m]){d-=MDAYS[m];m++}
+  return LANG==='en'?(MEN[m]+' '+(d+1)):((m+1)+'月'+(d+1)+'日');
+}
+function dayLenH(lat,dec){
+  var X=-Math.tan(d2r(lat))*Math.tan(d2r(dec));
+  if(X<=-1)return 24; if(X>=1)return 0;
+  return 24*Math.acos(X)/Math.PI;
+}
+function noonAlt(lat,dec){ return 90-Math.abs(lat-dec); }
+function distAU(day){ return 1-0.0167*Math.cos(2*Math.PI*(day-3)/365.25); }
+function fmtLat(v){
+  var a=Math.abs(v);
+  return (Math.round(a*10)/10)+'°'+(v>=0?'N':'S');
+}
+function seasonIdx(day,north){ // 0春1夏2秋3冬
+  var i;
+  if(day>=79&&day<171)i=0; else if(day>=171&&day<265)i=1;
+  else if(day>=265&&day<354)i=2; else i=3;
+  return north?i:(i+2)%4;
+}
+function hhmm(h){
+  var H=Math.floor(h),M=Math.round((h-H)*60);
+  if(M===60){H++;M=0}
+  return (H<10?'0':'')+H+':'+(M<10?'0':'')+M;
+}
+function stars(n,w,h,seed){
+  var s='',i,x,y,r=seed||7;
+  for(i=0;i<n;i++){
+    r=(r*16807)%2147483647; x=20+(r%1000)/1000*(w-40);
+    r=(r*16807)%2147483647; y=16+(r%1000)/1000*(h-60);
+    s+='<circle cx="'+Math.round(x)+'" cy="'+Math.round(y)+'" r="1.2" fill="#8FA0C9" opacity="0.7"/>';
+  }
+  return s;
+}
+
+
+/* ===== theme (light/dark for projector) ===== */
+var DARK=false;
+var THMAP={'#FFFDF7':'#1E2637','#B9AE95':'#66708A','#6B6252':'#5A605D','#26221B':'#EDE7D6',
+'#4B4437':'#D2CCBC','#8A8070':'#9AA2B4','#E3DCCB':'#39435C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<6;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  stopAllPlay();
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='ftconcl'||kb.id==='dtconcl')continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* shared state */
+var DAY=225, LAT=1.5, TOD=12;
+var YR={playing:false}, SKY={playing:false};
+var RAF=0;
+function stopAllPlay(){
+  if(RAF){cancelAnimationFrame(RAF);RAF=0}
+  YR.playing=false; SKY.playing=false;
+  $('orbplay').classList.remove('on');$('decplay').classList.remove('on');$('skyplay').classList.remove('on');
+}
+function setDay(v,skipRender){
+  DAY=clamp(v,0,364.99);
+  var sl=document.querySelectorAll('.dayr'),k;
+  for(k=0;k<sl.length;k++)sl[k].value=Math.round(DAY);
+  var lb=document.querySelectorAll('.daylab');
+  for(k=0;k<lb.length;k++)lb[k].textContent=dateStr(DAY);
+  if(!skipRender){RENDER[CUR]();updSummary();}
+}
+function setLat(v,skipRender){
+  LAT=clamp(v,-90,90);
+  var sl=document.querySelectorAll('.latr'),k;
+  for(k=0;k<sl.length;k++)sl[k].value=LAT;
+  var lb=document.querySelectorAll('.latlab');
+  for(k=0;k<lb.length;k++)lb[k].textContent=fmtLat(LAT);
+  if(!skipRender){RENDER[CUR]();updSummary();}
+}
+
+/* small year-curve chart: draws into an svg 330x260 */
+function yearCurve(el,fn,ymin,ymax,refs,fmtY,colour,extra){
+  var L=42,Rr=316,Tt=18,B=222,k,d,v,s='';
+  function X(day){return L+(day/364)*(Rr-L)}
+  function Y(val){return B-(val-ymin)/(ymax-ymin)*(B-Tt)}
+  s+='<rect x="0" y="0" width="330" height="260" fill="#FFFDF7"/>';
+  s+='<line x1="'+L+'" y1="'+Tt+'" x2="'+L+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  s+='<line x1="'+L+'" y1="'+B+'" x2="'+Rr+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  var mm=[0,90,181,273,364],ml=['1','4','7','10','12'];
+  for(k=0;k<mm.length;k++){
+    s+='<line x1="'+Math.round(X(mm[k]))+'" y1="'+B+'" x2="'+Math.round(X(mm[k]))+'" y2="'+(B+4)+'" stroke="#B9AE95" stroke-width="2"/>';
+    s+=tlplain(X(mm[k]),B+18,13,'#6B6252',ml[k]+(LANG==='en'?'':'月'));
+  }
+  for(k=0;k<refs.length;k++){
+    var yy=Math.round(Y(refs[k].v));
+    s+='<line x1="'+L+'" y1="'+yy+'" x2="'+Rr+'" y2="'+yy+'" stroke="'+(refs[k].c||'#B9AE95')+'" stroke-width="1.5" stroke-dasharray="5 4"/>';
+    if(refs[k].t)s+=tlplain(L-5,yy+4,13,refs[k].c||'#6B6252',refs[k].t,'end');
+  }
+  var p='';
+  for(d=0;d<=364;d+=4){
+    v=fn(d);
+    p+=(d===0?'M':'L')+X(d).toFixed(1)+' '+Y(v).toFixed(1)+' ';
+  }
+  s+='<path d="'+p+'" fill="none" stroke="'+colour+'" stroke-width="3"/>';
+  if(extra)s+=extra(X,Y);
+  var cv=fn(DAY);
+  s+='<circle cx="'+X(DAY).toFixed(1)+'" cy="'+Y(cv).toFixed(1)+'" r="6" fill="'+colour+'" stroke="#26221B" stroke-width="2"/>';
+  s+=tl(clamp(X(DAY),L+30,Rr-30),clamp(Y(cv)-14,30,B-8),14,'#26221B',fmtY(cv));
+  el.innerHTML=PAINT(s);
+}
+
+/* ================= TAB 0 · ORBIT ================= */
+var ORB={cx:318,cy:278,A:232,B:196,soff:26,re:17};
+var CARD=[{d:79,k:'ve'},{d:171,k:'ss'},{d:265,k:'ae'},{d:354,k:'ws'}];
+function orbTheta(day){ return 180+(day-3)/365.25*360; }
+function orbPos(day){
+  var th=d2r(orbTheta(day));
+  return {x:ORB.cx+ORB.A*Math.cos(th), y:ORB.cy-ORB.B*Math.sin(th)};
+}
+function miniEarth(x,y,r,sunx,suny,withAxis){
+  var s='';
+  var ps=Math.atan2(suny-y,sunx-x); // angle earth->sun
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="#3E7BB6" stroke="#DCE9F0" stroke-width="1.5"/>';
+  // night half: semicircle facing away from sun
+  var a1=ps+Math.PI/2, a2=ps-Math.PI/2;
+  s+='<path d="M '+(x+r*Math.cos(a1)).toFixed(1)+' '+(y+r*Math.sin(a1)).toFixed(1)+
+     ' A '+r+' '+r+' 0 0 1 '+(x+r*Math.cos(a2)).toFixed(1)+' '+(y+r*Math.sin(a2)).toFixed(1)+' Z" fill="#0B0D16" opacity="0.62"/>';
+  if(withAxis){
+    // axis fixed screen direction: leaning to upper-left, 23.5 deg from vertical
+    var ax=-Math.sin(d2r(23.5)), ay=-Math.cos(d2r(23.5)), L=r+9;
+    s+='<line x1="'+(x-ax*L*0.7).toFixed(1)+'" y1="'+(y-ay*L*0.7).toFixed(1)+
+       '" x2="'+(x+ax*L).toFixed(1)+'" y2="'+(y+ay*L).toFixed(1)+
+       '" stroke="#F0E7D2" stroke-width="2.5"/>';
+    s+='<circle cx="'+(x+ax*L).toFixed(1)+'" cy="'+(y+ay*L).toFixed(1)+'" r="3" fill="#DA9526"/>';
+  }
+  return s;
+}
+function drawORB(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="540" rx="14" fill="#141C33"/>';
+  s+=stars(34,660,540,11);
+  // polaris direction star, upper-left
+  s+=tlplain(96,34,15,'#F0E7D2',T('polaris'),'start');
+  // orbit ellipse
+  s+='<ellipse cx="'+ORB.cx+'" cy="'+ORB.cy+'" rx="'+ORB.A+'" ry="'+ORB.B+'" fill="none" stroke="#6E7BA3" stroke-width="2" stroke-dasharray="7 6"/>';
+  // sun (offset toward perihelion side = left)
+  var sx=ORB.cx-ORB.soff, sy=ORB.cy;
+  s+='<circle cx="'+sx+'" cy="'+sy+'" r="34" fill="#F5C445"/><circle cx="'+sx+'" cy="'+sy+'" r="42" fill="#F5C445" opacity="0.25"/>';
+  s+=tl(sx,sy+62,15,'#F5C445',T('sun'));
+  // perihelion / aphelion ticks
+  s+='<line x1="'+(ORB.cx-ORB.A)+'" y1="'+(ORB.cy-8)+'" x2="'+(ORB.cx-ORB.A)+'" y2="'+(ORB.cy+8)+'" stroke="#DA9526" stroke-width="3"/>';
+  s+=tl(ORB.cx-ORB.A+6,ORB.cy+30,13,'#DA9526',T('peri'),'start');
+  s+='<line x1="'+(ORB.cx+ORB.A)+'" y1="'+(ORB.cy-8)+'" x2="'+(ORB.cx+ORB.A)+'" y2="'+(ORB.cy+8)+'" stroke="#7FB4C9" stroke-width="3"/>';
+  s+=tl(ORB.cx+ORB.A-6,ORB.cy+30,13,'#7FB4C9',T('aph'),'end');
+  // 4 cardinal ghost earths with parallel axes + labels
+  for(k=0;k<4;k++){
+    var p=orbPos(CARD[k].d);
+    s+='<g opacity="0.85">'+miniEarth(p.x,p.y,10,sx,sy,true)+'</g>';
+    var lx=clamp(ORB.cx+(p.x-ORB.cx)*1.24,72,588), ly=clamp(ORB.cy+(p.y-ORB.cy)*1.26,32,520);
+    s+=tl(lx,ly+5,14,'#F0E7D2',T(CARD[k].k));
+  }
+  // draggable earth
+  var e=orbPos(DAY);
+  s+='<circle cx="'+e.x.toFixed(1)+'" cy="'+e.y.toFixed(1)+'" r="'+(ORB.re+9)+'" fill="#3E7BB6" opacity="0.18"/>';
+  s+=miniEarth(e.x,e.y,ORB.re,sx,sy,true);
+  s+=tl(e.x,e.y+ORB.re+24,14,'#7FB4C9',T('earth')+' · '+T('dragme'));
+  s+=tl(e.x,e.y-ORB.re-16,14,'#F0E7D2',dateStr(DAY));
+  $('svgorb').innerHTML=PAINT(s);
+  // side chips
+  $('c_date0').textContent=dateStr(DAY);
+  var au=distAU(DAY);
+  $('c_dist').textContent=T('dist')+' '+(au*1.496).toFixed(3)+(LANG==='en'?'×10⁸ km':' 亿km');
+  $('c_ns').textContent=T('nhemi')+'：'+T('sea'+seasonIdx(DAY,true));
+  $('c_ss').textContent=T('shemi')+'：'+T('sea'+seasonIdx(DAY,false));
+}
+function initORB(){
+  makeDrag($('svgorb'),660,540,function(pt){
+    var th=r2d(Math.atan2(-(pt.y-ORB.cy)/ORB.B,(pt.x-ORB.cx)/ORB.A));
+    var day=(th-180)/360*365.25+3;
+    day=((day%365)+365)%365;
+    for(var k=0;k<4;k++){ if(Math.abs(day-CARD[k].d)<5)day=CARD[k].d; }
+    setDay(day);
+  });
+}
+/* ================= TAB 1 · SUBSOLAR POINT ================= */
+var DEC={cx:402,cy:243,R:152};
+function latChord(lambda,t){
+  // returns endpoints of latitude line lambda (deg) with apparent tilt t (deg)
+  var n={x:-Math.sin(d2r(t)),y:-Math.cos(d2r(t))};
+  var p={x:Math.cos(d2r(t)),y:-Math.sin(d2r(t))};
+  var off=DEC.R*Math.sin(d2r(lambda)), half=DEC.R*Math.cos(d2r(lambda));
+  var mx=DEC.cx+n.x*off, my=DEC.cy+n.y*off;
+  return {x1:mx-p.x*half,y1:my-p.y*half,x2:mx+p.x*half,y2:my+p.y*half,n:n,p:p};
+}
+function eventChip(day){
+  for(var k=0;k<4;k++){
+    if(Math.abs(day-CARD[k].d)<3){
+      return T(['evVE','evSS','evAE','evWS'][k]);
+    }
+  }
+  return T('evNone');
+}
+function drawDEC(){
+  var s='',k,t=decl(DAY);
+  s+='<rect x="0" y="0" width="660" height="480" rx="14" fill="#141C33"/>';
+  s+=stars(26,660,480,23);
+  // parallel sun rays from the left
+  for(k=0;k<4;k++){
+    var ry=88+k*104;
+    s+='<line x1="14" y1="'+ry+'" x2="150" y2="'+ry+'" stroke="#F5C445" stroke-width="3"/>';
+    s+='<path d="M 150 '+ry+' l -13 -6 v 12 Z" fill="#F5C445"/>';
+  }
+  s+=tl(60,52,15,'#F5C445',T('sunlight'),'start');
+  // earth body
+  s+='<circle cx="'+DEC.cx+'" cy="'+DEC.cy+'" r="'+DEC.R+'" fill="#3E7BB6" stroke="#DCE9F0" stroke-width="2.5"/>';
+  // latitude lines
+  var eq=latChord(0,t);
+  s+='<line x1="'+eq.x1.toFixed(1)+'" y1="'+eq.y1.toFixed(1)+'" x2="'+eq.x2.toFixed(1)+'" y2="'+eq.y2.toFixed(1)+'" stroke="#F0E7D2" stroke-width="2.5"/>';
+  var lats=[{v:23.44,k:'tropicN',c:'#DA9526'},{v:-23.44,k:'tropicS',c:'#DA9526'},
+            {v:66.56,k:'arcticN',c:'#7FB4C9'},{v:-66.56,k:'arcticS',c:'#7FB4C9'}];
+  for(k=0;k<lats.length;k++){
+    var L=latChord(lats[k].v,t);
+    s+='<line x1="'+L.x1.toFixed(1)+'" y1="'+L.y1.toFixed(1)+'" x2="'+L.x2.toFixed(1)+'" y2="'+L.y2.toFixed(1)+'" stroke="'+lats[k].c+'" stroke-width="2" stroke-dasharray="6 5"/>';
+    s+=tl(L.x2+8,L.y2+5,13,lats[k].c,T(lats[k].k),'start');
+  }
+  s+=tl(eq.x2+8,eq.y2+5,13,'#F0E7D2',T('equator'),'start');
+  // axis
+  var n={x:-Math.sin(d2r(t)),y:-Math.cos(d2r(t))};
+  s+='<line x1="'+(DEC.cx-n.x*(DEC.R+18)).toFixed(1)+'" y1="'+(DEC.cy-n.y*(DEC.R+18)).toFixed(1)+
+     '" x2="'+(DEC.cx+n.x*(DEC.R+30)).toFixed(1)+'" y2="'+(DEC.cy+n.y*(DEC.R+30)).toFixed(1)+
+     '" stroke="#F0E7D2" stroke-width="3"/>';
+  s+=tl(DEC.cx+n.x*(DEC.R+30),DEC.cy+n.y*(DEC.R+30)-10,14,'#F0E7D2',T('npole'));
+  // night half (right of vertical terminator) clipped to circle
+  s+='<path d="M '+DEC.cx+' '+(DEC.cy-DEC.R)+' A '+DEC.R+' '+DEC.R+' 0 0 1 '+DEC.cx+' '+(DEC.cy+DEC.R)+' Z" fill="#0B0D16" opacity="0.6"/>';
+  s+='<line x1="'+DEC.cx+'" y1="'+(DEC.cy-DEC.R-8)+'" x2="'+DEC.cx+'" y2="'+(DEC.cy+DEC.R+8)+'" stroke="#8FA0C9" stroke-width="2" stroke-dasharray="5 5"/>';
+  s+=tl(DEC.cx,DEC.cy+DEC.R+26,14,'#8FA0C9',T('terminator'));
+  // direct ray onto subsolar point (always the leftmost limb point)
+  var px=DEC.cx-DEC.R, py=DEC.cy;
+  s+='<line x1="'+(px-104)+'" y1="'+py+'" x2="'+(px-14)+'" y2="'+py+'" stroke="#D9542B" stroke-width="5"/>';
+  s+='<path d="M '+(px-6)+' '+py+' l -16 -8 v 16 Z" fill="#D9542B"/>';
+  s+='<circle cx="'+px+'" cy="'+py+'" r="8" fill="#D9542B" stroke="#FFFFFF" stroke-width="2.5"/>';
+  s+=tl(px-58,py-16,15,'#D9542B',T('subsolar')+' '+fmtLat(t));
+  s+=tl(px-58,py+30,13,'#F5C445',T('direct'));
+  // slanted-ray demo at high latitude
+  var hi=latChord(62,t);
+  s+='<line x1="'+(hi.x1-74).toFixed(1)+'" y1="'+hi.y1.toFixed(1)+'" x2="'+(hi.x1-10).toFixed(1)+'" y2="'+hi.y1.toFixed(1)+'" stroke="#F5C445" stroke-width="3"/>';
+  s+='<path d="M '+(hi.x1-4).toFixed(1)+' '+hi.y1.toFixed(1)+' l -12 -6 v 12 Z" fill="#F5C445"/>';
+  s+=tl(hi.x1-40,hi.y1-14,13,'#F5C445',T('slant'));
+  // polar day / night badges
+  if(t>1){
+    var np=latChord(84,t), sp=latChord(-84,t);
+    s+=tl((np.x1+np.x2)/2,(np.y1+np.y2)/2-14,14,'#F5C445',T('midnightsun'));
+    s+=tl((sp.x1+sp.x2)/2,(sp.y1+sp.y2)/2+22,14,'#8FA0C9',T('polarnight'));
+  }else if(t<-1){
+    var np2=latChord(84,t), sp2=latChord(-84,t);
+    s+=tl((np2.x1+np2.x2)/2,(np2.y1+np2.y2)/2-14,14,'#8FA0C9',T('polarnight'));
+    s+=tl((sp2.x1+sp2.x2)/2,(sp2.y1+sp2.y2)/2+22,14,'#F5C445',T('midnightsun'));
+  }
+  s+=tl(DEC.cx+DEC.R-34,52,15,'#F0E7D2',dateStr(DAY));
+  $('svgdec').innerHTML=PAINT(s);
+  $('c_date1').textContent=dateStr(DAY);
+  $('c_dec').textContent=T('declab')+' '+fmtLat(t);
+  $('c_event').textContent=eventChip(DAY);
+}
+function drawDECside(){
+  yearCurve($('svgdecside'),decl,-30,30,
+    [{v:23.44,t:'23.5°N',c:'#DA9526'},{v:0,t:'0°',c:'#B9AE95'},{v:-23.44,t:'23.5°S',c:'#DA9526'}],
+    function(v){return fmtLat(v)},'#D9542B');
+}
+function drawDECall(){drawDEC();drawDECside();}
+function initDEC(){
+  makeDrag($('svgdec'),660,480,function(pt){
+    setDay(clamp((pt.x-30)/600,0,1)*364);
+  });
+}
+
+/* ================= TAB 2 · SUN PATH & DAY LENGTH ================= */
+var SKC={hx0:40,hx1:620,hor:356};
+function skyX(hour){return SKC.hx0+hour/24*(SKC.hx1-SKC.hx0)}
+function skyAlt(hour,lat,dec){
+  var H=d2r((hour-12)*15);
+  var sA=Math.sin(d2r(lat))*Math.sin(d2r(dec))+Math.cos(d2r(lat))*Math.cos(d2r(dec))*Math.cos(H);
+  return r2d(Math.asin(clamp(sA,-1,1)));
+}
+function skyArcPath(lat,dec){
+  var p='',pen=false,h,a,x,y;
+  for(h=0;h<=24.001;h+=0.25){
+    a=skyAlt(h,lat,dec);
+    if(a<=0){pen=false;continue}
+    x=skyX(h); y=SKC.hor-a/90*300;
+    p+=(pen?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';
+    pen=true;
+  }
+  return p;
+}
+function mixC(h1,h2,f){
+  function c(h,i){return parseInt(h.substr(i,2),16)}
+  function p(v){v=Math.round(clamp(v,0,255));var t=v.toString(16);return t.length<2?'0'+t:t}
+  return '#'+p(c(h1,1)+(c(h2,1)-c(h1,1))*f)+p(c(h1,3)+(c(h2,3)-c(h1,3))*f)+p(c(h1,5)+(c(h2,5)-c(h1,5))*f);
+}
+function drawSKY(){
+  var s='',dec=decl(DAY);
+  // day/night atmosphere: blend everything by the sun's CURRENT altitude
+  var aNow=skyAlt(TOD,LAT,dec);
+  var dayf=clamp((aNow+9)/18,0,1);   // 1 = full day, 0 = deep night (civil-twilight band blends)
+  var skyC=mixC('#0F172E','#E9F2F8',dayf);
+  var gndC=mixC('#222A3E','#DDE5CD',dayf);
+  var horC=mixC('#46506B','#8A9B6E',dayf);
+  var inkc=dayf>0.45?'#4B4437':'#D5DEEF';
+  var tickc=dayf>0.45?'#6B6252':'#9AA6C4';
+  var obc=dayf>0.45?'#26221B':'#E8EDF7';
+  s+='<rect x="0" y="0" width="660" height="440" rx="14" fill="'+skyC+'"/>';
+  if(dayf<0.6){
+    s+='<g opacity="'+(1-dayf/0.6).toFixed(2)+'">'+stars(30,660,330,41)+'</g>';
+  }
+  if(dayf<0.4){
+    var mo=(1-dayf/0.4).toFixed(2);
+    s+='<g opacity="'+mo+'"><circle cx="560" cy="72" r="15" fill="#EDE8DA"/><circle cx="567" cy="66" r="13" fill="'+skyC+'"/></g>';
+  }
+  s+='<rect x="0" y="'+SKC.hor+'" width="660" height="'+(440-SKC.hor)+'" fill="'+gndC+'"/>';
+  s+='<line x1="0" y1="'+SKC.hor+'" x2="660" y2="'+SKC.hor+'" stroke="'+horC+'" stroke-width="2.5"/>';
+  // hour axis
+  var hh=[0,6,12,18,24],k;
+  for(k=0;k<hh.length;k++){
+    s+='<line x1="'+Math.round(skyX(hh[k]))+'" y1="'+SKC.hor+'" x2="'+Math.round(skyX(hh[k]))+'" y2="'+(SKC.hor+7)+'" stroke="'+tickc+'" stroke-width="2"/>';
+    s+=tlplain(skyX(hh[k]),SKC.hor+24,13,inkc,hh[k]+':00');
+  }
+  s+=tlplain(330,SKC.hor+44,13,tickc,T('timeaxis'));
+  s+=tl(56,SKC.hor-10,14,inkc,T('east'),'start');
+  s+=tl(604,SKC.hor-10,14,inkc,T('west'),'end');
+  // reference arcs: june & december solstices
+  s+='<path d="'+skyArcPath(LAT,23.44)+'" fill="none" stroke="#D9542B" stroke-width="2.5" stroke-dasharray="7 6" opacity="0.75"/>';
+  s+='<path d="'+skyArcPath(LAT,-23.44)+'" fill="none" stroke="#2C7D8C" stroke-width="2.5" stroke-dasharray="7 6" opacity="0.75"/>';
+  // today's arc
+  var L=dayLenH(LAT,dec);
+  if(L>0.05){
+    s+='<path d="'+skyArcPath(LAT,dec)+'" fill="none" stroke="#DA9526" stroke-width="5"/>';
+  }
+  // legend
+  s+=tl(52,36,14,'#DA9526',T('today')+' · '+dateStr(DAY),'start');
+  s+=tl(52,60,13,'#D9542B',T('ssline'),'start');
+  s+=tl(52,82,13,'#2C7D8C',T('wsline'),'start');
+  // polar badges
+  if(L<=0.05){ s+=tl(330,180,22,'#8FA0C9',T('polnight')); }
+  else if(L>=23.95){ s+=tl(330,52,17,'#D9542B',T('polday')); }
+  // sun at TOD
+  var a=aNow;
+  if(L>0.05&&a>0){
+    var sx=skyX(TOD),sy=SKC.hor-a/90*300;
+    s+='<circle cx="'+sx.toFixed(1)+'" cy="'+sy.toFixed(1)+'" r="15" fill="#F5C445" stroke="#DA9526" stroke-width="3"/>';
+    s+=tl(sx,sy-24,13,'#26221B',hhmm(TOD)+' · '+Math.round(a)+'°');
+  }else if(L>0.05){
+    // sun below the horizon: faint ghost so students see where it is
+    var gx=skyX(TOD),gy=SKC.hor+clamp(-a,0,90)/90*70+14;
+    s+='<g opacity="0.35"><circle cx="'+gx.toFixed(1)+'" cy="'+gy.toFixed(1)+'" r="12" fill="#F5C445"/></g>';
+    s+=tl(gx,SKC.hor+(LANG==='en'?24:24)+40,13,'#9AA6C4',hhmm(TOD));
+  }
+  // observer figure
+  s+='<circle cx="330" cy="'+(SKC.hor-26)+'" r="7" fill="'+obc+'"/>';
+  s+='<line x1="330" y1="'+(SKC.hor-19)+'" x2="330" y2="'+(SKC.hor-4)+'" stroke="'+obc+'" stroke-width="3.5"/>';
+  s+='<line x1="330" y1="'+(SKC.hor-4)+'" x2="323" y2="'+SKC.hor+'" stroke="'+obc+'" stroke-width="3.5"/>';
+  s+='<line x1="330" y1="'+(SKC.hor-4)+'" x2="337" y2="'+SKC.hor+'" stroke="'+obc+'" stroke-width="3.5"/>';
+  s+=tl(330,SKC.hor+24,13,obc,fmtLat(LAT));
+  // sunrise/sunset markers
+  if(L>0.05&&L<23.95){
+    var rz=12-L/2, st=12+L/2;
+    s+='<path d="M '+skyX(rz).toFixed(1)+' '+SKC.hor+' l -7 12 h 14 Z" fill="#DA9526"/>';
+    s+='<path d="M '+skyX(st).toFixed(1)+' '+SKC.hor+' l -7 12 h 14 Z" fill="#DA9526"/>';
+  }
+  $('svgsky').innerHTML=PAINT(s);
+  // chips
+  $('c_dl').textContent=T('daylen')+' '+L.toFixed(1)+' '+T('hourU');
+  if(L>0.05&&L<23.95){
+    $('c_rise').textContent=T('rise')+' '+hhmm(12-L/2);
+    $('c_set').textContent=T('set')+' '+hhmm(12+L/2);
+    $('c_rise').style.display='';$('c_set').style.display='';
+    $('c_pol').style.display='none';
+  }else{
+    $('c_rise').style.display='none';$('c_set').style.display='none';
+    $('c_pol').style.display='';
+    $('c_pol').textContent=(L<=0.05)?T('polnight'):T('polday');
+  }
+}
+function drawSKYside(){
+  yearCurve($('svgskyside'),function(d){return dayLenH(LAT,decl(d))},0,24,
+    [{v:12,t:'12h',c:'#B9AE95'}],
+    function(v){return v.toFixed(1)+T('hourU')},'#DA9526');
+}
+function drawSKYall(){drawSKY();drawSKYside();}
+function initSKY(){
+  makeDrag($('svgsky'),660,440,function(pt){
+    TOD=clamp((pt.x-SKC.hx0)/(SKC.hx1-SKC.hx0),0,1)*24;
+    drawSKY();updSummary();
+  });
+}
+/* ================= TAB 3 · NOON SUN & SHADOW ================= */
+var SHC={gx:400,gy:360,h:110};
+function drawSH(){
+  var s='',dec=decl(DAY),alt=noonAlt(LAT,dec);
+  var night=alt<=0;
+  s+='<rect x="0" y="0" width="660" height="440" rx="14" fill="'+(night?'#25304E':'#E9F2F8')+'"/>';
+  s+='<rect x="0" y="'+SHC.gy+'" width="660" height="'+(440-SHC.gy)+'" fill="'+(night?'#3A4258':'#DDE5CD')+'"/>';
+  s+='<line x1="0" y1="'+SHC.gy+'" x2="660" y2="'+SHC.gy+'" stroke="'+(night?'#5A6480':'#8A9B6E')+'" stroke-width="2.5"/>';
+  // compass
+  var inkc=night?'#DCE9F0':'#4B4437';
+  s+=tl(30,SHC.gy+26,15,inkc,T('cS'),'start');
+  s+=tl(630,SHC.gy+26,15,inkc,T('cN'),'end');
+  s+=tl(330,36,15,inkc,dateStr(DAY)+' · '+fmtLat(LAT));
+  // formula with numbers
+  s+=tl(330,64,14,night?'#8FA0C9':'#2C7D8C','α = 90° − |'+fmtLat(LAT)+' − '+fmtLat(dec)+'| = '+(Math.round(alt*10)/10)+'°');
+  // gnomon stick
+  s+='<line x1="'+SHC.gx+'" y1="'+SHC.gy+'" x2="'+SHC.gx+'" y2="'+(SHC.gy-SHC.h)+'" stroke="#8A5A2B" stroke-width="7"/>';
+  s+='<circle cx="'+SHC.gx+'" cy="'+(SHC.gy-SHC.h)+'" r="5" fill="#8A5A2B"/>';
+  s+=tl(SHC.gx+14,SHC.gy-SHC.h-8,13,inkc,T('stick'),'start');
+  // 1m ruler ticks
+  var k;
+  for(k=-2;k<=2;k++){
+    if(k===0)continue;
+    var tx=SHC.gx+k*SHC.h;
+    s+='<line x1="'+tx+'" y1="'+SHC.gy+'" x2="'+tx+'" y2="'+(SHC.gy+8)+'" stroke="'+(night?'#5A6480':'#8A9B6E')+'" stroke-width="2"/>';
+    s+=tlplain(tx,SHC.gy+24,12,night?'#8FA0C9':'#6B6252',Math.abs(k)+'m');
+  }
+  if(night){
+    s+=tl(330,190,20,'#8FA0C9',T('sunbelow'));
+  }else{
+    var overhead=Math.abs(LAT-dec)<0.5;
+    var side=(LAT>=dec)?-1:1; // -1: sun south(left); +1: sun north(right)
+    var ta=d2r(clamp(alt,3,90));
+    var topy=SHC.gy-SHC.h;
+    var sunx=overhead?SHC.gx:SHC.gx+side*250*Math.cos(ta);
+    var suny=overhead?(topy-250):(topy-250*Math.sin(ta));
+    suny=Math.max(suny,26);
+    // shadow
+    if(!overhead){
+      var sl=SHC.h/Math.tan(d2r(Math.max(alt,3)));
+      var cap=Math.min(sl,245);
+      var tipx=SHC.gx-side*cap;
+      s+='<line x1="'+SHC.gx+'" y1="'+(SHC.gy+2)+'" x2="'+tipx.toFixed(1)+'" y2="'+(SHC.gy+2)+'" stroke="#26221B" stroke-width="9" opacity="0.55" stroke-linecap="round"/>';
+      // ray from sun through stick top to shadow tip
+      s+='<line x1="'+sunx.toFixed(1)+'" y1="'+suny.toFixed(1)+'" x2="'+tipx.toFixed(1)+'" y2="'+SHC.gy+'" stroke="#DA9526" stroke-width="2.5" stroke-dasharray="7 6"/>';
+      // altitude arc at shadow tip
+      s+=tl(tipx+(side<0?26:-26),SHC.gy-12,14,night?'#F5C445':'#D9542B','α='+(Math.round(alt))+'°');
+      if(sl>245){
+        s+=tl(tipx+(side<0?6:-6),SHC.gy+46,13,'#D9542B',(side<0?'→':'←')+' '+ (LANG==='en'?'very long...':'影子非常长…'),(side<0?'start':'end'));
+      }
+    }else{
+      s+='<line x1="'+sunx+'" y1="'+suny.toFixed(1)+'" x2="'+SHC.gx+'" y2="'+topy+'" stroke="#DA9526" stroke-width="2.5" stroke-dasharray="7 6"/>';
+      s+=tl(SHC.gx,SHC.gy+44,15,'#2F7D4F',T('shNo'));
+    }
+    // sun icon
+    s+='<circle cx="'+sunx.toFixed(1)+'" cy="'+suny.toFixed(1)+'" r="20" fill="#F5C445" stroke="#DA9526" stroke-width="3"/>';
+    for(k=0;k<8;k++){
+      var ra=k*Math.PI/4;
+      s+='<line x1="'+(sunx+26*Math.cos(ra)).toFixed(1)+'" y1="'+(suny+26*Math.sin(ra)).toFixed(1)+
+         '" x2="'+(sunx+34*Math.cos(ra)).toFixed(1)+'" y2="'+(suny+34*Math.sin(ra)).toFixed(1)+
+         '" stroke="#DA9526" stroke-width="3"/>';
+    }
+  }
+  $('svgsh').innerHTML=PAINT(s);
+  // chips
+  $('c_alt').textContent=T('noonalt')+' '+(alt<=0?'—':(Math.round(alt*10)/10)+'°');
+  if(alt<=0){
+    $('c_sh').textContent=T('shlen')+' —';
+    $('c_dir').textContent=T('polnight');
+  }else if(Math.abs(LAT-decl(DAY))<0.5){
+    $('c_sh').textContent=T('shlen')+' 0 m';
+    $('c_dir').textContent=T('shNo');
+  }else{
+    var sm=1/Math.tan(d2r(alt));
+    $('c_sh').textContent=T('shlen')+' '+(sm>99?'>99':sm.toFixed(2))+' m';
+    $('c_dir').textContent=(LAT>=decl(DAY))?T('shN'):T('shS');
+  }
+}
+function drawSHside(){
+  yearCurve($('svgshside'),function(d){return noonAlt(LAT,decl(d))},-25,95,
+    [{v:90,t:'90°',c:'#2F7D4F'},{v:0,t:'0°',c:'#B9AE95'}],
+    function(v){return Math.round(v)+'°'},'#2C7D8C');
+}
+function drawSHall(){drawSH();drawSHside();}
+function initSH(){
+  makeDrag($('svgsh'),660,440,function(pt){
+    setDay(clamp((pt.x-30)/600,0,1)*364);
+  });
+}
+
+/* ================= TAB 4 · REVIEW & QUIZ ================= */
+var TT0={on:false};
+function miniChartT0(s,x0,fn,flat,ymin,ymax,titleKey,colour){
+  var L=x0+46,Rr=x0+296,Tt=44,B=246,d,v;
+  s.v+='<line x1="'+L+'" y1="'+Tt+'" x2="'+L+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  s.v+='<line x1="'+L+'" y1="'+B+'" x2="'+Rr+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  s.v+=tlplain((L+Rr)/2,28,14,'#26221B',T(titleKey));
+  function X(day){return L+(day/364)*(Rr-L)}
+  function Y(val){return B-(val-ymin)/(ymax-ymin)*(B-Tt)}
+  var mm=[0,181,364],ml=['1','7','12'],k;
+  for(k=0;k<mm.length;k++){
+    s.v+=tlplain(X(mm[k]),B+16,12,'#6B6252',ml[k]+(LANG==='en'?'':'月'));
+  }
+  var p='';
+  for(d=0;d<=364;d+=5){v=fn(d);p+=(d===0?'M':'L')+X(d).toFixed(1)+' '+Y(v).toFixed(1)+' '}
+  s.v+='<path d="'+p+'" fill="none" stroke="'+colour+'" stroke-width="3"/>';
+  if(TT0.on){
+    var fy=Math.round(Y(flat));
+    s.v+='<line x1="'+L+'" y1="'+fy+'" x2="'+Rr+'" y2="'+fy+'" stroke="#6B6252" stroke-width="3" stroke-dasharray="8 6"/>';
+  }
+}
+function drawT0(){
+  var s={v:''};
+  s.v+='<rect x="0" y="0" width="660" height="300" fill="#FFFDF7"/>';
+  miniChartT0(s,10,function(d){return dayLenH(40,decl(d))},12,0,24,'t0left','#DA9526');
+  miniChartT0(s,340,function(d){return noonAlt(40,decl(d))},50,0,90,'t0right','#2C7D8C');
+  s.v+=tl(330,286,13,'#6B6252',(TT0.on?'— — ':'▬ ')+T(TT0.on?'t0zero':'t0real'));
+  if(TT0.on)s.v+=tl(330,160,24,'#D9542B',T('noseason'));
+  $('svgt0').innerHTML=PAINT(s.v);
+}
+function drawDist(){
+  var s='',b1=1.471/1.6*300,b2=1.521/1.6*300;
+  s+='<rect x="0" y="0" width="330" height="130" fill="#FFFDF7"/>';
+  s+=tlplain(10,30,13,'#4B4437',T('dJan'),'start');
+  s+='<rect x="10" y="38" width="'+Math.round(b1)+'" height="18" rx="4" fill="#2C7D8C"/>';
+  s+=tl(14+b1,52,13,'#2C7D8C','1.471','start');
+  s+=tlplain(10,86,13,'#4B4437',T('dJul'),'start');
+  s+='<rect x="10" y="94" width="'+Math.round(b2)+'" height="18" rx="4" fill="#D9542B"/>';
+  s+=tl(14+b2,108,13,'#D9542B','1.521','start');
+  $('svgdist').innerHTML=PAINT(s);
+}
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=PAINT(h);
+}
+
+/* ---- quiz ---- */
+var QZpick=[];
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. The MAIN cause of the four seasons is…',o:[
+    ['Earth\u2019s changing distance from the Sun',0,'Distance only varies ~3%, and we are closest in January — northern winter!'],
+    ['The tilted axis + revolution around the Sun',1,'Correct! The 23.5° tilt makes the subsolar point migrate between the tropics.'],
+    ['The Sun getting brighter and dimmer',0,'The Sun\u2019s output is essentially steady on this timescale.'],
+    ['Earth spinning faster and slower',0,'Rotation speed is constant — it gives us day and night, not seasons.']]},
+   {q:'2. When is Earth CLOSEST to the Sun?',o:[
+    ['July — that\u2019s why it\u2019s hot',0,'Opposite! Early July is aphelion, the farthest point.'],
+    ['Early January (northern winter)',1,'Yes — perihelion is in early January. Clear proof distance doesn\u2019t cause seasons.'],
+    ['At the equinoxes',0,'Equinoxes are about the subsolar point, not distance.'],
+    ['The distance never changes',0,'It changes slightly (~3%) — closest in January.']]},
+   {q:'3. On the June solstice (~Jun 21), the Sun is directly overhead at…',o:[
+    ['The equator',0,'That happens at the equinoxes.'],
+    ['The Tropic of Cancer (23.5°N)',1,'Correct — the subsolar point reaches its northernmost limit.'],
+    ['The Tropic of Capricorn (23.5°S)',0,'That is the December solstice.'],
+    ['The Arctic Circle (66.5°N)',0,'The subsolar point never leaves the tropics!']]},
+   {q:'4. Johor Bahru is at about 1.5°N. Through the year, its day length…',o:[
+    ['Is much longer in June than December',0,'Near the equator the difference is only a few minutes.'],
+    ['Stays close to 12 hours all year',1,'Correct — near the equator, day ≈ night all year, so seasons are weak.'],
+    ['Includes weeks of midnight sun',0,'Midnight sun only happens inside the polar circles.'],
+    ['Is longest in December',0,'That would apply to mid/high SOUTHERN latitudes, not 1.5°N.']]},
+   {q:'5. When the northern hemisphere has winter, the southern hemisphere has…',o:[
+    ['Winter too',0,'The hemispheres are opposite — one leans toward the Sun while the other leans away.'],
+    ['Summer',1,'Correct — opposite seasons, which the distance theory can never explain.'],
+    ['Spring',0,'Not spring — the seasons are directly opposite.'],
+    ['The same season everywhere',0,'Only the two equinox moments are symmetric — seasons are opposite.']]},
+   {q:'6. Midnight sun and polar night can only occur…',o:[
+    ['Near the equator',0,'The equator has ~12 h days all year — never 24 h of day or night.'],
+    ['Between the two tropics',0,'The tropics get overhead sun, not polar day/night.'],
+    ['Inside the polar circles (beyond 66.5°)',1,'Correct — only there can the Sun stay up or stay down for a full day or more.'],
+    ['Anywhere, if the weather is right',0,'It is geometry, not weather!']]},
+   {q:'7. Latitude 40°N on the June solstice (subsolar 23.5°N): noon altitude = 90° − |40 − 23.5| = ?',o:[
+    ['50°',0,'That would be 90 − 40 — you forgot to subtract the subsolar latitude first.'],
+    ['66.5°',0,'That is 90 − 23.5 — the two latitudes must be subtracted from each other first.'],
+    ['73.5°',1,'Correct: 90 − 16.5 = 73.5°. The highest noon Sun of the year at 40°N.'],
+    ['90°',0,'90° only happens when the Sun is directly overhead — impossible at 40°N.']]}
+  ];
+  return [
+   {q:'1. 四季形成的主要原因是……',o:[
+    ['地球离太阳的距离变化',0,'距离只差约3%，而且1月最近——那时北半球是冬天！'],
+    ['地轴倾斜 + 地球绕太阳公转',1,'正确！23.5° 的倾斜让直射点在南北回归线之间移动。'],
+    ['太阳有时亮有时暗',0,'太阳的输出在这个时间尺度上基本稳定。'],
+    ['地球自转有时快有时慢',0,'自转速度不变——自转带来昼夜，不带来四季。']]},
+   {q:'2. 地球什么时候离太阳最近？',o:[
+    ['7月——所以天气热',0,'相反！7月初是远日点，离得最远。'],
+    ['1月初（北半球冬天）',1,'对——近日点在1月初。这正好证明距离不是四季的原因。'],
+    ['春分和秋分',0,'二分与直射点有关，与距离无关。'],
+    ['距离从不变化',0,'有轻微变化（约3%），1月最近。']]},
+   {q:'3. 夏至（6月21日前后）那天，太阳直射……',o:[
+    ['赤道',0,'直射赤道是春分和秋分。'],
+    ['北回归线（23.5°N）',1,'正确——直射点到达最北的极限位置。'],
+    ['南回归线（23.5°S）',0,'那是冬至。'],
+    ['北极圈（66.5°N）',0,'直射点永远离不开南北回归线之间！']]},
+   {q:'4. 新山约在 1.5°N。一年当中，这里的昼长……',o:[
+    ['6月比12月长很多',0,'赤道附近昼长全年只差几分钟。'],
+    ['全年都接近 12 小时',1,'正确——赤道附近全年昼夜几乎等长，所以四季不明显。'],
+    ['有连续几周的极昼',0,'极昼只发生在极圈以内。'],
+    ['12月白天最长',0,'那是南半球中高纬度的情况，不是 1.5°N。']]},
+   {q:'5. 北半球是冬天的时候，南半球是……',o:[
+    ['也是冬天',0,'两个半球相反——一个朝向太阳倾斜，另一个背离。'],
+    ['夏天',1,'正确——季节相反。这也是"距离说"永远解释不了的。'],
+    ['春天',0,'不是春天——季节是正好相反的。'],
+    ['到处季节一样',0,'只有二分时刻南北对称，季节整体是相反的。']]},
+   {q:'6. 极昼和极夜只可能发生在……',o:[
+    ['赤道附近',0,'赤道全年昼长约12小时，永远不会整天白天或整天黑夜。'],
+    ['南北回归线之间',0,'回归线之间会被直射，但不会有极昼极夜。'],
+    ['极圈以内（纬度高于66.5°）',1,'正确——只有那里太阳才可能整天不落或整天不升。'],
+    ['天气合适的任何地方',0,'这是几何问题，不是天气问题！']]},
+   {q:'7. 北纬40°在夏至（直射点23.5°N）的正午太阳高度 = 90° − |40 − 23.5| = ？',o:[
+    ['50°',0,'那是 90−40——忘了先减去直射点纬度。'],
+    ['66.5°',0,'那是 90−23.5——应该先把两个纬度相减。'],
+    ['73.5°',1,'正确：90 − 16.5 = 73.5°，这是40°N一年中正午太阳最高的一天。'],
+    ['90°',0,'90°只在太阳直射头顶时出现——40°N 不可能被直射。']]}
+  ];
+}
+var QZi=0,QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+function drawP4(){drawT0();drawDist();}
+
+/* ================= boot ================= */
+function toggleYear(btn){
+  if(YR.playing){stopAllPlay();return}
+  stopAllPlay(); YR.playing=true; btn.classList.add('on');
+  function step(){
+    if(!YR.playing)return;
+    var d=DAY+0.7; if(d>=365)d-=365;
+    setDay(d);
+    RAF=requestAnimationFrame(step);
+  }
+  RAF=requestAnimationFrame(step);
+}
+function toggleSkyPlay(){
+  if(SKY.playing){stopAllPlay();return}
+  stopAllPlay(); SKY.playing=true; $('skyplay').classList.add('on');
+  function step(){
+    if(!SKY.playing)return;
+    TOD+=0.07; if(TOD>=24)TOD-=24;
+    drawSKY(); updSummary();
+    RAF=requestAnimationFrame(step);
+  }
+  RAF=requestAnimationFrame(step);
+}
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  setDay(DAY,true); setLat(LAT,true);
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawORB,drawDECall,drawSKYall,drawSHall,drawP4,drawQZ];
+  SUMMARY=[
+    function(){return dateStr(DAY)+' · '+T('nhemi')+':'+T('sea'+seasonIdx(DAY,true))+' · '+T('shemi')+':'+T('sea'+seasonIdx(DAY,false))},
+    function(){return dateStr(DAY)+' · '+T('declab')+' '+fmtLat(decl(DAY))},
+    function(){return fmtLat(LAT)+' · '+T('daylen')+' '+dayLenH(LAT,decl(DAY)).toFixed(1)+T('hourU')},
+    function(){var a=noonAlt(LAT,decl(DAY));return fmtLat(LAT)+' · α '+(a<=0?'—':Math.round(a)+'°')},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initORB(); initDEC(); initSKY(); initSH();
+  var k;
+  var dr=document.querySelectorAll('.dayr');
+  for(k=0;k<dr.length;k++)dr[k].addEventListener('input',function(){setDay(+this.value)});
+  var lr=document.querySelectorAll('.latr');
+  for(k=0;k<lr.length;k++)lr[k].addEventListener('input',function(){setLat(+this.value)});
+  var sn=document.querySelectorAll('.snapd');
+  for(k=0;k<sn.length;k++)sn[k].addEventListener('click',function(){setDay(+this.getAttribute('data-day'))});
+  var lp=document.querySelectorAll('.latp');
+  for(k=0;k<lp.length;k++)lp[k].addEventListener('click',function(){setLat(+this.getAttribute('data-lat'))});
+  $('orbplay').addEventListener('click',function(){toggleYear(this)});
+  $('decplay').addEventListener('click',function(){toggleYear(this)});
+  $('skyplay').addEventListener('click',toggleSkyPlay);
+  $('t0tgl').addEventListener('click',function(){
+    TT0.on=!TT0.on; this.classList.toggle('on',TT0.on); drawT0();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  setDay(225,true); setLat(1.5,true);
+  showTab(0);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i,j;
+  for(i=0;i<6;i++){showTab(i)}
+  for(i=0;i<=364;i+=7){setDay(i,true);drawORB();drawDECall();drawSHall()}
+  for(i=-90;i<=90;i+=10){setLat(i,true);drawSKYall();drawSHall()}
+  setLat(1.5,true);
+  for(i=0;i<=24;i+=2){TOD=i;drawSKY()}
+  for(i=0;i<4;i++){setDay(CARD[i].d,true);drawDECall();drawSHall()}
+  setLat(80,true);setDay(354,true);drawSKYall();drawSHall();
+  setLat(90,true);setDay(171,true);drawSKYall();drawSHall();
+  setLat(1.5,true);setDay(225,true);
+  TT0.on=true;drawT0();TT0.on=false;drawT0();
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<6;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<6;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'日地运动与四季实验室',
+ subtitle:'公转 · 直射点 · 昼夜长短 · 正午太阳高度 —— 初中科学课堂演示工具',
+ tab0:'① 公转轨道',tab1:'② 直射点',tab2:'③ 昼夜长短',tab3:'④ 正午高度与影子',tab4:'⑤ 要点·测验',
+ ob_figtitle:'俯视图：地球绕太阳公转（拖动地球）',
+ ob_sidetitle:'当前状态',
+ ob_k1:'地球绕太阳公转一圈约 <b>365 天</b>。注意 4 个位置的小地球：<b>地轴始终指向同一个方向（北极星附近）</b>，倾斜约 <b>23.5°</b>——正是这个"不变的倾斜"造成了四季。',
+ ob_k2:'⚠️ 常见误解：<b>"夏天是因为离太阳近"——错！</b>地球在 <b>1 月初离太阳最近</b>（近日点），那时北半球正是冬天；而且南北半球季节相反，距离说完全解释不了。',
+ ob_k3:'轨道其实<b>非常接近圆形</b>：最近 1.471 亿 km，最远 1.521 亿 km，只差约 3%。图中把椭圆画得夸张了一点，方便看清近日点和远日点。',
+ dc_figtitle:'侧视图：阳光照射地球（拖动日期滑杆）',
+ dc_sidetitle:'直射点纬度 · 一年变化',
+ dc_k1:'<b>直射</b>：阳光垂直射到地面，能量最<b>集中</b>，那里最热。<b>斜射</b>：同样一束光摊到更大的面积上，能量<b>分散</b>。因为地轴倾斜，<b>直射点一年内在南北回归线（23.5°N ↔ 23.5°S）之间来回移动</b>——这就是季节变化的引擎。',
+ dc_k2:'直射点走到最北（北回归线）= <b>夏至</b>；最南（南回归线）= <b>冬至</b>；经过赤道 = <b>春分 / 秋分</b>。它<b>永远离不开南北回归线之间</b>。',
+ sk_figtitle:'这个纬度看到的太阳路径（按 ▶ 播放一天）',
+ sk_sidetitle:'昼长 · 一年变化',
+ sk_k1:'太阳在天空中划出的<b>弧线越长、越高</b>，白天就越长、得到的热量越多。对北半球：<b>夏至</b>弧线最长最高（昼最长），<b>冬至</b>最短最低（昼最短），<b>春分秋分</b>昼夜各 12 小时。',
+ sk_k2:'新山在赤道附近（约 1.5°N），所以<b>全年昼夜几乎等长</b>、四季不明显。把纬度拉到北极圈以内，试试看<b>极昼</b>和<b>极夜</b>！',
+ sh_figtitle:'正午的太阳和 1 米直杆的影子',
+ sh_sidetitle:'正午太阳高度 · 一年变化',
+ sh_k1:'正午太阳高度角公式：<b>α = 90° − |当地纬度 − 直射点纬度|</b>。太阳越高，影子越<b>短</b>；太阳越低，影子越<b>长</b>。直射时 α = 90°，<b>立竿无影</b>！',
+ sh_k2:'新山在南北回归线之间，所以一年有<b>两次</b>太阳直射头顶；正午影子有时朝北、有时朝南。北回归线以北的地方，正午影子<b>永远朝北</b>。',
+ t0_figtitle:'思想实验：如果地轴不倾斜？（北纬 40° 为例）',
+ t0_k1:'把开关打开：昼长全年固定 12 小时、正午太阳高度全年不变——<b>没有四季了！</b>反过来说：<b>四季的根本原因 = 地轴倾斜 23.5° + 地球公转</b>。',
+ cmp_title:'二分二至 对照表',
+ ds_title:'距离能解释四季吗？',
+ ds_k1:'两条距离几乎一样长（只差 3%），而且<b>最近的时候北半球是冬天</b>。同一时刻南北半球季节还相反。所以：<b>距离不是四季的原因。</b>',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ tab5:'⑥ 测验', dk_hint5:'💡 答对才会解锁下一题',
+ dk_date:'日期', dk_lat:'纬度', dk_year:'播放一年', dk_day:'播放一天',
+ dk_hint0:'💡 也可以直接拖动地球', dk_t0:'🌍 地轴不倾斜（假设）',
+ dk_hint4:'💡 打开开关，看看两条曲线会怎样',
+ sn_ve:'春分', sn_ss:'夏至', sn_ae:'秋分', sn_ws:'冬至',
+ lp_jb:'新山 1.5°N', lp_tc:'北回归线', lp_ac:'北极圈', lp_np:'北极点', lp_bj:'北纬 40°',
+ foot:'© 2026 ScienceMaterial',
+ sun:'太阳', earth:'地球', dragme:'拖我', polaris:'✦ 北极星方向',
+ axis:'地轴', peri:'近日点(1月初) 1.471亿km', aph:'远日点(7月初) 1.521亿km',
+ ve:'春分 3月21日', ss:'夏至 6月21日', ae:'秋分 9月23日', ws:'冬至 12月21日',
+ nhemi:'北半球', shemi:'南半球',
+ sea0:'春', sea1:'夏', sea2:'秋', sea3:'冬',
+ dist:'日地距离', sunlight:'阳光', equator:'赤道',
+ tropicN:'北回归线 23.5°N', tropicS:'南回归线 23.5°S',
+ arcticN:'北极圈 66.5°N', arcticS:'南极圈 66.5°S',
+ subsolar:'直射点', terminator:'晨昏线', npole:'北极',
+ direct:'直射 · 能量集中', slant:'斜射 · 能量分散',
+ midnightsun:'☀ 极昼', polarnight:'🌑 极夜',
+ declab:'直射点纬度', evVE:'春分 · 直射赤道', evSS:'夏至 · 直射北回归线',
+ evAE:'秋分 · 直射赤道', evWS:'冬至 · 直射南回归线', evNone:'—',
+ daylen:'昼长', rise:'日出', set:'日落', hourU:'小时',
+ east:'东（日出侧）', west:'西（日落侧)', timeaxis:'时刻',
+ today:'今天', ssline:'夏至', wsline:'冬至', eqline:'赤道参考(全年12h)',
+ polday:'极昼 · 太阳整天不落', polnight:'极夜 · 太阳整天不升',
+ noonalt:'正午太阳高度', shlen:'影长', stick:'1米直杆',
+ shN:'影子朝北', shS:'影子朝南', shNo:'✨ 立竿无影（直射头顶）',
+ sunbelow:'极夜：正午太阳也在地平线下',
+ ground:'地面', formula:'α = 90° − |纬度 − 直射点纬度|',
+ t0left:'昼长（小时）', t0right:'正午太阳高度（°）',
+ t0real:'倾斜23.5°(真实)', t0zero:'不倾斜(假设)', noseason:'没有四季！',
+ dJan:'1月初(近日点)', dJul:'7月初(远日点)',
+ cmpH:['节气','日期','直射点','北半球昼长','北半球 / 南半球'],
+ cmpR:[['春分','3月21日前后','赤道','昼夜等长(12h)','春 / 秋'],
+       ['夏至','6月21日前后','北回归线 23.5°N','白天最长','夏 / 冬'],
+       ['秋分','9月23日前后','赤道','昼夜等长(12h)','秋 / 春'],
+       ['冬至','12月21日前后','南回归线 23.5°S','白天最短','冬 / 夏']],
+ mon:'月', deg:'°', cS:'南', cN:'北'
+},
+en:{
+ title:'Sun–Earth Motion & Seasons Lab',
+ subtitle:'Orbit · Subsolar point · Day length · Noon sun altitude — junior-high classroom demo',
+ tab0:'① Orbit',tab1:'② Subsolar Point',tab2:'③ Day & Night Length',tab3:'④ Noon Sun & Shadow',tab4:'⑤ Review & Quiz',
+ ob_figtitle:'Top view: Earth orbiting the Sun (drag Earth)',
+ ob_sidetitle:'Current state',
+ ob_k1:'Earth orbits the Sun once every <b>365 days</b>. Watch the four small Earths: the <b>axis always points the same way (near Polaris)</b>, tilted about <b>23.5°</b> — this unchanging tilt is what creates the seasons.',
+ ob_k2:'⚠️ Common misconception: <b>\u201cSummer happens because we are closer to the Sun\u201d — wrong!</b> Earth is <b>closest in early January</b> (perihelion) — northern winter! And the two hemispheres have opposite seasons at the same time, which distance can never explain.',
+ ob_k3:'The orbit is actually <b>very nearly a circle</b>: 147.1 vs 152.1 million km — only ~3% difference. The ellipse here is exaggerated so you can see perihelion and aphelion.',
+ dc_figtitle:'Side view: sunlight striking Earth (drag the date slider)',
+ dc_sidetitle:'Subsolar latitude through the year',
+ dc_k1:'<b>Direct rays</b> hit the ground vertically — energy is <b>concentrated</b>, so it is hottest there. <b>Slanted rays</b> spread the same light over a bigger area — energy is <b>diluted</b>. Because the axis is tilted, the <b>subsolar point swings between the two tropics (23.5°N ↔ 23.5°S)</b> every year — the engine of the seasons.',
+ dc_k2:'Subsolar point at its northernmost (Tropic of Cancer) = <b>June solstice</b>; southernmost = <b>December solstice</b>; crossing the equator = <b>equinoxes</b>. It <b>never leaves the tropics</b>.',
+ sk_figtitle:'The Sun\u2019s path seen from this latitude (press ▶ to play a day)',
+ sk_sidetitle:'Day length through the year',
+ sk_k1:'The <b>longer and higher</b> the Sun\u2019s arc, the longer the day and the more heat received. For the north: the <b>June solstice</b> arc is longest and highest, the <b>December solstice</b> shortest and lowest, and at the <b>equinoxes</b> day and night are both 12 h.',
+ sk_k2:'Johor Bahru sits near the equator (~1.5°N), so <b>day and night are nearly equal all year</b> and seasons are weak. Drag the latitude inside the Arctic Circle to see the <b>midnight sun</b> and <b>polar night</b>!',
+ sh_figtitle:'The noon Sun and the shadow of a 1-metre stick',
+ sh_sidetitle:'Noon sun altitude through the year',
+ sh_k1:'Noon altitude formula: <b>α = 90° − |your latitude − subsolar latitude|</b>. Higher Sun → <b>shorter</b> shadow; lower Sun → <b>longer</b> shadow. When the Sun is directly overhead, α = 90° and the stick has <b>no shadow at all</b>!',
+ sh_k2:'JB lies between the tropics, so the Sun passes directly overhead <b>twice a year</b>, and the noon shadow points sometimes north, sometimes south. North of the Tropic of Cancer the noon shadow <b>always points north</b>.',
+ t0_figtitle:'Thought experiment: what if the axis were NOT tilted? (latitude 40°N)',
+ t0_k1:'Flip the switch: day length locks at 12 h all year and the noon Sun never changes height — <b>no seasons!</b> Conclusion: <b>seasons = 23.5° axial tilt + revolution around the Sun</b>.',
+ cmp_title:'Equinoxes & Solstices',
+ ds_title:'Can distance explain seasons?',
+ ds_k1:'The two bars are almost the same length (~3% apart), and Earth is <b>closest during northern winter</b>. The hemispheres also have opposite seasons at the same moment. So: <b>distance is NOT the cause of seasons.</b>',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ tab5:'⑥ Quiz', dk_hint5:'💡 Answer correctly to unlock the next question',
+ dk_date:'Date', dk_lat:'Latitude', dk_year:'Play one year', dk_day:'Play one day',
+ dk_hint0:'💡 You can also drag Earth directly', dk_t0:'🌍 Untilted axis (what-if)',
+ dk_hint4:'💡 Flip the switch and watch both curves',
+ sn_ve:'Mar equinox', sn_ss:'Jun solstice', sn_ae:'Sep equinox', sn_ws:'Dec solstice',
+ lp_jb:'JB 1.5°N', lp_tc:'Tropic of Cancer', lp_ac:'Arctic Circle', lp_np:'North Pole', lp_bj:'40°N',
+ foot:'© 2026 ScienceMaterial',
+ sun:'Sun', earth:'Earth', dragme:'drag me', polaris:'✦ toward Polaris',
+ axis:'axis', peri:'Perihelion (early Jan) 147.1M km', aph:'Aphelion (early Jul) 152.1M km',
+ ve:'Mar equinox (Mar 21)', ss:'Jun solstice (Jun 21)', ae:'Sep equinox (Sep 23)', ws:'Dec solstice (Dec 21)',
+ nhemi:'N. hemisphere', shemi:'S. hemisphere',
+ sea0:'Spring', sea1:'Summer', sea2:'Autumn', sea3:'Winter',
+ dist:'Sun–Earth distance', sunlight:'Sunlight', equator:'Equator',
+ tropicN:'Tropic of Cancer 23.5°N', tropicS:'Tropic of Capricorn 23.5°S',
+ arcticN:'Arctic Circle 66.5°N', arcticS:'Antarctic Circle 66.5°S',
+ subsolar:'Subsolar point', terminator:'Terminator', npole:'N pole',
+ direct:'Direct · concentrated', slant:'Slanted · spread out',
+ midnightsun:'☀ Midnight sun', polarnight:'🌑 Polar night',
+ declab:'Subsolar latitude', evVE:'Equinox · Sun over equator', evSS:'Jun solstice · over Tropic of Cancer',
+ evAE:'Equinox · Sun over equator', evWS:'Dec solstice · over Tropic of Capricorn', evNone:'—',
+ daylen:'Day length', rise:'Sunrise', set:'Sunset', hourU:'h',
+ east:'East (sunrise)', west:'West (sunset)', timeaxis:'Time of day',
+ today:'Today', ssline:'Jun solstice', wsline:'Dec solstice', eqline:'Equator ref (12h all year)',
+ polday:'Midnight sun · never sets', polnight:'Polar night · never rises',
+ noonalt:'Noon sun altitude', shlen:'Shadow', stick:'1 m stick',
+ shN:'Shadow points N', shS:'Shadow points S', shNo:'✨ No shadow (Sun overhead)',
+ sunbelow:'Polar night: the Sun stays below the horizon even at noon',
+ ground:'Ground', formula:'α = 90° − |latitude − subsolar latitude|',
+ t0left:'Day length (hours)', t0right:'Noon altitude (°)',
+ t0real:'Tilt 23.5° (real)', t0zero:'No tilt (what-if)', noseason:'No seasons!',
+ dJan:'Early Jan (perihelion)', dJul:'Early Jul (aphelion)',
+ cmpH:['Event','Date','Subsolar point','N-hemis. day length','North / South season'],
+ cmpR:[['Mar equinox','~Mar 21','Equator','Day = night (12h)','Spring / Autumn'],
+       ['Jun solstice','~Jun 21','Tropic of Cancer 23.5°N','Longest day','Summer / Winter'],
+       ['Sep equinox','~Sep 23','Equator','Day = night (12h)','Autumn / Spring'],
+       ['Dec solstice','~Dec 21','Tropic of Capricorn 23.5°S','Shortest day','Winter / Summer']],
+ mon:'', deg:'°', cS:'S', cN:'N'
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function r2d(r){return r*180/Math.PI}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false});
+  svg.addEventListener('pointercancel',function(){down=false});
+}
+
+/* ================= astronomy math ================= */
+var MDAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
+var MEN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function decl(day){ return 23.44*Math.sin(2*Math.PI*(day-79)/365.25); }
+function dateStr(day){
+  var d=Math.floor(day)%365; if(d<0)d+=365;
+  var m=0; while(d>=MDAYS[m]){d-=MDAYS[m];m++}
+  return LANG==='en'?(MEN[m]+' '+(d+1)):((m+1)+'月'+(d+1)+'日');
+}
+function dayLenH(lat,dec){
+  var X=-Math.tan(d2r(lat))*Math.tan(d2r(dec));
+  if(X<=-1)return 24; if(X>=1)return 0;
+  return 24*Math.acos(X)/Math.PI;
+}
+function noonAlt(lat,dec){ return 90-Math.abs(lat-dec); }
+function distAU(day){ return 1-0.0167*Math.cos(2*Math.PI*(day-3)/365.25); }
+function fmtLat(v){
+  var a=Math.abs(v);
+  return (Math.round(a*10)/10)+'°'+(v>=0?'N':'S');
+}
+function seasonIdx(day,north){ // 0春1夏2秋3冬
+  var i;
+  if(day>=79&&day<171)i=0; else if(day>=171&&day<265)i=1;
+  else if(day>=265&&day<354)i=2; else i=3;
+  return north?i:(i+2)%4;
+}
+function hhmm(h){
+  var H=Math.floor(h),M=Math.round((h-H)*60);
+  if(M===60){H++;M=0}
+  return (H<10?'0':'')+H+':'+(M<10?'0':'')+M;
+}
+function stars(n,w,h,seed){
+  var s='',i,x,y,r=seed||7;
+  for(i=0;i<n;i++){
+    r=(r*16807)%2147483647; x=20+(r%1000)/1000*(w-40);
+    r=(r*16807)%2147483647; y=16+(r%1000)/1000*(h-60);
+    s+='<circle cx="'+Math.round(x)+'" cy="'+Math.round(y)+'" r="1.2" fill="#8FA0C9" opacity="0.7"/>';
+  }
+  return s;
+}
+
+
+/* ===== theme (light/dark for projector) ===== */
+var DARK=false;
+var THMAP={'#FFFDF7':'#1E2637','#B9AE95':'#66708A','#6B6252':'#5A605D','#26221B':'#EDE7D6',
+'#4B4437':'#D2CCBC','#8A8070':'#9AA2B4','#E3DCCB':'#39435C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<6;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  stopAllPlay();
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='ftconcl'||kb.id==='dtconcl')continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* shared state */
+var DAY=225, LAT=1.5, TOD=12;
+var YR={playing:false}, SKY={playing:false};
+var RAF=0;
+function stopAllPlay(){
+  if(RAF){cancelAnimationFrame(RAF);RAF=0}
+  YR.playing=false; SKY.playing=false;
+  $('orbplay').classList.remove('on');$('decplay').classList.remove('on');$('skyplay').classList.remove('on');
+}
+function setDay(v,skipRender){
+  DAY=clamp(v,0,364.99);
+  var sl=document.querySelectorAll('.dayr'),k;
+  for(k=0;k<sl.length;k++)sl[k].value=Math.round(DAY);
+  var lb=document.querySelectorAll('.daylab');
+  for(k=0;k<lb.length;k++)lb[k].textContent=dateStr(DAY);
+  if(!skipRender){RENDER[CUR]();updSummary();}
+}
+function setLat(v,skipRender){
+  LAT=clamp(v,-90,90);
+  var sl=document.querySelectorAll('.latr'),k;
+  for(k=0;k<sl.length;k++)sl[k].value=LAT;
+  var lb=document.querySelectorAll('.latlab');
+  for(k=0;k<lb.length;k++)lb[k].textContent=fmtLat(LAT);
+  if(!skipRender){RENDER[CUR]();updSummary();}
+}
+
+/* small year-curve chart: draws into an svg 330x260 */
+function yearCurve(el,fn,ymin,ymax,refs,fmtY,colour,extra){
+  var L=42,Rr=316,Tt=18,B=222,k,d,v,s='';
+  function X(day){return L+(day/364)*(Rr-L)}
+  function Y(val){return B-(val-ymin)/(ymax-ymin)*(B-Tt)}
+  s+='<rect x="0" y="0" width="330" height="260" fill="#FFFDF7"/>';
+  s+='<line x1="'+L+'" y1="'+Tt+'" x2="'+L+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  s+='<line x1="'+L+'" y1="'+B+'" x2="'+Rr+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  var mm=[0,90,181,273,364],ml=['1','4','7','10','12'];
+  for(k=0;k<mm.length;k++){
+    s+='<line x1="'+Math.round(X(mm[k]))+'" y1="'+B+'" x2="'+Math.round(X(mm[k]))+'" y2="'+(B+4)+'" stroke="#B9AE95" stroke-width="2"/>';
+    s+=tlplain(X(mm[k]),B+18,13,'#6B6252',ml[k]+(LANG==='en'?'':'月'));
+  }
+  for(k=0;k<refs.length;k++){
+    var yy=Math.round(Y(refs[k].v));
+    s+='<line x1="'+L+'" y1="'+yy+'" x2="'+Rr+'" y2="'+yy+'" stroke="'+(refs[k].c||'#B9AE95')+'" stroke-width="1.5" stroke-dasharray="5 4"/>';
+    if(refs[k].t)s+=tlplain(L-5,yy+4,13,refs[k].c||'#6B6252',refs[k].t,'end');
+  }
+  var p='';
+  for(d=0;d<=364;d+=4){
+    v=fn(d);
+    p+=(d===0?'M':'L')+X(d).toFixed(1)+' '+Y(v).toFixed(1)+' ';
+  }
+  s+='<path d="'+p+'" fill="none" stroke="'+colour+'" stroke-width="3"/>';
+  if(extra)s+=extra(X,Y);
+  var cv=fn(DAY);
+  s+='<circle cx="'+X(DAY).toFixed(1)+'" cy="'+Y(cv).toFixed(1)+'" r="6" fill="'+colour+'" stroke="#26221B" stroke-width="2"/>';
+  s+=tl(clamp(X(DAY),L+30,Rr-30),clamp(Y(cv)-14,30,B-8),14,'#26221B',fmtY(cv));
+  el.innerHTML=PAINT(s);
+}
+
+/* ================= TAB 0 · ORBIT ================= */
+var ORB={cx:318,cy:278,A:232,B:196,soff:26,re:17};
+var CARD=[{d:79,k:'ve'},{d:171,k:'ss'},{d:265,k:'ae'},{d:354,k:'ws'}];
+function orbTheta(day){ return 180+(day-3)/365.25*360; }
+function orbPos(day){
+  var th=d2r(orbTheta(day));
+  return {x:ORB.cx+ORB.A*Math.cos(th), y:ORB.cy-ORB.B*Math.sin(th)};
+}
+function miniEarth(x,y,r,sunx,suny,withAxis){
+  var s='';
+  var ps=Math.atan2(suny-y,sunx-x); // angle earth->sun
+  s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="#3E7BB6" stroke="#DCE9F0" stroke-width="1.5"/>';
+  // night half: semicircle facing away from sun
+  var a1=ps+Math.PI/2, a2=ps-Math.PI/2;
+  s+='<path d="M '+(x+r*Math.cos(a1)).toFixed(1)+' '+(y+r*Math.sin(a1)).toFixed(1)+
+     ' A '+r+' '+r+' 0 0 1 '+(x+r*Math.cos(a2)).toFixed(1)+' '+(y+r*Math.sin(a2)).toFixed(1)+' Z" fill="#0B0D16" opacity="0.62"/>';
+  if(withAxis){
+    // axis fixed screen direction: leaning to upper-left, 23.5 deg from vertical
+    var ax=-Math.sin(d2r(23.5)), ay=-Math.cos(d2r(23.5)), L=r+9;
+    s+='<line x1="'+(x-ax*L*0.7).toFixed(1)+'" y1="'+(y-ay*L*0.7).toFixed(1)+
+       '" x2="'+(x+ax*L).toFixed(1)+'" y2="'+(y+ay*L).toFixed(1)+
+       '" stroke="#F0E7D2" stroke-width="2.5"/>';
+    s+='<circle cx="'+(x+ax*L).toFixed(1)+'" cy="'+(y+ay*L).toFixed(1)+'" r="3" fill="#DA9526"/>';
+  }
+  return s;
+}
+function drawORB(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="540" rx="14" fill="#141C33"/>';
+  s+=stars(34,660,540,11);
+  // polaris direction star, upper-left
+  s+=tlplain(96,34,15,'#F0E7D2',T('polaris'),'start');
+  // orbit ellipse
+  s+='<ellipse cx="'+ORB.cx+'" cy="'+ORB.cy+'" rx="'+ORB.A+'" ry="'+ORB.B+'" fill="none" stroke="#6E7BA3" stroke-width="2" stroke-dasharray="7 6"/>';
+  // sun (offset toward perihelion side = left)
+  var sx=ORB.cx-ORB.soff, sy=ORB.cy;
+  s+='<circle cx="'+sx+'" cy="'+sy+'" r="34" fill="#F5C445"/><circle cx="'+sx+'" cy="'+sy+'" r="42" fill="#F5C445" opacity="0.25"/>';
+  s+=tl(sx,sy+62,15,'#F5C445',T('sun'));
+  // perihelion / aphelion ticks
+  s+='<line x1="'+(ORB.cx-ORB.A)+'" y1="'+(ORB.cy-8)+'" x2="'+(ORB.cx-ORB.A)+'" y2="'+(ORB.cy+8)+'" stroke="#DA9526" stroke-width="3"/>';
+  s+=tl(ORB.cx-ORB.A+6,ORB.cy+30,13,'#DA9526',T('peri'),'start');
+  s+='<line x1="'+(ORB.cx+ORB.A)+'" y1="'+(ORB.cy-8)+'" x2="'+(ORB.cx+ORB.A)+'" y2="'+(ORB.cy+8)+'" stroke="#7FB4C9" stroke-width="3"/>';
+  s+=tl(ORB.cx+ORB.A-6,ORB.cy+30,13,'#7FB4C9',T('aph'),'end');
+  // 4 cardinal ghost earths with parallel axes + labels
+  for(k=0;k<4;k++){
+    var p=orbPos(CARD[k].d);
+    s+='<g opacity="0.85">'+miniEarth(p.x,p.y,10,sx,sy,true)+'</g>';
+    var lx=clamp(ORB.cx+(p.x-ORB.cx)*1.24,72,588), ly=clamp(ORB.cy+(p.y-ORB.cy)*1.26,32,520);
+    s+=tl(lx,ly+5,14,'#F0E7D2',T(CARD[k].k));
+  }
+  // draggable earth
+  var e=orbPos(DAY);
+  s+='<circle cx="'+e.x.toFixed(1)+'" cy="'+e.y.toFixed(1)+'" r="'+(ORB.re+9)+'" fill="#3E7BB6" opacity="0.18"/>';
+  s+=miniEarth(e.x,e.y,ORB.re,sx,sy,true);
+  s+=tl(e.x,e.y+ORB.re+24,14,'#7FB4C9',T('earth')+' · '+T('dragme'));
+  s+=tl(e.x,e.y-ORB.re-16,14,'#F0E7D2',dateStr(DAY));
+  $('svgorb').innerHTML=PAINT(s);
+  // side chips
+  $('c_date0').textContent=dateStr(DAY);
+  var au=distAU(DAY);
+  $('c_dist').textContent=T('dist')+' '+(au*1.496).toFixed(3)+(LANG==='en'?'×10⁸ km':' 亿km');
+  $('c_ns').textContent=T('nhemi')+'：'+T('sea'+seasonIdx(DAY,true));
+  $('c_ss').textContent=T('shemi')+'：'+T('sea'+seasonIdx(DAY,false));
+}
+function initORB(){
+  makeDrag($('svgorb'),660,540,function(pt){
+    var th=r2d(Math.atan2(-(pt.y-ORB.cy)/ORB.B,(pt.x-ORB.cx)/ORB.A));
+    var day=(th-180)/360*365.25+3;
+    day=((day%365)+365)%365;
+    for(var k=0;k<4;k++){ if(Math.abs(day-CARD[k].d)<5)day=CARD[k].d; }
+    setDay(day);
+  });
+}
+/* ================= TAB 1 · SUBSOLAR POINT ================= */
+var DEC={cx:402,cy:243,R:152};
+function latChord(lambda,t){
+  // returns endpoints of latitude line lambda (deg) with apparent tilt t (deg)
+  var n={x:-Math.sin(d2r(t)),y:-Math.cos(d2r(t))};
+  var p={x:Math.cos(d2r(t)),y:-Math.sin(d2r(t))};
+  var off=DEC.R*Math.sin(d2r(lambda)), half=DEC.R*Math.cos(d2r(lambda));
+  var mx=DEC.cx+n.x*off, my=DEC.cy+n.y*off;
+  return {x1:mx-p.x*half,y1:my-p.y*half,x2:mx+p.x*half,y2:my+p.y*half,n:n,p:p};
+}
+function eventChip(day){
+  for(var k=0;k<4;k++){
+    if(Math.abs(day-CARD[k].d)<3){
+      return T(['evVE','evSS','evAE','evWS'][k]);
+    }
+  }
+  return T('evNone');
+}
+function drawDEC(){
+  var s='',k,t=decl(DAY);
+  s+='<rect x="0" y="0" width="660" height="480" rx="14" fill="#141C33"/>';
+  s+=stars(26,660,480,23);
+  // parallel sun rays from the left
+  for(k=0;k<4;k++){
+    var ry=88+k*104;
+    s+='<line x1="14" y1="'+ry+'" x2="150" y2="'+ry+'" stroke="#F5C445" stroke-width="3"/>';
+    s+='<path d="M 150 '+ry+' l -13 -6 v 12 Z" fill="#F5C445"/>';
+  }
+  s+=tl(60,52,15,'#F5C445',T('sunlight'),'start');
+  // earth body
+  s+='<circle cx="'+DEC.cx+'" cy="'+DEC.cy+'" r="'+DEC.R+'" fill="#3E7BB6" stroke="#DCE9F0" stroke-width="2.5"/>';
+  // latitude lines
+  var eq=latChord(0,t);
+  s+='<line x1="'+eq.x1.toFixed(1)+'" y1="'+eq.y1.toFixed(1)+'" x2="'+eq.x2.toFixed(1)+'" y2="'+eq.y2.toFixed(1)+'" stroke="#F0E7D2" stroke-width="2.5"/>';
+  var lats=[{v:23.44,k:'tropicN',c:'#DA9526'},{v:-23.44,k:'tropicS',c:'#DA9526'},
+            {v:66.56,k:'arcticN',c:'#7FB4C9'},{v:-66.56,k:'arcticS',c:'#7FB4C9'}];
+  for(k=0;k<lats.length;k++){
+    var L=latChord(lats[k].v,t);
+    s+='<line x1="'+L.x1.toFixed(1)+'" y1="'+L.y1.toFixed(1)+'" x2="'+L.x2.toFixed(1)+'" y2="'+L.y2.toFixed(1)+'" stroke="'+lats[k].c+'" stroke-width="2" stroke-dasharray="6 5"/>';
+    s+=tl(L.x2+8,L.y2+5,13,lats[k].c,T(lats[k].k),'start');
+  }
+  s+=tl(eq.x2+8,eq.y2+5,13,'#F0E7D2',T('equator'),'start');
+  // axis
+  var n={x:-Math.sin(d2r(t)),y:-Math.cos(d2r(t))};
+  s+='<line x1="'+(DEC.cx-n.x*(DEC.R+18)).toFixed(1)+'" y1="'+(DEC.cy-n.y*(DEC.R+18)).toFixed(1)+
+     '" x2="'+(DEC.cx+n.x*(DEC.R+30)).toFixed(1)+'" y2="'+(DEC.cy+n.y*(DEC.R+30)).toFixed(1)+
+     '" stroke="#F0E7D2" stroke-width="3"/>';
+  s+=tl(DEC.cx+n.x*(DEC.R+30),DEC.cy+n.y*(DEC.R+30)-10,14,'#F0E7D2',T('npole'));
+  // night half (right of vertical terminator) clipped to circle
+  s+='<path d="M '+DEC.cx+' '+(DEC.cy-DEC.R)+' A '+DEC.R+' '+DEC.R+' 0 0 1 '+DEC.cx+' '+(DEC.cy+DEC.R)+' Z" fill="#0B0D16" opacity="0.6"/>';
+  s+='<line x1="'+DEC.cx+'" y1="'+(DEC.cy-DEC.R-8)+'" x2="'+DEC.cx+'" y2="'+(DEC.cy+DEC.R+8)+'" stroke="#8FA0C9" stroke-width="2" stroke-dasharray="5 5"/>';
+  s+=tl(DEC.cx,DEC.cy+DEC.R+26,14,'#8FA0C9',T('terminator'));
+  // direct ray onto subsolar point (always the leftmost limb point)
+  var px=DEC.cx-DEC.R, py=DEC.cy;
+  s+='<line x1="'+(px-104)+'" y1="'+py+'" x2="'+(px-14)+'" y2="'+py+'" stroke="#D9542B" stroke-width="5"/>';
+  s+='<path d="M '+(px-6)+' '+py+' l -16 -8 v 16 Z" fill="#D9542B"/>';
+  s+='<circle cx="'+px+'" cy="'+py+'" r="8" fill="#D9542B" stroke="#FFFFFF" stroke-width="2.5"/>';
+  s+=tl(px-58,py-16,15,'#D9542B',T('subsolar')+' '+fmtLat(t));
+  s+=tl(px-58,py+30,13,'#F5C445',T('direct'));
+  // slanted-ray demo at high latitude
+  var hi=latChord(62,t);
+  s+='<line x1="'+(hi.x1-74).toFixed(1)+'" y1="'+hi.y1.toFixed(1)+'" x2="'+(hi.x1-10).toFixed(1)+'" y2="'+hi.y1.toFixed(1)+'" stroke="#F5C445" stroke-width="3"/>';
+  s+='<path d="M '+(hi.x1-4).toFixed(1)+' '+hi.y1.toFixed(1)+' l -12 -6 v 12 Z" fill="#F5C445"/>';
+  s+=tl(hi.x1-40,hi.y1-14,13,'#F5C445',T('slant'));
+  // polar day / night badges
+  if(t>1){
+    var np=latChord(84,t), sp=latChord(-84,t);
+    s+=tl((np.x1+np.x2)/2,(np.y1+np.y2)/2-14,14,'#F5C445',T('midnightsun'));
+    s+=tl((sp.x1+sp.x2)/2,(sp.y1+sp.y2)/2+22,14,'#8FA0C9',T('polarnight'));
+  }else if(t<-1){
+    var np2=latChord(84,t), sp2=latChord(-84,t);
+    s+=tl((np2.x1+np2.x2)/2,(np2.y1+np2.y2)/2-14,14,'#8FA0C9',T('polarnight'));
+    s+=tl((sp2.x1+sp2.x2)/2,(sp2.y1+sp2.y2)/2+22,14,'#F5C445',T('midnightsun'));
+  }
+  s+=tl(DEC.cx+DEC.R-34,52,15,'#F0E7D2',dateStr(DAY));
+  $('svgdec').innerHTML=PAINT(s);
+  $('c_date1').textContent=dateStr(DAY);
+  $('c_dec').textContent=T('declab')+' '+fmtLat(t);
+  $('c_event').textContent=eventChip(DAY);
+}
+function drawDECside(){
+  yearCurve($('svgdecside'),decl,-30,30,
+    [{v:23.44,t:'23.5°N',c:'#DA9526'},{v:0,t:'0°',c:'#B9AE95'},{v:-23.44,t:'23.5°S',c:'#DA9526'}],
+    function(v){return fmtLat(v)},'#D9542B');
+}
+function drawDECall(){drawDEC();drawDECside();}
+function initDEC(){
+  makeDrag($('svgdec'),660,480,function(pt){
+    setDay(clamp((pt.x-30)/600,0,1)*364);
+  });
+}
+
+/* ================= TAB 2 · SUN PATH & DAY LENGTH ================= */
+var SKC={hx0:40,hx1:620,hor:356};
+function skyX(hour){return SKC.hx0+hour/24*(SKC.hx1-SKC.hx0)}
+function skyAlt(hour,lat,dec){
+  var H=d2r((hour-12)*15);
+  var sA=Math.sin(d2r(lat))*Math.sin(d2r(dec))+Math.cos(d2r(lat))*Math.cos(d2r(dec))*Math.cos(H);
+  return r2d(Math.asin(clamp(sA,-1,1)));
+}
+function skyArcPath(lat,dec){
+  var p='',pen=false,h,a,x,y;
+  for(h=0;h<=24.001;h+=0.25){
+    a=skyAlt(h,lat,dec);
+    if(a<=0){pen=false;continue}
+    x=skyX(h); y=SKC.hor-a/90*300;
+    p+=(pen?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';
+    pen=true;
+  }
+  return p;
+}
+function mixC(h1,h2,f){
+  function c(h,i){return parseInt(h.substr(i,2),16)}
+  function p(v){v=Math.round(clamp(v,0,255));var t=v.toString(16);return t.length<2?'0'+t:t}
+  return '#'+p(c(h1,1)+(c(h2,1)-c(h1,1))*f)+p(c(h1,3)+(c(h2,3)-c(h1,3))*f)+p(c(h1,5)+(c(h2,5)-c(h1,5))*f);
+}
+function drawSKY(){
+  var s='',dec=decl(DAY);
+  // day/night atmosphere: blend everything by the sun's CURRENT altitude
+  var aNow=skyAlt(TOD,LAT,dec);
+  var dayf=clamp((aNow+9)/18,0,1);   // 1 = full day, 0 = deep night (civil-twilight band blends)
+  var skyC=mixC('#0F172E','#E9F2F8',dayf);
+  var gndC=mixC('#222A3E','#DDE5CD',dayf);
+  var horC=mixC('#46506B','#8A9B6E',dayf);
+  var inkc=dayf>0.45?'#4B4437':'#D5DEEF';
+  var tickc=dayf>0.45?'#6B6252':'#9AA6C4';
+  var obc=dayf>0.45?'#26221B':'#E8EDF7';
+  s+='<rect x="0" y="0" width="660" height="440" rx="14" fill="'+skyC+'"/>';
+  if(dayf<0.6){
+    s+='<g opacity="'+(1-dayf/0.6).toFixed(2)+'">'+stars(30,660,330,41)+'</g>';
+  }
+  if(dayf<0.4){
+    var mo=(1-dayf/0.4).toFixed(2);
+    s+='<g opacity="'+mo+'"><circle cx="560" cy="72" r="15" fill="#EDE8DA"/><circle cx="567" cy="66" r="13" fill="'+skyC+'"/></g>';
+  }
+  s+='<rect x="0" y="'+SKC.hor+'" width="660" height="'+(440-SKC.hor)+'" fill="'+gndC+'"/>';
+  s+='<line x1="0" y1="'+SKC.hor+'" x2="660" y2="'+SKC.hor+'" stroke="'+horC+'" stroke-width="2.5"/>';
+  // hour axis
+  var hh=[0,6,12,18,24],k;
+  for(k=0;k<hh.length;k++){
+    s+='<line x1="'+Math.round(skyX(hh[k]))+'" y1="'+SKC.hor+'" x2="'+Math.round(skyX(hh[k]))+'" y2="'+(SKC.hor+7)+'" stroke="'+tickc+'" stroke-width="2"/>';
+    s+=tlplain(skyX(hh[k]),SKC.hor+24,13,inkc,hh[k]+':00');
+  }
+  s+=tlplain(330,SKC.hor+44,13,tickc,T('timeaxis'));
+  s+=tl(56,SKC.hor-10,14,inkc,T('east'),'start');
+  s+=tl(604,SKC.hor-10,14,inkc,T('west'),'end');
+  // reference arcs: june & december solstices
+  s+='<path d="'+skyArcPath(LAT,23.44)+'" fill="none" stroke="#D9542B" stroke-width="2.5" stroke-dasharray="7 6" opacity="0.75"/>';
+  s+='<path d="'+skyArcPath(LAT,-23.44)+'" fill="none" stroke="#2C7D8C" stroke-width="2.5" stroke-dasharray="7 6" opacity="0.75"/>';
+  // today's arc
+  var L=dayLenH(LAT,dec);
+  if(L>0.05){
+    s+='<path d="'+skyArcPath(LAT,dec)+'" fill="none" stroke="#DA9526" stroke-width="5"/>';
+  }
+  // legend
+  s+=tl(52,36,14,'#DA9526',T('today')+' · '+dateStr(DAY),'start');
+  s+=tl(52,60,13,'#D9542B',T('ssline'),'start');
+  s+=tl(52,82,13,'#2C7D8C',T('wsline'),'start');
+  // polar badges
+  if(L<=0.05){ s+=tl(330,180,22,'#8FA0C9',T('polnight')); }
+  else if(L>=23.95){ s+=tl(330,52,17,'#D9542B',T('polday')); }
+  // sun at TOD
+  var a=aNow;
+  if(L>0.05&&a>0){
+    var sx=skyX(TOD),sy=SKC.hor-a/90*300;
+    s+='<circle cx="'+sx.toFixed(1)+'" cy="'+sy.toFixed(1)+'" r="15" fill="#F5C445" stroke="#DA9526" stroke-width="3"/>';
+    s+=tl(sx,sy-24,13,'#26221B',hhmm(TOD)+' · '+Math.round(a)+'°');
+  }else if(L>0.05){
+    // sun below the horizon: faint ghost so students see where it is
+    var gx=skyX(TOD),gy=SKC.hor+clamp(-a,0,90)/90*70+14;
+    s+='<g opacity="0.35"><circle cx="'+gx.toFixed(1)+'" cy="'+gy.toFixed(1)+'" r="12" fill="#F5C445"/></g>';
+    s+=tl(gx,SKC.hor+(LANG==='en'?24:24)+40,13,'#9AA6C4',hhmm(TOD));
+  }
+  // observer figure
+  s+='<circle cx="330" cy="'+(SKC.hor-26)+'" r="7" fill="'+obc+'"/>';
+  s+='<line x1="330" y1="'+(SKC.hor-19)+'" x2="330" y2="'+(SKC.hor-4)+'" stroke="'+obc+'" stroke-width="3.5"/>';
+  s+='<line x1="330" y1="'+(SKC.hor-4)+'" x2="323" y2="'+SKC.hor+'" stroke="'+obc+'" stroke-width="3.5"/>';
+  s+='<line x1="330" y1="'+(SKC.hor-4)+'" x2="337" y2="'+SKC.hor+'" stroke="'+obc+'" stroke-width="3.5"/>';
+  s+=tl(330,SKC.hor+24,13,obc,fmtLat(LAT));
+  // sunrise/sunset markers
+  if(L>0.05&&L<23.95){
+    var rz=12-L/2, st=12+L/2;
+    s+='<path d="M '+skyX(rz).toFixed(1)+' '+SKC.hor+' l -7 12 h 14 Z" fill="#DA9526"/>';
+    s+='<path d="M '+skyX(st).toFixed(1)+' '+SKC.hor+' l -7 12 h 14 Z" fill="#DA9526"/>';
+  }
+  $('svgsky').innerHTML=PAINT(s);
+  // chips
+  $('c_dl').textContent=T('daylen')+' '+L.toFixed(1)+' '+T('hourU');
+  if(L>0.05&&L<23.95){
+    $('c_rise').textContent=T('rise')+' '+hhmm(12-L/2);
+    $('c_set').textContent=T('set')+' '+hhmm(12+L/2);
+    $('c_rise').style.display='';$('c_set').style.display='';
+    $('c_pol').style.display='none';
+  }else{
+    $('c_rise').style.display='none';$('c_set').style.display='none';
+    $('c_pol').style.display='';
+    $('c_pol').textContent=(L<=0.05)?T('polnight'):T('polday');
+  }
+}
+function drawSKYside(){
+  yearCurve($('svgskyside'),function(d){return dayLenH(LAT,decl(d))},0,24,
+    [{v:12,t:'12h',c:'#B9AE95'}],
+    function(v){return v.toFixed(1)+T('hourU')},'#DA9526');
+}
+function drawSKYall(){drawSKY();drawSKYside();}
+function initSKY(){
+  makeDrag($('svgsky'),660,440,function(pt){
+    TOD=clamp((pt.x-SKC.hx0)/(SKC.hx1-SKC.hx0),0,1)*24;
+    drawSKY();updSummary();
+  });
+}
+/* ================= TAB 3 · NOON SUN & SHADOW ================= */
+var SHC={gx:400,gy:360,h:110};
+function drawSH(){
+  var s='',dec=decl(DAY),alt=noonAlt(LAT,dec);
+  var night=alt<=0;
+  s+='<rect x="0" y="0" width="660" height="440" rx="14" fill="'+(night?'#25304E':'#E9F2F8')+'"/>';
+  s+='<rect x="0" y="'+SHC.gy+'" width="660" height="'+(440-SHC.gy)+'" fill="'+(night?'#3A4258':'#DDE5CD')+'"/>';
+  s+='<line x1="0" y1="'+SHC.gy+'" x2="660" y2="'+SHC.gy+'" stroke="'+(night?'#5A6480':'#8A9B6E')+'" stroke-width="2.5"/>';
+  // compass
+  var inkc=night?'#DCE9F0':'#4B4437';
+  s+=tl(30,SHC.gy+26,15,inkc,T('cS'),'start');
+  s+=tl(630,SHC.gy+26,15,inkc,T('cN'),'end');
+  s+=tl(330,36,15,inkc,dateStr(DAY)+' · '+fmtLat(LAT));
+  // formula with numbers
+  s+=tl(330,64,14,night?'#8FA0C9':'#2C7D8C','α = 90° − |'+fmtLat(LAT)+' − '+fmtLat(dec)+'| = '+(Math.round(alt*10)/10)+'°');
+  // gnomon stick
+  s+='<line x1="'+SHC.gx+'" y1="'+SHC.gy+'" x2="'+SHC.gx+'" y2="'+(SHC.gy-SHC.h)+'" stroke="#8A5A2B" stroke-width="7"/>';
+  s+='<circle cx="'+SHC.gx+'" cy="'+(SHC.gy-SHC.h)+'" r="5" fill="#8A5A2B"/>';
+  s+=tl(SHC.gx+14,SHC.gy-SHC.h-8,13,inkc,T('stick'),'start');
+  // 1m ruler ticks
+  var k;
+  for(k=-2;k<=2;k++){
+    if(k===0)continue;
+    var tx=SHC.gx+k*SHC.h;
+    s+='<line x1="'+tx+'" y1="'+SHC.gy+'" x2="'+tx+'" y2="'+(SHC.gy+8)+'" stroke="'+(night?'#5A6480':'#8A9B6E')+'" stroke-width="2"/>';
+    s+=tlplain(tx,SHC.gy+24,12,night?'#8FA0C9':'#6B6252',Math.abs(k)+'m');
+  }
+  if(night){
+    s+=tl(330,190,20,'#8FA0C9',T('sunbelow'));
+  }else{
+    var overhead=Math.abs(LAT-dec)<0.5;
+    var side=(LAT>=dec)?-1:1; // -1: sun south(left); +1: sun north(right)
+    var ta=d2r(clamp(alt,3,90));
+    var topy=SHC.gy-SHC.h;
+    var sunx=overhead?SHC.gx:SHC.gx+side*250*Math.cos(ta);
+    var suny=overhead?(topy-250):(topy-250*Math.sin(ta));
+    suny=Math.max(suny,26);
+    // shadow
+    if(!overhead){
+      var sl=SHC.h/Math.tan(d2r(Math.max(alt,3)));
+      var cap=Math.min(sl,245);
+      var tipx=SHC.gx-side*cap;
+      s+='<line x1="'+SHC.gx+'" y1="'+(SHC.gy+2)+'" x2="'+tipx.toFixed(1)+'" y2="'+(SHC.gy+2)+'" stroke="#26221B" stroke-width="9" opacity="0.55" stroke-linecap="round"/>';
+      // ray from sun through stick top to shadow tip
+      s+='<line x1="'+sunx.toFixed(1)+'" y1="'+suny.toFixed(1)+'" x2="'+tipx.toFixed(1)+'" y2="'+SHC.gy+'" stroke="#DA9526" stroke-width="2.5" stroke-dasharray="7 6"/>';
+      // altitude arc at shadow tip
+      s+=tl(tipx+(side<0?26:-26),SHC.gy-12,14,night?'#F5C445':'#D9542B','α='+(Math.round(alt))+'°');
+      if(sl>245){
+        s+=tl(tipx+(side<0?6:-6),SHC.gy+46,13,'#D9542B',(side<0?'→':'←')+' '+ (LANG==='en'?'very long...':'影子非常长…'),(side<0?'start':'end'));
+      }
+    }else{
+      s+='<line x1="'+sunx+'" y1="'+suny.toFixed(1)+'" x2="'+SHC.gx+'" y2="'+topy+'" stroke="#DA9526" stroke-width="2.5" stroke-dasharray="7 6"/>';
+      s+=tl(SHC.gx,SHC.gy+44,15,'#2F7D4F',T('shNo'));
+    }
+    // sun icon
+    s+='<circle cx="'+sunx.toFixed(1)+'" cy="'+suny.toFixed(1)+'" r="20" fill="#F5C445" stroke="#DA9526" stroke-width="3"/>';
+    for(k=0;k<8;k++){
+      var ra=k*Math.PI/4;
+      s+='<line x1="'+(sunx+26*Math.cos(ra)).toFixed(1)+'" y1="'+(suny+26*Math.sin(ra)).toFixed(1)+
+         '" x2="'+(sunx+34*Math.cos(ra)).toFixed(1)+'" y2="'+(suny+34*Math.sin(ra)).toFixed(1)+
+         '" stroke="#DA9526" stroke-width="3"/>';
+    }
+  }
+  $('svgsh').innerHTML=PAINT(s);
+  // chips
+  $('c_alt').textContent=T('noonalt')+' '+(alt<=0?'—':(Math.round(alt*10)/10)+'°');
+  if(alt<=0){
+    $('c_sh').textContent=T('shlen')+' —';
+    $('c_dir').textContent=T('polnight');
+  }else if(Math.abs(LAT-decl(DAY))<0.5){
+    $('c_sh').textContent=T('shlen')+' 0 m';
+    $('c_dir').textContent=T('shNo');
+  }else{
+    var sm=1/Math.tan(d2r(alt));
+    $('c_sh').textContent=T('shlen')+' '+(sm>99?'>99':sm.toFixed(2))+' m';
+    $('c_dir').textContent=(LAT>=decl(DAY))?T('shN'):T('shS');
+  }
+}
+function drawSHside(){
+  yearCurve($('svgshside'),function(d){return noonAlt(LAT,decl(d))},-25,95,
+    [{v:90,t:'90°',c:'#2F7D4F'},{v:0,t:'0°',c:'#B9AE95'}],
+    function(v){return Math.round(v)+'°'},'#2C7D8C');
+}
+function drawSHall(){drawSH();drawSHside();}
+function initSH(){
+  makeDrag($('svgsh'),660,440,function(pt){
+    setDay(clamp((pt.x-30)/600,0,1)*364);
+  });
+}
+
+/* ================= TAB 4 · REVIEW & QUIZ ================= */
+var TT0={on:false};
+function miniChartT0(s,x0,fn,flat,ymin,ymax,titleKey,colour){
+  var L=x0+46,Rr=x0+296,Tt=44,B=246,d,v;
+  s.v+='<line x1="'+L+'" y1="'+Tt+'" x2="'+L+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  s.v+='<line x1="'+L+'" y1="'+B+'" x2="'+Rr+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  s.v+=tlplain((L+Rr)/2,28,14,'#26221B',T(titleKey));
+  function X(day){return L+(day/364)*(Rr-L)}
+  function Y(val){return B-(val-ymin)/(ymax-ymin)*(B-Tt)}
+  var mm=[0,181,364],ml=['1','7','12'],k;
+  for(k=0;k<mm.length;k++){
+    s.v+=tlplain(X(mm[k]),B+16,12,'#6B6252',ml[k]+(LANG==='en'?'':'月'));
+  }
+  var p='';
+  for(d=0;d<=364;d+=5){v=fn(d);p+=(d===0?'M':'L')+X(d).toFixed(1)+' '+Y(v).toFixed(1)+' '}
+  s.v+='<path d="'+p+'" fill="none" stroke="'+colour+'" stroke-width="3"/>';
+  if(TT0.on){
+    var fy=Math.round(Y(flat));
+    s.v+='<line x1="'+L+'" y1="'+fy+'" x2="'+Rr+'" y2="'+fy+'" stroke="#6B6252" stroke-width="3" stroke-dasharray="8 6"/>';
+  }
+}
+function drawT0(){
+  var s={v:''};
+  s.v+='<rect x="0" y="0" width="660" height="300" fill="#FFFDF7"/>';
+  miniChartT0(s,10,function(d){return dayLenH(40,decl(d))},12,0,24,'t0left','#DA9526');
+  miniChartT0(s,340,function(d){return noonAlt(40,decl(d))},50,0,90,'t0right','#2C7D8C');
+  s.v+=tl(330,286,13,'#6B6252',(TT0.on?'— — ':'▬ ')+T(TT0.on?'t0zero':'t0real'));
+  if(TT0.on)s.v+=tl(330,160,24,'#D9542B',T('noseason'));
+  $('svgt0').innerHTML=PAINT(s.v);
+}
+function drawDist(){
+  var s='',b1=1.471/1.6*300,b2=1.521/1.6*300;
+  s+='<rect x="0" y="0" width="330" height="130" fill="#FFFDF7"/>';
+  s+=tlplain(10,30,13,'#4B4437',T('dJan'),'start');
+  s+='<rect x="10" y="38" width="'+Math.round(b1)+'" height="18" rx="4" fill="#2C7D8C"/>';
+  s+=tl(14+b1,52,13,'#2C7D8C','1.471','start');
+  s+=tlplain(10,86,13,'#4B4437',T('dJul'),'start');
+  s+='<rect x="10" y="94" width="'+Math.round(b2)+'" height="18" rx="4" fill="#D9542B"/>';
+  s+=tl(14+b2,108,13,'#D9542B','1.521','start');
+  $('svgdist').innerHTML=PAINT(s);
+}
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=PAINT(h);
+}
+
+/* ---- quiz ---- */
+var QZpick=[];
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. The MAIN cause of the four seasons is…',o:[
+    ['Earth\u2019s changing distance from the Sun',0,'Distance only varies ~3%, and we are closest in January — northern winter!'],
+    ['The tilted axis + revolution around the Sun',1,'Correct! The 23.5° tilt makes the subsolar point migrate between the tropics.'],
+    ['The Sun getting brighter and dimmer',0,'The Sun\u2019s output is essentially steady on this timescale.'],
+    ['Earth spinning faster and slower',0,'Rotation speed is constant — it gives us day and night, not seasons.']]},
+   {q:'2. When is Earth CLOSEST to the Sun?',o:[
+    ['July — that\u2019s why it\u2019s hot',0,'Opposite! Early July is aphelion, the farthest point.'],
+    ['Early January (northern winter)',1,'Yes — perihelion is in early January. Clear proof distance doesn\u2019t cause seasons.'],
+    ['At the equinoxes',0,'Equinoxes are about the subsolar point, not distance.'],
+    ['The distance never changes',0,'It changes slightly (~3%) — closest in January.']]},
+   {q:'3. On the June solstice (~Jun 21), the Sun is directly overhead at…',o:[
+    ['The equator',0,'That happens at the equinoxes.'],
+    ['The Tropic of Cancer (23.5°N)',1,'Correct — the subsolar point reaches its northernmost limit.'],
+    ['The Tropic of Capricorn (23.5°S)',0,'That is the December solstice.'],
+    ['The Arctic Circle (66.5°N)',0,'The subsolar point never leaves the tropics!']]},
+   {q:'4. Johor Bahru is at about 1.5°N. Through the year, its day length…',o:[
+    ['Is much longer in June than December',0,'Near the equator the difference is only a few minutes.'],
+    ['Stays close to 12 hours all year',1,'Correct — near the equator, day ≈ night all year, so seasons are weak.'],
+    ['Includes weeks of midnight sun',0,'Midnight sun only happens inside the polar circles.'],
+    ['Is longest in December',0,'That would apply to mid/high SOUTHERN latitudes, not 1.5°N.']]},
+   {q:'5. When the northern hemisphere has winter, the southern hemisphere has…',o:[
+    ['Winter too',0,'The hemispheres are opposite — one leans toward the Sun while the other leans away.'],
+    ['Summer',1,'Correct — opposite seasons, which the distance theory can never explain.'],
+    ['Spring',0,'Not spring — the seasons are directly opposite.'],
+    ['The same season everywhere',0,'Only the two equinox moments are symmetric — seasons are opposite.']]},
+   {q:'6. Midnight sun and polar night can only occur…',o:[
+    ['Near the equator',0,'The equator has ~12 h days all year — never 24 h of day or night.'],
+    ['Between the two tropics',0,'The tropics get overhead sun, not polar day/night.'],
+    ['Inside the polar circles (beyond 66.5°)',1,'Correct — only there can the Sun stay up or stay down for a full day or more.'],
+    ['Anywhere, if the weather is right',0,'It is geometry, not weather!']]},
+   {q:'7. Latitude 40°N on the June solstice (subsolar 23.5°N): noon altitude = 90° − |40 − 23.5| = ?',o:[
+    ['50°',0,'That would be 90 − 40 — you forgot to subtract the subsolar latitude first.'],
+    ['66.5°',0,'That is 90 − 23.5 — the two latitudes must be subtracted from each other first.'],
+    ['73.5°',1,'Correct: 90 − 16.5 = 73.5°. The highest noon Sun of the year at 40°N.'],
+    ['90°',0,'90° only happens when the Sun is directly overhead — impossible at 40°N.']]}
+  ];
+  return [
+   {q:'1. 四季形成的主要原因是……',o:[
+    ['地球离太阳的距离变化',0,'距离只差约3%，而且1月最近——那时北半球是冬天！'],
+    ['地轴倾斜 + 地球绕太阳公转',1,'正确！23.5° 的倾斜让直射点在南北回归线之间移动。'],
+    ['太阳有时亮有时暗',0,'太阳的输出在这个时间尺度上基本稳定。'],
+    ['地球自转有时快有时慢',0,'自转速度不变——自转带来昼夜，不带来四季。']]},
+   {q:'2. 地球什么时候离太阳最近？',o:[
+    ['7月——所以天气热',0,'相反！7月初是远日点，离得最远。'],
+    ['1月初（北半球冬天）',1,'对——近日点在1月初。这正好证明距离不是四季的原因。'],
+    ['春分和秋分',0,'二分与直射点有关，与距离无关。'],
+    ['距离从不变化',0,'有轻微变化（约3%），1月最近。']]},
+   {q:'3. 夏至（6月21日前后）那天，太阳直射……',o:[
+    ['赤道',0,'直射赤道是春分和秋分。'],
+    ['北回归线（23.5°N）',1,'正确——直射点到达最北的极限位置。'],
+    ['南回归线（23.5°S）',0,'那是冬至。'],
+    ['北极圈（66.5°N）',0,'直射点永远离不开南北回归线之间！']]},
+   {q:'4. 新山约在 1.5°N。一年当中，这里的昼长……',o:[
+    ['6月比12月长很多',0,'赤道附近昼长全年只差几分钟。'],
+    ['全年都接近 12 小时',1,'正确——赤道附近全年昼夜几乎等长，所以四季不明显。'],
+    ['有连续几周的极昼',0,'极昼只发生在极圈以内。'],
+    ['12月白天最长',0,'那是南半球中高纬度的情况，不是 1.5°N。']]},
+   {q:'5. 北半球是冬天的时候，南半球是……',o:[
+    ['也是冬天',0,'两个半球相反——一个朝向太阳倾斜，另一个背离。'],
+    ['夏天',1,'正确——季节相反。这也是"距离说"永远解释不了的。'],
+    ['春天',0,'不是春天——季节是正好相反的。'],
+    ['到处季节一样',0,'只有二分时刻南北对称，季节整体是相反的。']]},
+   {q:'6. 极昼和极夜只可能发生在……',o:[
+    ['赤道附近',0,'赤道全年昼长约12小时，永远不会整天白天或整天黑夜。'],
+    ['南北回归线之间',0,'回归线之间会被直射，但不会有极昼极夜。'],
+    ['极圈以内（纬度高于66.5°）',1,'正确——只有那里太阳才可能整天不落或整天不升。'],
+    ['天气合适的任何地方',0,'这是几何问题，不是天气问题！']]},
+   {q:'7. 北纬40°在夏至（直射点23.5°N）的正午太阳高度 = 90° − |40 − 23.5| = ？',o:[
+    ['50°',0,'那是 90−40——忘了先减去直射点纬度。'],
+    ['66.5°',0,'那是 90−23.5——应该先把两个纬度相减。'],
+    ['73.5°',1,'正确：90 − 16.5 = 73.5°，这是40°N一年中正午太阳最高的一天。'],
+    ['90°',0,'90°只在太阳直射头顶时出现——40°N 不可能被直射。']]}
+  ];
+}
+var QZi=0,QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+function drawP4(){drawT0();drawDist();}
+
+/* ================= boot ================= */
+function toggleYear(btn){
+  if(YR.playing){stopAllPlay();return}
+  stopAllPlay(); YR.playing=true; btn.classList.add('on');
+  function step(){
+    if(!YR.playing)return;
+    var d=DAY+0.7; if(d>=365)d-=365;
+    setDay(d);
+    RAF=requestAnimationFrame(step);
+  }
+  RAF=requestAnimationFrame(step);
+}
+function toggleSkyPlay(){
+  if(SKY.playing){stopAllPlay();return}
+  stopAllPlay(); SKY.playing=true; $('skyplay').classList.add('on');
+  function step(){
+    if(!SKY.playing)return;
+    TOD+=0.07; if(TOD>=24)TOD-=24;
+    drawSKY(); updSummary();
+    RAF=requestAnimationFrame(step);
+  }
+  RAF=requestAnimationFrame(step);
+}
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  setDay(DAY,true); setLat(LAT,true);
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawORB,drawDECall,drawSKYall,drawSHall,drawP4,drawQZ];
+  SUMMARY=[
+    function(){return dateStr(DAY)+' · '+T('nhemi')+':'+T('sea'+seasonIdx(DAY,true))+' · '+T('shemi')+':'+T('sea'+seasonIdx(DAY,false))},
+    function(){return dateStr(DAY)+' · '+T('declab')+' '+fmtLat(decl(DAY))},
+    function(){return fmtLat(LAT)+' · '+T('daylen')+' '+dayLenH(LAT,decl(DAY)).toFixed(1)+T('hourU')},
+    function(){var a=noonAlt(LAT,decl(DAY));return fmtLat(LAT)+' · α '+(a<=0?'—':Math.round(a)+'°')},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initORB(); initDEC(); initSKY(); initSH();
+  var k;
+  var dr=document.querySelectorAll('.dayr');
+  for(k=0;k<dr.length;k++)dr[k].addEventListener('input',function(){setDay(+this.value)});
+  var lr=document.querySelectorAll('.latr');
+  for(k=0;k<lr.length;k++)lr[k].addEventListener('input',function(){setLat(+this.value)});
+  var sn=document.querySelectorAll('.snapd');
+  for(k=0;k<sn.length;k++)sn[k].addEventListener('click',function(){setDay(+this.getAttribute('data-day'))});
+  var lp=document.querySelectorAll('.latp');
+  for(k=0;k<lp.length;k++)lp[k].addEventListener('click',function(){setLat(+this.getAttribute('data-lat'))});
+  $('orbplay').addEventListener('click',function(){toggleYear(this)});
+  $('decplay').addEventListener('click',function(){toggleYear(this)});
+  $('skyplay').addEventListener('click',toggleSkyPlay);
+  $('t0tgl').addEventListener('click',function(){
+    TT0.on=!TT0.on; this.classList.toggle('on',TT0.on); drawT0();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  setDay(225,true); setLat(1.5,true);
+  showTab(0);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i,j;
+  for(i=0;i<6;i++){showTab(i)}
+  for(i=0;i<=364;i+=7){setDay(i,true);drawORB();drawDECall();drawSHall()}
+  for(i=-90;i<=90;i+=10){setLat(i,true);drawSKYall();drawSHall()}
+  setLat(1.5,true);
+  for(i=0;i<=24;i+=2){TOD=i;drawSKY()}
+  for(i=0;i<4;i++){setDay(CARD[i].d,true);drawDECall();drawSHall()}
+  setLat(80,true);setDay(354,true);drawSKYall();drawSHall();
+  setLat(90,true);setDay(171,true);drawSKYall();drawSHall();
+  setLat(1.5,true);setDay(225,true);
+  TT0.on=true;drawT0();TT0.on=false;drawT0();
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<6;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<6;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='seasons-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

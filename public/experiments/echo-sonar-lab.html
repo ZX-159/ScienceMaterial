@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>回声与声呐探究实验室 · Echo and Sonar · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="hleft">
+    <div class="brand">ScienceMaterial</div>
+    <h1><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 🔊 <span data-i="title"></span></h1>
+    <div class="sub">Echo and Sonar · chu-yi-xia/b2-c1 · ScienceMaterial</div>
+  </div>
+  <div class="chips">
+    <span data-i="chip1"></span>
+    <span data-i="chip2"></span>
+    <span style="color:var(--neg); border-color:rgba(63,208,108,.55)" data-i="chip3"></span>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="hbtn" id="themeBtn" onclick="toggleTheme()"></button>
+    <button class="hbtn" onclick="toggleFull()"><span data-i="btnFull"></span></button>
+    <button class="hbtn" onclick="resetActive()">↺ <span data-i="btnReset"></span></button>
+  </div>
+</header>
+
+<main>
+  <div class="left">
+    <nav class="tabs">
+      <button id="tab-lab" class="on" onclick="setMode('lab')"><span data-i="tabLab"></span></button>
+      <button id="tab-cmp" onclick="setMode('cmp')"><span data-i="tabCmp"></span></button>
+      <button id="tab-quiz" onclick="setMode('quiz')"><span data-i="tabQuiz"></span></button>
+      <button id="tab-game" onclick="setMode('game')"><span data-i="tabGame"></span></button>
+    </nav>
+
+    <div class="stage">
+      <section class="panel on" id="panel-lab">
+        <div class="cvarea"><canvas id="cv-lab" width="2000" height="1000"></canvas></div>
+        <div class="rail">
+          <div class="rail-t" data-i="presetLabel"></div>
+          <button class="railbtn" data-p="pr1" onclick="preset('pr1')"><span data-i="pr1"></span></button>
+          <button class="railbtn" data-p="pr2" onclick="preset('pr2')"><span data-i="pr2"></span></button>
+          <button class="railbtn" data-p="pr3" onclick="preset('pr3')"><span data-i="pr3"></span></button>
+          <button class="railbtn" data-p="pr4" onclick="preset('pr4')"><span data-i="pr4"></span></button>
+          <button class="railbtn" data-p="pr5" onclick="preset('pr5')"><span data-i="pr5"></span></button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-cmp">
+        <div class="duo">
+          <div class="box">
+            <div class="track-label" id="ca-name"></div>
+            <div class="cvwrap"><canvas id="cv-ca" width="880" height="760"></canvas></div>
+            <div class="minictl" id="ca-cond"></div>
+          </div>
+          <div class="box">
+            <div class="track-label" id="cb-name"></div>
+            <div class="cvwrap"><canvas id="cv-cb" width="880" height="760"></canvas></div>
+            <div class="minictl" id="cb-cond"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-quiz">
+        <div class="quiz-wrap">
+          <div class="q-timer" id="q-timer"><i id="q-timer-bar"></i></div>
+          <div class="quiz-emoji" id="q-emoji"></div>
+          <div class="quiz-q" id="q-text"></div>
+          <div class="quiz-btns" id="q-opts"></div>
+          <div class="quiz-exp" id="q-exp"></div>
+          <div class="quiz-nav">
+            <button class="btn" id="q-next" style="display:none" onclick="nextQ()"><span data-i="next"></span> ➜</button>
+            <button class="btn ghost" id="q-restart" style="display:none" onclick="restartQ()">🔄 <span data-i="again"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-game">
+        <div class="gamehud">
+          <span class="gt"><span data-i="gRound"></span> <b id="g-round">1</b>/3</span>
+          <span class="gt"><span data-i="gTargetLabel"></span> <b id="g-target">--</b> s</span>
+          <span class="gtime" id="g-time">40</span>
+        </div>
+        <div id="game-cvhost"></div>
+      </section>
+    </div>
+
+    <div class="ctlbar">
+      <div class="ctl-group on" id="ctl-lab">
+        <div class="rowline">
+          <span class="ctl-label" data-i="sceneLabel"></span>
+          <button class="sbtn pick" data-sc="sea" onclick="setScene('sea')"><span data-i="scSea"></span></button>
+          <button class="sbtn" data-sc="air" onclick="setScene('air')"><span data-i="scAir"></span></button>
+          <label class="ctl"><span data-i="slD"></span>
+            <input type="range" id="s-d" min="150" max="3000" step="10" value="1500" oninput="setD(+this.value)">
+            <output id="s-d-o">1500 m</output>
+          </label>
+          <button class="btn" id="btn-fire" onclick="fireSonar()"></button>
+        </div>
+        <div class="hint-line" data-i="labHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-cmp">
+        <div class="rowline">
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(0)">📕 <span data-i="cp1"></span></button>
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(1)">📗 <span data-i="cp2"></span></button>
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(2)">📙 <span data-i="cp3"></span></button>
+        </div>
+        <div class="rowline">
+          <span class="ctl-label" data-i="guessQ"></span>
+          <button class="sbtn" data-g="a" onclick="pickGuess(this)"><span data-i="gMoreA"></span></button>
+          <button class="sbtn" data-g="same" onclick="pickGuess(this)"><span data-i="gSame"></span></button>
+          <button class="sbtn" data-g="b" onclick="pickGuess(this)"><span data-i="gMoreB"></span></button>
+          <button class="btn" id="cmp-run" onclick="runCmp()" disabled>📣 <span data-i="runCmp"></span></button>
+        </div>
+        <div class="hint-line" data-i="cmpHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-quiz">
+        <div class="hint-line" data-i="quizHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-game">
+        <div class="rowline">
+          <span class="ctl-label" id="g-vlabel"></span>
+          <label class="ctl"><span data-i="slD"></span>
+            <input type="range" id="g-d" min="150" max="3000" step="10" value="1500" oninput="setD(+this.value)">
+            <output id="g-d-o">? m</output>
+          </label>
+          <button class="btn" id="g-lock" onclick="lockGame()"></button>
+        </div>
+        <div class="hint-line" data-i="gHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sb on" id="sb-lab">
+      <div>
+        <div class="sb-title" data-i="dLabel"></div>
+        <div class="bigang"><b id="l-d">1500</b><i> m</i></div>
+      </div>
+      <span class="netchip" id="l-state"></span>
+      <div class="mini3">
+        <div><span data-i="kV"></span><b id="l-v">1500</b></div>
+        <div><span data-i="kT"></span><b id="l-t">2.00</b></div>
+        <div><span data-i="kHalf"></span><b id="l-half">1.00</b></div>
+      </div>
+      <button class="explain-btn" id="l-exp-btn" onclick="toggleExplain()"><span data-i="expOpen"></span></button>
+      <div class="explain" id="l-explain">
+        <div class="statusbox" id="l-status"></div>
+        <div class="concl" id="l-conclude"></div>
+      </div>
+      <div class="rec-head">
+        <button class="rec-btn" onclick="recordData()">📌 <span data-i="recBtn"></span></button>
+        <button class="rec-clear" onclick="clearRec()" data-i="recClear"></button>
+      </div>
+      <table class="rec">
+        <thead><tr><th data-i="thScene"></th><th data-i="thV"></th><th data-i="thT"></th><th data-i="thD"></th><th style="width:24%"></th></tr></thead>
+        <tbody id="rec-body"></tbody>
+      </table>
+    </div>
+
+    <div class="sb" id="sb-cmp">
+      <div class="sb-title" data-i="outLabel"></div>
+      <div class="cmp-angs">
+        <div class="one"><span id="s-ca-name"></span><b id="c-out-a">0</b><em> %</em></div>
+        <div class="one"><span id="s-cb-name"></span><b id="c-out-b">0</b><em> %</em></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kRefl"></span><b id="c-r-a">--</b></div>
+        <div><span data-i="kAbs"></span><b id="c-a-a">--</b></div>
+        <div><span data-i="kEcho"></span><b id="c-e-a">--</b></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kRefl"></span><b id="c-r-b">--</b></div>
+        <div><span data-i="kAbs"></span><b id="c-a-b">--</b></div>
+        <div><span data-i="kEcho"></span><b id="c-e-b">--</b></div>
+      </div>
+      <div class="feedback" id="cmp-fb"></div>
+      <div class="concl" id="cmp-conclude"></div>
+    </div>
+
+    <div class="sb" id="sb-quiz">
+      <div class="sb-title" data-i="score"></div>
+      <div class="scorebig"><b id="q-score-n">0</b><span> / 8</span></div>
+      <div class="qdots" id="q-prog"></div>
+      <div class="statusbox" id="q-side-hint"></div>
+    </div>
+
+    <div class="sb" id="sb-game">
+      <div>
+        <div class="sb-title" data-i="gTargetLabel"></div>
+        <div class="bigang"><b id="g-target-side">--</b><i> s</i></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="gScene"></div>
+        <div class="goalbig" id="g-scene-side">--</div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="score"></div>
+        <div class="scorebig"><b id="g-score">0</b></div>
+      </div>
+      <div class="statusbox" id="g-status"></div>
+    </div>
+
+    <footer id="credit"></footer>
+  </aside>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'🔊', q:'回声的本质（成因）是什么？',
+    o:['声音遇到障碍物被反射回来','声音被障碍物完全吸收掉','声音的频率突然变高了'], a:0,
+    x:'回声（echo）就是声音遇到障碍物被<em>反射</em>回来、再传回耳朵。坚硬光滑的表面反射强，回声就明显。切到「对比实验」看两面墙的差别。' },
+  { e:'🌊', q:'声呐向海底发出声音，经过 4 秒收到回声（海水中 v = 1500 m/s）。海深是多少？',
+    o:['3000 m','6000 m','1500 m'], a:0,
+    x:'d ＝ v × t ÷ 2 ＝ 1500 × 4 ÷ 2 ＝ <em>3000 m</em>。必须 ÷2，因为 4 秒是「一去一回」的<em>往返时间</em>。回「演示实验」按 🌊 3000 m 预设看动画。' },
+  { e:'🚢', q:'声呐（SONAR）在海洋中最常用来做什么？',
+    o:['测量海水的温度','测海深、探测鱼群和潜艇','让海水变咸'], a:1,
+    x:'声呐利用回声测距原理：在海水里声音传得<em>快而远</em>，所以用来<em>测海深、探鱼群、找潜艇</em>。' },
+  { e:'🎬', q:'录音棚的墙壁要贴凹凸的吸音棉，目的是？',
+    o:['让声音反射得更强','把声音吸收掉、消除回声','提高声音的音调'], a:1,
+    x:'柔软、粗糙、多孔的吸音棉<em>吸收</em>声音、减少反射，录出来的声音才清晰不混响。这正是「对比实验」的结论。' },
+  { e:'👂', q:'在空气中（v = 340 m/s）对墙喊，下面哪种情况能听到<b>清晰</b>的回声？',
+    o:['离墙 5 m','离墙 10 m','离墙 25 m'], a:2,
+    x:'要听清回声，往返时间需 ≥ 约 0.1 s，即 <em>d ≥ 17 m</em>。25 m 时 t ＝ 2×25÷340 ≈ 0.15 s ✔。太近则回声与原声<em>重叠</em>。回「演示实验」拉滑条验证。' },
+  { e:'➗', q:'公式 d ＝ v × t ÷ 2 里，为什么一定要「÷2」？',
+    o:['因为声音回来时速度只剩一半','因为回声比原声弱一半','因为 t 是一去一回的往返时间，障碍物只有一半路程远'], a:2,
+    x:'声音走的总路程是 v × t，但它<em>去了又��</em>，走了两段一样长的路。障碍物只在<em>一半</em>处，所以 d ＝ v × t ÷ 2。速度全程不变！' },
+  { e:'🌙', q:'宇航员在月球表面（真空）对着环形山喊，能靠回声测距吗？',
+    o:['能，真空中声音传得更快','不能，真空不能传声，根本没有回声','能，但要喊得更大声'], a:1,
+    x:'声音是<em>机械波</em>，必须靠介质（固、液、气）传播。月球表面是<em>真空</em>，声音传不出去，也就没有回声。月球测距要用<em>激光</em>。' },
+  { e:'🧮', q:'空气中（v = 340 m/s）站在离墙 40 m 处大喊，大约多久后听到回声？',
+    o:['约 0.24 s','约 0.12 s','约 0.47 s'], a:0,
+    x:'t ＝ 2d ÷ v ＝ 2×40 ÷ 340 ≈ <em>0.24 s</em>。注意分子是 <em>2d</em>（一去一回），不是 d。回「演示实验」把距离拉到 40 m 按 📣 发声对一对。' },
+];
+const QUIZ_EN = [
+  { e:'🔊', q:'What actually causes an echo?',
+    o:['Sound is reflected back by an obstacle','Sound is completely absorbed by an obstacle','The frequency of the sound suddenly rises'], a:0,
+    x:'An echo is sound <em>reflected</em> off an obstacle and returning to your ear. Hard, smooth surfaces reflect strongly. See the Compare tab.' },
+  { e:'🌊', q:'A sonar pulse returns from the sea floor after 4 s (v = 1500 m/s in sea water). How deep is it?',
+    o:['3000 m','6000 m','1500 m'], a:0,
+    x:'d ＝ v × t ÷ 2 ＝ 1500 × 4 ÷ 2 ＝ <em>3000 m</em>. You must halve it: 4 s is the <em>round-trip</em> time. Try the 🌊 3000 m preset in the Demo Lab.' },
+  { e:'🚢', q:'What is sonar (SONAR) most often used for at sea?',
+    o:['Measuring sea-water temperature','Measuring depth, finding fish shoals and submarines','Making the sea water saltier'], a:1,
+    x:'Sonar uses echo ranging. Sound travels <em>fast and far</em> in water, so it is used to <em>measure depth, find fish and submarines</em>.' },
+  { e:'🎬', q:'Why are recording studios lined with bumpy acoustic foam?',
+    o:['To make sound reflect more strongly','To absorb the sound and kill the echo','To raise the pitch of the sound'], a:1,
+    x:'Soft, rough, porous foam <em>absorbs</em> sound and cuts reflection, so the recording is clear with no reverb. Exactly the Compare-tab result.' },
+  { e:'👂', q:'Shouting at a wall in air (v = 340 m/s) — in which case do you hear a CLEAR echo?',
+    o:['5 m from the wall','10 m from the wall','25 m from the wall'], a:2,
+    x:'A clear echo needs a round trip of ≥ about 0.1 s, i.e. <em>d ≥ 17 m</em>. At 25 m, t ＝ 2×25÷340 ≈ 0.15 s ✔. Closer, the echo <em>overlaps</em> the original. Drag the slider in the Demo Lab.' },
+  { e:'➗', q:'In d ＝ v × t ÷ 2, why must we divide by 2?',
+    o:['Because the returning sound travels at half speed','Because the echo is half as loud','Because t is the round-trip time, so the obstacle is only half the path away'], a:2,
+    x:'The sound covers v × t in total, but it goes <em>there and back</em> — two equal legs. The obstacle sits at the <em>halfway</em> point, so d ＝ v × t ÷ 2. The speed never changes!' },
+  { e:'🌙', q:'On the Moon (vacuum) an astronaut shouts at a crater wall. Can echo ranging work?',
+    o:['Yes, sound travels even faster in a vacuum','No — a vacuum carries no sound, so there is no echo','Yes, but you must shout much louder'], a:1,
+    x:'Sound is a <em>mechanical wave</em> and needs a medium. The Moon\'s surface is a <em>vacuum</em>, so no sound and no echo. Lunar ranging uses <em>laser</em> light instead.' },
+  { e:'🧮', q:'In air (v = 340 m/s) you shout 40 m from a wall. Roughly how long until you hear the echo?',
+    o:['About 0.24 s','About 0.12 s','About 0.47 s'], a:0,
+    x:'t ＝ 2d ÷ v ＝ 2×40 ÷ 340 ≈ <em>0.24 s</em>. The numerator is <em>2d</em> (there and back), not d. Set 40 m in the Demo Lab and press 📣 to check.' },
+];
+
+const I18N = {
+zh:{
+  title:'回声与声呐探究实验室', subtitle:'脉冲一去一回 · 量出往返时间 · 算出距离 d ＝ v × t ÷ 2',
+  chip1:'转换法：用往返时间算距离', chip2:'d ＝ v × t ÷ 2（÷2 是灵魂）', chip3:'听清回声：t ≥ 0.1 s → d ≥ 17 m',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 测距挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  sceneLabel:'场景：', scSea:'🌊 海水 v=1500', scAir:'🏔️ 空气 v=340',
+  scSeaName:'海水 · 声呐 SONAR', scAirName:'空气 · 对悬崖喊',
+  scSeaDist:'海深 D', scAirDist:'距离 D',
+  slD:'📏 距离', btnFire:'📣 发声', btnFiring:'📣 传播中…',
+  presetLabel:'一键情境：',
+  pr1:'👂 5 m 太近', pr2:'👂 17 m 临界', pr3:'🏔️ 50 m 山谷', pr4:'🌊 1500 m', pr5:'🌊 3000 m',
+  pr1why:'📌 <em>太近听不清</em>：t ＝ 2×5÷340 ≈ 0.029 s，远小于 0.1 s，回声追着原声回来，两者<em>重叠</em>，你只觉得声音变大、有点混响。',
+  pr2why:'📌 <em>临界点 17 m</em>：t ＝ 2×17÷340 ＝ 0.100 s，刚好等于人耳能分辨的最短间隔。<em>再近一点就分不出，再远一点就听得清</em>。',
+  pr3why:'📌 <em>山谷回音</em>：t ＝ 2×50÷340 ≈ 0.294 s ≫ 0.1 s，原声早就喊完了回声才回来，所以山谷里回音听得特别清楚。',
+  pr4why:'📌 <em>声呐测深</em>：t ＝ 2×1500÷1500 ＝ 2.00 s，反过来 d ＝ 1500 × 2 ÷ 2 ＝ 1500 m。海水里声速快，同样的时间能测很深。',
+  pr5why:'📌 <em>课本经典题</em>：4 秒收到回声 → d ＝ 1500 × 4 ÷ 2 ＝ 3000 m。<em>先别急着乘，先想清楚 t 是往返还是单程</em>。',
+  labHint:'先选场景，再拉「距离」滑条（也可以直接用鼠标拖海底 / 拖悬崖），然后按 📣 发声看脉冲一去一回；右边面板把 v×t 的总路程切成去程＋回程两半，这就是为什么要 ÷2。',
+  dLabel:'计算距离 d ＝ v × t ÷ 2', kV:'声速 v', kT:'往返 t/s', kHalf:'单程 t÷2',
+  stHear:'回声可分辨', stHearSub:'t ≥ 0.1 s · 原声与回声分得开',
+  stNo:'回声与原声重叠', stNoSub:'t &lt; 0.1 s · 只觉得声音变大',
+  f_formula:'d ＝ v {v} × t {t} ÷ 2 ＝ <b>{d} m</b>',
+  live_hear:'往返 <b>{t} s</b> ≥ 0.1 s —— 原声喊完了回声才回来，人耳<b>分得开</b>。',
+  live_no:'往返 <b>{t} s</b> ＜ 0.1 s —— 回声追上原声<b>重叠</b>在一起，分不出来。临界是 <b>17 m</b>。',
+  tip_sea:'🌊 海水里 v ＝ 1500 m/s，声音传得又快又远，所以声呐能测很深的海。',
+  tip_air:'🏔️ 空气里 v ＝ 340 m/s，声音慢得多，17 m 以内的回声人耳就分不出来了。',
+  r_toHear:'👉 <em>越过 17 m 临界</em>：回声和原声分开了，现在听得清。',
+  r_toNo:'👉 <em>退回 17 m 以内</em>：回声和原声又重叠了。',
+  c_half:'📌 声音<em>去了又回</em>，走的总路程是 v × t，障碍物只在<em>一半</em>的地方 —— 所以 <em>d ＝ v × t ÷ 2</em>。速度全程不变，变的只是路程算几段。',
+  c_hear:'📌 能不能<em>听清</em>回声，看的不是响不响，而是<em>往返时间 t ≥ 0.1 s</em>；空气中换算过来就是 <em>d ≥ 17 m</em>。',
+  recBtn:'记录数据', recClear:'清空', thScene:'场景', thV:'v', thT:'t/s', thD:'d/m',
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  outLabel:'回声强度（反射回来的比例）',
+  cmpHint:'先按一个预设 → 全班猜「哪面墙回声更强」→ 再按「同时发声」验证。两边用<b>同一个声音、同样距离</b>，只有墙面材料不同（控制变量法）。',
+  cp1:'🧱 瓷砖 vs 🧽 吸音棉', cp2:'🪨 山壁 vs 🌲 树林', cp3:'🏫 空教室 vs 🎬 电影院',
+  cp1a:'🧱 坚硬光滑（瓷砖/水泥墙）', cp1b:'🧽 柔软粗糙（吸音棉）',
+  cp1ac:'坚硬 · 光滑 · 不透声', cp1bc:'柔软 · 粗糙 · 多孔',
+  cp2a:'🪨 光滑岩壁（山谷）', cp2b:'🌲 茂密树林（枝叶）',
+  cp2ac:'大片平整硬面', cp2bc:'层层枝叶散射并吸收',
+  cp3a:'🏫 空教室（硬地板＋玻璃窗）', cp3b:'🎬 电影院（软座＋吸音板）',
+  cp3ac:'硬面多 · 嗡嗡回响', cp3bc:'软面多 · 几乎没有回声',
+  guessQ:'先猜想：哪面墙回声更强？', gMoreA:'甲更强', gSame:'一样强', gMoreB:'乙更强', runCmp:'同时发声',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  kRefl:'反射 %', kAbs:'吸收 %', kEcho:'回声',
+  wStrong:'强', wMid:'中', wWeak:'弱',
+  cc_1:'📌 <em>坚硬光滑</em>的瓷砖水泥墙把声音大量<em>反射</em>回来，回声强；<em>柔软粗糙多孔</em>的吸音棉把声音<em>吸收</em>成热，回声几乎没有。这就是录音棚贴吸音棉的原因。',
+  cc_2:'📌 山谷里的<em>大片光滑岩壁</em>是天然的反射面，所以喊话有回音；树林里枝叶把声音<em>散射并吸收</em>，回声很弱 —— 同一个声音，差别全在<em>表面</em>。',
+  cc_3:'📌 空教室硬面多，声音来回反射变成<em>混响</em>，听起来嗡嗡的；电影院用软座和吸音板<em>吸掉</em>反射，台词才清楚。<em>控制回声＝控制反射</em>。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！回声测距你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手量一遍，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场拉滑条做给全班看。',
+  gTargetLabel:'目标往返时间 t', gScene:'本轮场景', gRound:'回合',
+  gLock:'🎯 锁定距离', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gHint:'距离读数被藏起来了！听到「{n} 秒后收到回声」，先心算 d ＝ v × t ÷ 2，再把滑条推到那个位置，然后锁定。全班指挥一位同学操作。',
+  gGo:'目标：回声在 <b>{t} s</b> 后返回（{sc}，v ＝ {v} m/s）。先算 d ＝ v × t ÷ 2，再推滑条 —— <b>读数锁定后才揭晓</b>。',
+  gPerfect:'🎯 神准！', gGood:'👍 很接近！', gOk:'🙂 方向对了。', gMiss:'💪 差得有点多。',
+  gTimeUp:'⏰ 时间到！', gYour:'你的 <b>{y} m</b> ｜ 正确 <b>{c} m</b> ｜ 误差 {e}% ＝ <b>+{p}</b> 分',
+  gFinal:'最终得分', gRank1:'🏆 声呐操作员！', gRank2:'👍 公式用得很顺！', gRank3:'💪 回演示实验再练几次！',
+  cvGo:'↓ 声音去程', cvGoR:'→ 喊声去程', cvBack:'↑ 回声返回', cvBackR:'← 回声返回',
+  cvDragSea:'⇅ 拖动海底', cvDragAir:'⇄ 拖动悬崖',
+  cvActual:'实际 {n} ＝ {d} m', cvUnknown:'实际 {n} ＝ ？ m',
+  cvPanelTitle:'⏱ 往返计时 · d ＝ v × t ÷ 2',
+  cvTotal:'总路程 ＝ v × t ＝ {s} m', cvTotalQ:'总路程 ＝ v × t ＝ ？ m',
+  cvSegGo:'去程 d', cvSegBack:'回程 d',
+  cvV:'v ＝ {v} m/s', cvT:'t ＝ {t} s',
+  cvD:'d ＝ {v} × {t} ÷ 2 ＝ {d} m', cvDQ:'d ＝ {v} × {t} ÷ 2 ＝ ？ m',
+  cvJudgeOk:'t {t} s ≥ 0.1 s → 能听清回声 ✔', cvJudgeNo:'t {t} s ＜ 0.1 s → 与原声重叠 ✘',
+  cvWhy:'两段路一样长 —— 这就是要 ÷2 的原因',
+  cvEcho:'回声强度 {r} %', cvRefl:'反射 {r}%　吸收 {a}%',
+  cvAbsorb:'🔥 被吸收', cvSrc:'🧍 声源', cvWall:'墙面',
+  credit:'ScienceMaterial',
+},
+en:{
+  title:'Echo & Sonar Lab', subtitle:'One pulse, there and back · time the round trip · get d ＝ v × t ÷ 2',
+  chip1:'Indirect measurement: time → distance', chip2:'d ＝ v × t ÷ 2 (the ÷2 is the point)', chip3:'Clear echo: t ≥ 0.1 s → d ≥ 17 m',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Ranging Game',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  sceneLabel:'Scene:', scSea:'🌊 Sea v=1500', scAir:'🏔️ Air v=340',
+  scSeaName:'Sea water · SONAR', scAirName:'Air · shout at a cliff',
+  scSeaDist:'depth D', scAirDist:'distance D',
+  slD:'📏 Distance', btnFire:'📣 Fire', btnFiring:'📣 Travelling…',
+  presetLabel:'Presets:',
+  pr1:'👂 5 m too close', pr2:'👂 17 m limit', pr3:'🏔️ 50 m valley', pr4:'🌊 1500 m', pr5:'🌊 3000 m',
+  pr1why:'📌 <em>Too close to hear</em>: t ＝ 2×5÷340 ≈ 0.029 s, far below 0.1 s. The echo catches the original and they <em>overlap</em> — it just sounds louder.',
+  pr2why:'📌 <em>The 17 m limit</em>: t ＝ 2×17÷340 ＝ 0.100 s, exactly the shortest gap the ear can separate. <em>Any closer and it blurs; any further and you hear it.</em>',
+  pr3why:'📌 <em>Valley echo</em>: t ＝ 2×50÷340 ≈ 0.294 s ≫ 0.1 s. You finish shouting long before it returns, so valley echoes are crisp.',
+  pr4why:'📌 <em>Sonar depth</em>: t ＝ 2×1500÷1500 ＝ 2.00 s, and back again d ＝ 1500 × 2 ÷ 2 ＝ 1500 m. Sound is fast in water, so sonar reaches deep.',
+  pr5why:'📌 <em>The classic textbook item</em>: echo after 4 s → d ＝ 1500 × 4 ÷ 2 ＝ 3000 m. <em>Before multiplying, ask whether t is one way or a round trip.</em>',
+  labHint:'Pick a scene, drag the Distance slider (or drag the sea floor / cliff with the mouse), then press 📣 Fire and watch the pulse go and return. The right panel cuts the total path v×t into "there" + "back" — that is the ÷2.',
+  dLabel:'Computed distance d ＝ v × t ÷ 2', kV:'Speed v', kT:'Round t/s', kHalf:'One way t÷2',
+  stHear:'Echo separable', stHearSub:'t ≥ 0.1 s · original and echo split apart',
+  stNo:'Echo overlaps original', stNoSub:'t &lt; 0.1 s · it only sounds louder',
+  f_formula:'d ＝ v {v} × t {t} ÷ 2 ＝ <b>{d} m</b>',
+  live_hear:'Round trip <b>{t} s</b> ≥ 0.1 s — the shout is over before the echo lands, so the ear <b>separates</b> them.',
+  live_no:'Round trip <b>{t} s</b> &lt; 0.1 s — the echo <b>overlaps</b> the original. The limit is <b>17 m</b>.',
+  tip_sea:'🌊 In sea water v ＝ 1500 m/s: sound goes fast and far, so sonar can sound out very deep water.',
+  tip_air:'🏔️ In air v ＝ 340 m/s: much slower, so any wall closer than 17 m gives an echo the ear cannot pick out.',
+  r_toHear:'👉 <em>Past the 17 m limit</em>: echo and original have split apart — now you hear it.',
+  r_toNo:'👉 <em>Back inside 17 m</em>: echo and original overlap again.',
+  c_half:'📌 The sound goes <em>there and back</em>: total path v × t, but the obstacle sits at the <em>halfway</em> point — hence <em>d ＝ v × t ÷ 2</em>. The speed never changes; only the number of legs does.',
+  c_hear:'📌 Whether you <em>hear</em> an echo is not about loudness but about the <em>round-trip time t ≥ 0.1 s</em> — in air that means <em>d ≥ 17 m</em>.',
+  recBtn:'Record data', recClear:'Clear', thScene:'Scene', thV:'v', thT:'t/s', thD:'d/m',
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  outLabel:'Echo strength (fraction reflected)',
+  cmpHint:'Load a preset → let the class predict which wall echoes more → press "Fire both" to check. Same sound, same distance, only the surface differs.',
+  cp1:'🧱 Tile vs 🧽 Foam', cp2:'🪨 Cliff vs 🌲 Forest', cp3:'🏫 Classroom vs 🎬 Cinema',
+  cp1a:'🧱 Hard & smooth (tile / concrete)', cp1b:'🧽 Soft & rough (acoustic foam)',
+  cp1ac:'hard · smooth · solid', cp1bc:'soft · rough · porous',
+  cp2a:'🪨 Smooth rock face (valley)', cp2b:'🌲 Dense forest (leaves)',
+  cp2ac:'one large flat hard face', cp2bc:'layers of leaves scatter and absorb',
+  cp3a:'🏫 Empty classroom (hard floor + glass)', cp3b:'🎬 Cinema (soft seats + panels)',
+  cp3ac:'mostly hard · boomy reverb', cp3bc:'mostly soft · almost no echo',
+  guessQ:'Predict first: which wall echoes more?', gMoreA:'A stronger', gSame:'Same', gMoreB:'B stronger', runCmp:'Fire both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  kRefl:'Reflect %', kAbs:'Absorb %', kEcho:'Echo',
+  wStrong:'strong', wMid:'medium', wWeak:'weak',
+  cc_1:'📌 A <em>hard, smooth</em> tiled wall <em>reflects</em> most of the sound → strong echo; <em>soft, rough, porous</em> foam <em>absorbs</em> it into heat → almost none. That is why studios are lined with foam.',
+  cc_2:'📌 A valley\'s <em>large smooth rock face</em> is a natural reflector, so shouts echo; a forest\'s leaves <em>scatter and absorb</em> the sound, so the echo is weak — same sound, different <em>surface</em>.',
+  cc_3:'📌 An empty classroom is full of hard faces, so sound bounces into <em>reverb</em>; a cinema uses soft seats and panels to <em>soak up</em> reflections so dialogue stays clear. <em>Control the echo = control the reflection.</em>',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect — echo ranging is yours!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Measure it yourself in the Demo Lab, then retry!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and drag the slider in front of the class.',
+  gTargetLabel:'Target round-trip t', gScene:'Scene this round', gRound:'Round',
+  gLock:'🎯 Lock distance', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gHint:'The distance readout is hidden! Given "the echo returns after {n} s", work out d ＝ v × t ÷ 2 in your head, push the slider there, then lock it in.',
+  gGo:'Target: the echo returns after <b>{t} s</b> ({sc}, v ＝ {v} m/s). Work out d ＝ v × t ÷ 2, then move the slider — <b>the readout appears only after you lock</b>.',
+  gPerfect:'🎯 Spot on!', gGood:'👍 Very close!', gOk:'🙂 Right idea.', gMiss:'💪 Quite far off.',
+  gTimeUp:'⏰ Time is up!', gYour:'Yours <b>{y} m</b> ｜ correct <b>{c} m</b> ｜ error {e}% ＝ <b>+{p}</b> pts',
+  gFinal:'Final score', gRank1:'🏆 Sonar operator!', gRank2:'👍 Slick with the formula!', gRank3:'💪 Practise in the Demo Lab!',
+  cvGo:'↓ pulse going', cvGoR:'→ shout going', cvBack:'↑ echo returning', cvBackR:'← echo returning',
+  cvDragSea:'⇅ drag the sea floor', cvDragAir:'⇄ drag the cliff',
+  cvActual:'actual {n} ＝ {d} m', cvUnknown:'actual {n} ＝ ? m',
+  cvPanelTitle:'⏱ Round-trip timer · d ＝ v × t ÷ 2',
+  cvTotal:'total path ＝ v × t ＝ {s} m', cvTotalQ:'total path ＝ v × t ＝ ? m',
+  cvSegGo:'there  d', cvSegBack:'back  d',
+  cvV:'v ＝ {v} m/s', cvT:'t ＝ {t} s',
+  cvD:'d ＝ {v} × {t} ÷ 2 ＝ {d} m', cvDQ:'d ＝ {v} × {t} ÷ 2 ＝ ? m',
+  cvJudgeOk:'t {t} s ≥ 0.1 s → clear echo ✔', cvJudgeNo:'t {t} s < 0.1 s → overlaps ✘',
+  cvWhy:'two legs of equal length — that is the ÷2',
+  cvEcho:'echo strength {r} %', cvRefl:'reflected {r}%　absorbed {a}%',
+  cvAbsorb:'🔥 absorbed', cvSrc:'🧍 source', cvWall:'wall',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    grid:'rgba(255,255,255,.10)', axis:'rgba(255,255,255,.34)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    barBg:'rgba(255,255,255,.10)', tick:'rgba(255,255,255,.35)',
+    skyA:'#123a56', skyB:'#2b5f7d',
+    seaA:'#1a4a6e', seaB:'#08202f', bed:'#6b4f2a', bedLine:'rgba(0,0,0,.35)',
+    ground:'#4a5d3a', rock:'#6b5a3a', rockLine:'rgba(0,0,0,.28)',
+    hardWall:'#9aa4ad', hardLine:'rgba(255,255,255,.42)', softWall:'#7a5b8a',
+    go:'#7cc4ff', back:'#4fd08c', hit:'#ff8b72',
+    amber:'#ffc94d', good:'#4fd08c', bad:'#ff6a5a',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    grid:'rgba(30,42,54,.10)', axis:'rgba(30,42,54,.38)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    barBg:'rgba(30,42,54,.10)', tick:'rgba(30,42,54,.32)',
+    skyA:'#bcdcf0', skyB:'#e6f2fa',
+    seaA:'#9dc6de', seaB:'#4d7f9e', bed:'#c2a877', bedLine:'rgba(60,45,20,.35)',
+    ground:'#a9bd8f', rock:'#c0ab84', rockLine:'rgba(60,45,20,.28)',
+    hardWall:'#b6bec6', hardLine:'rgba(30,42,54,.35)', softWall:'#b193c2',
+    go:'#2f6690', back:'#1fa050', hit:'#e0443c',
+    amber:'#a06d00', good:'#1fa050', bad:'#e0443c',
+  },
+};
+let THEME = 'dark';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'dark'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  applyTheme();
+}
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  labSync();
+  renderRec();
+  cmpLabels();
+  syncGameBtn();
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+14;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-11,yy-h/2,w+22,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+function ptr(ev,cv,sc){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*(cv.width/r.width)/sc, y:(ev.clientY-r.top)*(cv.height/r.height)/sc };
+}
+
+/* ============================================================
+   Physics: echo ranging.  d = v * t / 2   (t = round trip)
+============================================================ */
+const SCENES = {
+  sea:{ key:'sea', v:1500, Dmin:150, Dmax:3000, step:10, nameK:'scSeaName', distK:'scSeaDist', dragK:'cvDragSea', D0:1500 },
+  air:{ key:'air', v:340,  Dmin:2,   Dmax:400,  step:1,  nameK:'scAirName', distK:'scAirDist', dragK:'cvDragAir', D0:25 },
+};
+const MIN_T = 0.1;                       /* the ear can separate two sounds 0.1 s apart */
+let scene = 'sea';
+let D = SCENES.sea.D0;                   /* the one state variable: distance in metres */
+
+function sc(){ return SCENES[scene]; }
+function roundD(v){ const s=sc(); return clamp(Math.round(v/s.step)*s.step, s.Dmin, s.Dmax); }
+function tripT(dd){ return 2*dd/sc().v; }          /* round-trip time (s) */
+function calcD(tt){ return sc().v*tt/2; }          /* d = v * t / 2 */
+function fracOf(dd){ const s=sc(); return clamp((dd-s.Dmin)/(s.Dmax-s.Dmin),0,1); }
+function tFix(tt){ return tt>=1 ? tt.toFixed(2) : tt.toFixed(3); }
+function canHear(tt){ return tt >= MIN_T - 1e-9; }
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 500;
+const SCN = {x0:14, x1:616};
+const SEA = {cx:296, surf:118, shipY:96, top:172, bot:436};
+const AIR = {groundY:396, srcX:70, mouthY:296, x0:250, x1:580, skyTop:26};
+const PN  = {x0:636, x1:988, y0:52, y1:456};
+
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const FIRE = { on:false, p:0, dur:2.4 };
+let FLASH = null, CONCL = null;
+
+function gameAiming(){ return $('panel-game').classList.contains('on') && GAME.phase==='aim'; }
+
+function obsPos(){
+  const f = fracOf(D);
+  return scene==='sea' ? SEA.top + f*(SEA.bot-SEA.top) : AIR.x0 + f*(AIR.x1-AIR.x0);
+}
+
+/* ---------- scene: sea water ---------- */
+function drawSea(c, hide){
+  const oy = obsPos(), x0 = SCN.x0, x1 = SCN.x1, bottom = 474;
+  /* sky */
+  let g = c.createLinearGradient(0,20,0,SEA.surf);
+  g.addColorStop(0,C().skyA); g.addColorStop(1,C().skyB);
+  c.fillStyle=g; rrect(c,x0,20,x1-x0,SEA.surf-20,8); c.fill();
+  /* water */
+  g = c.createLinearGradient(0,SEA.surf,0,bottom);
+  g.addColorStop(0,C().seaA); g.addColorStop(1,C().seaB);
+  c.fillStyle=g; rrect(c,x0,SEA.surf,x1-x0,bottom-SEA.surf,8); c.fill();
+  /* sea floor */
+  c.beginPath(); c.moveTo(x0,bottom); c.lineTo(x0,oy+12);
+  for(let x=x0;x<=x1;x+=40) c.lineTo(x, oy + Math.sin(x*0.03)*7);
+  c.lineTo(x1,bottom); c.closePath();
+  c.fillStyle=C().bed; c.fill();
+  c.strokeStyle=C().bedLine; c.lineWidth=1.6; c.stroke();
+  /* drag hint */
+  line(c, x0+16, oy, x1-16, oy, C().amber, 1.8, [7,6]);
+  TX(c, t('cvDragSea'), x1-24, oy-16, '700 15px '+CV_FONT, C().amber, 'right', 'middle');
+  /* ship */
+  TX(c, '🚢', SEA.cx, SEA.shipY, '40px '+CV_FONT, C().cvText, 'center', 'middle');
+  /* distance annotation */
+  const mx = SEA.cx+62;
+  line(c, mx, SEA.surf, mx, oy, C().cvTextDim, 1.4);
+  line(c, mx-8, SEA.surf, mx+8, SEA.surf, C().cvTextDim, 1.4);
+  line(c, mx-8, oy, mx+8, oy, C().cvTextDim, 1.4);
+  const lbl = hide ? tf('cvUnknown',{n:t('scSeaDist')}) : tf('cvActual',{n:t('scSeaDist'), d:Math.round(D)});
+  tchip(c, lbl, mx+14, (SEA.surf+oy)/2, '700 15px '+CV_FONT, hide?C().amber:C().cvText, 'left', W_W, W_H);
+  /* pulse */
+  if(FIRE.on){
+    const p = FIRE.p, y0 = SEA.surf+6, down = p<0.5;
+    const y = down ? y0 + (oy-y0)*(p/0.5) : oy - (oy-y0)*((p-0.5)/0.5);
+    if(Math.abs(p-0.5)<0.05){
+      c.beginPath(); c.arc(SEA.cx, oy, 26, Math.PI, 2*Math.PI);
+      c.strokeStyle=C().hit; c.lineWidth=3.4; c.stroke();
+    }
+    const col = down ? C().go : C().back;
+    circle(c, SEA.cx, y, 10, col, null, 0);
+    c.globalAlpha=.55; circle(c, SEA.cx, y, 19, null, col, 2); c.globalAlpha=1;
+    TX(c, down? t('cvGo') : t('cvBack'), SEA.cx-30, y, '700 15px '+CV_FONT, col, 'right', 'middle');
+  }
+}
+
+/* ---------- scene: air / cliff ---------- */
+function drawAir(c, hide){
+  const ox = obsPos(), x0 = SCN.x0, x1 = SCN.x1, bottom = 474;
+  let g = c.createLinearGradient(0,AIR.skyTop,0,AIR.groundY);
+  g.addColorStop(0,C().skyA); g.addColorStop(1,C().skyB);
+  c.fillStyle=g; rrect(c,x0,AIR.skyTop,x1-x0,AIR.groundY-AIR.skyTop,8); c.fill();
+  c.fillStyle=C().ground; rrect(c,x0,AIR.groundY,x1-x0,bottom-AIR.groundY,8); c.fill();
+  line(c, x0, AIR.groundY, x1, AIR.groundY, C().rockLine, 2);
+  /* cliff */
+  c.beginPath();
+  c.moveTo(ox, AIR.groundY);
+  c.lineTo(ox-14, AIR.groundY-56);
+  c.lineTo(ox+8,  AIR.groundY-132);
+  c.lineTo(ox-5,  AIR.skyTop+22);
+  c.lineTo(x1, AIR.skyTop+22); c.lineTo(x1, AIR.groundY);
+  c.closePath(); c.fillStyle=C().rock; c.fill();
+  c.strokeStyle=C().rockLine; c.lineWidth=1.2;
+  for(let y=AIR.skyTop+50; y<AIR.groundY; y+=26){
+    line(c, ox+2, y, x1, y, C().rockLine, 1);
+  }
+  /* reflecting face + drag hint */
+  line(c, ox, AIR.skyTop+26, ox, AIR.groundY, C().amber, 1.8, [7,6]);
+  TX(c, t('cvDragAir'), clamp(ox, SCN.x0+70, SCN.x1-70), AIR.skyTop+12, '700 15px '+CV_FONT, C().amber, 'center', 'middle');
+  /* person */
+  TX(c, '🧍', AIR.srcX, AIR.groundY-24, '46px '+CV_FONT, C().cvText, 'center', 'middle');
+  /* distance annotation */
+  const my = AIR.groundY+42;
+  line(c, AIR.srcX, my, ox, my, C().cvTextDim, 1.4);
+  line(c, AIR.srcX, my-8, AIR.srcX, my+8, C().cvTextDim, 1.4);
+  line(c, ox, my-8, ox, my+8, C().cvTextDim, 1.4);
+  const lbl = hide ? tf('cvUnknown',{n:t('scAirDist')}) : tf('cvActual',{n:t('scAirDist'), d:Math.round(D)});
+  tchip(c, lbl, (AIR.srcX+ox)/2, my, '700 15px '+CV_FONT, hide?C().amber:C().cvText, 'center', W_W, W_H);
+  /* pulse */
+  if(FIRE.on){
+    const p = FIRE.p, sx = AIR.srcX+18, right = p<0.5;
+    const x = right ? sx + (ox-sx)*(p/0.5) : ox - (ox-sx)*((p-0.5)/0.5);
+    if(Math.abs(p-0.5)<0.05){
+      c.beginPath(); c.arc(ox, AIR.mouthY, 26, -Math.PI/2, Math.PI/2);
+      c.strokeStyle=C().hit; c.lineWidth=3.4; c.stroke();
+    }
+    const col = right ? C().go : C().back;
+    circle(c, x, AIR.mouthY, 10, col, null, 0);
+    c.globalAlpha=.55; circle(c, x, AIR.mouthY, 19, null, col, 2); c.globalAlpha=1;
+    TX(c, right? t('cvGoR') : t('cvBackR'), x, AIR.mouthY-32, '700 15px '+CV_FONT, col, 'center', 'middle');
+  }
+}
+
+/* ---------- the "why divide by 2" panel ---------- */
+function drawPanel(c, hide){
+  const s = sc();
+  const tShown = FIRE.on ? FIRE.p*tripT(D) : tripT(D);
+  const tTarget = hide ? GAME.tgt : tShown;
+  const dShown = calcD(tShown);
+  rrect(c, PN.x0, PN.y0, PN.x1-PN.x0, PN.y1-PN.y0, 12);
+  c.fillStyle=C().panel; c.fill(); c.strokeStyle=C().panelLine; c.lineWidth=1.4; c.stroke();
+  const cx = (PN.x0+PN.x1)/2;
+  TX(c, t('cvPanelTitle'), cx, PN.y0+28, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(c, '⏱ '+tFix(tTarget)+' s', cx, PN.y0+74, '900 34px '+CV_FONT, C().amber, 'center', 'middle');
+
+  /* total-path bar, split into "there" and "back" */
+  const bx0 = PN.x0+24, bx1 = PN.x1-24, by = PN.y0+118, bh = 26, mid = (bx0+bx1)/2;
+  TX(c, hide ? t('cvTotalQ') : tf('cvTotal',{s:Math.round(s.v*tShown)}), cx, by-20, '700 15px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  rrect(c, bx0, by, bx1-bx0, bh, 7); c.fillStyle=C().barBg; c.fill();
+  if(!hide){
+    const q = FIRE.on ? FIRE.p : 1;
+    const gw = Math.min(q,0.5)/0.5*(mid-bx0);
+    c.fillStyle=C().go; rrect(c, bx0, by, Math.max(0,gw), bh, 7); c.fill();
+    if(q>0.5){
+      const bw = (q-0.5)/0.5*(bx1-mid);
+      c.fillStyle=C().back; rrect(c, mid, by, Math.max(0,bw), bh, 7); c.fill();
+    }
+  }
+  rrect(c, bx0, by, bx1-bx0, bh, 7); c.strokeStyle=C().panelLine; c.lineWidth=1.4; c.stroke();
+  line(c, mid, by-7, mid, by+bh+7, C().amber, 2.2, [5,4]);
+  TX(c, t('cvSegGo'),   (bx0+mid)/2, by+bh+17, '700 14px '+CV_FONT, C().go,   'center', 'middle');
+  TX(c, t('cvSegBack'), (mid+bx1)/2, by+bh+17, '700 14px '+CV_FONT, C().back, 'center', 'middle');
+  TX(c, t('cvWhy'), cx, by+bh+40, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* the formula, spelled out with live numbers */
+  const fy = PN.y0+236;
+  TX(c, tf('cvV',{v:s.v}), cx, fy, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(c, tf('cvT',{t:tFix(tTarget)}), cx, fy+26, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  const dLine = hide ? tf('cvDQ',{v:s.v, t:tFix(tTarget)})
+                     : tf('cvD',{v:s.v, t:tFix(tShown), d:Math.round(dShown)});
+  TX(c, dLine, cx, fy+62, '900 17px '+CV_FONT, C().amber, 'center', 'middle');
+  /* the 0.1 s / 17 m criterion */
+  const tj = hide ? GAME.tgt : tripT(D);
+  const okHear = canHear(tj);
+  TX(c, okHear ? tf('cvJudgeOk',{t:tFix(tj)}) : tf('cvJudgeNo',{t:tFix(tj)}),
+     cx, fy+100, '700 15px '+CV_FONT, okHear?C().good:C().bad, 'center', 'middle');
+}
+
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const hide = gameAiming();
+  if(scene==='sea') drawSea(c,hide); else drawAir(c,hide);
+  drawPanel(c,hide);
+}
+
+/* ---------- sidebar message ---------- */
+function renderMsg(){
+  const s = sc(), tt = tripT(D), ok = canHear(tt);
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const formula = tf('f_formula', {v:s.v, t:tFix(tt), d:Math.round(calcD(tt))});
+  const live = ok ? tf('live_hear',{t:tFix(tt)}) : tf('live_no',{t:tFix(tt)});
+  const tip = scene==='sea' ? t('tip_sea') : t('tip_air');
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + live + '<br>' + tip;
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- state setters ---------- */
+function syncSliders(){
+  const s = sc();
+  [['s-d','s-d-o'],['g-d','g-d-o']].forEach(pair=>{
+    const el = $(pair[0]), out = $(pair[1]);
+    if(el){ el.min=s.Dmin; el.max=s.Dmax; el.step=s.step; el.value=D; }
+    if(out){
+      const hideNum = (pair[0]==='g-d') && gameAiming();
+      out.textContent = hideNum ? '? m' : Math.round(D)+' m';
+    }
+  });
+}
+/* 解释文字默认收起来 —— 屏幕上先只留大数字，要讲的时候才点开 */
+let EXPLAIN = false;
+function syncExplain(){
+  const box = $('l-explain'), b = $('l-exp-btn');
+  if(box) box.classList.toggle('on', EXPLAIN);
+  if(b){
+    b.classList.toggle('open', EXPLAIN);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = EXPLAIN ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  }
+}
+function toggleExplain(){ EXPLAIN = !EXPLAIN; syncExplain(); }
+
+function labSync(){
+  const s = sc(), tt = tripT(D), ok = canHear(tt);
+  /* while the pulse is in flight the stopwatch counts up — that IS the measurement */
+  const tLive = FIRE.on ? FIRE.p*tt : tt;
+  if($('l-d')) $('l-d').textContent = Math.round(calcD(tLive));
+  if($('l-v')) $('l-v').textContent = s.v;
+  if($('l-t')) $('l-t').textContent = tFix(tLive);
+  if($('l-half')) $('l-half').textContent = tFix(tLive/2);
+  const bd = $('l-state');
+  if(bd){
+    bd.innerHTML = ok ? t('stHear')+'<small>'+t('stHearSub')+'</small>'
+                      : t('stNo')+'<small>'+t('stNoSub')+'</small>';
+    bd.style.color = ok ? '#1d7a3a' : '#b8432f';
+    bd.style.borderColor = ok ? '#1d7a3a' : 'var(--pos)';
+  }
+  document.querySelectorAll('.sbtn[data-sc]').forEach(b=>b.classList.toggle('pick', b.dataset.sc===scene));
+  const fb = $('btn-fire');
+  if(fb) fb.textContent = FIRE.on ? t('btnFiring') : t('btnFire');
+  syncSliders();
+  renderMsg();
+}
+function setD(v){
+  const before = canHear(tripT(D));
+  D = roundD(v);
+  const after = canHear(tripT(D));
+  if(before !== after){ FLASH = after ? 'r_toHear' : 'r_toNo'; CONCL = 'c_hear'; }
+  labSync();
+}
+function setScene(k){
+  if(!SCENES[k]) return;
+  scene = k; D = SCENES[k].D0;
+  FIRE.on = false; FLASH = null; CONCL = null;
+  labSync();
+}
+function labReset(){
+  FIRE.on = false; FLASH = null; CONCL = null;
+  D = sc().D0;
+  labSync();
+}
+function fireSonar(){
+  if(FIRE.on) return;
+  FIRE.on = true; FIRE.p = 0;
+  FIRE.dur = 1.6 + 2.6*fracOf(D);      /* slowed to 1.6–4.2 s so the class can watch */
+  CONCL = 'c_half';
+  labSync();
+}
+
+/* ---------- one-click presets (absorbs the old "can you hear the echo?" module) ---------- */
+const PRESETS = {
+  pr1:{ scene:'air', D:5   },
+  pr2:{ scene:'air', D:17  },
+  pr3:{ scene:'air', D:50  },
+  pr4:{ scene:'sea', D:1500},
+  pr5:{ scene:'sea', D:3000},
+};
+function preset(id){
+  const p = PRESETS[id];
+  if(!p) return;
+  setMode('lab');
+  scene = p.scene; D = roundD(p.D);
+  FIRE.on = false; FLASH = null;
+  labSync();
+  CONCL = id+'why';
+  renderMsg();
+  fireSonar();
+  CONCL = id+'why';
+  renderMsg();
+  const btn = document.querySelector('.rail [data-p="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  const tt = tripT(D);
+  recRows.push({ scene:scene, v:sc().v, t:tFix(tt), d:Math.round(calcD(tt)) });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.d); });
+  body.innerHTML = recRows.map(r=>{
+    const pct = top>0 ? Math.max(6, r.d/top*100) : 0;
+    const nm = r.scene==='sea' ? '🌊' : '🏔️';
+    return '<tr><td>'+nm+'</td><td>'+r.v+'</td><td>'+r.t+'</td><td>'+r.d+'</td>'+
+      '<td><div class="bar '+r.scene+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare — reflection vs absorption (world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CW = {srcX:56, wallX:322, wallW:46, cy:176, top:44, bot:300};
+const CMP_PRESETS = [
+  { id:0, a:{R:0.92, hard:true,  nameK:'cp1a', condK:'cp1ac'}, b:{R:0.15, hard:false, nameK:'cp1b', condK:'cp1bc'}, concl:'cc_1' },
+  { id:1, a:{R:0.85, hard:true,  nameK:'cp2a', condK:'cp2ac'}, b:{R:0.25, hard:false, nameK:'cp2b', condK:'cp2bc'}, concl:'cc_2' },
+  { id:2, a:{R:0.70, hard:true,  nameK:'cp3a', condK:'cp3ac'}, b:{R:0.10, hard:false, nameK:'cp3b', condK:'cp3bc'}, concl:'cc_3' },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+function side(which){ return CMP_PRESETS[CMP.preset][which]; }
+function echoShown(R, p){ return R*100*clamp((p-0.12)/0.22, 0, 1); }
+function echoWord(R){ return R>=0.6 ? t('wStrong') : R>=0.3 ? t('wMid') : t('wWeak'); }
+
+function drawCmpSide(ctx, s, p){
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,CM_W*SC,CM_H*SC);
+  ctx.setTransform(SC,0,0,SC,0,0);
+  const cy = CW.cy, srcX = CW.srcX, wallX = CW.wallX;
+  const Dpx = wallX - srcX - 8;
+
+  /* wall */
+  if(s.hard){
+    ctx.fillStyle=C().hardWall; rrect(ctx, wallX, CW.top, CW.wallW, CW.bot-CW.top, 4); ctx.fill();
+    for(let y=CW.top+16; y<CW.bot-8; y+=22) line(ctx, wallX, y, wallX+CW.wallW, y, C().hardLine, 1.2);
+  } else {
+    ctx.fillStyle=C().softWall;
+    for(let y=CW.top+12; y<CW.bot-6; y+=14){
+      circle(ctx, wallX+9,  y,   7.5, C().softWall, null, 0);
+      circle(ctx, wallX+25, y+7, 7.5, C().softWall, null, 0);
+      circle(ctx, wallX+41, y,   7.5, C().softWall, null, 0);
+    }
+  }
+  /* source */
+  TX(ctx, '🧍', srcX, cy+6, '34px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(ctx, t('cvSrc'), srcX, cy+40, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* waves: 3 round trips over p = 0..1 */
+  const NW = 4, ROUND = 2*Dpx, phase = p*3;
+  let hitFlash = false;
+  for(let i=0;i<NW;i++){
+    const r = ((phase*ROUND) + i*ROUND/NW) % ROUND;
+    if(r < Dpx){
+      const a = 1 - r/Dpx*0.25;
+      ctx.strokeStyle = C().go; ctx.globalAlpha = a; ctx.lineWidth = 2.8;
+      ctx.beginPath(); ctx.arc(srcX, cy, r+14, -0.55, 0.55); ctx.stroke();
+      ctx.globalAlpha = 1;
+      if(Dpx-r < 14) hitFlash = true;
+    } else {
+      const rr = r-Dpx, a = s.R*(1-rr/Dpx*0.35);
+      if(a > 0.04){
+        ctx.strokeStyle = s.hard ? C().back : C().hit;
+        ctx.globalAlpha = clamp(a,0,1); ctx.lineWidth = s.hard ? 2.8 : 1.6;
+        ctx.beginPath(); ctx.arc(wallX, cy, rr+12, Math.PI-0.55, Math.PI+0.55); ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+  if(hitFlash && p>0){
+    ctx.strokeStyle=C().amber; ctx.lineWidth=3.4;
+    ctx.beginPath(); ctx.arc(wallX, cy, 22, Math.PI-0.6, Math.PI+0.6); ctx.stroke();
+  }
+  if(!s.hard) TX(ctx, t('cvAbsorb'), wallX+CW.wallW/2, cy-52, '700 14px '+CV_FONT, C().hit, 'center', 'middle');
+
+  /* readouts */
+  const shown = echoShown(s.R, p);
+  TX(ctx, tf('cvEcho',{r:Math.round(shown)}), CM_W/2, 334,
+     '900 26px '+CV_FONT, shown>=40?C().good:(shown>=15?C().amber:C().bad), 'center', 'middle');
+  TX(ctx, tf('cvRefl',{r:Math.round(s.R*100), a:Math.round((1-s.R)*100)}), CM_W/2, 362,
+     '700 14px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(ctx, t('cvWall'), wallX+CW.wallW/2, CW.bot+18, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, side('a'), CMP.p);
+  drawCmpSide(ctxB, side('b'), CMP.p);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const a = side('a'), b = side('b');
+  $('c-out-a').textContent = Math.round(echoShown(a.R, CMP.p));
+  $('c-out-b').textContent = Math.round(echoShown(b.R, CMP.p));
+  $('c-r-a').textContent = Math.round(a.R*100);
+  $('c-a-a').textContent = Math.round((1-a.R)*100);
+  $('c-e-a').textContent = echoWord(a.R);
+  $('c-r-b').textContent = Math.round(b.R*100);
+  $('c-a-b').textContent = Math.round((1-b.R)*100);
+  $('c-e-b').textContent = echoWord(b.R);
+}
+function cmpLabels(){
+  const a = side('a'), b = side('b');
+  $('ca-name').textContent = t(a.nameK);
+  $('cb-name').textContent = t(b.nameK);
+  $('ca-cond').textContent = t(a.condK);
+  $('cb-cond').textContent = t(b.condK);
+  $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = side('a'), b = side('b');
+  const real = Math.abs(a.R-b.R) < 0.03 ? 'same' : (a.R>b.R ? 'a' : 'b');
+  const zh = LANG==='zh';
+  const detail = (zh?'（':' (')+(zh?'甲':'A')+' '+Math.round(a.R*100)+'% · '+
+                 (zh?'乙':'B')+' '+Math.round(b.R*100)+'%'+(zh?'）':')');
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Ranging challenge (target challenge — reuses the lab canvas)
+   Given a round-trip time t, the class must set d = v * t / 2 blind.
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 40;
+const GAME_POOL = [
+  { scene:'sea', t:2.0 },   /* 1500 m */
+  { scene:'sea', t:3.0 },   /* 2250 m */
+  { scene:'sea', t:1.0 },   /*  750 m */
+  { scene:'sea', t:4.0 },   /* 3000 m */
+  { scene:'air', t:0.5 },   /*   85 m */
+  { scene:'air', t:1.0 },   /*  170 m */
+  { scene:'air', t:0.2 },   /*   34 m */
+  { scene:'air', t:2.0 },   /*  340 m */
+];
+const GAME = { round:0, score:0, tgt:2, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GAME_POOL.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tm=idx[i]; idx[i]=idx[j]; idx[j]=tm; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  const r = GAME_POOL[GAME.order[GAME.round-1]];
+  scene = r.scene; GAME.tgt = r.t;
+  FIRE.on = false; FLASH = null; CONCL = null;
+  /* start from the middle of the range so the slider gives nothing away */
+  D = roundD((sc().Dmin + sc().Dmax)/2);
+  $('g-status').innerHTML = tf('gGo', {t:tFix(GAME.tgt), sc:t(sc().nameK), v:sc().v});
+  labSync(); gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) lockGame(true);
+  }, 1000);
+}
+function lockGame(timedOut){
+  if(GAME.phase === 'aim'){
+    stopGTimer();
+    const correct = calcD(GAME.tgt);
+    const err = Math.abs(D-correct)/correct*100;
+    const pts = err<=2 ? 100 : err<=5 ? 80 : err<=10 ? 50 : err<=20 ? 20 : 5;
+    GAME.score += pts;
+    const grade = err<=2 ? t('gPerfect') : err<=5 ? t('gGood') : err<=10 ? t('gOk') : t('gMiss');
+    GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+    let msg = (timedOut===true ? t('gTimeUp')+' ' : '') + grade + '<br>' +
+      tf('gYour', {y:Math.round(D), c:Math.round(correct), e:err.toFixed(1), p:pts});
+    if(GAME.phase === 'done'){
+      const rk = GAME.score>=270 ? t('gRank1') : GAME.score>=180 ? t('gRank2') : t('gRank3');
+      msg += '<br>' + t('gFinal') + ' ' + GAME.score + ' — ' + rk;
+    }
+    $('g-status').innerHTML = msg;
+    labSync(); gameSync();
+  } else if(GAME.phase === 'next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function gameSync(){
+  $('g-round').textContent = GAME.round;
+  $('g-target').textContent = tFix(GAME.tgt);
+  $('g-target-side').textContent = tFix(GAME.tgt);
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-score').textContent = GAME.score;
+  $('g-scene-side').textContent = t(sc().nameK)+' · v = '+sc().v+' m/s';
+  syncGameBtn();
+  syncSliders();
+}
+function syncGameBtn(){
+  const b = $('g-lock');
+  if(b) b.textContent = GAME.phase==='aim' ? t('gLock')
+                      : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+  const v = $('g-vlabel');
+  if(v) v.textContent = t(sc().nameK)+' · v = '+sc().v+' m/s';
+}
+
+/* ============================================================
+   Canvas dragging (world coords, clamped)
+============================================================ */
+let dragging = false;
+labCv.addEventListener('pointerdown', e=>{
+  if(FIRE.on) return;
+  if(ptr(e, labCv, SC).x > SCN.x1) return;   /* the formula panel is not draggable */
+  dragging = true;
+  try{ labCv.setPointerCapture(e.pointerId); }catch(err){}
+  dragObs(e);
+});
+labCv.addEventListener('pointermove', e=>{ if(dragging) dragObs(e); });
+labCv.addEventListener('pointerup', ()=>{ dragging=false; });
+labCv.addEventListener('pointercancel', ()=>{ dragging=false; });
+function dragObs(e){
+  const p = ptr(e, labCv, SC);
+  if(p.x > SCN.x1) return;                 /* clicks on the formula panel are not drags */
+  const s = sc();
+  const f = scene==='sea'
+    ? clamp((p.y-SEA.top)/(SEA.bot-SEA.top), 0, 1)
+    : clamp((p.x-AIR.x0)/(AIR.x1-AIR.x0), 0, 1);
+  setD(s.Dmin + f*(s.Dmax-s.Dmin));
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    if(FIRE.on){
+      FIRE.p += dt/FIRE.dur;
+      if(FIRE.p >= 1){ FIRE.p = 1; FIRE.on = false; labSync(); }
+      else if(labOn) labSync();
+    }
+    drawLab();
+  } else if($('panel-cmp').classList.contains('on')){
+    if(CMP.running){
+      CMP.p += dt/5;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; drawCmpBoth(); finishCmp(); }
+      else drawCmpBoth();
+    }
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  CMP.running = false; FIRE.on = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); labSync(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+</script>
+
+<script>
+
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'🔊', q:'回声的本质（成因）是什么？',
+    o:['声音遇到障碍物被反射回来','声音被障碍物完全吸收掉','声音的频率突然变高了'], a:0,
+    x:'回声（echo）就是声音遇到障碍物被<em>反射</em>回来、再传回耳朵。坚硬光滑的表面反射强，回声就明显。切到「对比实验」看两面墙的差别。' },
+  { e:'🌊', q:'声呐向海底发出声音，经过 4 秒收到回声（海水中 v = 1500 m/s）。海深是多少？',
+    o:['3000 m','6000 m','1500 m'], a:0,
+    x:'d ＝ v × t ÷ 2 ＝ 1500 × 4 ÷ 2 ＝ <em>3000 m</em>。必须 ÷2，因为 4 秒是「一去一回」的<em>往返时间</em>。回「演示实验」按 🌊 3000 m 预设看动画。' },
+  { e:'🚢', q:'声呐（SONAR）在海洋中最常用来做什么？',
+    o:['测量海水的温度','测海深、探测鱼群和潜艇','让海水变咸'], a:1,
+    x:'声呐利用回声测距原理：在海水里声音传得<em>快而远</em>，所以用来<em>测海深、探鱼群、找潜艇</em>。' },
+  { e:'🎬', q:'录音棚的墙壁要贴凹凸的吸音棉，目的是？',
+    o:['让声音反射得更强','把声音吸收掉、消除回声','提高声音的音调'], a:1,
+    x:'柔软、粗糙、多孔的吸音棉<em>吸收</em>声音、减少反射，录出来的声音才清晰不混响。这正是「对比实验」的结论。' },
+  { e:'👂', q:'在空气中（v = 340 m/s）对墙喊，下面哪种情况能听到<b>清晰</b>的回声？',
+    o:['离墙 5 m','离墙 10 m','离墙 25 m'], a:2,
+    x:'要听清回声，往返时间需 ≥ 约 0.1 s，即 <em>d ≥ 17 m</em>。25 m 时 t ＝ 2×25÷340 ≈ 0.15 s ✔。太近则回声与原声<em>重叠</em>。回「演示实验」拉滑条验证。' },
+  { e:'➗', q:'公式 d ＝ v × t ÷ 2 里，为什么一定要「÷2」？',
+    o:['因为声音回来时速度只剩一半','因为回声比原声弱一半','因为 t 是一去一回的往返时间，障碍物只有一半路程远'], a:2,
+    x:'声音走的总路程是 v × t，但它<em>去了又��</em>，走了两段一样长的路。障碍物只在<em>一半</em>处，所以 d ＝ v × t ÷ 2。速度全程不变！' },
+  { e:'🌙', q:'宇航员在月球表面（真空）对着环形山喊，能靠回声测距吗？',
+    o:['能，真空中声音传得更快','不能，真空不能传声，根本没有回声','能，但要喊得更大声'], a:1,
+    x:'声音是<em>机械波</em>，必须靠介质（固、液、气）传播。月球表面是<em>真空</em>，声音传不出去，也就没有回声。月球测距要用<em>激光</em>。' },
+  { e:'🧮', q:'空气中（v = 340 m/s）站在离墙 40 m 处大喊，大约多久后听到回声？',
+    o:['约 0.24 s','约 0.12 s','约 0.47 s'], a:0,
+    x:'t ＝ 2d ÷ v ＝ 2×40 ÷ 340 ≈ <em>0.24 s</em>。注意分子是 <em>2d</em>（一去一回），不是 d。回「演示实验」把距离拉到 40 m 按 📣 发声对一对。' },
+];
+const QUIZ_EN = [
+  { e:'🔊', q:'What actually causes an echo?',
+    o:['Sound is reflected back by an obstacle','Sound is completely absorbed by an obstacle','The frequency of the sound suddenly rises'], a:0,
+    x:'An echo is sound <em>reflected</em> off an obstacle and returning to your ear. Hard, smooth surfaces reflect strongly. See the Compare tab.' },
+  { e:'🌊', q:'A sonar pulse returns from the sea floor after 4 s (v = 1500 m/s in sea water). How deep is it?',
+    o:['3000 m','6000 m','1500 m'], a:0,
+    x:'d ＝ v × t ÷ 2 ＝ 1500 × 4 ÷ 2 ＝ <em>3000 m</em>. You must halve it: 4 s is the <em>round-trip</em> time. Try the 🌊 3000 m preset in the Demo Lab.' },
+  { e:'🚢', q:'What is sonar (SONAR) most often used for at sea?',
+    o:['Measuring sea-water temperature','Measuring depth, finding fish shoals and submarines','Making the sea water saltier'], a:1,
+    x:'Sonar uses echo ranging. Sound travels <em>fast and far</em> in water, so it is used to <em>measure depth, find fish and submarines</em>.' },
+  { e:'🎬', q:'Why are recording studios lined with bumpy acoustic foam?',
+    o:['To make sound reflect more strongly','To absorb the sound and kill the echo','To raise the pitch of the sound'], a:1,
+    x:'Soft, rough, porous foam <em>absorbs</em> sound and cuts reflection, so the recording is clear with no reverb. Exactly the Compare-tab result.' },
+  { e:'👂', q:'Shouting at a wall in air (v = 340 m/s) — in which case do you hear a CLEAR echo?',
+    o:['5 m from the wall','10 m from the wall','25 m from the wall'], a:2,
+    x:'A clear echo needs a round trip of ≥ about 0.1 s, i.e. <em>d ≥ 17 m</em>. At 25 m, t ＝ 2×25÷340 ≈ 0.15 s ✔. Closer, the echo <em>overlaps</em> the original. Drag the slider in the Demo Lab.' },
+  { e:'➗', q:'In d ＝ v × t ÷ 2, why must we divide by 2?',
+    o:['Because the returning sound travels at half speed','Because the echo is half as loud','Because t is the round-trip time, so the obstacle is only half the path away'], a:2,
+    x:'The sound covers v × t in total, but it goes <em>there and back</em> — two equal legs. The obstacle sits at the <em>halfway</em> point, so d ＝ v × t ÷ 2. The speed never changes!' },
+  { e:'🌙', q:'On the Moon (vacuum) an astronaut shouts at a crater wall. Can echo ranging work?',
+    o:['Yes, sound travels even faster in a vacuum','No — a vacuum carries no sound, so there is no echo','Yes, but you must shout much louder'], a:1,
+    x:'Sound is a <em>mechanical wave</em> and needs a medium. The Moon\'s surface is a <em>vacuum</em>, so no sound and no echo. Lunar ranging uses <em>laser</em> light instead.' },
+  { e:'🧮', q:'In air (v = 340 m/s) you shout 40 m from a wall. Roughly how long until you hear the echo?',
+    o:['About 0.24 s','About 0.12 s','About 0.47 s'], a:0,
+    x:'t ＝ 2d ÷ v ＝ 2×40 ÷ 340 ≈ <em>0.24 s</em>. The numerator is <em>2d</em> (there and back), not d. Set 40 m in the Demo Lab and press 📣 to check.' },
+];
+
+const I18N = {
+zh:{
+  title:'回声与声呐探究实验室', subtitle:'脉冲一去一回 · 量出往返时间 · 算出距离 d ＝ v × t ÷ 2',
+  chip1:'转换法：用往返时间算距离', chip2:'d ＝ v × t ÷ 2（÷2 是灵魂）', chip3:'听清回声：t ≥ 0.1 s → d ≥ 17 m',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 测距挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  sceneLabel:'场景：', scSea:'🌊 海水 v=1500', scAir:'🏔️ 空气 v=340',
+  scSeaName:'海水 · 声呐 SONAR', scAirName:'空气 · 对悬崖喊',
+  scSeaDist:'海深 D', scAirDist:'距离 D',
+  slD:'📏 距离', btnFire:'📣 发声', btnFiring:'📣 传播中…',
+  presetLabel:'一键情境：',
+  pr1:'👂 5 m 太近', pr2:'👂 17 m 临界', pr3:'🏔️ 50 m 山谷', pr4:'🌊 1500 m', pr5:'🌊 3000 m',
+  pr1why:'📌 <em>太近听不清</em>：t ＝ 2×5÷340 ≈ 0.029 s，远小于 0.1 s，回声追着原声回来，两者<em>重叠</em>，你只觉得声音变大、有点混响。',
+  pr2why:'📌 <em>临界点 17 m</em>：t ＝ 2×17÷340 ＝ 0.100 s，刚好等于人耳能分辨的最短间隔。<em>再近一点就分不出，再远一点就听得清</em>。',
+  pr3why:'📌 <em>山谷回音</em>：t ＝ 2×50÷340 ≈ 0.294 s ≫ 0.1 s，原声早就喊完了回声才回来，所以山谷里回音听得特别清楚。',
+  pr4why:'📌 <em>声呐测深</em>：t ＝ 2×1500÷1500 ＝ 2.00 s，反过来 d ＝ 1500 × 2 ÷ 2 ＝ 1500 m。海水里声速快，同样的时间能测很深。',
+  pr5why:'📌 <em>课本经典题</em>：4 秒收到回声 → d ＝ 1500 × 4 ÷ 2 ＝ 3000 m。<em>先别急着乘，先想清楚 t 是往返还是单程</em>。',
+  labHint:'先选场景，再拉「距离」滑条（也可以直接用鼠标拖海底 / 拖悬崖），然后按 📣 发声看脉冲一去一回；右边面板把 v×t 的总路程切成去程＋回程两半，这就是为什么要 ÷2。',
+  dLabel:'计算距离 d ＝ v × t ÷ 2', kV:'声速 v', kT:'往返 t/s', kHalf:'单程 t÷2',
+  stHear:'回声可分辨', stHearSub:'t ≥ 0.1 s · 原声与回声分得开',
+  stNo:'回声与原声重叠', stNoSub:'t &lt; 0.1 s · 只觉得声音变大',
+  f_formula:'d ＝ v {v} × t {t} ÷ 2 ＝ <b>{d} m</b>',
+  live_hear:'往返 <b>{t} s</b> ≥ 0.1 s —— 原声喊完了回声才回来，人耳<b>分得开</b>。',
+  live_no:'往返 <b>{t} s</b> ＜ 0.1 s —— 回声追上原声<b>重叠</b>在一起，分不出来。临界是 <b>17 m</b>。',
+  tip_sea:'🌊 海水里 v ＝ 1500 m/s，声音传得又快又远，所以声呐能测很深的海。',
+  tip_air:'🏔️ 空气里 v ＝ 340 m/s，声音慢得多，17 m 以内的回声人耳就分不出来了。',
+  r_toHear:'👉 <em>越过 17 m 临界</em>：回声和原声分开了，现在听得清。',
+  r_toNo:'👉 <em>退回 17 m 以内</em>：回声和原声又重叠了。',
+  c_half:'📌 声音<em>去了又回</em>，走的总路程是 v × t，障碍物只在<em>一半</em>的地方 —— 所以 <em>d ＝ v × t ÷ 2</em>。速度全程不变，变的只是路程算几段。',
+  c_hear:'📌 能不能<em>听清</em>回声，看的不是响不响，而是<em>往返时间 t ≥ 0.1 s</em>；空气中换算过来就是 <em>d ≥ 17 m</em>。',
+  recBtn:'记录数据', recClear:'清空', thScene:'场景', thV:'v', thT:'t/s', thD:'d/m',
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  outLabel:'回声强度（反射回来的比例）',
+  cmpHint:'先按一个预设 → 全班猜「哪面墙回声更强」→ 再按「同时发声」验证。两边用<b>同一个声音、同样距离</b>，只有墙面材料不同（控制变量法）。',
+  cp1:'🧱 瓷砖 vs 🧽 吸音棉', cp2:'🪨 山壁 vs 🌲 树林', cp3:'🏫 空教室 vs 🎬 电影院',
+  cp1a:'🧱 坚硬光滑（瓷砖/水泥墙）', cp1b:'🧽 柔软粗糙（吸音棉）',
+  cp1ac:'坚硬 · 光滑 · 不透声', cp1bc:'柔软 · 粗糙 · 多孔',
+  cp2a:'🪨 光滑岩壁（山谷）', cp2b:'🌲 茂密树林（枝叶）',
+  cp2ac:'大片平整硬面', cp2bc:'层层枝叶散射并吸收',
+  cp3a:'🏫 空教室（硬地板＋玻璃窗）', cp3b:'🎬 电影院（软座＋吸音板）',
+  cp3ac:'硬面多 · 嗡嗡回响', cp3bc:'软面多 · 几乎没有回声',
+  guessQ:'先猜想：哪面墙回声更强？', gMoreA:'甲更强', gSame:'一样强', gMoreB:'乙更强', runCmp:'同时发声',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  kRefl:'反射 %', kAbs:'吸收 %', kEcho:'回声',
+  wStrong:'强', wMid:'中', wWeak:'弱',
+  cc_1:'📌 <em>坚硬光滑</em>的瓷砖水泥墙把声音大量<em>反射</em>回来，回声强；<em>柔软粗糙多孔</em>的吸音棉把声音<em>吸收</em>成热，回声几乎没有。这就是录音棚贴吸音棉的原因。',
+  cc_2:'📌 山谷里的<em>大片光滑岩壁</em>是天然的反射面，所以喊话有回音；树林里枝叶把声音<em>散射并吸收</em>，回声很弱 —— 同一个声音，差别全在<em>表面</em>。',
+  cc_3:'📌 空教室硬面多，声音来回反射变成<em>混响</em>，听起来嗡嗡的；电影院用软座和吸音板<em>吸掉</em>反射，台词才清楚。<em>控制回声＝控制反射</em>。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！回声测距你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手量一遍，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场拉滑条做给全班看。',
+  gTargetLabel:'目标往返时间 t', gScene:'本轮场景', gRound:'回合',
+  gLock:'🎯 锁定距离', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gHint:'距离读数被藏起来了！听到「{n} 秒后收到回声」，先心算 d ＝ v × t ÷ 2，再把滑条推到那个位置，然后锁定。全班指挥一位同学操作。',
+  gGo:'目标：回声在 <b>{t} s</b> 后返回（{sc}，v ＝ {v} m/s）。先算 d ＝ v × t ÷ 2，再推滑条 —— <b>读数锁定后才揭晓</b>。',
+  gPerfect:'🎯 神准！', gGood:'👍 很接近！', gOk:'🙂 方向对了。', gMiss:'💪 差得有点多。',
+  gTimeUp:'⏰ 时间到！', gYour:'你的 <b>{y} m</b> ｜ 正确 <b>{c} m</b> ｜ 误差 {e}% ＝ <b>+{p}</b> 分',
+  gFinal:'最终得分', gRank1:'🏆 声呐操作员！', gRank2:'👍 公式用得很顺！', gRank3:'💪 回演示实验再练几次！',
+  cvGo:'↓ 声音去程', cvGoR:'→ 喊声去程', cvBack:'↑ 回声返回', cvBackR:'← 回声返回',
+  cvDragSea:'⇅ 拖动海底', cvDragAir:'⇄ 拖动悬崖',
+  cvActual:'实际 {n} ＝ {d} m', cvUnknown:'实际 {n} ＝ ？ m',
+  cvPanelTitle:'⏱ 往返计时 · d ＝ v × t ÷ 2',
+  cvTotal:'总路程 ＝ v × t ＝ {s} m', cvTotalQ:'总路程 ＝ v × t ＝ ？ m',
+  cvSegGo:'去程 d', cvSegBack:'回程 d',
+  cvV:'v ＝ {v} m/s', cvT:'t ＝ {t} s',
+  cvD:'d ＝ {v} × {t} ÷ 2 ＝ {d} m', cvDQ:'d ＝ {v} × {t} ÷ 2 ＝ ？ m',
+  cvJudgeOk:'t {t} s ≥ 0.1 s → 能听清回声 ✔', cvJudgeNo:'t {t} s ＜ 0.1 s → 与原声重叠 ✘',
+  cvWhy:'两段路一样长 —— 这就是要 ÷2 的原因',
+  cvEcho:'回声强度 {r} %', cvRefl:'反射 {r}%　吸收 {a}%',
+  cvAbsorb:'🔥 被吸收', cvSrc:'🧍 声源', cvWall:'墙面',
+  credit:'ScienceMaterial',
+},
+en:{
+  title:'Echo & Sonar Lab', subtitle:'One pulse, there and back · time the round trip · get d ＝ v × t ÷ 2',
+  chip1:'Indirect measurement: time → distance', chip2:'d ＝ v × t ÷ 2 (the ÷2 is the point)', chip3:'Clear echo: t ≥ 0.1 s → d ≥ 17 m',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Ranging Game',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  sceneLabel:'Scene:', scSea:'🌊 Sea v=1500', scAir:'🏔️ Air v=340',
+  scSeaName:'Sea water · SONAR', scAirName:'Air · shout at a cliff',
+  scSeaDist:'depth D', scAirDist:'distance D',
+  slD:'📏 Distance', btnFire:'📣 Fire', btnFiring:'📣 Travelling…',
+  presetLabel:'Presets:',
+  pr1:'👂 5 m too close', pr2:'👂 17 m limit', pr3:'🏔️ 50 m valley', pr4:'🌊 1500 m', pr5:'🌊 3000 m',
+  pr1why:'📌 <em>Too close to hear</em>: t ＝ 2×5÷340 ≈ 0.029 s, far below 0.1 s. The echo catches the original and they <em>overlap</em> — it just sounds louder.',
+  pr2why:'📌 <em>The 17 m limit</em>: t ＝ 2×17÷340 ＝ 0.100 s, exactly the shortest gap the ear can separate. <em>Any closer and it blurs; any further and you hear it.</em>',
+  pr3why:'📌 <em>Valley echo</em>: t ＝ 2×50÷340 ≈ 0.294 s ≫ 0.1 s. You finish shouting long before it returns, so valley echoes are crisp.',
+  pr4why:'📌 <em>Sonar depth</em>: t ＝ 2×1500÷1500 ＝ 2.00 s, and back again d ＝ 1500 × 2 ÷ 2 ＝ 1500 m. Sound is fast in water, so sonar reaches deep.',
+  pr5why:'📌 <em>The classic textbook item</em>: echo after 4 s → d ＝ 1500 × 4 ÷ 2 ＝ 3000 m. <em>Before multiplying, ask whether t is one way or a round trip.</em>',
+  labHint:'Pick a scene, drag the Distance slider (or drag the sea floor / cliff with the mouse), then press 📣 Fire and watch the pulse go and return. The right panel cuts the total path v×t into "there" + "back" — that is the ÷2.',
+  dLabel:'Computed distance d ＝ v × t ÷ 2', kV:'Speed v', kT:'Round t/s', kHalf:'One way t÷2',
+  stHear:'Echo separable', stHearSub:'t ≥ 0.1 s · original and echo split apart',
+  stNo:'Echo overlaps original', stNoSub:'t &lt; 0.1 s · it only sounds louder',
+  f_formula:'d ＝ v {v} × t {t} ÷ 2 ＝ <b>{d} m</b>',
+  live_hear:'Round trip <b>{t} s</b> ≥ 0.1 s — the shout is over before the echo lands, so the ear <b>separates</b> them.',
+  live_no:'Round trip <b>{t} s</b> &lt; 0.1 s — the echo <b>overlaps</b> the original. The limit is <b>17 m</b>.',
+  tip_sea:'🌊 In sea water v ＝ 1500 m/s: sound goes fast and far, so sonar can sound out very deep water.',
+  tip_air:'🏔️ In air v ＝ 340 m/s: much slower, so any wall closer than 17 m gives an echo the ear cannot pick out.',
+  r_toHear:'👉 <em>Past the 17 m limit</em>: echo and original have split apart — now you hear it.',
+  r_toNo:'👉 <em>Back inside 17 m</em>: echo and original overlap again.',
+  c_half:'📌 The sound goes <em>there and back</em>: total path v × t, but the obstacle sits at the <em>halfway</em> point — hence <em>d ＝ v × t ÷ 2</em>. The speed never changes; only the number of legs does.',
+  c_hear:'📌 Whether you <em>hear</em> an echo is not about loudness but about the <em>round-trip time t ≥ 0.1 s</em> — in air that means <em>d ≥ 17 m</em>.',
+  recBtn:'Record data', recClear:'Clear', thScene:'Scene', thV:'v', thT:'t/s', thD:'d/m',
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  outLabel:'Echo strength (fraction reflected)',
+  cmpHint:'Load a preset → let the class predict which wall echoes more → press "Fire both" to check. Same sound, same distance, only the surface differs.',
+  cp1:'🧱 Tile vs 🧽 Foam', cp2:'🪨 Cliff vs 🌲 Forest', cp3:'🏫 Classroom vs 🎬 Cinema',
+  cp1a:'🧱 Hard & smooth (tile / concrete)', cp1b:'🧽 Soft & rough (acoustic foam)',
+  cp1ac:'hard · smooth · solid', cp1bc:'soft · rough · porous',
+  cp2a:'🪨 Smooth rock face (valley)', cp2b:'🌲 Dense forest (leaves)',
+  cp2ac:'one large flat hard face', cp2bc:'layers of leaves scatter and absorb',
+  cp3a:'🏫 Empty classroom (hard floor + glass)', cp3b:'🎬 Cinema (soft seats + panels)',
+  cp3ac:'mostly hard · boomy reverb', cp3bc:'mostly soft · almost no echo',
+  guessQ:'Predict first: which wall echoes more?', gMoreA:'A stronger', gSame:'Same', gMoreB:'B stronger', runCmp:'Fire both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  kRefl:'Reflect %', kAbs:'Absorb %', kEcho:'Echo',
+  wStrong:'strong', wMid:'medium', wWeak:'weak',
+  cc_1:'📌 A <em>hard, smooth</em> tiled wall <em>reflects</em> most of the sound → strong echo; <em>soft, rough, porous</em> foam <em>absorbs</em> it into heat → almost none. That is why studios are lined with foam.',
+  cc_2:'📌 A valley\'s <em>large smooth rock face</em> is a natural reflector, so shouts echo; a forest\'s leaves <em>scatter and absorb</em> the sound, so the echo is weak — same sound, different <em>surface</em>.',
+  cc_3:'📌 An empty classroom is full of hard faces, so sound bounces into <em>reverb</em>; a cinema uses soft seats and panels to <em>soak up</em> reflections so dialogue stays clear. <em>Control the echo = control the reflection.</em>',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect — echo ranging is yours!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Measure it yourself in the Demo Lab, then retry!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and drag the slider in front of the class.',
+  gTargetLabel:'Target round-trip t', gScene:'Scene this round', gRound:'Round',
+  gLock:'🎯 Lock distance', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gHint:'The distance readout is hidden! Given "the echo returns after {n} s", work out d ＝ v × t ÷ 2 in your head, push the slider there, then lock it in.',
+  gGo:'Target: the echo returns after <b>{t} s</b> ({sc}, v ＝ {v} m/s). Work out d ＝ v × t ÷ 2, then move the slider — <b>the readout appears only after you lock</b>.',
+  gPerfect:'🎯 Spot on!', gGood:'👍 Very close!', gOk:'🙂 Right idea.', gMiss:'💪 Quite far off.',
+  gTimeUp:'⏰ Time is up!', gYour:'Yours <b>{y} m</b> ｜ correct <b>{c} m</b> ｜ error {e}% ＝ <b>+{p}</b> pts',
+  gFinal:'Final score', gRank1:'🏆 Sonar operator!', gRank2:'👍 Slick with the formula!', gRank3:'💪 Practise in the Demo Lab!',
+  cvGo:'↓ pulse going', cvGoR:'→ shout going', cvBack:'↑ echo returning', cvBackR:'← echo returning',
+  cvDragSea:'⇅ drag the sea floor', cvDragAir:'⇄ drag the cliff',
+  cvActual:'actual {n} ＝ {d} m', cvUnknown:'actual {n} ＝ ? m',
+  cvPanelTitle:'⏱ Round-trip timer · d ＝ v × t ÷ 2',
+  cvTotal:'total path ＝ v × t ＝ {s} m', cvTotalQ:'total path ＝ v × t ＝ ? m',
+  cvSegGo:'there  d', cvSegBack:'back  d',
+  cvV:'v ＝ {v} m/s', cvT:'t ＝ {t} s',
+  cvD:'d ＝ {v} × {t} ÷ 2 ＝ {d} m', cvDQ:'d ＝ {v} × {t} ÷ 2 ＝ ? m',
+  cvJudgeOk:'t {t} s ≥ 0.1 s → clear echo ✔', cvJudgeNo:'t {t} s < 0.1 s → overlaps ✘',
+  cvWhy:'two legs of equal length — that is the ÷2',
+  cvEcho:'echo strength {r} %', cvRefl:'reflected {r}%　absorbed {a}%',
+  cvAbsorb:'🔥 absorbed', cvSrc:'🧍 source', cvWall:'wall',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    grid:'rgba(255,255,255,.10)', axis:'rgba(255,255,255,.34)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    barBg:'rgba(255,255,255,.10)', tick:'rgba(255,255,255,.35)',
+    skyA:'#123a56', skyB:'#2b5f7d',
+    seaA:'#1a4a6e', seaB:'#08202f', bed:'#6b4f2a', bedLine:'rgba(0,0,0,.35)',
+    ground:'#4a5d3a', rock:'#6b5a3a', rockLine:'rgba(0,0,0,.28)',
+    hardWall:'#9aa4ad', hardLine:'rgba(255,255,255,.42)', softWall:'#7a5b8a',
+    go:'#7cc4ff', back:'#4fd08c', hit:'#ff8b72',
+    amber:'#ffc94d', good:'#4fd08c', bad:'#ff6a5a',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    grid:'rgba(30,42,54,.10)', axis:'rgba(30,42,54,.38)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    barBg:'rgba(30,42,54,.10)', tick:'rgba(30,42,54,.32)',
+    skyA:'#bcdcf0', skyB:'#e6f2fa',
+    seaA:'#9dc6de', seaB:'#4d7f9e', bed:'#c2a877', bedLine:'rgba(60,45,20,.35)',
+    ground:'#a9bd8f', rock:'#c0ab84', rockLine:'rgba(60,45,20,.28)',
+    hardWall:'#b6bec6', hardLine:'rgba(30,42,54,.35)', softWall:'#b193c2',
+    go:'#2f6690', back:'#1fa050', hit:'#e0443c',
+    amber:'#a06d00', good:'#1fa050', bad:'#e0443c',
+  },
+};
+let THEME = 'light';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'light'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  THEME='light'; try{applyTheme();}catch(e){}
+}
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  labSync();
+  renderRec();
+  cmpLabels();
+  syncGameBtn();
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+14;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-11,yy-h/2,w+22,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+function ptr(ev,cv,sc){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*(cv.width/r.width)/sc, y:(ev.clientY-r.top)*(cv.height/r.height)/sc };
+}
+
+/* ============================================================
+   Physics: echo ranging.  d = v * t / 2   (t = round trip)
+============================================================ */
+const SCENES = {
+  sea:{ key:'sea', v:1500, Dmin:150, Dmax:3000, step:10, nameK:'scSeaName', distK:'scSeaDist', dragK:'cvDragSea', D0:1500 },
+  air:{ key:'air', v:340,  Dmin:2,   Dmax:400,  step:1,  nameK:'scAirName', distK:'scAirDist', dragK:'cvDragAir', D0:25 },
+};
+const MIN_T = 0.1;                       /* the ear can separate two sounds 0.1 s apart */
+let scene = 'sea';
+let D = SCENES.sea.D0;                   /* the one state variable: distance in metres */
+
+function sc(){ return SCENES[scene]; }
+function roundD(v){ const s=sc(); return clamp(Math.round(v/s.step)*s.step, s.Dmin, s.Dmax); }
+function tripT(dd){ return 2*dd/sc().v; }          /* round-trip time (s) */
+function calcD(tt){ return sc().v*tt/2; }          /* d = v * t / 2 */
+function fracOf(dd){ const s=sc(); return clamp((dd-s.Dmin)/(s.Dmax-s.Dmin),0,1); }
+function tFix(tt){ return tt>=1 ? tt.toFixed(2) : tt.toFixed(3); }
+function canHear(tt){ return tt >= MIN_T - 1e-9; }
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 500;
+const SCN = {x0:14, x1:616};
+const SEA = {cx:296, surf:118, shipY:96, top:172, bot:436};
+const AIR = {groundY:396, srcX:70, mouthY:296, x0:250, x1:580, skyTop:26};
+const PN  = {x0:636, x1:988, y0:52, y1:456};
+
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const FIRE = { on:false, p:0, dur:2.4 };
+let FLASH = null, CONCL = null;
+
+function gameAiming(){ return $('panel-game').classList.contains('on') && GAME.phase==='aim'; }
+
+function obsPos(){
+  const f = fracOf(D);
+  return scene==='sea' ? SEA.top + f*(SEA.bot-SEA.top) : AIR.x0 + f*(AIR.x1-AIR.x0);
+}
+
+/* ---------- scene: sea water ---------- */
+function drawSea(c, hide){
+  const oy = obsPos(), x0 = SCN.x0, x1 = SCN.x1, bottom = 474;
+  /* sky */
+  let g = c.createLinearGradient(0,20,0,SEA.surf);
+  g.addColorStop(0,C().skyA); g.addColorStop(1,C().skyB);
+  c.fillStyle=g; rrect(c,x0,20,x1-x0,SEA.surf-20,8); c.fill();
+  /* water */
+  g = c.createLinearGradient(0,SEA.surf,0,bottom);
+  g.addColorStop(0,C().seaA); g.addColorStop(1,C().seaB);
+  c.fillStyle=g; rrect(c,x0,SEA.surf,x1-x0,bottom-SEA.surf,8); c.fill();
+  /* sea floor */
+  c.beginPath(); c.moveTo(x0,bottom); c.lineTo(x0,oy+12);
+  for(let x=x0;x<=x1;x+=40) c.lineTo(x, oy + Math.sin(x*0.03)*7);
+  c.lineTo(x1,bottom); c.closePath();
+  c.fillStyle=C().bed; c.fill();
+  c.strokeStyle=C().bedLine; c.lineWidth=1.6; c.stroke();
+  /* drag hint */
+  line(c, x0+16, oy, x1-16, oy, C().amber, 1.8, [7,6]);
+  TX(c, t('cvDragSea'), x1-24, oy-16, '700 15px '+CV_FONT, C().amber, 'right', 'middle');
+  /* ship */
+  TX(c, '🚢', SEA.cx, SEA.shipY, '40px '+CV_FONT, C().cvText, 'center', 'middle');
+  /* distance annotation */
+  const mx = SEA.cx+62;
+  line(c, mx, SEA.surf, mx, oy, C().cvTextDim, 1.4);
+  line(c, mx-8, SEA.surf, mx+8, SEA.surf, C().cvTextDim, 1.4);
+  line(c, mx-8, oy, mx+8, oy, C().cvTextDim, 1.4);
+  const lbl = hide ? tf('cvUnknown',{n:t('scSeaDist')}) : tf('cvActual',{n:t('scSeaDist'), d:Math.round(D)});
+  tchip(c, lbl, mx+14, (SEA.surf+oy)/2, '700 15px '+CV_FONT, hide?C().amber:C().cvText, 'left', W_W, W_H);
+  /* pulse */
+  if(FIRE.on){
+    const p = FIRE.p, y0 = SEA.surf+6, down = p<0.5;
+    const y = down ? y0 + (oy-y0)*(p/0.5) : oy - (oy-y0)*((p-0.5)/0.5);
+    if(Math.abs(p-0.5)<0.05){
+      c.beginPath(); c.arc(SEA.cx, oy, 26, Math.PI, 2*Math.PI);
+      c.strokeStyle=C().hit; c.lineWidth=3.4; c.stroke();
+    }
+    const col = down ? C().go : C().back;
+    circle(c, SEA.cx, y, 10, col, null, 0);
+    c.globalAlpha=.55; circle(c, SEA.cx, y, 19, null, col, 2); c.globalAlpha=1;
+    TX(c, down? t('cvGo') : t('cvBack'), SEA.cx-30, y, '700 15px '+CV_FONT, col, 'right', 'middle');
+  }
+}
+
+/* ---------- scene: air / cliff ---------- */
+function drawAir(c, hide){
+  const ox = obsPos(), x0 = SCN.x0, x1 = SCN.x1, bottom = 474;
+  let g = c.createLinearGradient(0,AIR.skyTop,0,AIR.groundY);
+  g.addColorStop(0,C().skyA); g.addColorStop(1,C().skyB);
+  c.fillStyle=g; rrect(c,x0,AIR.skyTop,x1-x0,AIR.groundY-AIR.skyTop,8); c.fill();
+  c.fillStyle=C().ground; rrect(c,x0,AIR.groundY,x1-x0,bottom-AIR.groundY,8); c.fill();
+  line(c, x0, AIR.groundY, x1, AIR.groundY, C().rockLine, 2);
+  /* cliff */
+  c.beginPath();
+  c.moveTo(ox, AIR.groundY);
+  c.lineTo(ox-14, AIR.groundY-56);
+  c.lineTo(ox+8,  AIR.groundY-132);
+  c.lineTo(ox-5,  AIR.skyTop+22);
+  c.lineTo(x1, AIR.skyTop+22); c.lineTo(x1, AIR.groundY);
+  c.closePath(); c.fillStyle=C().rock; c.fill();
+  c.strokeStyle=C().rockLine; c.lineWidth=1.2;
+  for(let y=AIR.skyTop+50; y<AIR.groundY; y+=26){
+    line(c, ox+2, y, x1, y, C().rockLine, 1);
+  }
+  /* reflecting face + drag hint */
+  line(c, ox, AIR.skyTop+26, ox, AIR.groundY, C().amber, 1.8, [7,6]);
+  TX(c, t('cvDragAir'), clamp(ox, SCN.x0+70, SCN.x1-70), AIR.skyTop+12, '700 15px '+CV_FONT, C().amber, 'center', 'middle');
+  /* person */
+  TX(c, '🧍', AIR.srcX, AIR.groundY-24, '46px '+CV_FONT, C().cvText, 'center', 'middle');
+  /* distance annotation */
+  const my = AIR.groundY+42;
+  line(c, AIR.srcX, my, ox, my, C().cvTextDim, 1.4);
+  line(c, AIR.srcX, my-8, AIR.srcX, my+8, C().cvTextDim, 1.4);
+  line(c, ox, my-8, ox, my+8, C().cvTextDim, 1.4);
+  const lbl = hide ? tf('cvUnknown',{n:t('scAirDist')}) : tf('cvActual',{n:t('scAirDist'), d:Math.round(D)});
+  tchip(c, lbl, (AIR.srcX+ox)/2, my, '700 15px '+CV_FONT, hide?C().amber:C().cvText, 'center', W_W, W_H);
+  /* pulse */
+  if(FIRE.on){
+    const p = FIRE.p, sx = AIR.srcX+18, right = p<0.5;
+    const x = right ? sx + (ox-sx)*(p/0.5) : ox - (ox-sx)*((p-0.5)/0.5);
+    if(Math.abs(p-0.5)<0.05){
+      c.beginPath(); c.arc(ox, AIR.mouthY, 26, -Math.PI/2, Math.PI/2);
+      c.strokeStyle=C().hit; c.lineWidth=3.4; c.stroke();
+    }
+    const col = right ? C().go : C().back;
+    circle(c, x, AIR.mouthY, 10, col, null, 0);
+    c.globalAlpha=.55; circle(c, x, AIR.mouthY, 19, null, col, 2); c.globalAlpha=1;
+    TX(c, right? t('cvGoR') : t('cvBackR'), x, AIR.mouthY-32, '700 15px '+CV_FONT, col, 'center', 'middle');
+  }
+}
+
+/* ---------- the "why divide by 2" panel ---------- */
+function drawPanel(c, hide){
+  const s = sc();
+  const tShown = FIRE.on ? FIRE.p*tripT(D) : tripT(D);
+  const tTarget = hide ? GAME.tgt : tShown;
+  const dShown = calcD(tShown);
+  rrect(c, PN.x0, PN.y0, PN.x1-PN.x0, PN.y1-PN.y0, 12);
+  c.fillStyle=C().panel; c.fill(); c.strokeStyle=C().panelLine; c.lineWidth=1.4; c.stroke();
+  const cx = (PN.x0+PN.x1)/2;
+  TX(c, t('cvPanelTitle'), cx, PN.y0+28, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(c, '⏱ '+tFix(tTarget)+' s', cx, PN.y0+74, '900 34px '+CV_FONT, C().amber, 'center', 'middle');
+
+  /* total-path bar, split into "there" and "back" */
+  const bx0 = PN.x0+24, bx1 = PN.x1-24, by = PN.y0+118, bh = 26, mid = (bx0+bx1)/2;
+  TX(c, hide ? t('cvTotalQ') : tf('cvTotal',{s:Math.round(s.v*tShown)}), cx, by-20, '700 15px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  rrect(c, bx0, by, bx1-bx0, bh, 7); c.fillStyle=C().barBg; c.fill();
+  if(!hide){
+    const q = FIRE.on ? FIRE.p : 1;
+    const gw = Math.min(q,0.5)/0.5*(mid-bx0);
+    c.fillStyle=C().go; rrect(c, bx0, by, Math.max(0,gw), bh, 7); c.fill();
+    if(q>0.5){
+      const bw = (q-0.5)/0.5*(bx1-mid);
+      c.fillStyle=C().back; rrect(c, mid, by, Math.max(0,bw), bh, 7); c.fill();
+    }
+  }
+  rrect(c, bx0, by, bx1-bx0, bh, 7); c.strokeStyle=C().panelLine; c.lineWidth=1.4; c.stroke();
+  line(c, mid, by-7, mid, by+bh+7, C().amber, 2.2, [5,4]);
+  TX(c, t('cvSegGo'),   (bx0+mid)/2, by+bh+17, '700 14px '+CV_FONT, C().go,   'center', 'middle');
+  TX(c, t('cvSegBack'), (mid+bx1)/2, by+bh+17, '700 14px '+CV_FONT, C().back, 'center', 'middle');
+  TX(c, t('cvWhy'), cx, by+bh+40, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* the formula, spelled out with live numbers */
+  const fy = PN.y0+236;
+  TX(c, tf('cvV',{v:s.v}), cx, fy, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(c, tf('cvT',{t:tFix(tTarget)}), cx, fy+26, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  const dLine = hide ? tf('cvDQ',{v:s.v, t:tFix(tTarget)})
+                     : tf('cvD',{v:s.v, t:tFix(tShown), d:Math.round(dShown)});
+  TX(c, dLine, cx, fy+62, '900 17px '+CV_FONT, C().amber, 'center', 'middle');
+  /* the 0.1 s / 17 m criterion */
+  const tj = hide ? GAME.tgt : tripT(D);
+  const okHear = canHear(tj);
+  TX(c, okHear ? tf('cvJudgeOk',{t:tFix(tj)}) : tf('cvJudgeNo',{t:tFix(tj)}),
+     cx, fy+100, '700 15px '+CV_FONT, okHear?C().good:C().bad, 'center', 'middle');
+}
+
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const hide = gameAiming();
+  if(scene==='sea') drawSea(c,hide); else drawAir(c,hide);
+  drawPanel(c,hide);
+}
+
+/* ---------- sidebar message ---------- */
+function renderMsg(){
+  const s = sc(), tt = tripT(D), ok = canHear(tt);
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const formula = tf('f_formula', {v:s.v, t:tFix(tt), d:Math.round(calcD(tt))});
+  const live = ok ? tf('live_hear',{t:tFix(tt)}) : tf('live_no',{t:tFix(tt)});
+  const tip = scene==='sea' ? t('tip_sea') : t('tip_air');
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + live + '<br>' + tip;
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- state setters ---------- */
+function syncSliders(){
+  const s = sc();
+  [['s-d','s-d-o'],['g-d','g-d-o']].forEach(pair=>{
+    const el = $(pair[0]), out = $(pair[1]);
+    if(el){ el.min=s.Dmin; el.max=s.Dmax; el.step=s.step; el.value=D; }
+    if(out){
+      const hideNum = (pair[0]==='g-d') && gameAiming();
+      out.textContent = hideNum ? '? m' : Math.round(D)+' m';
+    }
+  });
+}
+/* 解释文字默认收起来 —— 屏幕上先只留大数字，要讲的时候才点开 */
+let EXPLAIN = false;
+function syncExplain(){
+  const box = $('l-explain'), b = $('l-exp-btn');
+  if(box) box.classList.toggle('on', EXPLAIN);
+  if(b){
+    b.classList.toggle('open', EXPLAIN);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = EXPLAIN ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  }
+}
+function toggleExplain(){ EXPLAIN = !EXPLAIN; syncExplain(); }
+
+function labSync(){
+  const s = sc(), tt = tripT(D), ok = canHear(tt);
+  /* while the pulse is in flight the stopwatch counts up — that IS the measurement */
+  const tLive = FIRE.on ? FIRE.p*tt : tt;
+  if($('l-d')) $('l-d').textContent = Math.round(calcD(tLive));
+  if($('l-v')) $('l-v').textContent = s.v;
+  if($('l-t')) $('l-t').textContent = tFix(tLive);
+  if($('l-half')) $('l-half').textContent = tFix(tLive/2);
+  const bd = $('l-state');
+  if(bd){
+    bd.innerHTML = ok ? t('stHear')+'<small>'+t('stHearSub')+'</small>'
+                      : t('stNo')+'<small>'+t('stNoSub')+'</small>';
+    bd.style.color = ok ? '#1d7a3a' : '#b8432f';
+    bd.style.borderColor = ok ? '#1d7a3a' : 'var(--pos)';
+  }
+  document.querySelectorAll('.sbtn[data-sc]').forEach(b=>b.classList.toggle('pick', b.dataset.sc===scene));
+  const fb = $('btn-fire');
+  if(fb) fb.textContent = FIRE.on ? t('btnFiring') : t('btnFire');
+  syncSliders();
+  renderMsg();
+}
+function setD(v){
+  const before = canHear(tripT(D));
+  D = roundD(v);
+  const after = canHear(tripT(D));
+  if(before !== after){ FLASH = after ? 'r_toHear' : 'r_toNo'; CONCL = 'c_hear'; }
+  labSync();
+}
+function setScene(k){
+  if(!SCENES[k]) return;
+  scene = k; D = SCENES[k].D0;
+  FIRE.on = false; FLASH = null; CONCL = null;
+  labSync();
+}
+function labReset(){
+  FIRE.on = false; FLASH = null; CONCL = null;
+  D = sc().D0;
+  labSync();
+}
+function fireSonar(){
+  if(FIRE.on) return;
+  FIRE.on = true; FIRE.p = 0;
+  FIRE.dur = 1.6 + 2.6*fracOf(D);      /* slowed to 1.6–4.2 s so the class can watch */
+  CONCL = 'c_half';
+  labSync();
+}
+
+/* ---------- one-click presets (absorbs the old "can you hear the echo?" module) ---------- */
+const PRESETS = {
+  pr1:{ scene:'air', D:5   },
+  pr2:{ scene:'air', D:17  },
+  pr3:{ scene:'air', D:50  },
+  pr4:{ scene:'sea', D:1500},
+  pr5:{ scene:'sea', D:3000},
+};
+function preset(id){
+  const p = PRESETS[id];
+  if(!p) return;
+  setMode('lab');
+  scene = p.scene; D = roundD(p.D);
+  FIRE.on = false; FLASH = null;
+  labSync();
+  CONCL = id+'why';
+  renderMsg();
+  fireSonar();
+  CONCL = id+'why';
+  renderMsg();
+  const btn = document.querySelector('.rail [data-p="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  const tt = tripT(D);
+  recRows.push({ scene:scene, v:sc().v, t:tFix(tt), d:Math.round(calcD(tt)) });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.d); });
+  body.innerHTML = recRows.map(r=>{
+    const pct = top>0 ? Math.max(6, r.d/top*100) : 0;
+    const nm = r.scene==='sea' ? '🌊' : '🏔️';
+    return '<tr><td>'+nm+'</td><td>'+r.v+'</td><td>'+r.t+'</td><td>'+r.d+'</td>'+
+      '<td><div class="bar '+r.scene+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare — reflection vs absorption (world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CW = {srcX:56, wallX:322, wallW:46, cy:176, top:44, bot:300};
+const CMP_PRESETS = [
+  { id:0, a:{R:0.92, hard:true,  nameK:'cp1a', condK:'cp1ac'}, b:{R:0.15, hard:false, nameK:'cp1b', condK:'cp1bc'}, concl:'cc_1' },
+  { id:1, a:{R:0.85, hard:true,  nameK:'cp2a', condK:'cp2ac'}, b:{R:0.25, hard:false, nameK:'cp2b', condK:'cp2bc'}, concl:'cc_2' },
+  { id:2, a:{R:0.70, hard:true,  nameK:'cp3a', condK:'cp3ac'}, b:{R:0.10, hard:false, nameK:'cp3b', condK:'cp3bc'}, concl:'cc_3' },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+function side(which){ return CMP_PRESETS[CMP.preset][which]; }
+function echoShown(R, p){ return R*100*clamp((p-0.12)/0.22, 0, 1); }
+function echoWord(R){ return R>=0.6 ? t('wStrong') : R>=0.3 ? t('wMid') : t('wWeak'); }
+
+function drawCmpSide(ctx, s, p){
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,CM_W*SC,CM_H*SC);
+  ctx.setTransform(SC,0,0,SC,0,0);
+  const cy = CW.cy, srcX = CW.srcX, wallX = CW.wallX;
+  const Dpx = wallX - srcX - 8;
+
+  /* wall */
+  if(s.hard){
+    ctx.fillStyle=C().hardWall; rrect(ctx, wallX, CW.top, CW.wallW, CW.bot-CW.top, 4); ctx.fill();
+    for(let y=CW.top+16; y<CW.bot-8; y+=22) line(ctx, wallX, y, wallX+CW.wallW, y, C().hardLine, 1.2);
+  } else {
+    ctx.fillStyle=C().softWall;
+    for(let y=CW.top+12; y<CW.bot-6; y+=14){
+      circle(ctx, wallX+9,  y,   7.5, C().softWall, null, 0);
+      circle(ctx, wallX+25, y+7, 7.5, C().softWall, null, 0);
+      circle(ctx, wallX+41, y,   7.5, C().softWall, null, 0);
+    }
+  }
+  /* source */
+  TX(ctx, '🧍', srcX, cy+6, '34px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(ctx, t('cvSrc'), srcX, cy+40, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* waves: 3 round trips over p = 0..1 */
+  const NW = 4, ROUND = 2*Dpx, phase = p*3;
+  let hitFlash = false;
+  for(let i=0;i<NW;i++){
+    const r = ((phase*ROUND) + i*ROUND/NW) % ROUND;
+    if(r < Dpx){
+      const a = 1 - r/Dpx*0.25;
+      ctx.strokeStyle = C().go; ctx.globalAlpha = a; ctx.lineWidth = 2.8;
+      ctx.beginPath(); ctx.arc(srcX, cy, r+14, -0.55, 0.55); ctx.stroke();
+      ctx.globalAlpha = 1;
+      if(Dpx-r < 14) hitFlash = true;
+    } else {
+      const rr = r-Dpx, a = s.R*(1-rr/Dpx*0.35);
+      if(a > 0.04){
+        ctx.strokeStyle = s.hard ? C().back : C().hit;
+        ctx.globalAlpha = clamp(a,0,1); ctx.lineWidth = s.hard ? 2.8 : 1.6;
+        ctx.beginPath(); ctx.arc(wallX, cy, rr+12, Math.PI-0.55, Math.PI+0.55); ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+    }
+  }
+  if(hitFlash && p>0){
+    ctx.strokeStyle=C().amber; ctx.lineWidth=3.4;
+    ctx.beginPath(); ctx.arc(wallX, cy, 22, Math.PI-0.6, Math.PI+0.6); ctx.stroke();
+  }
+  if(!s.hard) TX(ctx, t('cvAbsorb'), wallX+CW.wallW/2, cy-52, '700 14px '+CV_FONT, C().hit, 'center', 'middle');
+
+  /* readouts */
+  const shown = echoShown(s.R, p);
+  TX(ctx, tf('cvEcho',{r:Math.round(shown)}), CM_W/2, 334,
+     '900 26px '+CV_FONT, shown>=40?C().good:(shown>=15?C().amber:C().bad), 'center', 'middle');
+  TX(ctx, tf('cvRefl',{r:Math.round(s.R*100), a:Math.round((1-s.R)*100)}), CM_W/2, 362,
+     '700 14px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(ctx, t('cvWall'), wallX+CW.wallW/2, CW.bot+18, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, side('a'), CMP.p);
+  drawCmpSide(ctxB, side('b'), CMP.p);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const a = side('a'), b = side('b');
+  $('c-out-a').textContent = Math.round(echoShown(a.R, CMP.p));
+  $('c-out-b').textContent = Math.round(echoShown(b.R, CMP.p));
+  $('c-r-a').textContent = Math.round(a.R*100);
+  $('c-a-a').textContent = Math.round((1-a.R)*100);
+  $('c-e-a').textContent = echoWord(a.R);
+  $('c-r-b').textContent = Math.round(b.R*100);
+  $('c-a-b').textContent = Math.round((1-b.R)*100);
+  $('c-e-b').textContent = echoWord(b.R);
+}
+function cmpLabels(){
+  const a = side('a'), b = side('b');
+  $('ca-name').textContent = t(a.nameK);
+  $('cb-name').textContent = t(b.nameK);
+  $('ca-cond').textContent = t(a.condK);
+  $('cb-cond').textContent = t(b.condK);
+  $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = side('a'), b = side('b');
+  const real = Math.abs(a.R-b.R) < 0.03 ? 'same' : (a.R>b.R ? 'a' : 'b');
+  const zh = LANG==='zh';
+  const detail = (zh?'（':' (')+(zh?'甲':'A')+' '+Math.round(a.R*100)+'% · '+
+                 (zh?'乙':'B')+' '+Math.round(b.R*100)+'%'+(zh?'）':')');
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Ranging challenge (target challenge — reuses the lab canvas)
+   Given a round-trip time t, the class must set d = v * t / 2 blind.
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 40;
+const GAME_POOL = [
+  { scene:'sea', t:2.0 },   /* 1500 m */
+  { scene:'sea', t:3.0 },   /* 2250 m */
+  { scene:'sea', t:1.0 },   /*  750 m */
+  { scene:'sea', t:4.0 },   /* 3000 m */
+  { scene:'air', t:0.5 },   /*   85 m */
+  { scene:'air', t:1.0 },   /*  170 m */
+  { scene:'air', t:0.2 },   /*   34 m */
+  { scene:'air', t:2.0 },   /*  340 m */
+];
+const GAME = { round:0, score:0, tgt:2, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GAME_POOL.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tm=idx[i]; idx[i]=idx[j]; idx[j]=tm; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  const r = GAME_POOL[GAME.order[GAME.round-1]];
+  scene = r.scene; GAME.tgt = r.t;
+  FIRE.on = false; FLASH = null; CONCL = null;
+  /* start from the middle of the range so the slider gives nothing away */
+  D = roundD((sc().Dmin + sc().Dmax)/2);
+  $('g-status').innerHTML = tf('gGo', {t:tFix(GAME.tgt), sc:t(sc().nameK), v:sc().v});
+  labSync(); gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) lockGame(true);
+  }, 1000);
+}
+function lockGame(timedOut){
+  if(GAME.phase === 'aim'){
+    stopGTimer();
+    const correct = calcD(GAME.tgt);
+    const err = Math.abs(D-correct)/correct*100;
+    const pts = err<=2 ? 100 : err<=5 ? 80 : err<=10 ? 50 : err<=20 ? 20 : 5;
+    GAME.score += pts;
+    const grade = err<=2 ? t('gPerfect') : err<=5 ? t('gGood') : err<=10 ? t('gOk') : t('gMiss');
+    GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+    let msg = (timedOut===true ? t('gTimeUp')+' ' : '') + grade + '<br>' +
+      tf('gYour', {y:Math.round(D), c:Math.round(correct), e:err.toFixed(1), p:pts});
+    if(GAME.phase === 'done'){
+      const rk = GAME.score>=270 ? t('gRank1') : GAME.score>=180 ? t('gRank2') : t('gRank3');
+      msg += '<br>' + t('gFinal') + ' ' + GAME.score + ' — ' + rk;
+    }
+    $('g-status').innerHTML = msg;
+    labSync(); gameSync();
+  } else if(GAME.phase === 'next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function gameSync(){
+  $('g-round').textContent = GAME.round;
+  $('g-target').textContent = tFix(GAME.tgt);
+  $('g-target-side').textContent = tFix(GAME.tgt);
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-score').textContent = GAME.score;
+  $('g-scene-side').textContent = t(sc().nameK)+' · v = '+sc().v+' m/s';
+  syncGameBtn();
+  syncSliders();
+}
+function syncGameBtn(){
+  const b = $('g-lock');
+  if(b) b.textContent = GAME.phase==='aim' ? t('gLock')
+                      : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+  const v = $('g-vlabel');
+  if(v) v.textContent = t(sc().nameK)+' · v = '+sc().v+' m/s';
+}
+
+/* ============================================================
+   Canvas dragging (world coords, clamped)
+============================================================ */
+let dragging = false;
+labCv.addEventListener('pointerdown', e=>{
+  if(FIRE.on) return;
+  if(ptr(e, labCv, SC).x > SCN.x1) return;   /* the formula panel is not draggable */
+  dragging = true;
+  try{ labCv.setPointerCapture(e.pointerId); }catch(err){}
+  dragObs(e);
+});
+labCv.addEventListener('pointermove', e=>{ if(dragging) dragObs(e); });
+labCv.addEventListener('pointerup', ()=>{ dragging=false; });
+labCv.addEventListener('pointercancel', ()=>{ dragging=false; });
+function dragObs(e){
+  const p = ptr(e, labCv, SC);
+  if(p.x > SCN.x1) return;                 /* clicks on the formula panel are not drags */
+  const s = sc();
+  const f = scene==='sea'
+    ? clamp((p.y-SEA.top)/(SEA.bot-SEA.top), 0, 1)
+    : clamp((p.x-AIR.x0)/(AIR.x1-AIR.x0), 0, 1);
+  setD(s.Dmin + f*(s.Dmax-s.Dmin));
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    if(FIRE.on){
+      FIRE.p += dt/FIRE.dur;
+      if(FIRE.p >= 1){ FIRE.p = 1; FIRE.on = false; labSync(); }
+      else if(labOn) labSync();
+    }
+    drawLab();
+  } else if($('panel-cmp').classList.contains('on')){
+    if(CMP.running){
+      CMP.p += dt/5;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; drawCmpBoth(); finishCmp(); }
+      else drawCmpBoth();
+    }
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  CMP.running = false; FIRE.on = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); labSync(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+
+</script>
+<script>
+window.LAB_SLUG='echo-sonar-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

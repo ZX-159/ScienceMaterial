@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Doppler Effect Lab · 多普勒效应实验室</title>
+<style>
+:root{
+  --paper:#fffefb; --bg:#f2f1e9; --bg2:#F2F1E9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --ink2:#68786F; --ink3:#5A605D; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --tealSoft:#E4EEE4; --teal2:#0F4A42;
+  --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F; --gold:#C9A227;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+<header class="toolbar">
+  <div class="brand-mark"><svg width="20" height="20" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg></div>
+  <div class="hleft">
+    <h1>Doppler Effect · 多普勒效应实验室</h1>
+    <div class="sub">Moving source, wavefronts compress ahead, stretch behind — redshift & blueshift</div>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn" id="langBtn">EN</button>
+    <button class="hbtn" id="themeBtn">🌙</button>
+    <button class="hbtn primary" id="resetBtn">↺ Reset</button>
+  </div>
+</header>
+
+<main class="main">
+  <section class="workspace">
+    <div class="intro">
+      <div>
+        <div class="eyebrow">physics · wave · Interactive lab</div>
+        <h2>Doppler Effect — Why pitch changes when source moves</h2>
+        <p>Ambulance approaching sounds higher, receding lower. Light from distant galaxies redshifted. Drag source speed, observer position. f' = f · v / (v ∓ vs). When vs→v, wavefronts pile up — sonic boom.</p>
+      </div>
+      <span class="experiment-number">81</span>
+    </div>
+
+    <div class="scene-card">
+      <div class="scene-top">
+        <span class="scene-caption" id="sceneCaption">Moving Source · Wavefronts</span>
+        <span class="status" id="status">vs=0 m/s · f=40Hz</span>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="scene" width="1200" height="600"></canvas>
+      </div>
+      <div class="scene-bottom">
+        <span class="hint" id="hint">💡 拖一拖·调一调 — 拖动声源速度，观察前方波前压缩、后方拉伸</span>
+        <div class="scene-tools">
+          <button class="btn ghost" id="playBtn">▶ Play</button>
+          <button class="btn ghost" id="emitBtn">〰 Emit Wave</button>
+          <button class="btn" id="clearBtn">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="label">Source Speed</div><div class="value" id="mVs">0</div><div class="unit">m/s</div></div>
+      <div class="metric"><div class="label">Observed f (front)</div><div class="value" id="mFfront">40</div><div class="unit">Hz</div></div>
+      <div class="metric"><div class="label">Observed f (behind)</div><div class="value" id="mFbehind">40</div><div class="unit">Hz</div></div>
+      <div class="metric"><div class="label">Wavelength λ'</div><div class="value" id="mLambda">8.5</div><div class="unit">m (front)</div></div>
+    </div>
+
+    <div class="workspace-foot"><span>ScienceMaterial · Unique original · Apple HIG · ScienceMaterial</span><span></span></div>
+  </section>
+
+  <aside class="side-panel">
+    <div class="panel-tabs">
+      <button class="on" data-tab="lab">Lab</button>
+      <button data-tab="theory">Theory</button>
+      <button data-tab="astro">Astro</button>
+      <button data-tab="quiz">Quiz</button>
+    </div>
+    <div class="panel-scroll">
+      <div class="control">
+        <div class="control-head"><span class="label">Source Speed vs (m/s)</span><output id="oVs">0</output></div>
+        <div class="range-row"><button class="stepper" id="vsMinus">−</button><input type="range" id="rVs" min="-100" max="200" step="1" value="0"><button class="stepper" id="vsPlus">+</button></div>
+        <div class="qbox"><span style="font-size:9px;background:#1c2c42;color:#fff;border-radius:4px;padding:2px 6px;margin-right:6px">Q</span>vs>0 moving right, vs<0 left. When vs approaches v=340 m/s, what happens to wavefronts ahead?</div>
+      </div>
+
+      <div class="control">
+        <div class="control-head"><span class="label">Emission Frequency f (Hz)</span><output id="oF">40</output></div>
+        <div class="range-row"><button class="stepper" id="fMinus">−</button><input type="range" id="rF" min="5" max="100" step="1" value="40"><button class="stepper" id="fPlus">+</button></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head"><span class="label">Wave Speed v (m/s)</span><output id="oV">340</output></div>
+        <div class="range-row"><input type="range" id="rV" min="200" max="600" step="10" value="340"></div>
+        <div class="kbox">v = f·λ. In air ~340 m/s, water ~1500 m/s. Doppler shift depends on vs/v ratio, not absolute v.</div>
+      </div>
+
+      <div class="control">
+        <div class="control-head"><span class="label">Observer</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn ghost" data-obs="front" id="obsFront">Front (blueshift)</button>
+          <button class="btn ghost" data-obs="behind" id="obsBehind">Behind (redshift)</button>
+          <button class="btn ghost" data-obs="both" id="obsBoth">Both</button>
+        </div>
+        <div class="kbox blue" id="obsInfo">Front observer: f' = f·v/(v−vs) > f (higher pitch). Behind: f' = f·v/(v+vs) < f (lower).</div>
+      </div>
+
+      <div class="control" id="theoryPanel" style="display:none">
+        <div class="kbox">f' = f · v / (v ∓ vs) — moving source<br>f' = f · (v ± vo)/v — moving observer<br>Combined: f' = f·(v±vo)/(v∓vs)</div>
+        <div class="kbox grn">Light: redshift z = (λ_obs−λ_emit)/λ_emit. Hubble: distant galaxies redshift → universe expanding.</div>
+      </div>
+
+      <div class="control" id="astroPanel" style="display:none">
+        <div class="qbox">Galaxy moving away at 0.1c, Hα 656nm → observed 722nm redshift. Calculate z?</div>
+        <div class="kbox">Sonic boom: vs = v → wavefronts pile at Mach cone sinθ = v/vs. vs>v → supersonic, cone angle decreases.</div>
+      </div>
+
+      <div class="control" id="quizPanel" style="display:none">
+        <div class="qbox" id="quizQ">Ambulance approaching vs=30 m/s, f=800Hz, v=340 m/s. Observed f?</div>
+        <div style="display:flex;flex-direction:column;gap:8px" id="quizOpts"></div>
+        <div class="kbox" id="quizFb" style="display:none"></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+let vs=0, f=40, v=340, observer='both', playing=false, time=0;
+let wavefronts=[]; // {x0, t0}
+
+const canvas=$('scene'), ctx=canvas.getContext('2d');
+function resize(){
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr;
+  canvas.height=rect.height*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize',resize);
+resize();
+
+function emit(){
+  wavefronts.push({x0: sourceX(), t0: time});
+  if(wavefronts.length>60) wavefronts.shift();
+}
+function sourceX(){
+  // source moves horizontally across canvas, loop
+  const W=canvas.getBoundingClientRect().width;
+  const base=W*0.2 + (time*vs*0.8)%(W*0.6);
+  return base;
+}
+
+function draw(){
+  const rect=canvas.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  ctx.clearRect(0,0,W,H);
+  // bg
+  ctx.fillStyle='#f9fbf3';
+  ctx.fillRect(0,0,W,H);
+  // grid
+  ctx.strokeStyle='#e4e9dc'; ctx.lineWidth=1;
+  for(let x=0;x<W;x+=60){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for(let y=0;y<H;y+=60){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // wavefronts
+  const sx=sourceX();
+  const sy=H*0.5;
+  wavefronts.forEach(wf=>{
+    const age=time-wf.t0;
+    const r=age*v*0.6; // scale for visualization
+    if(r<0||r>W) return;
+    // source at emission time was at wf.x0, but wave expands from that point (in medium, not moving with source)
+    ctx.beginPath();
+    ctx.arc(wf.x0, sy, r, 0, Math.PI*2);
+    ctx.strokeStyle=age<0.5?'#146e61':'#d7dfd1';
+    ctx.lineWidth=age<0.5?2:1;
+    ctx.stroke();
+  });
+
+  // source
+  ctx.fillStyle='#1c2c42';
+  ctx.beginPath(); ctx.arc(sx, sy, 10, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#fffefb'; ctx.font='700 10px -apple-system'; ctx.textAlign='center'; ctx.fillText('S', sx, sy+3);
+
+  // observers
+  if(observer==='front'||observer==='both'){
+    const ox=W*0.85, oy=H*0.3;
+    ctx.fillStyle='#146e61'; ctx.beginPath(); ctx.arc(ox, oy, 8, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle='#1c2c42'; ctx.font='600 10px -apple-system'; ctx.textAlign='center'; ctx.fillText('Front Obs', ox, oy-14);
+    // calculate observed f front
+    const fFront = v/(v-vs)*f;
+    ctx.fillText(`f'=${fFront.toFixed(1)}Hz`, ox, oy+20);
+  }
+  if(observer==='behind'||observer==='both'){
+    const ox=W*0.15, oy=H*0.7;
+    ctx.fillStyle='#D9542B'; ctx.beginPath(); ctx.arc(ox, oy, 8, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle='#1c2c42'; ctx.font='600 10px -apple-system'; ctx.textAlign='center'; ctx.fillText('Behind Obs', ox, oy-14);
+    const fBehind = v/(v+vs)*f;
+    ctx.fillText(`f'=${fBehind.toFixed(1)}Hz`, ox, oy+20);
+  }
+
+  // Mach cone if vs>=v
+  if(Math.abs(vs)>=v){
+    const coneX=sx;
+    const angle=Math.asin(v/Math.abs(vs));
+    ctx.strokeStyle='#D9542B'; ctx.lineWidth=2; ctx.setLineDash([6,4]);
+    ctx.beginPath();
+    ctx.moveTo(coneX, sy);
+    ctx.lineTo(coneX + (vs>0?1:-1)*H*Math.cos(angle), sy + H*Math.sin(angle));
+    ctx.moveTo(coneX, sy);
+    ctx.lineTo(coneX + (vs>0?1:-1)*H*Math.cos(angle), sy - H*Math.sin(angle));
+    ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#D9542B'; ctx.font='600 11px -apple-system'; ctx.fillText('Sonic Boom Mach Cone', coneX+20, sy-20);
+  }
+
+  // info
+  ctx.fillStyle='#68786f'; ctx.font='10px ui-monospace'; ctx.textAlign='left';
+  ctx.fillText(`vs=${vs} m/s  v=${v} m/s  f=${f}Hz  time=${time.toFixed(2)}s`, 12, H-10);
+}
+
+function updateMetrics(){
+  const fFront = v/(v-vs)*f;
+  const fBehind = v/(v+vs)*f;
+  const lambdaFront = (v-vs)/f;
+  $('mVs').textContent=vs;
+  $('mFfront').textContent=isFinite(fFront)?fFront.toFixed(1):'∞';
+  $('mFbehind').textContent=isFinite(fBehind)?fBehind.toFixed(1):'∞';
+  $('mLambda').textContent=isFinite(lambdaFront)?lambdaFront.toFixed(2):'∞';
+  $('oVs').textContent=vs+' m/s';
+  $('oF').textContent=f+' Hz';
+  $('oV').textContent=v+' m/s';
+  $('status').textContent=`vs=${vs} m/s · f=${f}Hz · v=${v} m/s`;
+}
+
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(playing){
+    time+=dt;
+    // auto emit at frequency f
+    if(Math.random()<dt*f/4) emit();
+    draw(); updateMetrics();
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// Controls
+$('rVs').addEventListener('input',e=>{vs=+e.target.value; updateMetrics(); if(!playing) draw();});
+$('vsMinus').addEventListener('click',()=>{vs=clamp(vs-5,-100,200); $('rVs').value=vs; updateMetrics(); draw();});
+$('vsPlus').addEventListener('click',()=>{vs=clamp(vs+5,-100,200); $('rVs').value=vs; updateMetrics(); draw();});
+$('rF').addEventListener('input',e=>{f=+e.target.value; updateMetrics(); draw();});
+$('fMinus').addEventListener('click',()=>{f=clamp(f-1,5,100); $('rF').value=f; updateMetrics(); draw();});
+$('fPlus').addEventListener('click',()=>{f=clamp(f+1,5,100); $('rF').value=f; updateMetrics(); draw();});
+$('rV').addEventListener('input',e=>{v=+e.target.value; updateMetrics(); draw();});
+$('playBtn').addEventListener('click',()=>{playing=!playing; $('playBtn').textContent=playing?'⏸ Pause':'▶ Play';});
+$('emitBtn').addEventListener('click',()=>{emit(); draw();});
+$('clearBtn').addEventListener('click',()=>{wavefronts=[]; time=0; draw();});
+$('resetBtn').addEventListener('click',()=>{vs=0;f=40;v=340;wavefronts=[];time=0;playing=false;$('rVs').value=vs;$('rF').value=f;$('rV').value=v;$('playBtn').textContent='▶ Play';updateMetrics();draw();});
+
+document.querySelectorAll('[data-obs]').forEach(b=>b.addEventListener('click',()=>{
+  observer=b.dataset.obs;
+  document.querySelectorAll('[data-obs]').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  draw();
+}));
+
+document.querySelectorAll('.panel-tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.panel-tabs button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const tab=btn.dataset.tab;
+    $('theoryPanel').style.display=tab==='theory'?'block':'none';
+    $('astroPanel').style.display=tab==='astro'?'block':'none';
+    $('quizPanel').style.display=tab==='quiz'?'block':'none';
+  });
+});
+
+// Quiz
+const quizData=[
+  {q:'Ambulance approaching vs=30 m/s, f=800Hz, v=340 m/s. Observed f?', opts:['700Hz','878Hz','800Hz'], a:1, exp:'f\' = f·v/(v−vs)=800·340/(310)=878Hz — higher pitch, blueshift'},
+  {q:'Receding same ambulance, observed?', opts:['878Hz','734Hz','800Hz'], a:1, exp:'f\'=f·v/(v+vs)=800·340/370=734Hz — lower, redshift'},
+  {q:'vs = v = 340 m/s, what happens ahead?', opts:['λ→0, f→∞','No change','f→0'], a:0, exp:'Wavefronts pile up, wavelength compressed to zero — sonic boom, Mach cone'},
+  {q:'Light from galaxy z=0.1, rest λ=656nm Hα, observed?', opts:['590nm','722nm','656nm'], a:1, exp:'λ_obs = λ_emit·(1+z)=656·1.1=722nm redshift — universe expanding (Hubble)'},
+];
+let qi=0;
+function renderQuiz(){
+  const d=quizData[qi];
+  $('quizQ').textContent=(qi+1)+'. '+d.q;
+  $('quizOpts').innerHTML='';
+  d.opts.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='btn ghost'; b.style.width='100%'; b.style.textAlign='left'; b.textContent=String.fromCharCode(65+i)+'. '+o;
+    b.onclick=()=>{
+      const correct=i===d.a;
+      $('quizFb').style.display='block';
+      $('quizFb').innerHTML=(correct?'✅ Correct! ':'❌ ')+d.exp + `<br><button class="btn" style="margin-top:8px" onclick="nextQuiz()">Next →</button>`;
+      [...$('quizOpts').children].forEach((c,k)=>{c.style.borderColor=k===d.a?'#146e61':k===i&&!correct?'#bd6151':'#DDD9CF'; c.style.background=k===d.a?'#E4EEE4':k===i&&!correct?'#FBEAE2':'#fffefb';});
+    };
+    $('quizOpts').appendChild(b);
+  });
+  $('quizFb').style.display='none';
+}
+window.nextQuiz=()=>{qi=(qi+1)%quizData.length; renderQuiz();};
+renderQuiz();
+
+updateMetrics(); draw(); emit();
+
+window.LAB_SLUG='doppler-effect-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset'){$('resetBtn').click();}});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

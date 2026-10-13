@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Electromagnet Lab · 电磁铁探究实验室</title>
+<style>
+:root{
+  --paper:#fffefb; --bg:#f2f1e9; --bg2:#F2F1E9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --ink2:#68786F; --ink3:#5A605D; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --tealSoft:#E4EEE4; --teal2:#0F4A42;
+  --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F; --gold:#C9A227;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+<header class="toolbar">
+  <div class="brand-mark"><svg width="20" height="20" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg></div>
+  <div class="hleft">
+    <h1>Electromagnet Lab · 电磁铁实验室</h1>
+    <div class="sub">More turns, more current, iron core — stronger magnet, lift more</div>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn" id="langBtn">EN</button>
+    <button class="hbtn" id="themeBtn">🌙</button>
+    <button class="hbtn primary" id="resetBtn">↺ Reset</button>
+  </div>
+</header>
+
+<main class="main">
+  <section class="workspace">
+    <div class="intro">
+      <div>
+        <div class="eyebrow">physics · magnetism · Interactive lab</div>
+        <h2>Electromagnet — Build a stronger magnet, lift more nails</h2>
+        <p>Coil wound around iron core: B ∝ N·I·μ. More turns, more current, insert iron core → magnetic field 500× stronger than air. Switch off → magnetism disappears. Applications: electric bell, crane, relay.</p>
+      </div>
+      <span class="experiment-number">44</span>
+    </div>
+
+    <div class="scene-card">
+      <div class="scene-top">
+        <span class="scene-caption" id="sceneCaption">Solenoid · Iron Core · Field Lines</span>
+        <span class="status" id="status">N=100 I=1.0A core=iron B∝50.0</span>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="scene" width="1200" height="600"></canvas>
+      </div>
+      <div class="scene-bottom">
+        <span class="hint" id="hint">💡 拖一拖·调一调 — 增加匝数和电流，插入铁芯，观察磁性增强吸起更多铁钉</span>
+        <div class="scene-tools">
+          <button class="btn ghost" id="toggleBtn">⚡ Power ON</button>
+          <button class="btn" id="clearBtn">Clear Nails</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="label">Magnetic Strength</div><div class="value" id="mB">50.0</div><div class="unit">B∝ N·I·μ</div></div>
+      <div class="metric"><div class="label">Turns N</div><div class="value" id="mN">100</div><div class="unit">匝</div></div>
+      <div class="metric"><div class="label">Current I</div><div class="value" id="mI">1.0</div><div class="unit">A</div></div>
+      <div class="metric"><div class="label">Nails Lifted</div><div class="value" id="mLift">5</div><div class="unit">克 (g)</div></div>
+    </div>
+
+    <div class="workspace-foot"><span>ScienceMaterial · Unique original · Apple HIG · ScienceMaterial</span><span></span></div>
+  </section>
+
+  <aside class="side-panel">
+    <div class="panel-tabs">
+      <button class="on" data-tab="lab">Lab</button>
+      <button data-tab="chart">Chart</button>
+      <button data-tab="compare">Compare</button>
+      <button data-tab="quiz">Quiz</button>
+    </div>
+    <div class="panel-scroll">
+      <div class="control">
+        <div class="control-head"><span class="label">Turns N (20-300)</span><output id="oN">100</output></div>
+        <div class="range-row"><button class="stepper" id="nMinus">−</button><input type="range" id="rN" min="20" max="300" step="10" value="100"><button class="stepper" id="nPlus">+</button></div>
+        <div class="qbox"><span style="font-size:9px;background:#1c2c42;color:#fff;border-radius:4px;padding:2px 6px;margin-right:6px">Q</span>Keep I and core same, double N → what happens to B? Predict then test.</div>
+      </div>
+
+      <div class="control">
+        <div class="control-head"><span class="label">Current I (0.1-3.0A)</span><output id="oI">1.0A</output></div>
+        <div class="range-row"><button class="stepper" id="iMinus">−</button><input type="range" id="rI" min="0.1" max="3" step="0.1" value="1"><button class="stepper" id="iPlus">+</button></div>
+      </div>
+
+      <div class="control">
+        <div class="control-head"><span class="label">Core Material</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn ghost" data-core="air" id="coreAir">Air μ=1</button>
+          <button class="btn ghost" data-core="iron" id="coreIron">Iron μ=500</button>
+          <button class="btn ghost" data-core="steel" id="coreSteel">Steel μ=200</button>
+        </div>
+        <div class="kbox">B ∝ μ·N·I. Iron core μ≈500× air, so B 500× stronger. Steel retains magnetism (permanent magnet).</div>
+        <div class="kbox blue">Right-hand rule: grasp coil, fingers = current, thumb = N pole. Current reverse → poles swap.</div>
+      </div>
+
+      <div class="control" id="chartPanel" style="display:none">
+        <div class="kbox grn">Chart: B vs N (linear), B vs I (linear), B vs core (step). Energy stored ½LI².</div>
+        <canvas id="chart" width="260" height="160" style="width:100%;border:1px solid #DDD9CF;border-radius:10px;background:#fffefb"></canvas>
+      </div>
+
+      <div class="control" id="comparePanel" style="display:none">
+        <div class="qbox">Fair test: only change one variable at a time. Compare air vs iron core with same N,I.</div>
+        <table style="width:100%;border-collapse:collapse;font-size:10px">
+          <tr><th style="text-align:left;color:#68786f;font-size:9px">Condition</th><th>B∝</th><th>Lift</th></tr>
+          <tr><td>Air, N=100, I=1A</td><td id="c1B">0.1</td><td id="c1L">0g</td></tr>
+          <tr><td>Iron, N=100, I=1A</td><td id="c2B">50</td><td id="c2L">50g</td></tr>
+          <tr><td>Iron, N=200, I=1A</td><td id="c3B">100</td><td id="c3L">100g</td></tr>
+        </table>
+      </div>
+
+      <div class="control" id="quizPanel" style="display:none">
+        <div class="qbox" id="quizQ">Electromagnet strength depends on?</div>
+        <div style="display:flex;flex-direction:column;gap:8px" id="quizOpts"></div>
+        <div class="kbox" id="quizFb" style="display:none"></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+let turns=100, I=1.0, core='iron', powered=true;
+let nails=[];
+
+const canvas=$('scene'), ctx=canvas.getContext('2d');
+const chart=$('chart'), cctx=chart.getContext('2d');
+
+function resize(){
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr; canvas.height=rect.height*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const cr=chart.getBoundingClientRect();
+  chart.width=cr.width*dpr; chart.height=cr.height*dpr;
+  cctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize',resize);
+resize();
+
+function mu(){ return {air:1, iron:500, steel:200}[core]; }
+function strength(){ return turns*I*mu()/1000; }
+
+function draw(){
+  const rect=canvas.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f9fbf3'; ctx.fillRect(0,0,W,H);
+  // grid
+  ctx.strokeStyle='#e4e9dc'; ctx.lineWidth=1;
+  for(let x=0;x<W;x+=50){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+
+  // solenoid
+  const sx=W*0.35, sy=H*0.4, coilW=180, coilH=120;
+  // core
+  ctx.fillStyle=core==='air'?'#EDE9E0':core==='iron'?'#B9AE95':'#8A8A8A';
+  ctx.strokeStyle='#8A6A1E'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.roundRect(sx-10, sy-coilH/2, 20, coilH, 6); ctx.fill(); ctx.stroke();
+  // coils
+  ctx.strokeStyle=powered?'#D9542B':'#5A605D'; ctx.lineWidth=2.5;
+  const loops=8;
+  for(let i=0;i<loops;i++){
+    const y=sy-coilH/2 + i*(coilH/loops) + 8;
+    ctx.beginPath();
+    ctx.moveTo(sx-10, y);
+    ctx.bezierCurveTo(sx-60, y+6, sx-60, y+12, sx-10, y+14);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(sx+10, y+14);
+    ctx.bezierCurveTo(sx+60, y+12, sx+60, y+6, sx+10, y);
+    ctx.stroke();
+  }
+  // battery
+  ctx.fillStyle='#FFFFFF'; ctx.strokeStyle='#1c2c42'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.roundRect(sx-100, sy+coilH/2+20, 200, 40, 8); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#1c2c42'; ctx.font='600 10px -apple-system'; ctx.textAlign='center'; ctx.fillText(`Battery ${I.toFixed(1)}A ${powered?'ON':'OFF'}`, sx, sy+coilH/2+44);
+
+  // field lines
+  if(powered){
+    ctx.strokeStyle='#146e61'; ctx.lineWidth=1.2;
+    for(let k=-3;k<=3;k++){
+      if(k===0) continue;
+      ctx.beginPath();
+      const startY=sy + k*14;
+      ctx.moveTo(sx-80, startY);
+      ctx.bezierCurveTo(sx-20, startY-10, sx+20, startY-10, sx+80, startY);
+      ctx.stroke();
+      // arrow
+      const ax=sx+60, ay=startY-2;
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(ax-6, ay-4); ctx.lineTo(ax-6, ay+4); ctx.closePath(); ctx.fillStyle='#146e61'; ctx.fill();
+    }
+  }
+
+  // nails
+  const lift=strength()*10;
+  const count=Math.min(12, Math.floor(lift/15));
+  if(nails.length!==count){
+    nails=Array.from({length:count},(_,i)=>({x: sx + (Math.random()-0.5)*30, y: sy+coilH/2+60 + i*18 + Math.random()*6}));
+  }
+  nails.forEach(n=>{
+    ctx.fillStyle='#68786f'; ctx.fillRect(n.x-5, n.y, 10, 18);
+    ctx.fillStyle='#1c2c42'; ctx.beginPath(); ctx.arc(n.x, n.y+18, 3,0,Math.PI*2); ctx.fill();
+  });
+  if(powered){
+    ctx.fillStyle='#146e61'; ctx.font='600 11px -apple-system'; ctx.textAlign='center';
+    ctx.fillText(`Lifting ${Math.floor(lift)}g (${count} nails)`, sx, sy+coilH/2+90+count*18);
+  } else {
+    ctx.fillStyle='#5A605D'; ctx.font='600 11px -apple-system'; ctx.textAlign='center';
+    ctx.fillText('Power OFF — magnetism disappears', sx, sy+coilH/2+70);
+  }
+
+  // compass
+  const compX=W*0.75, compY=H*0.3;
+  ctx.fillStyle='#FFFFFF'; ctx.strokeStyle='#DDD9CF'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(compX, compY, 30,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  // needle points along field
+  const angle = powered ? (core==='iron'?0:0.2) : Math.random()*0.1;
+  ctx.save(); ctx.translate(compX, compY); ctx.rotate(angle);
+  ctx.fillStyle='#D9542B'; ctx.beginPath(); ctx.moveTo(0,-22); ctx.lineTo(-4,0); ctx.lineTo(4,0); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#68786f'; ctx.beginPath(); ctx.moveTo(0,22); ctx.lineTo(-4,0); ctx.lineTo(4,0); ctx.closePath(); ctx.fill();
+  ctx.restore();
+  ctx.fillStyle='#1c2c42'; ctx.font='600 9px -apple-system'; ctx.textAlign='center'; ctx.fillText('Compass', compX, compY+44);
+}
+
+function drawChart(){
+  const rect=chart.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  cctx.clearRect(0,0,W,H);
+  cctx.fillStyle='#fffefb'; cctx.fillRect(0,0,W,H);
+  // axes
+  cctx.strokeStyle='#5A605D'; cctx.lineWidth=1; cctx.beginPath(); cctx.moveTo(30,H-30); cctx.lineTo(W-10,H-30); cctx.lineTo(W-10,20); cctx.stroke();
+  // B vs N line
+  cctx.strokeStyle='#146e61'; cctx.lineWidth=2; cctx.beginPath();
+  for(let n=20;n<=300;n+=10){
+    const x=30 + (n/300)*(W-40);
+    const b=n*I*mu()/1000;
+    const y=H-30 - (b/150)*(H-50);
+    if(n===20) cctx.moveTo(x,y); else cctx.lineTo(x,y);
+  }
+  cctx.stroke();
+  // current point
+  const cx=30 + (turns/300)*(W-40);
+  const cy=H-30 - (strength()/150)*(H-50);
+  cctx.fillStyle='#D9542B'; cctx.beginPath(); cctx.arc(cx,cy,4,0,Math.PI*2); cctx.fill();
+  cctx.fillStyle='#1c2c42'; cctx.font='9px ui-monospace'; cctx.textAlign='left'; cctx.fillText(`N=${turns} B=${strength().toFixed(1)}`, cx+6, cy);
+}
+
+function updateMetrics(){
+  const b=strength();
+  $('mB').textContent=b.toFixed(1);
+  $('mN').textContent=turns;
+  $('mI').textContent=I.toFixed(1);
+  $('mLift').textContent=Math.floor(b*10);
+  $('oN').textContent=turns;
+  $('oI').textContent=I.toFixed(1)+'A';
+  $('status').textContent=`N=${turns} I=${I.toFixed(1)}A core=${core} B∝${b.toFixed(1)}`;
+  $('c1B').textContent=(20*1*1/1000).toFixed(2);
+  $('c1L').textContent='0g';
+  $('c2B').textContent=(100*1*500/1000).toFixed(1);
+  $('c2L').textContent='50g';
+  $('c3B').textContent=(200*1*500/1000).toFixed(1);
+  $('c3L').textContent='100g';
+  drawChart();
+}
+
+$('rN').addEventListener('input',e=>{turns=+e.target.value; nails=[]; updateMetrics(); draw();});
+$('nMinus').addEventListener('click',()=>{turns=clamp(turns-10,20,300); $('rN').value=turns; nails=[]; updateMetrics(); draw();});
+$('nPlus').addEventListener('click',()=>{turns=clamp(turns+10,20,300); $('rN').value=turns; nails=[]; updateMetrics(); draw();});
+$('rI').addEventListener('input',e=>{I=+e.target.value; nails=[]; updateMetrics(); draw();});
+$('iMinus').addEventListener('click',()=>{I=clamp(I-0.1,0.1,3); $('rI').value=I.toFixed(1); nails=[]; updateMetrics(); draw();});
+$('iPlus').addEventListener('click',()=>{I=clamp(I+0.1,0.1,3); $('rI').value=I.toFixed(1); nails=[]; updateMetrics(); draw();});
+$('toggleBtn').addEventListener('click',()=>{powered=!powered; $('toggleBtn').textContent=powered?'⚡ Power ON':'⚡ Power OFF'; if(!powered) nails=[]; draw();});
+$('clearBtn').addEventListener('click',()=>{nails=[]; draw();});
+$('resetBtn').addEventListener('click',()=>{turns=100;I=1.0;core='iron';powered=true;$('rN').value=turns;$('rI').value=I.toFixed(1);document.querySelectorAll('[data-core]').forEach(b=>b.classList.remove('on'));$('coreIron').classList.add('on');$('toggleBtn').textContent='⚡ Power ON';nails=[];updateMetrics();draw();});
+document.querySelectorAll('[data-core]').forEach(b=>b.addEventListener('click',()=>{
+  core=b.dataset.core;
+  document.querySelectorAll('[data-core]').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  nails=[]; updateMetrics(); draw();
+}));
+$('coreIron').classList.add('on');
+
+document.querySelectorAll('.panel-tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.panel-tabs button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const tab=btn.dataset.tab;
+    $('chartPanel').style.display=tab==='chart'?'block':'none';
+    $('comparePanel').style.display=tab==='compare'?'block':'none';
+    $('quizPanel').style.display=tab==='quiz'?'block':'none';
+  });
+});
+
+// Quiz
+const quizData=[
+  {q:'Electromagnet strength depends on?', opts:['Only current','N, I, μ core','Only core'], a:1, exp:'B ∝ N·I·μ — more turns, more current, higher μ core → stronger'},
+  {q:'Iron core vs air core, same N,I, B?', opts:['Same','Iron ~500× stronger','Air stronger'], a:1, exp:'μ_iron≈500× μ_air, so B 500× stronger. That is why crane lifts cars'},
+  {q:'Power OFF, what happens?', opts:['Stays magnet','Magnetism disappears','Becomes stronger'], a:1, exp:'Electromagnet: controllable, ON has magnetism, OFF disappears. Permanent magnet stays'},
+];
+let qi=0;
+function renderQuiz(){
+  const d=quizData[qi];
+  $('quizQ').textContent=(qi+1)+'. '+d.q;
+  $('quizOpts').innerHTML='';
+  d.opts.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='btn ghost'; b.style.width='100%'; b.style.textAlign='left'; b.textContent=String.fromCharCode(65+i)+'. '+o;
+    b.onclick=()=>{
+      const correct=i===d.a;
+      $('quizFb').style.display='block';
+      $('quizFb').innerHTML=(correct?'✅ ':'❌ ')+d.exp + `<br><button class="btn" style="margin-top:8px" onclick="nextQuiz()">Next →</button>`;
+      [...$('quizOpts').children].forEach((c,k)=>{c.style.borderColor=k===d.a?'#146e61':k===i&&!correct?'#bd6151':'#DDD9CF';});
+    };
+    $('quizOpts').appendChild(b);
+  });
+  $('quizFb').style.display='none';
+}
+window.nextQuiz=()=>{qi=(qi+1)%quizData.length; renderQuiz();};
+renderQuiz();
+
+updateMetrics(); draw();
+
+window.LAB_SLUG='electromagnet-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset'){$('resetBtn').click();}});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

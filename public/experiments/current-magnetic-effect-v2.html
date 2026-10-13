@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>电流的磁效应实验室 · Current Magnetic Effect · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 电流的磁效应实验室</h1>
+  <div class="sub">Current Magnetic Effect · chu-er-xia/b4-c10 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 奥斯特实验</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 直导线的磁场</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 通电螺线管</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 判定练习</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<!-- ① Oersted -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svgoe" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="oe_sidetitle">1820 年的大发现</h3>
+    <div class="statline">
+      <span class="chip" id="o_st">—</span>
+      <span class="chip blu" id="o_ang">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="oe_k1"></div>
+    <div class="kbox blue" data-i18n-html="oe_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② wire -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb1">—</div>
+    <svg id="svgw" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="w_sidetitle">磁场的形状</h3>
+    <div class="kbox" data-i18n-html="w_k1"></div>
+    <div class="kbox blue" data-i18n-html="w_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ solenoid -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb2">—</div>
+    <svg id="svgsol" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="s_sidetitle">像一条条形磁铁</h3>
+    <div class="statline">
+      <span class="chip hl" id="s_pole">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="s_k1"></div>
+    <div class="kbox blue" data-i18n-html="s_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ trainer -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="statline"><span class="chip" id="trprog">—</span><span class="chip grn" id="trscore">—</span></div>
+    <svg id="svgtrn" viewBox="0 0 660 330"></svg>
+    <div id="tropts" style="margin-top:10px"></div>
+    <button class="dbtn" id="trnext" style="display:none" data-i18n="dk_next">下一题 ▶</button>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="tr_sidetitle">判定练习</h3>
+    <div class="kbox" data-i18n-html="tr_k1"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ quiz -->
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <button class="dbtn" id="osw">○ 开关：断开</button>
+    <button class="tgl" id="oflip" data-i18n="dk_flip">⇆ 电流反向</button>
+    <span class="dl"><span data-i18n="dk_I">电流</span>
+      <input type="range" id="oI" min="0.5" max="3" step="0.1" value="1.5">
+      <span class="mono" id="oIlab">1.5 A</span></span>
+    <button class="tgl" id="oreset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d1">
+    <button class="tgl on" id="wv3d" data-i18n="dk_v3d">🧊 立体视角</button>
+    <button class="tgl" id="wvsec" data-i18n="dk_vsec">截面视图(⊙⊗)</button>
+    <button class="tgl" id="wflip" data-i18n="dk_flip">⇆ 电流反向</button>
+  </div>
+
+  <div class="dsec" id="d2">
+    <button class="tgl" id="sflip" data-i18n="dk_flip">⇆ 电流反向</button>
+    <button class="tgl" id="sghost" data-i18n="dk_ghost">👻 条形磁铁对照</button>
+    <button class="tgl" id="sreset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="tr_k1"></span>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+<div class="foot" style="padding:8px 12px;font-size:11px;color:#5A605D">© 2026 ScienceMaterial</div>
+</div>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'电流的磁效应实验室',
+ subtitle:'奥斯特实验 · 直导线磁场 · 通电螺线管 —— 电生磁 · 初中科学课堂演示工具',
+ tab0:'① 奥斯特实验',tab1:'② 直导线的磁场',tab2:'③ 通电螺线管',tab3:'④ 判定练习',tab4:'⑤ 测验',
+ oeqb:'导线并没有碰到小磁针。合上开关的一瞬间，磁针为什么会转动？',
+ wqb:'通电直导线周围的磁场长什么样子？把小指南针拖到不同位置试试看。',
+ sqb:'把导线绕成螺线管再通电，它的磁场像什么？两端有没有"极"？',
+ oe_sidetitle:'1820 年的大发现',
+ oe_k1:'丹麦物理学家<b>奥斯特</b>在 1820 年发现：合上开关，导线下方的小磁针立刻偏转——<b>电流的周围存在磁场</b>（电流的磁效应，"电生磁"）。这是人类第一次把电和磁联系起来。',
+ oe_k2:'两个关键观察：<b>电流反向，磁针偏转方向也反向</b>；<b>电流越大，偏转越明显</b>。断电后，磁针在地磁作用下转回南北方向。',
+ w_sidetitle:'磁场的形状',
+ w_k1:'通电直导线周围的磁感线是一圈圈<b>以导线为圆心的同心圆</b>，离导线<b>越远磁场越弱</b>（圆圈画得越疏）。',
+ w_k2:'<b>安培定则（右手螺旋定则）</b>：用右手<b>握住</b>导线，<b>大拇指指向电流方向</b>，弯曲的<b>四指</b>就指着磁感线的环绕方向。考卷画法：⊙ 电流出纸面，⊗ 电流进纸面。',
+ s_sidetitle:'像一条条形磁铁',
+ s_k1:'把导线绕成<b>螺线管</b>再通电，管内磁感线平行密集，管外从一端出、绕回另一端——整体<b>和条形磁铁的磁场一模一样</b>：出来的一端是 <b>N 极</b>，回去的一端是 <b>S 极</b>。',
+ s_k2:'判定 N 极的<b>安培定则</b>：右手<b>四指顺着线圈中电流的绕向</b>弯曲，<b>大拇指指的那端就是 N 极</b>。电流反向，N/S 立刻对调——磁极是电流"造"出来的。',
+ tr_sidetitle:'判定练习',
+ tr_k1:'三类题都用同一只右手：<b>直导线</b>——拇指=电流，四指=磁感线绕向；<b>螺线管</b>——四指=电流绕向，拇指=N 极。做错时看图上的提示，想象右手怎么握。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_reset:'↺ 重置',
+ dk_sw_on:'⚡ 开关：合上', dk_sw_off:'○ 开关：断开',
+ dk_flip:'⇆ 电流反向', dk_I:'电流',
+ dk_v3d:'🧊 立体视角', dk_vsec:'截面视图(⊙⊗)',
+ dk_ghost:'👻 条形磁铁对照',
+ dk_next:'下一题 ▶',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ oe_n:'北', oe_s:'南', oe_e:'东', oe_w:'西',
+ oe_wire:'导线（在磁针上方）', oe_comp:'小磁针',
+ oe_batt:'电池', oe_sw:'开关',
+ oe_off_badge:'无电流：磁针指南北', oe_on_badge:'有电流：磁针偏转！',
+ oe_ang:'偏转角',
+ w_cur_out:'⊙ 电流出纸面', w_cur_in:'⊗ 电流进纸面',
+ w_cur_up:'电流向上', w_cur_dn:'电流向下',
+ w_weak:'离导线越远，磁场越弱',
+ w_drag:'🧲 拖动小指南针',
+ w_rule:'大拇指=电流方向，四指=磁感线绕向',
+ s_rule:'四指=电流绕向，大拇指=N极',
+ s_ghost:'条形磁铁的磁场（对照）',
+ s_cur:'电流方向（前侧导线）',
+ tr_prompt0:'磁感线绕行方向是？',
+ tr_prompt1:'螺线管的左端是哪个磁极？',
+ tr_prompt2:'放在导线{POS}边的小磁针，N 极指向哪里？',
+ tr_cw:'顺时针', tr_ccw:'逆时针',
+ tr_score:'一次答对', tr_q:'第',
+ tr_right:'✓ 正确！', tr_wrong:'✗ 再想想——用右手比一比',
+ posE:'东', posS:'南', posW:'西', posN:'北',
+ mth:''
+},
+en:{
+ title:'Magnetic Effect of Current Lab',
+ subtitle:'Oersted\u2019s experiment · straight-wire field · solenoid — electricity makes magnetism · junior-high demo',
+ tab0:'① Oersted\u2019s Experiment',tab1:'② Straight-Wire Field',tab2:'③ Solenoid',tab3:'④ Rule Practice',tab4:'⑤ Quiz',
+ oeqb:'The wire never touches the little compass. The moment the switch closes, why does the needle swing?',
+ wqb:'What does the field around a current-carrying wire look like? Drag the little compass around and see.',
+ sqb:'Coil the wire into a solenoid and switch on. What does its field resemble? Do the ends have poles?',
+ oe_sidetitle:'The 1820 discovery',
+ oe_k1:'Danish physicist <b>Oersted</b> discovered in 1820: close the switch and the compass under the wire instantly deflects — <b>a current is surrounded by a magnetic field</b> (the magnetic effect of current). It was the first link ever found between electricity and magnetism.',
+ oe_k2:'Two key observations: <b>reverse the current and the deflection reverses</b>; <b>a larger current deflects the needle more</b>. Switch off, and Earth\u2019s field turns the needle back north–south.',
+ w_sidetitle:'Shape of the field',
+ w_k1:'The field lines around a straight current-carrying wire are <b>concentric circles centred on the wire</b>, and the field is <b>weaker farther out</b> (circles drawn farther apart).',
+ w_k2:'<b>The right-hand grip rule</b>: grip the wire with your right hand, <b>thumb along the current</b>, and your curled <b>fingers</b> point along the field circles. Exam notation: ⊙ current out of the page, ⊗ into the page.',
+ s_sidetitle:'Just like a bar magnet',
+ s_k1:'Coil the wire into a <b>solenoid</b> and power it: inside, the field lines run parallel and dense; outside they leave one end and loop back to the other — <b>identical to a bar magnet\u2019s field</b>. The exit end is <b>N</b>, the return end is <b>S</b>.',
+ s_k2:'Finding N with the <b>right-hand rule</b>: curl your <b>fingers along the current in the coils</b>; your <b>thumb points to the N pole</b>. Reverse the current and N/S swap instantly — the poles are MADE by the current.',
+ tr_sidetitle:'Rule practice',
+ tr_k1:'All three question types use the same right hand: <b>straight wire</b> — thumb = current, fingers = field circles; <b>solenoid</b> — fingers = coil current, thumb = N. If you slip, picture gripping with your right hand.',
+ qz_title:'🎯 Quiz', qz_reset:'Restart',
+ dk_reset:'↺ Reset',
+ dk_sw_on:'⚡ Switch: ON', dk_sw_off:'○ Switch: OFF',
+ dk_flip:'⇆ Reverse current', dk_I:'Current',
+ dk_v3d:'🧊 3-D view', dk_vsec:'Section view (⊙⊗)',
+ dk_ghost:'👻 Bar-magnet overlay',
+ dk_next:'Next ▶',
+ dk_hint4:'💡 answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 hide notes', exp_off:'💬 tap for notes',
+ qtag:'Q',
+ oe_n:'N', oe_s:'S', oe_e:'E', oe_w:'W',
+ oe_wire:'wire (above the needle)', oe_comp:'compass',
+ oe_batt:'battery', oe_sw:'switch',
+ oe_off_badge:'no current: needle points N–S', oe_on_badge:'current on: needle deflects!',
+ oe_ang:'deflection',
+ w_cur_out:'⊙ current out of page', w_cur_in:'⊗ current into page',
+ w_cur_up:'current upward', w_cur_dn:'current downward',
+ w_weak:'farther from the wire → weaker field',
+ w_drag:'🧲 drag the little compass',
+ w_rule:'thumb = current, curled fingers = field',
+ s_rule:'fingers = coil current, thumb = N pole',
+ s_ghost:'a bar magnet\u2019s field (for comparison)',
+ s_cur:'current direction (front strands)',
+ tr_prompt0:'Which way do the field lines circle?',
+ tr_prompt1:'Which pole is the LEFT end of the solenoid?',
+ tr_prompt2:'A compass to the {POS} of the wire — where does its N point?',
+ tr_cw:'clockwise', tr_ccw:'counter-clockwise',
+ tr_score:'first try', tr_q:'Q',
+ tr_right:'✓ Correct!', tr_wrong:'✗ Try again — shape your right hand',
+ posE:'east', posS:'south', posW:'west', posN:'north',
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C','#D9542B':'#FF7A50',
+'#DA9526':'#FFB84D','#3B6EA5':'#7FB2E0'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.hasAttribute('data-dyn'))continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 ���我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= ① Oersted ================= */
+var OE={on:false,dir:1,I:1.5,ang:0,vel:0};
+function oeTarget(){
+  if(!OE.on)return 0;
+  /* current NORTH in the wire ABOVE the needle -> B under the wire points WEST
+     -> the needle N tip swings WEST = negative angle */
+  return -OE.dir*70*OE.I/(OE.I+0.8);
+}
+function oeStep(dt){
+  var tg=oeTarget();
+  OE.vel+=(tg-OE.ang)*10*dt-OE.vel*3.4*dt;
+  OE.ang+=OE.vel*dt;
+}
+function initOE(){OE.on=false;OE.dir=1;OE.I=1.5;OE.ang=0;OE.vel=0}
+
+/* ================= ② straight wire ================= */
+var W={view:'3d',dir:1,px:470,py:150};
+var WC={cx:330,cy:225};
+/* screen-space tangent of the field circle at (px,py); dir=+1 means ⊙ (out of page) → CCW on screen */
+function secTangent(px,py,dir){
+  var dx=px-WC.cx,dy=py-WC.cy;
+  var r=Math.sqrt(dx*dx+dy*dy)||1;
+  if(dir===1)return {x:dy/r,y:-dx/r};
+  return {x:-dy/r,y:dx/r};
+}
+function initW(){W.view='3d';W.dir=1;W.px=470;W.py=150}
+
+/* ================= ③ solenoid ================= */
+var SOL={on:true,dir:1,ghost:false};
+/* dir=+1: front strands carry current UPWARD.
+   Right hand: fingers follow the front current up and curl over the top
+   toward the back -> thumb points LEFT -> N pole at the LEFT end. */
+function solNend(dir){return dir===1?'L':'R'}
+function initSOL(){SOL.on=true;SOL.dir=1;SOL.ghost=false}
+
+/* ================= ④ trainer ================= */
+var TRN={i:0,pick:-1,first:[],done:false};
+function trnQ(i){
+  var ty=i%3;
+  if(ty===0){
+    var out=rnd(i,11)<0.5;
+    return {ty:0,out:out,opts:[T('tr_ccw'),T('tr_cw')],correct:out?0:1};
+  }
+  if(ty===1){
+    var up=rnd(i,17)<0.5;
+    /* front strands up -> N at the LEFT end -> left end is N */
+    return {ty:1,up:up,opts:['N','S'],correct:up?0:1};
+  }
+  var poss=['E','S','W','N'];
+  var pi=Math.floor(rnd(i,23)*4)%4;
+  var out2=rnd(i,29)<0.5;
+  /* CCW (⊙) tangent N-direction at: E→北, N→西, W→南, S→东; CW opposite */
+  var ccwAns={E:'N',N:'W',W:'S',S:'E'};
+  var cwAns={E:'S',N:'E',W:'N',S:'W'};
+  var ans=(out2?ccwAns:cwAns)[poss[pi]];
+  var opts=['N','E','S','W'];
+  var lbl={N:T('posN'),E:T('posE'),S:T('posS'),W:T('posW')};
+  return {ty:2,out:out2,pos:poss[pi],opts:[lbl.N,lbl.E,lbl.S,lbl.W],optKeys:opts,correct:opts.indexOf(ans)};
+}
+function initTRN(){TRN.i=0;TRN.pick=-1;TRN.first=[];TRN.done=false}
+'use strict';
+/* ================= shared bits ================= */
+function benchBG(w,h){
+  return '<rect x="0" y="0" width="'+w+'" height="'+h+'" rx="14" fill="#FBF7EC"/>';
+}
+function compassSVG(cx,cy,R,angDeg,scale){
+  /* angDeg: 0 = N points up (screen), positive = clockwise on screen */
+  var a=angDeg*Math.PI/180;
+  var nx=cx+R*0.72*Math.sin(a),ny=cy-R*0.72*Math.cos(a);
+  var sx=cx-R*0.72*Math.sin(a),sy=cy+R*0.72*Math.cos(a);
+  var s='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+R+'" fill="#FFFDF7" stroke="#8A8070" stroke-width="2"/>';
+  s+='<line x1="'+sx.toFixed(1)+'" y1="'+sy.toFixed(1)+'" x2="'+cx.toFixed(1)+'" y2="'+cy.toFixed(1)+'" stroke="#9A938A" stroke-width="'+(5*scale).toFixed(1)+'" stroke-linecap="round"/>';
+  s+='<line x1="'+cx.toFixed(1)+'" y1="'+cy.toFixed(1)+'" x2="'+nx.toFixed(1)+'" y2="'+ny.toFixed(1)+'" stroke="#D9542B" stroke-width="'+(5*scale).toFixed(1)+'" stroke-linecap="round"/>';
+  s+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+(3.4*scale).toFixed(1)+'" fill="#4B4437"/>';
+  return s;
+}
+function arrowHead(x,y,vx,vy,col,w){
+  var vd=Math.hypot(vx,vy)||1;vx/=vd;vy/=vd;
+  var lx=-vy,ly=vx;
+  return '<path d="M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10+lx*5.5).toFixed(1)+' '+(-vy*10+ly*5.5).toFixed(1)+
+   ' M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10-lx*5.5).toFixed(1)+' '+(-vy*10-ly*5.5).toFixed(1)+
+   '" stroke="'+col+'" stroke-width="'+(w||3)+'" fill="none" stroke-linecap="round"/>';
+}
+
+/* ================= ① Oersted ================= */
+function drawOE(){
+  var s=benchBG(660,470);
+  var wy=205;               /* wire runs vertically on screen = 南北 direction */
+  var wx=330;
+  /* compass under the wire */
+  s+=compassSVG(wx,wy,64,OE.ang,1.6);
+  s+=tlplain(wx,wy-78,14,'#6B6252',T('oe_n'));
+  s+=tlplain(wx,wy+92,14,'#6B6252',T('oe_s'));
+  s+=tlplain(wx+84,wy+5,14,'#6B6252',T('oe_e'),'start');
+  s+=tlplain(wx-84,wy+5,14,'#6B6252',T('oe_w'),'end');
+  /* CLOSED circuit: main wire over the compass, both ends routed to battery+switch */
+  s+='<line x1="'+wx+'" y1="70" x2="'+wx+'" y2="340" stroke="#B5652A" stroke-width="7" stroke-linecap="round"/>';
+  s+='<path d="M '+wx+' 340 L 470 340 L 470 430 L 360 430 M 300 430 L 240 430 M 206 430 L 190 430 L 190 70 L '+wx+' 70" fill="none" stroke="#B5652A" stroke-width="5" stroke-linecap="round"/>';
+  /* battery on the bottom segment */
+  s+='<rect x="206" y="416" width="34" height="28" rx="4" fill="#E3DCCB" stroke="#8A8070" stroke-width="2"/>';
+  s+='<line x1="214" y1="410" x2="214" y2="416" stroke="#8A8070" stroke-width="3"/>';
+  s+='<line x1="232" y1="406" x2="232" y2="416" stroke="#26221B" stroke-width="3"/>';
+  s+=tlplain(223,462,13,'#6B6252',T('oe_batt'));
+  /* switch */
+  var swx=300,swy=430;
+  s+='<circle cx="'+swx+'" cy="'+swy+'" r="4" fill="#4B4437"/><circle cx="'+(swx+60)+'" cy="'+swy+'" r="4" fill="#4B4437"/>';
+  if(OE.on)s+='<line x1="'+swx+'" y1="'+swy+'" x2="'+(swx+60)+'" y2="'+swy+'" stroke="#4B4437" stroke-width="4" stroke-linecap="round"/>';
+  else s+='<line x1="'+swx+'" y1="'+swy+'" x2="'+(swx+52)+'" y2="'+(swy-24)+'" stroke="#4B4437" stroke-width="4" stroke-linecap="round"/>';
+  s+=tlplain(swx+30,462,13,'#6B6252',T('oe_sw'));
+  /* current dots marching along the loop */
+  if(OE.on){
+    var k;
+    for(k=0;k<24;k++){
+      var u=frac(rnd(k,301)+CLK*0.075*OE.dir*OE.I/1.5);
+      var p=oePathPoint(u*OEPATHTOT);
+      s+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.4" fill="#DA9526"/>';
+    }
+    /* current direction arrow on the main wire */
+    s+=arrowHead(wx,OE.dir===1?96:314,0,OE.dir===1?-1:1,'#B5652A',5);
+  }
+  s+=tlplain(wx+16,62,13,'#8A5A2B',T('oe_wire'),'start');
+  /* badges */
+  if(OE.on)s+=tl(120,70,15,'#D9542B',T('oe_on_badge'),'start');
+  else s+=tl(120,70,15,'#2F7D4F',T('oe_off_badge'),'start');
+  s+=tl(120,98,14,'#2C7D8C',T('oe_ang')+'：'+Math.round(OE.ang)+'°','start');
+  $('svgoe').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('oeqb');
+  $('o_st').textContent=(OE.on?'⚡ I='+OE.I.toFixed(1)+' A':(LANG==='en'?'○ off':'○ 断开'));
+  $('o_ang').textContent=T('oe_ang')+' '+Math.round(OE.ang)+'°';
+}
+var OEPATHTOT=1280;
+function oePathPoint(d){
+  var wx=330;
+  /* closed loop: down the main wire, right, down, left along the battery row, up the left side, back to the top */
+  var segs=[[wx,70,wx,340],[wx,340,470,340],[470,340,470,430],[470,430,190,430],[190,430,190,70],[190,70,wx,70]];
+  var lens=segs.map(function(g){return Math.hypot(g[2]-g[0],g[3]-g[1])});
+  var tot=0,k;
+  for(k=0;k<lens.length;k++)tot+=lens[k];
+  d=((d%tot)+tot)%tot;
+  for(k=0;k<segs.length;k++){
+    if(d<=lens[k]){
+      var t=d/lens[k];
+      return [segs[k][0]+(segs[k][2]-segs[k][0])*t,segs[k][1]+(segs[k][3]-segs[k][1])*t];
+    }
+    d-=lens[k];
+  }
+  return [wx,70];
+}
+
+/* ================= ② straight wire ================= */
+function drawW(){
+  var s=benchBG(660,470);
+  var k;
+  if(W.view==='sec'){
+    /* section view: wire = dot/cross at centre, concentric circles */
+    var RS=[55,95,140,190];
+    for(k=0;k<RS.length;k++){
+      var op=(1-k*0.19).toFixed(2);
+      s+='<circle cx="'+WC.cx+'" cy="'+WC.cy+'" r="'+RS[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2.5" opacity="'+op+'" stroke-dasharray="7 7" stroke-dashoffset="'+((W.dir===1?-1:1)*CLK*18).toFixed(0)+'"/>';
+      /* direction arrow on each circle at 45° */
+      var aa=-Math.PI/4;
+      var ax=WC.cx+RS[k]*Math.cos(aa),ay=WC.cy+RS[k]*Math.sin(aa);
+      var tg=secTangent(ax,ay,W.dir);
+      s+=arrowHead(ax,ay,tg.x,tg.y,'#3B6EA5',3);
+    }
+    /* the wire symbol */
+    s+='<circle cx="'+WC.cx+'" cy="'+WC.cy+'" r="14" fill="#FFFDF7" stroke="#B5652A" stroke-width="4"/>';
+    if(W.dir===1)s+='<circle cx="'+WC.cx+'" cy="'+WC.cy+'" r="4.5" fill="#B5652A"/>';
+    else{
+      s+='<line x1="'+(WC.cx-8)+'" y1="'+(WC.cy-8)+'" x2="'+(WC.cx+8)+'" y2="'+(WC.cy+8)+'" stroke="#B5652A" stroke-width="4"/>';
+      s+='<line x1="'+(WC.cx+8)+'" y1="'+(WC.cy-8)+'" x2="'+(WC.cx-8)+'" y2="'+(WC.cy+8)+'" stroke="#B5652A" stroke-width="4"/>';
+    }
+    s+=tl(WC.cx,52,16,'#B5652A',W.dir===1?T('w_cur_out'):T('w_cur_in'));
+    s+=tlplain(WC.cx+198,WC.cy+184>460?452:WC.cy+196,13,'#8A8070','','middle');
+    s+=tl(560,440,13,'#6B6252',T('w_weak'),'middle');
+    /* draggable compass, aligned to local tangent */
+    var tg2=secTangent(W.px,W.py,W.dir);
+    var ang=Math.atan2(tg2.x,-tg2.y)*180/Math.PI;
+    s+=compassSVG(W.px,W.py,26,ang,1);
+    s+=tl(W.px,W.py-36,13,'#2C7D8C',T('w_drag'));
+  }else{
+    /* 3-D: vertical wire, field circles as ellipses */
+    var wx=330;
+    s+='<line x1="'+wx+'" y1="40" x2="'+wx+'" y2="430" stroke="#B5652A" stroke-width="8" stroke-linecap="round"/>';
+    var ys=[130,225,320];
+    for(k=0;k<ys.length;k++){
+      var rr=95+k*0;
+      /* back half then front half for depth */
+      s+='<path d="M '+(wx-rr)+' '+ys[k]+' A '+rr+' 26 0 0 1 '+(wx+rr)+' '+ys[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="0.45" stroke-dasharray="6 6"/>';
+      s+='<path d="M '+(wx-rr)+' '+ys[k]+' A '+rr+' 26 0 0 0 '+(wx+rr)+' '+ys[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2.6" stroke-dasharray="6 6" stroke-dashoffset="'+((W.dir===1?-1:1)*CLK*16).toFixed(0)+'"/>';
+      /* FRONT of each ring: current UP -> B at the front points EAST (right) */
+      s+=arrowHead(wx+(W.dir===1?44:-44),ys[k]+24,(W.dir===1?1:-1),0,'#3B6EA5',3);
+    }
+    /* current arrow + label: dir=+1 → up */
+    s+=arrowHead(wx,W.dir===1?66:404,0,W.dir===1?-1:1,'#D9542B',5);
+    s+=tl(wx+18,W.dir===1?76:404,15,'#D9542B',W.dir===1?T('w_cur_up'):T('w_cur_dn'),'start');
+    /* marching current dots on the wire */
+    for(k=0;k<10;k++){
+      var u=frac(rnd(k,401)+CLK*0.13*(W.dir===1?-1:1));
+      s+='<circle cx="'+wx+'" cy="'+(45+u*380).toFixed(1)+'" r="3.2" fill="#DA9526"/>';
+    }
+    /* right-hand rule caption */
+    s+=tl(116,70,14,'#2C7D8C','\ud83e\udd1a '+T('w_rule'),'start');
+    /* no side compasses in this projection: at the east/west points the field
+       runs INTO/OUT of the screen - a side-view needle cannot show that
+       truthfully; the compass lives in the section view */
+  }
+  $('svgw').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('wqb');
+}
+
+/* ================= ③ solenoid ================= */
+function drawSOL(){
+  var s=benchBG(660,470);
+  var cx=330,cy=225,hw=150,hh=52;
+  var Nend=solNend(SOL.dir);
+  var k;
+  /* field lines: inside straight + outside loops (direction: out of N, into S) */
+  var lineDirs=(Nend==='R')?1:-1;   /* +1: field inside points right */
+  for(k=-1;k<=1;k++){
+    var yy=cy+k*26;
+    s+='<line x1="'+(cx-hw+10)+'" y1="'+yy+'" x2="'+(cx+hw-10)+'" y2="'+yy+'" stroke="#3B6EA5" stroke-width="2.4" stroke-dasharray="7 7" stroke-dashoffset="'+((-lineDirs)*CLK*16).toFixed(0)+'"/>';
+    s+=arrowHead(cx+lineDirs*46,yy,lineDirs,0,'#3B6EA5',3);
+  }
+  /* outer loops */
+  var loops=[[86,150],[132,205]];
+  for(k=0;k<loops.length;k++){
+    var ry=loops[k][0],rx=hw+loops[k][1]-150+70;
+    s+='<path d="M '+(cx+lineDirs*(hw-6))+' '+(cy-8)+' C '+(cx+lineDirs*(hw+rx))+' '+(cy-ry-40)+', '+(cx-lineDirs*(hw+rx))+' '+(cy-ry-40)+', '+(cx-lineDirs*(hw-6))+' '+(cy-8)+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="0.75" stroke-dasharray="7 7" stroke-dashoffset="'+((-1)*CLK*16).toFixed(0)+'"/>';
+    s+='<path d="M '+(cx+lineDirs*(hw-6))+' '+(cy+8)+' C '+(cx+lineDirs*(hw+rx))+' '+(cy+ry+40)+', '+(cx-lineDirs*(hw+rx))+' '+(cy+ry+40)+', '+(cx-lineDirs*(hw-6))+' '+(cy+8)+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="0.75" stroke-dasharray="7 7" stroke-dashoffset="'+(CLK*16).toFixed(0)+'"/>';
+    s+=arrowHead(cx,cy-loops[k][0]-40+(-6),lineDirs*-1,0,'#3B6EA5',3);
+    s+=arrowHead(cx,cy+loops[k][0]+40-(-6),lineDirs*1,0,'#3B6EA5',3);
+  }
+  /* solenoid body: back strands then core then front strands */
+  var NCOIL=9;
+  for(k=0;k<NCOIL;k++){
+    var xx=cx-hw+22+k*((2*hw-44)/(NCOIL-1));
+    s+='<path d="M '+(xx+9)+' '+(cy-hh)+' A 9 '+hh+' 0 0 1 '+(xx+9)+' '+(cy+hh)+'" fill="none" stroke="#8A5A2B" stroke-width="4" opacity="0.45"/>';
+  }
+  for(k=0;k<NCOIL;k++){
+    var x2=cx-hw+22+k*((2*hw-44)/(NCOIL-1));
+    s+='<path d="M '+x2+' '+(cy+hh)+' A 9 '+hh+' 0 0 1 '+x2+' '+(cy-hh)+'" fill="none" stroke="#B5652A" stroke-width="5"/>';
+    /* marching current dots on front strands: dir=+1 → upward */
+    var u=frac(rnd(k,501)+CLK*0.5*SOL.dir);
+    var dy=cy+hh-u*2*hh;
+    s+='<circle cx="'+(x2-9*Math.sin(Math.PI*u)).toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="3.2" fill="#DA9526"/>';
+  }
+  /* current direction tag on front */
+  s+=arrowHead(cx,SOL.dir===1?cy-hh-12:cy+hh+12,0,SOL.dir===1?-1:1,'#D9542B',4);
+  s+=tl(cx+14,SOL.dir===1?cy-hh-16:cy+hh+26,13,'#D9542B',T('s_cur'),'start');
+  /* poles */
+  var nx=(Nend==='R')?cx+hw+26:cx-hw-26;
+  var sx=(Nend==='R')?cx-hw-26:cx+hw+26;
+  s+=tl(nx,cy+7,26,'#D9542B','N');
+  s+=tl(sx,cy+7,26,'#3B6EA5','S');
+  /* compasses at both ends aligning with the field */
+  s+=compassSVG(cx+hw+70,cy,22,lineDirs===1?90:-90,0.95);
+  s+=compassSVG(cx-hw-70,cy,22,lineDirs===1?90:-90,0.95);
+  /* ghost bar magnet overlay */
+  if(SOL.ghost){
+    s+='<rect x="'+(cx-hw)+'" y="'+(cy+96)+'" width="'+hw+'" height="34" fill="'+(Nend==='R'?'#3B6EA5':'#D9542B')+'" opacity="0.55" rx="4"/>';
+    s+='<rect x="'+cx+'" y="'+(cy+96)+'" width="'+hw+'" height="34" fill="'+(Nend==='R'?'#D9542B':'#3B6EA5')+'" opacity="0.55" rx="4"/>';
+    s+=tl(cx-hw/2,cy+118,15,'#FFFDF7',Nend==='R'?'S':'N');
+    s+=tl(cx+hw/2,cy+118,15,'#FFFDF7',Nend==='R'?'N':'S');
+    s+=tlplain(cx,cy+152,13,'#8A8070',T('s_ghost'));
+  }
+  s+=tl(116,64,14,'#2C7D8C','🤚 '+T('s_rule'),'start');
+  $('svgsol').innerHTML=PAINT(s);
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('sqb');
+  $('s_pole').textContent=(LANG==='en'?('N: '+(Nend==='R'?'right':'left')):('N极：'+(Nend==='R'?'右端':'左端')));
+}
+
+/* ================= ④ trainer figure ================= */
+function drawTRN(){
+  var q=trnQ(TRN.i);
+  var s=benchBG(660,330);
+  if(q.ty===0){
+    var RS=[55,95,135];
+    for(var k=0;k<RS.length;k++)s+='<circle cx="330" cy="165" r="'+RS[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="'+(1-k*0.22)+'" stroke-dasharray="6 7"/>';
+    s+='<circle cx="330" cy="165" r="14" fill="#FFFDF7" stroke="#B5652A" stroke-width="4"/>';
+    if(q.out)s+='<circle cx="330" cy="165" r="4.5" fill="#B5652A"/>';
+    else{
+      s+='<line x1="322" y1="157" x2="338" y2="173" stroke="#B5652A" stroke-width="4"/>';
+      s+='<line x1="338" y1="157" x2="322" y2="173" stroke="#B5652A" stroke-width="4"/>';
+    }
+    s+=tl(330,40,16,'#B5652A',q.out?T('w_cur_out'):T('w_cur_in'));
+    s+=tl(330,308,15,'#26221B',T('tr_prompt0'));
+  }else if(q.ty===1){
+    var cx=330,cy=160,hw=120,hh=44;
+    for(var k2=0;k2<7;k2++){
+      var xx=cx-hw+18+k2*((2*hw-36)/6);
+      s+='<path d="M '+xx+' '+(cy+hh)+' A 8 '+hh+' 0 0 1 '+xx+' '+(cy-hh)+'" fill="none" stroke="#B5652A" stroke-width="5"/>';
+    }
+    s+=arrowHead(cx,q.up?cy-hh-12:cy+hh+12,0,q.up?-1:1,'#D9542B',4);
+    s+=tl(cx+14,q.up?cy-hh-16:cy+hh+26,13,'#D9542B',T('s_cur'),'start');
+    s+=tl(cx-hw-30,cy+6,22,'#8A8070','?');
+    s+=tl(330,308,15,'#26221B',T('tr_prompt1'));
+  }else{
+    s+='<circle cx="330" cy="150" r="60" fill="none" stroke="#3B6EA5" stroke-width="2" stroke-dasharray="6 7"/>';
+    s+='<circle cx="330" cy="150" r="12" fill="#FFFDF7" stroke="#B5652A" stroke-width="4"/>';
+    if(q.out)s+='<circle cx="330" cy="150" r="4" fill="#B5652A"/>';
+    else{
+      s+='<line x1="323" y1="143" x2="337" y2="157" stroke="#B5652A" stroke-width="4"/>';
+      s+='<line x1="337" y1="143" x2="323" y2="157" stroke="#B5652A" stroke-width="4"/>';
+    }
+    var P={E:[440,150],S:[330,258],W:[220,150],N:[330,44]};
+    var pp=P[q.pos];
+    s+='<circle cx="'+pp[0]+'" cy="'+pp[1]+'" r="20" fill="#FFFDF7" stroke="#2C7D8C" stroke-width="2.5" stroke-dasharray="4 4"/>';
+    s+=tl(pp[0],pp[1]+6,15,'#2C7D8C','?');
+    s+=tl(330,40>pp[1]-30?24:40,16,'#B5652A',q.out?T('w_cur_out'):T('w_cur_in'),'middle');
+    s+=tl(330,308,15,'#26221B',T('tr_prompt2').replace('{POS}',T('pos'+q.pos)));
+  }
+  $('svgtrn').innerHTML=PAINT(s);
+  /* option buttons */
+  var h='',j;
+  for(j=0;j<q.opts.length;j++){
+    var cls='opt';
+    if(TRN.pick===j)cls+=(j===q.correct?' ok':' bad');
+    h+='<button class="'+cls+'" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+q.opts[j]+'</button>';
+  }
+  var solved=(TRN.pick===q.correct);
+  if(TRN.pick>=0){
+    h+='<div class="fb show" style="display:block">'+(solved?T('tr_right'):T('tr_wrong'))+'</div>';
+  }
+  $('tropts').innerHTML=h;
+  var ops=document.querySelectorAll('#tropts .opt');
+  for(j=0;j<ops.length;j++){
+    ops[j].addEventListener('click',function(){
+      if(TRN.pick===trnQ(TRN.i).correct)return;
+      var oi=+this.getAttribute('data-o');
+      TRN.pick=oi;
+      if(TRN.first[TRN.i]===undefined)TRN.first[TRN.i]=(oi===trnQ(TRN.i).correct);
+      drawTRN();updTrnChips();
+    });
+  }
+  $('trnext').style.display=solved?'':'none';
+  updTrnChips();
+}
+function updTrnChips(){
+  var nf=0,k;
+  for(k=0;k<TRN.first.length;k++)if(TRN.first[k]===true)nf++;
+  $('trprog').textContent=T('tr_q')+' '+(TRN.i+1)+(LANG==='en'?'':' 题');
+  $('trscore').textContent=T('tr_score')+' '+nf+' / '+Math.max(TRN.first.filter(function(x){return x!==undefined}).length,0);
+}
+'use strict';
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. Who discovered the magnetic effect of current (1820)?',o:[
+    ['Oersted',1,'Correct — his compass twitched beside a live wire, linking electricity and magnetism for the first time.'],
+    ['Newton',0,'Newton worked on motion and gravity, a century earlier.'],
+    ['Faraday',0,'Faraday found the REVERSE effect — magnetism making current (induction).'],
+    ['Ohm',0,'Ohm related voltage, current and resistance.']]},
+   {q:'2. In Oersted\u2019s experiment the needle deflects because…',o:[
+    ['the current sets up a magnetic field around the wire',1,'Correct — the field acts on the needle without any contact.'],
+    ['the wire attracts iron',0,'A copper wire without current attracts nothing.'],
+    ['the battery heats the air',0,'Warm air cannot swing a balanced needle so decisively.'],
+    ['the needle is faulty',0,'Switch off and it returns north — the needle is fine.']]},
+   {q:'3. Reverse the current and the needle…',o:[
+    ['deflects the opposite way',1,'Correct — the field direction reverses with the current.'],
+    ['deflects the same way',0,'Direction of deflection follows the current\u2019s direction.'],
+    ['stops swinging entirely',0,'It still deflects — just the other way.'],
+    ['spins continuously',0,'It settles at a new angle, it does not spin.']]},
+   {q:'4. The field lines around a straight current-carrying wire are…',o:[
+    ['concentric circles centred on the wire',1,'Correct — rings around the wire, denser close in.'],
+    ['straight lines parallel to the wire',0,'That would be the shape of the WIRE, not its field.'],
+    ['rays pointing away from the wire',0,'That is an electric-charge picture, not a current\u2019s field.'],
+    ['random loops',0,'The pattern is perfectly regular circles.']]},
+   {q:'5. Farther from the wire, the magnetic field is…',o:[
+    ['weaker',1,'Correct — that is why the circles are drawn farther apart outward.'],
+    ['stronger',0,'Strength falls with distance.'],
+    ['unchanged',0,'It clearly weakens — the compass barely responds far away.'],
+    ['zero everywhere except touching the wire',0,'The field fills the space around the wire, fading gradually.']]},
+   {q:'6. The right-hand grip rule for a straight wire says…',o:[
+    ['thumb = current, curled fingers = field direction',1,'Correct — grip the wire with the RIGHT hand.'],
+    ['fingers = current, thumb = field',0,'That pairing is for the SOLENOID (thumb = N pole).'],
+    ['use the left hand',0,'The left-hand rule belongs to motor force, not field direction.'],
+    ['thumb = field, fingers = current',0,'Reversed.']]},
+   {q:'7. The field of a current-carrying solenoid resembles…',o:[
+    ['a bar magnet\u2019s field',1,'Correct — N at one end, S at the other, lines looping outside.'],
+    ['a horseshoe magnet only',0,'The match is with a straight BAR magnet.'],
+    ['no field at all',0,'Powered coils are strong magnets — that is how electromagnets work.'],
+    ['a field that exists only inside',0,'Lines continue outside, looping end to end.']]},
+   {q:'8. Section view: current ⊗ (into the page). The field circles run…',o:[
+    ['clockwise',1,'Correct — point the right thumb INTO the page; fingers curl clockwise.'],
+    ['counter-clockwise',0,'Counter-clockwise is for ⊙ (current OUT of the page).'],
+    ['radially outward',0,'Field lines circle the wire, never radiate.'],
+    ['there is no field',0,'Any current has a field around it.']]}
+  ];
+  return [
+   {q:'1. 电流的磁效应是谁在 1820 年发现的？',o:[
+    ['奥斯特',1,'正确——通电导线旁的小磁针一动，人类第一次把电和磁连了起来。'],
+    ['牛顿',0,'牛顿研究的是运动和引力，早了一百多年。'],
+    ['法拉第',0,'法拉第发现的是反过来的事——磁生电（电磁感应）。'],
+    ['欧姆',0,'欧姆研究的是电压、电流和电阻的关系。']]},
+   {q:'2. 奥斯特实验中磁针偏转，是因为……',o:[
+    ['电流在导线周围产生了磁场',1,'正确——磁场隔空作用在磁针上，不需要接触。'],
+    ['导线会吸铁',0,'不通电的铜导线什么都不吸。'],
+    ['电池加热了空气',0,'热空气不可能让磁针转得这么果断。'],
+    ['磁针坏了',0,'断电后它乖乖指回南北——磁针没问题。']]},
+   {q:'3. 把电流反向，磁针会……',o:[
+    ['向相反方向偏转',1,'正确——电流反向，磁场方向也反向。'],
+    ['偏转方向不变',0,'偏转方向跟着电流方向走。'],
+    ['完全不再偏转',0,'仍然偏转，只是换了边。'],
+    ['连续旋转不停',0,'它会停在新的角度上，不会一直转。']]},
+   {q:'4. 通电直导线周围的磁感线是……',o:[
+    ['以导线为圆心的同心圆',1,'正确——一圈套一圈，越靠近导线越密。'],
+    ['与导线平行的直线',0,'那是导线自己的形状，不是磁场的形状。'],
+    ['从导线向外的放射线',0,'那是电荷的电场画法，不是电流的磁场。'],
+    ['杂乱无章的曲线',0,'图样是非常规则的同心圆。']]},
+   {q:'5. 离导线越远，磁场……',o:[
+    ['越弱',1,'正确——所以磁感线越往外画得越疏。'],
+    ['越强',0,'强度随距离减弱。'],
+    ['保持不变',0,'明显减弱——远处的磁针几乎没反应。'],
+    ['除了贴着导线处处为零',0,'磁场充满导线周围的空间，逐渐减弱。']]},
+   {q:'6. 直导线的安培定则是……',o:[
+    ['大拇指指电流方向，四指指磁感线绕向',1,'正确——用右手"握住"导线。'],
+    ['四指指电流，大拇指指磁场',0,'那套搭配是螺线管用的（拇指=N极）。'],
+    ['用左手来判断',0,'左手定则管的是受力，不是磁场方向。'],
+    ['大拇指指磁场，四指指电流',0,'说反了。']]},
+   {q:'7. 通电螺线管的磁场像……',o:[
+    ['一条条形磁铁',1,'正确——一端 N 一端 S，磁感线在外面绕回来。'],
+    ['只像蹄形磁铁',0,'对应的是"条形"磁铁。'],
+    ['没有磁场',0,'通电线圈是很强的磁体——电磁铁就是这么来的。'],
+    ['只有管内才有磁场',0,'磁感线延伸到管外，从一端绕回另一端。']]},
+   {q:'8. 截面图中电流是 ⊗（进纸面），磁感线绕行方向是……',o:[
+    ['顺时针',1,'正确——右手拇指指进纸面，四指顺时针弯曲。'],
+    ['逆时针',0,'逆时针对应 ⊙（电流出纸面）。'],
+    ['向四周辐射',0,'磁感线绕着导线转圈，从不辐射。'],
+    ['没有磁感线',0,'有电流就有磁场。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildQuiz();
+  swLabel();
+  RENDER[CUR](); updSummary();
+}
+function swLabel(){
+  var b=$('osw');
+  b.textContent=OE.on?T('dk_sw_on'):T('dk_sw_off');
+}
+var AMB=0;
+function ambLoop(){
+  CLK+=0.016;
+  if(CUR===0){ oeStep(0.016); drawOE(); }
+  else if(CUR===1){ drawW(); }
+  else if(CUR===2){ drawSOL(); }
+  updSummary();
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawOE,drawW,drawSOL,drawTRN,drawQZ];
+  SUMMARY=[
+    function(){return (OE.on?('⚡ '+OE.I.toFixed(1)+' A · '+Math.round(OE.ang)+'°'):(LANG==='en'?'○ off':'○ 断开'))},
+    function(){return (W.view==='sec'?(W.dir===1?'⊙':'⊗'):(W.dir===1?'↑':'↓'))+' '+(LANG==='en'?'wire field':'直导线磁场')},
+    function(){return 'N: '+(solNend(SOL.dir)==='R'?(LANG==='en'?'right':'右'):(LANG==='en'?'left':'左'))},
+    function(){return $('trscore').textContent},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initOE(); initW(); initSOL(); initTRN();
+  /* --- ① --- */
+  $('osw').addEventListener('click',function(){OE.on=!OE.on;this.classList.toggle('on',OE.on);swLabel();drawOE();updSummary()});
+  $('oflip').addEventListener('click',function(){OE.dir=-OE.dir;drawOE();updSummary()});
+  $('oI').addEventListener('input',function(){OE.I=+this.value;$('oIlab').textContent=OE.I.toFixed(1)+' A';drawOE();updSummary()});
+  $('oreset').addEventListener('click',function(){initOE();$('osw').classList.remove('on');swLabel();drawOE();updSummary()});
+  /* --- ② --- */
+  $('wv3d').addEventListener('click',function(){W.view='3d';this.classList.add('on');$('wvsec').classList.remove('on');drawW()});
+  $('wvsec').addEventListener('click',function(){W.view='sec';this.classList.add('on');$('wv3d').classList.remove('on');drawW()});
+  $('wflip').addEventListener('click',function(){W.dir=-W.dir;drawW();updSummary()});
+  /* compass drag in section view */
+  var dragging=false;
+  var svgw=$('svgw');
+  function evPos(e){
+    var r=svgw.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width*660,y=(e.clientY-r.top)/r.height*470;
+    return [x,y];
+  }
+  svgw.addEventListener('pointerdown',function(e){
+    if(W.view!=='sec')return;
+    e.preventDefault();
+    var p=evPos(e);
+    if(Math.hypot(p[0]-W.px,p[1]-W.py)<46){dragging=true}
+  });
+  svgw.addEventListener('pointermove',function(e){
+    if(!dragging)return;
+    var p=evPos(e);
+    var dx=p[0]-WC.cx,dy=p[1]-WC.cy;
+    var r=clamp(Math.hypot(dx,dy),42,205);
+    var a=Math.atan2(dy,dx);
+    W.px=WC.cx+r*Math.cos(a);W.py=WC.cy+r*Math.sin(a);
+    W.px=clamp(W.px,30,630);W.py=clamp(W.py,34,440);
+  });
+  svgw.addEventListener('pointerup',function(){dragging=false});
+  svgw.addEventListener('pointercancel',function(){dragging=false});
+  /* --- ③ --- */
+  $('sflip').addEventListener('click',function(){SOL.dir=-SOL.dir;drawSOL();updSummary()});
+  $('sghost').addEventListener('click',function(){SOL.ghost=!SOL.ghost;this.classList.toggle('on',SOL.ghost);drawSOL()});
+  $('sreset').addEventListener('click',function(){initSOL();$('sghost').classList.remove('on');drawSOL();updSummary()});
+  /* --- ④ --- */
+  $('trnext').addEventListener('click',function(){TRN.i++;TRN.pick=-1;drawTRN()});
+  /* --- chrome --- */
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  swLabel();
+  buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  OE.on=true;
+  for(i=0;i<300;i++){CLK+=0.016;oeStep(0.016);if(i%75===0)drawOE()}
+  OE.dir=-1;
+  for(i=0;i<200;i++){CLK+=0.016;oeStep(0.016);if(i%50===0)drawOE()}
+  OE.I=3;drawOE();
+  initOE();drawOE();
+  showTab(1);
+  W.view='3d';drawW();W.dir=-1;drawW();
+  W.view='sec';drawW();
+  W.px=200;W.py=120;drawW();
+  W.px=470;W.py=330;W.dir=1;drawW();
+  initW();
+  showTab(2);
+  drawSOL();SOL.dir=-1;drawSOL();SOL.ghost=true;drawSOL();
+  initSOL();
+  showTab(3);
+  for(i=0;i<9;i++){
+    var q=trnQ(TRN.i);
+    TRN.pick=(q.correct+1)%q.opts.length;
+    if(TRN.first[TRN.i]===undefined)TRN.first[TRN.i]=false;
+    drawTRN();
+    TRN.pick=q.correct;TRN.first[TRN.i]=TRN.first[TRN.i]||false;
+    drawTRN();
+    TRN.i++;TRN.pick=-1;
+  }
+  initTRN();drawTRN();
+  showTab(4);
+  for(i=0;i<8;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=8;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'电流的磁效应实验室',
+ subtitle:'奥斯特实验 · 直导线磁场 · 通电螺线管 —— 电生磁 · 初中科学课堂演示工具',
+ tab0:'① 奥斯特实验',tab1:'② 直导线的磁场',tab2:'③ 通电螺线管',tab3:'④ 判定练习',tab4:'⑤ 测验',
+ oeqb:'导线并没有碰到小磁针。合上开关的一瞬间，磁针为什么会转动？',
+ wqb:'通电直导线周围的磁场长什么样子？把小指南针拖到不同位置试试看。',
+ sqb:'把导线绕成螺线管再通电，它的磁场像什么？两端有没有"极"？',
+ oe_sidetitle:'1820 年的大发现',
+ oe_k1:'丹麦物理学家<b>奥斯特</b>在 1820 年发现：合上开关，导线下方的小磁针立刻偏转——<b>电流的周围存在磁场</b>（电流的磁效应，"电生磁"）。这是人类第一次把电和磁联系起来。',
+ oe_k2:'两个关键观察：<b>电流反向，磁针偏转方向也反向</b>；<b>电流越大，偏转越明显</b>。断电后，磁针在地磁作用下转回南北方向。',
+ w_sidetitle:'磁场的形状',
+ w_k1:'通电直导线周围的磁感线是一圈圈<b>以导线为圆心的同心圆</b>，离导线<b>越远磁场越弱</b>（圆圈画得越疏）。',
+ w_k2:'<b>安培定则（右手螺旋定则）</b>：用右手<b>握住</b>导线，<b>大拇指指向电流方向</b>，弯曲的<b>四指</b>就指着磁感线的环绕方向。考卷画法：⊙ 电流出纸面，⊗ 电流进纸面。',
+ s_sidetitle:'像一条条形磁铁',
+ s_k1:'把导线绕成<b>螺线管</b>再通电，管内磁感线平行密集，管外从一端出、绕回另一端——整体<b>和条形磁铁的磁场一模一样</b>：出来的一端是 <b>N 极</b>，回去的一端是 <b>S 极</b>。',
+ s_k2:'判定 N 极的<b>安培定则</b>：右手<b>四指顺着线圈中电流的绕向</b>弯曲，<b>大拇指指的那端就是 N 极</b>。电流反向，N/S 立刻对调——磁极是电流"造"出来的。',
+ tr_sidetitle:'判定练习',
+ tr_k1:'三类题都用同一只右手：<b>直导线</b>——拇指=电流，四指=磁感线绕向；<b>螺线管</b>——四指=电流绕向，拇指=N 极。做错时看图上的提示，想象右手怎么握。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_reset:'↺ 重置',
+ dk_sw_on:'⚡ 开关：合上', dk_sw_off:'○ 开关：断开',
+ dk_flip:'⇆ 电流反向', dk_I:'电流',
+ dk_v3d:'🧊 立体视角', dk_vsec:'截面视图(⊙⊗)',
+ dk_ghost:'👻 条形磁铁对照',
+ dk_next:'下一题 ▶',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ oe_n:'北', oe_s:'南', oe_e:'东', oe_w:'西',
+ oe_wire:'导线（在磁针上方）', oe_comp:'小磁针',
+ oe_batt:'电池', oe_sw:'开关',
+ oe_off_badge:'无电流：磁针指南北', oe_on_badge:'有电流：磁针偏转！',
+ oe_ang:'偏转角',
+ w_cur_out:'⊙ 电流出纸面', w_cur_in:'⊗ 电流进纸面',
+ w_cur_up:'电流向上', w_cur_dn:'电流向下',
+ w_weak:'离导线越远，磁场越弱',
+ w_drag:'🧲 拖动小指南针',
+ w_rule:'大拇指=电流方向，四指=磁感线绕向',
+ s_rule:'四指=电流绕向，大拇指=N极',
+ s_ghost:'条形磁铁的磁场（对照）',
+ s_cur:'电流方向（前侧导线）',
+ tr_prompt0:'磁感线绕行方向是？',
+ tr_prompt1:'螺线管的左端是哪个磁极？',
+ tr_prompt2:'放在导线{POS}边的小磁针，N 极指向哪里？',
+ tr_cw:'顺时针', tr_ccw:'逆时针',
+ tr_score:'一次答对', tr_q:'第',
+ tr_right:'✓ 正确！', tr_wrong:'✗ 再想想——用右手比一比',
+ posE:'东', posS:'南', posW:'西', posN:'北',
+ mth:''
+},
+en:{
+ title:'Magnetic Effect of Current Lab',
+ subtitle:'Oersted\u2019s experiment · straight-wire field · solenoid — electricity makes magnetism · junior-high demo',
+ tab0:'① Oersted\u2019s Experiment',tab1:'② Straight-Wire Field',tab2:'③ Solenoid',tab3:'④ Rule Practice',tab4:'⑤ Quiz',
+ oeqb:'The wire never touches the little compass. The moment the switch closes, why does the needle swing?',
+ wqb:'What does the field around a current-carrying wire look like? Drag the little compass around and see.',
+ sqb:'Coil the wire into a solenoid and switch on. What does its field resemble? Do the ends have poles?',
+ oe_sidetitle:'The 1820 discovery',
+ oe_k1:'Danish physicist <b>Oersted</b> discovered in 1820: close the switch and the compass under the wire instantly deflects — <b>a current is surrounded by a magnetic field</b> (the magnetic effect of current). It was the first link ever found between electricity and magnetism.',
+ oe_k2:'Two key observations: <b>reverse the current and the deflection reverses</b>; <b>a larger current deflects the needle more</b>. Switch off, and Earth\u2019s field turns the needle back north–south.',
+ w_sidetitle:'Shape of the field',
+ w_k1:'The field lines around a straight current-carrying wire are <b>concentric circles centred on the wire</b>, and the field is <b>weaker farther out</b> (circles drawn farther apart).',
+ w_k2:'<b>The right-hand grip rule</b>: grip the wire with your right hand, <b>thumb along the current</b>, and your curled <b>fingers</b> point along the field circles. Exam notation: ⊙ current out of the page, ⊗ into the page.',
+ s_sidetitle:'Just like a bar magnet',
+ s_k1:'Coil the wire into a <b>solenoid</b> and power it: inside, the field lines run parallel and dense; outside they leave one end and loop back to the other — <b>identical to a bar magnet\u2019s field</b>. The exit end is <b>N</b>, the return end is <b>S</b>.',
+ s_k2:'Finding N with the <b>right-hand rule</b>: curl your <b>fingers along the current in the coils</b>; your <b>thumb points to the N pole</b>. Reverse the current and N/S swap instantly — the poles are MADE by the current.',
+ tr_sidetitle:'Rule practice',
+ tr_k1:'All three question types use the same right hand: <b>straight wire</b> — thumb = current, fingers = field circles; <b>solenoid</b> — fingers = coil current, thumb = N. If you slip, picture gripping with your right hand.',
+ qz_title:'🎯 Quiz', qz_reset:'Restart',
+ dk_reset:'↺ Reset',
+ dk_sw_on:'⚡ Switch: ON', dk_sw_off:'○ Switch: OFF',
+ dk_flip:'⇆ Reverse current', dk_I:'Current',
+ dk_v3d:'🧊 3-D view', dk_vsec:'Section view (⊙⊗)',
+ dk_ghost:'👻 Bar-magnet overlay',
+ dk_next:'Next ▶',
+ dk_hint4:'💡 answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 hide notes', exp_off:'💬 tap for notes',
+ qtag:'Q',
+ oe_n:'N', oe_s:'S', oe_e:'E', oe_w:'W',
+ oe_wire:'wire (above the needle)', oe_comp:'compass',
+ oe_batt:'battery', oe_sw:'switch',
+ oe_off_badge:'no current: needle points N–S', oe_on_badge:'current on: needle deflects!',
+ oe_ang:'deflection',
+ w_cur_out:'⊙ current out of page', w_cur_in:'⊗ current into page',
+ w_cur_up:'current upward', w_cur_dn:'current downward',
+ w_weak:'farther from the wire → weaker field',
+ w_drag:'🧲 drag the little compass',
+ w_rule:'thumb = current, curled fingers = field',
+ s_rule:'fingers = coil current, thumb = N pole',
+ s_ghost:'a bar magnet\u2019s field (for comparison)',
+ s_cur:'current direction (front strands)',
+ tr_prompt0:'Which way do the field lines circle?',
+ tr_prompt1:'Which pole is the LEFT end of the solenoid?',
+ tr_prompt2:'A compass to the {POS} of the wire — where does its N point?',
+ tr_cw:'clockwise', tr_ccw:'counter-clockwise',
+ tr_score:'first try', tr_q:'Q',
+ tr_right:'✓ Correct!', tr_wrong:'✗ Try again — shape your right hand',
+ posE:'east', posS:'south', posW:'west', posN:'north',
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C','#D9542B':'#FF7A50',
+'#DA9526':'#FFB84D','#3B6EA5':'#7FB2E0'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.hasAttribute('data-dyn'))continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 ���我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= ① Oersted ================= */
+var OE={on:false,dir:1,I:1.5,ang:0,vel:0};
+function oeTarget(){
+  if(!OE.on)return 0;
+  /* current NORTH in the wire ABOVE the needle -> B under the wire points WEST
+     -> the needle N tip swings WEST = negative angle */
+  return -OE.dir*70*OE.I/(OE.I+0.8);
+}
+function oeStep(dt){
+  var tg=oeTarget();
+  OE.vel+=(tg-OE.ang)*10*dt-OE.vel*3.4*dt;
+  OE.ang+=OE.vel*dt;
+}
+function initOE(){OE.on=false;OE.dir=1;OE.I=1.5;OE.ang=0;OE.vel=0}
+
+/* ================= ② straight wire ================= */
+var W={view:'3d',dir:1,px:470,py:150};
+var WC={cx:330,cy:225};
+/* screen-space tangent of the field circle at (px,py); dir=+1 means ⊙ (out of page) → CCW on screen */
+function secTangent(px,py,dir){
+  var dx=px-WC.cx,dy=py-WC.cy;
+  var r=Math.sqrt(dx*dx+dy*dy)||1;
+  if(dir===1)return {x:dy/r,y:-dx/r};
+  return {x:-dy/r,y:dx/r};
+}
+function initW(){W.view='3d';W.dir=1;W.px=470;W.py=150}
+
+/* ================= ③ solenoid ================= */
+var SOL={on:true,dir:1,ghost:false};
+/* dir=+1: front strands carry current UPWARD.
+   Right hand: fingers follow the front current up and curl over the top
+   toward the back -> thumb points LEFT -> N pole at the LEFT end. */
+function solNend(dir){return dir===1?'L':'R'}
+function initSOL(){SOL.on=true;SOL.dir=1;SOL.ghost=false}
+
+/* ================= ④ trainer ================= */
+var TRN={i:0,pick:-1,first:[],done:false};
+function trnQ(i){
+  var ty=i%3;
+  if(ty===0){
+    var out=rnd(i,11)<0.5;
+    return {ty:0,out:out,opts:[T('tr_ccw'),T('tr_cw')],correct:out?0:1};
+  }
+  if(ty===1){
+    var up=rnd(i,17)<0.5;
+    /* front strands up -> N at the LEFT end -> left end is N */
+    return {ty:1,up:up,opts:['N','S'],correct:up?0:1};
+  }
+  var poss=['E','S','W','N'];
+  var pi=Math.floor(rnd(i,23)*4)%4;
+  var out2=rnd(i,29)<0.5;
+  /* CCW (⊙) tangent N-direction at: E→北, N→西, W→南, S→东; CW opposite */
+  var ccwAns={E:'N',N:'W',W:'S',S:'E'};
+  var cwAns={E:'S',N:'E',W:'N',S:'W'};
+  var ans=(out2?ccwAns:cwAns)[poss[pi]];
+  var opts=['N','E','S','W'];
+  var lbl={N:T('posN'),E:T('posE'),S:T('posS'),W:T('posW')};
+  return {ty:2,out:out2,pos:poss[pi],opts:[lbl.N,lbl.E,lbl.S,lbl.W],optKeys:opts,correct:opts.indexOf(ans)};
+}
+function initTRN(){TRN.i=0;TRN.pick=-1;TRN.first=[];TRN.done=false}
+'use strict';
+/* ================= shared bits ================= */
+function benchBG(w,h){
+  return '<rect x="0" y="0" width="'+w+'" height="'+h+'" rx="14" fill="#FBF7EC"/>';
+}
+function compassSVG(cx,cy,R,angDeg,scale){
+  /* angDeg: 0 = N points up (screen), positive = clockwise on screen */
+  var a=angDeg*Math.PI/180;
+  var nx=cx+R*0.72*Math.sin(a),ny=cy-R*0.72*Math.cos(a);
+  var sx=cx-R*0.72*Math.sin(a),sy=cy+R*0.72*Math.cos(a);
+  var s='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+R+'" fill="#FFFDF7" stroke="#8A8070" stroke-width="2"/>';
+  s+='<line x1="'+sx.toFixed(1)+'" y1="'+sy.toFixed(1)+'" x2="'+cx.toFixed(1)+'" y2="'+cy.toFixed(1)+'" stroke="#9A938A" stroke-width="'+(5*scale).toFixed(1)+'" stroke-linecap="round"/>';
+  s+='<line x1="'+cx.toFixed(1)+'" y1="'+cy.toFixed(1)+'" x2="'+nx.toFixed(1)+'" y2="'+ny.toFixed(1)+'" stroke="#D9542B" stroke-width="'+(5*scale).toFixed(1)+'" stroke-linecap="round"/>';
+  s+='<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+(3.4*scale).toFixed(1)+'" fill="#4B4437"/>';
+  return s;
+}
+function arrowHead(x,y,vx,vy,col,w){
+  var vd=Math.hypot(vx,vy)||1;vx/=vd;vy/=vd;
+  var lx=-vy,ly=vx;
+  return '<path d="M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10+lx*5.5).toFixed(1)+' '+(-vy*10+ly*5.5).toFixed(1)+
+   ' M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10-lx*5.5).toFixed(1)+' '+(-vy*10-ly*5.5).toFixed(1)+
+   '" stroke="'+col+'" stroke-width="'+(w||3)+'" fill="none" stroke-linecap="round"/>';
+}
+
+/* ================= ① Oersted ================= */
+function drawOE(){
+  var s=benchBG(660,470);
+  var wy=205;               /* wire runs vertically on screen = 南北 direction */
+  var wx=330;
+  /* compass under the wire */
+  s+=compassSVG(wx,wy,64,OE.ang,1.6);
+  s+=tlplain(wx,wy-78,14,'#6B6252',T('oe_n'));
+  s+=tlplain(wx,wy+92,14,'#6B6252',T('oe_s'));
+  s+=tlplain(wx+84,wy+5,14,'#6B6252',T('oe_e'),'start');
+  s+=tlplain(wx-84,wy+5,14,'#6B6252',T('oe_w'),'end');
+  /* CLOSED circuit: main wire over the compass, both ends routed to battery+switch */
+  s+='<line x1="'+wx+'" y1="70" x2="'+wx+'" y2="340" stroke="#B5652A" stroke-width="7" stroke-linecap="round"/>';
+  s+='<path d="M '+wx+' 340 L 470 340 L 470 430 L 360 430 M 300 430 L 240 430 M 206 430 L 190 430 L 190 70 L '+wx+' 70" fill="none" stroke="#B5652A" stroke-width="5" stroke-linecap="round"/>';
+  /* battery on the bottom segment */
+  s+='<rect x="206" y="416" width="34" height="28" rx="4" fill="#E3DCCB" stroke="#8A8070" stroke-width="2"/>';
+  s+='<line x1="214" y1="410" x2="214" y2="416" stroke="#8A8070" stroke-width="3"/>';
+  s+='<line x1="232" y1="406" x2="232" y2="416" stroke="#26221B" stroke-width="3"/>';
+  s+=tlplain(223,462,13,'#6B6252',T('oe_batt'));
+  /* switch */
+  var swx=300,swy=430;
+  s+='<circle cx="'+swx+'" cy="'+swy+'" r="4" fill="#4B4437"/><circle cx="'+(swx+60)+'" cy="'+swy+'" r="4" fill="#4B4437"/>';
+  if(OE.on)s+='<line x1="'+swx+'" y1="'+swy+'" x2="'+(swx+60)+'" y2="'+swy+'" stroke="#4B4437" stroke-width="4" stroke-linecap="round"/>';
+  else s+='<line x1="'+swx+'" y1="'+swy+'" x2="'+(swx+52)+'" y2="'+(swy-24)+'" stroke="#4B4437" stroke-width="4" stroke-linecap="round"/>';
+  s+=tlplain(swx+30,462,13,'#6B6252',T('oe_sw'));
+  /* current dots marching along the loop */
+  if(OE.on){
+    var k;
+    for(k=0;k<24;k++){
+      var u=frac(rnd(k,301)+CLK*0.075*OE.dir*OE.I/1.5);
+      var p=oePathPoint(u*OEPATHTOT);
+      s+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.4" fill="#DA9526"/>';
+    }
+    /* current direction arrow on the main wire */
+    s+=arrowHead(wx,OE.dir===1?96:314,0,OE.dir===1?-1:1,'#B5652A',5);
+  }
+  s+=tlplain(wx+16,62,13,'#8A5A2B',T('oe_wire'),'start');
+  /* badges */
+  if(OE.on)s+=tl(120,70,15,'#D9542B',T('oe_on_badge'),'start');
+  else s+=tl(120,70,15,'#2F7D4F',T('oe_off_badge'),'start');
+  s+=tl(120,98,14,'#2C7D8C',T('oe_ang')+'：'+Math.round(OE.ang)+'°','start');
+  $('svgoe').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('oeqb');
+  $('o_st').textContent=(OE.on?'⚡ I='+OE.I.toFixed(1)+' A':(LANG==='en'?'○ off':'○ 断开'));
+  $('o_ang').textContent=T('oe_ang')+' '+Math.round(OE.ang)+'°';
+}
+var OEPATHTOT=1280;
+function oePathPoint(d){
+  var wx=330;
+  /* closed loop: down the main wire, right, down, left along the battery row, up the left side, back to the top */
+  var segs=[[wx,70,wx,340],[wx,340,470,340],[470,340,470,430],[470,430,190,430],[190,430,190,70],[190,70,wx,70]];
+  var lens=segs.map(function(g){return Math.hypot(g[2]-g[0],g[3]-g[1])});
+  var tot=0,k;
+  for(k=0;k<lens.length;k++)tot+=lens[k];
+  d=((d%tot)+tot)%tot;
+  for(k=0;k<segs.length;k++){
+    if(d<=lens[k]){
+      var t=d/lens[k];
+      return [segs[k][0]+(segs[k][2]-segs[k][0])*t,segs[k][1]+(segs[k][3]-segs[k][1])*t];
+    }
+    d-=lens[k];
+  }
+  return [wx,70];
+}
+
+/* ================= ② straight wire ================= */
+function drawW(){
+  var s=benchBG(660,470);
+  var k;
+  if(W.view==='sec'){
+    /* section view: wire = dot/cross at centre, concentric circles */
+    var RS=[55,95,140,190];
+    for(k=0;k<RS.length;k++){
+      var op=(1-k*0.19).toFixed(2);
+      s+='<circle cx="'+WC.cx+'" cy="'+WC.cy+'" r="'+RS[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2.5" opacity="'+op+'" stroke-dasharray="7 7" stroke-dashoffset="'+((W.dir===1?-1:1)*CLK*18).toFixed(0)+'"/>';
+      /* direction arrow on each circle at 45° */
+      var aa=-Math.PI/4;
+      var ax=WC.cx+RS[k]*Math.cos(aa),ay=WC.cy+RS[k]*Math.sin(aa);
+      var tg=secTangent(ax,ay,W.dir);
+      s+=arrowHead(ax,ay,tg.x,tg.y,'#3B6EA5',3);
+    }
+    /* the wire symbol */
+    s+='<circle cx="'+WC.cx+'" cy="'+WC.cy+'" r="14" fill="#FFFDF7" stroke="#B5652A" stroke-width="4"/>';
+    if(W.dir===1)s+='<circle cx="'+WC.cx+'" cy="'+WC.cy+'" r="4.5" fill="#B5652A"/>';
+    else{
+      s+='<line x1="'+(WC.cx-8)+'" y1="'+(WC.cy-8)+'" x2="'+(WC.cx+8)+'" y2="'+(WC.cy+8)+'" stroke="#B5652A" stroke-width="4"/>';
+      s+='<line x1="'+(WC.cx+8)+'" y1="'+(WC.cy-8)+'" x2="'+(WC.cx-8)+'" y2="'+(WC.cy+8)+'" stroke="#B5652A" stroke-width="4"/>';
+    }
+    s+=tl(WC.cx,52,16,'#B5652A',W.dir===1?T('w_cur_out'):T('w_cur_in'));
+    s+=tlplain(WC.cx+198,WC.cy+184>460?452:WC.cy+196,13,'#8A8070','','middle');
+    s+=tl(560,440,13,'#6B6252',T('w_weak'),'middle');
+    /* draggable compass, aligned to local tangent */
+    var tg2=secTangent(W.px,W.py,W.dir);
+    var ang=Math.atan2(tg2.x,-tg2.y)*180/Math.PI;
+    s+=compassSVG(W.px,W.py,26,ang,1);
+    s+=tl(W.px,W.py-36,13,'#2C7D8C',T('w_drag'));
+  }else{
+    /* 3-D: vertical wire, field circles as ellipses */
+    var wx=330;
+    s+='<line x1="'+wx+'" y1="40" x2="'+wx+'" y2="430" stroke="#B5652A" stroke-width="8" stroke-linecap="round"/>';
+    var ys=[130,225,320];
+    for(k=0;k<ys.length;k++){
+      var rr=95+k*0;
+      /* back half then front half for depth */
+      s+='<path d="M '+(wx-rr)+' '+ys[k]+' A '+rr+' 26 0 0 1 '+(wx+rr)+' '+ys[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="0.45" stroke-dasharray="6 6"/>';
+      s+='<path d="M '+(wx-rr)+' '+ys[k]+' A '+rr+' 26 0 0 0 '+(wx+rr)+' '+ys[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2.6" stroke-dasharray="6 6" stroke-dashoffset="'+((W.dir===1?-1:1)*CLK*16).toFixed(0)+'"/>';
+      /* FRONT of each ring: current UP -> B at the front points EAST (right) */
+      s+=arrowHead(wx+(W.dir===1?44:-44),ys[k]+24,(W.dir===1?1:-1),0,'#3B6EA5',3);
+    }
+    /* current arrow + label: dir=+1 → up */
+    s+=arrowHead(wx,W.dir===1?66:404,0,W.dir===1?-1:1,'#D9542B',5);
+    s+=tl(wx+18,W.dir===1?76:404,15,'#D9542B',W.dir===1?T('w_cur_up'):T('w_cur_dn'),'start');
+    /* marching current dots on the wire */
+    for(k=0;k<10;k++){
+      var u=frac(rnd(k,401)+CLK*0.13*(W.dir===1?-1:1));
+      s+='<circle cx="'+wx+'" cy="'+(45+u*380).toFixed(1)+'" r="3.2" fill="#DA9526"/>';
+    }
+    /* right-hand rule caption */
+    s+=tl(116,70,14,'#2C7D8C','\ud83e\udd1a '+T('w_rule'),'start');
+    /* no side compasses in this projection: at the east/west points the field
+       runs INTO/OUT of the screen - a side-view needle cannot show that
+       truthfully; the compass lives in the section view */
+  }
+  $('svgw').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('wqb');
+}
+
+/* ================= ③ solenoid ================= */
+function drawSOL(){
+  var s=benchBG(660,470);
+  var cx=330,cy=225,hw=150,hh=52;
+  var Nend=solNend(SOL.dir);
+  var k;
+  /* field lines: inside straight + outside loops (direction: out of N, into S) */
+  var lineDirs=(Nend==='R')?1:-1;   /* +1: field inside points right */
+  for(k=-1;k<=1;k++){
+    var yy=cy+k*26;
+    s+='<line x1="'+(cx-hw+10)+'" y1="'+yy+'" x2="'+(cx+hw-10)+'" y2="'+yy+'" stroke="#3B6EA5" stroke-width="2.4" stroke-dasharray="7 7" stroke-dashoffset="'+((-lineDirs)*CLK*16).toFixed(0)+'"/>';
+    s+=arrowHead(cx+lineDirs*46,yy,lineDirs,0,'#3B6EA5',3);
+  }
+  /* outer loops */
+  var loops=[[86,150],[132,205]];
+  for(k=0;k<loops.length;k++){
+    var ry=loops[k][0],rx=hw+loops[k][1]-150+70;
+    s+='<path d="M '+(cx+lineDirs*(hw-6))+' '+(cy-8)+' C '+(cx+lineDirs*(hw+rx))+' '+(cy-ry-40)+', '+(cx-lineDirs*(hw+rx))+' '+(cy-ry-40)+', '+(cx-lineDirs*(hw-6))+' '+(cy-8)+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="0.75" stroke-dasharray="7 7" stroke-dashoffset="'+((-1)*CLK*16).toFixed(0)+'"/>';
+    s+='<path d="M '+(cx+lineDirs*(hw-6))+' '+(cy+8)+' C '+(cx+lineDirs*(hw+rx))+' '+(cy+ry+40)+', '+(cx-lineDirs*(hw+rx))+' '+(cy+ry+40)+', '+(cx-lineDirs*(hw-6))+' '+(cy+8)+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="0.75" stroke-dasharray="7 7" stroke-dashoffset="'+(CLK*16).toFixed(0)+'"/>';
+    s+=arrowHead(cx,cy-loops[k][0]-40+(-6),lineDirs*-1,0,'#3B6EA5',3);
+    s+=arrowHead(cx,cy+loops[k][0]+40-(-6),lineDirs*1,0,'#3B6EA5',3);
+  }
+  /* solenoid body: back strands then core then front strands */
+  var NCOIL=9;
+  for(k=0;k<NCOIL;k++){
+    var xx=cx-hw+22+k*((2*hw-44)/(NCOIL-1));
+    s+='<path d="M '+(xx+9)+' '+(cy-hh)+' A 9 '+hh+' 0 0 1 '+(xx+9)+' '+(cy+hh)+'" fill="none" stroke="#8A5A2B" stroke-width="4" opacity="0.45"/>';
+  }
+  for(k=0;k<NCOIL;k++){
+    var x2=cx-hw+22+k*((2*hw-44)/(NCOIL-1));
+    s+='<path d="M '+x2+' '+(cy+hh)+' A 9 '+hh+' 0 0 1 '+x2+' '+(cy-hh)+'" fill="none" stroke="#B5652A" stroke-width="5"/>';
+    /* marching current dots on front strands: dir=+1 → upward */
+    var u=frac(rnd(k,501)+CLK*0.5*SOL.dir);
+    var dy=cy+hh-u*2*hh;
+    s+='<circle cx="'+(x2-9*Math.sin(Math.PI*u)).toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="3.2" fill="#DA9526"/>';
+  }
+  /* current direction tag on front */
+  s+=arrowHead(cx,SOL.dir===1?cy-hh-12:cy+hh+12,0,SOL.dir===1?-1:1,'#D9542B',4);
+  s+=tl(cx+14,SOL.dir===1?cy-hh-16:cy+hh+26,13,'#D9542B',T('s_cur'),'start');
+  /* poles */
+  var nx=(Nend==='R')?cx+hw+26:cx-hw-26;
+  var sx=(Nend==='R')?cx-hw-26:cx+hw+26;
+  s+=tl(nx,cy+7,26,'#D9542B','N');
+  s+=tl(sx,cy+7,26,'#3B6EA5','S');
+  /* compasses at both ends aligning with the field */
+  s+=compassSVG(cx+hw+70,cy,22,lineDirs===1?90:-90,0.95);
+  s+=compassSVG(cx-hw-70,cy,22,lineDirs===1?90:-90,0.95);
+  /* ghost bar magnet overlay */
+  if(SOL.ghost){
+    s+='<rect x="'+(cx-hw)+'" y="'+(cy+96)+'" width="'+hw+'" height="34" fill="'+(Nend==='R'?'#3B6EA5':'#D9542B')+'" opacity="0.55" rx="4"/>';
+    s+='<rect x="'+cx+'" y="'+(cy+96)+'" width="'+hw+'" height="34" fill="'+(Nend==='R'?'#D9542B':'#3B6EA5')+'" opacity="0.55" rx="4"/>';
+    s+=tl(cx-hw/2,cy+118,15,'#FFFDF7',Nend==='R'?'S':'N');
+    s+=tl(cx+hw/2,cy+118,15,'#FFFDF7',Nend==='R'?'N':'S');
+    s+=tlplain(cx,cy+152,13,'#8A8070',T('s_ghost'));
+  }
+  s+=tl(116,64,14,'#2C7D8C','🤚 '+T('s_rule'),'start');
+  $('svgsol').innerHTML=PAINT(s);
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('sqb');
+  $('s_pole').textContent=(LANG==='en'?('N: '+(Nend==='R'?'right':'left')):('N极：'+(Nend==='R'?'右端':'左端')));
+}
+
+/* ================= ④ trainer figure ================= */
+function drawTRN(){
+  var q=trnQ(TRN.i);
+  var s=benchBG(660,330);
+  if(q.ty===0){
+    var RS=[55,95,135];
+    for(var k=0;k<RS.length;k++)s+='<circle cx="330" cy="165" r="'+RS[k]+'" fill="none" stroke="#3B6EA5" stroke-width="2" opacity="'+(1-k*0.22)+'" stroke-dasharray="6 7"/>';
+    s+='<circle cx="330" cy="165" r="14" fill="#FFFDF7" stroke="#B5652A" stroke-width="4"/>';
+    if(q.out)s+='<circle cx="330" cy="165" r="4.5" fill="#B5652A"/>';
+    else{
+      s+='<line x1="322" y1="157" x2="338" y2="173" stroke="#B5652A" stroke-width="4"/>';
+      s+='<line x1="338" y1="157" x2="322" y2="173" stroke="#B5652A" stroke-width="4"/>';
+    }
+    s+=tl(330,40,16,'#B5652A',q.out?T('w_cur_out'):T('w_cur_in'));
+    s+=tl(330,308,15,'#26221B',T('tr_prompt0'));
+  }else if(q.ty===1){
+    var cx=330,cy=160,hw=120,hh=44;
+    for(var k2=0;k2<7;k2++){
+      var xx=cx-hw+18+k2*((2*hw-36)/6);
+      s+='<path d="M '+xx+' '+(cy+hh)+' A 8 '+hh+' 0 0 1 '+xx+' '+(cy-hh)+'" fill="none" stroke="#B5652A" stroke-width="5"/>';
+    }
+    s+=arrowHead(cx,q.up?cy-hh-12:cy+hh+12,0,q.up?-1:1,'#D9542B',4);
+    s+=tl(cx+14,q.up?cy-hh-16:cy+hh+26,13,'#D9542B',T('s_cur'),'start');
+    s+=tl(cx-hw-30,cy+6,22,'#8A8070','?');
+    s+=tl(330,308,15,'#26221B',T('tr_prompt1'));
+  }else{
+    s+='<circle cx="330" cy="150" r="60" fill="none" stroke="#3B6EA5" stroke-width="2" stroke-dasharray="6 7"/>';
+    s+='<circle cx="330" cy="150" r="12" fill="#FFFDF7" stroke="#B5652A" stroke-width="4"/>';
+    if(q.out)s+='<circle cx="330" cy="150" r="4" fill="#B5652A"/>';
+    else{
+      s+='<line x1="323" y1="143" x2="337" y2="157" stroke="#B5652A" stroke-width="4"/>';
+      s+='<line x1="337" y1="143" x2="323" y2="157" stroke="#B5652A" stroke-width="4"/>';
+    }
+    var P={E:[440,150],S:[330,258],W:[220,150],N:[330,44]};
+    var pp=P[q.pos];
+    s+='<circle cx="'+pp[0]+'" cy="'+pp[1]+'" r="20" fill="#FFFDF7" stroke="#2C7D8C" stroke-width="2.5" stroke-dasharray="4 4"/>';
+    s+=tl(pp[0],pp[1]+6,15,'#2C7D8C','?');
+    s+=tl(330,40>pp[1]-30?24:40,16,'#B5652A',q.out?T('w_cur_out'):T('w_cur_in'),'middle');
+    s+=tl(330,308,15,'#26221B',T('tr_prompt2').replace('{POS}',T('pos'+q.pos)));
+  }
+  $('svgtrn').innerHTML=PAINT(s);
+  /* option buttons */
+  var h='',j;
+  for(j=0;j<q.opts.length;j++){
+    var cls='opt';
+    if(TRN.pick===j)cls+=(j===q.correct?' ok':' bad');
+    h+='<button class="'+cls+'" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+q.opts[j]+'</button>';
+  }
+  var solved=(TRN.pick===q.correct);
+  if(TRN.pick>=0){
+    h+='<div class="fb show" style="display:block">'+(solved?T('tr_right'):T('tr_wrong'))+'</div>';
+  }
+  $('tropts').innerHTML=h;
+  var ops=document.querySelectorAll('#tropts .opt');
+  for(j=0;j<ops.length;j++){
+    ops[j].addEventListener('click',function(){
+      if(TRN.pick===trnQ(TRN.i).correct)return;
+      var oi=+this.getAttribute('data-o');
+      TRN.pick=oi;
+      if(TRN.first[TRN.i]===undefined)TRN.first[TRN.i]=(oi===trnQ(TRN.i).correct);
+      drawTRN();updTrnChips();
+    });
+  }
+  $('trnext').style.display=solved?'':'none';
+  updTrnChips();
+}
+function updTrnChips(){
+  var nf=0,k;
+  for(k=0;k<TRN.first.length;k++)if(TRN.first[k]===true)nf++;
+  $('trprog').textContent=T('tr_q')+' '+(TRN.i+1)+(LANG==='en'?'':' 题');
+  $('trscore').textContent=T('tr_score')+' '+nf+' / '+Math.max(TRN.first.filter(function(x){return x!==undefined}).length,0);
+}
+'use strict';
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. Who discovered the magnetic effect of current (1820)?',o:[
+    ['Oersted',1,'Correct — his compass twitched beside a live wire, linking electricity and magnetism for the first time.'],
+    ['Newton',0,'Newton worked on motion and gravity, a century earlier.'],
+    ['Faraday',0,'Faraday found the REVERSE effect — magnetism making current (induction).'],
+    ['Ohm',0,'Ohm related voltage, current and resistance.']]},
+   {q:'2. In Oersted\u2019s experiment the needle deflects because…',o:[
+    ['the current sets up a magnetic field around the wire',1,'Correct — the field acts on the needle without any contact.'],
+    ['the wire attracts iron',0,'A copper wire without current attracts nothing.'],
+    ['the battery heats the air',0,'Warm air cannot swing a balanced needle so decisively.'],
+    ['the needle is faulty',0,'Switch off and it returns north — the needle is fine.']]},
+   {q:'3. Reverse the current and the needle…',o:[
+    ['deflects the opposite way',1,'Correct — the field direction reverses with the current.'],
+    ['deflects the same way',0,'Direction of deflection follows the current\u2019s direction.'],
+    ['stops swinging entirely',0,'It still deflects — just the other way.'],
+    ['spins continuously',0,'It settles at a new angle, it does not spin.']]},
+   {q:'4. The field lines around a straight current-carrying wire are…',o:[
+    ['concentric circles centred on the wire',1,'Correct — rings around the wire, denser close in.'],
+    ['straight lines parallel to the wire',0,'That would be the shape of the WIRE, not its field.'],
+    ['rays pointing away from the wire',0,'That is an electric-charge picture, not a current\u2019s field.'],
+    ['random loops',0,'The pattern is perfectly regular circles.']]},
+   {q:'5. Farther from the wire, the magnetic field is…',o:[
+    ['weaker',1,'Correct — that is why the circles are drawn farther apart outward.'],
+    ['stronger',0,'Strength falls with distance.'],
+    ['unchanged',0,'It clearly weakens — the compass barely responds far away.'],
+    ['zero everywhere except touching the wire',0,'The field fills the space around the wire, fading gradually.']]},
+   {q:'6. The right-hand grip rule for a straight wire says…',o:[
+    ['thumb = current, curled fingers = field direction',1,'Correct — grip the wire with the RIGHT hand.'],
+    ['fingers = current, thumb = field',0,'That pairing is for the SOLENOID (thumb = N pole).'],
+    ['use the left hand',0,'The left-hand rule belongs to motor force, not field direction.'],
+    ['thumb = field, fingers = current',0,'Reversed.']]},
+   {q:'7. The field of a current-carrying solenoid resembles…',o:[
+    ['a bar magnet\u2019s field',1,'Correct — N at one end, S at the other, lines looping outside.'],
+    ['a horseshoe magnet only',0,'The match is with a straight BAR magnet.'],
+    ['no field at all',0,'Powered coils are strong magnets — that is how electromagnets work.'],
+    ['a field that exists only inside',0,'Lines continue outside, looping end to end.']]},
+   {q:'8. Section view: current ⊗ (into the page). The field circles run…',o:[
+    ['clockwise',1,'Correct — point the right thumb INTO the page; fingers curl clockwise.'],
+    ['counter-clockwise',0,'Counter-clockwise is for ⊙ (current OUT of the page).'],
+    ['radially outward',0,'Field lines circle the wire, never radiate.'],
+    ['there is no field',0,'Any current has a field around it.']]}
+  ];
+  return [
+   {q:'1. 电流的磁效应是谁在 1820 年发现的？',o:[
+    ['奥斯特',1,'正确——通电导线旁的小磁针一动，人类第一次把电和磁连了起来。'],
+    ['牛顿',0,'牛顿研究的是运动和引力，早了一百多年。'],
+    ['法拉第',0,'法拉第发现的是反过来的事——磁生电（电磁感应）。'],
+    ['欧姆',0,'欧姆研究的是电压、电流和电阻的关系。']]},
+   {q:'2. 奥斯特实验中磁针偏转，是因为……',o:[
+    ['电流在导线周围产生了磁场',1,'正确——磁场隔空作用在磁针上，不需要接触。'],
+    ['导线会吸铁',0,'不通电的铜导线什么都不吸。'],
+    ['电池加热了空气',0,'热空气不可能让磁针转得这么果断。'],
+    ['磁针坏了',0,'断电后它乖乖指回南北——磁针没问题。']]},
+   {q:'3. 把电流反向，磁针会……',o:[
+    ['向相反方向偏转',1,'正确——电流反向，磁场方向也反向。'],
+    ['偏转方向不变',0,'偏转方向跟着电流方向走。'],
+    ['完全不再偏转',0,'仍然偏转，只是换了边。'],
+    ['连续旋转不停',0,'它会停在新的角度上，不会一直转。']]},
+   {q:'4. 通电直导线周围的磁感线是……',o:[
+    ['以导线为圆心的同心圆',1,'正确——一圈套一圈，越靠近导线越密。'],
+    ['与导线平行的直线',0,'那是导线自己的形状，不是磁场的形状。'],
+    ['从导线向外的放射线',0,'那是电荷的电场画法，不是电流的磁场。'],
+    ['杂乱无章的曲线',0,'图样是非常规则的同心圆。']]},
+   {q:'5. 离导线越远，磁场……',o:[
+    ['越弱',1,'正确——所以磁感线越往外画得越疏。'],
+    ['越强',0,'强度随距离减弱。'],
+    ['保持不变',0,'明显减弱——远处的磁针几乎没反应。'],
+    ['除了贴着导线处处为零',0,'磁场充满导线周围的空间，逐渐减弱。']]},
+   {q:'6. 直导线的安培定则是……',o:[
+    ['大拇指指电流方向，四指指磁感线绕向',1,'正确——用右手"握住"导线。'],
+    ['四指指电流，大拇指指磁场',0,'那套搭配是螺线管用的（拇指=N极）。'],
+    ['用左手来判断',0,'左手定则管的是受力，不是磁场方向。'],
+    ['大拇指指磁场，四指指电流',0,'说反了。']]},
+   {q:'7. 通电螺线管的磁场像……',o:[
+    ['一条条形磁铁',1,'正确——一端 N 一端 S，磁感线在外面绕回来。'],
+    ['只像蹄形磁铁',0,'对应的是"条形"磁铁。'],
+    ['没有磁场',0,'通电线圈是很强的磁体——电磁铁就是这么来的。'],
+    ['只有管内才有磁场',0,'磁感线延伸到管外，从一端绕回另一端。']]},
+   {q:'8. 截面图中电流是 ⊗（进纸面），磁感线绕行方向是……',o:[
+    ['顺时针',1,'正确——右手拇指指进纸面，四指顺时针弯曲。'],
+    ['逆时针',0,'逆时针对应 ⊙（电流出纸面）。'],
+    ['向四周辐射',0,'磁感线绕着导线转圈，从不辐射。'],
+    ['没有磁感线',0,'有电流就有磁场。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildQuiz();
+  swLabel();
+  RENDER[CUR](); updSummary();
+}
+function swLabel(){
+  var b=$('osw');
+  b.textContent=OE.on?T('dk_sw_on'):T('dk_sw_off');
+}
+var AMB=0;
+function ambLoop(){
+  CLK+=0.016;
+  if(CUR===0){ oeStep(0.016); drawOE(); }
+  else if(CUR===1){ drawW(); }
+  else if(CUR===2){ drawSOL(); }
+  updSummary();
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawOE,drawW,drawSOL,drawTRN,drawQZ];
+  SUMMARY=[
+    function(){return (OE.on?('⚡ '+OE.I.toFixed(1)+' A · '+Math.round(OE.ang)+'°'):(LANG==='en'?'○ off':'○ 断开'))},
+    function(){return (W.view==='sec'?(W.dir===1?'⊙':'⊗'):(W.dir===1?'↑':'↓'))+' '+(LANG==='en'?'wire field':'直导线磁场')},
+    function(){return 'N: '+(solNend(SOL.dir)==='R'?(LANG==='en'?'right':'右'):(LANG==='en'?'left':'左'))},
+    function(){return $('trscore').textContent},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initOE(); initW(); initSOL(); initTRN();
+  /* --- ① --- */
+  $('osw').addEventListener('click',function(){OE.on=!OE.on;this.classList.toggle('on',OE.on);swLabel();drawOE();updSummary()});
+  $('oflip').addEventListener('click',function(){OE.dir=-OE.dir;drawOE();updSummary()});
+  $('oI').addEventListener('input',function(){OE.I=+this.value;$('oIlab').textContent=OE.I.toFixed(1)+' A';drawOE();updSummary()});
+  $('oreset').addEventListener('click',function(){initOE();$('osw').classList.remove('on');swLabel();drawOE();updSummary()});
+  /* --- ② --- */
+  $('wv3d').addEventListener('click',function(){W.view='3d';this.classList.add('on');$('wvsec').classList.remove('on');drawW()});
+  $('wvsec').addEventListener('click',function(){W.view='sec';this.classList.add('on');$('wv3d').classList.remove('on');drawW()});
+  $('wflip').addEventListener('click',function(){W.dir=-W.dir;drawW();updSummary()});
+  /* compass drag in section view */
+  var dragging=false;
+  var svgw=$('svgw');
+  function evPos(e){
+    var r=svgw.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width*660,y=(e.clientY-r.top)/r.height*470;
+    return [x,y];
+  }
+  svgw.addEventListener('pointerdown',function(e){
+    if(W.view!=='sec')return;
+    e.preventDefault();
+    var p=evPos(e);
+    if(Math.hypot(p[0]-W.px,p[1]-W.py)<46){dragging=true}
+  });
+  svgw.addEventListener('pointermove',function(e){
+    if(!dragging)return;
+    var p=evPos(e);
+    var dx=p[0]-WC.cx,dy=p[1]-WC.cy;
+    var r=clamp(Math.hypot(dx,dy),42,205);
+    var a=Math.atan2(dy,dx);
+    W.px=WC.cx+r*Math.cos(a);W.py=WC.cy+r*Math.sin(a);
+    W.px=clamp(W.px,30,630);W.py=clamp(W.py,34,440);
+  });
+  svgw.addEventListener('pointerup',function(){dragging=false});
+  svgw.addEventListener('pointercancel',function(){dragging=false});
+  /* --- ③ --- */
+  $('sflip').addEventListener('click',function(){SOL.dir=-SOL.dir;drawSOL();updSummary()});
+  $('sghost').addEventListener('click',function(){SOL.ghost=!SOL.ghost;this.classList.toggle('on',SOL.ghost);drawSOL()});
+  $('sreset').addEventListener('click',function(){initSOL();$('sghost').classList.remove('on');drawSOL();updSummary()});
+  /* --- ④ --- */
+  $('trnext').addEventListener('click',function(){TRN.i++;TRN.pick=-1;drawTRN()});
+  /* --- chrome --- */
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  swLabel();
+  buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  OE.on=true;
+  for(i=0;i<300;i++){CLK+=0.016;oeStep(0.016);if(i%75===0)drawOE()}
+  OE.dir=-1;
+  for(i=0;i<200;i++){CLK+=0.016;oeStep(0.016);if(i%50===0)drawOE()}
+  OE.I=3;drawOE();
+  initOE();drawOE();
+  showTab(1);
+  W.view='3d';drawW();W.dir=-1;drawW();
+  W.view='sec';drawW();
+  W.px=200;W.py=120;drawW();
+  W.px=470;W.py=330;W.dir=1;drawW();
+  initW();
+  showTab(2);
+  drawSOL();SOL.dir=-1;drawSOL();SOL.ghost=true;drawSOL();
+  initSOL();
+  showTab(3);
+  for(i=0;i<9;i++){
+    var q=trnQ(TRN.i);
+    TRN.pick=(q.correct+1)%q.opts.length;
+    if(TRN.first[TRN.i]===undefined)TRN.first[TRN.i]=false;
+    drawTRN();
+    TRN.pick=q.correct;TRN.first[TRN.i]=TRN.first[TRN.i]||false;
+    drawTRN();
+    TRN.i++;TRN.pick=-1;
+  }
+  initTRN();drawTRN();
+  showTab(4);
+  for(i=0;i<8;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=8;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='current-magnetic-effect-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>三态变化实验室 · States of Matter · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 三态变化实验室</h1>
+  <div class="sub">States of Matter · chu-er-shang/b3-c1 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 粒子实验台</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 加热曲线</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 三态对照</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 六种变化</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<!-- ① 粒子实验台 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svgst" viewBox="0 0 660 500"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="st_sidetitle">粒子档案</h3>
+    <div class="statline">
+      <span class="chip hl big" id="c_state">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="c_T">—</span>
+      <span class="chip blu" id="c_motion">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="st_k1"></div>
+    <div class="kbox blue" data-i18n-html="st_k2"></div>
+    <div class="kbox grn" data-i18n-html="st_k3"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 加热曲线 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb1">—</div>
+    <svg id="svghc" viewBox="0 0 660 480"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="hc_sidetitle">曲线怎么读</h3>
+    <div class="statline">
+      <span class="chip hl big" id="h_phase">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="h_T">—</span>
+      <span class="chip" id="h_t">—</span>
+    </div>
+    <div class="kbox red" data-i18n-html="hc_k1"></div>
+    <div class="kbox grn" data-i18n-html="hc_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 三态对照 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="cp_figtitle">同一种物质，三种状态（同时动起来）</h3>
+    <svg id="svgcp" viewBox="0 0 660 300"></svg>
+    <div id="cp3wrap"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="cp_sidetitle">口诀</h3>
+    <div class="kbox grn" data-i18n-html="cp_k1"></div>
+    <div class="kbox" data-i18n-html="cp_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 六种变化 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="tr_figtitle">六种物态变化（红=吸热，蓝=放热）</h3>
+    <svg id="svgtr6" viewBox="0 0 660 380"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="tr_sidetitle">生活例子</h3>
+    <div class="kbox" data-i18n-html="tr_k1"></div>
+    <div class="kbox blue" data-i18n-html="tr_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ 测验 -->
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl"><span data-i18n="dk_T">温度 T</span>
+      <input type="range" id="tsl" min="-20" max="120" step="1" value="20">
+      <span class="mono" id="tlab">20 °C</span></span>
+    <button class="tgl" id="heat" data-i18n="dk_heat">🔥 加热 +10°C</button>
+    <button class="tgl" id="cool" data-i18n="dk_cool">❄️ 冷却 −10°C</button>
+    <span class="dl" data-i18n="dk_hint0">💡 慢慢拉过 0°C 和 100°C，看粒子怎么变</span>
+  </div>
+
+  <div class="dsec" id="d1">
+    <button class="dbtn" id="hcplay">▶ <span data-i18n="dk_go1">开始加热</span></button>
+    <button class="tgl" id="hccool" data-i18n="dk_cool1">❄️ 改为冷却</button>
+    <button class="tgl" id="hcreset" data-i18n="dk_reset1">↺ 重置</button>
+    <span class="dl" data-i18n="dk_hint1">💡 注意两个"平台"：温度不动的时候热量去哪了？</span>
+  </div>
+
+  <div class="dsec" id="d2">
+    <span class="dl" data-i18n="dk_hint2">💡 盯住一颗粒子：振动 → 滑动 → 飞行</span>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="dk_hint3">💡 向右吸热，向左放热；跳级的是升华/凝华</span>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'三态变化实验室',
+ subtitle:'固态 · 液态 · 气态 · 粒子运动与温度 —— 初中科学课堂演示工具',
+ tab0:'① 粒子实验台',tab1:'② 加热曲线',tab2:'③ 三态对照',tab3:'④ 六种变化',tab4:'⑤ 测验',
+ st_sidetitle:'粒子档案',
+ st_k1:'<b>温度就是粒子运动的剧烈程度。</b>加热不是给物体"添"了什么东西，而是让每一颗粒子动得更凶：固体振得更厉害，液体挤得更欢，气体飞得更快。',
+ st_k3:'🌊 <b>水的反常膨胀</b>：4°C 时水的密度最大、体积最小——把温度条从 0°C 拉到 4°C，水位反而<b>下降</b>；过了 4°C 才随温度升高慢慢变「胖」。结成冰后体积明显<b>变大</b>、密度变小，所以冰浮在水面上；湖面结冰时，湖底仍是 4°C 的水最重沉在底，鱼因此能过冬。', st_k2:'三态的区别在<b>排列</b>：固体粒子排得整整齐齐、只能原地振动；液体粒子挨在一起但能互相滑过（所以会流动）；气体粒子间距很大、自由飞行（所以能被压缩、充满整个容器）。',
+ hc_sidetitle:'曲线怎么读',
+ hc_k1:'⚠️ 最大考点：<b>熔化和沸腾时温度不变</b>（0°C 和 100°C 两个平台）。此时加进去的热量没有用来升温，而是用来<b>拆散粒子的排列</b>——看右上小窗，粒子一颗颗脱离队伍，温度却纹丝不动。',
+ hc_k2:'冷却时反过来：液化和凝固的平台上，物质一边<b>放热</b>一边变整齐——凝固是放热过程，这也是"下雪不冷化雪冷"的道理。',
+ cp_figtitle:'同一种物质，三种状态（同时动起来）',
+ cp_sidetitle:'口诀',
+ cp_k1:'<b>固定形状看固体，随器而形看液体，充满全屋看气体。</b>判断两问：能不能流动？能不能压缩？',
+ cp_k2:'粒子三问：排列整齐吗？靠得紧吗？能自由移动吗？——固体：齐·紧·不能；液体：乱·紧·能滑动；气体：乱·远·自由飞。',
+ tr_figtitle:'六种物态变化（红=吸热，蓝=放热）',
+ tr_sidetitle:'生活例子',
+ tr_k1:'吸热三兄弟：<b>熔化</b>（冰→水）、<b>汽化</b>（晒衣服=蒸发，烧开水=沸腾）、<b>升华</b>（樟脑丸变小、干冰变小）。',
+ tr_k2:'放热三兄弟：<b>凝固</b>（水结冰）、<b>液化</b>（眼镜起雾、壶口"白气"是小水珠）、<b>凝华</b>（霜、玻璃冰花直接由水蒸气变成固体）。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_T:'温度 T', dk_heat:'🔥 加热 +10°C', dk_cool:'❄️ 冷却 −10°C',
+ dk_hint0:'💡 慢慢拉过 0°C 和 100°C，看粒子怎么变',
+ dk_go1:'开始加热', dk_go1c:'开始冷却', dk_pause:'暂停', dk_cool1:'❄️ 改为冷却', dk_reset1:'↺ 重置',
+ dk_hint1:'💡 注意两个"平台"：温度不动的时候热量去哪了？',
+ dk_hint2:'💡 盯住一颗粒子：振动 → 滑动 → 飞行',
+ dk_hint3:'💡 向右吸热，向左放热；跳级的是升华/凝华',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0a:'把水的温度调到 ', qb0b:'。此时水处于什么状态？粒子在做什么运动？',
+ qb1heat:'对 −20°C 的冰持续均匀加热。画出温度随时间变化的图像，并解释两段"平台"。',
+ qb1cool:'对 120°C 的水蒸气持续均匀冷却。画出温度随时间变化的图像，并解释两段"平台"。',
+ s_sol:'固态（冰）', s_liq:'液态（水）', s_gas:'气态（水蒸气）',
+ m_sol:'粒子原地振动，不移动', m_liq:'粒子挨着滑动，会流动', m_liq_ev:'粒子挨着滑动 · 🌫少数从液面蒸发逃逸——任何温度都会蒸发', m_gas:'粒子自由飞行，充满容器',
+ nearmelt:'0°C：熔点／凝固点', nearboil:'100°C：沸点', dens4:'4°C：密度最大·体积最小（水位最低）',
+ ph_sol:'固态升温', ph_melt:'熔化中（0°C 平台）', ph_liq:'液态升温', ph_boil:'沸腾中（100°C 平台）', ph_gas:'气态升温',
+ ph_gcool:'气态降温', ph_cond:'液化中（100°C 平台）', ph_lcool:'液态降温', ph_frz:'凝固中（0°C 平台）', ph_scool:'固态降温',
+ plat_melt:'温度不变！热量正在拆散排列', plat_boil:'温度不变！粒子正挣脱束缚飞走',
+ plat_cond:'温度不变！放热·粒子被抓回', plat_frz:'温度不变！放热·排回整齐队形',
+ axis_t:'时间 →', axis_T:'温度 /°C',
+ mini_t:'粒子实况',
+ lb_sol:'固体', lb_liq:'液体', lb_gas:'气体',
+ cpH:['','固体','液体','气体'],
+ cpR:[['形状','固定','随容器','随容器'],
+      ['体积','固定','固定','充满容器·可压缩'],
+      ['流动性','不流动','能流动','能流动'],
+      ['粒子排列','整齐·紧密','较乱·紧密','很乱·间距大'],
+      ['粒子运动','原地振动','互相滑动','自由飞行']],
+ t_melt:'熔化', t_frz:'凝固', t_vap:'汽化', t_cond:'液化', t_sub:'升华', t_dep:'凝华',
+ absorb:'吸热', release:'放热',
+ mth:''
+},
+en:{
+ title:'States of Matter Lab',
+ subtitle:'Solid · liquid · gas · particle motion & temperature — junior-high classroom demo',
+ tab0:'① Particle Bench',tab1:'② Heating Curve',tab2:'③ Three States',tab3:'④ Six Changes',tab4:'⑤ Quiz',
+ st_sidetitle:'Particle file',
+ st_k1:'<b>Temperature IS how violently the particles move.</b> Heating doesn\u2019t add a substance — it makes every particle move harder: solids vibrate more, liquids jostle more, gas particles fly faster.',
+ st_k3:'🌊 <b>Water\u2019s anomalous expansion</b>: water is DENSEST at 4°C — drag from 0°C to 4°C and the water level actually <b>drops</b>; only past 4°C does it swell with temperature. Freezing makes the volume clearly <b>larger</b> (lower density), which is why ice floats and why fish survive under a frozen lake: the heaviest 4°C water sinks to the bottom.', st_k2:'The states differ in <b>arrangement</b>: solid particles sit in a neat lattice and only vibrate in place; liquid particles touch but slide past each other (that\u2019s flow); gas particles are far apart and fly freely (that\u2019s why gases compress and fill any container).',
+ hc_sidetitle:'Reading the curve',
+ hc_k1:'⚠️ THE exam point: <b>temperature stays constant during melting and boiling</b> (the 0°C and 100°C plateaus). The heat isn\u2019t raising the temperature — it is <b>tearing the particle arrangement apart</b>. Watch the mini-window: particles break ranks one by one while the temperature freezes.',
+ hc_k2:'Cooling runs it backwards: on the condensing and freezing plateaus the substance <b>releases heat</b> while getting more ordered — freezing is exothermic.',
+ cp_figtitle:'One substance, three states (all animated)',
+ cp_sidetitle:'The rule',
+ cp_k1:'<b>Fixed shape → solid. Takes the container\u2019s shape → liquid. Fills the whole container → gas.</b> Two tests: does it flow? can it be squashed?',
+ cp_k2:'Three particle questions: neat? close? free to move? Solid: neat·close·no. Liquid: messy·close·slides. Gas: messy·far·flies.',
+ tr_figtitle:'Six changes of state (red = absorbs heat, blue = releases)',
+ tr_sidetitle:'Everyday examples',
+ tr_k1:'Heat-absorbing trio: <b>melting</b> (ice→water), <b>vaporisation</b> (drying clothes = evaporation; a kettle = boiling), <b>sublimation</b> (mothballs and dry ice shrinking).',
+ tr_k2:'Heat-releasing trio: <b>freezing</b> (water→ice), <b>condensation</b> (fogged glasses; the "white mist" at a kettle spout is droplets), <b>deposition</b> (frost forming straight from vapour).',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_T:'Temperature', dk_heat:'🔥 Heat +10°C', dk_cool:'❄️ Cool −10°C',
+ dk_hint0:'💡 Drag slowly past 0°C and 100°C and watch the particles change',
+ dk_go1:'Start heating', dk_go1c:'Start cooling', dk_pause:'Pause', dk_cool1:'❄️ Switch to cooling', dk_reset1:'↺ Reset',
+ dk_hint1:'💡 Watch the two plateaus: where does the heat go while T is stuck?',
+ dk_hint2:'💡 Follow one particle: vibrate → slide → fly',
+ dk_hint3:'💡 Rightward absorbs heat, leftward releases; the level-skippers are sublimation/deposition',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0a:'Set the water\u2019s temperature to ', qb0b:'. What state is it in, and what are its particles doing?',
+ qb1heat:'Ice at −20°C is heated at a steady rate. Sketch temperature against time and explain the two plateaus.',
+ qb1cool:'Steam at 120°C is cooled at a steady rate. Sketch temperature against time and explain the two plateaus.',
+ s_sol:'SOLID (ice)', s_liq:'LIQUID (water)', s_gas:'GAS (steam)',
+ m_sol:'particles vibrate in place', m_liq:'particles slide past each other', m_liq_ev:'particles slide past · 🌫 a few evaporate off the surface — at ANY temperature', m_gas:'particles fly freely',
+ nearmelt:'0°C: melting/freezing point', nearboil:'100°C: boiling point', dens4:'4°C: densest — smallest volume (lowest water level)',
+ ph_sol:'solid warming', ph_melt:'MELTING (0°C plateau)', ph_liq:'liquid warming', ph_boil:'BOILING (100°C plateau)', ph_gas:'gas warming',
+ ph_gcool:'gas cooling', ph_cond:'CONDENSING (100°C plateau)', ph_lcool:'liquid cooling', ph_frz:'FREEZING (0°C plateau)', ph_scool:'solid cooling',
+ plat_melt:'T constant! heat is breaking the lattice', plat_boil:'T constant! particles are breaking free',
+ plat_cond:'T constant! releasing heat — particles recaptured', plat_frz:'T constant! releasing heat — lining back up',
+ axis_t:'time →', axis_T:'temperature /°C',
+ mini_t:'particles live',
+ lb_sol:'solid', lb_liq:'liquid', lb_gas:'gas',
+ cpH:['','Solid','Liquid','Gas'],
+ cpR:[['Shape','fixed','container\u2019s','container\u2019s'],
+      ['Volume','fixed','fixed','fills it · squashable'],
+      ['Flow','no','yes','yes'],
+      ['Arrangement','neat · close','messy · close','messy · far apart'],
+      ['Motion','vibrate in place','slide past','fly freely']],
+ t_melt:'melt', t_frz:'freeze', t_vap:'vaporise', t_cond:'condense', t_sub:'sublime', t_dep:'deposit',
+ absorb:'absorbs heat', release:'releases heat',
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= particle model ================= */
+var ST={T:20};
+function stateOf(t){ return t<0?'sol':(t<100?'liq':'gas'); }
+var NP=42;
+var PT=[];
+var TRK=1, PMODE='', CLK=0;
+var BX0=76,BY0=92,BX1=594,BY1=430;
+/* ice is a SLAB at the bottom (water freezes in the shape it sat in), never a
+   floating centred block. Freezing assigns each particle a slot near where it
+   already is; FRZ seeds a little frozen-in irregularity so no two freezes look
+   machine-identical. */
+var FRZ=0;
+function slabHome(i,bx0,colw){
+  var col=i%14, row=Math.floor(i/14);
+  var x=bx0+col*colw+((row%2)?colw*0.25:0);
+  var y=BY1-20-row*33;   // taller rows too — the frozen slab is visibly bigger than the water was
+  return {x:x, y:y};
+}
+function assignSlab(){
+  FRZ++;
+  var k, minx=BX1, maxx=BX0;
+  for(k=0;k<NP;k++){
+    if(PT[k].x<minx)minx=PT[k].x;
+    if(PT[k].x>maxx)maxx=PT[k].x;
+  }
+  var bx0=clamp(minx-4,BX0+16,BX0+80);
+  var bx1=clamp(maxx+4,BX1-80,BX1-16);
+  var colw=Math.max(37,(bx1-bx0-14)/13);   // ice packs WIDER than water: freezing expands (冰浮在水上)
+  /* greedy nearest-slot matching: bottom particles claim first, each takes the
+     closest free slot — freezing stays LOCAL (no rank-slicing teleports) */
+  var slots=[],i;
+  for(i=0;i<NP;i++)slots.push(slabHome(i,bx0,colw));
+  var used=[],order=[];
+  for(k=0;k<NP;k++){used.push(false);order.push(k)}
+  order.sort(function(a,b){return PT[b].y-PT[a].y});
+  for(k=0;k<NP;k++){
+    var p=PT[order[k]];
+    var best=-1,bd=1e18;
+    for(i=0;i<NP;i++){
+      if(used[i])continue;
+      var dx=slots[i].x-p.x, dy=slots[i].y-p.y;
+      var d=dx*dx+dy*dy;
+      if(d<bd){bd=d;best=i}
+    }
+    used[best]=true;
+    p.gx=slots[best].x+(rnd(order[k],200+FRZ*13)-0.5)*5;
+    p.gy=slots[best].y+(rnd(order[k],300+FRZ*17)-0.5)*4;
+  }
+}
+/* one step of liquid-pile dynamics: gravity + soft repulsion + slow lateral flow.
+   Particles pack into a dense heap (like the solid, but disordered) and slide past
+   each other — that IS liquidity. items need x,y,vx,vy. */
+function liqPile(items,x0,y0,x1,y1,D0,jit,cap,g){
+  var n=items.length,i,j;
+  for(i=0;i<n;i++){
+    var p=items[i];
+    p.vy+=g;
+    p.vx+=(rnd(i,Math.floor(CLK*7))-0.5)*jit;
+    p.vx+=0.06*Math.sin(CLK*0.9+p.y*0.03);
+  }
+  for(i=0;i<n;i++)for(j=i+1;j<n;j++){
+    var a=items[i],b=items[j];
+    var dx=b.x-a.x,dy=b.y-a.y;
+    var d=Math.sqrt(dx*dx+dy*dy);
+    if(d<D0&&d>0.001){
+      var f=(D0-d)*0.13/d;   // stiff enough that spacing faithfully follows D0 even under hot jitter
+      a.vx-=dx*f;a.vy-=dy*f;
+      b.vx+=dx*f;b.vy+=dy*f;
+    }
+  }
+  for(i=0;i<n;i++){
+    var q=items[i];
+    q.vx*=0.90;q.vy*=0.90;
+    var v=Math.sqrt(q.vx*q.vx+q.vy*q.vy);
+    if(v>cap){q.vx*=cap/v;q.vy*=cap/v}
+    q.x+=q.vx;q.y+=q.vy;
+    if(q.x<x0){q.x=x0;q.vx=Math.abs(q.vx)}
+    if(q.x>x1){q.x=x1;q.vx=-Math.abs(q.vx)}
+    if(q.y>y1){q.y=y1;q.vy=0}
+    if(q.y<y0){q.y=y0;q.vy=Math.abs(q.vy)}
+  }
+}
+function gasSpeed(t){ return 2.6+(clamp(t,100,120)-100)*0.055; }
+/* water's anomalous expansion: particle spacing is SMALLEST at 4°C (densest),
+   grows slightly toward 0°C and steadily toward 100°C. Exaggerated so the
+   water level visibly dips at 4°C. */
+function liqD0(t){ return (t>=4) ? 34+(t-4)*0.04 : 34+(4-t)*0.8; }
+/* surface evaporation: happens at ANY temperature (from the surface); boiling at
+   100°C is when the WHOLE liquid vaporises. Not a fixed count — each candidate
+   particle has its own hash-driven "escape episodes", so the number airborne
+   FLUCTUATES around a temperature-driven mean (deterministic, hence testable). */
+function evP(t){ return clamp((t-45)/70,0,0.8); }
+function isVap(k,t,clk){
+  if(k>=5)return false;
+  var per=3+rnd(k,77)*3;                      // this particle's episode length, 3–6 s
+  return rnd(k,900+Math.floor(clk/per))<evP(t);
+}
+var VAP=[];
+function setMode(m){
+  var k;
+  if(PMODE===m)return;
+  PMODE=m; TRK=0;
+  for(k=0;k<NP;k++){
+    var p=PT[k];
+    p.sx=p.x; p.sy=p.y;
+    if(m==='sol'){ /* slots assigned in bulk below */ }
+    else if(m==='liq'){ TRK=1; p.vx=0; p.vy=0; }   // no teleport: gravity collapses the lattice / rains the gas down
+    else {
+      var a=rnd(k,3)*6.283;
+      var sp=gasSpeed(ST.T);
+      p.vx=Math.cos(a)*sp; p.vy=Math.sin(a)*sp;
+      p.gx=p.x; p.gy=p.y;
+    }
+  }
+  if(m==='sol')assignSlab();   // freeze IN PLACE: order up where the liquid sat
+}
+function initPT(){
+  var k;
+  PT=[];
+  VAP=[];
+  for(k=0;k<NP;k++){
+    var h=slabHome(k,BX0+24,(BX1-BX0-62)/13);
+    PT.push({x:h.x,y:h.y,vx:0,vy:0,sx:h.x,sy:h.y,gx:h.x,gy:h.y});
+    VAP.push(false);
+  }
+  PMODE=''; setMode(stateOf(ST.T)); TRK=1;
+  if(PMODE==='sol'){for(k=0;k<NP;k++){PT[k].x=PT[k].gx;PT[k].y=PT[k].gy}}
+}
+function ptStep(dt){
+  var k,t=ST.T;
+  CLK+=dt;
+  var m=stateOf(t);
+  if(m!==PMODE)setMode(m);
+  if(TRK<1&&PMODE==='sol'){
+    TRK=Math.min(1,TRK+dt*1.6);
+    var e=TRK*TRK*(3-2*TRK);
+    for(k=0;k<NP;k++){
+      var p=PT[k];
+      p.x=p.sx+(p.gx-p.sx)*e; p.y=p.sy+(p.gy-p.sy)*e;
+    }
+    return;
+  }
+  TRK=1;
+  if(PMODE==='sol'){
+    var amp=1.2+(t+20)/20*1.6;
+    for(k=0;k<NP;k++){
+      var p2=PT[k];
+      p2.x=p2.gx+amp*Math.sin(CLK*(5+rnd(k,4)*3)+rnd(k,5)*6.28);
+      p2.y=p2.gy+amp*Math.cos(CLK*(4.2+rnd(k,6)*3)+rnd(k,7)*6.28);
+    }
+  }else if(PMODE==='liq'){
+    var evs=[],pile=[],e;
+    for(k=0;k<NP;k++){
+      var nowV=isVap(k,t,CLK);
+      if(nowV&&!VAP[k]&&Math.sqrt(PT[k].vx*PT[k].vx+PT[k].vy*PT[k].vy)<0.4)PT[k].vy=-1.6;  // escape: kick off the surface
+      VAP[k]=nowV;
+      if(nowV)evs.push(PT[k]); else pile.push(PT[k]);
+    }
+    if(evs.length){
+      gasFlySub(evs,1.7+t*0.004);
+      /* vapor lives ABOVE the liquid: steer any escaped particle upward whenever
+         it dips below the pile surface (no teleporting — a fresh escapee RISES
+         smoothly out, a recaptured one falls back in by gravity) */
+      /* surface = 4th-lowest pile y: immune to splashes and to recaptured
+         particles still falling down through the headspace */
+      var ys=[],si;
+      for(si=0;si<pile.length;si++)ys.push(pile[si].y);
+      ys.sort(function(a,b){return a-b});
+      var surfY=ys[Math.min(3,ys.length-1)]-16;
+      for(si=0;si<evs.length;si++){
+        if(evs[si].y>surfY)evs[si].vy=-Math.abs(evs[si].vy||1);
+      }
+    }
+    liqPile(pile,BX0+12,BY0+12,BX1-12,BY1-12,liqD0(t),0.5+t/100*0.9,1.0+t/100*1.2,0.55);
+  }else{
+    for(k=0;k<NP;k++)VAP[k]=(PMODE==='gas');
+    gasFly();
+  }
+}
+function gasFly(){ gasFlySub(PT,gasSpeed(ST.T)); }
+function gasFlySub(list,sp){
+  var k;
+  for(k=0;k<list.length;k++){
+    var p=list[k];
+    var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+    p.vx*=sp/v; p.vy*=sp/v;
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<BX0+8){p.x=BX0+8;p.vx=Math.abs(p.vx)}
+    if(p.x>BX1-8){p.x=BX1-8;p.vx=-Math.abs(p.vx)}
+    if(p.y<BY0+8){p.y=BY0+8;p.vy=Math.abs(p.vy)}
+    if(p.y>BY1-8){p.y=BY1-8;p.vy=-Math.abs(p.vy)}
+  }
+}
+
+/* ================= heating-curve model ================= */
+var HC={run:false, cool:false, t:0, T:-20, frac:0, ph:'sol', hist:[]};
+function hcReset(){
+  HC.run=false; HC.t=0; HC.frac=0; HC.hist=[];
+  if(HC.cool){ HC.T=120; HC.ph='gcool'; } else { HC.T=-20; HC.ph='sol'; }
+}
+function hcStep(dt){
+  if(!HC.run)return;
+  HC.t+=dt;
+  if(!HC.cool){
+    if(HC.ph==='sol'){ HC.T+=10*dt; if(HC.T>=0){HC.T=0;HC.ph='melt';HC.frac=0} }
+    else if(HC.ph==='melt'){ HC.T=0; HC.frac+=dt/3; if(HC.frac>=1){HC.frac=1;HC.ph='liq'} }
+    else if(HC.ph==='liq'){ HC.T+=20*dt; if(HC.T>=100){HC.T=100;HC.ph='boil';HC.frac=0} }
+    else if(HC.ph==='boil'){ HC.T=100; HC.frac+=dt/6; if(HC.frac>=1){HC.frac=1;HC.ph='gas'} }
+    else if(HC.ph==='gas'){ HC.T+=10*dt; if(HC.T>=120){HC.T=120;HC.run=false} }
+  }else{
+    if(HC.ph==='gcool'){ HC.T-=10*dt; if(HC.T<=100){HC.T=100;HC.ph='cond';HC.frac=0} }
+    else if(HC.ph==='cond'){ HC.T=100; HC.frac+=dt/6; if(HC.frac>=1){HC.frac=1;HC.ph='lcool'} }
+    else if(HC.ph==='lcool'){ HC.T-=20*dt; if(HC.T<=0){HC.T=0;HC.ph='frz';HC.frac=0} }
+    else if(HC.ph==='frz'){ HC.T=0; HC.frac+=dt/3; if(HC.frac>=1){HC.frac=1;HC.ph='scool'} }
+    else if(HC.ph==='scool'){ HC.T-=10*dt; if(HC.T<=-20){HC.T=-20;HC.run=false} }
+  }
+  HC.hist.push([HC.t,HC.T]);
+  if(HC.hist.length>1400)HC.hist.shift();
+}
+/* ================= particle drawing (shared) ================= */
+function pcol(mode){ return mode==='sol'?'#7FA8C9':(mode==='liq'?'#2C7D8C':'#D9542B'); }
+function drawParticles(s,list,r,mode){
+  var k,col=pcol(mode);
+  for(k=0;k<list.length;k++){
+    s+='<circle cx="'+list[k].x.toFixed(1)+'" cy="'+list[k].y.toFixed(1)+'" r="'+r+'" fill="'+col+'" stroke="#26221B" stroke-width="1.4" opacity="0.92"/>';
+  }
+  return s;
+}
+/* ================= TAB 0 · PARTICLE BENCH ================= */
+function stName(m){ return T(m==='sol'?'s_sol':(m==='liq'?'s_liq':'s_gas')); }
+function stMotion(m){ return T(m==='sol'?'m_sol':(m==='liq'?'m_liq':'m_gas')); }
+function drawST(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  var m=stateOf(ST.T);
+  // container box
+  s+='<rect x="'+(BX0-8)+'" y="'+(BY0-8)+'" width="'+(BX1-BX0+16)+'" height="'+(BY1-BY0+16)+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="3"/>';
+  // liquid surface hint: tint follows the real pile surface
+  var nV=0,kv;
+  if(m==='liq'){for(kv=0;kv<NP;kv++)if(VAP[kv])nV++;}
+  if(m==='liq'&&TRK>=1){
+    var topy=BY1,ky;
+    for(ky=0;ky<NP;ky++)if(!VAP[ky]&&PT[ky].y<topy)topy=PT[ky].y;
+    topy=clamp(topy-12,BY0+20,BY1-30);
+    s+='<rect x="'+BX0+'" y="'+topy.toFixed(0)+'" width="'+(BX1-BX0)+'" height="'+(BY1-topy).toFixed(0)+'" fill="#2C7D8C" opacity="0.07"/>';
+    s+='<line x1="'+BX0+'" y1="'+topy.toFixed(0)+'" x2="'+BX1+'" y2="'+topy.toFixed(0)+'" stroke="#2C7D8C" stroke-width="2" stroke-dasharray="6 6" opacity="0.5"/>';
+  }
+  if(m==='liq'&&nV>0){
+    var vlist=[],plist=[],kd;
+    for(kd=0;kd<NP;kd++)(VAP[kd]?vlist:plist).push(PT[kd]);
+    s=drawParticles(s,plist,9,'liq');
+    s=drawParticles(s,vlist,9,'gas');   // escaped vapor, drawn on top (it lives above anyway)
+  }else{
+    s=drawParticles(s,PT,9,m);
+  }
+  // thermometer (left)
+  var tx=36, ty0=110, ty1=414;
+  s+='<rect x="'+(tx-7)+'" y="'+(ty0-10)+'" width="14" height="'+(ty1-ty0+20)+'" rx="7" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<circle cx="'+tx+'" cy="'+(ty1+18)+'" r="13" fill="#D9542B" stroke="#4B4437" stroke-width="2.5"/>';
+  var fh=(ST.T+20)/140*(ty1-ty0);
+  s+='<rect x="'+(tx-4)+'" y="'+(ty1-fh).toFixed(1)+'" width="8" height="'+(fh+16).toFixed(1)+'" fill="#D9542B"/>';
+  var marks=[[-20,''],[0,'0'],[100,'100'],[120,'']];
+  var mk;
+  for(mk=0;mk<marks.length;mk++){
+    var my=ty1-(marks[mk][0]+20)/140*(ty1-ty0);
+    s+='<line x1="'+(tx+7)+'" y1="'+my.toFixed(0)+'" x2="'+(tx+13)+'" y2="'+my.toFixed(0)+'" stroke="#4B4437" stroke-width="2"/>';
+    if(marks[mk][1])s+=tlplain(tx+18,my+4,12,'#6B6252',marks[mk][1],'start');
+  }
+  s+=tl(tx,ty0-22,15,'#D9542B',ST.T+'°C');
+  // state badge + boundary badges
+  var bc=m==='sol'?'#2C7D8C':(m==='liq'?'#2F7D4F':'#D9542B');
+  s+=tl(330,42,19,bc,stName(m));
+  if(Math.abs(ST.T-0)<=2)s+=tl(330,66,14,'#B5652A',T('nearmelt'));
+  if(Math.abs(ST.T-100)<=2)s+=tl(330,66,14,'#B5652A',T('nearboil'));
+  if(Math.abs(ST.T-4)<=1)s+=tl(330,66,14,'#2F7D4F',T('dens4'));
+  var motK=(m==='liq'&&nV>0)?T('m_liq_ev'):stMotion(m);
+  s+=tlplain(330,468,13,'#8A8070',motK);
+  $('svgst').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0a')+'<b>T = '+ST.T+' °C</b>'+T('qb0b');
+  $('c_state').textContent=stName(m);
+  $('c_T').textContent='T = '+ST.T+' °C';
+  $('c_motion').textContent=(m==='liq'&&nV>0)?T('m_liq_ev'):stMotion(m);
+}
+
+/* ================= TAB 1 · HEATING CURVE ================= */
+/* mini window: 20 PERSISTENT particles; each one changes state smoothly --
+   melting = break from the lattice and fall into the pile, boiling = launch off,
+   cooling runs it backwards. No teleporting. */
+var MNX=452,MNY=58,MNW=188,MNH=124,MN=20;
+var MP=[];
+function miniHome(k){
+  var c=k%5,r=Math.floor(k/5);
+  return {x:34+c*30, y:MNH-16-r*22};
+}
+function miniTargets(ph,frac,Tt){
+  var liqFrac,gasFrac;
+  if(ph==='sol'||ph==='scool')liqFrac=0;
+  else if(ph==='melt')liqFrac=frac;
+  else if(ph==='frz')liqFrac=1-frac;
+  else liqFrac=1;
+  if(ph==='gas'||ph==='gcool')gasFrac=1;
+  else if(ph==='boil')gasFrac=frac;
+  else if(ph==='cond')gasFrac=1-frac;
+  else gasFrac=0;
+  var gasN=Math.round(gasFrac*MN);
+  var liqN=Math.round(Math.max(liqFrac,gasFrac)*MN);
+  if(liqN>gasN)gasN=Math.max(gasN,Math.min(mnEvapDyn(Tt),liqN));   // surface evaporation below the boil (fluctuating)
+  return [gasN,liqN];
+}
+function mnEvapDyn(Tt){
+  var n=0,k;
+  for(k=0;k<3;k++){
+    var per=2.5+rnd(k,78)*2;
+    if(rnd(k,910+Math.floor(CLK/per))<evP(Tt))n++;
+  }
+  return n;
+}
+function initMP(){
+  var k;
+  MP=[];
+  for(k=0;k<MN;k++){
+    var h=miniHome(k);
+    MP.push({x:h.x,y:h.y,vx:0,vy:0,st:'sol'});
+  }
+}
+function miniJump(){
+  /* after a mode reset, snap the minis straight to the state the curve starts in */
+  initMP();
+  var k;
+  for(k=0;k<MN;k++)MP[k].st='';
+  miniStep();
+  if(HC.cool){
+    for(k=0;k<MN;k++){
+      MP[k].x=10+rnd(k,61)*(MNW-20);
+      MP[k].y=10+rnd(k,62)*(MNH-20);
+    }
+  }
+}
+function miniStep(){
+  var tg=miniTargets(HC.ph,HC.frac,HC.T);
+  var gasN=tg[0],liqN=tg[1],k;
+  var liqs=[];
+  /* pile surface from the current liquid members: vapor must stay above it */
+  var lys=[],sk;
+  for(sk=0;sk<MN;sk++)if(MP[sk].st==='liq')lys.push(MP[sk].y);
+  lys.sort(function(a,b){return a-b});
+  var surfY=lys.length?lys[Math.min(1,lys.length-1)]-12:MNH+99;
+  for(k=0;k<MN;k++){
+    var p=MP[k];
+    var want=k<gasN?'gas':(k<liqN?'liq':'sol');
+    if(want!==p.st){
+      if(want==='gas'){
+        var a=rnd(k,60)*6.283;
+        p.vx=Math.cos(a)*1.9;p.vy=-Math.abs(Math.sin(a))*1.9-0.6;
+      }else{p.vx=0;p.vy=0}
+      p.st=want;
+    }
+    if(p.st==='gas'){
+      var sp=1.6+(clamp(HC.T,100,120)-100)*0.03;
+      var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+      p.vx*=sp/v;p.vy*=sp/v;
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<10){p.x=10;p.vx=Math.abs(p.vx)}
+      if(p.x>MNW-10){p.x=MNW-10;p.vx=-Math.abs(p.vx)}
+      if(p.y<10){p.y=10;p.vy=Math.abs(p.vy)}
+      if(p.y>MNH-10){p.y=MNH-10;p.vy=-Math.abs(p.vy)}
+      if(p.y>surfY)p.vy=-Math.abs(p.vy);
+    }else if(p.st==='liq'){
+      liqs.push(p);
+    }else{
+      var h=miniHome(k);
+      p.x+=(h.x-p.x)*0.10; p.y+=(h.y-p.y)*0.10;
+      var vib=0.7+((HC.T+20)/140)*1.4;
+      if(Math.abs(p.x-h.x)<2&&Math.abs(p.y-h.y)<2){
+        p.x=h.x+vib*Math.sin(CLK*5+k);
+        p.y=h.y+vib*Math.cos(CLK*4.3+k);
+      }
+    }
+  }
+  if(liqs.length)liqPile(liqs,10,10,MNW-10,MNH-12,22,0.4,0.9,0.45);
+}
+function hcMini(s){
+  s+='<rect x="'+MNX+'" y="'+MNY+'" width="'+MNW+'" height="'+MNH+'" rx="8" fill="#FFFDF7" stroke="#8A8070" stroke-width="2.5"/>';
+  s+=tlplain(MNX+MNW/2,MNY-6,12,'#8A8070',T('mini_t'));
+  var k;
+  for(k=0;k<MN;k++){
+    var p=MP[k];
+    var col=p.st==='sol'?'#7FA8C9':(p.st==='liq'?'#2C7D8C':'#D9542B');
+    s+='<circle cx="'+(MNX+p.x).toFixed(1)+'" cy="'+(MNY+p.y).toFixed(1)+'" r="5.5" fill="'+col+'" stroke="#26221B" stroke-width="1.2" opacity="0.92"/>';
+  }
+  return s;
+}
+function phName(){ return T('ph_'+HC.ph); }
+function drawHC(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="480" rx="14" fill="#FBF7EC"/>';
+  // axes: t 0..23s → x 64..640 ; T −20..120 → y 438..96
+  var x0=64,x1=640,y0=438,y1=96;
+  function X(t){return x0+(x1-x0)*clamp(t,0,23)/23}
+  function Y(tt){return y0-(y0-y1)*(tt+20)/140}
+  s+='<line x1="'+x0+'" y1="'+y0+'" x2="'+x1+'" y2="'+y0+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="'+x0+'" y1="'+y0+'" x2="'+x0+'" y2="'+(y1-14)+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tlplain(x1-2,y0+22,13,'#6B6252',T('axis_t'),'end');
+  s+=tlplain(x0-6,y1-20,13,'#6B6252',T('axis_T'),'start');
+  var ticks=[-20,0,100,120],k;
+  for(k=0;k<ticks.length;k++){
+    var ty=Y(ticks[k]);
+    s+='<line x1="'+(x0-5)+'" y1="'+ty.toFixed(0)+'" x2="'+x0+'" y2="'+ty.toFixed(0)+'" stroke="#4B4437" stroke-width="2"/>';
+    s+=tlplain(x0-9,ty+4,12,'#6B6252',''+ticks[k],'end');
+  }
+  // reference dashed lines at 0 and 100
+  s+='<line x1="'+x0+'" y1="'+Y(0).toFixed(0)+'" x2="'+x1+'" y2="'+Y(0).toFixed(0)+'" stroke="#2C7D8C" stroke-width="1.5" stroke-dasharray="5 7" opacity="0.55"/>';
+  s+='<line x1="'+x0+'" y1="'+Y(100).toFixed(0)+'" x2="'+x1+'" y2="'+Y(100).toFixed(0)+'" stroke="#D9542B" stroke-width="1.5" stroke-dasharray="5 7" opacity="0.55"/>';
+  // curve
+  var H=HC.hist,n=H.length;
+  if(n>1){
+    var d='';
+    for(k=0;k<n;k++){
+      d+=(k?' L ':'M ')+X(H[k][0]).toFixed(1)+' '+Y(H[k][1]).toFixed(1);
+    }
+    s+='<path d="'+d+'" fill="none" stroke="#B5652A" stroke-width="4"/>';
+    var lx=X(H[n-1][0]),ly=Y(H[n-1][1]);
+    s+='<circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="6" fill="#B5652A" stroke="#FFFDF7" stroke-width="2"/>';
+    // plateau callouts, anchored at the plateau midpoints
+    if(HC.ph==='melt'||HC.ph==='frz'){
+      s+=tl(lx,Y(0)+(HC.cool?-14:24),14,'#2C7D8C',T(HC.cool?'plat_frz':'plat_melt'));
+    }
+    if(HC.ph==='boil'||HC.ph==='cond'){
+      s+=tl(lx,Y(100)+(HC.cool?24:-14),14,'#D9542B',T(HC.cool?'plat_cond':'plat_boil'));
+    }
+  }
+  s=hcMini(s);
+  $('svghc').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T(HC.cool?'qb1cool':'qb1heat');
+  $('h_phase').textContent=phName();
+  $('h_T').textContent='T = '+Math.round(HC.T)+' °C';
+  $('h_t').textContent='t = '+HC.t.toFixed(1)+' s';
+}
+
+/* ================= TAB 2 · THREE STATES SIDE BY SIDE ================= */
+var CP=[];   // 3×14 particles
+function initCP(){
+  var b,k;
+  CP=[];
+  for(b=0;b<3;b++){
+    var arr=[];
+    for(k=0;k<14;k++){
+      var a=rnd(k+b*20,30)*6.283;
+      arr.push({x:14+rnd(k+b*7,31)*168,y:96+rnd(k+b*7,32)*92,vx:Math.cos(a)*2.4,vy:Math.sin(a)*2.4});
+    }
+    CP.push(arr);
+  }
+}
+function drawCP(){
+  var s='';
+  liqPile(CP[1],14,14,182,196,30,0.5,0.9,0.5);
+  s+='<rect x="0" y="0" width="660" height="300" rx="14" fill="#FBF7EC"/>';
+  var boxes=[[16,'sol','lb_sol'],[232,'liq','lb_liq'],[448,'gas','lb_gas']];
+  var b,k;
+  for(b=0;b<3;b++){
+    var ox=boxes[b][0], mode=boxes[b][1];
+    var w=196,h=210,oy=48;
+    s+='<rect x="'+ox+'" y="'+oy+'" width="'+w+'" height="'+h+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="2.5"/>';
+    s+=tl(ox+w/2,oy-12,16,pcol(mode),T(boxes[b][2]));
+    for(k=0;k<14;k++){
+      var p=CP[b][k],x,y;
+      if(mode==='sol'){
+        var c=k%4,r2=Math.floor(k/4);
+        x=ox+42+c*38+1.6*Math.sin(CLK*5+k);
+        y=oy+h-24-r2*32+1.6*Math.cos(CLK*4.2+k);
+      }else if(mode==='liq'){
+        x=ox+p.x; y=oy+p.y;
+      }else{
+        p.x+= p.vx; p.y+=p.vy;
+        if(p.x<12){p.x=12;p.vx=Math.abs(p.vx)}
+        if(p.x>w-12){p.x=w-12;p.vx=-Math.abs(p.vx)}
+        if(p.y<12){p.y=12;p.vy=Math.abs(p.vy)}
+        if(p.y>h-12){p.y=h-12;p.vy=-Math.abs(p.vy)}
+        x=ox+p.x; y=oy+p.y;
+      }
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="7" fill="'+pcol(mode)+'" stroke="#26221B" stroke-width="1.3" opacity="0.92"/>';
+    }
+  }
+  $('svgcp').innerHTML=PAINT(s);
+}
+function buildCP3(){
+  var h='<table class="cmp"><tr>',k,j;
+  var Hh=T('cpH'),R=T('cpR');
+  for(k=0;k<Hh.length;k++)h+='<th>'+Hh[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cp3wrap').innerHTML=h;
+}
+
+/* ================= TAB 3 · SIX CHANGES ================= */
+function arrow6(s,x1,y1,x2,y2,col,lbl,heatK,bend){
+  var mx=(x1+x2)/2+bend[0], my=(y1+y2)/2+bend[1];
+  s+='<path d="M '+x1+' '+y1+' Q '+mx+' '+my+' '+x2+' '+y2+'" fill="none" stroke="'+col+'" stroke-width="3.5"/>';
+  var ang=Math.atan2(y2-my,x2-mx);
+  s+='<path d="M '+x2+' '+y2+' l '+(-12*Math.cos(ang-0.4)).toFixed(1)+' '+(-12*Math.sin(ang-0.4)).toFixed(1)+' m '+(12*Math.cos(ang-0.4)).toFixed(1)+' '+(12*Math.sin(ang-0.4)).toFixed(1)+' l '+(-12*Math.cos(ang+0.4)).toFixed(1)+' '+(-12*Math.sin(ang+0.4)).toFixed(1)+'" stroke="'+col+'" stroke-width="3.5" fill="none"/>';
+  s+=tl(mx,my+4,15,col,lbl+'·'+T(heatK));
+  return s;
+}
+function drawT6(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="380" rx="14" fill="#FBF7EC"/>';
+  // three state nodes: 固 left-bottom, 液 right-bottom, 气 top-center
+  var SN=[140,300],LN=[520,300],GN=[330,86];
+  function node(p,mode,lblK){
+    var col=pcol(mode);
+    s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="46" fill="#FFFDF7" stroke="'+col+'" stroke-width="4"/>';
+    var k;
+    for(k=0;k<5;k++){
+      var x,y;
+      if(mode==='sol'){x=p[0]-14+(k%3)*14;y=p[1]-8+Math.floor(k/3)*14+1.2*Math.sin(CLK*5+k)}
+      else if(mode==='liq'){x=p[0]-16+rnd(k,40)*32+2*Math.sin(CLK*4+k);y=p[1]+2+rnd(k,41)*14+1.5*Math.cos(CLK*5+k)}
+      else {x=p[0]-20+((rnd(k,42)*44+CLK*26*(0.5+rnd(k,43)))%44);y=p[1]-16+((rnd(k,44)*34+CLK*22*(0.5+rnd(k,45)))%34)}
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4.5" fill="'+col+'" opacity="0.9"/>';
+    }
+    s+=tl(p[0],p[1]+66,17,col,T(lblK));
+  }
+  node(SN,'sol','lb_sol'); node(LN,'liq','lb_liq'); node(GN,'gas','lb_gas');
+  s=arrow6(s,SN[0]+46,SN[1]-14,LN[0]-46,LN[1]-14,'#D9542B',T('t_melt'),'absorb',[0,-26]);
+  s=arrow6(s,LN[0]-46,LN[1]+16,SN[0]+46,SN[1]+16,'#2C7D8C',T('t_frz'),'release',[0,30]);
+  s=arrow6(s,LN[0]-14,LN[1]-46,GN[0]+40,GN[1]+30,'#D9542B',T('t_vap'),'absorb',[36,-4]);
+  s=arrow6(s,GN[0]+10,GN[1]+46,LN[0]-44,LN[1]-32,'#2C7D8C',T('t_cond'),'release',[-18,16]);
+  s=arrow6(s,SN[0]+14,SN[1]-46,GN[0]-40,GN[1]+30,'#D9542B',T('t_sub'),'absorb',[-36,-4]);
+  s=arrow6(s,GN[0]-10,GN[1]+46,SN[0]+44,SN[1]-32,'#2C7D8C',T('t_dep'),'release',[18,16]);
+  $('svgtr6').innerHTML=PAINT(s);
+}
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. While ice is MELTING, its temperature…',o:[
+    ['Keeps rising steadily',0,'That is the warming segment — the plateau is different.'],
+    ['Stays at 0°C until all the ice has melted',1,'Correct — the heat is busy breaking the lattice apart, not raising the temperature.'],
+    ['Drops slightly',0,'Heat is flowing IN — it cannot drop.'],
+    ['Jumps straight to 100°C',0,'It must climb through every value in between, after the plateau.']]},
+   {q:'2. Particles in a SOLID…',o:[
+    ['Do not move at all',0,'They DO move — they vibrate about fixed spots.'],
+    ['Vibrate in place around fixed positions',1,'Correct — neat lattice, vibration only; hotter solid = stronger vibration.'],
+    ['Slide freely past each other',0,'That is a liquid.'],
+    ['Fly around the whole container',0,'That is a gas.']]},
+   {q:'3. Gases can be compressed easily because…',o:[
+    ['Gas particles are soft',0,'The particles themselves do not squash — the SPACES do.'],
+    ['There are large empty spaces between the particles',1,'Correct — compressing a gas squeezes the gaps, which solids and liquids barely have.'],
+    ['Gas particles are lighter',0,'Mass is irrelevant — spacing is the key.'],
+    ['Heat escapes when you press',0,'Compression actually warms a gas.']]},
+   {q:'4. Boiling differs from evaporation because boiling…',o:[
+    ['Only happens at the surface',0,'Backwards — EVAPORATION is surface-only.'],
+    ['Happens throughout the liquid, at the boiling point',1,'Correct — bubbles form everywhere at 100°C, while evaporation happens at any temperature, surface only.'],
+    ['Releases heat',0,'Both absorb heat.'],
+    ['Happens at any temperature',0,'That describes evaporation.']]},
+   {q:'5. When water FREEZES into ice, it…',o:[
+    ['Absorbs heat',0,'Backwards — the particles must LOSE energy to line up.'],
+    ['Releases heat',1,'Correct — freezing is exothermic; the particles give up energy as they settle into the lattice.'],
+    ['Neither absorbs nor releases',0,'Every change of state moves heat one way or the other.'],
+    ['First absorbs, then releases',0,'It releases heat throughout the plateau.']]},
+   {q:'6. Mothballs in a wardrobe shrink without leaving any liquid. This is…',o:[
+    ['Melting',0,'Melting would leave liquid behind.'],
+    ['Evaporation',0,'Evaporation starts FROM a liquid.'],
+    ['Sublimation: solid straight to gas',1,'Correct — the solid skips the liquid stage entirely, like dry ice.'],
+    ['Deposition',0,'Deposition is the reverse — gas straight to solid (frost).']]},
+   {q:'7. Heating a substance makes its particles…',o:[
+    ['Expand in size',0,'Classic trap — the particles do NOT grow; the gaps between them do.'],
+    ['Move more vigorously',1,'Correct — temperature is a measure of how energetically the particles move.'],
+    ['Multiply in number',0,'Heating creates no new particles.'],
+    ['Turn into different particles',0,'Physical changes keep the particles themselves identical.']]},
+   {q:'8. A lake freezes over in winter, yet the fish at the bottom survive. Mainly because…',o:[
+    ['Ice releases heat that warms the bottom',0,'Freezing does release heat, but that is not what keeps the bottom liquid all winter.'],
+    ['Water is DENSEST at 4°C, so 4°C water sinks and stays at the bottom; less-dense ice floats on top',1,'Correct — water\u2019s anomalous expansion: densest at 4°C, and ice is less dense than water, so the lake freezes from the TOP down.'],
+    ['Fish generate enough heat to melt the ice',0,'Fish are cold-blooded — they add almost no heat.'],
+    ['Ice is denser than water and sinks away',0,'Backwards — ice is LESS dense; that is exactly why it floats and seals the surface.']]}
+  ];
+  return [
+   {q:'1. 冰在熔化的过程中，温度……',o:[
+    ['一直稳定上升',0,'那是升温段——平台段不一样。'],
+    ['保持 0°C 不变，直到全部熔化',1,'正确——热量都用来拆散晶格了，没空升温。'],
+    ['略微下降',0,'热量在往里加，不可能降。'],
+    ['直接跳到 100°C',0,'平台结束后还得一格一格升上去。']]},
+   {q:'2. 固体中的粒子……',o:[
+    ['完全不动',0,'它们在动——绕着固定位置振动。'],
+    ['在固定位置附近原地振动',1,'正确——排列整齐、只能振动；越热振得越凶。'],
+    ['自由地互相滑动',0,'那是液体。'],
+    ['在整个容器里乱飞',0,'那是气体。']]},
+   {q:'3. 气体容易被压缩，是因为……',o:[
+    ['气体粒子比较软',0,'粒子本身压不扁——被压缩的是"空隙"。'],
+    ['粒子之间的空隙很大',1,'正确——压缩气体压的是间距；固体液体几乎没有空隙可压。'],
+    ['气体粒子比较轻',0,'轻重无关——关键是间距。'],
+    ['压的时候热量跑掉了',0,'压缩气体反而会发热。']]},
+   {q:'4. 沸腾和蒸发的区别在于，沸腾……',o:[
+    ['只发生在液面',0,'反了——只在液面发生的是蒸发。'],
+    ['在液体内部和表面同时进行，且必须达到沸点',1,'正确——100°C 时气泡从内部到处冒；蒸发则任何温度都行、只在表面。'],
+    ['是放热的',0,'两者都要吸热。'],
+    ['任何温度都能发生',0,'那说的是蒸发。']]},
+   {q:'5. 水凝固成冰的时候，它……',o:[
+    ['吸收热量',0,'反了——粒子要"安静下来"排队，必须把能量交出去。'],
+    ['放出热量',1,'正确——凝固是放热过程；粒子交出能量才排回整齐的晶格。'],
+    ['既不吸热也不放热',0,'每一种物态变化都伴随吸热或放热。'],
+    ['先吸热后放热',0,'整个平台期都在放热。']]},
+   {q:'6. 衣柜里的樟脑丸越变越小，却没有留下液体。这是……',o:[
+    ['熔化',0,'熔化会留下液体。'],
+    ['蒸发',0,'蒸发的起点是液体。'],
+    ['升华：固态直接变气态',1,'正确——跳过液态，和干冰变小是同一回事。'],
+    ['凝华',0,'凝华是反过来——气态直接变固态（霜）。']]},
+   {q:'7. 给物质加热，它的粒子会……',o:[
+    ['一颗颗变大',0,'经典陷阱——粒子本身不变大，变大的是粒子之间的间距。'],
+    ['运动得更剧烈',1,'正确——温度衡量的就是粒子运动的剧烈程度。'],
+    ['数量变多',0,'加热不会凭空造出新粒子。'],
+    ['变成别的粒子',0,'物理变化中粒子本身始终不变。']]},
+   {q:'8. 冬天湖面结了冰，湖底的鱼却能活下来，主要是因为……',o:[
+    ['结冰放热，把湖底加热了',0,'凝固确实放热，但那不是湖底整个冬天保持液态的原因。'],
+    ['水在 4°C 密度最大，4°C 的水最重沉在湖底；冰密度比水小，浮在最上面',1,'正确——水的反常膨胀：4°C 最"重"沉底，冰比水轻浮在面上，所以湖是从上往下结冰的。'],
+    ['鱼自己发热把冰融化了',0,'鱼是冷血动物，几乎不产热。'],
+    ['冰的密度比水大，沉下去了',0,'反了——冰密度比水小，这正是冰浮在水面、封住湖面的原因。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCP3(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function updHcPlay(){
+  var b=$('hcplay');
+  var key=HC.run?'dk_pause':(HC.cool?'dk_go1c':'dk_go1');
+  b.innerHTML=(HC.run?'⏸ ':'▶ ')+'<span data-i18n="'+key+'">'+T(key)+'</span>';
+}
+var AMB=0;
+function ambLoop(){
+  if(CUR===0){ ptStep(0.016); drawST(); }
+  else if(CUR===1){
+    hcStep(0.016); CLK+=0.016;
+    miniStep();
+    drawHC();
+    if(!HC.run&&$('hcplay').classList.contains('on')){$('hcplay').classList.remove('on');updHcPlay()}
+    updSummary();
+  }
+  else if(CUR===2){ CLK+=0.016; drawCP(); }
+  else if(CUR===3){ CLK+=0.016; drawT6(); }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawST,drawHC,function(){drawCP();buildCP3()},drawT6,drawQZ];
+  SUMMARY=[
+    function(){return 'T = '+ST.T+' °C · '+stName(stateOf(ST.T))},
+    function(){return phName()+' · T = '+Math.round(HC.T)+' °C'},
+    function(){return T('cp_figtitle')},
+    function(){return T('tr_figtitle')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initPT(); initCP(); initMP(); hcReset();
+  $('tsl').addEventListener('input',function(){
+    ST.T=+this.value; $('tlab').textContent=ST.T+' °C';
+  });
+  $('heat').addEventListener('click',function(){
+    ST.T=clamp(ST.T+10,-20,120); $('tsl').value=ST.T; $('tlab').textContent=ST.T+' °C';
+  });
+  $('cool').addEventListener('click',function(){
+    ST.T=clamp(ST.T-10,-20,120); $('tsl').value=ST.T; $('tlab').textContent=ST.T+' °C';
+  });
+  $('hcplay').addEventListener('click',function(){
+    HC.run=!HC.run;
+    this.classList.toggle('on',HC.run);
+    updHcPlay();
+  });
+  $('hccool').addEventListener('click',function(){
+    HC.cool=!HC.cool;
+    this.classList.toggle('on',HC.cool);
+    hcReset();miniJump();
+    $('hcplay').classList.remove('on');
+    updHcPlay();
+    drawHC();updSummary();
+  });
+  $('hcreset').addEventListener('click',function(){
+    hcReset();miniJump();
+    $('hcplay').classList.remove('on');
+    updHcPlay();
+    drawHC();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  updHcPlay();
+  initExp();
+  applyI18n();
+  buildCP3(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // bench: sweep T across both boundaries with transitions
+  showTab(0);
+  var temps=[-20,-1,0,20,60,99,100,110,120,50,-10];
+  for(i=0;i<temps.length;i++){
+    ST.T=temps[i];
+    var j;
+    for(j=0;j<50;j++)ptStep(0.016);
+    drawST();
+  }
+  ST.T=20;for(i=0;i<60;i++)ptStep(0.016);drawST();
+  // heating curve full run + cooling full run
+  showTab(1);
+  HC.cool=false;hcReset();HC.run=true;
+  for(i=0;i<1400;i++){hcStep(0.016);if(i%150===0)drawHC()}
+  drawHC();
+  HC.cool=true;hcReset();HC.run=true;
+  for(i=0;i<1400;i++){hcStep(0.016);if(i%150===0)drawHC()}
+  drawHC();
+  HC.cool=false;hcReset();
+  // three states + six changes animate
+  showTab(2);for(i=0;i<40;i++){CLK+=0.016;drawCP()}
+  showTab(3);for(i=0;i<40;i++){CLK+=0.016;drawT6()}
+  // quiz pager
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'三态变化实验室',
+ subtitle:'固态 · 液态 · 气态 · 粒子运动与温度 —— 初中科学课堂演示工具',
+ tab0:'① 粒子实验台',tab1:'② 加热曲线',tab2:'③ 三态对照',tab3:'④ 六种变化',tab4:'⑤ 测验',
+ st_sidetitle:'粒子档案',
+ st_k1:'<b>温度就是粒子运动的剧烈程度。</b>加热不是给物体"添"了什么东西，而是让每一颗粒子动得更凶：固体振得更厉害，液体挤得更欢，气体飞得更快。',
+ st_k3:'🌊 <b>水的反常膨胀</b>：4°C 时水的密度最大、体积最小——把温度条从 0°C 拉到 4°C，水位反而<b>下降</b>；过了 4°C 才随温度升高慢慢变「胖」。结成冰后体积明显<b>变大</b>、密度变小，所以冰浮在水面上；湖面结冰时，湖底仍是 4°C 的水最重沉在底，鱼因此能过冬。', st_k2:'三态的区别在<b>排列</b>：固体粒子排得整整齐齐、只能原地振动；液体粒子挨在一起但能互相滑过（所以会流动）；气体粒子间距很大、自由飞行（所以能被压缩、充满整个容器）。',
+ hc_sidetitle:'曲线怎么读',
+ hc_k1:'⚠️ 最大考点：<b>熔化和沸腾时温度不变</b>（0°C 和 100°C 两个平台）。此时加进去的热量没有用来升温，而是用来<b>拆散粒子的排列</b>——看右上小窗，粒子一颗颗脱离队伍，温度却纹丝不动。',
+ hc_k2:'冷却时反过来：液化和凝固的平台上，物质一边<b>放热</b>一边变整齐——凝固是放热过程，这也是"下雪不冷化雪冷"的道理。',
+ cp_figtitle:'同一种物质，三种状态（同时动起来）',
+ cp_sidetitle:'口诀',
+ cp_k1:'<b>固定形状看固体，随器而形看液体，充满全屋看气体。</b>判断两问：能不能流动？能不能压缩？',
+ cp_k2:'粒子三问：排列整齐吗？靠得紧吗？能自由移动吗？——固体：齐·紧·不能；液体：乱·紧·能滑动；气体：乱·远·自由飞。',
+ tr_figtitle:'六种物态变化（红=吸热，蓝=放热）',
+ tr_sidetitle:'生活例子',
+ tr_k1:'吸热三兄弟：<b>熔化</b>（冰→水）、<b>汽化</b>（晒衣服=蒸发，烧开水=沸腾）、<b>升华</b>（樟脑丸变小、干冰变小）。',
+ tr_k2:'放热三兄弟：<b>凝固</b>（水结冰）、<b>液化</b>（眼镜起雾、壶口"白气"是小水珠）、<b>凝华</b>（霜、玻璃冰花直接由水蒸气变成固体）。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_T:'温度 T', dk_heat:'🔥 加热 +10°C', dk_cool:'❄️ 冷却 −10°C',
+ dk_hint0:'💡 慢慢拉过 0°C 和 100°C，看粒子怎么变',
+ dk_go1:'开始加热', dk_go1c:'开始冷却', dk_pause:'暂停', dk_cool1:'❄️ 改为冷却', dk_reset1:'↺ 重置',
+ dk_hint1:'💡 注意两个"平台"：温度不动的时候热量去哪了？',
+ dk_hint2:'💡 盯住一颗粒子：振动 → 滑动 → 飞行',
+ dk_hint3:'💡 向右吸热，向左放热；跳级的是升华/凝华',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0a:'把水的温度调到 ', qb0b:'。此时水处于什么状态？粒子在做什么运动？',
+ qb1heat:'对 −20°C 的冰持续均匀加热。画出温度随时间变化的图像，并解释两段"平台"。',
+ qb1cool:'对 120°C 的水蒸气持续均匀冷却。画出温度随时间变化的图像，并解释两段"平台"。',
+ s_sol:'固态（冰）', s_liq:'液态（水）', s_gas:'气态（水蒸气）',
+ m_sol:'粒子原地振动，不移动', m_liq:'粒子挨着滑动，会流动', m_liq_ev:'粒子挨着滑动 · 🌫少数从液面蒸发逃逸——任何温度都会蒸发', m_gas:'粒子自由飞行，充满容器',
+ nearmelt:'0°C：熔点／凝固点', nearboil:'100°C：沸点', dens4:'4°C：密度最大·体积最小（水位最低）',
+ ph_sol:'固态升温', ph_melt:'熔化中（0°C 平台）', ph_liq:'液态升温', ph_boil:'沸腾中（100°C 平台）', ph_gas:'气态升温',
+ ph_gcool:'气态降温', ph_cond:'液化中（100°C 平台）', ph_lcool:'液态降温', ph_frz:'凝固中（0°C 平台）', ph_scool:'固态降温',
+ plat_melt:'温度不变！热量正在拆散排列', plat_boil:'温度不变！粒子正挣脱束缚飞走',
+ plat_cond:'温度不变！放热·粒子被抓回', plat_frz:'温度不变！放热·排回整齐队形',
+ axis_t:'时间 →', axis_T:'温度 /°C',
+ mini_t:'粒子实况',
+ lb_sol:'固体', lb_liq:'液体', lb_gas:'气体',
+ cpH:['','固体','液体','气体'],
+ cpR:[['形状','固定','随容器','随容器'],
+      ['体积','固定','固定','充满容器·可压缩'],
+      ['流动性','不流动','能流动','能流动'],
+      ['粒子排列','整齐·紧密','较乱·紧密','很乱·间距大'],
+      ['粒子运动','原地振动','互相滑动','自由飞行']],
+ t_melt:'熔化', t_frz:'凝固', t_vap:'汽化', t_cond:'液化', t_sub:'升华', t_dep:'凝华',
+ absorb:'吸热', release:'放热',
+ mth:''
+},
+en:{
+ title:'States of Matter Lab',
+ subtitle:'Solid · liquid · gas · particle motion & temperature — junior-high classroom demo',
+ tab0:'① Particle Bench',tab1:'② Heating Curve',tab2:'③ Three States',tab3:'④ Six Changes',tab4:'⑤ Quiz',
+ st_sidetitle:'Particle file',
+ st_k1:'<b>Temperature IS how violently the particles move.</b> Heating doesn\u2019t add a substance — it makes every particle move harder: solids vibrate more, liquids jostle more, gas particles fly faster.',
+ st_k3:'🌊 <b>Water\u2019s anomalous expansion</b>: water is DENSEST at 4°C — drag from 0°C to 4°C and the water level actually <b>drops</b>; only past 4°C does it swell with temperature. Freezing makes the volume clearly <b>larger</b> (lower density), which is why ice floats and why fish survive under a frozen lake: the heaviest 4°C water sinks to the bottom.', st_k2:'The states differ in <b>arrangement</b>: solid particles sit in a neat lattice and only vibrate in place; liquid particles touch but slide past each other (that\u2019s flow); gas particles are far apart and fly freely (that\u2019s why gases compress and fill any container).',
+ hc_sidetitle:'Reading the curve',
+ hc_k1:'⚠️ THE exam point: <b>temperature stays constant during melting and boiling</b> (the 0°C and 100°C plateaus). The heat isn\u2019t raising the temperature — it is <b>tearing the particle arrangement apart</b>. Watch the mini-window: particles break ranks one by one while the temperature freezes.',
+ hc_k2:'Cooling runs it backwards: on the condensing and freezing plateaus the substance <b>releases heat</b> while getting more ordered — freezing is exothermic.',
+ cp_figtitle:'One substance, three states (all animated)',
+ cp_sidetitle:'The rule',
+ cp_k1:'<b>Fixed shape → solid. Takes the container\u2019s shape → liquid. Fills the whole container → gas.</b> Two tests: does it flow? can it be squashed?',
+ cp_k2:'Three particle questions: neat? close? free to move? Solid: neat·close·no. Liquid: messy·close·slides. Gas: messy·far·flies.',
+ tr_figtitle:'Six changes of state (red = absorbs heat, blue = releases)',
+ tr_sidetitle:'Everyday examples',
+ tr_k1:'Heat-absorbing trio: <b>melting</b> (ice→water), <b>vaporisation</b> (drying clothes = evaporation; a kettle = boiling), <b>sublimation</b> (mothballs and dry ice shrinking).',
+ tr_k2:'Heat-releasing trio: <b>freezing</b> (water→ice), <b>condensation</b> (fogged glasses; the "white mist" at a kettle spout is droplets), <b>deposition</b> (frost forming straight from vapour).',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_T:'Temperature', dk_heat:'🔥 Heat +10°C', dk_cool:'❄️ Cool −10°C',
+ dk_hint0:'💡 Drag slowly past 0°C and 100°C and watch the particles change',
+ dk_go1:'Start heating', dk_go1c:'Start cooling', dk_pause:'Pause', dk_cool1:'❄️ Switch to cooling', dk_reset1:'↺ Reset',
+ dk_hint1:'💡 Watch the two plateaus: where does the heat go while T is stuck?',
+ dk_hint2:'💡 Follow one particle: vibrate → slide → fly',
+ dk_hint3:'💡 Rightward absorbs heat, leftward releases; the level-skippers are sublimation/deposition',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0a:'Set the water\u2019s temperature to ', qb0b:'. What state is it in, and what are its particles doing?',
+ qb1heat:'Ice at −20°C is heated at a steady rate. Sketch temperature against time and explain the two plateaus.',
+ qb1cool:'Steam at 120°C is cooled at a steady rate. Sketch temperature against time and explain the two plateaus.',
+ s_sol:'SOLID (ice)', s_liq:'LIQUID (water)', s_gas:'GAS (steam)',
+ m_sol:'particles vibrate in place', m_liq:'particles slide past each other', m_liq_ev:'particles slide past · 🌫 a few evaporate off the surface — at ANY temperature', m_gas:'particles fly freely',
+ nearmelt:'0°C: melting/freezing point', nearboil:'100°C: boiling point', dens4:'4°C: densest — smallest volume (lowest water level)',
+ ph_sol:'solid warming', ph_melt:'MELTING (0°C plateau)', ph_liq:'liquid warming', ph_boil:'BOILING (100°C plateau)', ph_gas:'gas warming',
+ ph_gcool:'gas cooling', ph_cond:'CONDENSING (100°C plateau)', ph_lcool:'liquid cooling', ph_frz:'FREEZING (0°C plateau)', ph_scool:'solid cooling',
+ plat_melt:'T constant! heat is breaking the lattice', plat_boil:'T constant! particles are breaking free',
+ plat_cond:'T constant! releasing heat — particles recaptured', plat_frz:'T constant! releasing heat — lining back up',
+ axis_t:'time →', axis_T:'temperature /°C',
+ mini_t:'particles live',
+ lb_sol:'solid', lb_liq:'liquid', lb_gas:'gas',
+ cpH:['','Solid','Liquid','Gas'],
+ cpR:[['Shape','fixed','container\u2019s','container\u2019s'],
+      ['Volume','fixed','fixed','fills it · squashable'],
+      ['Flow','no','yes','yes'],
+      ['Arrangement','neat · close','messy · close','messy · far apart'],
+      ['Motion','vibrate in place','slide past','fly freely']],
+ t_melt:'melt', t_frz:'freeze', t_vap:'vaporise', t_cond:'condense', t_sub:'sublime', t_dep:'deposit',
+ absorb:'absorbs heat', release:'releases heat',
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= particle model ================= */
+var ST={T:20};
+function stateOf(t){ return t<0?'sol':(t<100?'liq':'gas'); }
+var NP=42;
+var PT=[];
+var TRK=1, PMODE='', CLK=0;
+var BX0=76,BY0=92,BX1=594,BY1=430;
+/* ice is a SLAB at the bottom (water freezes in the shape it sat in), never a
+   floating centred block. Freezing assigns each particle a slot near where it
+   already is; FRZ seeds a little frozen-in irregularity so no two freezes look
+   machine-identical. */
+var FRZ=0;
+function slabHome(i,bx0,colw){
+  var col=i%14, row=Math.floor(i/14);
+  var x=bx0+col*colw+((row%2)?colw*0.25:0);
+  var y=BY1-20-row*33;   // taller rows too — the frozen slab is visibly bigger than the water was
+  return {x:x, y:y};
+}
+function assignSlab(){
+  FRZ++;
+  var k, minx=BX1, maxx=BX0;
+  for(k=0;k<NP;k++){
+    if(PT[k].x<minx)minx=PT[k].x;
+    if(PT[k].x>maxx)maxx=PT[k].x;
+  }
+  var bx0=clamp(minx-4,BX0+16,BX0+80);
+  var bx1=clamp(maxx+4,BX1-80,BX1-16);
+  var colw=Math.max(37,(bx1-bx0-14)/13);   // ice packs WIDER than water: freezing expands (冰浮在水上)
+  /* greedy nearest-slot matching: bottom particles claim first, each takes the
+     closest free slot — freezing stays LOCAL (no rank-slicing teleports) */
+  var slots=[],i;
+  for(i=0;i<NP;i++)slots.push(slabHome(i,bx0,colw));
+  var used=[],order=[];
+  for(k=0;k<NP;k++){used.push(false);order.push(k)}
+  order.sort(function(a,b){return PT[b].y-PT[a].y});
+  for(k=0;k<NP;k++){
+    var p=PT[order[k]];
+    var best=-1,bd=1e18;
+    for(i=0;i<NP;i++){
+      if(used[i])continue;
+      var dx=slots[i].x-p.x, dy=slots[i].y-p.y;
+      var d=dx*dx+dy*dy;
+      if(d<bd){bd=d;best=i}
+    }
+    used[best]=true;
+    p.gx=slots[best].x+(rnd(order[k],200+FRZ*13)-0.5)*5;
+    p.gy=slots[best].y+(rnd(order[k],300+FRZ*17)-0.5)*4;
+  }
+}
+/* one step of liquid-pile dynamics: gravity + soft repulsion + slow lateral flow.
+   Particles pack into a dense heap (like the solid, but disordered) and slide past
+   each other — that IS liquidity. items need x,y,vx,vy. */
+function liqPile(items,x0,y0,x1,y1,D0,jit,cap,g){
+  var n=items.length,i,j;
+  for(i=0;i<n;i++){
+    var p=items[i];
+    p.vy+=g;
+    p.vx+=(rnd(i,Math.floor(CLK*7))-0.5)*jit;
+    p.vx+=0.06*Math.sin(CLK*0.9+p.y*0.03);
+  }
+  for(i=0;i<n;i++)for(j=i+1;j<n;j++){
+    var a=items[i],b=items[j];
+    var dx=b.x-a.x,dy=b.y-a.y;
+    var d=Math.sqrt(dx*dx+dy*dy);
+    if(d<D0&&d>0.001){
+      var f=(D0-d)*0.13/d;   // stiff enough that spacing faithfully follows D0 even under hot jitter
+      a.vx-=dx*f;a.vy-=dy*f;
+      b.vx+=dx*f;b.vy+=dy*f;
+    }
+  }
+  for(i=0;i<n;i++){
+    var q=items[i];
+    q.vx*=0.90;q.vy*=0.90;
+    var v=Math.sqrt(q.vx*q.vx+q.vy*q.vy);
+    if(v>cap){q.vx*=cap/v;q.vy*=cap/v}
+    q.x+=q.vx;q.y+=q.vy;
+    if(q.x<x0){q.x=x0;q.vx=Math.abs(q.vx)}
+    if(q.x>x1){q.x=x1;q.vx=-Math.abs(q.vx)}
+    if(q.y>y1){q.y=y1;q.vy=0}
+    if(q.y<y0){q.y=y0;q.vy=Math.abs(q.vy)}
+  }
+}
+function gasSpeed(t){ return 2.6+(clamp(t,100,120)-100)*0.055; }
+/* water's anomalous expansion: particle spacing is SMALLEST at 4°C (densest),
+   grows slightly toward 0°C and steadily toward 100°C. Exaggerated so the
+   water level visibly dips at 4°C. */
+function liqD0(t){ return (t>=4) ? 34+(t-4)*0.04 : 34+(4-t)*0.8; }
+/* surface evaporation: happens at ANY temperature (from the surface); boiling at
+   100°C is when the WHOLE liquid vaporises. Not a fixed count — each candidate
+   particle has its own hash-driven "escape episodes", so the number airborne
+   FLUCTUATES around a temperature-driven mean (deterministic, hence testable). */
+function evP(t){ return clamp((t-45)/70,0,0.8); }
+function isVap(k,t,clk){
+  if(k>=5)return false;
+  var per=3+rnd(k,77)*3;                      // this particle's episode length, 3–6 s
+  return rnd(k,900+Math.floor(clk/per))<evP(t);
+}
+var VAP=[];
+function setMode(m){
+  var k;
+  if(PMODE===m)return;
+  PMODE=m; TRK=0;
+  for(k=0;k<NP;k++){
+    var p=PT[k];
+    p.sx=p.x; p.sy=p.y;
+    if(m==='sol'){ /* slots assigned in bulk below */ }
+    else if(m==='liq'){ TRK=1; p.vx=0; p.vy=0; }   // no teleport: gravity collapses the lattice / rains the gas down
+    else {
+      var a=rnd(k,3)*6.283;
+      var sp=gasSpeed(ST.T);
+      p.vx=Math.cos(a)*sp; p.vy=Math.sin(a)*sp;
+      p.gx=p.x; p.gy=p.y;
+    }
+  }
+  if(m==='sol')assignSlab();   // freeze IN PLACE: order up where the liquid sat
+}
+function initPT(){
+  var k;
+  PT=[];
+  VAP=[];
+  for(k=0;k<NP;k++){
+    var h=slabHome(k,BX0+24,(BX1-BX0-62)/13);
+    PT.push({x:h.x,y:h.y,vx:0,vy:0,sx:h.x,sy:h.y,gx:h.x,gy:h.y});
+    VAP.push(false);
+  }
+  PMODE=''; setMode(stateOf(ST.T)); TRK=1;
+  if(PMODE==='sol'){for(k=0;k<NP;k++){PT[k].x=PT[k].gx;PT[k].y=PT[k].gy}}
+}
+function ptStep(dt){
+  var k,t=ST.T;
+  CLK+=dt;
+  var m=stateOf(t);
+  if(m!==PMODE)setMode(m);
+  if(TRK<1&&PMODE==='sol'){
+    TRK=Math.min(1,TRK+dt*1.6);
+    var e=TRK*TRK*(3-2*TRK);
+    for(k=0;k<NP;k++){
+      var p=PT[k];
+      p.x=p.sx+(p.gx-p.sx)*e; p.y=p.sy+(p.gy-p.sy)*e;
+    }
+    return;
+  }
+  TRK=1;
+  if(PMODE==='sol'){
+    var amp=1.2+(t+20)/20*1.6;
+    for(k=0;k<NP;k++){
+      var p2=PT[k];
+      p2.x=p2.gx+amp*Math.sin(CLK*(5+rnd(k,4)*3)+rnd(k,5)*6.28);
+      p2.y=p2.gy+amp*Math.cos(CLK*(4.2+rnd(k,6)*3)+rnd(k,7)*6.28);
+    }
+  }else if(PMODE==='liq'){
+    var evs=[],pile=[],e;
+    for(k=0;k<NP;k++){
+      var nowV=isVap(k,t,CLK);
+      if(nowV&&!VAP[k]&&Math.sqrt(PT[k].vx*PT[k].vx+PT[k].vy*PT[k].vy)<0.4)PT[k].vy=-1.6;  // escape: kick off the surface
+      VAP[k]=nowV;
+      if(nowV)evs.push(PT[k]); else pile.push(PT[k]);
+    }
+    if(evs.length){
+      gasFlySub(evs,1.7+t*0.004);
+      /* vapor lives ABOVE the liquid: steer any escaped particle upward whenever
+         it dips below the pile surface (no teleporting — a fresh escapee RISES
+         smoothly out, a recaptured one falls back in by gravity) */
+      /* surface = 4th-lowest pile y: immune to splashes and to recaptured
+         particles still falling down through the headspace */
+      var ys=[],si;
+      for(si=0;si<pile.length;si++)ys.push(pile[si].y);
+      ys.sort(function(a,b){return a-b});
+      var surfY=ys[Math.min(3,ys.length-1)]-16;
+      for(si=0;si<evs.length;si++){
+        if(evs[si].y>surfY)evs[si].vy=-Math.abs(evs[si].vy||1);
+      }
+    }
+    liqPile(pile,BX0+12,BY0+12,BX1-12,BY1-12,liqD0(t),0.5+t/100*0.9,1.0+t/100*1.2,0.55);
+  }else{
+    for(k=0;k<NP;k++)VAP[k]=(PMODE==='gas');
+    gasFly();
+  }
+}
+function gasFly(){ gasFlySub(PT,gasSpeed(ST.T)); }
+function gasFlySub(list,sp){
+  var k;
+  for(k=0;k<list.length;k++){
+    var p=list[k];
+    var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+    p.vx*=sp/v; p.vy*=sp/v;
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<BX0+8){p.x=BX0+8;p.vx=Math.abs(p.vx)}
+    if(p.x>BX1-8){p.x=BX1-8;p.vx=-Math.abs(p.vx)}
+    if(p.y<BY0+8){p.y=BY0+8;p.vy=Math.abs(p.vy)}
+    if(p.y>BY1-8){p.y=BY1-8;p.vy=-Math.abs(p.vy)}
+  }
+}
+
+/* ================= heating-curve model ================= */
+var HC={run:false, cool:false, t:0, T:-20, frac:0, ph:'sol', hist:[]};
+function hcReset(){
+  HC.run=false; HC.t=0; HC.frac=0; HC.hist=[];
+  if(HC.cool){ HC.T=120; HC.ph='gcool'; } else { HC.T=-20; HC.ph='sol'; }
+}
+function hcStep(dt){
+  if(!HC.run)return;
+  HC.t+=dt;
+  if(!HC.cool){
+    if(HC.ph==='sol'){ HC.T+=10*dt; if(HC.T>=0){HC.T=0;HC.ph='melt';HC.frac=0} }
+    else if(HC.ph==='melt'){ HC.T=0; HC.frac+=dt/3; if(HC.frac>=1){HC.frac=1;HC.ph='liq'} }
+    else if(HC.ph==='liq'){ HC.T+=20*dt; if(HC.T>=100){HC.T=100;HC.ph='boil';HC.frac=0} }
+    else if(HC.ph==='boil'){ HC.T=100; HC.frac+=dt/6; if(HC.frac>=1){HC.frac=1;HC.ph='gas'} }
+    else if(HC.ph==='gas'){ HC.T+=10*dt; if(HC.T>=120){HC.T=120;HC.run=false} }
+  }else{
+    if(HC.ph==='gcool'){ HC.T-=10*dt; if(HC.T<=100){HC.T=100;HC.ph='cond';HC.frac=0} }
+    else if(HC.ph==='cond'){ HC.T=100; HC.frac+=dt/6; if(HC.frac>=1){HC.frac=1;HC.ph='lcool'} }
+    else if(HC.ph==='lcool'){ HC.T-=20*dt; if(HC.T<=0){HC.T=0;HC.ph='frz';HC.frac=0} }
+    else if(HC.ph==='frz'){ HC.T=0; HC.frac+=dt/3; if(HC.frac>=1){HC.frac=1;HC.ph='scool'} }
+    else if(HC.ph==='scool'){ HC.T-=10*dt; if(HC.T<=-20){HC.T=-20;HC.run=false} }
+  }
+  HC.hist.push([HC.t,HC.T]);
+  if(HC.hist.length>1400)HC.hist.shift();
+}
+/* ================= particle drawing (shared) ================= */
+function pcol(mode){ return mode==='sol'?'#7FA8C9':(mode==='liq'?'#2C7D8C':'#D9542B'); }
+function drawParticles(s,list,r,mode){
+  var k,col=pcol(mode);
+  for(k=0;k<list.length;k++){
+    s+='<circle cx="'+list[k].x.toFixed(1)+'" cy="'+list[k].y.toFixed(1)+'" r="'+r+'" fill="'+col+'" stroke="#26221B" stroke-width="1.4" opacity="0.92"/>';
+  }
+  return s;
+}
+/* ================= TAB 0 · PARTICLE BENCH ================= */
+function stName(m){ return T(m==='sol'?'s_sol':(m==='liq'?'s_liq':'s_gas')); }
+function stMotion(m){ return T(m==='sol'?'m_sol':(m==='liq'?'m_liq':'m_gas')); }
+function drawST(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  var m=stateOf(ST.T);
+  // container box
+  s+='<rect x="'+(BX0-8)+'" y="'+(BY0-8)+'" width="'+(BX1-BX0+16)+'" height="'+(BY1-BY0+16)+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="3"/>';
+  // liquid surface hint: tint follows the real pile surface
+  var nV=0,kv;
+  if(m==='liq'){for(kv=0;kv<NP;kv++)if(VAP[kv])nV++;}
+  if(m==='liq'&&TRK>=1){
+    var topy=BY1,ky;
+    for(ky=0;ky<NP;ky++)if(!VAP[ky]&&PT[ky].y<topy)topy=PT[ky].y;
+    topy=clamp(topy-12,BY0+20,BY1-30);
+    s+='<rect x="'+BX0+'" y="'+topy.toFixed(0)+'" width="'+(BX1-BX0)+'" height="'+(BY1-topy).toFixed(0)+'" fill="#2C7D8C" opacity="0.07"/>';
+    s+='<line x1="'+BX0+'" y1="'+topy.toFixed(0)+'" x2="'+BX1+'" y2="'+topy.toFixed(0)+'" stroke="#2C7D8C" stroke-width="2" stroke-dasharray="6 6" opacity="0.5"/>';
+  }
+  if(m==='liq'&&nV>0){
+    var vlist=[],plist=[],kd;
+    for(kd=0;kd<NP;kd++)(VAP[kd]?vlist:plist).push(PT[kd]);
+    s=drawParticles(s,plist,9,'liq');
+    s=drawParticles(s,vlist,9,'gas');   // escaped vapor, drawn on top (it lives above anyway)
+  }else{
+    s=drawParticles(s,PT,9,m);
+  }
+  // thermometer (left)
+  var tx=36, ty0=110, ty1=414;
+  s+='<rect x="'+(tx-7)+'" y="'+(ty0-10)+'" width="14" height="'+(ty1-ty0+20)+'" rx="7" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<circle cx="'+tx+'" cy="'+(ty1+18)+'" r="13" fill="#D9542B" stroke="#4B4437" stroke-width="2.5"/>';
+  var fh=(ST.T+20)/140*(ty1-ty0);
+  s+='<rect x="'+(tx-4)+'" y="'+(ty1-fh).toFixed(1)+'" width="8" height="'+(fh+16).toFixed(1)+'" fill="#D9542B"/>';
+  var marks=[[-20,''],[0,'0'],[100,'100'],[120,'']];
+  var mk;
+  for(mk=0;mk<marks.length;mk++){
+    var my=ty1-(marks[mk][0]+20)/140*(ty1-ty0);
+    s+='<line x1="'+(tx+7)+'" y1="'+my.toFixed(0)+'" x2="'+(tx+13)+'" y2="'+my.toFixed(0)+'" stroke="#4B4437" stroke-width="2"/>';
+    if(marks[mk][1])s+=tlplain(tx+18,my+4,12,'#6B6252',marks[mk][1],'start');
+  }
+  s+=tl(tx,ty0-22,15,'#D9542B',ST.T+'°C');
+  // state badge + boundary badges
+  var bc=m==='sol'?'#2C7D8C':(m==='liq'?'#2F7D4F':'#D9542B');
+  s+=tl(330,42,19,bc,stName(m));
+  if(Math.abs(ST.T-0)<=2)s+=tl(330,66,14,'#B5652A',T('nearmelt'));
+  if(Math.abs(ST.T-100)<=2)s+=tl(330,66,14,'#B5652A',T('nearboil'));
+  if(Math.abs(ST.T-4)<=1)s+=tl(330,66,14,'#2F7D4F',T('dens4'));
+  var motK=(m==='liq'&&nV>0)?T('m_liq_ev'):stMotion(m);
+  s+=tlplain(330,468,13,'#8A8070',motK);
+  $('svgst').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0a')+'<b>T = '+ST.T+' °C</b>'+T('qb0b');
+  $('c_state').textContent=stName(m);
+  $('c_T').textContent='T = '+ST.T+' °C';
+  $('c_motion').textContent=(m==='liq'&&nV>0)?T('m_liq_ev'):stMotion(m);
+}
+
+/* ================= TAB 1 · HEATING CURVE ================= */
+/* mini window: 20 PERSISTENT particles; each one changes state smoothly --
+   melting = break from the lattice and fall into the pile, boiling = launch off,
+   cooling runs it backwards. No teleporting. */
+var MNX=452,MNY=58,MNW=188,MNH=124,MN=20;
+var MP=[];
+function miniHome(k){
+  var c=k%5,r=Math.floor(k/5);
+  return {x:34+c*30, y:MNH-16-r*22};
+}
+function miniTargets(ph,frac,Tt){
+  var liqFrac,gasFrac;
+  if(ph==='sol'||ph==='scool')liqFrac=0;
+  else if(ph==='melt')liqFrac=frac;
+  else if(ph==='frz')liqFrac=1-frac;
+  else liqFrac=1;
+  if(ph==='gas'||ph==='gcool')gasFrac=1;
+  else if(ph==='boil')gasFrac=frac;
+  else if(ph==='cond')gasFrac=1-frac;
+  else gasFrac=0;
+  var gasN=Math.round(gasFrac*MN);
+  var liqN=Math.round(Math.max(liqFrac,gasFrac)*MN);
+  if(liqN>gasN)gasN=Math.max(gasN,Math.min(mnEvapDyn(Tt),liqN));   // surface evaporation below the boil (fluctuating)
+  return [gasN,liqN];
+}
+function mnEvapDyn(Tt){
+  var n=0,k;
+  for(k=0;k<3;k++){
+    var per=2.5+rnd(k,78)*2;
+    if(rnd(k,910+Math.floor(CLK/per))<evP(Tt))n++;
+  }
+  return n;
+}
+function initMP(){
+  var k;
+  MP=[];
+  for(k=0;k<MN;k++){
+    var h=miniHome(k);
+    MP.push({x:h.x,y:h.y,vx:0,vy:0,st:'sol'});
+  }
+}
+function miniJump(){
+  /* after a mode reset, snap the minis straight to the state the curve starts in */
+  initMP();
+  var k;
+  for(k=0;k<MN;k++)MP[k].st='';
+  miniStep();
+  if(HC.cool){
+    for(k=0;k<MN;k++){
+      MP[k].x=10+rnd(k,61)*(MNW-20);
+      MP[k].y=10+rnd(k,62)*(MNH-20);
+    }
+  }
+}
+function miniStep(){
+  var tg=miniTargets(HC.ph,HC.frac,HC.T);
+  var gasN=tg[0],liqN=tg[1],k;
+  var liqs=[];
+  /* pile surface from the current liquid members: vapor must stay above it */
+  var lys=[],sk;
+  for(sk=0;sk<MN;sk++)if(MP[sk].st==='liq')lys.push(MP[sk].y);
+  lys.sort(function(a,b){return a-b});
+  var surfY=lys.length?lys[Math.min(1,lys.length-1)]-12:MNH+99;
+  for(k=0;k<MN;k++){
+    var p=MP[k];
+    var want=k<gasN?'gas':(k<liqN?'liq':'sol');
+    if(want!==p.st){
+      if(want==='gas'){
+        var a=rnd(k,60)*6.283;
+        p.vx=Math.cos(a)*1.9;p.vy=-Math.abs(Math.sin(a))*1.9-0.6;
+      }else{p.vx=0;p.vy=0}
+      p.st=want;
+    }
+    if(p.st==='gas'){
+      var sp=1.6+(clamp(HC.T,100,120)-100)*0.03;
+      var v=Math.sqrt(p.vx*p.vx+p.vy*p.vy)||1;
+      p.vx*=sp/v;p.vy*=sp/v;
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<10){p.x=10;p.vx=Math.abs(p.vx)}
+      if(p.x>MNW-10){p.x=MNW-10;p.vx=-Math.abs(p.vx)}
+      if(p.y<10){p.y=10;p.vy=Math.abs(p.vy)}
+      if(p.y>MNH-10){p.y=MNH-10;p.vy=-Math.abs(p.vy)}
+      if(p.y>surfY)p.vy=-Math.abs(p.vy);
+    }else if(p.st==='liq'){
+      liqs.push(p);
+    }else{
+      var h=miniHome(k);
+      p.x+=(h.x-p.x)*0.10; p.y+=(h.y-p.y)*0.10;
+      var vib=0.7+((HC.T+20)/140)*1.4;
+      if(Math.abs(p.x-h.x)<2&&Math.abs(p.y-h.y)<2){
+        p.x=h.x+vib*Math.sin(CLK*5+k);
+        p.y=h.y+vib*Math.cos(CLK*4.3+k);
+      }
+    }
+  }
+  if(liqs.length)liqPile(liqs,10,10,MNW-10,MNH-12,22,0.4,0.9,0.45);
+}
+function hcMini(s){
+  s+='<rect x="'+MNX+'" y="'+MNY+'" width="'+MNW+'" height="'+MNH+'" rx="8" fill="#FFFDF7" stroke="#8A8070" stroke-width="2.5"/>';
+  s+=tlplain(MNX+MNW/2,MNY-6,12,'#8A8070',T('mini_t'));
+  var k;
+  for(k=0;k<MN;k++){
+    var p=MP[k];
+    var col=p.st==='sol'?'#7FA8C9':(p.st==='liq'?'#2C7D8C':'#D9542B');
+    s+='<circle cx="'+(MNX+p.x).toFixed(1)+'" cy="'+(MNY+p.y).toFixed(1)+'" r="5.5" fill="'+col+'" stroke="#26221B" stroke-width="1.2" opacity="0.92"/>';
+  }
+  return s;
+}
+function phName(){ return T('ph_'+HC.ph); }
+function drawHC(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="480" rx="14" fill="#FBF7EC"/>';
+  // axes: t 0..23s → x 64..640 ; T −20..120 → y 438..96
+  var x0=64,x1=640,y0=438,y1=96;
+  function X(t){return x0+(x1-x0)*clamp(t,0,23)/23}
+  function Y(tt){return y0-(y0-y1)*(tt+20)/140}
+  s+='<line x1="'+x0+'" y1="'+y0+'" x2="'+x1+'" y2="'+y0+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="'+x0+'" y1="'+y0+'" x2="'+x0+'" y2="'+(y1-14)+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tlplain(x1-2,y0+22,13,'#6B6252',T('axis_t'),'end');
+  s+=tlplain(x0-6,y1-20,13,'#6B6252',T('axis_T'),'start');
+  var ticks=[-20,0,100,120],k;
+  for(k=0;k<ticks.length;k++){
+    var ty=Y(ticks[k]);
+    s+='<line x1="'+(x0-5)+'" y1="'+ty.toFixed(0)+'" x2="'+x0+'" y2="'+ty.toFixed(0)+'" stroke="#4B4437" stroke-width="2"/>';
+    s+=tlplain(x0-9,ty+4,12,'#6B6252',''+ticks[k],'end');
+  }
+  // reference dashed lines at 0 and 100
+  s+='<line x1="'+x0+'" y1="'+Y(0).toFixed(0)+'" x2="'+x1+'" y2="'+Y(0).toFixed(0)+'" stroke="#2C7D8C" stroke-width="1.5" stroke-dasharray="5 7" opacity="0.55"/>';
+  s+='<line x1="'+x0+'" y1="'+Y(100).toFixed(0)+'" x2="'+x1+'" y2="'+Y(100).toFixed(0)+'" stroke="#D9542B" stroke-width="1.5" stroke-dasharray="5 7" opacity="0.55"/>';
+  // curve
+  var H=HC.hist,n=H.length;
+  if(n>1){
+    var d='';
+    for(k=0;k<n;k++){
+      d+=(k?' L ':'M ')+X(H[k][0]).toFixed(1)+' '+Y(H[k][1]).toFixed(1);
+    }
+    s+='<path d="'+d+'" fill="none" stroke="#B5652A" stroke-width="4"/>';
+    var lx=X(H[n-1][0]),ly=Y(H[n-1][1]);
+    s+='<circle cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="6" fill="#B5652A" stroke="#FFFDF7" stroke-width="2"/>';
+    // plateau callouts, anchored at the plateau midpoints
+    if(HC.ph==='melt'||HC.ph==='frz'){
+      s+=tl(lx,Y(0)+(HC.cool?-14:24),14,'#2C7D8C',T(HC.cool?'plat_frz':'plat_melt'));
+    }
+    if(HC.ph==='boil'||HC.ph==='cond'){
+      s+=tl(lx,Y(100)+(HC.cool?24:-14),14,'#D9542B',T(HC.cool?'plat_cond':'plat_boil'));
+    }
+  }
+  s=hcMini(s);
+  $('svghc').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T(HC.cool?'qb1cool':'qb1heat');
+  $('h_phase').textContent=phName();
+  $('h_T').textContent='T = '+Math.round(HC.T)+' °C';
+  $('h_t').textContent='t = '+HC.t.toFixed(1)+' s';
+}
+
+/* ================= TAB 2 · THREE STATES SIDE BY SIDE ================= */
+var CP=[];   // 3×14 particles
+function initCP(){
+  var b,k;
+  CP=[];
+  for(b=0;b<3;b++){
+    var arr=[];
+    for(k=0;k<14;k++){
+      var a=rnd(k+b*20,30)*6.283;
+      arr.push({x:14+rnd(k+b*7,31)*168,y:96+rnd(k+b*7,32)*92,vx:Math.cos(a)*2.4,vy:Math.sin(a)*2.4});
+    }
+    CP.push(arr);
+  }
+}
+function drawCP(){
+  var s='';
+  liqPile(CP[1],14,14,182,196,30,0.5,0.9,0.5);
+  s+='<rect x="0" y="0" width="660" height="300" rx="14" fill="#FBF7EC"/>';
+  var boxes=[[16,'sol','lb_sol'],[232,'liq','lb_liq'],[448,'gas','lb_gas']];
+  var b,k;
+  for(b=0;b<3;b++){
+    var ox=boxes[b][0], mode=boxes[b][1];
+    var w=196,h=210,oy=48;
+    s+='<rect x="'+ox+'" y="'+oy+'" width="'+w+'" height="'+h+'" rx="10" fill="#FFFDF7" stroke="#8A8070" stroke-width="2.5"/>';
+    s+=tl(ox+w/2,oy-12,16,pcol(mode),T(boxes[b][2]));
+    for(k=0;k<14;k++){
+      var p=CP[b][k],x,y;
+      if(mode==='sol'){
+        var c=k%4,r2=Math.floor(k/4);
+        x=ox+42+c*38+1.6*Math.sin(CLK*5+k);
+        y=oy+h-24-r2*32+1.6*Math.cos(CLK*4.2+k);
+      }else if(mode==='liq'){
+        x=ox+p.x; y=oy+p.y;
+      }else{
+        p.x+= p.vx; p.y+=p.vy;
+        if(p.x<12){p.x=12;p.vx=Math.abs(p.vx)}
+        if(p.x>w-12){p.x=w-12;p.vx=-Math.abs(p.vx)}
+        if(p.y<12){p.y=12;p.vy=Math.abs(p.vy)}
+        if(p.y>h-12){p.y=h-12;p.vy=-Math.abs(p.vy)}
+        x=ox+p.x; y=oy+p.y;
+      }
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="7" fill="'+pcol(mode)+'" stroke="#26221B" stroke-width="1.3" opacity="0.92"/>';
+    }
+  }
+  $('svgcp').innerHTML=PAINT(s);
+}
+function buildCP3(){
+  var h='<table class="cmp"><tr>',k,j;
+  var Hh=T('cpH'),R=T('cpR');
+  for(k=0;k<Hh.length;k++)h+='<th>'+Hh[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cp3wrap').innerHTML=h;
+}
+
+/* ================= TAB 3 · SIX CHANGES ================= */
+function arrow6(s,x1,y1,x2,y2,col,lbl,heatK,bend){
+  var mx=(x1+x2)/2+bend[0], my=(y1+y2)/2+bend[1];
+  s+='<path d="M '+x1+' '+y1+' Q '+mx+' '+my+' '+x2+' '+y2+'" fill="none" stroke="'+col+'" stroke-width="3.5"/>';
+  var ang=Math.atan2(y2-my,x2-mx);
+  s+='<path d="M '+x2+' '+y2+' l '+(-12*Math.cos(ang-0.4)).toFixed(1)+' '+(-12*Math.sin(ang-0.4)).toFixed(1)+' m '+(12*Math.cos(ang-0.4)).toFixed(1)+' '+(12*Math.sin(ang-0.4)).toFixed(1)+' l '+(-12*Math.cos(ang+0.4)).toFixed(1)+' '+(-12*Math.sin(ang+0.4)).toFixed(1)+'" stroke="'+col+'" stroke-width="3.5" fill="none"/>';
+  s+=tl(mx,my+4,15,col,lbl+'·'+T(heatK));
+  return s;
+}
+function drawT6(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="380" rx="14" fill="#FBF7EC"/>';
+  // three state nodes: 固 left-bottom, 液 right-bottom, 气 top-center
+  var SN=[140,300],LN=[520,300],GN=[330,86];
+  function node(p,mode,lblK){
+    var col=pcol(mode);
+    s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="46" fill="#FFFDF7" stroke="'+col+'" stroke-width="4"/>';
+    var k;
+    for(k=0;k<5;k++){
+      var x,y;
+      if(mode==='sol'){x=p[0]-14+(k%3)*14;y=p[1]-8+Math.floor(k/3)*14+1.2*Math.sin(CLK*5+k)}
+      else if(mode==='liq'){x=p[0]-16+rnd(k,40)*32+2*Math.sin(CLK*4+k);y=p[1]+2+rnd(k,41)*14+1.5*Math.cos(CLK*5+k)}
+      else {x=p[0]-20+((rnd(k,42)*44+CLK*26*(0.5+rnd(k,43)))%44);y=p[1]-16+((rnd(k,44)*34+CLK*22*(0.5+rnd(k,45)))%34)}
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4.5" fill="'+col+'" opacity="0.9"/>';
+    }
+    s+=tl(p[0],p[1]+66,17,col,T(lblK));
+  }
+  node(SN,'sol','lb_sol'); node(LN,'liq','lb_liq'); node(GN,'gas','lb_gas');
+  s=arrow6(s,SN[0]+46,SN[1]-14,LN[0]-46,LN[1]-14,'#D9542B',T('t_melt'),'absorb',[0,-26]);
+  s=arrow6(s,LN[0]-46,LN[1]+16,SN[0]+46,SN[1]+16,'#2C7D8C',T('t_frz'),'release',[0,30]);
+  s=arrow6(s,LN[0]-14,LN[1]-46,GN[0]+40,GN[1]+30,'#D9542B',T('t_vap'),'absorb',[36,-4]);
+  s=arrow6(s,GN[0]+10,GN[1]+46,LN[0]-44,LN[1]-32,'#2C7D8C',T('t_cond'),'release',[-18,16]);
+  s=arrow6(s,SN[0]+14,SN[1]-46,GN[0]-40,GN[1]+30,'#D9542B',T('t_sub'),'absorb',[-36,-4]);
+  s=arrow6(s,GN[0]-10,GN[1]+46,SN[0]+44,SN[1]-32,'#2C7D8C',T('t_dep'),'release',[18,16]);
+  $('svgtr6').innerHTML=PAINT(s);
+}
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. While ice is MELTING, its temperature…',o:[
+    ['Keeps rising steadily',0,'That is the warming segment — the plateau is different.'],
+    ['Stays at 0°C until all the ice has melted',1,'Correct — the heat is busy breaking the lattice apart, not raising the temperature.'],
+    ['Drops slightly',0,'Heat is flowing IN — it cannot drop.'],
+    ['Jumps straight to 100°C',0,'It must climb through every value in between, after the plateau.']]},
+   {q:'2. Particles in a SOLID…',o:[
+    ['Do not move at all',0,'They DO move — they vibrate about fixed spots.'],
+    ['Vibrate in place around fixed positions',1,'Correct — neat lattice, vibration only; hotter solid = stronger vibration.'],
+    ['Slide freely past each other',0,'That is a liquid.'],
+    ['Fly around the whole container',0,'That is a gas.']]},
+   {q:'3. Gases can be compressed easily because…',o:[
+    ['Gas particles are soft',0,'The particles themselves do not squash — the SPACES do.'],
+    ['There are large empty spaces between the particles',1,'Correct — compressing a gas squeezes the gaps, which solids and liquids barely have.'],
+    ['Gas particles are lighter',0,'Mass is irrelevant — spacing is the key.'],
+    ['Heat escapes when you press',0,'Compression actually warms a gas.']]},
+   {q:'4. Boiling differs from evaporation because boiling…',o:[
+    ['Only happens at the surface',0,'Backwards — EVAPORATION is surface-only.'],
+    ['Happens throughout the liquid, at the boiling point',1,'Correct — bubbles form everywhere at 100°C, while evaporation happens at any temperature, surface only.'],
+    ['Releases heat',0,'Both absorb heat.'],
+    ['Happens at any temperature',0,'That describes evaporation.']]},
+   {q:'5. When water FREEZES into ice, it…',o:[
+    ['Absorbs heat',0,'Backwards — the particles must LOSE energy to line up.'],
+    ['Releases heat',1,'Correct — freezing is exothermic; the particles give up energy as they settle into the lattice.'],
+    ['Neither absorbs nor releases',0,'Every change of state moves heat one way or the other.'],
+    ['First absorbs, then releases',0,'It releases heat throughout the plateau.']]},
+   {q:'6. Mothballs in a wardrobe shrink without leaving any liquid. This is…',o:[
+    ['Melting',0,'Melting would leave liquid behind.'],
+    ['Evaporation',0,'Evaporation starts FROM a liquid.'],
+    ['Sublimation: solid straight to gas',1,'Correct — the solid skips the liquid stage entirely, like dry ice.'],
+    ['Deposition',0,'Deposition is the reverse — gas straight to solid (frost).']]},
+   {q:'7. Heating a substance makes its particles…',o:[
+    ['Expand in size',0,'Classic trap — the particles do NOT grow; the gaps between them do.'],
+    ['Move more vigorously',1,'Correct — temperature is a measure of how energetically the particles move.'],
+    ['Multiply in number',0,'Heating creates no new particles.'],
+    ['Turn into different particles',0,'Physical changes keep the particles themselves identical.']]},
+   {q:'8. A lake freezes over in winter, yet the fish at the bottom survive. Mainly because…',o:[
+    ['Ice releases heat that warms the bottom',0,'Freezing does release heat, but that is not what keeps the bottom liquid all winter.'],
+    ['Water is DENSEST at 4°C, so 4°C water sinks and stays at the bottom; less-dense ice floats on top',1,'Correct — water\u2019s anomalous expansion: densest at 4°C, and ice is less dense than water, so the lake freezes from the TOP down.'],
+    ['Fish generate enough heat to melt the ice',0,'Fish are cold-blooded — they add almost no heat.'],
+    ['Ice is denser than water and sinks away',0,'Backwards — ice is LESS dense; that is exactly why it floats and seals the surface.']]}
+  ];
+  return [
+   {q:'1. 冰在熔化的过程中，温度……',o:[
+    ['一直稳定上升',0,'那是升温段——平台段不一样。'],
+    ['保持 0°C 不变，直到全部熔化',1,'正确——热量都用来拆散晶格了，没空升温。'],
+    ['略微下降',0,'热量在往里加，不可能降。'],
+    ['直接跳到 100°C',0,'平台结束后还得一格一格升上去。']]},
+   {q:'2. 固体中的粒子……',o:[
+    ['完全不动',0,'它们在动——绕着固定位置振动。'],
+    ['在固定位置附近原地振动',1,'正确——排列整齐、只能振动；越热振得越凶。'],
+    ['自由地互相滑动',0,'那是液体。'],
+    ['在整个容器里乱飞',0,'那是气体。']]},
+   {q:'3. 气体容易被压缩，是因为……',o:[
+    ['气体粒子比较软',0,'粒子本身压不扁——被压缩的是"空隙"。'],
+    ['粒子之间的空隙很大',1,'正确——压缩气体压的是间距；固体液体几乎没有空隙可压。'],
+    ['气体粒子比较轻',0,'轻重无关——关键是间距。'],
+    ['压的时候热量跑掉了',0,'压缩气体反而会发热。']]},
+   {q:'4. 沸腾和蒸发的区别在于，沸腾……',o:[
+    ['只发生在液面',0,'反了——只在液面发生的是蒸发。'],
+    ['在液体内部和表面同时进行，且必须达到沸点',1,'正确——100°C 时气泡从内部到处冒；蒸发则任何温度都行、只在表面。'],
+    ['是放热的',0,'两者都要吸热。'],
+    ['任何温度都能发生',0,'那说的是蒸发。']]},
+   {q:'5. 水凝固成冰的时候，它……',o:[
+    ['吸收热量',0,'反了——粒子要"安静下来"排队，必须把能量交出去。'],
+    ['放出热量',1,'正确——凝固是放热过程；粒子交出能量才排回整齐的晶格。'],
+    ['既不吸热也不放热',0,'每一种物态变化都伴随吸热或放热。'],
+    ['先吸热后放热',0,'整个平台期都在放热。']]},
+   {q:'6. 衣柜里的樟脑丸越变越小，却没有留下液体。这是……',o:[
+    ['熔化',0,'熔化会留下液体。'],
+    ['蒸发',0,'蒸发的起点是液体。'],
+    ['升华：固态直接变气态',1,'正确——跳过液态，和干冰变小是同一回事。'],
+    ['凝华',0,'凝华是反过来——气态直接变固态（霜）。']]},
+   {q:'7. 给物质加热，它的粒子会……',o:[
+    ['一颗颗变大',0,'经典陷阱——粒子本身不变大，变大的是粒子之间的间距。'],
+    ['运动得更剧烈',1,'正确——温度衡量的就是粒子运动的剧烈程度。'],
+    ['数量变多',0,'加热不会凭空造出新粒子。'],
+    ['变成别的粒子',0,'物理变化中粒子本身始终不变。']]},
+   {q:'8. 冬天湖面结了冰，湖底的鱼却能活下来，主要是因为……',o:[
+    ['结冰放热，把湖底加热了',0,'凝固确实放热，但那不是湖底整个冬天保持液态的原因。'],
+    ['水在 4°C 密度最大，4°C 的水最重沉在湖底；冰密度比水小，浮在最上面',1,'正确——水的反常膨胀：4°C 最"重"沉底，冰比水轻浮在面上，所以湖是从上往下结冰的。'],
+    ['鱼自己发热把冰融化了',0,'鱼是冷血动物，几乎不产热。'],
+    ['冰的密度比水大，沉下去了',0,'反了——冰密度比水小，这正是冰浮在水面、封住湖面的原因。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCP3(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function updHcPlay(){
+  var b=$('hcplay');
+  var key=HC.run?'dk_pause':(HC.cool?'dk_go1c':'dk_go1');
+  b.innerHTML=(HC.run?'⏸ ':'▶ ')+'<span data-i18n="'+key+'">'+T(key)+'</span>';
+}
+var AMB=0;
+function ambLoop(){
+  if(CUR===0){ ptStep(0.016); drawST(); }
+  else if(CUR===1){
+    hcStep(0.016); CLK+=0.016;
+    miniStep();
+    drawHC();
+    if(!HC.run&&$('hcplay').classList.contains('on')){$('hcplay').classList.remove('on');updHcPlay()}
+    updSummary();
+  }
+  else if(CUR===2){ CLK+=0.016; drawCP(); }
+  else if(CUR===3){ CLK+=0.016; drawT6(); }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawST,drawHC,function(){drawCP();buildCP3()},drawT6,drawQZ];
+  SUMMARY=[
+    function(){return 'T = '+ST.T+' °C · '+stName(stateOf(ST.T))},
+    function(){return phName()+' · T = '+Math.round(HC.T)+' °C'},
+    function(){return T('cp_figtitle')},
+    function(){return T('tr_figtitle')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initPT(); initCP(); initMP(); hcReset();
+  $('tsl').addEventListener('input',function(){
+    ST.T=+this.value; $('tlab').textContent=ST.T+' °C';
+  });
+  $('heat').addEventListener('click',function(){
+    ST.T=clamp(ST.T+10,-20,120); $('tsl').value=ST.T; $('tlab').textContent=ST.T+' °C';
+  });
+  $('cool').addEventListener('click',function(){
+    ST.T=clamp(ST.T-10,-20,120); $('tsl').value=ST.T; $('tlab').textContent=ST.T+' °C';
+  });
+  $('hcplay').addEventListener('click',function(){
+    HC.run=!HC.run;
+    this.classList.toggle('on',HC.run);
+    updHcPlay();
+  });
+  $('hccool').addEventListener('click',function(){
+    HC.cool=!HC.cool;
+    this.classList.toggle('on',HC.cool);
+    hcReset();miniJump();
+    $('hcplay').classList.remove('on');
+    updHcPlay();
+    drawHC();updSummary();
+  });
+  $('hcreset').addEventListener('click',function(){
+    hcReset();miniJump();
+    $('hcplay').classList.remove('on');
+    updHcPlay();
+    drawHC();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  updHcPlay();
+  initExp();
+  applyI18n();
+  buildCP3(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // bench: sweep T across both boundaries with transitions
+  showTab(0);
+  var temps=[-20,-1,0,20,60,99,100,110,120,50,-10];
+  for(i=0;i<temps.length;i++){
+    ST.T=temps[i];
+    var j;
+    for(j=0;j<50;j++)ptStep(0.016);
+    drawST();
+  }
+  ST.T=20;for(i=0;i<60;i++)ptStep(0.016);drawST();
+  // heating curve full run + cooling full run
+  showTab(1);
+  HC.cool=false;hcReset();HC.run=true;
+  for(i=0;i<1400;i++){hcStep(0.016);if(i%150===0)drawHC()}
+  drawHC();
+  HC.cool=true;hcReset();HC.run=true;
+  for(i=0;i<1400;i++){hcStep(0.016);if(i%150===0)drawHC()}
+  drawHC();
+  HC.cool=false;hcReset();
+  // three states + six changes animate
+  showTab(2);for(i=0;i<40;i++){CLK+=0.016;drawCP()}
+  showTab(3);for(i=0;i<40;i++){CLK+=0.016;drawT6()}
+  // quiz pager
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='states-of-matter-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

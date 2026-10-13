@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>汽车引擎实验室 · Car Engine · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 汽车引擎实验室</h1>
+  <div class="sub">Car Engine · chu-san-shang/b5-c7 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 引擎运转台</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 四冲程分解</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 四缸协作·能量</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 要点</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<!-- ① 运转台 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="en_figtitle">单缸剖面（按 ▶ 运转，或直接拖飞轮转）</h3>
+    <svg id="svgeng" viewBox="0 0 660 500"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="en_sidetitle">当前冲程</h3>
+    <div class="statline">
+      <span class="chip hl big" id="c_stroke">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="c_ang">—</span>
+      <span class="chip blu" id="c_rev">—</span>
+    </div>
+    <div class="kbox blue" id="stkbox">—</div>
+    <div class="kbox" data-i18n-html="en_k1"></div>
+    <div class="kbox red" data-i18n-html="en_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 四冲程分解 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="st_figtitle">一个循环 = 四个冲程（曲轴转两圈，做功一次）</h3>
+    <svg id="svgstk" viewBox="0 0 660 455"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="st_sidetitle">逐个冲程看</h3>
+    <div class="kbox" data-i18n-html="st_k1"></div>
+    <div class="kbox blue" data-i18n-html="st_k2"></div>
+    <div class="kbox grn" data-i18n-html="st_k3"></div>
+    <div class="kbox red" data-i18n-html="st_k4"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 四缸协作·能量 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="fc_figtitle">四缸发动机：总有一缸在做功</h3>
+    <svg id="svgfour" viewBox="0 0 660 500"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="fc_sidetitle">正在做功</h3>
+    <div class="statline">
+      <span class="chip hl big" id="c_fire">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="fc_k1"></div>
+    <div class="kbox red" data-i18n-html="fc_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 要点 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="cmp_title">四冲程对照总表</h3>
+    <div id="cmpwrap"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="sm_title">一句话总结</h3>
+    <div class="kbox grn" data-i18n-html="sm_k1"></div>
+    <div class="kbox" data-i18n-html="sm_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ 测验 -->
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <button class="dbtn" id="engplay">▶ <span data-i18n="dk_run">运转</span></button>
+    <span class="dl"><span data-i18n="dk_speed">转速</span>
+      <input type="range" id="spd" min="0.2" max="2" step="0.1" value="0.7">
+      <span class="mono" id="spdlab">0.7</span></span>
+    <span class="dl"><span data-i18n="dk_jump">跳到</span>
+      <button class="stkp" data-s="0" data-i18n="stk0s">① 吸气</button>
+      <button class="stkp" data-s="1" data-i18n="stk1s">② 压缩</button>
+      <button class="stkp" data-s="2" data-i18n="stk2s">③ 做功</button>
+      <button class="stkp" data-s="3" data-i18n="stk3s">④ 排气</button></span>
+    <span class="dl" data-i18n="dk_hint0">💡 也可以直接拖飞轮转</span>
+  </div>
+
+  <div class="dsec" id="d1">
+    <span class="dl" data-i18n="dk_hint1">💡 四格分别是四个冲程的关键瞬间，配合①页动画讲</span>
+  </div>
+
+  <div class="dsec" id="d2">
+    <button class="dbtn" id="fourplay">▶ <span data-i18n="dk_run4">运转</span></button>
+    <span class="dl" data-i18n="dk_hint2">💡 数一数：任何时刻都恰好有一缸在做功</span>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="dk_hint3">💡 表格按"活塞方向-气门-能量"三条线记</span>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'汽车引擎实验室',
+ subtitle:'四冲程汽油机 · 能量转化 · 热机效率 —— 初中科学课堂演示工具',
+ tab0:'① 引擎运转台',tab1:'② 四冲程分解',tab2:'③ 四缸协作·能量',tab3:'④ 要点',tab4:'⑤ 测验',
+ en_figtitle:'单缸剖面（按 ▶ 运转，或直接拖飞轮转）',
+ en_sidetitle:'当前冲程',
+ en_k1:'一个<b>工作循环</b> = 吸气 → 压缩 → 做功 → 排气 四个冲程，曲轴正好转<b>两圈</b>，但只在做功冲程<b>做功一次</b>。',
+ en_k2:'另外三个冲程靠什么完成？靠<b>飞轮的惯性</b>——做功冲程把飞轮"抡"起来，飞轮再拖着活塞完成排气、吸气、压缩。所以引擎上都有一个沉重的飞轮。',
+ st_figtitle:'一个循环 = 四个冲程（曲轴转两圈，做功一次）',
+ st_sidetitle:'逐个冲程看',
+ st_k1:'<b>① 吸气冲程</b>：进气门开、排气门关，活塞<b>下行</b>，把汽油和空气的<b>混合气</b>吸进气缸。',
+ st_k2:'<b>② 压缩冲程</b>:两个气门<b>都关</b>，活塞<b>上行</b>压缩混合气——温度升高。能量转化：<b>机械能 → 内能</b>。',
+ st_k3:'<b>③ 做功冲程</b>：压缩到头的瞬间<b>火花塞点火</b>，燃气猛烈膨胀推活塞<b>下行</b>——这是唯一对外做功的冲程。能量转化：<b>内能 → 机械能</b>。',
+ st_k4:'<b>④ 排气冲程</b>：排气门开，活塞<b>上行</b>把废气推出去，为下一轮腾地方。',
+ fc_figtitle:'四缸发动机：总有一缸在做功',
+ fc_sidetitle:'正在做功',
+ fc_k1:'四个气缸共用一根曲轴，冲程<b>错开半圈</b>轮流点火（点火次序 1-3-4-2）。任何时刻都<b>恰好有一缸在做功</b>，所以汽车开起来是平顺的，而不是一顿一顿的。',
+ fc_k2:'⚠️ 能量条不说谎：100 份汽油的化学能里，真正变成<b>有用机械能的只有 30 份左右</b>——其余随废气冲走、从缸体散热、被摩擦吃掉。这就是热机效率只有约 <b>20%–30%</b> 的意思，也是省油技术值钱的原因。',
+ cmp_title:'四冲程对照总表',
+ sm_title:'一句话总结',
+ sm_k1:'<b>吸、压、做、排——只有"做"在干活，其余三个冲程都是飞轮惯性带着走。</b>',
+ sm_k2:'引擎是<b>热机</b>：把燃料的化学能烧成内能，再把内能变成机械能。压缩冲程是机械能→内能，做功冲程是内能→机械能。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_run:'运转', dk_run4:'运转', dk_speed:'转速', dk_jump:'跳到',
+ stk0s:'① 吸气', stk1s:'② 压缩', stk2s:'③ 做功', stk3s:'④ 排气',
+ dk_hint0:'💡 也可以直接拖飞轮转',
+ dk_hint1:'💡 四格分别是四个冲程的关键瞬间，配合①页动画讲',
+ dk_hint2:'💡 数一数：任何时刻都恰好有一缸在做功',
+ dk_hint3:'💡 表格按"活塞方向-气门-能量"三条线记',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ stkn:['① 吸气冲程','② 压缩冲程','③ 做功冲程','④ 排气冲程'],
+ stkd:['进气门开 · 活塞下行 · 吸入汽油+空气混合气',
+       '气门全关 · 活塞上行压缩 · 机械能→内能（升温）',
+       '火花塞点火 · 燃气膨胀推活塞下行 · 内能→机械能（唯一做功）',
+       '排气门开 · 活塞上行 · 推出废气'],
+ ang:'曲轴转角', rev:'第', rev2:'圈',
+ lb_plug:'火花塞', lb_in:'进气门', lb_ex:'排气门', lb_pis:'活塞', lb_rod:'连杆', lb_crank:'曲轴·飞轮',
+ spark:'点火！',
+ vopen:'开', vclose:'关',
+ cyl:'缸', firing:'号缸 · 做功中',
+ ebar_t:'每 100 份汽油化学能的去向',
+ ebar:['有用机械能 30','废气带走 40','散热 20','摩擦 10'],
+ fire_order:'点火次序 1-3-4-2',
+ cmpH:['冲程','活塞','气门','发生什么','能量转化'],
+ cmpR:[['① 吸气','下行','进开 · 排关','吸入汽油+空气混合气','—'],
+       ['② 压缩','上行','全关','混合气被压缩，温度升高','机械能 → 内能'],
+       ['③ 做功','下行','全关','点火爆燃，燃气推活塞','内能 → 机械能（唯一做功）'],
+       ['④ 排气','上行','进关 · 排开','废气被推出气缸','—'],
+       ['一个循环','—','—','曲轴转 2 圈 · 做功 1 次','靠飞轮惯性完成其余三冲程']],
+ mth:''
+},
+en:{
+ title:'Car Engine Lab',
+ subtitle:'Four-stroke petrol engine · energy conversion · heat-engine efficiency — junior-high classroom demo',
+ tab0:'① Running Engine',tab1:'② The Four Strokes',tab2:'③ Four Cylinders · Energy',tab3:'④ Review',tab4:'⑤ Quiz',
+ en_figtitle:'Single-cylinder cutaway (press ▶, or drag the flywheel)',
+ en_sidetitle:'Current stroke',
+ en_k1:'One <b>working cycle</b> = intake → compression → power → exhaust. The crankshaft turns exactly <b>two revolutions</b>, but work is done <b>only once</b>, in the power stroke.',
+ en_k2:'What carries the other three strokes? <b>The flywheel\u2019s inertia</b> — the power stroke spins it up, and it drags the piston through exhaust, intake and compression. That\u2019s why engines carry a heavy flywheel.',
+ st_figtitle:'One cycle = four strokes (two crank turns, one power stroke)',
+ st_sidetitle:'Stroke by stroke',
+ st_k1:'<b>① Intake</b>: intake valve open, exhaust closed; piston moves <b>down</b>, drawing in the petrol-air <b>mixture</b>.',
+ st_k2:'<b>② Compression</b>: both valves <b>closed</b>; piston moves <b>up</b>, squeezing the mixture — it heats up. Energy: <b>mechanical → internal</b>.',
+ st_k3:'<b>③ Power</b>: at full squeeze the <b>spark plug fires</b>; burning gas expands violently and drives the piston <b>down</b> — the only stroke that does work. Energy: <b>internal → mechanical</b>.',
+ st_k4:'<b>④ Exhaust</b>: exhaust valve open; piston moves <b>up</b> and pushes the burnt gas out, clearing the cylinder.',
+ fc_figtitle:'Four cylinders: one is always on its power stroke',
+ fc_sidetitle:'Now firing',
+ fc_k1:'Four cylinders share one crankshaft, staggered by <b>half a turn</b>, firing in the order <b>1-3-4-2</b>. At any instant <b>exactly one cylinder is on its power stroke</b> — which is why a car pulls smoothly instead of in jerks.',
+ fc_k2:'⚠️ The energy bar doesn\u2019t lie: of 100 units of chemical energy in the petrol, only about <b>30 become useful mechanical energy</b> — the rest leaves with the exhaust, radiates from the block, or is eaten by friction. That is what a heat-engine efficiency of <b>20%–30%</b> means, and why fuel-saving technology is worth money.',
+ cmp_title:'The four strokes at a glance',
+ sm_title:'In one line',
+ sm_k1:'<b>Intake, compression, power, exhaust — only POWER does work; the flywheel\u2019s inertia carries the other three.</b>',
+ sm_k2:'An engine is a <b>heat engine</b>: fuel\u2019s chemical energy burns into internal energy, which becomes mechanical energy. Compression: mechanical → internal; power: internal → mechanical.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_run:'Run', dk_run4:'Run', dk_speed:'Speed', dk_jump:'Jump to',
+ stk0s:'① Intake', stk1s:'② Compress', stk2s:'③ Power', stk3s:'④ Exhaust',
+ dk_hint0:'💡 You can also drag the flywheel',
+ dk_hint1:'💡 The four frames are each stroke\u2019s key moment — pair with tab ①',
+ dk_hint2:'💡 Count: at every instant exactly one cylinder is firing',
+ dk_hint3:'💡 Read the table along three lines: piston, valves, energy',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ stkn:['① INTAKE','② COMPRESSION','③ POWER','④ EXHAUST'],
+ stkd:['Intake valve open · piston down · petrol-air mixture drawn in',
+       'Both valves closed · piston up · mechanical → internal (heats up)',
+       'Spark fires · gas expands, drives the piston down · internal → mechanical (the only working stroke)',
+       'Exhaust valve open · piston up · burnt gas pushed out'],
+ ang:'Crank angle', rev:'rev ', rev2:'',
+ lb_plug:'spark plug', lb_in:'intake valve', lb_ex:'exhaust valve', lb_pis:'piston', lb_rod:'con-rod', lb_crank:'crank · flywheel',
+ spark:'SPARK!',
+ vopen:'open', vclose:'shut',
+ cyl:'cyl', firing:' firing (power)',
+ ebar_t:'Where 100 units of fuel energy go',
+ ebar:['useful work 30','exhaust 40','heat loss 20','friction 10'],
+ fire_order:'firing order 1-3-4-2',
+ cmpH:['Stroke','Piston','Valves','What happens','Energy'],
+ cmpR:[['① Intake','down','in open · ex shut','mixture drawn in','—'],
+       ['② Compression','up','both shut','mixture squeezed, heats up','mechanical → internal'],
+       ['③ Power','down','both shut','spark, expansion drives piston','internal → mechanical (only work)'],
+       ['④ Exhaust','up','in shut · ex open','burnt gas pushed out','—'],
+       ['One cycle','—','—','2 crank turns · 1 power stroke','flywheel inertia carries the rest']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* ===== theme ===== */
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock (5 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='stkbox')continue;   // live stroke readout — never collapsed
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= engine model ================= */
+/* crank angle THETA in degrees, 0..720; 0 = TDC start of intake.
+   0-180 intake (down) · 180-360 compression (up) · 360-540 power (down) · 540-720 exhaust (up) */
+var ENG={th:40,w:0.7,playing:false};
+var CRK={cx:110,cy:372,r:44,L:148};
+function pinY(th){
+  var a=d2r(th);
+  return CRK.cy-(CRK.r*Math.cos(a)+Math.sqrt(CRK.L*CRK.L-Math.pow(CRK.r*Math.sin(a),2)));
+}
+function strokeOf(th){ return Math.floor(((th%720)+720)%720/180); }
+/* ===== per-particle gas journey (one population, mass-conserving & smooth) =====
+   22 particles. k=0..2 are residual gas (always in the chamber).
+   k=3..21 each ARRIVE during intake (staggered starts, 48° of crank travel along
+   the intake port into their chamber slot) and LEAVE during exhaust (slot → out
+   the exhaust port), nearest-the-valve slots last-in / first-out. */
+function gasTimes(k){
+  return { as:(k-3)/19*130, ds:540+(21-k)/19*130, dur:48 };
+}
+function gasState(k,th){
+  th=((th%720)+720)%720;
+  if(k<3)return 2;
+  var t=gasTimes(k);
+  if(th<t.as||th>=t.ds+t.dur)return 0;
+  if(th<t.as+t.dur)return 1;
+  if(th<t.ds)return 2;
+  return 3;
+}
+var GASP=(function(){
+  var arr=[],k;
+  for(k=0;k<24;k++){
+    var hx=Math.sin(k*127.1)*43758.545; hx-=Math.floor(hx);
+    var hy=Math.sin(k*311.7)*12543.853; hy-=Math.floor(hy);
+    arr.push({x:hx,y:hy,d:Math.sqrt((hx-0.5)*(hx-0.5)+hy*hy*0.81)});
+  }
+  arr.sort(function(a,b){return b.d-a.d});
+  return arr;
+})();
+function pathPoint(P,t){
+  t=clamp(t,0,1);
+  var L=0,segs=[],i;
+  for(i=0;i<P.length-1;i++){
+    var dx=P[i+1][0]-P[i][0],dy=P[i+1][1]-P[i][1];
+    var l=Math.sqrt(dx*dx+dy*dy);
+    segs.push(l);L+=l;
+  }
+  var d=t*L,acc=0;
+  for(i=0;i<segs.length;i++){
+    if(d<=acc+segs[i]||i===segs.length-1){
+      var f=(d-acc)/segs[i];
+      if(f>1)f=1;
+      return {x:P[i][0]+(P[i+1][0]-P[i][0])*f, y:P[i][1]+(P[i+1][1]-P[i][1])*f};
+    }
+    acc+=segs[i];
+  }
+  return {x:P[P.length-1][0],y:P[P.length-1][1]};
+}
+var P_IN=[[6,-4],[26,6],[44,16],[62,30],[78,42],[90,54]];
+var P_EX=[[128,56],[140,44],[156,31],[172,17],[192,7],[212,-4]];
+/* draws one cylinder mechanism in LOCAL coords (0..220 wide, 0..430 tall), NO text inside */
+function cylGeom(th){
+  th=((th%720)+720)%720;
+  var s='',k;
+  var si=strokeOf(th);
+  var py=pinY(th);
+  var ptop=py-34;
+  var cpx=CRK.cx+CRK.r*Math.sin(d2r(th));
+  var cpy=CRK.cy-CRK.r*Math.cos(d2r(th));
+  // intake / exhaust ports (slanted stubs above the head)
+  s+='<path d="M 55 40 L 30 14 L 62 14 L 80 40 Z" fill="#E8E2D4" stroke="#9A938A" stroke-width="2.5"/>';
+  s+='<path d="M 165 40 L 190 14 L 158 14 L 140 40 Z" fill="#E8E2D4" stroke="#9A938A" stroke-width="2.5"/>';
+  // head block
+  s+='<rect x="48" y="34" width="124" height="12" fill="#9A938A"/>';
+  // spark plug
+  s+='<rect x="105" y="2" width="10" height="20" fill="#6B655C"/>';
+  s+='<line x1="110" y1="22" x2="110" y2="44" stroke="#6B655C" stroke-width="4"/>';
+  // cylinder walls
+  s+='<rect x="46" y="40" width="10" height="270" fill="#B9AE95"/>';
+  s+='<rect x="164" y="40" width="10" height="270" fill="#B9AE95"/>';
+  // gas in the chamber (colour + density by stroke)
+  var gcol=['#7FB4D9','#4E86AC','#E86A2B','#9A938A'][si];
+  var chTop=46, chBot=ptop-2;
+  // whole-chamber flame during the power stroke (hot right after ignition, cooling as it expands)
+  if(si===2&&chBot>chTop+6){
+    var pp=clamp((th-360)/180,0,1);
+    s+='<rect x="56" y="'+chTop+'" width="108" height="'+(chBot-chTop).toFixed(1)+'" fill="#E86A2B" opacity="'+(0.38*(1-pp)+0.06).toFixed(2)+'"/>';
+  }
+  {
+    var chH=Math.max(chBot-chTop-6,2);
+    for(k=0;k<22;k++){
+      var st=gasState(k,th);
+      if(st===0)continue;
+      var sx=63+GASP[k].x*94;
+      var sy=chTop+3+GASP[k].y*chH;
+      var gx,gy,pc,pr;
+      if(st===2){
+        var wig=Math.sin((ENG.ph||0)*6.283+k*2.1)*3;
+        gx=sx+wig; gy=sy;
+        pc=gcol; pr=3.4;
+        if(si===2){pc=(k%2)?'#F5C445':'#E86A2B';pr=4.4}
+      }else if(st===1){
+        var gt=gasTimes(k);
+        var tt=(th-gt.as)/gt.dur;
+        if(tt<0.6){
+          var pp2=pathPoint(P_IN,tt/0.6);
+          gx=pp2.x; gy=pp2.y;
+        }else{
+          var f1=(tt-0.6)/0.4;
+          gx=90+(sx-90)*f1; gy=54+(sy-54)*f1;
+        }
+        pc='#7FB4D9'; pr=4;
+      }else{
+        var gt2=gasTimes(k);
+        var t2=(th-gt2.ds)/gt2.dur;
+        if(t2<0.4){
+          var f2=t2/0.4;
+          gx=sx+(128-sx)*f2; gy=sy+(56-sy)*f2;
+        }else{
+          var pp3=pathPoint(P_EX,(t2-0.4)/0.6);
+          gx=pp3.x; gy=pp3.y;
+        }
+        pc='#9A938A'; pr=4;
+      }
+      s+='<circle cx="'+gx.toFixed(1)+'" cy="'+gy.toFixed(1)+'" r="'+pr+'" fill="'+pc+'" opacity="0.88"/>';
+    }
+  }
+  // ignition burst: three rings + radial rays
+  if(th>350&&th<432){
+    var fr=(1-(th-350)/82);
+    var ex=110, ey=(46+ptop)/2;
+    s+='<circle cx="'+ex+'" cy="'+ey.toFixed(0)+'" r="'+(20+66*(1-fr)).toFixed(0)+'" fill="#F5C445" opacity="'+(0.50*fr).toFixed(2)+'"/>';
+    s+='<circle cx="'+ex+'" cy="'+ey.toFixed(0)+'" r="'+(12+42*(1-fr)).toFixed(0)+'" fill="#E86A2B" opacity="'+(0.65*fr).toFixed(2)+'"/>';
+    s+='<circle cx="'+ex+'" cy="'+ey.toFixed(0)+'" r="'+(6+16*(1-fr)).toFixed(0)+'" fill="#FFF3D6" opacity="'+(0.9*fr).toFixed(2)+'"/>';
+    if(th<398){
+      for(k=0;k<8;k++){
+        var ra=k*Math.PI/4+0.4;
+        var r1=14+30*(1-fr), r2=r1+16+26*(1-fr);
+        s+='<line x1="'+(ex+r1*Math.cos(ra)).toFixed(1)+'" y1="'+(ey+r1*Math.sin(ra)).toFixed(1)+
+           '" x2="'+(ex+r2*Math.cos(ra)).toFixed(1)+'" y2="'+(ey+r2*Math.sin(ra)).toFixed(1)+
+           '" stroke="#DA9526" stroke-width="3.5" opacity="'+(0.8*fr).toFixed(2)+'"/>';
+      }
+    }
+  }
+  // spark zigzag
+  if(th>348&&th<372){
+    s+='<path d="M 110 44 l 5 8 l -9 3 l 6 9" fill="none" stroke="#F5C445" stroke-width="3"/>';
+  }
+  // valves: intake open 0-180, exhaust open 540-720 (sinusoidal lift)
+  var vin=si===0?Math.sin(d2r(th))*13:0;
+  var vex=si===3?Math.sin(d2r(th-540))*13:0;
+  s+='<line x1="85" y1="'+(8+vin).toFixed(1)+'" x2="85" y2="'+(38+vin).toFixed(1)+'" stroke="#6B655C" stroke-width="5"/>';
+  s+='<rect x="72" y="'+(38+vin).toFixed(1)+'" width="26" height="6" rx="3" fill="'+(vin>0.5?'#2C7D8C':'#6B655C')+'"/>';
+  s+='<line x1="135" y1="'+(8+vex).toFixed(1)+'" x2="135" y2="'+(38+vex).toFixed(1)+'" stroke="#6B655C" stroke-width="5"/>';
+  s+='<rect x="122" y="'+(38+vex).toFixed(1)+'" width="26" height="6" rx="3" fill="'+(vex>0.5?'#D9542B':'#6B655C')+'"/>';
+  // port direction arrows (the gas itself now travels particle-by-particle)
+  if(si===0){
+    s+='<line x1="14" y1="0" x2="40" y2="20" stroke="#2C7D8C" stroke-width="4" opacity="0.85"/>';
+    s+='<path d="M 50 27 l -15 -3 l 7 -12 Z" fill="#2C7D8C" opacity="0.85"/>';
+  }
+  if(si===3){
+    s+='<line x1="176" y1="20" x2="202" y2="0" stroke="#8A8070" stroke-width="4" opacity="0.85"/>';
+    s+='<path d="M 210 -6 l -14 3 l 6 12 Z" fill="#8A8070" opacity="0.85"/>';
+  }
+  // piston
+  s+='<rect x="57" y="'+ptop.toFixed(1)+'" width="106" height="52" rx="4" fill="#D8D0BC" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<line x1="57" y1="'+(ptop+9).toFixed(1)+'" x2="163" y2="'+(ptop+9).toFixed(1)+'" stroke="#8A8070" stroke-width="2"/>';
+  s+='<line x1="57" y1="'+(ptop+16).toFixed(1)+'" x2="163" y2="'+(ptop+16).toFixed(1)+'" stroke="#8A8070" stroke-width="2"/>';
+  // piston direction arrow
+  var down=(si===0||si===2);
+  s+='<path d="M 110 '+(ptop+24).toFixed(0)+' l '+(down?'-7 0 l 7 14 l 7 -14 l -7 0':'-7 14 l 7 -14 l 7 14 l -7 -14')+'" fill="'+(si===2?'#D9542B':'#6B6252')+'"/>';
+  // con-rod + crank
+  s+='<line x1="110" y1="'+py.toFixed(1)+'" x2="'+cpx.toFixed(1)+'" y2="'+cpy.toFixed(1)+'" stroke="#8A8070" stroke-width="9" stroke-linecap="round"/>';
+  s+='<circle cx="'+CRK.cx+'" cy="'+CRK.cy+'" r="52" fill="#E8E2D4" stroke="#9A938A" stroke-width="3.5"/>';
+  s+='<circle cx="'+CRK.cx+'" cy="'+CRK.cy+'" r="52" fill="none" stroke="#9A938A" stroke-width="1.5" stroke-dasharray="5 6"/>';
+  // counterweight
+  var ca=d2r(th+180);
+  s+='<path d="M '+CRK.cx+' '+CRK.cy+' L '+(CRK.cx+40*Math.sin(ca-0.65)).toFixed(1)+' '+(CRK.cy-40*Math.cos(ca-0.65)).toFixed(1)+' A 40 40 0 0 1 '+(CRK.cx+40*Math.sin(ca+0.65)).toFixed(1)+' '+(CRK.cy-40*Math.cos(ca+0.65)).toFixed(1)+' Z" fill="#B9AE95"/>';
+  s+='<line x1="'+CRK.cx+'" y1="'+CRK.cy+'" x2="'+cpx.toFixed(1)+'" y2="'+cpy.toFixed(1)+'" stroke="#6B655C" stroke-width="10" stroke-linecap="round"/>';
+  s+='<circle cx="'+cpx.toFixed(1)+'" cy="'+cpy.toFixed(1)+'" r="7" fill="#4B4437"/>';
+  s+='<circle cx="110" cy="'+py.toFixed(1)+'" r="6" fill="#4B4437"/>';
+  s+='<circle cx="'+CRK.cx+'" cy="'+CRK.cy+'" r="6" fill="#4B4437"/>';
+  return s;
+}
+/* ================= TAB 0 · RUNNING ENGINE ================= */
+var STKCOL=['#2C7D8C','#4E86AC','#D9542B','#8A8070'];
+function drawENG(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  var OX=190,OY=30;
+  s+='<g transform="translate('+OX+' '+OY+')">'+cylGeom(ENG.th)+'</g>';
+  var th=((ENG.th%720)+720)%720;
+  var si=strokeOf(th);
+  var py=pinY(th)+OY, ptop=py-34;
+  // labels with leader lines (drawn unscaled, outside the geometry group)
+  s+='<line x1="164" y1="42" x2="'+(OX+108)+'" y2="'+(OY+12)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(158,46,14,'#6B6252',T('lb_plug'),'end');
+  s+='<line x1="150" y1="86" x2="'+(OX+74)+'" y2="'+(OY+42)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(144,90,14,(si===0?'#2C7D8C':'#6B6252'),T('lb_in')+' · '+T(si===0?'vopen':'vclose'),'end');
+  s+='<line x1="470" y1="86" x2="'+(OX+146)+'" y2="'+(OY+42)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,90,14,(si===3?'#D9542B':'#6B6252'),T('lb_ex')+' · '+T(si===3?'vopen':'vclose'),'start');
+  s+='<line x1="470" y1="'+(ptop+26).toFixed(0)+'" x2="'+(OX+164)+'" y2="'+(ptop+26).toFixed(0)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,(ptop+30),14,'#6B6252',T('lb_pis'),'start');
+  var rmy=(py+OY+372)/2;
+  s+='<line x1="470" y1="'+rmy.toFixed(0)+'" x2="'+(OX+118)+'" y2="'+rmy.toFixed(0)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,rmy+4,14,'#6B6252',T('lb_rod'),'start');
+  s+='<line x1="470" y1="'+(OY+372)+'" x2="'+(OX+164)+'" y2="'+(OY+372)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,(OY+376),14,'#6B6252',T('lb_crank'),'start');
+  s+=tl(OX+110,OY+372+76,14,'#B5652A','⇋ '+T('lb_crank'));
+  // stroke banner at the right, 4 stacked
+  for(k=0;k<4;k++){
+    var by=150+k*54;
+    var on=(k===si);
+    s+='<rect x="500" y="'+by+'" width="140" height="42" rx="10" fill="'+(on?STKCOL[k]:'#FFFDF7')+'" stroke="'+(on?STKCOL[k]:'#E3DCCB')+'" stroke-width="2.5"'+(on?'':' opacity="0.8"')+'/>';
+    s+=tl(570,by+27,16,on?'#FFFDF7':'#8A8070',T('stkn')[k]);
+  }
+  if(th>350&&th<432)s+=tl(570,132,17,'#D9542B','⚡ '+T('spark'));
+  $('svgeng').innerHTML=PAINT(s);
+  $('c_stroke').textContent=T('stkn')[si];
+  $('c_ang').textContent=T('ang')+' '+Math.round(th)+'°';
+  $('c_rev').textContent=T('rev')+(Math.floor(th/360)+1)+' / 2 '+T('rev2');
+  var box=$('stkbox');
+  box.textContent=T('stkd')[si];
+  box.style.borderLeftColor=STKCOL[si];
+}
+function initENG(){
+  var prev=0,active=false;
+  makeDrag($('svgeng'),660,500,function(pt,isdown){
+    var OX=190,OY=30;
+    var dx=pt.x-(OX+CRK.cx), dy=pt.y-(OY+CRK.cy);
+    var ang=Math.atan2(dx,-dy)*180/Math.PI;
+    if(isdown){
+      active=Math.sqrt(dx*dx+dy*dy)<86;
+      prev=ang;
+      return;
+    }
+    if(!active)return;
+    var dd=((ang-prev+540)%360)-180;
+    prev=ang;
+    ENG.th=((ENG.th+dd)%720+720)%720;
+    ENG.ph=(((ENG.ph||0)+Math.abs(dd)*0.012)%1+1)%1;
+    var bs=document.querySelectorAll('.stkp');
+    for(var q=0;q<bs.length;q++)bs[q].classList.remove('on');
+    drawENG();updSummary();
+  });
+}
+
+/* ================= TAB 1 · FOUR-STROKE BREAKDOWN ================= */
+function drawSTK(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="455" rx="14" fill="#FBF7EC"/>';
+  var TH=[90,270,450,630];
+  for(k=0;k<4;k++){
+    var ox=8+k*162;
+    s+='<rect x="'+(ox+2)+'" y="46" width="156" height="330" rx="10" fill="#FFFDF7" stroke="'+(k===2?'#D9542B':'#E3DCCB')+'" stroke-width="'+(k===2?3:2)+'"/>';
+    s+='<g transform="translate('+(ox+26)+' 56) scale(0.5)">'+cylGeom(TH[k])+'</g>';
+    s+=tl(ox+80,32,17,STKCOL[k],T('stkn')[k]);
+    // piston direction + valve tags
+    var down=(k===0||k===2);
+    s+=tl(ox+80,398,14,'#4B4437',(down?'⬇':'⬆')+'  '+(k===0?T('vopen')+'/'+T('vclose'):k===3?T('vclose')+'/'+T('vopen'):T('vclose')+'/'+T('vclose')));
+    if(k===1)s+=tl(ox+80,420,13,'#4E86AC',LANG==='en'?'mech → internal':'机械能 → 内能');
+    if(k===2)s+=tl(ox+80,420,13,'#D9542B',LANG==='en'?'internal → mech':'内能 → 机械能');
+  }
+  s+=tlplain(330,446,13,'#8A8070',LANG==='en'?'valve tags: intake valve / exhaust valve':'气门标注：进气门 / 排气门');
+  $('svgstk').innerHTML=PAINT(s);
+}
+
+/* ================= TAB 2 · FOUR CYLINDERS + ENERGY ================= */
+var F4={th:20,playing:false};
+var FOFF=[360,540,180,0];   // firing starts: cyl1@0°, cyl3@180°, cyl4@360°, cyl2@540° → order 1-3-4-2
+function drawFOUR(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  var firing=-1;
+  for(k=0;k<4;k++){
+    var ox=30+k*156;
+    var th=((F4.th+FOFF[k])%720+720)%720;
+    var si=strokeOf(th);
+    if(si===2)firing=k;
+    if(si===2){
+      s+='<rect x="'+(ox-4)+'" y="20" width="140" height="278" rx="12" fill="#F5C445" opacity="0.30"/>';
+    }
+    s+='<g transform="translate('+ox+' 24) scale(0.58)">'+cylGeom(th)+'</g>';
+    s+=tl(ox+64,316,15,si===2?'#D9542B':'#6B6252',(k+1)+' '+T('cyl')+(si===2?' ⚡':''));
+  }
+  s+=tl(330,346,14,'#6B6252',T('fire_order'));
+  // shared crank line
+  s+='<line x1="30" y1="262" x2="630" y2="262" stroke="#9A938A" stroke-width="3" opacity="0.35"/>';
+  // energy bar
+  var segs=[[30,'#2F7D4F'],[40,'#8A8070'],[20,'#D9542B'],[10,'#B5652A']];
+  var EB=T('ebar');
+  var L=50,W=560,y=408,h=34,x=L;
+  s+=tl(330,388,15,'#4B4437',T('ebar_t'));
+  for(k=0;k<4;k++){
+    var w=W*segs[k][0]/100;
+    s+='<rect x="'+x.toFixed(0)+'" y="'+y+'" width="'+w.toFixed(0)+'" height="'+h+'" fill="'+segs[k][1]+'"'+(k===0?'':' opacity="0.75"')+'/>';
+    s+=tl(x+w/2,y+h+22,13,segs[k][1],EB[k]);
+    x+=w;
+  }
+  s+='<rect x="'+L+'" y="'+y+'" width="'+W+'" height="'+h+'" fill="none" stroke="#4B4437" stroke-width="2.5" rx="4"/>';
+  $('svgfour').innerHTML=PAINT(s);
+  $('c_fire').textContent=firing>=0?((firing+1)+' '+T('firing')):'—';
+}
+
+/* ================= TAB 3 · REVIEW ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP3(){buildCmp()}
+
+/* ambient animation */
+var AMB=0;
+function ambLoop(){
+  if(CUR===0&&ENG.playing){
+    ENG.th=(ENG.th+ENG.w*3.4)%720;
+    ENG.ph=((ENG.ph||0)+0.03)%1;
+    drawENG();
+    updSummary();
+  }
+  if(CUR===2&&F4.playing){
+    F4.th=(F4.th+ENG.w*3.4)%720;
+    ENG.ph=((ENG.ph||0)+0.03)%1;
+    drawFOUR();
+    updSummary();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. The correct order of the four strokes is…',o:[
+    ['Intake → power → compression → exhaust',0,'You can\u2019t burn the mixture before squeezing it.'],
+    ['Intake → compression → power → exhaust',1,'Correct — suck, squeeze, bang, blow.'],
+    ['Compression → intake → exhaust → power',0,'There\u2019s nothing to compress before intake.'],
+    ['Power → intake → compression → exhaust',0,'Power comes only after the mixture is drawn in and squeezed.']]},
+   {q:'2. In which stroke does the engine actually do work on the outside?',o:[
+    ['Intake',0,'Intake only fills the cylinder.'],
+    ['Compression',0,'Compression CONSUMES work to squeeze the gas.'],
+    ['Power',1,'Correct — the burning gas expands and drives the piston: internal → mechanical energy.'],
+    ['Exhaust',0,'Exhaust just clears out the burnt gas.']]},
+   {q:'3. The energy conversion in the COMPRESSION stroke is…',o:[
+    ['Internal → mechanical',0,'That\u2019s the power stroke, not compression.'],
+    ['Mechanical → internal',1,'Correct — squeezing the mixture heats it: mechanical energy becomes internal energy.'],
+    ['Chemical → internal',0,'Chemical energy converts when the fuel BURNS, at ignition.'],
+    ['Electrical → internal',0,'The spark\u2019s electrical energy is tiny — the squeeze is mechanical.']]},
+   {q:'4. In one working cycle, the crankshaft turns ___ and work is done ___.',o:[
+    ['1 turn · once',0,'Four strokes need TWO turns — each stroke is half a turn.'],
+    ['2 turns · once',1,'Correct — four half-turns = 2 revolutions, with a single power stroke.'],
+    ['2 turns · twice',0,'Only ONE of the four strokes does work.'],
+    ['4 turns · once',0,'Each stroke is half a turn: 4 × ½ = 2 turns.']]},
+   {q:'5. During the INTAKE stroke, the valves are…',o:[
+    ['Both open',0,'Both open would let the mixture escape out the exhaust.'],
+    ['Intake open, exhaust closed',1,'Correct — the piston moving down draws mixture in through the open intake valve.'],
+    ['Intake closed, exhaust open',0,'That\u2019s the exhaust stroke.'],
+    ['Both closed',0,'Both closed happens in compression and power.']]},
+   {q:'6. When does the spark plug fire?',o:[
+    ['At the start of intake',0,'There\u2019s nothing to ignite yet.'],
+    ['At the end of compression',1,'Correct — ignite the fully squeezed mixture and the expansion drives the power stroke.'],
+    ['In the middle of exhaust',0,'The gas is already burnt by then.'],
+    ['It fires continuously',0,'One precisely timed spark per cycle.']]},
+   {q:'7. Roughly what fraction of the fuel\u2019s energy becomes useful mechanical energy?',o:[
+    ['About 90%',0,'No heat engine comes close — most energy escapes as heat.'],
+    ['About 60%',0,'Still far too optimistic for a petrol engine.'],
+    ['About 20–30%',1,'Correct — the rest leaves with the exhaust, radiates away, or feeds friction.'],
+    ['Less than 1%',0,'That would barely move the car — it\u2019s low, but not that low.']]}
+  ];
+  return [
+   {q:'1. 四个冲程的正确顺序是……',o:[
+    ['吸气 → 做功 → 压缩 → 排气',0,'还没压缩就点火，烧不起来。'],
+    ['吸气 → 压缩 → 做功 → 排气',1,'正确——吸、压、做、排。'],
+    ['压缩 → 吸气 → 排气 → 做功',0,'缸里还没有气，压什么？'],
+    ['做功 → 吸气 → 压缩 → 排气',0,'先要吸入并压缩混合气，才轮得到做功。']]},
+   {q:'2. 发动机真正对外做功的是哪个冲程？',o:[
+    ['吸气冲程',0,'吸气只是把混合气装进来。'],
+    ['压缩冲程',0,'压缩反而要消耗功去挤压气体。'],
+    ['做功冲程',1,'正确——燃气膨胀推动活塞：内能 → 机械能。'],
+    ['排气冲程',0,'排气只是把废气推出去。']]},
+   {q:'3. 压缩冲程中的能量转化是……',o:[
+    ['内能 → 机械能',0,'那是做功冲程的转化方向。'],
+    ['机械能 → 内能',1,'正确——压缩使混合气升温：机械能变成了内能。'],
+    ['化学能 → 内能',0,'化学能是在点火燃烧那一刻转化的。'],
+    ['电能 → 内能',0,'火花塞那点电能微不足道——升温靠的是压缩。']]},
+   {q:'4. 一个工作循环里，曲轴转____圈，做功____次。',o:[
+    ['1 圈 · 1 次',0,'四个冲程每个占半圈——共需要两圈。'],
+    ['2 圈 · 1 次',1,'正确——四个半圈＝2圈，其中只有一个做功冲程。'],
+    ['2 圈 · 2 次',0,'四个冲程里只有一个在做功。'],
+    ['4 圈 · 1 次',0,'每个冲程半圈：4 × ½ = 2 圈。']]},
+   {q:'5. 吸气冲程时，气门的状态是……',o:[
+    ['两个都开',0,'都开的话混合气直接从排气门跑掉了。'],
+    ['进气门开，排气门关',1,'正确——活塞下行，混合气从打开的进气门被吸进来。'],
+    ['进气门关，排气门开',0,'那是排气冲程。'],
+    ['两个都关',0,'全关出现在压缩和做功冲程。']]},
+   {q:'6. 火花塞在什么时刻点火？',o:[
+    ['吸气冲程开始时',0,'缸里还没有可点的混合气。'],
+    ['压缩冲程结束时',1,'正确——把压到最紧的混合气点着，膨胀正好推动做功冲程。'],
+    ['排气冲程中间',0,'那时气体已经烧过了。'],
+    ['一直在连续点火',0,'每个循环只精准点一次。']]},
+   {q:'7. 汽油的能量大约有多少变成了有用的机械能？',o:[
+    ['约 90%',0,'任何热机都到不了——大部分能量以热的形式跑掉了。'],
+    ['约 60%',0,'对汽油机来说还是太乐观了。'],
+    ['约 20%–30%',1,'正确——其余随废气带走、散热损失、被摩擦消耗。'],
+    ['不到 1%',0,'那样车都推不动——效率低，但没有那么低。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawENG,drawSTK,drawFOUR,drawP3,drawQZ];
+  SUMMARY=[
+    function(){return T('stkn')[strokeOf(ENG.th)]+' · '+Math.round(((ENG.th%720)+720)%720)+'°'},
+    function(){return T('st_figtitle')},
+    function(){return $('c_fire').textContent},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initENG();
+  $('engplay').addEventListener('click',function(){
+    ENG.playing=!ENG.playing;
+    this.classList.toggle('on',ENG.playing);
+    var bs=document.querySelectorAll('.stkp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.remove('on');
+  });
+  $('fourplay').addEventListener('click',function(){
+    F4.playing=!F4.playing;
+    this.classList.toggle('on',F4.playing);
+  });
+  $('spd').addEventListener('input',function(){
+    ENG.w=+this.value;$('spdlab').textContent=ENG.w.toFixed(1);updSummary();
+  });
+  var sp=document.querySelectorAll('.stkp'),k;
+  for(k=0;k<sp.length;k++)sp[k].addEventListener('click',function(){
+    ENG.playing=false;$('engplay').classList.remove('on');
+    ENG.th=(+this.getAttribute('data-s'))*180+40;
+    var bs=document.querySelectorAll('.stkp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',bs[j]===this);
+    drawENG();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  $('spdlab').textContent=ENG.w.toFixed(1);
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  for(i=0;i<=720;i+=24){ENG.th=i;ENG.ph=(i/720)%1;drawENG()}
+  ENG.th=40;
+  drawSTK();
+  for(i=0;i<=720;i+=36){F4.th=i;drawFOUR()}
+  F4.th=20;
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'汽车引擎实验室',
+ subtitle:'四冲程汽油机 · 能量转化 · 热机效率 —— 初中科学课堂演示工具',
+ tab0:'① 引擎运转台',tab1:'② 四冲程分解',tab2:'③ 四缸协作·能量',tab3:'④ 要点',tab4:'⑤ 测验',
+ en_figtitle:'单缸剖面（按 ▶ 运转，或直接拖飞轮转）',
+ en_sidetitle:'当前冲程',
+ en_k1:'一个<b>工作循环</b> = 吸气 → 压缩 → 做功 → 排气 四个冲程，曲轴正好转<b>两圈</b>，但只在做功冲程<b>做功一次</b>。',
+ en_k2:'另外三个冲程靠什么完成？靠<b>飞轮的惯性</b>——做功冲程把飞轮"抡"起来，飞轮再拖着活塞完成排气、吸气、压缩。所以引擎上都有一个沉重的飞轮。',
+ st_figtitle:'一个循环 = 四个冲程（曲轴转两圈，做功一次）',
+ st_sidetitle:'逐个冲程看',
+ st_k1:'<b>① 吸气冲程</b>：进气门开、排气门关，活塞<b>下行</b>，把汽油和空气的<b>混合气</b>吸进气缸。',
+ st_k2:'<b>② 压缩冲程</b>:两个气门<b>都关</b>，活塞<b>上行</b>压缩混合气——温度升高。能量转化：<b>机械能 → 内能</b>。',
+ st_k3:'<b>③ 做功冲程</b>：压缩到头的瞬间<b>火花塞点火</b>，燃气猛烈膨胀推活塞<b>下行</b>——这是唯一对外做功的冲程。能量转化：<b>内能 → 机械能</b>。',
+ st_k4:'<b>④ 排气冲程</b>：排气门开，活塞<b>上行</b>把废气推出去，为下一轮腾地方。',
+ fc_figtitle:'四缸发动机：总有一缸在做功',
+ fc_sidetitle:'正在做功',
+ fc_k1:'四个气缸共用一根曲轴，冲程<b>错开半圈</b>轮流点火（点火次序 1-3-4-2）。任何时刻都<b>恰好有一缸在做功</b>，所以汽车开起来是平顺的，而不是一顿一顿的。',
+ fc_k2:'⚠️ 能量条不说谎：100 份汽油的化学能里，真正变成<b>有用机械能的只有 30 份左右</b>——其余随废气冲走、从缸体散热、被摩擦吃掉。这就是热机效率只有约 <b>20%–30%</b> 的意思，也是省油技术值钱的原因。',
+ cmp_title:'四冲程对照总表',
+ sm_title:'一句话总结',
+ sm_k1:'<b>吸、压、做、排——只有"做"在干活，其余三个冲程都是飞轮惯性带着走。</b>',
+ sm_k2:'引擎是<b>热机</b>：把燃料的化学能烧成内能，再把内能变成机械能。压缩冲程是机械能→内能，做功冲程是内能→机械能。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_run:'运转', dk_run4:'运转', dk_speed:'转速', dk_jump:'跳到',
+ stk0s:'① 吸气', stk1s:'② 压缩', stk2s:'③ 做功', stk3s:'④ 排气',
+ dk_hint0:'💡 也可以直接拖飞轮转',
+ dk_hint1:'💡 四格分别是四个冲程的关键瞬间，配合①页动画讲',
+ dk_hint2:'💡 数一数：任何时刻都恰好有一缸在做功',
+ dk_hint3:'💡 表格按"活塞方向-气门-能量"三条线记',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ stkn:['① 吸气冲程','② 压缩冲程','③ 做功冲程','④ 排气冲程'],
+ stkd:['进气门开 · 活塞下行 · 吸入汽油+空气混合气',
+       '气门全关 · 活塞上行压缩 · 机械能→内能（升温）',
+       '火花塞点火 · 燃气膨胀推活塞下行 · 内能→机械能（唯一做功）',
+       '排气门开 · 活塞上行 · 推出废气'],
+ ang:'曲轴转角', rev:'第', rev2:'圈',
+ lb_plug:'火花塞', lb_in:'进气门', lb_ex:'排气门', lb_pis:'活塞', lb_rod:'连杆', lb_crank:'曲轴·飞轮',
+ spark:'点火！',
+ vopen:'开', vclose:'关',
+ cyl:'缸', firing:'号缸 · 做功中',
+ ebar_t:'每 100 份汽油化学能的去向',
+ ebar:['有用机械能 30','废气带走 40','散热 20','摩擦 10'],
+ fire_order:'点火次序 1-3-4-2',
+ cmpH:['冲程','活塞','气门','发生什么','能量转化'],
+ cmpR:[['① 吸气','下行','进开 · 排关','吸入汽油+空气混合气','—'],
+       ['② 压缩','上行','全关','混合气被压缩，温度升高','机械能 → 内能'],
+       ['③ 做功','下行','全关','点火爆燃，燃气推活塞','内能 → 机械能（唯一做功）'],
+       ['④ 排气','上行','进关 · 排开','废气被推出气缸','—'],
+       ['一个循环','—','—','曲轴转 2 圈 · 做功 1 次','靠飞轮惯性完成其余三冲程']],
+ mth:''
+},
+en:{
+ title:'Car Engine Lab',
+ subtitle:'Four-stroke petrol engine · energy conversion · heat-engine efficiency — junior-high classroom demo',
+ tab0:'① Running Engine',tab1:'② The Four Strokes',tab2:'③ Four Cylinders · Energy',tab3:'④ Review',tab4:'⑤ Quiz',
+ en_figtitle:'Single-cylinder cutaway (press ▶, or drag the flywheel)',
+ en_sidetitle:'Current stroke',
+ en_k1:'One <b>working cycle</b> = intake → compression → power → exhaust. The crankshaft turns exactly <b>two revolutions</b>, but work is done <b>only once</b>, in the power stroke.',
+ en_k2:'What carries the other three strokes? <b>The flywheel\u2019s inertia</b> — the power stroke spins it up, and it drags the piston through exhaust, intake and compression. That\u2019s why engines carry a heavy flywheel.',
+ st_figtitle:'One cycle = four strokes (two crank turns, one power stroke)',
+ st_sidetitle:'Stroke by stroke',
+ st_k1:'<b>① Intake</b>: intake valve open, exhaust closed; piston moves <b>down</b>, drawing in the petrol-air <b>mixture</b>.',
+ st_k2:'<b>② Compression</b>: both valves <b>closed</b>; piston moves <b>up</b>, squeezing the mixture — it heats up. Energy: <b>mechanical → internal</b>.',
+ st_k3:'<b>③ Power</b>: at full squeeze the <b>spark plug fires</b>; burning gas expands violently and drives the piston <b>down</b> — the only stroke that does work. Energy: <b>internal → mechanical</b>.',
+ st_k4:'<b>④ Exhaust</b>: exhaust valve open; piston moves <b>up</b> and pushes the burnt gas out, clearing the cylinder.',
+ fc_figtitle:'Four cylinders: one is always on its power stroke',
+ fc_sidetitle:'Now firing',
+ fc_k1:'Four cylinders share one crankshaft, staggered by <b>half a turn</b>, firing in the order <b>1-3-4-2</b>. At any instant <b>exactly one cylinder is on its power stroke</b> — which is why a car pulls smoothly instead of in jerks.',
+ fc_k2:'⚠️ The energy bar doesn\u2019t lie: of 100 units of chemical energy in the petrol, only about <b>30 become useful mechanical energy</b> — the rest leaves with the exhaust, radiates from the block, or is eaten by friction. That is what a heat-engine efficiency of <b>20%–30%</b> means, and why fuel-saving technology is worth money.',
+ cmp_title:'The four strokes at a glance',
+ sm_title:'In one line',
+ sm_k1:'<b>Intake, compression, power, exhaust — only POWER does work; the flywheel\u2019s inertia carries the other three.</b>',
+ sm_k2:'An engine is a <b>heat engine</b>: fuel\u2019s chemical energy burns into internal energy, which becomes mechanical energy. Compression: mechanical → internal; power: internal → mechanical.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_run:'Run', dk_run4:'Run', dk_speed:'Speed', dk_jump:'Jump to',
+ stk0s:'① Intake', stk1s:'② Compress', stk2s:'③ Power', stk3s:'④ Exhaust',
+ dk_hint0:'💡 You can also drag the flywheel',
+ dk_hint1:'💡 The four frames are each stroke\u2019s key moment — pair with tab ①',
+ dk_hint2:'💡 Count: at every instant exactly one cylinder is firing',
+ dk_hint3:'💡 Read the table along three lines: piston, valves, energy',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ stkn:['① INTAKE','② COMPRESSION','③ POWER','④ EXHAUST'],
+ stkd:['Intake valve open · piston down · petrol-air mixture drawn in',
+       'Both valves closed · piston up · mechanical → internal (heats up)',
+       'Spark fires · gas expands, drives the piston down · internal → mechanical (the only working stroke)',
+       'Exhaust valve open · piston up · burnt gas pushed out'],
+ ang:'Crank angle', rev:'rev ', rev2:'',
+ lb_plug:'spark plug', lb_in:'intake valve', lb_ex:'exhaust valve', lb_pis:'piston', lb_rod:'con-rod', lb_crank:'crank · flywheel',
+ spark:'SPARK!',
+ vopen:'open', vclose:'shut',
+ cyl:'cyl', firing:' firing (power)',
+ ebar_t:'Where 100 units of fuel energy go',
+ ebar:['useful work 30','exhaust 40','heat loss 20','friction 10'],
+ fire_order:'firing order 1-3-4-2',
+ cmpH:['Stroke','Piston','Valves','What happens','Energy'],
+ cmpR:[['① Intake','down','in open · ex shut','mixture drawn in','—'],
+       ['② Compression','up','both shut','mixture squeezed, heats up','mechanical → internal'],
+       ['③ Power','down','both shut','spark, expansion drives piston','internal → mechanical (only work)'],
+       ['④ Exhaust','up','in shut · ex open','burnt gas pushed out','—'],
+       ['One cycle','—','—','2 crank turns · 1 power stroke','flywheel inertia carries the rest']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* ===== theme ===== */
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock (5 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='stkbox')continue;   // live stroke readout — never collapsed
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= engine model ================= */
+/* crank angle THETA in degrees, 0..720; 0 = TDC start of intake.
+   0-180 intake (down) · 180-360 compression (up) · 360-540 power (down) · 540-720 exhaust (up) */
+var ENG={th:40,w:0.7,playing:false};
+var CRK={cx:110,cy:372,r:44,L:148};
+function pinY(th){
+  var a=d2r(th);
+  return CRK.cy-(CRK.r*Math.cos(a)+Math.sqrt(CRK.L*CRK.L-Math.pow(CRK.r*Math.sin(a),2)));
+}
+function strokeOf(th){ return Math.floor(((th%720)+720)%720/180); }
+/* ===== per-particle gas journey (one population, mass-conserving & smooth) =====
+   22 particles. k=0..2 are residual gas (always in the chamber).
+   k=3..21 each ARRIVE during intake (staggered starts, 48° of crank travel along
+   the intake port into their chamber slot) and LEAVE during exhaust (slot → out
+   the exhaust port), nearest-the-valve slots last-in / first-out. */
+function gasTimes(k){
+  return { as:(k-3)/19*130, ds:540+(21-k)/19*130, dur:48 };
+}
+function gasState(k,th){
+  th=((th%720)+720)%720;
+  if(k<3)return 2;
+  var t=gasTimes(k);
+  if(th<t.as||th>=t.ds+t.dur)return 0;
+  if(th<t.as+t.dur)return 1;
+  if(th<t.ds)return 2;
+  return 3;
+}
+var GASP=(function(){
+  var arr=[],k;
+  for(k=0;k<24;k++){
+    var hx=Math.sin(k*127.1)*43758.545; hx-=Math.floor(hx);
+    var hy=Math.sin(k*311.7)*12543.853; hy-=Math.floor(hy);
+    arr.push({x:hx,y:hy,d:Math.sqrt((hx-0.5)*(hx-0.5)+hy*hy*0.81)});
+  }
+  arr.sort(function(a,b){return b.d-a.d});
+  return arr;
+})();
+function pathPoint(P,t){
+  t=clamp(t,0,1);
+  var L=0,segs=[],i;
+  for(i=0;i<P.length-1;i++){
+    var dx=P[i+1][0]-P[i][0],dy=P[i+1][1]-P[i][1];
+    var l=Math.sqrt(dx*dx+dy*dy);
+    segs.push(l);L+=l;
+  }
+  var d=t*L,acc=0;
+  for(i=0;i<segs.length;i++){
+    if(d<=acc+segs[i]||i===segs.length-1){
+      var f=(d-acc)/segs[i];
+      if(f>1)f=1;
+      return {x:P[i][0]+(P[i+1][0]-P[i][0])*f, y:P[i][1]+(P[i+1][1]-P[i][1])*f};
+    }
+    acc+=segs[i];
+  }
+  return {x:P[P.length-1][0],y:P[P.length-1][1]};
+}
+var P_IN=[[6,-4],[26,6],[44,16],[62,30],[78,42],[90,54]];
+var P_EX=[[128,56],[140,44],[156,31],[172,17],[192,7],[212,-4]];
+/* draws one cylinder mechanism in LOCAL coords (0..220 wide, 0..430 tall), NO text inside */
+function cylGeom(th){
+  th=((th%720)+720)%720;
+  var s='',k;
+  var si=strokeOf(th);
+  var py=pinY(th);
+  var ptop=py-34;
+  var cpx=CRK.cx+CRK.r*Math.sin(d2r(th));
+  var cpy=CRK.cy-CRK.r*Math.cos(d2r(th));
+  // intake / exhaust ports (slanted stubs above the head)
+  s+='<path d="M 55 40 L 30 14 L 62 14 L 80 40 Z" fill="#E8E2D4" stroke="#9A938A" stroke-width="2.5"/>';
+  s+='<path d="M 165 40 L 190 14 L 158 14 L 140 40 Z" fill="#E8E2D4" stroke="#9A938A" stroke-width="2.5"/>';
+  // head block
+  s+='<rect x="48" y="34" width="124" height="12" fill="#9A938A"/>';
+  // spark plug
+  s+='<rect x="105" y="2" width="10" height="20" fill="#6B655C"/>';
+  s+='<line x1="110" y1="22" x2="110" y2="44" stroke="#6B655C" stroke-width="4"/>';
+  // cylinder walls
+  s+='<rect x="46" y="40" width="10" height="270" fill="#B9AE95"/>';
+  s+='<rect x="164" y="40" width="10" height="270" fill="#B9AE95"/>';
+  // gas in the chamber (colour + density by stroke)
+  var gcol=['#7FB4D9','#4E86AC','#E86A2B','#9A938A'][si];
+  var chTop=46, chBot=ptop-2;
+  // whole-chamber flame during the power stroke (hot right after ignition, cooling as it expands)
+  if(si===2&&chBot>chTop+6){
+    var pp=clamp((th-360)/180,0,1);
+    s+='<rect x="56" y="'+chTop+'" width="108" height="'+(chBot-chTop).toFixed(1)+'" fill="#E86A2B" opacity="'+(0.38*(1-pp)+0.06).toFixed(2)+'"/>';
+  }
+  {
+    var chH=Math.max(chBot-chTop-6,2);
+    for(k=0;k<22;k++){
+      var st=gasState(k,th);
+      if(st===0)continue;
+      var sx=63+GASP[k].x*94;
+      var sy=chTop+3+GASP[k].y*chH;
+      var gx,gy,pc,pr;
+      if(st===2){
+        var wig=Math.sin((ENG.ph||0)*6.283+k*2.1)*3;
+        gx=sx+wig; gy=sy;
+        pc=gcol; pr=3.4;
+        if(si===2){pc=(k%2)?'#F5C445':'#E86A2B';pr=4.4}
+      }else if(st===1){
+        var gt=gasTimes(k);
+        var tt=(th-gt.as)/gt.dur;
+        if(tt<0.6){
+          var pp2=pathPoint(P_IN,tt/0.6);
+          gx=pp2.x; gy=pp2.y;
+        }else{
+          var f1=(tt-0.6)/0.4;
+          gx=90+(sx-90)*f1; gy=54+(sy-54)*f1;
+        }
+        pc='#7FB4D9'; pr=4;
+      }else{
+        var gt2=gasTimes(k);
+        var t2=(th-gt2.ds)/gt2.dur;
+        if(t2<0.4){
+          var f2=t2/0.4;
+          gx=sx+(128-sx)*f2; gy=sy+(56-sy)*f2;
+        }else{
+          var pp3=pathPoint(P_EX,(t2-0.4)/0.6);
+          gx=pp3.x; gy=pp3.y;
+        }
+        pc='#9A938A'; pr=4;
+      }
+      s+='<circle cx="'+gx.toFixed(1)+'" cy="'+gy.toFixed(1)+'" r="'+pr+'" fill="'+pc+'" opacity="0.88"/>';
+    }
+  }
+  // ignition burst: three rings + radial rays
+  if(th>350&&th<432){
+    var fr=(1-(th-350)/82);
+    var ex=110, ey=(46+ptop)/2;
+    s+='<circle cx="'+ex+'" cy="'+ey.toFixed(0)+'" r="'+(20+66*(1-fr)).toFixed(0)+'" fill="#F5C445" opacity="'+(0.50*fr).toFixed(2)+'"/>';
+    s+='<circle cx="'+ex+'" cy="'+ey.toFixed(0)+'" r="'+(12+42*(1-fr)).toFixed(0)+'" fill="#E86A2B" opacity="'+(0.65*fr).toFixed(2)+'"/>';
+    s+='<circle cx="'+ex+'" cy="'+ey.toFixed(0)+'" r="'+(6+16*(1-fr)).toFixed(0)+'" fill="#FFF3D6" opacity="'+(0.9*fr).toFixed(2)+'"/>';
+    if(th<398){
+      for(k=0;k<8;k++){
+        var ra=k*Math.PI/4+0.4;
+        var r1=14+30*(1-fr), r2=r1+16+26*(1-fr);
+        s+='<line x1="'+(ex+r1*Math.cos(ra)).toFixed(1)+'" y1="'+(ey+r1*Math.sin(ra)).toFixed(1)+
+           '" x2="'+(ex+r2*Math.cos(ra)).toFixed(1)+'" y2="'+(ey+r2*Math.sin(ra)).toFixed(1)+
+           '" stroke="#DA9526" stroke-width="3.5" opacity="'+(0.8*fr).toFixed(2)+'"/>';
+      }
+    }
+  }
+  // spark zigzag
+  if(th>348&&th<372){
+    s+='<path d="M 110 44 l 5 8 l -9 3 l 6 9" fill="none" stroke="#F5C445" stroke-width="3"/>';
+  }
+  // valves: intake open 0-180, exhaust open 540-720 (sinusoidal lift)
+  var vin=si===0?Math.sin(d2r(th))*13:0;
+  var vex=si===3?Math.sin(d2r(th-540))*13:0;
+  s+='<line x1="85" y1="'+(8+vin).toFixed(1)+'" x2="85" y2="'+(38+vin).toFixed(1)+'" stroke="#6B655C" stroke-width="5"/>';
+  s+='<rect x="72" y="'+(38+vin).toFixed(1)+'" width="26" height="6" rx="3" fill="'+(vin>0.5?'#2C7D8C':'#6B655C')+'"/>';
+  s+='<line x1="135" y1="'+(8+vex).toFixed(1)+'" x2="135" y2="'+(38+vex).toFixed(1)+'" stroke="#6B655C" stroke-width="5"/>';
+  s+='<rect x="122" y="'+(38+vex).toFixed(1)+'" width="26" height="6" rx="3" fill="'+(vex>0.5?'#D9542B':'#6B655C')+'"/>';
+  // port direction arrows (the gas itself now travels particle-by-particle)
+  if(si===0){
+    s+='<line x1="14" y1="0" x2="40" y2="20" stroke="#2C7D8C" stroke-width="4" opacity="0.85"/>';
+    s+='<path d="M 50 27 l -15 -3 l 7 -12 Z" fill="#2C7D8C" opacity="0.85"/>';
+  }
+  if(si===3){
+    s+='<line x1="176" y1="20" x2="202" y2="0" stroke="#8A8070" stroke-width="4" opacity="0.85"/>';
+    s+='<path d="M 210 -6 l -14 3 l 6 12 Z" fill="#8A8070" opacity="0.85"/>';
+  }
+  // piston
+  s+='<rect x="57" y="'+ptop.toFixed(1)+'" width="106" height="52" rx="4" fill="#D8D0BC" stroke="#8A8070" stroke-width="2.5"/>';
+  s+='<line x1="57" y1="'+(ptop+9).toFixed(1)+'" x2="163" y2="'+(ptop+9).toFixed(1)+'" stroke="#8A8070" stroke-width="2"/>';
+  s+='<line x1="57" y1="'+(ptop+16).toFixed(1)+'" x2="163" y2="'+(ptop+16).toFixed(1)+'" stroke="#8A8070" stroke-width="2"/>';
+  // piston direction arrow
+  var down=(si===0||si===2);
+  s+='<path d="M 110 '+(ptop+24).toFixed(0)+' l '+(down?'-7 0 l 7 14 l 7 -14 l -7 0':'-7 14 l 7 -14 l 7 14 l -7 -14')+'" fill="'+(si===2?'#D9542B':'#6B6252')+'"/>';
+  // con-rod + crank
+  s+='<line x1="110" y1="'+py.toFixed(1)+'" x2="'+cpx.toFixed(1)+'" y2="'+cpy.toFixed(1)+'" stroke="#8A8070" stroke-width="9" stroke-linecap="round"/>';
+  s+='<circle cx="'+CRK.cx+'" cy="'+CRK.cy+'" r="52" fill="#E8E2D4" stroke="#9A938A" stroke-width="3.5"/>';
+  s+='<circle cx="'+CRK.cx+'" cy="'+CRK.cy+'" r="52" fill="none" stroke="#9A938A" stroke-width="1.5" stroke-dasharray="5 6"/>';
+  // counterweight
+  var ca=d2r(th+180);
+  s+='<path d="M '+CRK.cx+' '+CRK.cy+' L '+(CRK.cx+40*Math.sin(ca-0.65)).toFixed(1)+' '+(CRK.cy-40*Math.cos(ca-0.65)).toFixed(1)+' A 40 40 0 0 1 '+(CRK.cx+40*Math.sin(ca+0.65)).toFixed(1)+' '+(CRK.cy-40*Math.cos(ca+0.65)).toFixed(1)+' Z" fill="#B9AE95"/>';
+  s+='<line x1="'+CRK.cx+'" y1="'+CRK.cy+'" x2="'+cpx.toFixed(1)+'" y2="'+cpy.toFixed(1)+'" stroke="#6B655C" stroke-width="10" stroke-linecap="round"/>';
+  s+='<circle cx="'+cpx.toFixed(1)+'" cy="'+cpy.toFixed(1)+'" r="7" fill="#4B4437"/>';
+  s+='<circle cx="110" cy="'+py.toFixed(1)+'" r="6" fill="#4B4437"/>';
+  s+='<circle cx="'+CRK.cx+'" cy="'+CRK.cy+'" r="6" fill="#4B4437"/>';
+  return s;
+}
+/* ================= TAB 0 · RUNNING ENGINE ================= */
+var STKCOL=['#2C7D8C','#4E86AC','#D9542B','#8A8070'];
+function drawENG(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  var OX=190,OY=30;
+  s+='<g transform="translate('+OX+' '+OY+')">'+cylGeom(ENG.th)+'</g>';
+  var th=((ENG.th%720)+720)%720;
+  var si=strokeOf(th);
+  var py=pinY(th)+OY, ptop=py-34;
+  // labels with leader lines (drawn unscaled, outside the geometry group)
+  s+='<line x1="164" y1="42" x2="'+(OX+108)+'" y2="'+(OY+12)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(158,46,14,'#6B6252',T('lb_plug'),'end');
+  s+='<line x1="150" y1="86" x2="'+(OX+74)+'" y2="'+(OY+42)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(144,90,14,(si===0?'#2C7D8C':'#6B6252'),T('lb_in')+' · '+T(si===0?'vopen':'vclose'),'end');
+  s+='<line x1="470" y1="86" x2="'+(OX+146)+'" y2="'+(OY+42)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,90,14,(si===3?'#D9542B':'#6B6252'),T('lb_ex')+' · '+T(si===3?'vopen':'vclose'),'start');
+  s+='<line x1="470" y1="'+(ptop+26).toFixed(0)+'" x2="'+(OX+164)+'" y2="'+(ptop+26).toFixed(0)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,(ptop+30),14,'#6B6252',T('lb_pis'),'start');
+  var rmy=(py+OY+372)/2;
+  s+='<line x1="470" y1="'+rmy.toFixed(0)+'" x2="'+(OX+118)+'" y2="'+rmy.toFixed(0)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,rmy+4,14,'#6B6252',T('lb_rod'),'start');
+  s+='<line x1="470" y1="'+(OY+372)+'" x2="'+(OX+164)+'" y2="'+(OY+372)+'" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(476,(OY+376),14,'#6B6252',T('lb_crank'),'start');
+  s+=tl(OX+110,OY+372+76,14,'#B5652A','⇋ '+T('lb_crank'));
+  // stroke banner at the right, 4 stacked
+  for(k=0;k<4;k++){
+    var by=150+k*54;
+    var on=(k===si);
+    s+='<rect x="500" y="'+by+'" width="140" height="42" rx="10" fill="'+(on?STKCOL[k]:'#FFFDF7')+'" stroke="'+(on?STKCOL[k]:'#E3DCCB')+'" stroke-width="2.5"'+(on?'':' opacity="0.8"')+'/>';
+    s+=tl(570,by+27,16,on?'#FFFDF7':'#8A8070',T('stkn')[k]);
+  }
+  if(th>350&&th<432)s+=tl(570,132,17,'#D9542B','⚡ '+T('spark'));
+  $('svgeng').innerHTML=PAINT(s);
+  $('c_stroke').textContent=T('stkn')[si];
+  $('c_ang').textContent=T('ang')+' '+Math.round(th)+'°';
+  $('c_rev').textContent=T('rev')+(Math.floor(th/360)+1)+' / 2 '+T('rev2');
+  var box=$('stkbox');
+  box.textContent=T('stkd')[si];
+  box.style.borderLeftColor=STKCOL[si];
+}
+function initENG(){
+  var prev=0,active=false;
+  makeDrag($('svgeng'),660,500,function(pt,isdown){
+    var OX=190,OY=30;
+    var dx=pt.x-(OX+CRK.cx), dy=pt.y-(OY+CRK.cy);
+    var ang=Math.atan2(dx,-dy)*180/Math.PI;
+    if(isdown){
+      active=Math.sqrt(dx*dx+dy*dy)<86;
+      prev=ang;
+      return;
+    }
+    if(!active)return;
+    var dd=((ang-prev+540)%360)-180;
+    prev=ang;
+    ENG.th=((ENG.th+dd)%720+720)%720;
+    ENG.ph=(((ENG.ph||0)+Math.abs(dd)*0.012)%1+1)%1;
+    var bs=document.querySelectorAll('.stkp');
+    for(var q=0;q<bs.length;q++)bs[q].classList.remove('on');
+    drawENG();updSummary();
+  });
+}
+
+/* ================= TAB 1 · FOUR-STROKE BREAKDOWN ================= */
+function drawSTK(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="455" rx="14" fill="#FBF7EC"/>';
+  var TH=[90,270,450,630];
+  for(k=0;k<4;k++){
+    var ox=8+k*162;
+    s+='<rect x="'+(ox+2)+'" y="46" width="156" height="330" rx="10" fill="#FFFDF7" stroke="'+(k===2?'#D9542B':'#E3DCCB')+'" stroke-width="'+(k===2?3:2)+'"/>';
+    s+='<g transform="translate('+(ox+26)+' 56) scale(0.5)">'+cylGeom(TH[k])+'</g>';
+    s+=tl(ox+80,32,17,STKCOL[k],T('stkn')[k]);
+    // piston direction + valve tags
+    var down=(k===0||k===2);
+    s+=tl(ox+80,398,14,'#4B4437',(down?'⬇':'⬆')+'  '+(k===0?T('vopen')+'/'+T('vclose'):k===3?T('vclose')+'/'+T('vopen'):T('vclose')+'/'+T('vclose')));
+    if(k===1)s+=tl(ox+80,420,13,'#4E86AC',LANG==='en'?'mech → internal':'机械能 → 内能');
+    if(k===2)s+=tl(ox+80,420,13,'#D9542B',LANG==='en'?'internal → mech':'内能 → 机械能');
+  }
+  s+=tlplain(330,446,13,'#8A8070',LANG==='en'?'valve tags: intake valve / exhaust valve':'气门标注：进气门 / 排气门');
+  $('svgstk').innerHTML=PAINT(s);
+}
+
+/* ================= TAB 2 · FOUR CYLINDERS + ENERGY ================= */
+var F4={th:20,playing:false};
+var FOFF=[360,540,180,0];   // firing starts: cyl1@0°, cyl3@180°, cyl4@360°, cyl2@540° → order 1-3-4-2
+function drawFOUR(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  var firing=-1;
+  for(k=0;k<4;k++){
+    var ox=30+k*156;
+    var th=((F4.th+FOFF[k])%720+720)%720;
+    var si=strokeOf(th);
+    if(si===2)firing=k;
+    if(si===2){
+      s+='<rect x="'+(ox-4)+'" y="20" width="140" height="278" rx="12" fill="#F5C445" opacity="0.30"/>';
+    }
+    s+='<g transform="translate('+ox+' 24) scale(0.58)">'+cylGeom(th)+'</g>';
+    s+=tl(ox+64,316,15,si===2?'#D9542B':'#6B6252',(k+1)+' '+T('cyl')+(si===2?' ⚡':''));
+  }
+  s+=tl(330,346,14,'#6B6252',T('fire_order'));
+  // shared crank line
+  s+='<line x1="30" y1="262" x2="630" y2="262" stroke="#9A938A" stroke-width="3" opacity="0.35"/>';
+  // energy bar
+  var segs=[[30,'#2F7D4F'],[40,'#8A8070'],[20,'#D9542B'],[10,'#B5652A']];
+  var EB=T('ebar');
+  var L=50,W=560,y=408,h=34,x=L;
+  s+=tl(330,388,15,'#4B4437',T('ebar_t'));
+  for(k=0;k<4;k++){
+    var w=W*segs[k][0]/100;
+    s+='<rect x="'+x.toFixed(0)+'" y="'+y+'" width="'+w.toFixed(0)+'" height="'+h+'" fill="'+segs[k][1]+'"'+(k===0?'':' opacity="0.75"')+'/>';
+    s+=tl(x+w/2,y+h+22,13,segs[k][1],EB[k]);
+    x+=w;
+  }
+  s+='<rect x="'+L+'" y="'+y+'" width="'+W+'" height="'+h+'" fill="none" stroke="#4B4437" stroke-width="2.5" rx="4"/>';
+  $('svgfour').innerHTML=PAINT(s);
+  $('c_fire').textContent=firing>=0?((firing+1)+' '+T('firing')):'—';
+}
+
+/* ================= TAB 3 · REVIEW ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP3(){buildCmp()}
+
+/* ambient animation */
+var AMB=0;
+function ambLoop(){
+  if(CUR===0&&ENG.playing){
+    ENG.th=(ENG.th+ENG.w*3.4)%720;
+    ENG.ph=((ENG.ph||0)+0.03)%1;
+    drawENG();
+    updSummary();
+  }
+  if(CUR===2&&F4.playing){
+    F4.th=(F4.th+ENG.w*3.4)%720;
+    ENG.ph=((ENG.ph||0)+0.03)%1;
+    drawFOUR();
+    updSummary();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. The correct order of the four strokes is…',o:[
+    ['Intake → power → compression → exhaust',0,'You can\u2019t burn the mixture before squeezing it.'],
+    ['Intake → compression → power → exhaust',1,'Correct — suck, squeeze, bang, blow.'],
+    ['Compression → intake → exhaust → power',0,'There\u2019s nothing to compress before intake.'],
+    ['Power → intake → compression → exhaust',0,'Power comes only after the mixture is drawn in and squeezed.']]},
+   {q:'2. In which stroke does the engine actually do work on the outside?',o:[
+    ['Intake',0,'Intake only fills the cylinder.'],
+    ['Compression',0,'Compression CONSUMES work to squeeze the gas.'],
+    ['Power',1,'Correct — the burning gas expands and drives the piston: internal → mechanical energy.'],
+    ['Exhaust',0,'Exhaust just clears out the burnt gas.']]},
+   {q:'3. The energy conversion in the COMPRESSION stroke is…',o:[
+    ['Internal → mechanical',0,'That\u2019s the power stroke, not compression.'],
+    ['Mechanical → internal',1,'Correct — squeezing the mixture heats it: mechanical energy becomes internal energy.'],
+    ['Chemical → internal',0,'Chemical energy converts when the fuel BURNS, at ignition.'],
+    ['Electrical → internal',0,'The spark\u2019s electrical energy is tiny — the squeeze is mechanical.']]},
+   {q:'4. In one working cycle, the crankshaft turns ___ and work is done ___.',o:[
+    ['1 turn · once',0,'Four strokes need TWO turns — each stroke is half a turn.'],
+    ['2 turns · once',1,'Correct — four half-turns = 2 revolutions, with a single power stroke.'],
+    ['2 turns · twice',0,'Only ONE of the four strokes does work.'],
+    ['4 turns · once',0,'Each stroke is half a turn: 4 × ½ = 2 turns.']]},
+   {q:'5. During the INTAKE stroke, the valves are…',o:[
+    ['Both open',0,'Both open would let the mixture escape out the exhaust.'],
+    ['Intake open, exhaust closed',1,'Correct — the piston moving down draws mixture in through the open intake valve.'],
+    ['Intake closed, exhaust open',0,'That\u2019s the exhaust stroke.'],
+    ['Both closed',0,'Both closed happens in compression and power.']]},
+   {q:'6. When does the spark plug fire?',o:[
+    ['At the start of intake',0,'There\u2019s nothing to ignite yet.'],
+    ['At the end of compression',1,'Correct — ignite the fully squeezed mixture and the expansion drives the power stroke.'],
+    ['In the middle of exhaust',0,'The gas is already burnt by then.'],
+    ['It fires continuously',0,'One precisely timed spark per cycle.']]},
+   {q:'7. Roughly what fraction of the fuel\u2019s energy becomes useful mechanical energy?',o:[
+    ['About 90%',0,'No heat engine comes close — most energy escapes as heat.'],
+    ['About 60%',0,'Still far too optimistic for a petrol engine.'],
+    ['About 20–30%',1,'Correct — the rest leaves with the exhaust, radiates away, or feeds friction.'],
+    ['Less than 1%',0,'That would barely move the car — it\u2019s low, but not that low.']]}
+  ];
+  return [
+   {q:'1. 四个冲程的正确顺序是……',o:[
+    ['吸气 → 做功 → 压缩 → 排气',0,'还没压缩就点火，烧不起来。'],
+    ['吸气 → 压缩 → 做功 → 排气',1,'正确——吸、压、做、排。'],
+    ['压缩 → 吸气 → 排气 → 做功',0,'缸里还没有气，压什么？'],
+    ['做功 → 吸气 → 压缩 → 排气',0,'先要吸入并压缩混合气，才轮得到做功。']]},
+   {q:'2. 发动机真正对外做功的是哪个冲程？',o:[
+    ['吸气冲程',0,'吸气只是把混合气装进来。'],
+    ['压缩冲程',0,'压缩反而要消耗功去挤压气体。'],
+    ['做功冲程',1,'正确——燃气膨胀推动活塞：内能 → 机械能。'],
+    ['排气冲程',0,'排气只是把废气推出去。']]},
+   {q:'3. 压缩冲程中的能量转化是……',o:[
+    ['内能 → 机械能',0,'那是做功冲程的转化方向。'],
+    ['机械能 → 内能',1,'正确——压缩使混合气升温：机械能变成了内能。'],
+    ['化学能 → 内能',0,'化学能是在点火燃烧那一刻转化的。'],
+    ['电能 → 内能',0,'火花塞那点电能微不足道——升温靠的是压缩。']]},
+   {q:'4. 一个工作循环里，曲轴转____圈，做功____次。',o:[
+    ['1 圈 · 1 次',0,'四个冲程每个占半圈——共需要两圈。'],
+    ['2 圈 · 1 次',1,'正确——四个半圈＝2圈，其中只有一个做功冲程。'],
+    ['2 圈 · 2 次',0,'四个冲程里只有一个在做功。'],
+    ['4 圈 · 1 次',0,'每个冲程半圈：4 × ½ = 2 圈。']]},
+   {q:'5. 吸气冲程时，气门的状态是……',o:[
+    ['两个都开',0,'都开的话混合气直接从排气门跑掉了。'],
+    ['进气门开，排气门关',1,'正确——活塞下行，混合气从打开的进气门被吸进来。'],
+    ['进气门关，排气门开',0,'那是排气冲程。'],
+    ['两个都关',0,'全关出现在压缩和做功冲程。']]},
+   {q:'6. 火花塞在什么时刻点火？',o:[
+    ['吸气冲程开始时',0,'缸里还没有可点的混合气。'],
+    ['压缩冲程结束时',1,'正确——把压到最紧的混合气点着，膨胀正好推动做功冲程。'],
+    ['排气冲程中间',0,'那时气体已经烧过了。'],
+    ['一直在连续点火',0,'每个循环只精准点一次。']]},
+   {q:'7. 汽油的能量大约有多少变成了有用的机械能？',o:[
+    ['约 90%',0,'任何热机都到不了——大部分能量以热的形式跑掉了。'],
+    ['约 60%',0,'对汽油机来说还是太乐观了。'],
+    ['约 20%–30%',1,'正确——其余随废气带走、散热损失、被摩擦消耗。'],
+    ['不到 1%',0,'那样车都推不动——效率低，但没有那么低。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawENG,drawSTK,drawFOUR,drawP3,drawQZ];
+  SUMMARY=[
+    function(){return T('stkn')[strokeOf(ENG.th)]+' · '+Math.round(((ENG.th%720)+720)%720)+'°'},
+    function(){return T('st_figtitle')},
+    function(){return $('c_fire').textContent},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initENG();
+  $('engplay').addEventListener('click',function(){
+    ENG.playing=!ENG.playing;
+    this.classList.toggle('on',ENG.playing);
+    var bs=document.querySelectorAll('.stkp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.remove('on');
+  });
+  $('fourplay').addEventListener('click',function(){
+    F4.playing=!F4.playing;
+    this.classList.toggle('on',F4.playing);
+  });
+  $('spd').addEventListener('input',function(){
+    ENG.w=+this.value;$('spdlab').textContent=ENG.w.toFixed(1);updSummary();
+  });
+  var sp=document.querySelectorAll('.stkp'),k;
+  for(k=0;k<sp.length;k++)sp[k].addEventListener('click',function(){
+    ENG.playing=false;$('engplay').classList.remove('on');
+    ENG.th=(+this.getAttribute('data-s'))*180+40;
+    var bs=document.querySelectorAll('.stkp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',bs[j]===this);
+    drawENG();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  $('spdlab').textContent=ENG.w.toFixed(1);
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  for(i=0;i<=720;i+=24){ENG.th=i;ENG.ph=(i/720)%1;drawENG()}
+  ENG.th=40;
+  drawSTK();
+  for(i=0;i<=720;i+=36){F4.th=i;drawFOUR()}
+  F4.th=20;
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='car-engine-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+  // Ensure hint exists for usability
+  try{
+    if(!document.querySelector('.hint-line') && !document.querySelector('.note')){
+      const bar=document.querySelector('.ctlbar'); if(bar){const h=document.createElement('div');h.className='hint-line';h.textContent='💡 拖一拖·调一调 — 拖动滑块和画布探索';bar.appendChild(h);}
+    }
+  }catch{}
+})();
+</script>
+</body>
+</html>

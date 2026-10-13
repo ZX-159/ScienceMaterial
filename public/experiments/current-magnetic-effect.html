@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>电流的磁效应实验室 · Current Magnetic Effect</title>
+<style>
+:root{
+  --bg:#FFFEFB; --bg2:#F2F1E9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1C2C42; --ink2:#68786F; --ink3:#5A605D; --line:#DDD9CF; --line2:#EDE9E0;
+  --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F; --gold:#C9A227;
+  --teal:#146E61; --tealSoft:#E4EEE4; --teal2:#0F4A42;
+  --app-height:100vh;
+</style>
+<style>
+
+.wrap{max-width:100%!important;box-sizing:border-box!important;overflow-x:hidden!important;padding:10px 12px 4px!important}
+header{padding:6px 0 10px!important;gap:8px!important;flex-wrap:nowrap!important;align-items:center!important;overflow:hidden!important}
+.hleft{min-width:0!important;flex:1!important;overflow:hidden!important}
+h1{font-size:16px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important}
+h1 span.en{font-size:11px!important;display:inline!important}
+.sub{font-size:11px!important;line-height:1.4!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;max-width:100%!important;display:block!important}
+.topright{flex:none!important;gap:6px!important}
+.badge{font-size:10px!important;padding:4px 8px!important;max-width:180px!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.tabs{gap:4px!important;margin:8px 0 10px!important;flex-wrap:nowrap!important;overflow-x:auto!important;scrollbar-width:none!important}
+.tabs::-webkit-scrollbar{display:none!important}
+.tab{font-size:11px!important;padding:6px 10px!important;white-space:nowrap!important;flex:none!important}
+.cols{gap:10px!important}
+.card{overflow:hidden!important;min-width:0!important}
+.figwrap{min-width:0!important;overflow:hidden!important}
+svg{max-width:100%!important;overflow:hidden!important}
+#dock{overflow:hidden!important}
+#dock .din{max-width:100%!important;box-sizing:border-box!important}
+.dsec{flex-wrap:wrap!important;gap:6px 10px!important}
+.dl{font-size:10px!important}
+input[type=range]{width:110px!important}
+@media(max-width:640px){
+  header{flex-wrap:wrap!important}
+  .sub{white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+  .tabs{flex-wrap:wrap!important}
+}
+</style></head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="hleft">
+    <h1>电流的磁效应实验室<span class="en">Current Magnetic Effect</span></h1>
+    <div class="sub">Oersted discovery — a current creates a magnetic field around it. Compass needle</div>
+  </div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0">① 实验台</button>
+  <button class="tab" data-tab="1">② 图表·数据</button>
+  <button class="tab" data-tab="2">③ 要点·公式</button>
+  <button class="tab" data-tab="3">④ 测验</button>
+</div>
+
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svg0" viewBox="0 0 660 460"></svg>
+    <div class="note" id="note0"></div>
+  </div>
+  <div class="card side">
+    <h3>实时数据 · Live</h3>
+    <div class="statline" id="chips0"></div>
+    <div class="kbox teal" id="kbox0a"></div>
+    <div class="kbox" id="kbox0b"></div>
+    <div class="kbox blue" id="kbox0c" style="display:none"></div>
+  </div>
+ </div>
+</div>
+
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 id="gtitle">数据图表</h3>
+    <svg id="svg1" viewBox="0 0 660 420"></svg>
+    <div class="note" id="note1"></div>
+  </div>
+  <div class="card side">
+    <h3>怎么读图</h3>
+    <div class="kbox grn" id="kbox1a"></div>
+    <div class="kbox red" id="kbox1b"></div>
+    <div class="statline" id="chips1"></div>
+  </div>
+ </div>
+</div>
+
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3>要点总表</h3>
+    <div id="cmpwrap"></div>
+  </div>
+  <div class="card side">
+    <h3>一句话总结</h3>
+    <div class="kbox grn" id="kbox2a"></div>
+    <div class="kbox" id="kbox2b"></div>
+  </div>
+ </div>
+</div>
+
+<div class="panel" id="p3">
+ <div class="card">
+  <h3>🎯 课堂小测验 <button class="tgl" id="qzreset" style="float:right">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+  <div class="dsec on" id="d0"></div>
+  <div class="dsec" id="d1"><span class="dl">💡 图表随实验实时绘制，拖动或调参可重绘</span></div>
+  <div class="dsec" id="d2"><span class="dl">💡 表格按“条件→现象→规律”三步走</span></div>
+  <div class="dsec" id="d3"><span class="dl">💡 答对解锁下一题，错题有解析</span></div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+
+<script>window.LAB_SLUG='current-magnetic-effect';
+'use strict';
+const LAB_SLUG='current-magnetic-effect';
+const SUBJECT='physics';
+let LANG='zh';
+let DARK=false;
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>v<a?a:(v>b?b:v);
+const lerp=(a,b,t)=>a+(b-a)*t;
+function svgEl(svg, x, y, size, fill, txt, anchor, weight){
+  const halo = (()=>{
+    const hex=fill; if(!hex||hex[0]!=='#') return '#FFFEFB';
+    const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+    const lum=0.299*r+0.587*g+0.114*b; return lum>140?'#1C2C42':'#FFFEFB';
+  })();
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+'" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function plain(x,y,size,fill,txt,anchor,w){return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+'" font-weight="'+(w||600)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';}
+function svgPt(svg,ev,vw,vh){
+  const r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  let down=false;
+  svg.addEventListener('pointerdown',e=>{
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch{}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',e=>{
+    if(!down) return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  const end=()=>{down=false; if(onup) onup();};
+  svg.addEventListener('pointerup',end);
+  svg.addEventListener('pointercancel',end);
+}
+let CUR=0;
+const TABN=4;
+const RENDER=[], SUMMARY=[];
+function showTab(i){
+  CUR=i;
+  document.querySelectorAll('.tab').forEach((t,k)=>t.classList.toggle('on',k===i));
+  for(let k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  if(RENDER[i]) RENDER[i]();
+  updSummary();
+}
+function updSummary(){ const el=$('docksum'); if(el && SUMMARY[CUR]) el.textContent=SUMMARY[CUR](); }
+function initTabs(){
+  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>showTab(+t.dataset.tab)));
+  $('dockfold').addEventListener('click',function(){
+    const d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyTheme(){
+  document.body.classList.toggle('dark',DARK);
+  $('thmbtn').textContent=DARK?'☀️':'🌙';
+}
+
+// === LAB SPECIFIC PHYSICS ===
+
+let summary0, summary1;
+let CMP_H=[], CMP_R=[];
+let QUIZ=[];
+let resetLab, getLabState, setLabState;
+
+let I=2, dist=5, compassCount=8;
+function calcB(r){ return 2e-7*I/(r/100); } // simplified µ0/2πr
+function updateChips(){
+  $('qb0').innerHTML='<span class="qtag">题目</span>导线通 <b>'+I.toFixed(1)+' A</b>，在 <b>'+dist+' cm</b> 处磁感应强度多大？指南针会偏转多少？';
+  $('chips0').innerHTML='<span class="chip hl big">B≈'+(calcB(dist)*1e6).toFixed(1)+' μT</span><span class="chip">I='+I.toFixed(1)+'A</span><span class="chip blu">r='+dist+'cm</span><span class="chip">μ₀/2πr</span>';
+  $('kbox0a').innerHTML='奥斯特实验：<b>电流周围存在磁场</b>，磁感线是同心圆，方向用右手定则：拇指电流，四指磁场。';
+  $('kbox0b').innerHTML='B ∝ I / r。电流越大、距离越近，磁场越强，指南针偏转越大。地磁场约 50μT，当电流磁场与之可比时偏转明显。';
+}
+function draw0(){
+  const s=[];
+  s.push('<rect x="0" y="0" width="660" height="460" rx="14" fill="#FFFBEB"/>');
+  const cx=330, cy=230;
+  s.push('<circle cx="'+cx+'" cy="'+cy+'" r="8" fill="#D9542B" stroke="#1C2C42" stroke-width="2"/>');
+  s.push(plain(cx, cy+24, 11, '#D9542B', 'I='+I.toFixed(1)+'A (向外)', 'middle'));
+  // circles
+  for(let r=30;r<=180;r+=30){
+    s.push('<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="none" stroke="#2C7D8C" stroke-width="'+(r===dist*6?'2.5':'1')+'" stroke-dasharray="'+(r===dist*6?'0':'6 6')+'" opacity="0.7"/>');
+  }
+  // compasses
+  for(let k=0;k<compassCount;k++){
+    const ang=k/compassCount*2*Math.PI;
+    const r=dist*6;
+    const x=cx+r*Math.cos(ang), y=cy+r*Math.sin(ang);
+    const b=calcB(dist);
+    const deflect=clamp(b*1e6/50*0.8,0,0.9);
+    const dir=ang+Math.PI/2*deflect;
+    s.push('<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="14" fill="#fff" stroke="#1C2C42" stroke-width="1.2"/>');
+    s.push('<line x1="'+x.toFixed(1)+'" y1="'+y.toFixed(1)+'" x2="'+(x+10*Math.cos(dir)).toFixed(1)+'" y2="'+(y+10*Math.sin(dir)).toFixed(1)+'" stroke="#D9542B" stroke-width="2"/>');
+    s.push('<line x1="'+x.toFixed(1)+'" y1="'+y.toFixed(1)+'" x2="'+(x+10*Math.cos(dir+Math.PI)).toFixed(1)+'" y2="'+(y+10*Math.sin(dir+Math.PI)).toFixed(1)+'" stroke="#2C7D8C" stroke-width="2"/>');
+  }
+  s.push(plain(60, 30, 11, '#68786F', '俯视图 · 导线垂直纸面', 'start'));
+  $('svg0').innerHTML=s.join('');
+}
+function draw1(){
+  const s=[];
+  s.push('<rect x="0" y="0" width="660" height="420" rx="14" fill="#FFFBEB"/>');
+  const gx0=60,gx1=620,gy0=360,gy1=40;
+  s.push('<line x1="'+gx0+'" y1="'+gy0+'" x2="'+gx1+'" y2="'+gy0+'" stroke="#1C2C42" stroke-width="2"/>');
+  s.push('<line x1="'+gx0+'" y1="'+gy0+'" x2="'+gx0+'" y2="'+gy1+'" stroke="#1C2C42" stroke-width="2"/>');
+  let path='';
+  for(let i=0;i<=100;i++){
+    const r=1+i/100*19;
+    const b=calcB(r)*1e6;
+    const x=gx0+(gx1-gx0)*i/100;
+    const y=gy0-(gy0-gy1)*clamp(b/80,0,1);
+    path+=(i?' L ':'M ')+x.toFixed(1)+' '+y.toFixed(1);
+  }
+  s.push('<path d="'+path+'" fill="none" stroke="#2C7D8C" stroke-width="3"/>');
+  s.push(plain(320, 30, 12, '#2C7D8C', 'B ∝ 1/r', 'middle',700));
+  $('svg1').innerHTML=s.join('');
+  $('chips1').innerHTML='<span class="chip hl">B∝1/r</span><span class="chip">当前 '+(calcB(dist)*1e6).toFixed(1)+'μT</span>';
+  $('kbox1a').innerHTML='磁场随距离反比衰减，靠近导线更强。';
+  $('kbox1b').innerHTML='增大电流，曲线整体上移。';
+}
+CMP_H=['现象','解释','定则'];
+CMP_R=[['小磁针偏转','电流产生磁场','奥斯特发现'],['磁感线同心圆','环绕电流','右手定则'],['B∝I/r','电流越大越强、越近越强','安培环路'],['无电流不偏','只有地磁场','对照']];
+QUIZ=[
+{q:'1. 奥斯特实验说明？',o:[['磁能生电',0,'那是法拉第。'],['电能生磁，电流周围有磁场',1,'正确。'],['磁场不存在',0,'小磁针偏转证明存在。'],['电流不产生磁场',0,'恰好相反。']]},
+{q:'2. 增大电流，同一位置 B？',o:[['不变',0,'B∝I'],['增大',1,'正确。'],['减小',0,'反了。'],['先增后减',0,'单调。']]},
+{q:'3. 磁感线形状？',o:[['直线',0,'不是。'],['同心圆环绕导线',1,'正确。'],['方形',0,'不是。'],['无规则',0,'有规律。']]},
+];
+function bootLab(){
+  const dock=$('d0');
+  dock.innerHTML='<span class="dl">I<input type="range" id="si" min="0.2" max="5" step="0.1" value="2"><span class="mono" id="li">2.0A</span></span>'+
+  '<span class="dl">r<input type="range" id="sr" min="2" max="15" step="1" value="5"><span class="mono" id="lr">5cm</span></span>'+
+  '<button class="tgl" id="flip">电流反向</button><button class="dbtn" id="reset">↺</button>';
+  $('si').addEventListener('input',e=>{I=+e.target.value; $('li').textContent=I.toFixed(1)+'A'; updateChips(); draw0(); draw1();});
+  $('sr').addEventListener('input',e=>{dist=+e.target.value; $('lr').textContent=dist+'cm'; updateChips(); draw0(); draw1();});
+  $('flip').addEventListener('click',function(){I=-I; this.classList.toggle('on'); updateChips(); draw0();});
+  $('reset').addEventListener('click',()=>{I=2;dist=5;$('si').value='2';$('sr').value='5';$('li').textContent='2.0A';$('lr').textContent='5cm';updateChips();draw0();draw1();});
+  updateChips(); draw0(); draw1();
+  summary0=()=> 'I='+I.toFixed(1)+'A r='+dist+'cm B='+(calcB(dist)*1e6).toFixed(1)+'μT';
+  summary1=()=> 'B∝1/r';
+}
+resetLab=bootLab;
+getLabState=()=>({I,dist});
+setLabState=s=>{if(s.I) I=s.I; if(s.dist) dist=s.dist; updateChips(); draw0(); draw1();};
+
+
+function buildCmp(){
+  const H=CMP_H, R=CMP_R;
+  let h='<table class="cmp"><tr>'; H.forEach(c=>h+='<th>'+c+'</th>'); h+='</tr>';
+  R.forEach(row=>{h+='<tr>'; row.forEach(c=>h+='<td>'+c+'</td>'); h+='</tr>';});
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+
+// Quiz
+let QZi=0, QZpick=[], QZdone=[], QZfirst=[];
+function QZdata(){ return QUIZ; }
+function qzHead(){
+  const N=QZdata().length; let nf=0; for(let k=0;k<N;k++) if(QZfirst[k]===true) nf++;
+  $('qzprog').textContent='第 '+(Math.min(QZi+1,N))+' / '+N+' 题';
+  $('qzscore').textContent='一次答对 '+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  const data=QZdata(); let h=''; const N=data.length; qzHead();
+  if(QZi>=N){ $('quiz').innerHTML='<div class="q"><div class="qt">🎉 全部完成！一次答对：'+qzHead()+' / '+N+'</div></div>'; return; }
+  const d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  d.o.forEach((o,j)=>{
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+o[0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+o[2]+'</div>';
+  });
+  h+='</div><button class="dbtn" id="qznext" style="display:none;margin-top:12px">'+(QZi===N-1?'完成 ✔':'下一题 ▶')+'</button>';
+  $('quiz').innerHTML=h;
+  document.querySelectorAll('#quiz .opt').forEach(op=>op.addEventListener('click',function(){
+    if(QZdone[QZi]) return; const oi=+this.dataset.o; QZpick[QZi]=oi;
+    if(QZfirst[QZi]===undefined) QZfirst[QZi]=(data[QZi].o[oi][1]===1);
+    if(data[QZi].o[oi][1]===1) QZdone[QZi]=true;
+    restoreQ(); qzHead();
+  }));
+  const nb=$('qznext'); if(nb) nb.addEventListener('click',()=>{QZi++; buildQuiz(); updSummary();});
+  if(QZpick[QZi]!==undefined) restoreQ();
+}
+function restoreQ(){
+  const data=QZdata(), d=data[QZi]; const ops=document.querySelectorAll('#quiz .opt');
+  const oi=QZpick[QZi]; ops.forEach((o,j)=>{o.classList.remove('ok','bad'); const f=$('fbq_'+j); if(f) f.classList.remove('show');});
+  if(oi===undefined) return; const right=d.o[oi][1]===1; ops[oi].classList.add(right?'ok':'bad'); const fb=$('fbq_'+oi); if(fb) fb.classList.add('show');
+  const nb=$('qznext'); if(nb) nb.style.display=QZdone[QZi]?'':'none';
+}
+
+function boot(){
+  initTabs();
+  applyTheme();
+  bootLab();
+  buildCmp();
+  buildQuiz();
+  RENDER[0]=draw0; RENDER[1]=draw1; RENDER[2]=()=>{buildCmp();}; RENDER[3]=buildQuiz;
+  SUMMARY[0]=()=>summary0?summary0():'实验台';
+  SUMMARY[1]=()=>summary1?summary1():'图表·数据';
+  SUMMARY[2]=()=>'要点·公式';
+  SUMMARY[3]=()=>{const N=QZdata().length; let nf=0; for(let k=0;k<N;k++) if(QZfirst[k]===true) nf++; return '测验 '+nf+'/'+N;};
+  showTab(0);
+  $('thmbtn').addEventListener('click',()=>{DARK=!DARK; applyTheme(); RENDER[CUR]();});
+  $('qzreset').addEventListener('click',()=>{QZpick=[]; QZdone=[]; QZfirst=[]; QZi=0; buildQuiz();});
+    const setVH=()=>{ const h=window.visualViewport?window.visualViewport.height:window.innerHeight; document.documentElement.style.setProperty('--app-height', h+'px'); };
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+}
+boot();
+
+window.SCIENCEMATERIAL={reset:()=>{if(window.resetLab) resetLab();}, getState:()=>{return window.getLabState?getLabState():{};}};
+
+// parent iframe messaging
+window.addEventListener('message',e=>{
+  const d=e.data; if(!d) return;
+  if(d==='reset' || d.type==='reset'){ if(window.resetLab) resetLab(); }
+  if(d.type==='setState' && window.setLabState) setLabState(d.data);
+});
+function notifyReady(){
+  try{ parent.postMessage({type:'ready', id:LAB_SLUG}, '*'); }catch{}
+}
+setTimeout(notifyReady, 300);
+</script>
+
+
+<script>
+(function(){
+  const setVH=()=>{ const h=window.visualViewport?window.visualViewport.height:window.innerHeight; document.documentElement.style.setProperty('--app-height', h+'px'); };
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{
+    const d=e.data; if(!d) return;
+    if(d==='reset' || d.type==='reset'){ if(window.resetLab) resetLab(); if(window.SCIENCEMATERIAL && window.SCIENCEMATERIAL.reset) window.SCIENCEMATERIAL.reset(); const ev=new Event('reset'); window.dispatchEvent(ev); }
+    if(d.type==='pause'){ if(window.pauseLab) pauseLab(); }
+    if(d.type==='resume'){ if(window.resumeLab) resumeLab(); }
+    if(d.type==='getState' && window.getLabState){ try{ parent.postMessage({type:'state', id:window.LAB_SLUG||'lab', data:getLabState()}, '*'); }catch{} }
+    if(d.type==='setState' && window.setLabState){ setLabState(d.data); }
+  });
+  function notifyReady(){ try{ parent.postMessage({type:'ready', id:window.LAB_SLUG||document.title||'lab'}, '*'); }catch{} }
+  setTimeout(notifyReady, 400);
+  window.SCIENCEMATERIAL = window.SCIENCEMATERIAL || {};
+  window.SCIENCEMATERIAL.reset = window.SCIENCEMATERIAL.reset || function(){ if(window.resetLab) resetLab(); location.reload(); };
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4484 @@
+[
+  {
+    "id": "measurement-ruler",
+    "slug": "measurement-ruler",
+    "title": "Measurement / Ruler",
+    "titleZh": "长度的测量与刻度读数",
+    "description": "Read both ends. A length is a difference, not a position.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 1,
+    "difficultyName": "Explore",
+    "estimatedMinutes": 6,
+    "tags": [
+      "measurement",
+      "length",
+      "precision",
+      "scale-reading"
+    ],
+    "catalogIds": [
+      7
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c3",
+    "file": "/experiments/measurement-ruler.html",
+    "size": 175258,
+    "number": 1,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "2. 单位与国际单位制",
+      "3. 测量值与最小刻度",
+      "4. 误差"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Ruler (刻度尺)",
+      "Smallest division (最小分度)",
+      "Object length (物体长度)",
+      "Start reading (起点读数)",
+      "End reading (终点读数)"
+    ]
+  },
+  {
+    "id": "density-explorer",
+    "slug": "density-explorer",
+    "title": "Density Explorer",
+    "titleZh": "质量、体积与密度",
+    "description": "Weigh real materials. Displace water. Find what stays constant.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "density",
+      "mass",
+      "volume",
+      "materials",
+      "displacement"
+    ],
+    "catalogIds": [
+      79
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c2",
+    "file": "/experiments/density-explorer.html",
+    "size": 196012,
+    "number": 2,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 密度",
+      "2. 密度的应用"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Mass (质量)",
+      "Volume (体积)",
+      "Density (密度)",
+      "Digital balance (电子天平)",
+      "Specimen (试件)",
+      "Displaced volume (排开体积)"
+    ]
+  },
+  {
+    "id": "floating-sinking",
+    "slug": "floating-sinking",
+    "title": "Floating and Sinking",
+    "titleZh": "浮力与沉浮",
+    "description": "Weigh an object in air, then in water. The missing weight is the buoyant force.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 12,
+    "tags": [
+      "buoyancy",
+      "archimedes",
+      "density",
+      "weighing",
+      "fluids"
+    ],
+    "catalogIds": [
+      80,
+      81
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c2",
+    "file": "/experiments/floating-sinking.html",
+    "size": 199421,
+    "number": 3,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "2. 密度的应用",
+      "3. 浮力"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Buoyant force (浮力)",
+      "Weight (重力)",
+      "Object density (物体密度)",
+      "Liquid density (液体密度)",
+      "Neutral buoyancy (悬浮)"
+    ]
+  },
+  {
+    "id": "wave-generator",
+    "slug": "wave-generator",
+    "title": "Wave Generator",
+    "titleZh": "波动、频率与波长",
+    "description": "Follow one particle. Then follow the wave.",
+    "subject": "physics",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 7,
+    "tags": [
+      "waves",
+      "frequency",
+      "wavelength",
+      "transverse",
+      "longitudinal"
+    ],
+    "catalogIds": [
+      52
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初三下册",
+    "bookSlug": "chu-san-xia",
+    "chapterId": "b6-c8",
+    "file": "/experiments/wave-generator.html",
+    "size": 174479,
+    "number": 4,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "2. 波的种类",
+      "3. 波的各部名称"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Transverse (横波)",
+      "Longitudinal (纵波)",
+      "Amplitude (振幅)",
+      "Frequency (频率)",
+      "Wavelength (波长)",
+      "Period (周期)"
+    ]
+  },
+  {
+    "id": "reflection",
+    "slug": "reflection",
+    "title": "Reflection",
+    "titleZh": "光的反射与平面镜成像",
+    "description": "Every reflected ray obeys one beautifully simple rule.",
+    "subject": "physics",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 7,
+    "tags": [
+      "light",
+      "reflection",
+      "mirror",
+      "image"
+    ],
+    "catalogIds": [
+      58,
+      59
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c2",
+    "file": "/experiments/reflection.html",
+    "size": 175308,
+    "number": 5,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "2. 光的反射",
+      "3. 平面镜成像"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Incident ray (入射光线)",
+      "Normal (法线)",
+      "Reflection angle (反射角)",
+      "Virtual image (虚像)",
+      "Mirror (镜面)"
+    ]
+  },
+  {
+    "id": "refraction",
+    "slug": "refraction",
+    "title": "Refraction",
+    "titleZh": "折射与全反射",
+    "description": "Change the medium. Watch light change direction.",
+    "subject": "physics",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 8,
+    "tags": [
+      "light",
+      "refraction",
+      "snell",
+      "total-internal-reflection"
+    ],
+    "catalogIds": [
+      62,
+      64
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c2",
+    "file": "/experiments/refraction.html",
+    "size": 175279,
+    "number": 6,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "5. 光的折射",
+      "7. 光的全反射"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Incident angle (入射角)",
+      "Refracted angle (折射角)",
+      "Critical angle (临界角)",
+      "Total internal reflection (全反射)",
+      "Upper refractive index (上层折射率)"
+    ]
+  },
+  {
+    "id": "lens-simulator",
+    "slug": "lens-simulator",
+    "title": "Lens Simulator",
+    "titleZh": "薄透镜成像",
+    "description": "Move the object, the lens and the screen. Find where the image is sharp.",
+    "subject": "physics",
+    "type": "simulation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 10,
+    "tags": [
+      "optics",
+      "lens",
+      "image",
+      "focal-length",
+      "ray-diagram"
+    ],
+    "catalogIds": [
+      63
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c2",
+    "file": "/experiments/lens-simulator.html",
+    "size": 179647,
+    "number": 7,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "6. 透镜",
+      "10. 光学仪器的应用"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Converging (会聚透镜)",
+      "Diverging (发散透镜)",
+      "Focal length (焦距)",
+      "Real image (实像)",
+      "Virtual image (虚像)",
+      "Magnification (放大率)"
+    ]
+  },
+  {
+    "id": "force-friction",
+    "slug": "force-friction",
+    "title": "Force and Friction",
+    "titleZh": "合力、摩擦与滚动阻力",
+    "description": "Drag a crate. Then roll it on wheels. Compare what resists you.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 12,
+    "tags": [
+      "force",
+      "friction",
+      "rolling",
+      "incline",
+      "newton"
+    ],
+    "catalogIds": [
+      71,
+      73
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c5",
+    "file": "/experiments/force-friction.html",
+    "size": 195425,
+    "number": 8,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 力的作用效果",
+      "3. 重力",
+      "4. 摩擦力"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Applied force (施加的力)",
+      "Normal force (法向力)",
+      "Friction (摩擦力)",
+      "Velocity (速度)",
+      "Acceleration (加速度)"
+    ]
+  },
+  {
+    "id": "pressure",
+    "slug": "pressure",
+    "title": "Pressure",
+    "titleZh": "固体压强与液体压强",
+    "description": "The same force can have a very different effect. Then take two gauges under water.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 14,
+    "tags": [
+      "pressure",
+      "area",
+      "fluid",
+      "depth",
+      "density"
+    ],
+    "catalogIds": [
+      75,
+      82,
+      83
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c5",
+    "file": "/experiments/pressure.html",
+    "size": 186382,
+    "number": 9,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "5. 压强"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-er-shang",
+        "chapterId": "b3-c2",
+        "sections": [
+          "5. 水的压强"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Pressure (压强)",
+      "Normal force (法向力)",
+      "Area (面积)",
+      "Gauge pressure (表压)",
+      "Absolute pressure (绝对压强)"
+    ]
+  },
+  {
+    "id": "circuit-builder",
+    "slug": "circuit-builder",
+    "title": "Circuit Builder",
+    "titleZh": "搭建、连接与测量直流电路",
+    "description": "A real workbench: build, reshape, measure, and discover.",
+    "subject": "physics",
+    "type": "sandbox",
+    "difficulty": 4,
+    "difficultyName": "Open Lab",
+    "estimatedMinutes": 20,
+    "tags": [
+      "circuit",
+      "series",
+      "parallel",
+      "ammeter",
+      "voltmeter"
+    ],
+    "catalogIds": [
+      97,
+      98,
+      99,
+      102,
+      176
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c10",
+    "file": "/experiments/circuit-builder.html",
+    "size": 251921,
+    "number": 10,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 电路",
+      "3. 电路的三种状态",
+      "5. 串联电路与并联电路"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Battery (电池)",
+      "Resistor (电阻)",
+      "Wire (导线)",
+      "Switch (开关)",
+      "Current (电流)",
+      "Potential difference (电势差)",
+      "Voltmeter (电压表)",
+      "Current probe (电流探头)",
+      "Series ammeter (串联电流表)"
+    ]
+  },
+  {
+    "id": "ohms-law",
+    "slug": "ohms-law",
+    "title": "Ohm’s Law",
+    "titleZh": "欧姆定律与伏安特性",
+    "description": "Turn up the voltage. Watch a straight-line relationship emerge.",
+    "subject": "physics",
+    "type": "visualizer",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 7,
+    "tags": [
+      "ohm",
+      "current",
+      "voltage",
+      "resistance",
+      "graph"
+    ],
+    "catalogIds": [
+      101
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c11",
+    "file": "/experiments/ohms-law.html",
+    "size": 175380,
+    "number": 11,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "6. 欧姆定律",
+      "7. 串联与并联电路的规律"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Voltage (电压)",
+      "Current (电流)",
+      "Resistance (电阻)",
+      "Power (功率)",
+      "Conductance (电导)"
+    ]
+  },
+  {
+    "id": "magnetic-field",
+    "slug": "magnetic-field",
+    "title": "Magnetic Field",
+    "titleZh": "磁场方向与探测",
+    "description": "A compass reveals the invisible direction at every point.",
+    "subject": "physics",
+    "type": "visualizer",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 8,
+    "tags": [
+      "magnetism",
+      "field-lines",
+      "compass",
+      "current"
+    ],
+    "catalogIds": [
+      107
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c9",
+    "file": "/experiments/magnetic-field.html",
+    "size": 176784,
+    "number": 12,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "3. 磁场与磁感线"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-er-xia",
+        "chapterId": "b4-c10",
+        "sections": [
+          "2. 通电导线与螺线管的磁场"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Magnetic Field (磁场)",
+      "North pole (北极)",
+      "South pole (南极)",
+      "Compass (指南针)",
+      "Dipole moment (磁偶极矩)"
+    ]
+  },
+  {
+    "id": "particle-model",
+    "slug": "particle-model",
+    "title": "Particle Model",
+    "titleZh": "粒子模型与物质三态",
+    "description": "A real molecular-dynamics box. Heat it, cool it, squeeze it, and watch the state change itself.",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 15,
+    "tags": [
+      "particles",
+      "states-of-matter",
+      "kinetic-theory",
+      "temperature",
+      "pressure"
+    ],
+    "catalogIds": [
+      113,
+      114,
+      115
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c1",
+    "file": "/experiments/particle-model.html",
+    "size": 202114,
+    "number": 13,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 道尔顿的原子学说",
+      "2. 用粒子观点看变化"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c7",
+        "sections": [
+          "1. 物质的三态",
+          "2. 分子运动"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Solid (固态)",
+      "Liquid (液体)",
+      "Gas (气态)",
+      "Temperature (温度)",
+      "Mean speed (平均速率)",
+      "Phase diagram",
+      "Potential energy (势能)"
+    ]
+  },
+  {
+    "id": "ph-visualizer",
+    "slug": "ph-visualizer",
+    "title": "pH Visualizer",
+    "titleZh": "pH、离子浓度与指示剂",
+    "description": "Eighteen everyday liquids. Dilute them, neutralise them, count the ions.",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 14,
+    "tags": [
+      "acid",
+      "base",
+      "ph",
+      "indicator",
+      "ions"
+    ],
+    "catalogIds": [
+      122,
+      123,
+      124
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 4,
+    "curriculum": "初三上册",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c2",
+    "file": "/experiments/ph-visualizer.html",
+    "size": 185891,
+    "number": 14,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 碱",
+      "5. 中和反应"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-san-shang",
+        "chapterId": "b5-c1",
+        "sections": [
+          "3. 酸碱指示剂"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "pH (酸碱度)",
+      "Hydronium (水合氢离子)",
+      "Hydroxide (氢氧根离子)",
+      "Acidic (酸性)",
+      "Basic (碱性)",
+      "Neutral (中性)",
+      "Indicator (指示剂)"
+    ]
+  },
+  {
+    "id": "solar-system",
+    "slug": "solar-system",
+    "title": "Solar System",
+    "titleZh": "太阳系与开普勒轨道",
+    "description": "Eight worlds. One star. Explore the rhythm of their orbits.",
+    "subject": "space",
+    "type": "interactive-model",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 12,
+    "tags": [
+      "planets",
+      "orbits",
+      "kepler",
+      "3d",
+      "scale"
+    ],
+    "catalogIds": [
+      135,
+      136
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c9",
+    "file": "/experiments/solar-system.html",
+    "size": 495839,
+    "number": 15,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "4. 太阳系的组成",
+      "5. 八大行星"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "webgl",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Sun (太阳)",
+      "Mercury (水星)",
+      "Venus (金星)",
+      "Earth (地球)",
+      "Mars (火星)",
+      "Jupiter (木星)",
+      "Saturn (土星)",
+      "Uranus (天王星)",
+      "Neptune (海王星)",
+      "Orbital period (公转周期)",
+      "Semi-major axis (轨道半长轴)",
+      "Orbital speed (轨道速度)"
+    ]
+  },
+  {
+    "id": "moon-phases",
+    "slug": "moon-phases",
+    "title": "Moon Phases",
+    "titleZh": "月相与日地月的相对位置",
+    "description": "Half the Moon is lit. How much of that half can you see?",
+    "subject": "space",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 8,
+    "tags": [
+      "moon",
+      "phases",
+      "orbit",
+      "illumination"
+    ],
+    "catalogIds": [
+      137
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c10",
+    "file": "/experiments/moon-phases.html",
+    "size": 175850,
+    "number": 16,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "2. 月球的自转与公转",
+      "3. 月相的变化",
+      "5. 日食和月食"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "New Moon (新月)",
+      "First quarter (上弦月)",
+      "Full Moon (满月)",
+      "Last quarter (下弦月)",
+      "Synodic month (朔望月)"
+    ]
+  },
+  {
+    "id": "photosynthesis-visualizer",
+    "slug": "photosynthesis-visualizer",
+    "title": "Photosynthesis Visualizer",
+    "titleZh": "光合作用与限制因素",
+    "description": "Give a leaf light, water, and carbon dioxide. Find its limiting factor.",
+    "subject": "biology",
+    "type": "simulation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 10,
+    "tags": [
+      "photosynthesis",
+      "light",
+      "carbon-dioxide",
+      "limiting-factor"
+    ],
+    "catalogIds": [
+      36,
+      37
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c7",
+    "file": "/experiments/photosynthesis-visualizer.html",
+    "size": 179672,
+    "number": 17,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "5. 光合作用",
+      "8. 呼吸作用与光合作用的区别"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Chloroplast (叶绿体)",
+      "Chlorophyll (叶绿素)",
+      "Thylakoid (类囊体)",
+      "Granum (基粒)",
+      "Stroma (基质)",
+      "Calvin cycle (卡尔文循环)",
+      "Respiration (呼吸作用)"
+    ]
+  },
+  {
+    "id": "human-circulation",
+    "slug": "human-circulation",
+    "title": "Human Circulation Explorer",
+    "titleZh": "人体的双循环",
+    "description": "Trace one complete journey: heart, lungs, heart, body.",
+    "subject": "biology",
+    "type": "interactive-model",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 9,
+    "tags": [
+      "heart",
+      "blood",
+      "double-circulation",
+      "cardiac-output"
+    ],
+    "catalogIds": [
+      49,
+      50
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初三上册",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c10",
+    "file": "/experiments/human-circulation.html",
+    "size": 182224,
+    "number": 18,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "3. 血管",
+      "4. 心脏",
+      "5. 血液循环"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Artery (动脉)",
+      "Vein (静脉)",
+      "Capillary (毛细血管)",
+      "Valve (瓣膜)",
+      "Pulmonary artery (肺动脉)",
+      "Pulmonary vein (肺静脉)",
+      "Vena cava (腔静脉)",
+      "Aorta (主动脉)"
+    ]
+  },
+  {
+    "id": "plant-transport",
+    "slug": "plant-transport",
+    "title": "Plant Transport",
+    "titleZh": "木质部、韧皮部与蒸腾",
+    "description": "Two transport tissues. Two different journeys through a plant.",
+    "subject": "biology",
+    "type": "simulation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 9,
+    "tags": [
+      "xylem",
+      "phloem",
+      "transpiration",
+      "translocation"
+    ],
+    "catalogIds": [
+      38,
+      39
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c8",
+    "file": "/experiments/plant-transport.html",
+    "size": 176723,
+    "number": 19,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "5. 植物的运输系统",
+      "6. 水分在植物体内上升的原动力",
+      "7. 蒸腾作用"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Xylem (木质部)",
+      "Phloem (韧皮部)",
+      "Transpiration (蒸腾)",
+      "Stoma (气孔)",
+      "source (源)",
+      "sink (库)"
+    ]
+  },
+  {
+    "id": "earth-structure",
+    "slug": "earth-structure",
+    "title": "Earth Structure",
+    "titleZh": "地球内部的分层结构",
+    "description": "Journey from a thin rocky crust to a solid iron-rich heart.",
+    "subject": "earth",
+    "type": "interactive-model",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 9,
+    "tags": [
+      "earth",
+      "crust",
+      "mantle",
+      "core",
+      "3d"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 2,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c9",
+    "file": "/experiments/earth-structure.html",
+    "size": 240165,
+    "number": 20,
+    "version": "5.5.0",
+    "since": "1.0.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "2. 地球的结构",
+      "7. 板块运动"
+    ],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "webgl",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Crust (地壳)",
+      "Mantle (地幔)",
+      "Outer core (外核)",
+      "Inner core (内核)",
+      "Layer (地层)",
+      "Depth (深度)"
+    ]
+  },
+  {
+    "id": "measuring-cylinder-simulator",
+    "slug": "measuring-cylinder-simulator",
+    "title": "Measuring Cylinder",
+    "titleZh": "量筒的使用与读数",
+    "description": "Pour, read the meniscus, and find the volume of a solid by displacement — with the parallax error included.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "measurement",
+      "volume",
+      "meniscus",
+      "parallax",
+      "uncertainty"
+    ],
+    "catalogIds": [
+      10
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 4,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/measuring-cylinder-simulator.html",
+    "size": 186697,
+    "number": 21,
+    "version": "5.5.0",
+    "since": "5.1.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "2. 体积的测量"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c4",
+        "sections": [
+          "3. 密度的测量"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Measuring cylinder (量筒)",
+      "Meniscus",
+      "Smallest division (最小分度)",
+      "Uncertainty (不确定度)",
+      "Displacement method (排水法)",
+      "Parallax (视差)"
+    ]
+  },
+  {
+    "id": "heat-transfer-laboratory",
+    "slug": "heat-transfer-laboratory",
+    "title": "Heat Transfer Laboratory",
+    "titleZh": "热传递实验室",
+    "description": "Conduction, convection and radiation on one bench — with real conductivities and a real cooling curve.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 16,
+    "tags": [
+      "heat",
+      "conduction",
+      "convection",
+      "radiation",
+      "insulation"
+    ],
+    "catalogIds": [
+      88
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 6,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c4",
+    "file": "/experiments/heat-transfer-laboratory.html",
+    "size": 189816,
+    "number": 22,
+    "version": "5.5.0",
+    "since": "5.1.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 热量与温度",
+      "2. 热传递的三种方式"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-san-shang",
+        "chapterId": "b5-c3",
+        "sections": [
+          "2. 内能与热量"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Conduction",
+      "Convection",
+      "Radiation",
+      "Conductivity (导热系数)",
+      "Emissivity (发射率)",
+      "Time constant (时间常数)",
+      "Heat flow (导热功率)"
+    ]
+  },
+  {
+    "id": "dissolution",
+    "slug": "dissolution",
+    "title": "Dissolution",
+    "titleZh": "溶解、溶解度与饱和溶液",
+    "description": "Stir a solute into water, find the point where no more will dissolve, and read it off a real solubility curve.",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 14,
+    "tags": [
+      "dissolution",
+      "solubility",
+      "saturation",
+      "solution",
+      "temperature"
+    ],
+    "catalogIds": [
+      118
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c1",
+    "file": "/experiments/dissolution.html",
+    "size": 194412,
+    "number": 23,
+    "version": "5.5.0",
+    "since": "5.1.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 物质在水中的分散",
+      "2. 饱和溶液与溶解度"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-san-shang",
+        "chapterId": "b5-c1",
+        "sections": [
+          "1. 溶液的浓度"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Solute (溶质)",
+      "Solvent (溶剂)",
+      "Solution (溶液)",
+      "Saturated solution (饱和溶液)",
+      "Solubility (溶解度)",
+      "Crystallisation (结晶)",
+      "Mass fraction (溶质质量分数)"
+    ]
+  },
+  {
+    "id": "equation-balancing",
+    "slug": "equation-balancing",
+    "title": "Chemical Equation Balancing",
+    "titleZh": "化学方程式的配平",
+    "description": "Put the coefficients right and watch both sides of a real equation hold the same atoms — and the same mass.",
+    "subject": "chemistry",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 12,
+    "tags": [
+      "chemical-equation",
+      "balancing",
+      "conservation-of-mass",
+      "coefficients",
+      "atoms"
+    ],
+    "catalogIds": [
+      125
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 4,
+    "curriculum": "初三上册",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c2",
+    "file": "/experiments/equation-balancing.html",
+    "size": 192744,
+    "number": 24,
+    "version": "5.5.0",
+    "since": "5.1.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 质量守恒定律",
+      "2. 化学方程式的书写与配平"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-er-xia",
+        "chapterId": "b4-c2",
+        "sections": [
+          "3. 常见的化学反应"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Chemical equation (化学方程式)",
+      "Coefficient (系数)",
+      "Subscript (下标)",
+      "Reactant (反应物)",
+      "Product (生成物)",
+      "Conservation of mass (质量守恒定律)",
+      "Relative molecular mass (相对分子质量)"
+    ]
+  },
+  {
+    "id": "force-vectors",
+    "slug": "force-vectors",
+    "title": "Force Vector Simulator",
+    "titleZh": "力的合成与分解",
+    "description": "Pull an object with two or three forces, add the arrows head to tail, and find the one force that would do the same job.",
+    "subject": "physics",
+    "type": "simulation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 13,
+    "tags": [
+      "force",
+      "vector",
+      "resultant",
+      "components",
+      "equilibrium"
+    ],
+    "catalogIds": [
+      71
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c3",
+    "file": "/experiments/force-vectors.html",
+    "size": 187054,
+    "number": 25,
+    "version": "5.5.0",
+    "since": "5.2.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 力的表示与合成",
+      "2. 二力平衡"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-er-xia",
+        "chapterId": "b4-c4",
+        "sections": [
+          "3. 摩擦力"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Force (力)",
+      "Vector (矢量)",
+      "Resultant (合力)",
+      "Component (分力)",
+      "Equilibrium (平衡)",
+      "Newton",
+      "Free-body diagram (受力分析图)"
+    ]
+  },
+  {
+    "id": "water-cycle",
+    "slug": "water-cycle",
+    "title": "Water Cycle",
+    "titleZh": "水循环",
+    "description": "Warm the planet, change the wind, cut down the forest — and watch the real global water budget respond.",
+    "subject": "earth",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 12,
+    "tags": [
+      "water-cycle",
+      "evaporation",
+      "precipitation",
+      "runoff",
+      "infiltration"
+    ],
+    "catalogIds": [
+      87
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c4",
+    "file": "/experiments/water-cycle.html",
+    "size": 189437,
+    "number": 26,
+    "version": "5.5.0",
+    "since": "5.2.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 水的循环",
+      "2. 水资源与保护"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c4",
+        "sections": [
+          "4. 物态变化"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Evaporation (蒸发)",
+      "Transpiration (蒸腾)",
+      "Condensation (凝结)",
+      "Precipitation (降水)",
+      "Runoff (径流)",
+      "Infiltration (下渗)",
+      "Residence time (停留时间)"
+    ]
+  },
+  {
+    "id": "plant-cell-explorer",
+    "slug": "plant-cell-explorer",
+    "title": "Plant Cell Explorer",
+    "titleZh": "植物细胞与质壁分离",
+    "description": "Click through a plant cell part by part, compare it with an animal cell, and watch it plasmolyse in salt water.",
+    "subject": "biology",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 14,
+    "tags": [
+      "cell",
+      "organelle",
+      "osmosis",
+      "plasmolysis",
+      "microscope"
+    ],
+    "catalogIds": [
+      17
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c2",
+    "file": "/experiments/plant-cell-explorer.html",
+    "size": 191362,
+    "number": 27,
+    "version": "5.5.0",
+    "since": "5.2.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 细胞的结构",
+      "2. 细胞的吸水与失水"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c3",
+        "sections": [
+          "3. 显微镜的使用"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Cell wall (细胞壁)",
+      "Cell membrane (细胞膜)",
+      "Cytoplasm (细胞质)",
+      "Nucleus (细胞核)",
+      "Chloroplast (叶绿体)",
+      "Vacuole (液泡)",
+      "Mitochondrion (线粒体)",
+      "Plasmolysis (质壁分离)",
+      "Osmosis (渗透作用)",
+      "Turgor pressure (膨压)",
+      "Water potential"
+    ]
+  },
+  {
+    "id": "sound-synthesizer",
+    "slug": "sound-synthesizer",
+    "title": "Sound Synthesizer",
+    "titleZh": "声音合成器",
+    "description": "Stack harmonics into a waveform, watch the spectrum, and hear why a clarinet and a violin playing the same note sound different.",
+    "subject": "physics",
+    "type": "simulation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 14,
+    "tags": [
+      "sound",
+      "frequency",
+      "harmonics",
+      "timbre",
+      "beats"
+    ],
+    "catalogIds": [
+      163
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c2",
+    "file": "/experiments/sound-synthesizer.html",
+    "size": 188161,
+    "number": 28,
+    "version": "5.5.0",
+    "since": "5.3.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 声音的产生与传播",
+      "2. 声音的特性"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-er-shang",
+        "chapterId": "b3-c3",
+        "sections": [
+          "3. 噪声与乐音"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Frequency (频率)",
+      "Pitch (螺距)",
+      "Loudness (响度)",
+      "Timbre (音色)",
+      "Harmonic (谐波)",
+      "Fundamental (基频)",
+      "Beats (拍)",
+      "Wavelength (波长)",
+      "Decibel (分贝)"
+    ]
+  },
+  {
+    "id": "ecosystem-sandbox",
+    "slug": "ecosystem-sandbox",
+    "title": "Ecosystem Sandbox",
+    "titleZh": "生态系统沙盘",
+    "description": "Grass, rabbits and foxes on one piece of land — change the rain, hunt the foxes, and watch the whole food chain answer.",
+    "subject": "biology",
+    "type": "sandbox",
+    "difficulty": 4,
+    "difficultyName": "Open Lab",
+    "estimatedMinutes": 16,
+    "tags": [
+      "ecosystem",
+      "food-chain",
+      "predator-prey",
+      "population",
+      "balance"
+    ],
+    "catalogIds": [
+      189
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 6,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c6",
+    "file": "/experiments/ecosystem-sandbox.html",
+    "size": 196692,
+    "number": 29,
+    "version": "5.5.0",
+    "since": "5.3.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 食物链与食物网",
+      "2. 生态系统的稳定性"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c6",
+        "sections": [
+          "3. 生物与环境"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Producer (生产者)",
+      "Consumer (消费者)",
+      "Food chain (食物链)",
+      "Population (种群)",
+      "Carrying capacity (环境容纳量)",
+      "Predator (捕食者)",
+      "Prey (被捕食者)",
+      "Equilibrium (平衡)"
+    ]
+  },
+  {
+    "id": "physics-playground",
+    "slug": "physics-playground",
+    "title": "Physics Playground",
+    "titleZh": "物理沙盘",
+    "description": "Throw bodies around, drop one and measure its bounce, or collide two and check the answer against the formula.",
+    "subject": "physics",
+    "type": "sandbox",
+    "difficulty": 4,
+    "difficultyName": "Open Lab",
+    "estimatedMinutes": 16,
+    "tags": [
+      "momentum",
+      "collision",
+      "energy",
+      "gravity",
+      "restitution"
+    ],
+    "catalogIds": [
+      157
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c4",
+    "file": "/experiments/physics-playground.html",
+    "size": 193149,
+    "number": 30,
+    "version": "5.5.0",
+    "since": "5.3.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 动量与碰撞",
+      "2. 机械能守恒"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-er-shang",
+        "chapterId": "b3-c5",
+        "sections": [
+          "2. 重力与自由落体"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Momentum (动量)",
+      "Kinetic energy (动能)",
+      "Potential energy (势能)",
+      "Restitution (恢复系数)",
+      "Elastic collision (弹性碰撞)",
+      "Inelastic collision (非弹性碰撞)",
+      "Terminal velocity (终极速度)"
+    ]
+  },
+  {
+    "id": "vernier-caliper-simulator",
+    "slug": "vernier-caliper-simulator",
+    "title": "Vernier Caliper",
+    "titleZh": "游标卡尺的使用与读数",
+    "description": "Slide the jaws, read the main scale and the vernier, and correct for the zero error — the coincidence is drawn from the real geometry.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 12,
+    "tags": [
+      "measurement",
+      "length",
+      "vernier",
+      "leastcount",
+      "zeroerror"
+    ],
+    "catalogIds": [
+      8
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/vernier-caliper-simulator.html",
+    "size": 190265,
+    "number": 31,
+    "version": "5.5.0",
+    "since": "5.4.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "3. 长度的精确测量"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c4",
+        "sections": [
+          "3. 密度的测量"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Vernier caliper (游标卡尺)",
+      "Main scale (主尺)",
+      "Vernier scale (游标)",
+      "Least count (分度值)",
+      "Zero error (零误差)",
+      "Coinciding line (对齐的刻线)",
+      "Systematic error (系统误差)"
+    ]
+  },
+  {
+    "id": "micrometer-simulator",
+    "slug": "micrometer-simulator",
+    "title": "Micrometer Screw Gauge",
+    "titleZh": "螺旋测微器（千分尺）",
+    "description": "Turn the thimble, read the sleeve and the rim to 0.01 mm, and find out why the ratchet exists.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 12,
+    "tags": [
+      "measurement",
+      "length",
+      "micrometer",
+      "screwgauge",
+      "leastcount"
+    ],
+    "catalogIds": [
+      9
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/micrometer-simulator.html",
+    "size": 189667,
+    "number": 32,
+    "version": "5.5.0",
+    "since": "5.4.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "3. 长度的精确测量"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c4",
+        "sections": [
+          "3. 密度的测量"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Micrometer (千分尺)",
+      "Pitch (螺距)",
+      "Thimble (微分筒)",
+      "Sleeve (固定套管)",
+      "Least count (分度值)",
+      "Ratchet (棘轮)",
+      "Measuring force (测量力)",
+      "Zero error (零误差)"
+    ]
+  },
+  {
+    "id": "digital-balance",
+    "slug": "digital-balance",
+    "title": "Digital Balance",
+    "titleZh": "电子天平的使用",
+    "description": "Tare a container, weigh by difference, watch the last digit flicker — and find out what the Moon does to a balance.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 11,
+    "tags": [
+      "measurement",
+      "mass",
+      "balance",
+      "tare",
+      "resolution"
+    ],
+    "catalogIds": [
+      11
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/digital-balance.html",
+    "size": 188977,
+    "number": 33,
+    "version": "5.5.0",
+    "since": "5.4.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "4. 质量的测量"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c4",
+        "sections": [
+          "3. 密度的测量"
+        ]
+      },
+      {
+        "bookSlug": "chu-yi-xia",
+        "chapterId": "b2-c3",
+        "sections": [
+          "1. 质量与重力"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Digital balance (电子天平)",
+      "Load cell (称重传感器)",
+      "Tare (去皮)",
+      "Readability (分度值)",
+      "Weighing by difference (差减法)",
+      "Drift (漂移)",
+      "Overload (超载)"
+    ]
+  },
+  {
+    "id": "stopwatch-challenge",
+    "slug": "stopwatch-challenge",
+    "title": "Stopwatch Challenge",
+    "titleZh": "秒表与计时误差",
+    "description": "Time a swinging pendulum by hand, meet your own reaction time, and find out why you should time twenty swings instead of one.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 13,
+    "tags": [
+      "measurement",
+      "time",
+      "reactiontime",
+      "randomerror",
+      "systematicerror"
+    ],
+    "catalogIds": [
+      12
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/stopwatch-challenge.html",
+    "size": 187128,
+    "number": 34,
+    "version": "5.5.0",
+    "since": "5.4.0",
+    "isNew": false,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "5. 时间的测量"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-xia",
+        "chapterId": "b2-c1",
+        "sections": [
+          "2. 运动的快慢"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Stopwatch (秒表)",
+      "Reaction time (反应时间)",
+      "Random error (随机误差)",
+      "Systematic error (系统误差)",
+      "Standard deviation (标准差)",
+      "Standard error (标准误差)",
+      "Light gate (光电门)",
+      "Period (周期)"
+    ]
+  },
+  {
+    "id": "thermometer-simulator",
+    "slug": "thermometer-simulator",
+    "title": "Thermometer Simulator",
+    "titleZh": "温度计的使用与读数",
+    "description": "A thermometer reads its own bulb. Watch it catch up, see the stem and the parallax steal degrees, and calibrate it at the ice and steam points.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 12,
+    "tags": [
+      "measurement",
+      "temperature",
+      "thermalequilibrium",
+      "responsetime",
+      "systematicerror"
+    ],
+    "catalogIds": [
+      13
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/thermometer-simulator.html",
+    "size": 190369,
+    "number": 35,
+    "version": "5.5.0",
+    "since": "5.5.0",
+    "isNew": true,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "6. 温度的测量"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-er-shang",
+        "chapterId": "b3-c4",
+        "sections": [
+          "1. 热量与温度"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Thermometer (温度计)",
+      "Thermal equilibrium (热平衡)",
+      "Time constant (时间常数)",
+      "Emergent stem (露茎)",
+      "Parallax (视差)",
+      "Zero error (零误差)",
+      "Ice point (冰点)",
+      "Steam point (沸点)"
+    ]
+  },
+  {
+    "id": "measurement-error-simulator",
+    "slug": "measurement-error-simulator",
+    "title": "Measurement Error Simulator",
+    "titleZh": "测量误差：准确度与精密度",
+    "description": "Measure a metal cube with the instruments you choose, and find out which error is worth fixing: the one that scatters, or the one that always leans the same way.",
+    "subject": "physics",
+    "type": "investigation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 14,
+    "tags": [
+      "measurement",
+      "uncertainty",
+      "accuracy",
+      "precision",
+      "systematicerror"
+    ],
+    "catalogIds": [
+      14
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/measurement-error-simulator.html",
+    "size": 188430,
+    "number": 36,
+    "version": "5.5.0",
+    "since": "5.5.0",
+    "isNew": true,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "7. 误差与有效数字"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c4",
+        "sections": [
+          "3. 密度的测量"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Accuracy (准确度)",
+      "Precision (精密度)",
+      "Random error (随机误差)",
+      "Systematic error (系统误差)",
+      "Bias (偏差)",
+      "Error propagation (误差传递)",
+      "Relative uncertainty (相对不确定度)",
+      "Significant figures (有效数字)"
+    ]
+  },
+  {
+    "id": "average-measurement-laboratory",
+    "slug": "average-measurement-laboratory",
+    "title": "Average Measurement Laboratory",
+    "titleZh": "多次测量与平均值",
+    "description": "A class measures one rod. Watch the average settle, see why the median shrugs off a blunder, and find out how many repeats your target actually needs.",
+    "subject": "physics",
+    "type": "investigation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 13,
+    "tags": [
+      "measurement",
+      "average",
+      "median",
+      "standarddeviation",
+      "standarderror"
+    ],
+    "catalogIds": [
+      15
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/average-measurement-laboratory.html",
+    "size": 186643,
+    "number": 37,
+    "version": "5.5.0",
+    "since": "5.5.0",
+    "isNew": true,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "7. 误差与有效数字"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-shang",
+        "chapterId": "b1-c1",
+        "sections": [
+          "3. 长度的测量"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Mean (平均值)",
+      "Median (中位数)",
+      "Standard deviation (标准差)",
+      "Standard error (标准误差)",
+      "Central limit theorem (中心极限定理)",
+      "Outlier (离群值)",
+      "Repeatability (重复性)",
+      "Sample size (样本容量)"
+    ]
+  },
+  {
+    "id": "graph-interpretation-challenge",
+    "slug": "graph-interpretation-challenge",
+    "title": "Graph Interpretation Challenge",
+    "titleZh": "图像的处理与解读",
+    "description": "Draw your own line through real data, then see the least-squares line underneath it — and find the pair of axes that turns a curve into a straight line.",
+    "subject": "physics",
+    "type": "investigation",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 15,
+    "tags": [
+      "measurement",
+      "graphs",
+      "lineofbestfit",
+      "leastsquares",
+      "slope"
+    ],
+    "catalogIds": [
+      6
+    ],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 5,
+    "curriculum": "初一上册",
+    "bookSlug": "chu-yi-shang",
+    "chapterId": "b1-c1",
+    "file": "/experiments/graph-interpretation-challenge.html",
+    "size": 188442,
+    "number": 38,
+    "version": "5.5.0",
+    "since": "5.5.0",
+    "isNew": true,
+    "createdAt": "2026-10-06T00:00:00.000Z",
+    "createdBy": "investigation-release",
+    "suggestedSections": [
+      "1. 科学测量",
+      "8. 数据处理与图像"
+    ],
+    "relatedChapters": [
+      {
+        "bookSlug": "chu-yi-xia",
+        "chapterId": "b2-c1",
+        "sections": [
+          "2. 运动的快慢"
+        ]
+      },
+      {
+        "bookSlug": "chu-er-xia",
+        "chapterId": "b4-c6",
+        "sections": [
+          "2. 欧姆定律"
+        ]
+      }
+    ],
+    "framework": "vanilla",
+    "animated": false,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "Line of best fit (最佳拟合直线)",
+      "Least squares (最小二乘法)",
+      "Slope",
+      "Intercept (截距)",
+      "Residual (残差)",
+      "Linearisation (直线化)",
+      "r squared (r²（决定系数）)",
+      "Extrapolation (外推)"
+    ]
+  },
+  {
+    "id": "resistance-factors-lab",
+    "slug": "resistance-factors-lab",
+    "title": "Resistance Factors Lab",
+    "titleZh": "导体电阻影响因素实验室",
+    "description": "Length, cross-section, material and temperature — what really changes resistance?",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 12,
+    "tags": [
+      "resistance",
+      "resistivity",
+      "ohms-law",
+      "material",
+      "temperature"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c11",
+    "file": "/experiments/resistance-factors-lab.html",
+    "size": 30504,
+    "number": 39,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.633Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "resistance",
+      "resistivity",
+      "ohms-law",
+      "material",
+      "temperature"
+    ]
+  },
+  {
+    "id": "current-magnetic-effect",
+    "slug": "current-magnetic-effect",
+    "title": "Current Magnetic Effect",
+    "titleZh": "电流的磁效应实验室",
+    "description": "Oersted discovery — a current creates a magnetic field around it. Compass needles tell the story.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "oersted",
+      "magnetic-field",
+      "current",
+      "compass",
+      "right-hand-rule"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-xia",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c10",
+    "file": "/experiments/current-magnetic-effect.html",
+    "size": 28500,
+    "number": 40,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "oersted",
+      "magnetic-field",
+      "current",
+      "compass",
+      "right-hand-rule"
+    ]
+  },
+  {
+    "id": "diffusion-lab",
+    "slug": "diffusion-lab",
+    "title": "Diffusion Lab",
+    "titleZh": "扩散作用实验室",
+    "description": "Particles move from crowded to empty — temperature makes them hurry.",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 1,
+    "difficultyName": "Explore",
+    "estimatedMinutes": 8,
+    "tags": [
+      "diffusion",
+      "particles",
+      "temperature",
+      "concentration",
+      "brownian"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-xia",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c1",
+    "file": "/experiments/diffusion-lab.html",
+    "size": 26326,
+    "number": 41,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "diffusion",
+      "particles",
+      "temperature",
+      "concentration",
+      "brownian"
+    ]
+  },
+  {
+    "id": "states-of-matter-lab",
+    "slug": "states-of-matter-lab",
+    "title": "States of Matter Lab",
+    "titleZh": "三态变化实验室",
+    "description": "Heat, pressure and particle dance — solid, liquid, gas and the transitions between.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "states",
+      "melting",
+      "boiling",
+      "phase-change",
+      "particles"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c1",
+    "file": "/experiments/states-of-matter-lab.html",
+    "size": 26666,
+    "number": 42,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "states",
+      "melting",
+      "boiling",
+      "phase-change",
+      "particles"
+    ]
+  },
+  {
+    "id": "transformer-lab",
+    "slug": "transformer-lab",
+    "title": "Transformer Lab",
+    "titleZh": "变压器原理实验室",
+    "description": "Two coils share one changing field — voltage up, current down, power conserved.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Challenge",
+    "estimatedMinutes": 12,
+    "tags": [
+      "transformer",
+      "induction",
+      "faraday",
+      "voltage",
+      "coils"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-xia",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c10",
+    "file": "/experiments/transformer-lab.html",
+    "size": 26455,
+    "number": 43,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "transformer",
+      "induction",
+      "faraday",
+      "voltage",
+      "coils"
+    ]
+  },
+  {
+    "id": "electromagnet-lab",
+    "slug": "electromagnet-lab",
+    "title": "Electromagnet Lab",
+    "titleZh": "电磁铁探究实验室",
+    "description": "More turns, more current, iron core — build a stronger magnet and lift more.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 9,
+    "tags": [
+      "electromagnet",
+      "solenoid",
+      "magnetic-field",
+      "core",
+      "coils"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-xia",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c10",
+    "file": "/experiments/electromagnet-lab.html",
+    "size": 22263,
+    "number": 44,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "unique-original-fixed",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "electromagnet",
+      "solenoid",
+      "magnetic-field",
+      "core",
+      "coils"
+    ],
+    "fileSize": 22263
+  },
+  {
+    "id": "echo-sonar-lab",
+    "slug": "echo-sonar-lab",
+    "title": "Echo and Sonar Lab",
+    "titleZh": "回声与声呐探究实验室",
+    "description": "Sound goes out, bounces back, tells distance — bat, submarine and cliff echo.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "echo",
+      "sonar",
+      "sound",
+      "reflection",
+      "distance"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c1",
+    "file": "/experiments/echo-sonar-lab.html",
+    "size": 25675,
+    "number": 45,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "echo",
+      "sonar",
+      "sound",
+      "reflection",
+      "distance"
+    ]
+  },
+  {
+    "id": "gas-pressure-lab",
+    "slug": "gas-pressure-lab",
+    "title": "Gas Pressure Lab",
+    "titleZh": "气体压强探究实验室",
+    "description": "Count collisions — more particles, faster, smaller box all mean higher pressure.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "gas",
+      "pressure",
+      "kinetic-theory",
+      "collisions",
+      "boyle"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c4",
+    "file": "/experiments/gas-pressure-lab.html",
+    "size": 25519,
+    "number": 46,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "gas",
+      "pressure",
+      "kinetic-theory",
+      "collisions",
+      "boyle"
+    ]
+  },
+  {
+    "id": "electroscope-lab",
+    "slug": "electroscope-lab",
+    "title": "Electroscope Lab",
+    "titleZh": "验电器演示实验室",
+    "description": "Like charges repel — gold leaves diverge when charged, collapse when neutralized.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 1,
+    "difficultyName": "Explore",
+    "estimatedMinutes": 8,
+    "tags": [
+      "electroscope",
+      "charge",
+      "electrostatics",
+      "induction",
+      "repulsion"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c9",
+    "file": "/experiments/electroscope-lab.html",
+    "size": 25485,
+    "number": 47,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "electroscope",
+      "charge",
+      "electrostatics",
+      "induction",
+      "repulsion"
+    ]
+  },
+  {
+    "id": "hooke-law-lab",
+    "slug": "hooke-law-lab",
+    "title": "Hooke's Law Lab",
+    "titleZh": "胡克定律实验室",
+    "description": "Stretch a spring, measure force — F=kx holds until elastic limit. Energy stored as ½kx².",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "hooke",
+      "spring",
+      "elastic",
+      "force",
+      "energy"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c5",
+    "file": "/experiments/hooke-law-lab.html",
+    "size": 26209,
+    "number": 48,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "hooke",
+      "spring",
+      "elastic",
+      "force",
+      "energy"
+    ]
+  },
+  {
+    "id": "center-of-gravity-lab",
+    "slug": "center-of-gravity-lab",
+    "title": "Center of Gravity Lab",
+    "titleZh": "悬挂法找重心探究实验室",
+    "description": "Hang irregular shape from two points — plumb lines cross at center of mass.",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 9,
+    "tags": [
+      "center-of-mass",
+      "gravity",
+      "balance",
+      "plumb",
+      "equilibrium"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c6",
+    "file": "/experiments/center-of-gravity-lab.html",
+    "size": 25607,
+    "number": 49,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.644Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "center-of-mass",
+      "gravity",
+      "balance",
+      "plumb",
+      "equilibrium"
+    ]
+  },
+  {
+    "id": "seasons-lab",
+    "slug": "seasons-lab",
+    "title": "Seasons and Solar Motion Lab",
+    "titleZh": "日地运动与四季实验室",
+    "description": "Tilt 23.5° stays fixed — sun height changes, seasons happen, same orbit.",
+    "subject": "earth",
+    "type": "simulation",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 12,
+    "tags": [
+      "seasons",
+      "tilt",
+      "orbit",
+      "equinox",
+      "solstice"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c11",
+    "file": "/experiments/seasons-lab.html",
+    "size": 26635,
+    "number": 50,
+    "version": "5.6.0",
+    "since": "5.6.0",
+    "isNew": true,
+    "createdAt": "2026-10-11T10:38:06.645Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "seasons",
+      "tilt",
+      "orbit",
+      "equinox",
+      "solstice"
+    ]
+  },
+  {
+    "id": "moon-eclipse-tide-lab",
+    "slug": "moon-eclipse-tide-lab",
+    "title": "月相日食月食潮汐 ",
+    "titleZh": "月相日食月食潮汐 ",
+    "description": "月相日食月食潮汐 · Moon Eclipse Tide · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "earth",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "earth",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c10",
+    "file": "/experiments/moon-eclipse-tide-lab.html",
+    "size": 76296,
+    "number": 51,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "moon-eclipse-tide-lab",
+      "b2-c10"
+    ]
+  },
+  {
+    "id": "density-buoyancy-lab",
+    "slug": "density-buoyancy-lab",
+    "title": "密度与浮沉探究实验室 ",
+    "titleZh": "密度与浮沉探究实验室 ",
+    "description": "密度与浮沉探究实验室 · Density and Buoyancy · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c2",
+    "file": "/experiments/density-buoyancy-lab.html",
+    "size": 94753,
+    "number": 52,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "density-buoyancy-lab",
+      "b3-c2"
+    ]
+  },
+  {
+    "id": "atomic-structure-lab",
+    "slug": "atomic-structure-lab",
+    "title": "原子结构实验室 ",
+    "titleZh": "原子结构实验室 ",
+    "description": "原子结构实验室 · Atomic Structure · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "chemistry",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-xia",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c2",
+    "file": "/experiments/atomic-structure-lab.html",
+    "size": 54702,
+    "number": 56,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "atomic-structure-lab",
+      "b4-c2"
+    ]
+  },
+  {
+    "id": "water-electrolysis-lab",
+    "slug": "water-electrolysis-lab",
+    "title": "水的电解探究实验室 ",
+    "titleZh": "水的电解探究实验室 ",
+    "description": "水的电解探究实验室 · Water Electrolysis · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "chemistry",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-xia",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c5",
+    "file": "/experiments/water-electrolysis-lab.html",
+    "size": 96330,
+    "number": 57,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "water-electrolysis-lab",
+      "b4-c5"
+    ]
+  },
+  {
+    "id": "friction-lab",
+    "slug": "friction-lab",
+    "title": "摩擦力探究实验室 ",
+    "titleZh": "摩擦力探究实验室 ",
+    "description": "摩擦力探究实验室 · Friction · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c5",
+    "file": "/experiments/friction-lab.html",
+    "size": 86813,
+    "number": 61,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "friction-lab",
+      "b2-c5"
+    ]
+  },
+  {
+    "id": "mechanical-energy-lab",
+    "slug": "mechanical-energy-lab",
+    "title": "机械能探究实验室 ",
+    "titleZh": "机械能探究实验室 ",
+    "description": "机械能探究实验室 · Mechanical Energy · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-san-shang",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c5",
+    "file": "/experiments/mechanical-energy-lab.html",
+    "size": 95143,
+    "number": 63,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "mechanical-energy-lab",
+      "b5-c5"
+    ]
+  },
+  {
+    "id": "electromagnetic-induction-lab",
+    "slug": "electromagnetic-induction-lab",
+    "title": "电磁感应与发电机实验室 ",
+    "titleZh": "电磁感应与发电机实验室 ",
+    "description": "电磁感应与发电机实验室 · Electromagnetic Induction · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-xia",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c10",
+    "file": "/experiments/electromagnetic-induction-lab.html",
+    "size": 71770,
+    "number": 64,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "electromagnetic-induction-lab",
+      "b4-c10"
+    ]
+  },
+  {
+    "id": "series-parallel-circuit-lab",
+    "slug": "series-parallel-circuit-lab",
+    "title": "串并联电路探究实验室 ",
+    "titleZh": "串并联电路探究实验室 ",
+    "description": "串并联电路探究实验室 · Series Parallel Circuit · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c10",
+    "file": "/experiments/series-parallel-circuit-lab.html",
+    "size": 93904,
+    "number": 67,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "series-parallel-circuit-lab",
+      "b3-c10"
+    ]
+  },
+  {
+    "id": "acid-base-ph-lab",
+    "slug": "acid-base-ph-lab",
+    "title": "酸碱与pH探究实验室 ",
+    "titleZh": "酸碱与pH探究实验室 ",
+    "description": "酸碱与pH探究实验室 · Acid Base pH · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "chemistry",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-san-shang",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c2",
+    "file": "/experiments/acid-base-ph-lab.html",
+    "size": 93097,
+    "number": 68,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "acid-base-ph-lab",
+      "b5-c2"
+    ]
+  },
+  {
+    "id": "static-electricity-lab",
+    "slug": "static-electricity-lab",
+    "title": "静电探究实验室 ",
+    "titleZh": "静电探究实验室 ",
+    "description": "静电探究实验室 · Static Electricity · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c9",
+    "file": "/experiments/static-electricity-lab.html",
+    "size": 84293,
+    "number": 69,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "static-electricity-lab",
+      "b3-c9"
+    ]
+  },
+  {
+    "id": "liquid-pressure-lab",
+    "slug": "liquid-pressure-lab",
+    "title": "液体压强探究实验室 ",
+    "titleZh": "液体压强探究实验室 ",
+    "description": "液体压强探究实验室 · Liquid Pressure · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c5",
+    "file": "/experiments/liquid-pressure-lab.html",
+    "size": 83117,
+    "number": 72,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "liquid-pressure-lab",
+      "b2-c5"
+    ]
+  },
+  {
+    "id": "car-engine-lab",
+    "slug": "car-engine-lab",
+    "title": "汽车引擎实验室 ",
+    "titleZh": "汽车引擎实验室 ",
+    "description": "汽车引擎实验室 · Car Engine · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-san-shang",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c7",
+    "file": "/experiments/car-engine-lab.html",
+    "size": 54242,
+    "number": 74,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "car-engine-lab",
+      "b5-c7"
+    ]
+  },
+  {
+    "id": "transverse-longitudinal-waves-lab",
+    "slug": "transverse-longitudinal-waves-lab",
+    "title": "横波与纵波探究实验室 ",
+    "titleZh": "横波与纵波探究实验室 ",
+    "description": "横波与纵波探究实验室 · Transverse and Longitudinal Waves · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c1",
+    "file": "/experiments/transverse-longitudinal-waves-lab.html",
+    "size": 87593,
+    "number": 75,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "transverse-longitudinal-waves-lab",
+      "b2-c1"
+    ]
+  },
+  {
+    "id": "saturated-solution-lab",
+    "slug": "saturated-solution-lab",
+    "title": "饱和溶液转化实验室 ",
+    "titleZh": "饱和溶液转化实验室 ",
+    "description": "饱和溶液转化实验室 · Saturated Solution · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "chemistry",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-er-shang",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c3",
+    "file": "/experiments/saturated-solution-lab.html",
+    "size": 89403,
+    "number": 82,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "saturated-solution-lab",
+      "b3-c3"
+    ]
+  },
+  {
+    "id": "force-three-elements-lab",
+    "slug": "force-three-elements-lab",
+    "title": "力的三要素探究实验室 ",
+    "titleZh": "力的三要素探究实验室 ",
+    "description": "力的三要素探究实验室 · Three Elements of Force · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c5",
+    "file": "/experiments/force-three-elements-lab.html",
+    "size": 93228,
+    "number": 83,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "force-three-elements-lab",
+      "b2-c5"
+    ]
+  },
+  {
+    "id": "sound-three-elements-lab",
+    "slug": "sound-three-elements-lab",
+    "title": "声音三要素探究实验室 ",
+    "titleZh": "声音三要素探究实验室 ",
+    "description": "声音三要素探究实验室 · Three Elements of Sound · ScienceMaterial · ScienceMaterial core preserved, ScienceMaterial unified logo/theme",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "physics",
+      "sciencematerial",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "chu-yi-xia",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c1",
+    "file": "/experiments/sound-three-elements-lab.html",
+    "size": 89058,
+    "number": 84,
+    "version": "5.6.1",
+    "since": "5.6.1",
+    "isNew": true,
+    "createdAt": "2026-10-11T00:00:00.000Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "svg",
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "keywords": [
+      "sound-three-elements-lab",
+      "b2-c1"
+    ]
+  },
+  {
+    "id": "resistance-factors-lab-v2",
+    "slug": "resistance-factors-lab-v2",
+    "title": "Resistance Factors (ScienceMaterial)",
+    "titleZh": "导体电阻影响因素 (独中版)",
+    "description": "Resistance factors from ScienceMaterial: length, cross-section, material, temperature with full lab/compare/quiz/game",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "resistance",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c11",
+    "file": "/experiments/resistance-factors-lab-v2.html",
+    "size": 97909,
+    "number": 67,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.427Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "resistance-factors-lab-v2",
+      "b3-c11"
+    ]
+  },
+  {
+    "id": "current-magnetic-effect-v2",
+    "slug": "current-magnetic-effect-v2",
+    "title": "Current Magnetic Effect (ScienceMaterial)",
+    "titleZh": "电流的磁效应 (独中版)",
+    "description": "Oersted effect ScienceMaterial version with compass visualization",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "magnetic",
+      "oersted",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c10",
+    "file": "/experiments/current-magnetic-effect-v2.html",
+    "size": 105592,
+    "number": 68,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.428Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "current-magnetic-effect-v2",
+      "b4-c10"
+    ]
+  },
+  {
+    "id": "diffusion-lab-v2",
+    "slug": "diffusion-lab-v2",
+    "title": "Diffusion (ScienceMaterial)",
+    "titleZh": "扩散作用 (独中版)",
+    "description": "Diffusion ScienceMaterial version with particle simulation",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "diffusion",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c1",
+    "file": "/experiments/diffusion-lab-v2.html",
+    "size": 102149,
+    "number": 69,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.428Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "diffusion-lab-v2",
+      "b4-c1"
+    ]
+  },
+  {
+    "id": "states-of-matter-lab-v2",
+    "slug": "states-of-matter-lab-v2",
+    "title": "States of Matter (ScienceMaterial)",
+    "titleZh": "三态变化 (独中版)",
+    "description": "States of matter ScienceMaterial with phase transitions",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "states",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c1",
+    "file": "/experiments/states-of-matter-lab-v2.html",
+    "size": 117677,
+    "number": 70,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.428Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "states-of-matter-lab-v2",
+      "b3-c1"
+    ]
+  },
+  {
+    "id": "pendulum-roller-lab",
+    "slug": "pendulum-roller-lab",
+    "title": "Pendulum and Roller",
+    "titleZh": "单摆和滚摆实验",
+    "description": "Pendulum and roller demonstrating mechanical energy conversion",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "pendulum",
+      "energy",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初三上册",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c5",
+    "file": "/experiments/pendulum-roller-lab.html",
+    "size": 100994,
+    "number": 71,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.428Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "pendulum-roller-lab",
+      "b5-c5"
+    ]
+  },
+  {
+    "id": "circuit-building-lab",
+    "slug": "circuit-building-lab",
+    "title": "Circuit Building Lab",
+    "titleZh": "电路搭建实验室",
+    "description": "Circuit building with real components",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "circuit",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c10",
+    "file": "/experiments/circuit-building-lab.html",
+    "size": 112245,
+    "number": 72,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.429Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "circuit-building-lab",
+      "b3-c10"
+    ]
+  },
+  {
+    "id": "mechanical-energy-conversion-lab",
+    "slug": "mechanical-energy-conversion-lab",
+    "title": "Mechanical Energy Conversion",
+    "titleZh": "机械能转化实验室",
+    "description": "Mechanical energy conversion lab",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "energy",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初三上册",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c5",
+    "file": "/experiments/mechanical-energy-conversion-lab.html",
+    "size": 101028,
+    "number": 73,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.429Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "mechanical-energy-conversion-lab",
+      "b5-c5"
+    ]
+  },
+  {
+    "id": "transformer-lab-v2",
+    "slug": "transformer-lab-v2",
+    "title": "Transformer Principle (ScienceMaterial)",
+    "titleZh": "变压器原理 (独中版)",
+    "description": "Transformer principle ScienceMaterial version with Ns/Np",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "transformer",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二下册",
+    "bookSlug": "chu-er-xia",
+    "chapterId": "b4-c10",
+    "file": "/experiments/transformer-lab-v2.html",
+    "size": 102909,
+    "number": 74,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.429Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "transformer-lab-v2",
+      "b4-c10"
+    ]
+  },
+  {
+    "id": "pressure-inquiry-lab",
+    "slug": "pressure-inquiry-lab",
+    "title": "Pressure Inquiry",
+    "titleZh": "压强探究实验室",
+    "description": "Pressure inquiry with solid and liquid",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "pressure",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c5",
+    "file": "/experiments/pressure-inquiry-lab.html",
+    "size": 119981,
+    "number": 75,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.429Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "pressure-inquiry-lab",
+      "b2-c5"
+    ]
+  },
+  {
+    "id": "gas-pressure-lab-v2",
+    "slug": "gas-pressure-lab-v2",
+    "title": "Gas Pressure (ScienceMaterial)",
+    "titleZh": "气体压强 (独中版)",
+    "description": "Gas pressure ScienceMaterial kinetic theory",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "gas",
+      "pressure",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c4",
+    "file": "/experiments/gas-pressure-lab-v2.html",
+    "size": 130735,
+    "number": 76,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.429Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "gas-pressure-lab-v2",
+      "b3-c4"
+    ]
+  },
+  {
+    "id": "electroscope-lab-v2",
+    "slug": "electroscope-lab-v2",
+    "title": "Electroscope Demo (ScienceMaterial)",
+    "titleZh": "验电器演示 (独中版)",
+    "description": "Electroscope demo ScienceMaterial version",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "electroscope",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初二上册",
+    "bookSlug": "chu-er-shang",
+    "chapterId": "b3-c9",
+    "file": "/experiments/electroscope-lab-v2.html",
+    "size": 101261,
+    "number": 77,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.429Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "electroscope-lab-v2",
+      "b3-c9"
+    ]
+  },
+  {
+    "id": "power-generation-lab",
+    "slug": "power-generation-lab",
+    "title": "Power Generation and Energy Conservation",
+    "titleZh": "发电与能量守恒",
+    "description": "Power generation lab with energy conservation",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "power",
+      "energy",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初三上册",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c7",
+    "file": "/experiments/power-generation-lab.html",
+    "size": 156397,
+    "number": 78,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.430Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "power-generation-lab",
+      "b5-c7"
+    ]
+  },
+  {
+    "id": "center-of-gravity-lab-v2",
+    "slug": "center-of-gravity-lab-v2",
+    "title": "Center of Gravity Suspension (ScienceMaterial)",
+    "titleZh": "悬挂法找重心 (独中版)",
+    "description": "Center of gravity suspension method ScienceMaterial",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "center-of-gravity",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c6",
+    "file": "/experiments/center-of-gravity-lab-v2.html",
+    "size": 157099,
+    "number": 79,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.430Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "center-of-gravity-lab-v2",
+      "b2-c6"
+    ]
+  },
+  {
+    "id": "seasons-lab-v2",
+    "slug": "seasons-lab-v2",
+    "title": "Sun-Earth Seasons (ScienceMaterial)",
+    "titleZh": "日地运动与四季 (独中版)",
+    "description": "Sun earth seasons ScienceMaterial version with tilt",
+    "subject": "earth",
+    "type": "experiment",
+    "difficulty": 2,
+    "difficultyName": "Guided",
+    "estimatedMinutes": 10,
+    "tags": [
+      "seasons",
+      "sciencematerial"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c11",
+    "file": "/experiments/seasons-lab-v2.html",
+    "size": 131190,
+    "number": 80,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:52:36.430Z",
+    "createdBy": "user-upload",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "seasons-lab-v2",
+      "b2-c11"
+    ]
+  },
+  {
+    "id": "doppler-effect-lab",
+    "slug": "doppler-effect-lab",
+    "title": "Doppler Effect Lab",
+    "titleZh": "多普勒效应实验室",
+    "description": "Doppler effect with moving source, wavefronts compress ahead, redshift/blueshift, sonic boom Mach cone, f' = f·v/(v∓vs)",
+    "subject": "physics",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 12,
+    "tags": [
+      "doppler",
+      "waves",
+      "frequency",
+      "redshift",
+      "sonic-boom"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初一下册",
+    "bookSlug": "chu-yi-xia",
+    "chapterId": "b2-c1",
+    "file": "/experiments/doppler-effect-lab.html",
+    "size": 21068,
+    "number": 81,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:53:21.734Z",
+    "createdBy": "unique-original",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "doppler-effect-lab",
+      "Doppler Effect"
+    ]
+  },
+  {
+    "id": "titration-lab",
+    "slug": "titration-lab",
+    "title": "Acid-Base Titration Lab",
+    "titleZh": "酸碱滴定实验室",
+    "description": "Strong acid-strong base titration with burette, flask, indicator, pH curve, equivalence point c1V1=c2V2",
+    "subject": "chemistry",
+    "type": "experiment",
+    "difficulty": 3,
+    "difficultyName": "Investigate",
+    "estimatedMinutes": 12,
+    "tags": [
+      "titration",
+      "ph",
+      "acid-base",
+      "equivalence"
+    ],
+    "catalogIds": [],
+    "hasGraph": true,
+    "hasDataTable": true,
+    "hasInvestigationMode": true,
+    "investigationCount": 3,
+    "curriculum": "初三上册",
+    "bookSlug": "chu-san-shang",
+    "chapterId": "b5-c2",
+    "file": "/experiments/titration-lab.html",
+    "size": 21851,
+    "number": 82,
+    "version": "5.6.4",
+    "since": "5.6.4",
+    "isNew": true,
+    "createdAt": "2026-10-12T00:53:21.736Z",
+    "createdBy": "unique-original",
+    "suggestedSections": [],
+    "relatedChapters": [],
+    "framework": "vanilla",
+    "animated": true,
+    "renderer": "canvas2d",
+    "languages": [
+      "en",
+      "zh-Hans"
+    ],
+    "keywords": [
+      "titration-lab",
+      "Titration"
+    ]
+  }
+]

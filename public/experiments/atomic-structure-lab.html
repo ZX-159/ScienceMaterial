@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>原子结构实验室 · Atomic Structure · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 原子结构实验室</h1>
+  <div class="sub">Atomic Structure · chu-er-xia/b4-c2 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 原子搭建台</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 电子排布</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 离子的形成</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 同位素</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<!-- ① build -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svgbd" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="bd_sidetitle">原子档案</h3>
+    <div class="statline">
+      <span class="chip" id="b_el">—</span>
+      <span class="chip blu" id="b_ch">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="bd_k1"></div>
+    <div class="kbox blue" data-i18n-html="bd_k2"></div>
+    <div class="kbox grn" data-i18n-html="bd_k3"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② shells -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb1">—</div>
+    <svg id="svgep" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="ep_sidetitle">排布规则</h3>
+    <div class="kbox" data-i18n-html="ep_k1"></div>
+    <div class="kbox blue" data-i18n-html="ep_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ ions -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb2">—</div>
+    <svg id="svgtr" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="tr_sidetitle">得失电子</h3>
+    <div class="kbox" data-i18n-html="tr_k1"></div>
+    <div class="kbox blue" data-i18n-html="tr_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ isotopes -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="iso_figtitle">同位素：质子相同，中子不同</h3>
+    <svg id="svgiso" viewBox="0 0 660 400"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="iso_sidetitle">同位素</h3>
+    <div class="kbox" data-i18n-html="iso_k1"></div>
+    <div class="kbox grn" data-i18n-html="iso_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ quiz -->
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl"><span data-i18n="dk_p">质子</span>
+      <input type="range" id="bdp" min="1" max="20" step="1" value="6">
+      <span class="mono" id="bdplab">6</span></span>
+    <span class="dl"><span data-i18n="dk_n">中子</span>
+      <input type="range" id="bdn" min="0" max="24" step="1" value="6">
+      <span class="mono" id="bdnlab">6</span></span>
+    <span class="dl"><span data-i18n="dk_e">电子</span>
+      <input type="range" id="bde" min="0" max="20" step="1" value="6">
+      <span class="mono" id="bdelab">6</span></span>
+    <span class="dl">
+      <button class="tgl" id="pr0">H</button><button class="tgl" id="pr1">He</button><button class="tgl" id="pr2">C</button><button class="tgl" id="pr3">O</button><button class="tgl" id="pr4">Na⁺</button><button class="tgl" id="pr5">Cl⁻</button>
+    </span>
+    <button class="tgl" id="bdreset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d1">
+    <span class="dl"><span data-i18n="dk_p">质子</span>
+      <input type="range" id="epp" min="1" max="20" step="1" value="11">
+      <span class="mono" id="epplab">11 · Na</span></span>
+    <button class="dbtn" id="epfill"><span data-i18n="dk_fill">▶ 逐个填入</span></button>
+    <button class="tgl" id="epreset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d2">
+    <span class="dl">
+      <button class="tgl on" id="trp0">NaCl</button><button class="tgl" id="trp1">MgO</button><button class="tgl" id="trp2">MgCl₂</button><button class="tgl" id="trp3">Na₂O</button>
+    </span>
+    <button class="dbtn" id="trgo"><span data-i18n="dk_tr">⚡ 转移电子</span></button>
+    <button class="tgl" id="trreset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d3">
+    <button class="tgl on" id="famH" data-i18n="dk_famH">氢家族</button>
+    <button class="tgl" id="famC" data-i18n="dk_famC">碳家族</button>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+<div class="foot" style="padding:8px 12px;font-size:11px;color:#5A605D">© 2026 ScienceMaterial</div>
+</div>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'原子结构实验室',
+ subtitle:'质子 · 中子 · 电子 —— 搭出你的原子 · 初中科学课堂演示工具',
+ tab0:'① 原子搭建台',tab1:'② 电子排布',tab2:'③ 离子的形成',tab3:'④ 同位素',tab4:'⑤ 测验',
+ bdqb:'拖动下面的滑杆，改变质子、中子、电子的数量——哪一个数字决定了"这是什么元素"？',
+ epqb:'电子并不是随便乱挤的：它们按什么规则一层一层地住进"楼层"里？',
+ trqb:'钠原子最外层只有 1 个电子，氯原子最外层有 7 个。把那 1 个电子搬过去，会发生什么？',
+ bd_sidetitle:'原子档案',
+ bd_k1:'<b>质子数决定元素种类！</b>改变质子数，元素立刻变成另一种；改变中子数，只改变质量（同位素）；改变电子数，只改变净电荷（离子）。原子核里的质子和中子挤在一起，电子在外面绕核高速运动。',
+ bd_k2:'诚实说明：电子其实<b>没有固定的轨道</b>，真实的电子像一团"云"（电子云）。这里画成一圈圈的轨道是<b>波尔模型</b>——初中阶段的简化画法，方便数电子。',
+ bd_k3:'质子和中子的质量差不多，电子的质量只有它们的约 <b>1/1836</b>，可以忽略——所以<b>质量数 A = 质子数 + 中子数</b>。',
+ ep_sidetitle:'排布规则',
+ ep_k1:'电子按能量从低到高，由内向外一层层填：第一层（K层）最多 <b>2</b> 个，第二层（L层）最多 <b>8</b> 个，第三层（M层）最多 <b>8</b> 个（初中范围）。先填满内层，才轮到外层。',
+ ep_k2:'<b>最外层电子</b>决定了元素的化学性质：最外层是 8 个（K层则是 2 个）就是<b>稳定结构</b>——稀有气体就长这样，几乎不发生化学反应。',
+ tr_sidetitle:'得失电子',
+ tr_k1:'金属原子（如钠）最外层电子少，容易<b>失去</b>电子变成<b>正离子</b>（Na⁺）；非金属原子（如氯）最外层电子多，容易<b>得到</b>电子变成<b>负离子</b>（Cl⁻）。得失电子后，双方都达到稳定结构。',
+ tr_k2:'Na⁺ 和 Cl⁻ 带相反电荷，<b>静电吸引</b>把它们结合在一起——这就是氯化钠 NaCl（食盐）的由来。注意：离子化合物里没有"NaCl 分子"，是离子一个挨一个排成晶体。',
+ iso_figtitle:'同位素：质子相同，中子不同',
+ iso_sidetitle:'同位素',
+ iso_k1:'<b>质子数相同、中子数不同</b>的原子互为<b>同位素</b>。它们是同一种元素（化学性质几乎相同），但质量数不同。写法：左上角是质量数 A，左下角是质子数 Z。',
+ iso_k2:'碳-14 会缓慢衰变，考古学家用它给古物"数年龄"（碳-14 测年法）；重氢（氘）是核聚变的燃料。同位素不是"稀奇的例外"，氯元素天然就是 Cl-35 和 Cl-37 的混合物。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_reset:'↺ 重置',
+ dk_p:'质子', dk_n:'中子', dk_e:'电子',
+ dk_fill:'▶ 逐个填入', dk_tr:'⚡ 转移电子',
+ dk_famH:'氢家族', dk_famC:'碳家族',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ bd_ztag:'质子数 Z', bd_atag:'质量数 A', bd_cfg:'电子排布',
+ bd_neu:'中性原子', bd_cat:'正离子', bd_ani:'负离子',
+ bd_nuc:'原子核', bd_ele:'电子',
+ bd_iso:'（常见原子的同位素）',
+ ep_outer:'最外层', ep_stable:'✓ 稳定结构（像稀有气体）', ep_count:'个电子',
+ ep_shellK:'K层·最多2', ep_shellL:'L层·最多8', ep_shellM:'M层·最多8', ep_shellN:'N层',
+ tr_before:'转移前', tr_after:'转移后',
+ tr_stable:'✓ 稳定结构',
+ trqb_nacl:'钠原子最外层只有 1 个电子，氯原子最外层有 7 个。把那 1 个电子搬过去，会发生什么？',
+ trqb_mgo:'镁原子最外层有 2 个电子，氧原子最外层有 6 个。这次要搬 2 个电子——看看会发生什么？',
+ trqb_mgcl2:'镁要丢掉 2 个电子，可是一个氯原子只收得下 1 个——怎么办？需要几个氯原子？',
+ trqb_na2o:'氧要收 2 个电子，可是一个钠原子只给得起 1 个——需要几个钠原子？',
+ tr_ban_nacl:'Na⁺ 与 Cl⁻ 静电吸引 → 氯化钠 NaCl',
+ tr_ban_mgo:'Mg²⁺ 与 O²⁻ 静电吸引 → 氧化镁 MgO',
+ tr_ban_mgcl2:'1 个 Mg²⁺ 与 2 个 Cl⁻ 结合 → 氯化镁 MgCl₂',
+ tr_ban_na2o:'2 个 Na⁺ 与 1 个 O²⁻ 结合 → 氧化钠 Na₂O',
+ tr_bal_mgcl2:'电荷平衡：(+2) + 2×(−1) = 0',
+ tr_bal_na2o:'电荷平衡：2×(+1) + (−2) = 0',
+ iso_same:'相同：质子数 · 电子数 · 化学性质',
+ iso_diff:'不同：中子数 · 质量数',
+ iso_hn:['氕 H-1','氘 H-2','氚 H-3'],
+ iso_cn:['碳-12','碳-13','碳-14'],
+ mth:''
+},
+en:{
+ title:'Atomic Structure Lab',
+ subtitle:'Protons · neutrons · electrons — build your own atom · junior-high classroom demo',
+ tab0:'① Build an Atom',tab1:'② Electron Shells',tab2:'③ Making Ions',tab3:'④ Isotopes',tab4:'⑤ Quiz',
+ bdqb:'Drag the sliders to change the protons, neutrons and electrons — which number decides WHICH element this is?',
+ epqb:'Electrons do not crowd in randomly: what rule sends them floor by floor into their "building"?',
+ trqb:'Sodium has just 1 outer electron; chlorine has 7. Move that 1 electron across — what happens?',
+ bd_sidetitle:'Atom file',
+ bd_k1:'<b>The proton number decides the element!</b> Change protons → a different element. Change neutrons → only the mass changes (isotope). Change electrons → only the net charge changes (ion). Protons and neutrons pack in the nucleus; electrons whirl around outside.',
+ bd_k2:'Honesty note: electrons do <b>not</b> ride fixed tracks — a real electron is a fuzzy "cloud". The ring picture here is the <b>Bohr model</b>, the junior-high simplification that makes electrons easy to count.',
+ bd_k3:'A proton and a neutron weigh about the same; an electron weighs only ~<b>1/1836</b> of that — negligible. So <b>mass number A = protons + neutrons</b>.',
+ ep_sidetitle:'Filling rules',
+ ep_k1:'Electrons fill from the inside out, lowest energy first: shell 1 (K) holds at most <b>2</b>, shell 2 (L) at most <b>8</b>, shell 3 (M) at most <b>8</b> (at this level). An inner shell must be full before the next one starts.',
+ ep_k2:'The <b>outermost electrons</b> set an element\u2019s chemistry. A full outer shell of 8 (or 2 for the K shell) is a <b>stable structure</b> — that is exactly what noble gases look like, which is why they barely react.',
+ tr_sidetitle:'Losing & gaining',
+ tr_k1:'Metal atoms (like sodium) have few outer electrons and easily <b>lose</b> them → <b>cations</b> (Na⁺). Non-metals (like chlorine) have many and easily <b>gain</b> one → <b>anions</b> (Cl⁻). After the transfer, BOTH have stable structures.',
+ tr_k2:'Na⁺ and Cl⁻ carry opposite charges, and <b>electrostatic attraction</b> binds them — that is table salt, NaCl. Note: in an ionic compound there is no "NaCl molecule"; ions stack one by one into a crystal.',
+ iso_figtitle:'Isotopes: same protons, different neutrons',
+ iso_sidetitle:'Isotopes',
+ iso_k1:'Atoms with the <b>same proton number but different neutron numbers</b> are <b>isotopes</b>. They are the same element (nearly identical chemistry) with different mass numbers. Notation: mass number A top-left, proton number Z bottom-left.',
+ iso_k2:'Carbon-14 slowly decays — archaeologists use it to "count the age" of relics (carbon dating); heavy hydrogen (deuterium) fuels nuclear fusion. Isotopes are not rare oddities: natural chlorine is a mix of Cl-35 and Cl-37.',
+ qz_title:'🎯 Quiz', qz_reset:'Restart',
+ dk_reset:'↺ Reset',
+ dk_p:'protons', dk_n:'neutrons', dk_e:'electrons',
+ dk_fill:'▶ Fill one by one', dk_tr:'⚡ Transfer electron',
+ dk_famH:'Hydrogen family', dk_famC:'Carbon family',
+ dk_hint4:'💡 answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 hide notes', exp_off:'💬 tap for notes',
+ qtag:'Q',
+ bd_ztag:'proton number Z', bd_atag:'mass number A', bd_cfg:'configuration',
+ bd_neu:'neutral atom', bd_cat:'positive ion', bd_ani:'negative ion',
+ bd_nuc:'nucleus', bd_ele:'electron',
+ bd_iso:'(an isotope of the common atom)',
+ ep_outer:'outermost', ep_stable:'✓ stable structure (noble-gas-like)', ep_count:'electron(s)',
+ ep_shellK:'K · max 2', ep_shellL:'L · max 8', ep_shellM:'M · max 8', ep_shellN:'N',
+ tr_before:'before', tr_after:'after',
+ tr_stable:'✓ stable structure',
+ trqb_nacl:'Sodium has just 1 outer electron; chlorine has 7. Move that 1 electron across — what happens?',
+ trqb_mgo:'Magnesium has 2 outer electrons; oxygen has 6. This time TWO electrons move — watch what happens.',
+ trqb_mgcl2:'Magnesium must shed 2 electrons, but one chlorine atom can only take 1 — so how many chlorines are needed?',
+ trqb_na2o:'Oxygen wants 2 electrons, but one sodium atom can only give 1 — so how many sodiums are needed?',
+ tr_ban_nacl:'Na⁺ and Cl⁻ attract → sodium chloride NaCl',
+ tr_ban_mgo:'Mg²⁺ and O²⁻ attract → magnesium oxide MgO',
+ tr_ban_mgcl2:'1 Mg²⁺ binds 2 Cl⁻ → magnesium chloride MgCl₂',
+ tr_ban_na2o:'2 Na⁺ bind 1 O²⁻ → sodium oxide Na₂O',
+ tr_bal_mgcl2:'charge balance: (+2) + 2×(−1) = 0',
+ tr_bal_na2o:'charge balance: 2×(+1) + (−2) = 0',
+ iso_same:'Same: protons · electrons · chemistry',
+ iso_diff:'Different: neutrons · mass number',
+ iso_hn:['protium H-1','deuterium H-2','tritium H-3'],
+ iso_cn:['carbon-12','carbon-13','carbon-14'],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function stl(x,y,size,fill,txt,anchor){
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="700" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:#0B1220;stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.hasAttribute('data-dyn'))continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= atom model ================= */
+var ELEM=[
+ ['H','氢','Hydrogen'],['He','氦','Helium'],['Li','锂','Lithium'],['Be','铍','Beryllium'],
+ ['B','硼','Boron'],['C','碳','Carbon'],['N','氮','Nitrogen'],['O','氧','Oxygen'],
+ ['F','氟','Fluorine'],['Ne','氖','Neon'],['Na','钠','Sodium'],['Mg','镁','Magnesium'],
+ ['Al','铝','Aluminium'],['Si','硅','Silicon'],['P','磷','Phosphorus'],['S','硫','Sulfur'],
+ ['Cl','氯','Chlorine'],['Ar','氩','Argon'],['K','钾','Potassium'],['Ca','钙','Calcium']
+];
+/* most common neutron count for Z=1..20 */
+var NCOMMON=[0,2,4,5,6,6,7,8,10,10,12,12,14,14,16,16,18,22,20,20];
+var SHCAP=[2,8,8,2];
+var SHR=[46,76,106,132];
+function shellsOf(e){
+  var out=[],k,left=e;
+  for(k=0;k<SHCAP.length&&left>0;k++){
+    var take=Math.min(SHCAP[k],left);
+    out.push(take);left-=take;
+  }
+  return out;
+}
+function chargeOf(p,e){return p-e}
+var SUPD={'0':'\u2070','1':'\u00B9','2':'\u00B2','3':'\u00B3','4':'\u2074','5':'\u2075','6':'\u2076','7':'\u2077','8':'\u2078','9':'\u2079'};
+function ionTxt(sym,ch){
+  var m=Math.abs(ch);
+  if(m===0)return sym;
+  var d=(m===1)?'':String(m).replace(/[0-9]/g,function(c){return SUPD[c]});
+  return sym+d+(ch>0?'\u207A':'\u207B');
+}
+function elemOf(p){return ELEM[p-1]}
+/* electron position: shell si, index j of nj, animated by CLK */
+function ePos(cx,cy,si,j,nj,scale,clk){
+  var w=(0.9-0.16*si);           /* inner shells whirl faster */
+  var a=clk*w+j*6.28318/nj+si*0.7;
+  var R=SHR[si]*scale;
+  return {x:cx+R*Math.cos(a),y:cy-R*Math.sin(a)};
+}
+/* nucleon packing: golden-angle spiral, protons/neutrons interleaved */
+function nucPos(cx,cy,k,total,scale){
+  var r=(total<=1)?0:(4.6*Math.sqrt(k)*scale);
+  var a=k*2.39996;
+  return {x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};
+}
+function nucR(total,scale){return (total<=1)?7*scale:(4.6*Math.sqrt(total)*scale+7*scale)}
+
+/* ================= tab states ================= */
+var BD={p:6,n:6,e:6};
+var EP={p:11,placed:0,fly:-1,ft:0,run:false};
+/* ionic-compound presets: cs=atoms, fl=electron flights [from,to] */
+var TRPRE=[
+ {k:'nacl', cs:[{Z:11,N:12},{Z:17,N:18}],            fl:[[0,1]],        f2:'NaCl',  nz:'\u6c2f\u5316\u94a0', ne:'sodium chloride'},
+ {k:'mgo',  cs:[{Z:12,N:12},{Z:8,N:8}],              fl:[[0,1],[0,1]],  f2:'MgO',   nz:'\u6c27\u5316\u9541', ne:'magnesium oxide'},
+ {k:'mgcl2',cs:[{Z:17,N:18},{Z:12,N:12},{Z:17,N:18}],fl:[[1,0],[1,2]],  f2:'MgCl\u2082', nz:'\u6c2f\u5316\u9541', ne:'magnesium chloride'},
+ {k:'na2o', cs:[{Z:11,N:12},{Z:8,N:8},{Z:11,N:12}],  fl:[[0,1],[2,1]],  f2:'Na\u2082O',  nz:'\u6c27\u5316\u94a0', ne:'sodium oxide'}
+];
+var TR={pre:0,st:'idle',t:0,k:0};   /* idle | fly | done; k = active flight */
+function trEOf(i){
+  var P=TRPRE[TR.pre],given=0,taken=0,j;
+  var upto=(TR.st==='done')?P.fl.length:((TR.st==='fly')?TR.k:0);
+  for(j=0;j<P.fl.length;j++){
+    if(P.fl[j][0]===i && (j<upto || (TR.st==='fly'&&j===TR.k)))given++;   /* departed leaves giver */
+    if(P.fl[j][1]===i && j<upto)taken++;                                   /* only landed counts */
+  }
+  return P.cs[i].Z-given+taken;
+}
+function trLayout(){
+  var n=TRPRE[TR.pre].cs.length;
+  if(n===2)return {xs:[170,490],cy:245,s:1.24};
+  return {xs:[110,330,550],cy:245,s:0.86};
+}
+var ISO={fam:'H'};
+function initBD(){BD.p=6;BD.n=6;BD.e=6}
+function initEP(){EP.placed=0;EP.fly=-1;EP.ft=0;EP.run=false}
+function initTR(){TR.st='idle';TR.t=0;TR.k=0}
+'use strict';
+/* ================= shared atom renderer ================= */
+function atomBG(w,h){
+  return '<rect x="0" y="0" width="'+w+'" height="'+h+'" rx="14" fill="#0E1626"/>';
+}
+function drawAtomSVG(cx,cy,p,n,e,scale,clk,opts){
+  opts=opts||{};
+  var s='',k;
+  var sh=shellsOf(e);
+  /* shells */
+  for(k=0;k<sh.length;k++){
+    var hot=(opts.outer&&k===sh.length-1);
+    s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(SHR[k]*scale).toFixed(1)+'" fill="none" stroke="'+(hot?'#DA9526':'#3A4A66')+'" stroke-width="'+(hot?2.5:1.5)+'" stroke-dasharray="4 6"/>';
+  }
+  /* nucleus: interleave p red / n grey deterministically */
+  var tot=p+n;
+  var seq=[];
+  var pi=0,ni=0;
+  for(k=0;k<tot;k++){
+    var wantP=(pi/Math.max(p,1))<=(ni/Math.max(n,1));
+    if(pi>=p)wantP=false;
+    if(ni>=n)wantP=true;
+    seq.push(wantP?'p':'n');
+    if(wantP)pi++;else ni++;
+  }
+  for(k=0;k<tot;k++){
+    var q=nucPos(cx,cy,k,tot,scale);
+    var jx=(rnd(k,31)-0.5)*1.6*Math.sin(clk*3+k),jy=(rnd(k,37)-0.5)*1.6*Math.cos(clk*3+k*2);
+    var col=(seq[k]==='p')?'#D9542B':'#8F96A4';
+    s+='<circle cx="'+(q.x+jx).toFixed(1)+'" cy="'+(q.y+jy).toFixed(1)+'" r="'+(6*scale).toFixed(1)+'" fill="'+col+'" stroke="#0E1626" stroke-width="1"/>';
+    if(seq[k]==='p'&&scale>=0.55)s+=stl(q.x+jx,q.y+jy+4*scale,Math.max(10,11*scale),'#FFE3D6','+');
+  }
+  /* electrons */
+  var placedCap=(opts.maxPlaced===undefined)?e:opts.maxPlaced;
+  var idx=0;
+  for(k=0;k<sh.length;k++){
+    var nj=sh[k];
+    for(var j=0;j<nj;j++){
+      if(idx>=placedCap)break;
+      var pe=ePos(cx,cy,k,j,nj,scale,clk);
+      s+='<circle cx="'+pe.x.toFixed(1)+'" cy="'+pe.y.toFixed(1)+'" r="'+(5*scale).toFixed(1)+'" fill="#4C8DBF" stroke="#9CC3E8" stroke-width="1.5"/>';
+      if(scale>=0.55)s+=stl(pe.x,pe.y+4*scale,Math.max(10,11*scale),'#DDEBFA','−');
+      idx++;
+    }
+  }
+  return s;
+}
+/* isotope notation  A over Z, then symbol */
+function notation(cx,cy,A,Z,sym,size){
+  var s='';
+  s+=stl(cx-size*0.42,cy-size*0.34,Math.round(size*0.52),'#E8C97A',A,'end');
+  s+=stl(cx-size*0.42,cy+size*0.42,Math.round(size*0.52),'#9CC3E8',Z,'end');
+  s+=stl(cx,cy+size*0.18,size,'#F1F4F9',sym,'start');
+  return s;
+}
+
+/* ================= ① build an atom ================= */
+function drawBD(){
+  var s=atomBG(660,470);
+  var cx=248,cy=232;
+  s+=drawAtomSVG(cx,cy,BD.p,BD.n,BD.e,1.18,CLK,{});
+  s+=stl(cx,cy-SHR[Math.max(shellsOf(BD.e).length,1)-1]*1.18-14,13,'#7C8AA4',T('bd_ele'));
+  s+=stl(cx,cy+nucR(BD.p+BD.n,1.18)+18,13,'#FFB59B',T('bd_nuc'));
+  /* element card on the right */
+  var el=elemOf(BD.p);
+  var ch=chargeOf(BD.p,BD.e);
+  var A=BD.p+BD.n;
+  s+='<rect x="472" y="40" width="168" height="150" rx="12" fill="#151F33" stroke="#3A4A66" stroke-width="1.5"/>';
+  s+=notation(524,102,A,BD.p,el[0],46);
+  s+=stl(556,158,17,'#D8DEEA',(LANG==='en'?el[2]:el[1]));
+  var isoTag=(BD.n!==NCOMMON[BD.p-1]);
+  if(isoTag)s+=stl(556,180,11,'#8FA3C4',T('bd_iso'));
+  /* charge badge */
+  var btxt,bcol;
+  if(ch===0){btxt=T('bd_neu');bcol='#52B87C'}
+  else if(ch>0){btxt=T('bd_cat')+'  '+ionTxt(el[0],ch);bcol='#E8934C'}
+  else {btxt=T('bd_ani')+'  '+ionTxt(el[0],ch);bcol='#7FB2E0'}
+  s+='<rect x="472" y="206" width="168" height="42" rx="10" fill="#151F33" stroke="'+bcol+'" stroke-width="2"/>';
+  s+=stl(556,233,15,bcol,btxt);
+  /* counters, countable */
+  s+=stl(472,286,14,'#FF9F7E','● '+T('dk_p')+' × '+BD.p,'start');
+  s+=stl(472,312,14,'#C3C9D6','● '+T('dk_n')+' × '+BD.n,'start');
+  s+=stl(472,338,14,'#9CC3E8','● '+T('dk_e')+' × '+BD.e,'start');
+  s+=stl(472,372,14,'#E8C97A',T('bd_atag')+' = '+BD.p+' + '+BD.n+' = '+A,'start');
+  var cfg=shellsOf(BD.e).join(', ')||'0';
+  s+=stl(472,398,14,'#D8DEEA',T('bd_cfg')+'：'+cfg,'start');
+  s+=stl(472,430,13,'#7C8AA4',T('bd_ztag')+' = '+BD.p,'start');
+  $('svgbd').innerHTML=s;
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('bdqb');
+  $('b_el').textContent=el[0]+' · '+(LANG==='en'?el[2]:el[1]);
+  $('b_ch').textContent=(ch===0)?T('bd_neu'):((ch>0?'+':'')+ch);
+}
+
+/* ================= ② electron filling ================= */
+function drawEP(){
+  var s=atomBG(660,470);
+  var cx=250,cy=225;
+  var e=EP.p;
+  var sh=shellsOf(e);
+  s+=drawAtomSVG(cx,cy,EP.p,NCOMMON[EP.p-1],e,1.12,CLK,{maxPlaced:EP.placed,outer:EP.placed>=e});
+  /* flying electron */
+  if(EP.fly>=0){
+    var tgt=slotOf(EP.fly,sh);
+    var pe=ePos(cx,cy,tgt.si,tgt.j,sh[tgt.si],1.12,CLK);
+    var t=EP.ft;
+    var sx=630,sy=60;
+    var fx=sx+(pe.x-sx)*t,fy=sy+(pe.y-sy)*t;
+    s+='<circle cx="'+fx.toFixed(1)+'" cy="'+fy.toFixed(1)+'" r="6" fill="#4C8DBF" stroke="#9CC3E8" stroke-width="2"/>';
+  }
+  /* shell capacity tags */
+  var tags=['ep_shellK','ep_shellL','ep_shellM','ep_shellN'];
+  for(var k=0;k<Math.max(sh.length, Math.min(3,e>0?3:1));k++){
+    if(k>3)break;
+    s+=stl(cx+SHR[k]*1.12*0.7071+8,cy-SHR[k]*1.12*0.7071-6,12,'#8FA3C4',T(tags[k]),'start');
+  }
+  /* right panel: config + outer shell */
+  var el=elemOf(EP.p);
+  s+='<rect x="472" y="40" width="168" height="96" rx="12" fill="#151F33" stroke="#3A4A66" stroke-width="1.5"/>';
+  s+=notation(520,90,EP.p+NCOMMON[EP.p-1],EP.p,el[0],38);
+  var placedSh=shellsOf(Math.min(EP.placed,e));
+  s+=stl(556,168,15,'#D8DEEA',T('bd_cfg'),'middle');
+  s+=stl(556,196,22,'#E8C97A',placedSh.join(', ')||'—');
+  if(EP.placed>=e&&e>0){
+    var outer=sh[sh.length-1];
+    var stable=(sh.length===1&&outer===2)||(outer===8);
+    s+=stl(556,236,14,'#D8DEEA',T('ep_outer')+'：'+outer+' '+T('ep_count'));
+    if(stable)s+=stl(556,262,13,'#52B87C',T('ep_stable'));
+  }
+  s+=stl(556,300,13,'#8FA3C4',EP.placed+' / '+e);
+  $('svgep').innerHTML=s;
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('epqb');
+}
+function slotOf(idx,sh){
+  var k,acc=0;
+  for(k=0;k<sh.length;k++){
+    if(idx<acc+sh[k])return {si:k,j:idx-acc};
+    acc+=sh[k];
+  }
+  return {si:sh.length-1,j:0};
+}
+function epTick(dt){
+  if(!EP.run)return;
+  var e=EP.p;
+  if(EP.fly<0){
+    if(EP.placed>=e){EP.run=false;return}
+    EP.fly=EP.placed;EP.ft=0;
+  }else{
+    EP.ft+=dt*2.4;
+    if(EP.ft>=1){EP.placed++;EP.fly=-1;EP.ft=0}
+  }
+}
+
+/* ================= ③ ion transfer (multi-preset, multi-flight) ================= */
+function drawTR(){
+  var s=atomBG(660,470);
+  var P=TRPRE[TR.pre],L=trLayout(),i;
+  var n=P.cs.length;
+  /* atoms — as large as the canvas allows */
+  for(i=0;i<n;i++){
+    var e=trEOf(i);
+    s+=drawAtomSVG(L.xs[i],L.cy,P.cs[i].Z,P.cs[i].N,e,L.s,CLK,{outer:true});
+  }
+  /* flying electron along an arc, giver → taker */
+  if(TR.st==='fly'){
+    var f=P.fl[TR.k];
+    var og=SHR[Math.max(shellsOf(trEOf(f[0])).length,1)-0]*0; /* not used */
+    var xg=L.xs[f[0]],xt=L.xs[f[1]];
+    var dirg=(xt>xg)?1:-1;
+    var rg=SHR[Math.max(shellsOf(P.cs[f[0]].Z).length-1,0)]*L.s;
+    var rt=SHR[Math.max(shellsOf(P.cs[f[1]].Z).length-1,0)]*L.s;
+    var p0x=xg+dirg*rg*0.72, p0y=L.cy-rg*0.7;
+    var p1x=xt-dirg*rt*0.72, p1y=L.cy-rt*0.7;
+    var t=TR.t;
+    var fx=p0x+(p1x-p0x)*t, fy=p0y+(p1y-p0y)*t-64*Math.sin(t*3.1416);
+    s+='<circle cx="'+fx.toFixed(1)+'" cy="'+fy.toFixed(1)+'" r="7" fill="#4C8DBF" stroke="#F2C94C" stroke-width="2.5"/>';
+  }
+  /* labels: symbol becomes ion notation as charge appears */
+  for(i=0;i<n;i++){
+    var sym=elemOf(P.cs[i].Z)[0];
+    var ch=P.cs[i].Z-trEOf(i);
+    s+=stl(L.xs[i],50,22,'#F1F4F9',ionTxt(sym,ch));
+    s+=stl(L.xs[i],76,13,'#8FA3C4',shellsOf(trEOf(i)).join(', '));
+  }
+  if(TR.st==='done'){
+    for(i=0;i<n;i++)s+=stl(L.xs[i],404,13,'#52B87C',T('tr_stable'));
+    /* attraction arrows in every gap between adjacent atoms */
+    for(i=0;i<n-1;i++){
+      var mx=(L.xs[i]+L.xs[i+1])/2;
+      var chL=P.cs[i].Z-trEOf(i);
+      var colL=(chL>0)?'#E8934C':'#7FB2E0', colR=(chL>0)?'#7FB2E0':'#E8934C';
+      s+='<path d="M '+(mx-58)+' '+L.cy+' l 40 0 m -10 -7 l 10 7 l -10 7" stroke="'+colL+'" stroke-width="3" fill="none"/>';
+      s+='<path d="M '+(mx+58)+' '+L.cy+' l -40 0 m 10 -7 l -10 7 l 10 7" stroke="'+colR+'" stroke-width="3" fill="none"/>';
+      s+=stl(mx,L.cy-24,14,'#E8C97A','+ \u21C4 \u2212');
+    }
+    var bal=T('tr_bal_'+P.k);
+    if(bal!=='tr_bal_'+P.k)s+=stl(330,420,12,'#8FA3C4',bal);
+    s+='<rect x="90" y="428" width="480" height="34" rx="10" fill="#151F33" stroke="#DA9526" stroke-width="2"/>';
+    s+=stl(330,450,15,'#E8C97A',T('tr_ban_'+P.k));
+  }else{
+    s+=stl(330,446,13,'#7C8AA4',T('tr_before'));
+  }
+  $('svgtr').innerHTML=s;
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('trqb_'+P.k);
+}
+function trTick(dt){
+  if(TR.st==='fly'){
+    TR.t+=dt*1.1;
+    if(TR.t>=1){
+      TR.k++;TR.t=0;
+      if(TR.k>=TRPRE[TR.pre].fl.length){TR.st='done';TR.k=TRPRE[TR.pre].fl.length}
+    }
+  }
+}
+
+/* ================= ④ isotopes ================= */
+function drawISO(){
+  var s=atomBG(660,400);
+  var fam=(ISO.fam==='H');
+  var Z=fam?1:6;
+  var ns=fam?[0,1,2]:[6,7,8];
+  var names=T(fam?'iso_hn':'iso_cn');
+  var sym=fam?'H':'C';
+  var xs=[128,330,532];
+  for(var k=0;k<3;k++){
+    var A=Z+ns[k];
+    s+=drawAtomSVG(xs[k],188,Z,ns[k],Z,0.52,CLK,{});
+    s+='<rect x="'+(xs[k]-64)+'" y="34" width="128" height="52" rx="10" fill="#151F33" stroke="#3A4A66" stroke-width="1.5"/>';
+    s+=notation(xs[k]-8,62,A,Z,sym,26);
+    s+=stl(xs[k],306,14,'#D8DEEA',names[k]);
+    s+=stl(xs[k],330,12,'#FF9F7E',T('dk_p')+' '+Z+' · '+T('dk_n')+' '+ns[k]);
+  }
+  s+=stl(330,368,14,'#52B87C',T('iso_same'));
+  s+=stl(330,390,14,'#E8934C',T('iso_diff'));
+  $('svgiso').innerHTML=s;
+}
+'use strict';
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. Which number decides WHICH element an atom is?',o:[
+    ['the number of protons',1,'Correct — change the protons and it is instantly a different element.'],
+    ['the number of neutrons',0,'Changing neutrons only makes an isotope of the SAME element.'],
+    ['the number of electrons',0,'Changing electrons only makes an ion of the same element.'],
+    ['the total of all particles',0,'Only the protons carry the element\u2019s identity.']]},
+   {q:'2. Mass number A equals…',o:[
+    ['protons + neutrons',1,'Correct — electrons are ~1/1836 the mass, so they are ignored.'],
+    ['protons + electrons',0,'Electrons weigh almost nothing — they are not counted.'],
+    ['neutrons + electrons',0,'This misses the protons, half the nucleus!'],
+    ['protons only',0,'That is the proton number Z, not the mass number.']]},
+   {q:'3. An atom is electrically neutral because…',o:[
+    ['protons and electrons are equal in number',1,'Correct — +charges and −charges cancel exactly.'],
+    ['it contains neutrons',0,'Neutrons are neutral but do not CANCEL anything.'],
+    ['electrons move too fast to matter',0,'Speed does not remove charge.'],
+    ['the nucleus has no charge',0,'The nucleus is positive — protons live there.']]},
+   {q:'4. Sodium (2,8,1) LOSES its outer electron. It becomes…',o:[
+    ['a cation Na⁺ with a stable 2,8 structure',1,'Correct — losing one electron leaves 11 protons vs 10 electrons: net +1.'],
+    ['an anion Na⁻',0,'Losing electrons makes it MORE positive, not negative.'],
+    ['a different element',0,'Protons did not change — still sodium.'],
+    ['a neutral atom of neon',0,'Same electron count as neon, but the 11 protons still say sodium.']]},
+   {q:'5. The electron configuration of chlorine (Z=17) is…',o:[
+    ['2, 8, 7',1,'Correct — K fills 2, L fills 8, the remaining 7 sit in M.'],
+    ['2, 7, 8',0,'Inner shells must fill FIRST — L takes its full 8 before M starts.'],
+    ['8, 8, 1',0,'The K shell can only ever hold 2.'],
+    ['17',0,'Electrons never all crowd into one shell.']]},
+   {q:'6. Isotopes of an element have…',o:[
+    ['same protons, different neutrons',1,'Correct — same element, different mass numbers.'],
+    ['same neutrons, different protons',0,'Different protons = different elements entirely.'],
+    ['same mass, different charges',0,'That describes ions vs atoms, not isotopes.'],
+    ['different chemical properties',0,'Chemistry is set by electrons/protons — isotopes behave almost identically.']]},
+   {q:'7. Carbon-14 (¹⁴C) contains…',o:[
+    ['6 protons and 8 neutrons',1,'Correct — Z=6 says carbon; A−Z = 14−6 = 8 neutrons.'],
+    ['14 protons',0,'14 protons would be silicon! 14 is the MASS number.'],
+    ['7 protons and 7 neutrons',0,'7 protons would be nitrogen.'],
+    ['6 protons and 14 neutrons',0,'A counts protons AND neutrons together: 6+8=14.']]},
+   {q:'8. Why do noble gases barely react?',o:[
+    ['their outer shell is already full (8, or 2 for helium)',1,'Correct — a stable structure has nothing to gain or lose.'],
+    ['they have no electrons',0,'They have plenty — just in a full arrangement.'],
+    ['their nuclei are uncharged',0,'Their nuclei are positive like all nuclei.'],
+    ['they are too light to react',0,'Mass does not decide reactivity — the outer shell does.']]}
+  ];
+  return [
+   {q:'1. 哪一个数字决定了"这是哪种元素"？',o:[
+    ['质子数',1,'正确——改变质子数，立刻变成另一种元素。'],
+    ['中子数',0,'改变中子数只会得到同一元素的同位素。'],
+    ['电子数',0,'改变电子数只会得到同一元素的离子。'],
+    ['三种粒子的总数',0,'元素的"身份证"只写在质子数上。']]},
+   {q:'2. 质量数 A 等于……',o:[
+    ['质子数 + 中子数',1,'正确——电子质量只有约 1/1836，忽略不计。'],
+    ['质子数 + 电子数',0,'电子几乎没有质量，不计入质量数。'],
+    ['中子数 + 电子数',0,'漏掉了质子——原子核的一半！'],
+    ['只有质子数',0,'那是质子数 Z，不是质量数 A。']]},
+   {q:'3. 原子整体不带电（电中性），是因为……',o:[
+    ['质子数与电子数相等',1,'正确——正电荷与负电荷刚好抵消。'],
+    ['原子里有中子',0,'中子不带电，但它不能"抵消"任何电荷。'],
+    ['电子跑得太快',0,'速度快慢不会让电荷消失。'],
+    ['原子核不带电',0,'原子核带正电——质子就住在里面。']]},
+   {q:'4. 钠原子 (2,8,1) 失去最外层那个电子后，变成……',o:[
+    ['正离子 Na⁺，达到 2,8 稳定结构',1,'正确——11 个质子对 10 个电子，净电荷 +1。'],
+    ['负离子 Na⁻',0,'失去电子会更"正"，不会变负。'],
+    ['另一种元素',0,'质子数没变——它还是钠。'],
+    ['氖原子',0,'电子排布确实和氖一样，但 11 个质子说了算：还是钠。']]},
+   {q:'5. 氯 (Z=17) 的电子排布是……',o:[
+    ['2, 8, 7',1,'正确——K层装满2个，L层装满8个，剩下7个进M层。'],
+    ['2, 7, 8',0,'必须先填满内层——L层装满8个之后才轮到M层。'],
+    ['8, 8, 1',0,'K层最多只能住 2 个电子。'],
+    ['17',0,'电子不会全部挤在同一层。']]},
+   {q:'6. 互为同位素的原子……',o:[
+    ['质子数相同，中子数不同',1,'正确——同一种元素，不同的质量数。'],
+    ['中子数相同，质子数不同',0,'质子数不同就是完全不同的元素了。'],
+    ['质量相同，电荷不同',0,'那说的是离子和原子的区别，不是同位素。'],
+    ['化学性质完全不同',0,'化学性质由质子/电子决定——同位素的化学性质几乎一样。']]},
+   {q:'7. 碳-14（¹⁴C）含有……',o:[
+    ['6 个质子和 8 个中子',1,'正确——Z=6 说明是碳；中子数 = A−Z = 14−6 = 8。'],
+    ['14 个质子',0,'14 个质子就是硅了！14 是质量数。'],
+    ['7 个质子和 7 个中子',0,'7 个质子是氮。'],
+    ['6 个质子和 14 个中子',0,'A 是质子和中子一起数：6+8=14。']]},
+   {q:'8. 稀有气体几乎不发生化学反应，是因为……',o:[
+    ['最外层已经排满（8个，氦是2个）',1,'正确——稳定结构既不想得电子也不想失电子。'],
+    ['它们没有电子',0,'它们有电子，只是排成了"满员"的稳定结构。'],
+    ['原子核不带电',0,'它们的原子核和别人一样带正电。'],
+    ['它们太轻了',0,'轻重不决定活泼程度——最外层电子才决定。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  CLK+=0.016;
+  if(CUR===0){ drawBD(); }
+  else if(CUR===1){ epTick(0.016); drawEP(); }
+  else if(CUR===2){ trTick(0.016); drawTR(); }
+  else if(CUR===3){ drawISO(); }
+  updSummary();
+  AMB=requestAnimationFrame(ambLoop);
+}
+function bdSlider(id,key,lab){
+  $(id).addEventListener('input',function(){
+    BD[key]=+this.value;
+    $(lab).textContent=this.value;
+    drawBD();updSummary();
+  });
+}
+var PRESETS=[[1,0,1],[2,2,2],[6,6,6],[8,8,8],[11,12,10],[17,18,18]];
+function setBD(p,n,e){
+  BD.p=p;BD.n=n;BD.e=e;
+  $('bdp').value=p;$('bdn').value=n;$('bde').value=e;
+  $('bdplab').textContent=p;$('bdnlab').textContent=n;$('bdelab').textContent=e;
+  drawBD();updSummary();
+}
+function boot(){
+  RENDER=[drawBD,drawEP,drawTR,drawISO,drawQZ];
+  SUMMARY=[
+    function(){var el=elemOf(BD.p);return el[0]+' · p'+BD.p+' n'+BD.n+' e'+BD.e},
+    function(){return elemOf(EP.p)[0]+' · '+EP.placed+'/'+EP.p},
+    function(){return TRPRE[TR.pre].f2+(TR.st==='done'?' ✓':'')},
+    function(){return T('iso_figtitle')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initBD(); initEP(); initTR();
+  /* --- ① --- */
+  bdSlider('bdp','p','bdplab');
+  bdSlider('bdn','n','bdnlab');
+  bdSlider('bde','e','bdelab');
+  var k;
+  for(k=0;k<6;k++)(function(i){
+    $('pr'+i).addEventListener('click',function(){
+      setBD(PRESETS[i][0],PRESETS[i][1],PRESETS[i][2]);
+    });
+  })(k);
+  $('bdreset').addEventListener('click',function(){setBD(6,6,6)});
+  /* --- ② --- */
+  $('epp').addEventListener('input',function(){
+    EP.p=+this.value;$('epplab').textContent=EP.p+' · '+elemOf(EP.p)[0];
+    initEP();drawEP();updSummary();
+  });
+  $('epfill').addEventListener('click',function(){
+    if(EP.placed>=EP.p)initEP();
+    EP.run=true;
+  });
+  $('epreset').addEventListener('click',function(){initEP();drawEP();updSummary()});
+  /* --- ③ --- */
+  $('trgo').addEventListener('click',function(){
+    if(TR.st==='idle'){TR.st='fly';TR.t=0;TR.k=0}
+  });
+  $('trreset').addEventListener('click',function(){initTR();drawTR();updSummary()});
+  var tk;
+  for(tk=0;tk<4;tk++)(function(i){
+    $('trp'+i).addEventListener('click',function(){
+      TR.pre=i;initTR();
+      var j;for(j=0;j<4;j++)$('trp'+j).classList.toggle('on',j===i);
+      drawTR();updSummary();
+    });
+  })(tk);
+  /* --- ④ --- */
+  $('famH').addEventListener('click',function(){ISO.fam='H';this.classList.add('on');$('famC').classList.remove('on');drawISO()});
+  $('famC').addEventListener('click',function(){ISO.fam='C';this.classList.add('on');$('famH').classList.remove('on');drawISO()});
+  /* --- chrome --- */
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  setBD(1,0,1);setBD(11,12,10);setBD(17,18,18);setBD(20,20,20);
+  for(i=0;i<60;i++){CLK+=0.016;if(i%20===0)drawBD()}
+  setBD(6,6,6);
+  showTab(1);
+  EP.p=11;initEP();EP.run=true;
+  for(i=0;i<900;i++){CLK+=0.016;epTick(0.016);if(i%150===0)drawEP()}
+  drawEP();
+  initEP();
+  showTab(2);
+  for(var pp=0;pp<4;pp++){
+    TR.pre=pp;initTR();drawTR();
+    TR.st='fly';TR.t=0;TR.k=0;
+    for(i=0;i<400&&TR.st!=='done';i++){CLK+=0.016;trTick(0.016);if(i%60===0)drawTR()}
+    drawTR();
+  }
+  TR.pre=0;initTR();
+  showTab(3);
+  ISO.fam='C';drawISO();ISO.fam='H';drawISO();
+  showTab(4);
+  for(i=0;i<8;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=8;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'原子结构实验室',
+ subtitle:'质子 · 中子 · 电子 —— 搭出你的原子 · 初中科学课堂演示工具',
+ tab0:'① 原子搭建台',tab1:'② 电子排布',tab2:'③ 离子的形成',tab3:'④ 同位素',tab4:'⑤ 测验',
+ bdqb:'拖动下面的滑杆，改变质子、中子、电子的数量——哪一个数字决定了"这是什么元素"？',
+ epqb:'电子并不是随便乱挤的：它们按什么规则一层一层地住进"楼层"里？',
+ trqb:'钠原子最外层只有 1 个电子，氯原子最外层有 7 个。把那 1 个电子搬过去，会发生什么？',
+ bd_sidetitle:'原子档案',
+ bd_k1:'<b>质子数决定元素种类！</b>改变质子数，元素立刻变成另一种；改变中子数，只改变质量（同位素）；改变电子数，只改变净电荷（离子）。原子核里的质子和中子挤在一起，电子在外面绕核高速运动。',
+ bd_k2:'诚实说明：电子其实<b>没有固定的轨道</b>，真实的电子像一团"云"（电子云）。这里画成一圈圈的轨道是<b>波尔模型</b>——初中阶段的简化画法，方便数电子。',
+ bd_k3:'质子和中子的质量差不多，电子的质量只有它们的约 <b>1/1836</b>，可以忽略——所以<b>质量数 A = 质子数 + 中子数</b>。',
+ ep_sidetitle:'排布规则',
+ ep_k1:'电子按能量从低到高，由内向外一层层填：第一层（K层）最多 <b>2</b> 个，第二层（L层）最多 <b>8</b> 个，第三层（M层）最多 <b>8</b> 个（初中范围）。先填满内层，才轮到外层。',
+ ep_k2:'<b>最外层电子</b>决定了元素的化学性质：最外层是 8 个（K层则是 2 个）就是<b>稳定结构</b>——稀有气体就长这样，几乎不发生化学反应。',
+ tr_sidetitle:'得失电子',
+ tr_k1:'金属原子（如钠）最外层电子少，容易<b>失去</b>电子变成<b>正离子</b>（Na⁺）；非金属原子（如氯）最外层电子多，容易<b>得到</b>电子变成<b>负离子</b>（Cl⁻）。得失电子后，双方都达到稳定结构。',
+ tr_k2:'Na⁺ 和 Cl⁻ 带相反电荷，<b>静电吸引</b>把它们结合在一起——这就是氯化钠 NaCl（食盐）的由来。注意：离子化合物里没有"NaCl 分子"，是离子一个挨一个排成晶体。',
+ iso_figtitle:'同位素：质子相同，中子不同',
+ iso_sidetitle:'同位素',
+ iso_k1:'<b>质子数相同、中子数不同</b>的原子互为<b>同位素</b>。它们是同一种元素（化学性质几乎相同），但质量数不同。写法：左上角是质量数 A，左下角是质子数 Z。',
+ iso_k2:'碳-14 会缓慢衰变，考古学家用它给古物"数年龄"（碳-14 测年法）；重氢（氘）是核聚变的燃料。同位素不是"稀奇的例外"，氯元素天然就是 Cl-35 和 Cl-37 的混合物。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_reset:'↺ 重置',
+ dk_p:'质子', dk_n:'中子', dk_e:'电子',
+ dk_fill:'▶ 逐个填入', dk_tr:'⚡ 转移电子',
+ dk_famH:'氢家族', dk_famC:'碳家族',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ bd_ztag:'质子数 Z', bd_atag:'质量数 A', bd_cfg:'电子排布',
+ bd_neu:'中性原子', bd_cat:'正离子', bd_ani:'负离子',
+ bd_nuc:'原子核', bd_ele:'电子',
+ bd_iso:'（常见原子的同位素）',
+ ep_outer:'最外层', ep_stable:'✓ 稳定结构（像稀有气体）', ep_count:'个电子',
+ ep_shellK:'K层·最多2', ep_shellL:'L层·最多8', ep_shellM:'M层·最多8', ep_shellN:'N层',
+ tr_before:'转移前', tr_after:'转移后',
+ tr_stable:'✓ 稳定结构',
+ trqb_nacl:'钠原子最外层只有 1 个电子，氯原子最外层有 7 个。把那 1 个电子搬过去，会发生什么？',
+ trqb_mgo:'镁原子最外层有 2 个电子，氧原子最外层有 6 个。这次要搬 2 个电子——看看会发生什么？',
+ trqb_mgcl2:'镁要丢掉 2 个电子，可是一个氯原子只收得下 1 个——怎么办？需要几个氯原子？',
+ trqb_na2o:'氧要收 2 个电子，可是一个钠原子只给得起 1 个——需要几个钠原子？',
+ tr_ban_nacl:'Na⁺ 与 Cl⁻ 静电吸引 → 氯化钠 NaCl',
+ tr_ban_mgo:'Mg²⁺ 与 O²⁻ 静电吸引 → 氧化镁 MgO',
+ tr_ban_mgcl2:'1 个 Mg²⁺ 与 2 个 Cl⁻ 结合 → 氯化镁 MgCl₂',
+ tr_ban_na2o:'2 个 Na⁺ 与 1 个 O²⁻ 结合 → 氧化钠 Na₂O',
+ tr_bal_mgcl2:'电荷平衡：(+2) + 2×(−1) = 0',
+ tr_bal_na2o:'电荷平衡：2×(+1) + (−2) = 0',
+ iso_same:'相同：质子数 · 电子数 · 化学性质',
+ iso_diff:'不同：中子数 · 质量数',
+ iso_hn:['氕 H-1','氘 H-2','氚 H-3'],
+ iso_cn:['碳-12','碳-13','碳-14'],
+ mth:''
+},
+en:{
+ title:'Atomic Structure Lab',
+ subtitle:'Protons · neutrons · electrons — build your own atom · junior-high classroom demo',
+ tab0:'① Build an Atom',tab1:'② Electron Shells',tab2:'③ Making Ions',tab3:'④ Isotopes',tab4:'⑤ Quiz',
+ bdqb:'Drag the sliders to change the protons, neutrons and electrons — which number decides WHICH element this is?',
+ epqb:'Electrons do not crowd in randomly: what rule sends them floor by floor into their "building"?',
+ trqb:'Sodium has just 1 outer electron; chlorine has 7. Move that 1 electron across — what happens?',
+ bd_sidetitle:'Atom file',
+ bd_k1:'<b>The proton number decides the element!</b> Change protons → a different element. Change neutrons → only the mass changes (isotope). Change electrons → only the net charge changes (ion). Protons and neutrons pack in the nucleus; electrons whirl around outside.',
+ bd_k2:'Honesty note: electrons do <b>not</b> ride fixed tracks — a real electron is a fuzzy "cloud". The ring picture here is the <b>Bohr model</b>, the junior-high simplification that makes electrons easy to count.',
+ bd_k3:'A proton and a neutron weigh about the same; an electron weighs only ~<b>1/1836</b> of that — negligible. So <b>mass number A = protons + neutrons</b>.',
+ ep_sidetitle:'Filling rules',
+ ep_k1:'Electrons fill from the inside out, lowest energy first: shell 1 (K) holds at most <b>2</b>, shell 2 (L) at most <b>8</b>, shell 3 (M) at most <b>8</b> (at this level). An inner shell must be full before the next one starts.',
+ ep_k2:'The <b>outermost electrons</b> set an element\u2019s chemistry. A full outer shell of 8 (or 2 for the K shell) is a <b>stable structure</b> — that is exactly what noble gases look like, which is why they barely react.',
+ tr_sidetitle:'Losing & gaining',
+ tr_k1:'Metal atoms (like sodium) have few outer electrons and easily <b>lose</b> them → <b>cations</b> (Na⁺). Non-metals (like chlorine) have many and easily <b>gain</b> one → <b>anions</b> (Cl⁻). After the transfer, BOTH have stable structures.',
+ tr_k2:'Na⁺ and Cl⁻ carry opposite charges, and <b>electrostatic attraction</b> binds them — that is table salt, NaCl. Note: in an ionic compound there is no "NaCl molecule"; ions stack one by one into a crystal.',
+ iso_figtitle:'Isotopes: same protons, different neutrons',
+ iso_sidetitle:'Isotopes',
+ iso_k1:'Atoms with the <b>same proton number but different neutron numbers</b> are <b>isotopes</b>. They are the same element (nearly identical chemistry) with different mass numbers. Notation: mass number A top-left, proton number Z bottom-left.',
+ iso_k2:'Carbon-14 slowly decays — archaeologists use it to "count the age" of relics (carbon dating); heavy hydrogen (deuterium) fuels nuclear fusion. Isotopes are not rare oddities: natural chlorine is a mix of Cl-35 and Cl-37.',
+ qz_title:'🎯 Quiz', qz_reset:'Restart',
+ dk_reset:'↺ Reset',
+ dk_p:'protons', dk_n:'neutrons', dk_e:'electrons',
+ dk_fill:'▶ Fill one by one', dk_tr:'⚡ Transfer electron',
+ dk_famH:'Hydrogen family', dk_famC:'Carbon family',
+ dk_hint4:'💡 answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 hide notes', exp_off:'💬 tap for notes',
+ qtag:'Q',
+ bd_ztag:'proton number Z', bd_atag:'mass number A', bd_cfg:'configuration',
+ bd_neu:'neutral atom', bd_cat:'positive ion', bd_ani:'negative ion',
+ bd_nuc:'nucleus', bd_ele:'electron',
+ bd_iso:'(an isotope of the common atom)',
+ ep_outer:'outermost', ep_stable:'✓ stable structure (noble-gas-like)', ep_count:'electron(s)',
+ ep_shellK:'K · max 2', ep_shellL:'L · max 8', ep_shellM:'M · max 8', ep_shellN:'N',
+ tr_before:'before', tr_after:'after',
+ tr_stable:'✓ stable structure',
+ trqb_nacl:'Sodium has just 1 outer electron; chlorine has 7. Move that 1 electron across — what happens?',
+ trqb_mgo:'Magnesium has 2 outer electrons; oxygen has 6. This time TWO electrons move — watch what happens.',
+ trqb_mgcl2:'Magnesium must shed 2 electrons, but one chlorine atom can only take 1 — so how many chlorines are needed?',
+ trqb_na2o:'Oxygen wants 2 electrons, but one sodium atom can only give 1 — so how many sodiums are needed?',
+ tr_ban_nacl:'Na⁺ and Cl⁻ attract → sodium chloride NaCl',
+ tr_ban_mgo:'Mg²⁺ and O²⁻ attract → magnesium oxide MgO',
+ tr_ban_mgcl2:'1 Mg²⁺ binds 2 Cl⁻ → magnesium chloride MgCl₂',
+ tr_ban_na2o:'2 Na⁺ bind 1 O²⁻ → sodium oxide Na₂O',
+ tr_bal_mgcl2:'charge balance: (+2) + 2×(−1) = 0',
+ tr_bal_na2o:'charge balance: 2×(+1) + (−2) = 0',
+ iso_same:'Same: protons · electrons · chemistry',
+ iso_diff:'Different: neutrons · mass number',
+ iso_hn:['protium H-1','deuterium H-2','tritium H-3'],
+ iso_cn:['carbon-12','carbon-13','carbon-14'],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function stl(x,y,size,fill,txt,anchor){
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="700" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:#0B1220;stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.hasAttribute('data-dyn'))continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= atom model ================= */
+var ELEM=[
+ ['H','氢','Hydrogen'],['He','氦','Helium'],['Li','锂','Lithium'],['Be','铍','Beryllium'],
+ ['B','硼','Boron'],['C','碳','Carbon'],['N','氮','Nitrogen'],['O','氧','Oxygen'],
+ ['F','氟','Fluorine'],['Ne','氖','Neon'],['Na','钠','Sodium'],['Mg','镁','Magnesium'],
+ ['Al','铝','Aluminium'],['Si','硅','Silicon'],['P','磷','Phosphorus'],['S','硫','Sulfur'],
+ ['Cl','氯','Chlorine'],['Ar','氩','Argon'],['K','钾','Potassium'],['Ca','钙','Calcium']
+];
+/* most common neutron count for Z=1..20 */
+var NCOMMON=[0,2,4,5,6,6,7,8,10,10,12,12,14,14,16,16,18,22,20,20];
+var SHCAP=[2,8,8,2];
+var SHR=[46,76,106,132];
+function shellsOf(e){
+  var out=[],k,left=e;
+  for(k=0;k<SHCAP.length&&left>0;k++){
+    var take=Math.min(SHCAP[k],left);
+    out.push(take);left-=take;
+  }
+  return out;
+}
+function chargeOf(p,e){return p-e}
+var SUPD={'0':'\u2070','1':'\u00B9','2':'\u00B2','3':'\u00B3','4':'\u2074','5':'\u2075','6':'\u2076','7':'\u2077','8':'\u2078','9':'\u2079'};
+function ionTxt(sym,ch){
+  var m=Math.abs(ch);
+  if(m===0)return sym;
+  var d=(m===1)?'':String(m).replace(/[0-9]/g,function(c){return SUPD[c]});
+  return sym+d+(ch>0?'\u207A':'\u207B');
+}
+function elemOf(p){return ELEM[p-1]}
+/* electron position: shell si, index j of nj, animated by CLK */
+function ePos(cx,cy,si,j,nj,scale,clk){
+  var w=(0.9-0.16*si);           /* inner shells whirl faster */
+  var a=clk*w+j*6.28318/nj+si*0.7;
+  var R=SHR[si]*scale;
+  return {x:cx+R*Math.cos(a),y:cy-R*Math.sin(a)};
+}
+/* nucleon packing: golden-angle spiral, protons/neutrons interleaved */
+function nucPos(cx,cy,k,total,scale){
+  var r=(total<=1)?0:(4.6*Math.sqrt(k)*scale);
+  var a=k*2.39996;
+  return {x:cx+r*Math.cos(a),y:cy+r*Math.sin(a)};
+}
+function nucR(total,scale){return (total<=1)?7*scale:(4.6*Math.sqrt(total)*scale+7*scale)}
+
+/* ================= tab states ================= */
+var BD={p:6,n:6,e:6};
+var EP={p:11,placed:0,fly:-1,ft:0,run:false};
+/* ionic-compound presets: cs=atoms, fl=electron flights [from,to] */
+var TRPRE=[
+ {k:'nacl', cs:[{Z:11,N:12},{Z:17,N:18}],            fl:[[0,1]],        f2:'NaCl',  nz:'\u6c2f\u5316\u94a0', ne:'sodium chloride'},
+ {k:'mgo',  cs:[{Z:12,N:12},{Z:8,N:8}],              fl:[[0,1],[0,1]],  f2:'MgO',   nz:'\u6c27\u5316\u9541', ne:'magnesium oxide'},
+ {k:'mgcl2',cs:[{Z:17,N:18},{Z:12,N:12},{Z:17,N:18}],fl:[[1,0],[1,2]],  f2:'MgCl\u2082', nz:'\u6c2f\u5316\u9541', ne:'magnesium chloride'},
+ {k:'na2o', cs:[{Z:11,N:12},{Z:8,N:8},{Z:11,N:12}],  fl:[[0,1],[2,1]],  f2:'Na\u2082O',  nz:'\u6c27\u5316\u94a0', ne:'sodium oxide'}
+];
+var TR={pre:0,st:'idle',t:0,k:0};   /* idle | fly | done; k = active flight */
+function trEOf(i){
+  var P=TRPRE[TR.pre],given=0,taken=0,j;
+  var upto=(TR.st==='done')?P.fl.length:((TR.st==='fly')?TR.k:0);
+  for(j=0;j<P.fl.length;j++){
+    if(P.fl[j][0]===i && (j<upto || (TR.st==='fly'&&j===TR.k)))given++;   /* departed leaves giver */
+    if(P.fl[j][1]===i && j<upto)taken++;                                   /* only landed counts */
+  }
+  return P.cs[i].Z-given+taken;
+}
+function trLayout(){
+  var n=TRPRE[TR.pre].cs.length;
+  if(n===2)return {xs:[170,490],cy:245,s:1.24};
+  return {xs:[110,330,550],cy:245,s:0.86};
+}
+var ISO={fam:'H'};
+function initBD(){BD.p=6;BD.n=6;BD.e=6}
+function initEP(){EP.placed=0;EP.fly=-1;EP.ft=0;EP.run=false}
+function initTR(){TR.st='idle';TR.t=0;TR.k=0}
+'use strict';
+/* ================= shared atom renderer ================= */
+function atomBG(w,h){
+  return '<rect x="0" y="0" width="'+w+'" height="'+h+'" rx="14" fill="#0E1626"/>';
+}
+function drawAtomSVG(cx,cy,p,n,e,scale,clk,opts){
+  opts=opts||{};
+  var s='',k;
+  var sh=shellsOf(e);
+  /* shells */
+  for(k=0;k<sh.length;k++){
+    var hot=(opts.outer&&k===sh.length-1);
+    s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(SHR[k]*scale).toFixed(1)+'" fill="none" stroke="'+(hot?'#DA9526':'#3A4A66')+'" stroke-width="'+(hot?2.5:1.5)+'" stroke-dasharray="4 6"/>';
+  }
+  /* nucleus: interleave p red / n grey deterministically */
+  var tot=p+n;
+  var seq=[];
+  var pi=0,ni=0;
+  for(k=0;k<tot;k++){
+    var wantP=(pi/Math.max(p,1))<=(ni/Math.max(n,1));
+    if(pi>=p)wantP=false;
+    if(ni>=n)wantP=true;
+    seq.push(wantP?'p':'n');
+    if(wantP)pi++;else ni++;
+  }
+  for(k=0;k<tot;k++){
+    var q=nucPos(cx,cy,k,tot,scale);
+    var jx=(rnd(k,31)-0.5)*1.6*Math.sin(clk*3+k),jy=(rnd(k,37)-0.5)*1.6*Math.cos(clk*3+k*2);
+    var col=(seq[k]==='p')?'#D9542B':'#8F96A4';
+    s+='<circle cx="'+(q.x+jx).toFixed(1)+'" cy="'+(q.y+jy).toFixed(1)+'" r="'+(6*scale).toFixed(1)+'" fill="'+col+'" stroke="#0E1626" stroke-width="1"/>';
+    if(seq[k]==='p'&&scale>=0.55)s+=stl(q.x+jx,q.y+jy+4*scale,Math.max(10,11*scale),'#FFE3D6','+');
+  }
+  /* electrons */
+  var placedCap=(opts.maxPlaced===undefined)?e:opts.maxPlaced;
+  var idx=0;
+  for(k=0;k<sh.length;k++){
+    var nj=sh[k];
+    for(var j=0;j<nj;j++){
+      if(idx>=placedCap)break;
+      var pe=ePos(cx,cy,k,j,nj,scale,clk);
+      s+='<circle cx="'+pe.x.toFixed(1)+'" cy="'+pe.y.toFixed(1)+'" r="'+(5*scale).toFixed(1)+'" fill="#4C8DBF" stroke="#9CC3E8" stroke-width="1.5"/>';
+      if(scale>=0.55)s+=stl(pe.x,pe.y+4*scale,Math.max(10,11*scale),'#DDEBFA','−');
+      idx++;
+    }
+  }
+  return s;
+}
+/* isotope notation  A over Z, then symbol */
+function notation(cx,cy,A,Z,sym,size){
+  var s='';
+  s+=stl(cx-size*0.42,cy-size*0.34,Math.round(size*0.52),'#E8C97A',A,'end');
+  s+=stl(cx-size*0.42,cy+size*0.42,Math.round(size*0.52),'#9CC3E8',Z,'end');
+  s+=stl(cx,cy+size*0.18,size,'#F1F4F9',sym,'start');
+  return s;
+}
+
+/* ================= ① build an atom ================= */
+function drawBD(){
+  var s=atomBG(660,470);
+  var cx=248,cy=232;
+  s+=drawAtomSVG(cx,cy,BD.p,BD.n,BD.e,1.18,CLK,{});
+  s+=stl(cx,cy-SHR[Math.max(shellsOf(BD.e).length,1)-1]*1.18-14,13,'#7C8AA4',T('bd_ele'));
+  s+=stl(cx,cy+nucR(BD.p+BD.n,1.18)+18,13,'#FFB59B',T('bd_nuc'));
+  /* element card on the right */
+  var el=elemOf(BD.p);
+  var ch=chargeOf(BD.p,BD.e);
+  var A=BD.p+BD.n;
+  s+='<rect x="472" y="40" width="168" height="150" rx="12" fill="#151F33" stroke="#3A4A66" stroke-width="1.5"/>';
+  s+=notation(524,102,A,BD.p,el[0],46);
+  s+=stl(556,158,17,'#D8DEEA',(LANG==='en'?el[2]:el[1]));
+  var isoTag=(BD.n!==NCOMMON[BD.p-1]);
+  if(isoTag)s+=stl(556,180,11,'#8FA3C4',T('bd_iso'));
+  /* charge badge */
+  var btxt,bcol;
+  if(ch===0){btxt=T('bd_neu');bcol='#52B87C'}
+  else if(ch>0){btxt=T('bd_cat')+'  '+ionTxt(el[0],ch);bcol='#E8934C'}
+  else {btxt=T('bd_ani')+'  '+ionTxt(el[0],ch);bcol='#7FB2E0'}
+  s+='<rect x="472" y="206" width="168" height="42" rx="10" fill="#151F33" stroke="'+bcol+'" stroke-width="2"/>';
+  s+=stl(556,233,15,bcol,btxt);
+  /* counters, countable */
+  s+=stl(472,286,14,'#FF9F7E','● '+T('dk_p')+' × '+BD.p,'start');
+  s+=stl(472,312,14,'#C3C9D6','● '+T('dk_n')+' × '+BD.n,'start');
+  s+=stl(472,338,14,'#9CC3E8','● '+T('dk_e')+' × '+BD.e,'start');
+  s+=stl(472,372,14,'#E8C97A',T('bd_atag')+' = '+BD.p+' + '+BD.n+' = '+A,'start');
+  var cfg=shellsOf(BD.e).join(', ')||'0';
+  s+=stl(472,398,14,'#D8DEEA',T('bd_cfg')+'：'+cfg,'start');
+  s+=stl(472,430,13,'#7C8AA4',T('bd_ztag')+' = '+BD.p,'start');
+  $('svgbd').innerHTML=s;
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('bdqb');
+  $('b_el').textContent=el[0]+' · '+(LANG==='en'?el[2]:el[1]);
+  $('b_ch').textContent=(ch===0)?T('bd_neu'):((ch>0?'+':'')+ch);
+}
+
+/* ================= ② electron filling ================= */
+function drawEP(){
+  var s=atomBG(660,470);
+  var cx=250,cy=225;
+  var e=EP.p;
+  var sh=shellsOf(e);
+  s+=drawAtomSVG(cx,cy,EP.p,NCOMMON[EP.p-1],e,1.12,CLK,{maxPlaced:EP.placed,outer:EP.placed>=e});
+  /* flying electron */
+  if(EP.fly>=0){
+    var tgt=slotOf(EP.fly,sh);
+    var pe=ePos(cx,cy,tgt.si,tgt.j,sh[tgt.si],1.12,CLK);
+    var t=EP.ft;
+    var sx=630,sy=60;
+    var fx=sx+(pe.x-sx)*t,fy=sy+(pe.y-sy)*t;
+    s+='<circle cx="'+fx.toFixed(1)+'" cy="'+fy.toFixed(1)+'" r="6" fill="#4C8DBF" stroke="#9CC3E8" stroke-width="2"/>';
+  }
+  /* shell capacity tags */
+  var tags=['ep_shellK','ep_shellL','ep_shellM','ep_shellN'];
+  for(var k=0;k<Math.max(sh.length, Math.min(3,e>0?3:1));k++){
+    if(k>3)break;
+    s+=stl(cx+SHR[k]*1.12*0.7071+8,cy-SHR[k]*1.12*0.7071-6,12,'#8FA3C4',T(tags[k]),'start');
+  }
+  /* right panel: config + outer shell */
+  var el=elemOf(EP.p);
+  s+='<rect x="472" y="40" width="168" height="96" rx="12" fill="#151F33" stroke="#3A4A66" stroke-width="1.5"/>';
+  s+=notation(520,90,EP.p+NCOMMON[EP.p-1],EP.p,el[0],38);
+  var placedSh=shellsOf(Math.min(EP.placed,e));
+  s+=stl(556,168,15,'#D8DEEA',T('bd_cfg'),'middle');
+  s+=stl(556,196,22,'#E8C97A',placedSh.join(', ')||'—');
+  if(EP.placed>=e&&e>0){
+    var outer=sh[sh.length-1];
+    var stable=(sh.length===1&&outer===2)||(outer===8);
+    s+=stl(556,236,14,'#D8DEEA',T('ep_outer')+'：'+outer+' '+T('ep_count'));
+    if(stable)s+=stl(556,262,13,'#52B87C',T('ep_stable'));
+  }
+  s+=stl(556,300,13,'#8FA3C4',EP.placed+' / '+e);
+  $('svgep').innerHTML=s;
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('epqb');
+}
+function slotOf(idx,sh){
+  var k,acc=0;
+  for(k=0;k<sh.length;k++){
+    if(idx<acc+sh[k])return {si:k,j:idx-acc};
+    acc+=sh[k];
+  }
+  return {si:sh.length-1,j:0};
+}
+function epTick(dt){
+  if(!EP.run)return;
+  var e=EP.p;
+  if(EP.fly<0){
+    if(EP.placed>=e){EP.run=false;return}
+    EP.fly=EP.placed;EP.ft=0;
+  }else{
+    EP.ft+=dt*2.4;
+    if(EP.ft>=1){EP.placed++;EP.fly=-1;EP.ft=0}
+  }
+}
+
+/* ================= ③ ion transfer (multi-preset, multi-flight) ================= */
+function drawTR(){
+  var s=atomBG(660,470);
+  var P=TRPRE[TR.pre],L=trLayout(),i;
+  var n=P.cs.length;
+  /* atoms — as large as the canvas allows */
+  for(i=0;i<n;i++){
+    var e=trEOf(i);
+    s+=drawAtomSVG(L.xs[i],L.cy,P.cs[i].Z,P.cs[i].N,e,L.s,CLK,{outer:true});
+  }
+  /* flying electron along an arc, giver → taker */
+  if(TR.st==='fly'){
+    var f=P.fl[TR.k];
+    var og=SHR[Math.max(shellsOf(trEOf(f[0])).length,1)-0]*0; /* not used */
+    var xg=L.xs[f[0]],xt=L.xs[f[1]];
+    var dirg=(xt>xg)?1:-1;
+    var rg=SHR[Math.max(shellsOf(P.cs[f[0]].Z).length-1,0)]*L.s;
+    var rt=SHR[Math.max(shellsOf(P.cs[f[1]].Z).length-1,0)]*L.s;
+    var p0x=xg+dirg*rg*0.72, p0y=L.cy-rg*0.7;
+    var p1x=xt-dirg*rt*0.72, p1y=L.cy-rt*0.7;
+    var t=TR.t;
+    var fx=p0x+(p1x-p0x)*t, fy=p0y+(p1y-p0y)*t-64*Math.sin(t*3.1416);
+    s+='<circle cx="'+fx.toFixed(1)+'" cy="'+fy.toFixed(1)+'" r="7" fill="#4C8DBF" stroke="#F2C94C" stroke-width="2.5"/>';
+  }
+  /* labels: symbol becomes ion notation as charge appears */
+  for(i=0;i<n;i++){
+    var sym=elemOf(P.cs[i].Z)[0];
+    var ch=P.cs[i].Z-trEOf(i);
+    s+=stl(L.xs[i],50,22,'#F1F4F9',ionTxt(sym,ch));
+    s+=stl(L.xs[i],76,13,'#8FA3C4',shellsOf(trEOf(i)).join(', '));
+  }
+  if(TR.st==='done'){
+    for(i=0;i<n;i++)s+=stl(L.xs[i],404,13,'#52B87C',T('tr_stable'));
+    /* attraction arrows in every gap between adjacent atoms */
+    for(i=0;i<n-1;i++){
+      var mx=(L.xs[i]+L.xs[i+1])/2;
+      var chL=P.cs[i].Z-trEOf(i);
+      var colL=(chL>0)?'#E8934C':'#7FB2E0', colR=(chL>0)?'#7FB2E0':'#E8934C';
+      s+='<path d="M '+(mx-58)+' '+L.cy+' l 40 0 m -10 -7 l 10 7 l -10 7" stroke="'+colL+'" stroke-width="3" fill="none"/>';
+      s+='<path d="M '+(mx+58)+' '+L.cy+' l -40 0 m 10 -7 l -10 7 l 10 7" stroke="'+colR+'" stroke-width="3" fill="none"/>';
+      s+=stl(mx,L.cy-24,14,'#E8C97A','+ \u21C4 \u2212');
+    }
+    var bal=T('tr_bal_'+P.k);
+    if(bal!=='tr_bal_'+P.k)s+=stl(330,420,12,'#8FA3C4',bal);
+    s+='<rect x="90" y="428" width="480" height="34" rx="10" fill="#151F33" stroke="#DA9526" stroke-width="2"/>';
+    s+=stl(330,450,15,'#E8C97A',T('tr_ban_'+P.k));
+  }else{
+    s+=stl(330,446,13,'#7C8AA4',T('tr_before'));
+  }
+  $('svgtr').innerHTML=s;
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('trqb_'+P.k);
+}
+function trTick(dt){
+  if(TR.st==='fly'){
+    TR.t+=dt*1.1;
+    if(TR.t>=1){
+      TR.k++;TR.t=0;
+      if(TR.k>=TRPRE[TR.pre].fl.length){TR.st='done';TR.k=TRPRE[TR.pre].fl.length}
+    }
+  }
+}
+
+/* ================= ④ isotopes ================= */
+function drawISO(){
+  var s=atomBG(660,400);
+  var fam=(ISO.fam==='H');
+  var Z=fam?1:6;
+  var ns=fam?[0,1,2]:[6,7,8];
+  var names=T(fam?'iso_hn':'iso_cn');
+  var sym=fam?'H':'C';
+  var xs=[128,330,532];
+  for(var k=0;k<3;k++){
+    var A=Z+ns[k];
+    s+=drawAtomSVG(xs[k],188,Z,ns[k],Z,0.52,CLK,{});
+    s+='<rect x="'+(xs[k]-64)+'" y="34" width="128" height="52" rx="10" fill="#151F33" stroke="#3A4A66" stroke-width="1.5"/>';
+    s+=notation(xs[k]-8,62,A,Z,sym,26);
+    s+=stl(xs[k],306,14,'#D8DEEA',names[k]);
+    s+=stl(xs[k],330,12,'#FF9F7E',T('dk_p')+' '+Z+' · '+T('dk_n')+' '+ns[k]);
+  }
+  s+=stl(330,368,14,'#52B87C',T('iso_same'));
+  s+=stl(330,390,14,'#E8934C',T('iso_diff'));
+  $('svgiso').innerHTML=s;
+}
+'use strict';
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. Which number decides WHICH element an atom is?',o:[
+    ['the number of protons',1,'Correct — change the protons and it is instantly a different element.'],
+    ['the number of neutrons',0,'Changing neutrons only makes an isotope of the SAME element.'],
+    ['the number of electrons',0,'Changing electrons only makes an ion of the same element.'],
+    ['the total of all particles',0,'Only the protons carry the element\u2019s identity.']]},
+   {q:'2. Mass number A equals…',o:[
+    ['protons + neutrons',1,'Correct — electrons are ~1/1836 the mass, so they are ignored.'],
+    ['protons + electrons',0,'Electrons weigh almost nothing — they are not counted.'],
+    ['neutrons + electrons',0,'This misses the protons, half the nucleus!'],
+    ['protons only',0,'That is the proton number Z, not the mass number.']]},
+   {q:'3. An atom is electrically neutral because…',o:[
+    ['protons and electrons are equal in number',1,'Correct — +charges and −charges cancel exactly.'],
+    ['it contains neutrons',0,'Neutrons are neutral but do not CANCEL anything.'],
+    ['electrons move too fast to matter',0,'Speed does not remove charge.'],
+    ['the nucleus has no charge',0,'The nucleus is positive — protons live there.']]},
+   {q:'4. Sodium (2,8,1) LOSES its outer electron. It becomes…',o:[
+    ['a cation Na⁺ with a stable 2,8 structure',1,'Correct — losing one electron leaves 11 protons vs 10 electrons: net +1.'],
+    ['an anion Na⁻',0,'Losing electrons makes it MORE positive, not negative.'],
+    ['a different element',0,'Protons did not change — still sodium.'],
+    ['a neutral atom of neon',0,'Same electron count as neon, but the 11 protons still say sodium.']]},
+   {q:'5. The electron configuration of chlorine (Z=17) is…',o:[
+    ['2, 8, 7',1,'Correct — K fills 2, L fills 8, the remaining 7 sit in M.'],
+    ['2, 7, 8',0,'Inner shells must fill FIRST — L takes its full 8 before M starts.'],
+    ['8, 8, 1',0,'The K shell can only ever hold 2.'],
+    ['17',0,'Electrons never all crowd into one shell.']]},
+   {q:'6. Isotopes of an element have…',o:[
+    ['same protons, different neutrons',1,'Correct — same element, different mass numbers.'],
+    ['same neutrons, different protons',0,'Different protons = different elements entirely.'],
+    ['same mass, different charges',0,'That describes ions vs atoms, not isotopes.'],
+    ['different chemical properties',0,'Chemistry is set by electrons/protons — isotopes behave almost identically.']]},
+   {q:'7. Carbon-14 (¹⁴C) contains…',o:[
+    ['6 protons and 8 neutrons',1,'Correct — Z=6 says carbon; A−Z = 14−6 = 8 neutrons.'],
+    ['14 protons',0,'14 protons would be silicon! 14 is the MASS number.'],
+    ['7 protons and 7 neutrons',0,'7 protons would be nitrogen.'],
+    ['6 protons and 14 neutrons',0,'A counts protons AND neutrons together: 6+8=14.']]},
+   {q:'8. Why do noble gases barely react?',o:[
+    ['their outer shell is already full (8, or 2 for helium)',1,'Correct — a stable structure has nothing to gain or lose.'],
+    ['they have no electrons',0,'They have plenty — just in a full arrangement.'],
+    ['their nuclei are uncharged',0,'Their nuclei are positive like all nuclei.'],
+    ['they are too light to react',0,'Mass does not decide reactivity — the outer shell does.']]}
+  ];
+  return [
+   {q:'1. 哪一个数字决定了"这是哪种元素"？',o:[
+    ['质子数',1,'正确——改变质子数，立刻变成另一种元素。'],
+    ['中子数',0,'改变中子数只会得到同一元素的同位素。'],
+    ['电子数',0,'改变电子数只会得到同一元素的离子。'],
+    ['三种粒子的总数',0,'元素的"身份证"只写在质子数上。']]},
+   {q:'2. 质量数 A 等于……',o:[
+    ['质子数 + 中子数',1,'正确——电子质量只有约 1/1836，忽略不计。'],
+    ['质子数 + 电子数',0,'电子几乎没有质量，不计入质量数。'],
+    ['中子数 + 电子数',0,'漏掉了质子——原子核的一半！'],
+    ['只有质子数',0,'那是质子数 Z，不是质量数 A。']]},
+   {q:'3. 原子整体不带电（电中性），是因为……',o:[
+    ['质子数与电子数相等',1,'正确——正电荷与负电荷刚好抵消。'],
+    ['原子里有中子',0,'中子不带电，但它不能"抵消"任何电荷。'],
+    ['电子跑得太快',0,'速度快慢不会让电荷消失。'],
+    ['原子核不带电',0,'原子核带正电——质子就住在里面。']]},
+   {q:'4. 钠原子 (2,8,1) 失去最外层那个电子后，变成……',o:[
+    ['正离子 Na⁺，达到 2,8 稳定结构',1,'正确——11 个质子对 10 个电子，净电荷 +1。'],
+    ['负离子 Na⁻',0,'失去电子会更"正"，不会变负。'],
+    ['另一种元素',0,'质子数没变——它还是钠。'],
+    ['氖原子',0,'电子排布确实和氖一样，但 11 个质子说了算：还是钠。']]},
+   {q:'5. 氯 (Z=17) 的电子排布是……',o:[
+    ['2, 8, 7',1,'正确——K层装满2个，L层装满8个，剩下7个进M层。'],
+    ['2, 7, 8',0,'必须先填满内层——L层装满8个之后才轮到M层。'],
+    ['8, 8, 1',0,'K层最多只能住 2 个电子。'],
+    ['17',0,'电子不会全部挤在同一层。']]},
+   {q:'6. 互为同位素的原子……',o:[
+    ['质子数相同，中子数不同',1,'正确——同一种元素，不同的质量数。'],
+    ['中子数相同，质子数不同',0,'质子数不同就是完全不同的元素了。'],
+    ['质量相同，电荷不同',0,'那说的是离子和原子的区别，不是同位素。'],
+    ['化学性质完全不同',0,'化学性质由质子/电子决定——同位素的化学性质几乎一样。']]},
+   {q:'7. 碳-14（¹⁴C）含有……',o:[
+    ['6 个质子和 8 个中子',1,'正确——Z=6 说明是碳；中子数 = A−Z = 14−6 = 8。'],
+    ['14 个质子',0,'14 个质子就是硅了！14 是质量数。'],
+    ['7 个质子和 7 个中子',0,'7 个质子是氮。'],
+    ['6 个质子和 14 个中子',0,'A 是质子和中子一起数：6+8=14。']]},
+   {q:'8. 稀有气体几乎不发生化学反应，是因为……',o:[
+    ['最外层已经排满（8个，氦是2个）',1,'正确——稳定结构既不想得电子也不想失电子。'],
+    ['它们没有电子',0,'它们有电子，只是排成了"满员"的稳定结构。'],
+    ['原子核不带电',0,'它们的原子核和别人一样带正电。'],
+    ['它们太轻了',0,'轻重不决定活泼程度——最外层电子才决定。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  CLK+=0.016;
+  if(CUR===0){ drawBD(); }
+  else if(CUR===1){ epTick(0.016); drawEP(); }
+  else if(CUR===2){ trTick(0.016); drawTR(); }
+  else if(CUR===3){ drawISO(); }
+  updSummary();
+  AMB=requestAnimationFrame(ambLoop);
+}
+function bdSlider(id,key,lab){
+  $(id).addEventListener('input',function(){
+    BD[key]=+this.value;
+    $(lab).textContent=this.value;
+    drawBD();updSummary();
+  });
+}
+var PRESETS=[[1,0,1],[2,2,2],[6,6,6],[8,8,8],[11,12,10],[17,18,18]];
+function setBD(p,n,e){
+  BD.p=p;BD.n=n;BD.e=e;
+  $('bdp').value=p;$('bdn').value=n;$('bde').value=e;
+  $('bdplab').textContent=p;$('bdnlab').textContent=n;$('bdelab').textContent=e;
+  drawBD();updSummary();
+}
+function boot(){
+  RENDER=[drawBD,drawEP,drawTR,drawISO,drawQZ];
+  SUMMARY=[
+    function(){var el=elemOf(BD.p);return el[0]+' · p'+BD.p+' n'+BD.n+' e'+BD.e},
+    function(){return elemOf(EP.p)[0]+' · '+EP.placed+'/'+EP.p},
+    function(){return TRPRE[TR.pre].f2+(TR.st==='done'?' ✓':'')},
+    function(){return T('iso_figtitle')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initBD(); initEP(); initTR();
+  /* --- ① --- */
+  bdSlider('bdp','p','bdplab');
+  bdSlider('bdn','n','bdnlab');
+  bdSlider('bde','e','bdelab');
+  var k;
+  for(k=0;k<6;k++)(function(i){
+    $('pr'+i).addEventListener('click',function(){
+      setBD(PRESETS[i][0],PRESETS[i][1],PRESETS[i][2]);
+    });
+  })(k);
+  $('bdreset').addEventListener('click',function(){setBD(6,6,6)});
+  /* --- ② --- */
+  $('epp').addEventListener('input',function(){
+    EP.p=+this.value;$('epplab').textContent=EP.p+' · '+elemOf(EP.p)[0];
+    initEP();drawEP();updSummary();
+  });
+  $('epfill').addEventListener('click',function(){
+    if(EP.placed>=EP.p)initEP();
+    EP.run=true;
+  });
+  $('epreset').addEventListener('click',function(){initEP();drawEP();updSummary()});
+  /* --- ③ --- */
+  $('trgo').addEventListener('click',function(){
+    if(TR.st==='idle'){TR.st='fly';TR.t=0;TR.k=0}
+  });
+  $('trreset').addEventListener('click',function(){initTR();drawTR();updSummary()});
+  var tk;
+  for(tk=0;tk<4;tk++)(function(i){
+    $('trp'+i).addEventListener('click',function(){
+      TR.pre=i;initTR();
+      var j;for(j=0;j<4;j++)$('trp'+j).classList.toggle('on',j===i);
+      drawTR();updSummary();
+    });
+  })(tk);
+  /* --- ④ --- */
+  $('famH').addEventListener('click',function(){ISO.fam='H';this.classList.add('on');$('famC').classList.remove('on');drawISO()});
+  $('famC').addEventListener('click',function(){ISO.fam='C';this.classList.add('on');$('famH').classList.remove('on');drawISO()});
+  /* --- chrome --- */
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  setBD(1,0,1);setBD(11,12,10);setBD(17,18,18);setBD(20,20,20);
+  for(i=0;i<60;i++){CLK+=0.016;if(i%20===0)drawBD()}
+  setBD(6,6,6);
+  showTab(1);
+  EP.p=11;initEP();EP.run=true;
+  for(i=0;i<900;i++){CLK+=0.016;epTick(0.016);if(i%150===0)drawEP()}
+  drawEP();
+  initEP();
+  showTab(2);
+  for(var pp=0;pp<4;pp++){
+    TR.pre=pp;initTR();drawTR();
+    TR.st='fly';TR.t=0;TR.k=0;
+    for(i=0;i<400&&TR.st!=='done';i++){CLK+=0.016;trTick(0.016);if(i%60===0)drawTR()}
+    drawTR();
+  }
+  TR.pre=0;initTR();
+  showTab(3);
+  ISO.fam='C';drawISO();ISO.fam='H';drawISO();
+  showTab(4);
+  for(i=0;i<8;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=8;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='atomic-structure-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+  // Ensure hint exists for usability
+  try{
+    if(!document.querySelector('.hint-line') && !document.querySelector('.note')){
+      const bar=document.querySelector('.ctlbar'); if(bar){const h=document.createElement('div');h.className='hint-line';h.textContent='💡 拖一拖·调一调 — 拖动滑块和画布探索';bar.appendChild(h);}
+    }
+  }catch{}
+})();
+</script>
+</body>
+</html>

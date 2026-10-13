@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>电路搭建实验室 · Circuit Building · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 电路搭建实验室</h1>
+  <div class="sub">Circuit Building · chu-er-shang/b3-c10 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 自由搭建</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 挑战关卡</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 要点·串并联</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 测验</button>
+</div>
+
+<!-- ① 自由搭建 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="cc_figtitle">在格点之间拖出元件（先在下方选元件，再在两个相邻格点之间划一下）</h3>
+    <div class="boardrow">
+     <div class="pal">
+      <button class="compP on" data-t="wire" data-i18n="e_wire">➖ 导线</button>
+      <button class="compP" data-t="batt" data-i18n="e_batt">🔋 电池</button>
+      <button class="compP" data-t="bulb" data-i18n="e_bulb">💡 灯泡</button>
+      <button class="compP" data-t="res" data-i18n="e_res">▭ 电阻</button>
+      <button class="compP" data-t="sw" data-i18n="e_sw">🔘 开关</button>
+      <button class="compP" data-t="amm" data-i18n="e_amm">Ⓐ 电流表</button>
+      <button class="vmbtn tgl" data-i18n="e_vm">Ⓥ 电压表</button>
+     </div>
+     <svg id="svgcc" viewBox="0 0 660 470"></svg>
+    </div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 挑战关卡 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="ch_figtitle">在这里搭出关卡要求的电路（和①是同一块电路板）</h3>
+    <div class="boardrow">
+     <div class="pal">
+      <button class="compP on" data-t="wire" data-i18n="e_wire">➖ 导线</button>
+      <button class="compP" data-t="batt" data-i18n="e_batt">🔋 电池</button>
+      <button class="compP" data-t="bulb" data-i18n="e_bulb">💡 灯泡</button>
+      <button class="compP" data-t="res" data-i18n="e_res">▭ 电阻</button>
+      <button class="compP" data-t="sw" data-i18n="e_sw">🔘 开关</button>
+      <button class="compP" data-t="amm" data-i18n="e_amm">Ⓐ 电流表</button>
+      <button class="vmbtn tgl" data-i18n="e_vm">Ⓥ 电压表</button>
+     </div>
+     <svg id="svgcc2" viewBox="0 0 660 470"></svg>
+    </div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="ch_sidetitle">关卡</h3>
+    <div class="statline"><span class="chip grn" id="c_chprog">—</span></div>
+    <div id="chwrap"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 要点 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="cmp_title">串联 vs 并联 总表</h3>
+    <div id="cmpwrap"></div>
+    <div class="kbox" data-i18n-html="sm_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="sm_title">一句话总结</h3>
+    <div class="kbox grn" data-i18n-html="sm_k2"></div>
+    <div class="kbox red" data-i18n-html="sm_k3"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 测验 -->
+<div class="panel" id="p3">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl" id="vselwrap" style="display:none"><span id="vselname">值</span>
+      <input type="range" id="vsel" min="1" max="20" step="1" value="5">
+      <span class="mono" id="vsellab">—</span></span>
+    <button class="tgl" id="flipbtn" style="display:none" data-i18n="dk_flip">↔ 翻转极性</button>
+    <button class="tgl" id="delbtn" style="display:none" data-i18n="dk_del">🗑 删除选中</button>
+    <button class="prep" data-p="0" data-i18n="pr_ser">串联示范</button>
+    <button class="prep" data-p="1" data-i18n="pr_par">并联示范</button>
+    <button class="tgl" id="clrbtn" data-i18n="dk_clr">✕ 清空</button>
+  </div>
+
+  <div class="dsec" id="d1">
+    <button class="tgl" id="chprev">◀</button>
+    <button class="tgl" id="chnext">▶</button>
+    <button class="dbtn" id="chcheck" data-i18n="dk_check">✔ 检查电路</button>
+    <span class="dl" data-i18n="dk_hint1">💡 电路板和①是同一块，两边都能搭</span>
+  </div>
+
+  <div class="dsec" id="d2">
+    <span class="dl" data-i18n="dk_hint2">💡 表格配合①页的串联/并联示范一起讲</span>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="dk_hint3">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'电路搭建实验室',
+ subtitle:'自由搭电路 · 实时电流 · 串联与并联 —— 初中科学课堂演示工具',
+ tab0:'① 自由搭建',tab1:'② 挑战关卡',tab2:'③ 要点·串并联',tab3:'④ 测验',
+ cc_figtitle:'在格点之间拖出元件（横、竖、斜都可以连；选导线或电池时连续划就连续放）',
+ cc_sidetitle:'当前状态',
+ cc_k1:'像面包板一样：<b>选好元件，在相邻格点之间划一下</b>就放好了——横、竖、<b>斜线</b>都可以。选"导线"或"电池"时<b>连续划过几格就放几个</b>（电池连放＝串联加压）。<b>点一下元件</b>可以选中它——电池和电阻选中后，下方会出现数值滑杆；点开关就是拨动开关。要量电压时点下方的「<b>Ⓥ 电压表</b>」把它请出来——表身和红黑<b>表笔</b>都可以随意拖，表笔碰到接点就有读数。',
+ cc_k2:'金色小点就是<b>电流</b>：流得越快电流越大，方向跟着实际电流走。灯泡越亮，说明它分到的<b>功率越大</b>。',
+ cc_k3:'⚠️ 如果不小心把电池两端直接用导线连起来（<b>短路</b>），电流会大得吓人——模拟器会亮红灯警告。真实电路里这样做会发热起火，<b>千万不要试</b>！',
+ ch_figtitle:'在这里搭出关卡要求的电路（和①是同一块电路板）',
+ ch_sidetitle:'关卡',
+ ch_k1:'搭好后按下方的 <b>✔ 检查电路</b>。检查器会真的把你的电路解一遍——有些关卡还会替你拨一拨开关，看电路是不是真的受控。',
+ cmp_title:'串联 vs 并联 总表',
+ sm_title:'一句话总结',
+ sm_k1:'家里的电灯、插座全部是<b>并联</b>：每个用电器独立工作，关掉一个不影响其他；每多开一个电器，干路电流就大一点——所以插线板不能接太多大功率电器。',
+ sm_k2:'<b>串联：电流只有一条路，处处相等；并联：电压每条支路都一样。</b>记住这两句，串并联的计算题就有了起点。',
+ sm_k3:'电流表<b>串联</b>接进电路（当自己是导线，电阻极小）；电压表<b>并联</b>跨在元件两端（表笔一红一黑）。接反了轻则读数为零，重则烧表。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ e_wire:'➖ 导线', e_batt:'🔋 电池', e_bulb:'💡 灯泡', e_res:'▭ 电阻', e_sw:'🔘 开关', e_amm:'Ⓐ 电流表',
+ e_vm:'Ⓥ 电压表',
+ dk_flip:'↔ 翻转极性', dk_del:'🗑 删除选中', dk_clr:'✕ 清空',
+ clr_conf:'⚠ 确定清空？再点一次',
+ pr_ser:'串联示范', pr_par:'并联示范',
+ dk_check:'✔ 检查电路',
+ dk_hint1:'💡 电路板和①是同一块，两边都能搭',
+ dk_hint2:'💡 表格配合①页的串联/并联示范一起讲',
+ dk_hint3:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ st_empty:'电路板是空的——选个元件开始搭吧',
+ st_ok:'电路工作中', st_open2:'没有形成闭合回路 / 开关断开', st_short:'⚠ 短路！电流过大',
+ sel_none:'未选中元件', sel_batt:'电池', sel_bulb:'灯泡', sel_res:'电阻', sel_wire:'导线', sel_sw:'开关', sel_amm:'电流表',
+ vlt:'电压表', vprobe:'把红黑表笔拖到接点上',
+ volt:'电压', ohm:'电阻',
+ sw_open:'断开', sw_close:'闭合',
+ probeR:'红', probeB:'黑',
+ lit:'亮', unlit:'不亮',
+ chprog:'已完成',
+ ch_pass:'✅ 过关！', 
+ chs:[
+  {t:'第 1 关 · 点亮一颗灯泡',g:'用电池、导线和一颗灯泡，搭出一个闭合回路，让灯泡亮起来。',h:'还没有灯泡在发光。检查：回路闭合了吗？电池接进去了吗？'},
+  {t:'第 2 关 · 用开关控制灯',g:'在电路里加一个开关：开关闭合灯亮，断开灯灭。',h:'检查器会替你拨这个开关——现在拨动它并不能改变灯的亮灭。开关要和灯串在同一条回路上。'},
+  {t:'第 3 关 · 串联两颗灯',g:'把两颗灯泡串联在同一条回路里（电流只有一条路），两颗都要亮。',h:'两颗灯必须首尾相连在同一条路上：流过它们的电流应该完全相同，而且等于电池的电流。'},
+  {t:'第 4 关 · 并联两颗灯',g:'把两颗灯泡并联（各自一条支路），两颗都要亮。',h:'两颗灯应该各占一条支路：它们两端电压相同，电池的电流明显大于单颗灯的电流。'},
+  {t:'第 5 关 · 测出电流',g:'把电流表串联接进一个点亮灯泡的电路里，读出电流。',h:'电流表要像导线一样"串"在回路里，而且电路里要有一颗亮着的灯。'},
+  {t:'第 6 关 · 安全课：制造一次短路',g:'（只在模拟器里做！）用导线直接把电池两端连起来，看看短路警告。',h:'把电池的两端用纯导线回路连起来——注意看红色警告，想想为什么真实电路绝对不能这样。'}
+ ],
+ cmpH:['','串联','并联'],
+ cmpR:[['电流','只有一条路，处处相等','分成几条支路，干路 = 各支路之和'],
+       ['电压','各元件分担电源电压','每条支路电压都等于电源电压'],
+       ['一个灯坏了','整条路断，全部熄灭','其他支路照常工作'],
+       ['亮度（同样两颗灯）','每颗分到一半电压，较暗','每颗独享全电压，较亮'],
+       ['生活例子','旧式圣诞灯串、开关和它控制的灯','家里的所有电灯和插座']],
+ mth:''
+},
+en:{
+ title:'Circuit Builder Lab',
+ subtitle:'Build any circuit · live current · series & parallel — junior-high classroom demo',
+ tab0:'① Free Build',tab1:'② Challenges',tab2:'③ Series vs Parallel',tab3:'④ Quiz',
+ cc_figtitle:'Drag components between grid dots (horizontal, vertical or diagonal; wire & battery lay continuously)',
+ cc_sidetitle:'Current state',
+ cc_k1:'It works like a breadboard: <b>pick a component and swipe between neighbouring dots</b> — horizontally, vertically or <b>diagonally</b>. With Wire or Battery selected, <b>keep swiping to lay one per cell</b> (batteries in a row add up their voltage). <b>Tap a component</b> to select it — batteries and resistors get a value slider below; tapping a switch flips it. To measure voltage, tap <b>Ⓥ Voltmeter</b> below to bring it out — the body and both <b>probes</b> drag freely, and a probe touching a junction gives a reading.',
+ cc_k2:'The gold dots ARE the <b>current</b>: faster flow means a bigger current, and the direction is the real one. A brighter bulb is receiving more <b>power</b>.',
+ cc_k3:'⚠️ If you connect the two ends of a battery with plain wire (<b>a short circuit</b>), the current becomes enormous — the simulator flashes a red warning. In a real circuit this causes heat and fire. <b>Never try it for real!</b>',
+ ch_figtitle:'Build what the challenge asks for (same board as tab ①)',
+ ch_sidetitle:'Challenges',
+ ch_k1:'Build, then press <b>✔ Check circuit</b> below. The checker actually solves your circuit — some levels even flip your switch for you to see whether the circuit is truly under control.',
+ cmp_title:'Series vs Parallel',
+ sm_title:'In one line',
+ sm_k1:'Every light and socket at home is <b>parallel</b>: each appliance works independently, and switching one off leaves the rest alone; each extra appliance adds to the main current — which is why a power strip must not be overloaded.',
+ sm_k2:'<b>Series: one path, the same current everywhere. Parallel: the same voltage across every branch.</b> These two lines are the starting point of every calculation.',
+ sm_k3:'An ammeter goes <b>in series</b> (it pretends to be a wire, tiny resistance); a voltmeter goes <b>in parallel</b> across a component. Swap them and you read zero — or burn the meter.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ e_wire:'➖ Wire', e_batt:'🔋 Battery', e_bulb:'💡 Bulb', e_res:'▭ Resistor', e_sw:'🔘 Switch', e_amm:'Ⓐ Ammeter',
+ e_vm:'Ⓥ Voltmeter',
+ dk_flip:'↔ Flip polarity', dk_del:'🗑 Delete selected', dk_clr:'✕ Clear all',
+ clr_conf:'⚠ Sure? Tap again',
+ pr_ser:'Series demo', pr_par:'Parallel demo',
+ dk_check:'✔ Check circuit',
+ dk_hint1:'💡 Same board as tab ① — build in either place',
+ dk_hint2:'💡 Pair this table with the demos on tab ①',
+ dk_hint3:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ st_empty:'The board is empty — pick a component and start building',
+ st_ok:'Circuit running', st_open2:'No closed loop / switch open', st_short:'⚠ SHORT CIRCUIT! Current too large',
+ sel_none:'Nothing selected', sel_batt:'Battery', sel_bulb:'Bulb', sel_res:'Resistor', sel_wire:'Wire', sel_sw:'Switch', sel_amm:'Ammeter',
+ vlt:'Voltmeter', vprobe:'drag the probes onto junctions',
+ volt:'Voltage', ohm:'Resistance',
+ sw_open:'open', sw_close:'closed',
+ probeR:'R', probeB:'B',
+ lit:'lit', unlit:'off',
+ chprog:'Done',
+ ch_pass:'✅ Passed!',
+ chs:[
+  {t:'Level 1 · Light a bulb',g:'Use a battery, wires and one bulb to make a closed loop that lights the bulb.',h:'No bulb is glowing yet. Is the loop closed? Is the battery actually in it?'},
+  {t:'Level 2 · Control it with a switch',g:'Add a switch: bulb on when closed, off when open.',h:'The checker flips your switch for you — right now flipping it changes nothing. The switch must be in series with the bulb\u2019s loop.'},
+  {t:'Level 3 · Two bulbs in series',g:'Put two bulbs in series on one single path — both must light.',h:'The two bulbs must sit head-to-tail on the same path: the current through them should be identical, and equal to the battery\u2019s current.'},
+  {t:'Level 4 · Two bulbs in parallel',g:'Put two bulbs on separate branches — both must light.',h:'Each bulb should own a branch: equal voltage across both, and the battery current clearly larger than one bulb\u2019s current.'},
+  {t:'Level 5 · Measure the current',g:'Insert an ammeter in series in a circuit with a lit bulb and take a reading.',h:'The ammeter must sit IN the loop like a wire, and the circuit must have a glowing bulb.'},
+  {t:'Level 6 · Safety lesson: make a short',g:'(Simulator only!) Connect the battery\u2019s ends with plain wire and watch the warning.',h:'Join the battery terminals through nothing but wire — watch the red warning and think about why this is forbidden in real life.'}
+ ],
+ cmpH:['','Series','Parallel'],
+ cmpR:[['Current','one path, same everywhere','splits; main = sum of branches'],
+       ['Voltage','shared between components','every branch gets the full supply voltage'],
+       ['One bulb blows','the whole path breaks — all go out','other branches keep working'],
+       ['Brightness (same two bulbs)','half the voltage each — dimmer','full voltage each — brighter'],
+       ['Everyday example','old fairy-light strings; a switch with its lamp','all the lights and sockets at home']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* ===== theme ===== */
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#5B6770':'#A9BAC8','#D8D0BC':'#39435C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock (4 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=4;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= circuit model ================= */
+var COLS=10, ROWS=6, GX0=52, GY0=64, STEP=62;
+function nx(n){return GX0+(n%COLS)*STEP}
+function ny(n){return GY0+Math.floor(n/COLS)*STEP}
+function nid(r,c){return r*COLS+c}
+function adjacent(a,b){
+  var dc=Math.abs(a%COLS-b%COLS), dr=Math.abs(Math.floor(a/COLS)-Math.floor(b/COLS));
+  return a!==b&&dc<=1&&dr<=1;
+}
+function ekey(a,b){return a<b?(a+'_'+b):(b+'_'+a)}
+var DEF={wire:{R:0.02},batt:{R:0.3,E:3},bulb:{R:6},res:{R:5},sw:{R:0.02},amm:{R:0.02}};
+var CT={els:[],next:1};
+var SEL=0, PALETTE='wire';
+var PH={};        // per-element current-dot phase
+var SOLV={V:[],cur:{},sh:false,any:false};
+var PR=[{x:440,y:90,node:-1},{x:600,y:90,node:-1}];   // red, black probes
+var VM={on:false,x:520,y:150};                             // draggable voltmeter body
+
+function edgeUsed(a,b){
+  var k=ekey(a,b),i;
+  for(i=0;i<CT.els.length;i++){
+    if(ekey(CT.els[i].a,CT.els[i].b)===k)return true;
+  }
+  return false;
+}
+function addEl(t,a,b){
+  if(!adjacent(a,b)||edgeUsed(a,b))return 0;
+  var e={id:CT.next++,t:t,a:a,b:b,val:(t==='batt'?DEF.batt.E:(t==='bulb'?DEF.bulb.R:DEF.res.R)),closed:1,flip:0};
+  CT.els.push(e); PH[e.id]=0;
+  return e.id;
+}
+function delEl(id){
+  var i;
+  for(i=0;i<CT.els.length;i++){
+    if(CT.els[i].id===id){CT.els.splice(i,1);break}
+  }
+  if(SEL===id)SEL=0;
+}
+function elR(e){
+  if(e.t==='batt')return DEF.batt.R;
+  if(e.t==='res'||e.t==='bulb')return e.val;
+  return DEF[e.t].R;
+}
+/* MNA (pure conductance + Norton sources), Gaussian elimination */
+function solveCircuit(els){
+  var N=COLS*ROWS, i, j, k, e;
+  var G=[], Ivec=[];
+  for(i=0;i<N;i++){
+    G.push(new Array(N));
+    for(j=0;j<N;j++)G[i][j]=0;
+    G[i][i]=1e-9;
+    Ivec.push(0);
+  }
+  var anySrc=false;
+  for(k=0;k<els.length;k++){
+    e=els[k];
+    if(e.t==='sw'&&!e.closed)continue;
+    var g=1/elR(e);
+    G[e.a][e.a]+=g; G[e.b][e.b]+=g;
+    G[e.a][e.b]-=g; G[e.b][e.a]-=g;
+    if(e.t==='batt'){
+      anySrc=true;
+      var E=e.flip?-e.val:e.val;   // + terminal at b when !flip
+      Ivec[e.a]-=E*g; Ivec[e.b]+=E*g;
+    }
+  }
+  // gaussian elimination with partial pivot
+  var V=new Array(N);
+  for(i=0;i<N;i++)V[i]=0;
+  if(anySrc){
+    for(i=0;i<N;i++){
+      var p=i, m=Math.abs(G[i][i]);
+      for(j=i+1;j<N;j++){ if(Math.abs(G[j][i])>m){m=Math.abs(G[j][i]);p=j} }
+      if(p!==i){var tr=G[i];G[i]=G[p];G[p]=tr; var tv=Ivec[i];Ivec[i]=Ivec[p];Ivec[p]=tv}
+      var pv=G[i][i];
+      if(Math.abs(pv)<1e-14)continue;
+      for(j=i+1;j<N;j++){
+        var f=G[j][i]/pv;
+        if(f===0)continue;
+        for(k=i;k<N;k++)G[j][k]-=f*G[i][k];
+        Ivec[j]-=f*Ivec[i];
+      }
+    }
+    for(i=N-1;i>=0;i--){
+      var s=Ivec[i];
+      for(j=i+1;j<N;j++)s-=G[i][j]*V[j];
+      V[i]=Math.abs(G[i][i])<1e-14?0:s/G[i][i];
+    }
+  }
+  var cur={}, sh=false;
+  for(k=0;k<els.length;k++){
+    e=els[k];
+    if(e.t==='sw'&&!e.closed){cur[e.id]=0;continue}
+    var g2=1/elR(e);
+    var Ie=(V[e.a]-V[e.b])*g2;
+    if(e.t==='batt'){
+      var E2=e.flip?-e.val:e.val;
+      Ie=(V[e.a]-V[e.b]+E2)*g2;
+      if(Math.abs(Ie)>6)sh=true;
+    }
+    cur[e.id]=Ie;
+  }
+  return {V:V,cur:cur,sh:sh,any:anySrc};
+}
+function solve(){ SOLV=solveCircuit(CT.els); }
+function elById(id){
+  for(var i=0;i<CT.els.length;i++)if(CT.els[i].id===id)return CT.els[i];
+  return null;
+}
+function bulbP(e){ var Ie=SOLV.cur[e.id]||0; return Ie*Ie*e.val; }
+/* presets */
+function preset(p){
+  CT.els=[];SEL=0;
+  function W(r1,c1,r2,c2,t){addEl(t||'wire',nid(r1,c1),nid(r2,c2))}
+  if(p===0){
+    // his series demo: big loop, 2 batteries on top, ammeter left, switch right, 2 bulbs on the bottom
+    W(0,1,0,2);W(0,2,0,3);W(0,3,0,4,'batt');W(0,4,0,5,'batt');W(0,5,0,6);W(0,6,0,7);W(0,7,0,8);
+    W(0,1,1,1);W(1,1,2,1,'amm');W(2,1,3,1);W(3,1,4,1);
+    W(0,8,1,8);W(1,8,2,8,'sw');W(2,8,3,8);W(3,8,4,8);
+    W(4,1,4,2);W(4,2,4,3);W(4,3,4,4,'bulb');W(4,4,4,5);W(4,5,4,6);W(4,6,4,7,'bulb');W(4,7,4,8);
+    var k;for(k=0;k<CT.els.length;k++)if(CT.els[k].t==='sw')CT.els[k].closed=0;
+  }else{
+    // his parallel demo: battery row on top, main ammeter top-left, two switch+bulb+ammeter branches
+    W(0,1,0,2);W(0,2,0,3);W(0,3,0,4,'batt');W(0,4,0,5,'batt');W(0,5,0,6);W(0,6,0,7);W(0,7,0,8);
+    W(0,1,1,1,'amm');W(1,1,2,1);W(2,1,3,1);W(3,1,4,1);
+    W(0,8,1,8);W(1,8,2,8);W(2,8,3,8);W(3,8,4,8);
+    W(2,1,2,2,'sw');W(2,2,2,3);W(2,3,2,4);W(2,4,2,5,'bulb');W(2,5,2,6);W(2,6,2,7,'amm');W(2,7,2,8);
+    W(4,1,4,2,'sw');W(4,2,4,3);W(4,3,4,4);W(4,4,4,5,'bulb');W(4,5,4,6);W(4,6,4,7,'amm');W(4,7,4,8);
+    var j;for(j=0;j<CT.els.length;j++)if(CT.els[j].t==='sw')CT.els[j].closed=0;
+  }
+  solve();
+}
+/* ================= rendering ================= */
+var LAY={on:false,cur:-1,px:0,py:0};
+function elemSymbol(e){
+  var ax=nx(e.a),ay=ny(e.a),bx=nx(e.b),by=ny(e.b);
+  var mx=(ax+bx)/2,my=(ay+by)/2;
+  var L=Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay));
+  var half=L/2;
+  var ang=Math.atan2(by-ay,bx-ax)*180/Math.PI;
+  var Iv=SOLV.cur[e.id]||0;
+  var s='';
+  var wc='#4B4437';
+  var sel=(SEL===e.id);
+  if(sel){
+    s+='<line x1="'+ax+'" y1="'+ay+'" x2="'+bx+'" y2="'+by+'" stroke="#DA9526" stroke-width="18" stroke-linecap="round" opacity="0.30"/>';
+  }
+  s+='<g transform="translate('+mx+' '+my+') rotate('+ang.toFixed(1)+')">';
+  if(e.t==='wire'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+  }else if(e.t==='batt'){
+    var pb=e.flip?-1:1;
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-7" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="7" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="'+(5*pb)+'" y1="-13" x2="'+(5*pb)+'" y2="13" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="'+(-5*pb)+'" y1="-6" x2="'+(-5*pb)+'" y2="6" stroke="'+wc+'" stroke-width="6"/>';
+  }else if(e.t==='bulb'){
+    var P=bulbP(e), gl=clamp(Math.sqrt(P/1.5),0,1.4);
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-13" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="13" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    if(gl>0.05){
+      s+='<circle cx="0" cy="0" r="'+(14+16*gl).toFixed(1)+'" fill="#F5C445" opacity="'+(0.18+0.4*clamp(gl,0,1)).toFixed(2)+'"/>';
+    }
+    s+='<circle cx="0" cy="0" r="13" fill="'+(gl>0.05?'#F5C445':'#FFFDF7')+'" stroke="'+wc+'" stroke-width="3"/>';
+    s+='<line x1="-8" y1="-8" x2="8" y2="8" stroke="'+wc+'" stroke-width="2.2"/>';
+    s+='<line x1="-8" y1="8" x2="8" y2="-8" stroke="'+wc+'" stroke-width="2.2"/>';
+  }else if(e.t==='res'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-15" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="15" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<rect x="-15" y="-8" width="30" height="16" rx="3" fill="#FFFDF7" stroke="'+wc+'" stroke-width="3"/>';
+  }else if(e.t==='sw'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-11" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="11" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<circle cx="-11" cy="0" r="3.5" fill="'+wc+'"/><circle cx="11" cy="0" r="3.5" fill="'+wc+'"/>';
+    if(e.closed){
+      s+='<line x1="-11" y1="0" x2="11" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    }else{
+      s+='<line x1="-11" y1="0" x2="8" y2="-14" stroke="'+wc+'" stroke-width="3.5"/>';
+    }
+  }else if(e.t==='amm'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-13" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="13" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<circle cx="0" cy="0" r="13" fill="#FFFDF7" stroke="'+wc+'" stroke-width="3"/>';
+  }
+  s+='</g>';
+  if(e.t==='amm'){
+    s+=tlplain(mx,my+5,13,'#4B4437','A');
+    s+=tl(mx,my-20,13,'#2C7D8C',Math.abs(Iv).toFixed(2)+' A');
+  }
+  if(e.t==='res'){
+    s+=tl(mx,my-18,13,'#6B6252',e.val+' Ω');
+  }
+  if(e.t==='bulb'){
+    s+=tl(mx,my-24,13,'#6B6252',e.val+' Ω');
+  }
+  if(e.t==='batt'){
+    s+=tl(mx,my-20,13,'#6B6252',e.val.toFixed(1)+' V');
+    var ux=(bx-ax)/L*(e.flip?-1:1), uy=(by-ay)/L*(e.flip?-1:1);
+    s+=tl(mx+ux*15-uy*13,my+uy*15+ux*13+4,13,'#D9542B','＋');
+    if(SOLV.sh&&Math.abs(Iv)>6){
+      s+='<circle cx="'+mx+'" cy="'+my+'" r="30" fill="#D9542B" opacity="0.28"/>';
+    }
+  }
+  if(Math.abs(Iv)>0.02&&!(e.t==='sw'&&!e.closed)){
+    var t0=PH[e.id]||0,m;
+    for(m=0;m<3;m++){
+      var tt=((t0+m/3)%1+1)%1;
+      var dxx=ax+(bx-ax)*tt, dyy=ay+(by-ay)*tt;
+      s+='<circle cx="'+dxx.toFixed(1)+'" cy="'+dyy.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    }
+  }
+  return s;
+}
+function drawCC(svgid){
+  var s='',k,r,c;
+  s+='<rect x="0" y="0" width="660" height="470" rx="14" fill="#FBF7EC"/>';
+  // grid dots
+  for(r=0;r<ROWS;r++)for(c=0;c<COLS;c++){
+    s+='<circle cx="'+(GX0+c*STEP)+'" cy="'+(GY0+r*STEP)+'" r="3" fill="#D8D0BC"/>';
+  }
+  // laying preview
+  if(LAY.on&&LAY.cur>=0){
+    s+='<line x1="'+nx(LAY.cur)+'" y1="'+ny(LAY.cur)+'" x2="'+LAY.px.toFixed(0)+'" y2="'+LAY.py.toFixed(0)+'" stroke="#DA9526" stroke-width="3" stroke-dasharray="6 5" opacity="0.7"/>';
+    s+='<circle cx="'+nx(LAY.cur)+'" cy="'+ny(LAY.cur)+'" r="8" fill="none" stroke="#DA9526" stroke-width="3"/>';
+  }
+  // elements
+  for(k=0;k<CT.els.length;k++)s+=elemSymbol(CT.els[k]);
+  // junction dots on used nodes
+  var deg={};
+  for(k=0;k<CT.els.length;k++){
+    deg[CT.els[k].a]=(deg[CT.els[k].a]||0)+1;
+    deg[CT.els[k].b]=(deg[CT.els[k].b]||0)+1;
+  }
+  for(var n in deg){
+    if(deg[n]>=3){
+      s+='<circle cx="'+nx(+n)+'" cy="'+ny(+n)+'" r="6" fill="#4B4437"/>';
+    }else if(deg[n]===1){
+      s+='<circle cx="'+nx(+n)+'" cy="'+ny(+n)+'" r="5" fill="none" stroke="#B9AE95" stroke-width="2.5"/>';
+    }
+  }
+  // draggable voltmeter (brought out via the Ⓥ button)
+  if(VM.on){
+    var pc=['#D9542B','#26221B'],pi;
+    for(pi=0;pi<2;pi++){
+      var P=PR[pi];
+      var px2=P.node>=0?nx(P.node):P.x, py2=P.node>=0?ny(P.node):P.y;
+      s+='<line x1="'+px2.toFixed(0)+'" y1="'+py2.toFixed(0)+'" x2="'+(VM.x+(pi?26:-26)).toFixed(0)+'" y2="'+VM.y.toFixed(0)+'" stroke="'+pc[pi]+'" stroke-width="2" stroke-dasharray="4 4" opacity="0.55"/>';
+      s+='<circle cx="'+px2.toFixed(0)+'" cy="'+py2.toFixed(0)+'" r="10" fill="'+pc[pi]+'" stroke="#FFFDF7" stroke-width="2.5"/>';
+      s+=tlplain(px2,py2+4,11,'#FFFDF7',T(pi?'probeB':'probeR'));
+    }
+    s+='<rect x="'+(VM.x-45).toFixed(0)+'" y="'+(VM.y-17).toFixed(0)+'" width="90" height="34" rx="8" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+    var vread='—';
+    if(PR[0].node>=0&&PR[1].node>=0&&SOLV.any){
+      vread=(SOLV.V[PR[0].node]-SOLV.V[PR[1].node]).toFixed(2)+' V';
+    }
+    s+=tlplain(VM.x,VM.y+5,14,'#2C7D8C',vread);
+    s+=tl(VM.x,VM.y-26,13,'#6B6252',T('vlt'));
+  }
+  // status (side chip only — nothing drawn over the circuit)
+  var st;
+  if(CT.els.length===0){st=T('st_empty')}
+  else if(SOLV.sh){st=T('st_short')}
+  else{
+    var anyI=false;
+    for(k=0;k<CT.els.length;k++){if(Math.abs(SOLV.cur[CT.els[k].id]||0)>0.02){anyI=true;break}}
+    st=anyI?T('st_ok'):T('st_open2');
+  }
+  var el=$(svgid);
+  if(el)el.innerHTML=PAINT(s);
+  return st;
+}
+function drawBoth(){
+  drawCC(CUR===1?'svgcc2':'svgcc');
+  refreshCtx();
+}
+/* dock context controls for selection */
+function refreshCtx(){
+  var se=elById(SEL);
+  var showV=se&&(se.t==='batt'||se.t==='res'||se.t==='bulb');
+  $('vselwrap').style.display=showV?'':'none';
+  $('flipbtn').style.display=(se&&se.t==='batt')?'':'none';
+  $('delbtn').style.display=se?'':'none';
+  if(showV){
+    var sl=$('vsel');
+    if(se.t==='batt'){sl.min=1.5;sl.max=9;sl.step=1.5;sl.value=se.val;
+      $('vselname').textContent=T('volt');$('vsellab').textContent=se.val.toFixed(1)+' V'}
+    else{sl.min=1;sl.max=20;sl.step=1;sl.value=se.val;
+      $('vselname').textContent=T('ohm');$('vsellab').textContent=se.val+' Ω'}
+  }
+}
+/* ================= interaction ================= */
+function pickNode(pt){
+  var best=-1,bd=26,r,c;
+  for(r=0;r<ROWS;r++)for(c=0;c<COLS;c++){
+    var d=Math.abs(pt.x-(GX0+c*STEP))+Math.abs(pt.y-(GY0+r*STEP));
+    if(d<bd){bd=d;best=nid(r,c)}
+  }
+  return best;
+}
+function pickEl(pt){
+  var k;
+  for(k=CT.els.length-1;k>=0;k--){
+    var e=CT.els[k];
+    var mx=(nx(e.a)+nx(e.b))/2, my=(ny(e.a)+ny(e.b))/2;
+    if(Math.abs(pt.x-mx)<20&&Math.abs(pt.y-my)<20)return e;
+  }
+  return null;
+}
+function pickProbe(pt){
+  for(var pi=0;pi<2;pi++){
+    var P=PR[pi];
+    var px2=P.node>=0?nx(P.node):P.x, py2=P.node>=0?ny(P.node):P.y;
+    if(Math.abs(pt.x-px2)<18&&Math.abs(pt.y-py2)<18)return pi;
+  }
+  return -1;
+}
+function initCanvas(svgid){
+  var mode=0, probeI=-1, hitEl=null, downPt=null, moved=false;
+  makeDrag($(svgid),660,470,function(pt,isdown){
+    if(isdown){
+      moved=false; downPt=pt;
+      probeI=VM.on?pickProbe(pt):-1;
+      if(probeI>=0){mode=1;return}
+      if(VM.on&&Math.abs(pt.x-VM.x)<48&&Math.abs(pt.y-VM.y)<22){mode=4;return}
+      hitEl=pickEl(pt);
+      if(hitEl){mode=2;return}
+      var n=pickNode(pt);
+      if(n>=0){mode=3;LAY.on=true;LAY.cur=n;LAY.px=pt.x;LAY.py=pt.y;drawBoth();return}
+      mode=0;
+      return;
+    }
+    if(Math.abs(pt.x-downPt.x)+Math.abs(pt.y-downPt.y)>8)moved=true;
+    if(mode===1){
+      PR[probeI].x=clamp(pt.x,16,644);PR[probeI].y=clamp(pt.y,16,462);
+      PR[probeI].node=pickNode(pt);
+      drawBoth();
+    }else if(mode===4){
+      VM.x=clamp(pt.x,50,610);VM.y=clamp(pt.y,26,444);
+      drawBoth();
+    }else if(mode===3){
+      LAY.px=pt.x;LAY.py=pt.y;
+      var n=pickNode(pt);
+      if(n>=0&&n!==LAY.cur&&adjacent(LAY.cur,n)){
+        if(!edgeUsed(LAY.cur,n)){
+          var id=addEl(PALETTE,LAY.cur,n);
+          if(id){
+            SEL=id; solve();
+            if(PALETTE==='wire'||PALETTE==='batt'){LAY.cur=n}
+            else{LAY.on=false;mode=0}
+          }
+        }else if(PALETTE==='wire'||PALETTE==='batt'){
+          LAY.cur=n;   // walk along existing elements while wiring
+        }
+      }
+      drawBoth();
+    }
+  },function(){
+    if(mode===2&&hitEl&&!moved){
+      SEL=hitEl.id;
+      if(hitEl.t==='sw'){hitEl.closed=hitEl.closed?0:1;solve()}
+      drawBoth();updSummary();
+    }
+    if(mode===3){LAY.on=false;drawBoth()}
+    mode=0;hitEl=null;
+  });
+}
+/* ambient current-dot animation */
+var AMB=0;
+function ambLoop(){
+  if(CUR===0||CUR===1){
+    var k,any=false;
+    for(k=0;k<CT.els.length;k++){
+      var e=CT.els[k];
+      var Iv=SOLV.cur[e.id]||0;
+      if(Math.abs(Iv)>0.02){
+        PH[e.id]=((PH[e.id]||0)+clamp(Iv,-3,3)*0.012)%1;
+        any=true;
+      }
+    }
+    if(any)drawBoth();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+/* ================= TAB 1 · CHALLENGES ================= */
+var CH={i:0,done:[]};
+function litBulbs(sol){
+  var out=[],k;
+  for(k=0;k<CT.els.length;k++){
+    var e=CT.els[k];
+    if(e.t!=='bulb')continue;
+    var Ie=sol.cur[e.id]||0;
+    if(Ie*Ie*e.val>0.05)out.push({e:e,I:Math.abs(Ie)});
+  }
+  return out;
+}
+function battI(sol){
+  var mx=0,k;
+  for(k=0;k<CT.els.length;k++){
+    var e=CT.els[k];
+    if(e.t==='batt')mx=Math.max(mx,Math.abs(sol.cur[e.id]||0));
+  }
+  return mx;
+}
+function chCheck(i){
+  var sol=SOLV, lb=litBulbs(sol), k;
+  if(i===0){ return lb.length>=1; }
+  if(i===1){
+    // some switch such that toggling changes some bulb's lit state
+    for(k=0;k<CT.els.length;k++){
+      var sw=CT.els[k];
+      if(sw.t!=='sw')continue;
+      var keep=sw.closed;
+      sw.closed=1; var s1=solveCircuit(CT.els); var l1=litBulbs(s1).length;
+      sw.closed=0; var s0=solveCircuit(CT.els); var l0=litBulbs(s0).length;
+      sw.closed=keep;
+      if(l1>l0)return true;
+    }
+    return false;
+  }
+  if(i===2){
+    if(lb.length<2)return false;
+    var Ib=battI(sol);
+    for(k=1;k<lb.length;k++){
+      if(Math.abs(lb[k].I-lb[0].I)>0.02)return false;
+    }
+    return Math.abs(lb[0].I-Ib)<0.05&&Ib>0.05;
+  }
+  if(i===3){
+    if(lb.length<2)return false;
+    var Ib2=battI(sol);
+    var v1=Math.abs(sol.V[lb[0].e.a]-sol.V[lb[0].e.b]);
+    var v2=Math.abs(sol.V[lb[1].e.a]-sol.V[lb[1].e.b]);
+    return Math.abs(v1-v2)<0.08&&Ib2>1.3*lb[0].I;
+  }
+  if(i===4){
+    if(lb.length<1)return false;
+    for(k=0;k<CT.els.length;k++){
+      var am=CT.els[k];
+      if(am.t==='amm'&&Math.abs(sol.cur[am.id]||0)>0.05)return true;
+    }
+    return false;
+  }
+  if(i===5){ return sol.sh; }
+  return false;
+}
+function buildCH(res){
+  var chs=T('chs'), d=chs[CH.i], nd=0, k;
+  for(k=0;k<chs.length;k++)if(CH.done[k])nd++;
+  $('c_chprog').textContent=T('chprog')+' '+nd+' / '+chs.length;
+  var h='<div class="chcard"><div class="cht">'+d.t+(CH.done[CH.i]?' ✅':'')+'</div>';
+  h+='<div class="chg">'+d.g+'</div>';
+  if(res==='ok')h+='<div class="chres ok">'+T('ch_pass')+'</div>';
+  else if(res==='no')h+='<div class="chres no">'+d.h+'</div>';
+  h+='</div>';
+  $('chwrap').innerHTML=h;
+}
+function drawCH(){ drawBoth(); buildCH(''); }
+
+/* ================= TAB 2 · SUMMARY ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP2(){buildCmp()}
+
+/* ================= TAB 3 · QUIZ (one question per page) ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. In a SERIES circuit, the current…',o:[
+    ['Gets used up as it goes around',0,'Current is not consumed — the same charge keeps flowing round.'],
+    ['Is the same at every point',1,'Correct — one path, so the same current everywhere.'],
+    ['Is biggest next to the battery',0,'There is no \u201cbigger near the battery\u201d — one path means one current.'],
+    ['Splits between the components',0,'Splitting happens in PARALLEL circuits, not series.']]},
+   {q:'2. In a PARALLEL circuit, every branch has the same…',o:[
+    ['Current',0,'Branch currents can differ — they depend on each branch\u2019s resistance.'],
+    ['Voltage',1,'Correct — every branch sits directly across the supply.'],
+    ['Resistance',0,'Branches can have completely different resistances.'],
+    ['Power',0,'Power differs whenever resistance differs.']]},
+   {q:'3. Two bulbs in series; one blows. The other…',o:[
+    ['Gets brighter',0,'The path is broken — nothing can flow.'],
+    ['Stays the same',0,'A blown bulb breaks the only path.'],
+    ['Goes out too',1,'Correct — the single path is broken, so all current stops.'],
+    ['Flickers',0,'No path, no current — it simply goes out.']]},
+   {q:'4. At home you plug in one MORE appliance (parallel). The main current…',o:[
+    ['Decreases',0,'An extra branch means an extra current to supply.'],
+    ['Stays exactly the same',0,'The main current is the SUM of the branches — it grows.'],
+    ['Increases',1,'Correct — main current = sum of branch currents. This is why power strips can be overloaded.'],
+    ['Becomes zero',0,'Adding a branch does not stop the others.']]},
+   {q:'5. Why is a short circuit dangerous?',o:[
+    ['The voltage becomes too high',0,'The supply voltage doesn\u2019t rise — the resistance collapses.'],
+    ['Resistance is almost zero, so the current is huge',1,'Correct — I=V/R with a tiny R gives an enormous, wire-heating current.'],
+    ['The current becomes zero',0,'The opposite — the current becomes enormous.'],
+    ['The battery reverses',0,'Polarity doesn\u2019t flip — the current just explodes in size.']]},
+   {q:'6. How do the two meters connect?',o:[
+    ['Ammeter in parallel, voltmeter in series',0,'Exactly backwards — that reads zero or burns the ammeter.'],
+    ['Ammeter in series, voltmeter in parallel',1,'Correct — the ammeter pretends to be a wire; the voltmeter reaches across a component.'],
+    ['Both in series',0,'A voltmeter in series blocks the circuit (its resistance is huge).'],
+    ['Both in parallel',0,'An ammeter in parallel is a short circuit through the meter.']]},
+   {q:'7. The SAME two bulbs on the SAME battery: series vs parallel — which glows brighter?',o:[
+    ['Series',0,'In series each bulb only gets half the voltage.'],
+    ['Parallel',1,'Correct — each parallel bulb enjoys the full supply voltage, so each is brighter.'],
+    ['Equally bright',0,'Half the voltage vs full voltage — a big difference.'],
+    ['Neither lights',0,'Both arrangements light — one just glows brighter.']]}
+  ];
+  return [
+   {q:'1. 串联电路中的电流……',o:[
+    ['一路流一路被"用掉"',0,'电流不会被消耗——同样的电荷一直在绕圈。'],
+    ['处处相等',1,'正确——只有一条路，电流处处一样大。'],
+    ['离电池越近越大',0,'不存在"靠近电池更大"——一条路只有一个电流。'],
+    ['会分给各个元件',0,'分流是并联电路的事，串联不分。']]},
+   {q:'2. 并联电路中，每条支路相同的是……',o:[
+    ['电流',0,'各支路电流可以不同——由各自的电阻决定。'],
+    ['电压',1,'正确——每条支路都直接跨在电源两端。'],
+    ['电阻',0,'各支路电阻完全可以不一样。'],
+    ['功率',0,'电阻不同功率就不同。']]},
+   {q:'3. 两颗灯串联，其中一颗烧坏了，另一颗……',o:[
+    ['变得更亮',0,'唯一的通路断了，什么都流不动。'],
+    ['照常亮',0,'烧坏的灯把唯一的路断开了。'],
+    ['也熄灭',1,'正确——一条路断了，全部电流停止。'],
+    ['闪烁',0,'没有通路就没有电流——直接熄灭。']]},
+   {q:'4. 家里再多插上一个电器（并联），干路电流……',o:[
+    ['变小',0,'多一条支路就多一份电流要供。'],
+    ['完全不变',0,'干路电流 = 各支路之和——会变大。'],
+    ['变大',1,'正确——干路电流等于各支路之和。这就是插线板不能超载的原因。'],
+    ['变为零',0,'多接一条支路不会让其他支路停。']]},
+   {q:'5. 短路危险的原因是……',o:[
+    ['电压变得太高',0,'电源电压没有升高——是电阻塌掉了。'],
+    ['电阻几乎为零，电流变得极大',1,'正确——I=V/R，R 极小时电流巨大，导线发热起火。'],
+    ['电流变为零',0,'恰恰相反——电流会变得极大。'],
+    ['电池正负极对调',0,'极性不会翻转——是电流的大小失控。']]},
+   {q:'6. 两种电表的接法是……',o:[
+    ['电流表并联，电压表串联',0,'正好接反——轻则读零，重则烧电流表。'],
+    ['电流表串联，电压表并联',1,'正确——电流表当自己是导线串进去；电压表跨在元件两端。'],
+    ['都串联',0,'电压表电阻极大，串联会把电路"堵死"。'],
+    ['都并联',0,'电流表电阻极小，并联等于给电路加了条短路支路。']]},
+   {q:'7. 同样两颗灯接同一个电池：串联和并联，哪种更亮？',o:[
+    ['串联',0,'串联时每颗只分到一半电压。'],
+    ['并联',1,'正确——并联时每颗独享全电压，所以每颗都更亮。'],
+    ['一样亮',0,'半电压对全电压——差得远。'],
+    ['都不亮',0,'两种接法都亮，只是并联更亮。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz(); buildCH('');
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawBoth,drawCH,drawP2,drawQZ];
+  SUMMARY=[
+    function(){return drawStatus()},
+    function(){var chs=T('chs'),nd=0,k;for(k=0;k<chs.length;k++)if(CH.done[k])nd++;return T('chprog')+' '+nd+' / '+chs.length},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initCanvas('svgcc'); initCanvas('svgcc2');
+  var k;
+  var cp=document.querySelectorAll('.compP');
+  for(k=0;k<cp.length;k++)cp[k].addEventListener('click',function(){
+    PALETTE=this.getAttribute('data-t');
+    var bs=document.querySelectorAll('.compP');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',bs[j].getAttribute('data-t')===PALETTE);
+  });
+  $('vsel').addEventListener('input',function(){
+    var se=elById(SEL);
+    if(!se)return;
+    se.val=+this.value;
+    $('vsellab').textContent=se.t==='batt'?se.val.toFixed(1)+' V':se.val+' Ω';
+    solve();drawBoth();
+  });
+  $('flipbtn').addEventListener('click',function(){
+    var se=elById(SEL);
+    if(se&&se.t==='batt'){se.flip=se.flip?0:1;solve();drawBoth()}
+  });
+  $('delbtn').addEventListener('click',function(){
+    if(SEL){delEl(SEL);solve();drawBoth();updSummary()}
+  });
+  var vb=document.querySelectorAll('.vmbtn');
+  for(k=0;k<vb.length;k++)vb[k].addEventListener('click',function(){
+    VM.on=!VM.on;
+    var bs=document.querySelectorAll('.vmbtn');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',VM.on);
+    if(VM.on){VM.x=520;VM.y=150;PR[0].x=440;PR[0].y=90;PR[0].node=-1;PR[1].x=600;PR[1].y=90;PR[1].node=-1}
+    drawBoth();updSummary();
+  });
+  var CLRARM=0;
+  $('clrbtn').addEventListener('click',function(){
+    var self=this;
+    if(!CLRARM){
+      this.textContent=T('clr_conf');
+      this.classList.add('warn');
+      CLRARM=setTimeout(function(){
+        CLRARM=0;
+        self.textContent=T('dk_clr');
+        self.classList.remove('warn');
+      },2600);
+      return;
+    }
+    clearTimeout(CLRARM);CLRARM=0;
+    this.textContent=T('dk_clr');
+    this.classList.remove('warn');
+    CT.els=[];SEL=0;solve();drawBoth();updSummary();
+    if(CUR===1)buildCH('');
+  });
+  var pr=document.querySelectorAll('.prep');
+  for(k=0;k<pr.length;k++)pr[k].addEventListener('click',function(){
+    preset(+this.getAttribute('data-p'));drawBoth();updSummary();
+  });
+  $('chprev').addEventListener('click',function(){
+    CH.i=Math.max(0,CH.i-1);buildCH('');updSummary();
+  });
+  $('chnext').addEventListener('click',function(){
+    CH.i=Math.min(T('chs').length-1,CH.i+1);buildCH('');updSummary();
+  });
+  $('chcheck').addEventListener('click',function(){
+    solve();
+    var ok=chCheck(CH.i);
+    if(ok)CH.done[CH.i]=true;
+    buildCH(ok?'ok':'no');
+    drawBoth();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz(); buildCH('');
+  solve();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+function drawStatus(){
+  if(CT.els.length===0)return T('st_empty');
+  if(SOLV.sh)return T('st_short');
+  var k;
+  for(k=0;k<CT.els.length;k++){
+    if(Math.abs(SOLV.cur[CT.els[k].id]||0)>0.02)return T('st_ok');
+  }
+  return T('st_open2');
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // build a series circuit programmatically and solve
+  preset(0);drawBoth();
+  // toggle its switch
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='sw'){CT.els[i].closed=0;break}}
+  solve();drawBoth();
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='sw'){CT.els[i].closed=1;break}}
+  solve();drawBoth();
+  // parallel preset + probes + ammeter + value edits
+  preset(1);
+  VM.on=true;
+  PR[0].node=nid(2,4);PR[1].node=nid(3,4);
+  VM.x=400;VM.y=220;drawBoth();
+  addEl('amm',nid(2,5),nid(2,6));
+  solve();drawBoth();
+  var se=null;
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='batt'){se=CT.els[i];break}}
+  if(se){SEL=se.id;se.val=6;solve();drawBoth();se.flip=1;solve();drawBoth();se.flip=0}
+  var bl=null;
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='bulb'){bl=CT.els[i];break}}
+  if(bl){SEL=bl.id;bl.val=12;solve();drawBoth();bl.val=6}
+  VM.on=false;
+  // challenges: check all on suitable circuits
+  preset(0);solve();
+  for(i=0;i<6;i++){CH.i=i;buildCH(chCheck(i)?'ok':'no')}
+  preset(1);solve();
+  for(i=0;i<6;i++){CH.i=i;buildCH(chCheck(i)?'ok':'no')}
+  // short circuit test
+  CT.els=[];addEl('batt',nid(2,2),nid(2,3));addEl('wire',nid(2,3),nid(3,3));
+  addEl('wire',nid(3,3),nid(3,2));addEl('wire',nid(3,2),nid(2,2));
+  solve();drawBoth();
+  CH.i=5;buildCH(chCheck(5)?'ok':'no');
+  // laying preview branch
+  LAY.on=true;LAY.cur=nid(0,0);LAY.px=100;LAY.py=100;drawBoth();LAY.on=false;
+  // deletion + clear
+  if(CT.els.length){SEL=CT.els[0].id;delEl(SEL);solve();drawBoth()}
+  CT.els=[];solve();drawBoth();
+  // quiz sweep
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  preset(0);showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'电路搭建实验室',
+ subtitle:'自由搭电路 · 实时电流 · 串联与并联 —— 初中科学课堂演示工具',
+ tab0:'① 自由搭建',tab1:'② 挑战关卡',tab2:'③ 要点·串并联',tab3:'④ 测验',
+ cc_figtitle:'在格点之间拖出元件（横、竖、斜都可以连；选导线或电池时连续划就连续放）',
+ cc_sidetitle:'当前状态',
+ cc_k1:'像面包板一样：<b>选好元件，在相邻格点之间划一下</b>就放好了——横、竖、<b>斜线</b>都可以。选"导线"或"电池"时<b>连续划过几格就放几个</b>（电池连放＝串联加压）。<b>点一下元件</b>可以选中它——电池和电阻选中后，下方会出现数值滑杆；点开关就是拨动开关。要量电压时点下方的「<b>Ⓥ 电压表</b>」把它请出来——表身和红黑<b>表笔</b>都可以随意拖，表笔碰到接点就有读数。',
+ cc_k2:'金色小点就是<b>电流</b>：流得越快电流越大，方向跟着实际电流走。灯泡越亮，说明它分到的<b>功率越大</b>。',
+ cc_k3:'⚠️ 如果不小心把电池两端直接用导线连起来（<b>短路</b>），电流会大得吓人——模拟器会亮红灯警告。真实电路里这样做会发热起火，<b>千万不要试</b>！',
+ ch_figtitle:'在这里搭出关卡要求的电路（和①是同一块电路板）',
+ ch_sidetitle:'关卡',
+ ch_k1:'搭好后按下方的 <b>✔ 检查电路</b>。检查器会真的把你的电路解一遍——有些关卡还会替你拨一拨开关，看电路是不是真的受控。',
+ cmp_title:'串联 vs 并联 总表',
+ sm_title:'一句话总结',
+ sm_k1:'家里的电灯、插座全部是<b>并联</b>：每个用电器独立工作，关掉一个不影响其他；每多开一个电器，干路电流就大一点——所以插线板不能接太多大功率电器。',
+ sm_k2:'<b>串联：电流只有一条路，处处相等；并联：电压每条支路都一样。</b>记住这两句，串并联的计算题就有了起点。',
+ sm_k3:'电流表<b>串联</b>接进电路（当自己是导线，电阻极小）；电压表<b>并联</b>跨在元件两端（表笔一红一黑）。接反了轻则读数为零，重则烧表。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ e_wire:'➖ 导线', e_batt:'🔋 电池', e_bulb:'💡 灯泡', e_res:'▭ 电阻', e_sw:'🔘 开关', e_amm:'Ⓐ 电流表',
+ e_vm:'Ⓥ 电压表',
+ dk_flip:'↔ 翻转极性', dk_del:'🗑 删除选中', dk_clr:'✕ 清空',
+ clr_conf:'⚠ 确定清空？再点一次',
+ pr_ser:'串联示范', pr_par:'并联示范',
+ dk_check:'✔ 检查电路',
+ dk_hint1:'💡 电路板和①是同一块，两边都能搭',
+ dk_hint2:'💡 表格配合①页的串联/并联示范一起讲',
+ dk_hint3:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ st_empty:'电路板是空的——选个元件开始搭吧',
+ st_ok:'电路工作中', st_open2:'没有形成闭合回路 / 开关断开', st_short:'⚠ 短路！电流过大',
+ sel_none:'未选中元件', sel_batt:'电池', sel_bulb:'灯泡', sel_res:'电阻', sel_wire:'导线', sel_sw:'开关', sel_amm:'电流表',
+ vlt:'电压表', vprobe:'把红黑表笔拖到接点上',
+ volt:'电压', ohm:'电阻',
+ sw_open:'断开', sw_close:'闭合',
+ probeR:'红', probeB:'黑',
+ lit:'亮', unlit:'不亮',
+ chprog:'已完成',
+ ch_pass:'✅ 过关！', 
+ chs:[
+  {t:'第 1 关 · 点亮一颗灯泡',g:'用电池、导线和一颗灯泡，搭出一个闭合回路，让灯泡亮起来。',h:'还没有灯泡在发光。检查：回路闭合了吗？电池接进去了吗？'},
+  {t:'第 2 关 · 用开关控制灯',g:'在电路里加一个开关：开关闭合灯亮，断开灯灭。',h:'检查器会替你拨这个开关——现在拨动它并不能改变灯的亮灭。开关要和灯串在同一条回路上。'},
+  {t:'第 3 关 · 串联两颗灯',g:'把两颗灯泡串联在同一条回路里（电流只有一条路），两颗都要亮。',h:'两颗灯必须首尾相连在同一条路上：流过它们的电流应该完全相同，而且等于电池的电流。'},
+  {t:'第 4 关 · 并联两颗灯',g:'把两颗灯泡并联（各自一条支路），两颗都要亮。',h:'两颗灯应该各占一条支路：它们两端电压相同，电池的电流明显大于单颗灯的电流。'},
+  {t:'第 5 关 · 测出电流',g:'把电流表串联接进一个点亮灯泡的电路里，读出电流。',h:'电流表要像导线一样"串"在回路里，而且电路里要有一颗亮着的灯。'},
+  {t:'第 6 关 · 安全课：制造一次短路',g:'（只在模拟器里做！）用导线直接把电池两端连起来，看看短路警告。',h:'把电池的两端用纯导线回路连起来——注意看红色警告，想想为什么真实电路绝对不能这样。'}
+ ],
+ cmpH:['','串联','并联'],
+ cmpR:[['电流','只有一条路，处处相等','分成几条支路，干路 = 各支路之和'],
+       ['电压','各元件分担电源电压','每条支路电压都等于电源电压'],
+       ['一个灯坏了','整条路断，全部熄灭','其他支路照常工作'],
+       ['亮度（同样两颗灯）','每颗分到一半电压，较暗','每颗独享全电压，较亮'],
+       ['生活例子','旧式圣诞灯串、开关和它控制的灯','家里的所有电灯和插座']],
+ mth:''
+},
+en:{
+ title:'Circuit Builder Lab',
+ subtitle:'Build any circuit · live current · series & parallel — junior-high classroom demo',
+ tab0:'① Free Build',tab1:'② Challenges',tab2:'③ Series vs Parallel',tab3:'④ Quiz',
+ cc_figtitle:'Drag components between grid dots (horizontal, vertical or diagonal; wire & battery lay continuously)',
+ cc_sidetitle:'Current state',
+ cc_k1:'It works like a breadboard: <b>pick a component and swipe between neighbouring dots</b> — horizontally, vertically or <b>diagonally</b>. With Wire or Battery selected, <b>keep swiping to lay one per cell</b> (batteries in a row add up their voltage). <b>Tap a component</b> to select it — batteries and resistors get a value slider below; tapping a switch flips it. To measure voltage, tap <b>Ⓥ Voltmeter</b> below to bring it out — the body and both <b>probes</b> drag freely, and a probe touching a junction gives a reading.',
+ cc_k2:'The gold dots ARE the <b>current</b>: faster flow means a bigger current, and the direction is the real one. A brighter bulb is receiving more <b>power</b>.',
+ cc_k3:'⚠️ If you connect the two ends of a battery with plain wire (<b>a short circuit</b>), the current becomes enormous — the simulator flashes a red warning. In a real circuit this causes heat and fire. <b>Never try it for real!</b>',
+ ch_figtitle:'Build what the challenge asks for (same board as tab ①)',
+ ch_sidetitle:'Challenges',
+ ch_k1:'Build, then press <b>✔ Check circuit</b> below. The checker actually solves your circuit — some levels even flip your switch for you to see whether the circuit is truly under control.',
+ cmp_title:'Series vs Parallel',
+ sm_title:'In one line',
+ sm_k1:'Every light and socket at home is <b>parallel</b>: each appliance works independently, and switching one off leaves the rest alone; each extra appliance adds to the main current — which is why a power strip must not be overloaded.',
+ sm_k2:'<b>Series: one path, the same current everywhere. Parallel: the same voltage across every branch.</b> These two lines are the starting point of every calculation.',
+ sm_k3:'An ammeter goes <b>in series</b> (it pretends to be a wire, tiny resistance); a voltmeter goes <b>in parallel</b> across a component. Swap them and you read zero — or burn the meter.',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ e_wire:'➖ Wire', e_batt:'🔋 Battery', e_bulb:'💡 Bulb', e_res:'▭ Resistor', e_sw:'🔘 Switch', e_amm:'Ⓐ Ammeter',
+ e_vm:'Ⓥ Voltmeter',
+ dk_flip:'↔ Flip polarity', dk_del:'🗑 Delete selected', dk_clr:'✕ Clear all',
+ clr_conf:'⚠ Sure? Tap again',
+ pr_ser:'Series demo', pr_par:'Parallel demo',
+ dk_check:'✔ Check circuit',
+ dk_hint1:'💡 Same board as tab ① — build in either place',
+ dk_hint2:'💡 Pair this table with the demos on tab ①',
+ dk_hint3:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ st_empty:'The board is empty — pick a component and start building',
+ st_ok:'Circuit running', st_open2:'No closed loop / switch open', st_short:'⚠ SHORT CIRCUIT! Current too large',
+ sel_none:'Nothing selected', sel_batt:'Battery', sel_bulb:'Bulb', sel_res:'Resistor', sel_wire:'Wire', sel_sw:'Switch', sel_amm:'Ammeter',
+ vlt:'Voltmeter', vprobe:'drag the probes onto junctions',
+ volt:'Voltage', ohm:'Resistance',
+ sw_open:'open', sw_close:'closed',
+ probeR:'R', probeB:'B',
+ lit:'lit', unlit:'off',
+ chprog:'Done',
+ ch_pass:'✅ Passed!',
+ chs:[
+  {t:'Level 1 · Light a bulb',g:'Use a battery, wires and one bulb to make a closed loop that lights the bulb.',h:'No bulb is glowing yet. Is the loop closed? Is the battery actually in it?'},
+  {t:'Level 2 · Control it with a switch',g:'Add a switch: bulb on when closed, off when open.',h:'The checker flips your switch for you — right now flipping it changes nothing. The switch must be in series with the bulb\u2019s loop.'},
+  {t:'Level 3 · Two bulbs in series',g:'Put two bulbs in series on one single path — both must light.',h:'The two bulbs must sit head-to-tail on the same path: the current through them should be identical, and equal to the battery\u2019s current.'},
+  {t:'Level 4 · Two bulbs in parallel',g:'Put two bulbs on separate branches — both must light.',h:'Each bulb should own a branch: equal voltage across both, and the battery current clearly larger than one bulb\u2019s current.'},
+  {t:'Level 5 · Measure the current',g:'Insert an ammeter in series in a circuit with a lit bulb and take a reading.',h:'The ammeter must sit IN the loop like a wire, and the circuit must have a glowing bulb.'},
+  {t:'Level 6 · Safety lesson: make a short',g:'(Simulator only!) Connect the battery\u2019s ends with plain wire and watch the warning.',h:'Join the battery terminals through nothing but wire — watch the red warning and think about why this is forbidden in real life.'}
+ ],
+ cmpH:['','Series','Parallel'],
+ cmpR:[['Current','one path, same everywhere','splits; main = sum of branches'],
+       ['Voltage','shared between components','every branch gets the full supply voltage'],
+       ['One bulb blows','the whole path breaks — all go out','other branches keep working'],
+       ['Brightness (same two bulbs)','half the voltage each — dimmer','full voltage each — brighter'],
+       ['Everyday example','old fairy-light strings; a switch with its lamp','all the lights and sockets at home']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* ===== theme ===== */
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#5B6770':'#A9BAC8','#D8D0BC':'#39435C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock (4 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=4;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= circuit model ================= */
+var COLS=10, ROWS=6, GX0=52, GY0=64, STEP=62;
+function nx(n){return GX0+(n%COLS)*STEP}
+function ny(n){return GY0+Math.floor(n/COLS)*STEP}
+function nid(r,c){return r*COLS+c}
+function adjacent(a,b){
+  var dc=Math.abs(a%COLS-b%COLS), dr=Math.abs(Math.floor(a/COLS)-Math.floor(b/COLS));
+  return a!==b&&dc<=1&&dr<=1;
+}
+function ekey(a,b){return a<b?(a+'_'+b):(b+'_'+a)}
+var DEF={wire:{R:0.02},batt:{R:0.3,E:3},bulb:{R:6},res:{R:5},sw:{R:0.02},amm:{R:0.02}};
+var CT={els:[],next:1};
+var SEL=0, PALETTE='wire';
+var PH={};        // per-element current-dot phase
+var SOLV={V:[],cur:{},sh:false,any:false};
+var PR=[{x:440,y:90,node:-1},{x:600,y:90,node:-1}];   // red, black probes
+var VM={on:false,x:520,y:150};                             // draggable voltmeter body
+
+function edgeUsed(a,b){
+  var k=ekey(a,b),i;
+  for(i=0;i<CT.els.length;i++){
+    if(ekey(CT.els[i].a,CT.els[i].b)===k)return true;
+  }
+  return false;
+}
+function addEl(t,a,b){
+  if(!adjacent(a,b)||edgeUsed(a,b))return 0;
+  var e={id:CT.next++,t:t,a:a,b:b,val:(t==='batt'?DEF.batt.E:(t==='bulb'?DEF.bulb.R:DEF.res.R)),closed:1,flip:0};
+  CT.els.push(e); PH[e.id]=0;
+  return e.id;
+}
+function delEl(id){
+  var i;
+  for(i=0;i<CT.els.length;i++){
+    if(CT.els[i].id===id){CT.els.splice(i,1);break}
+  }
+  if(SEL===id)SEL=0;
+}
+function elR(e){
+  if(e.t==='batt')return DEF.batt.R;
+  if(e.t==='res'||e.t==='bulb')return e.val;
+  return DEF[e.t].R;
+}
+/* MNA (pure conductance + Norton sources), Gaussian elimination */
+function solveCircuit(els){
+  var N=COLS*ROWS, i, j, k, e;
+  var G=[], Ivec=[];
+  for(i=0;i<N;i++){
+    G.push(new Array(N));
+    for(j=0;j<N;j++)G[i][j]=0;
+    G[i][i]=1e-9;
+    Ivec.push(0);
+  }
+  var anySrc=false;
+  for(k=0;k<els.length;k++){
+    e=els[k];
+    if(e.t==='sw'&&!e.closed)continue;
+    var g=1/elR(e);
+    G[e.a][e.a]+=g; G[e.b][e.b]+=g;
+    G[e.a][e.b]-=g; G[e.b][e.a]-=g;
+    if(e.t==='batt'){
+      anySrc=true;
+      var E=e.flip?-e.val:e.val;   // + terminal at b when !flip
+      Ivec[e.a]-=E*g; Ivec[e.b]+=E*g;
+    }
+  }
+  // gaussian elimination with partial pivot
+  var V=new Array(N);
+  for(i=0;i<N;i++)V[i]=0;
+  if(anySrc){
+    for(i=0;i<N;i++){
+      var p=i, m=Math.abs(G[i][i]);
+      for(j=i+1;j<N;j++){ if(Math.abs(G[j][i])>m){m=Math.abs(G[j][i]);p=j} }
+      if(p!==i){var tr=G[i];G[i]=G[p];G[p]=tr; var tv=Ivec[i];Ivec[i]=Ivec[p];Ivec[p]=tv}
+      var pv=G[i][i];
+      if(Math.abs(pv)<1e-14)continue;
+      for(j=i+1;j<N;j++){
+        var f=G[j][i]/pv;
+        if(f===0)continue;
+        for(k=i;k<N;k++)G[j][k]-=f*G[i][k];
+        Ivec[j]-=f*Ivec[i];
+      }
+    }
+    for(i=N-1;i>=0;i--){
+      var s=Ivec[i];
+      for(j=i+1;j<N;j++)s-=G[i][j]*V[j];
+      V[i]=Math.abs(G[i][i])<1e-14?0:s/G[i][i];
+    }
+  }
+  var cur={}, sh=false;
+  for(k=0;k<els.length;k++){
+    e=els[k];
+    if(e.t==='sw'&&!e.closed){cur[e.id]=0;continue}
+    var g2=1/elR(e);
+    var Ie=(V[e.a]-V[e.b])*g2;
+    if(e.t==='batt'){
+      var E2=e.flip?-e.val:e.val;
+      Ie=(V[e.a]-V[e.b]+E2)*g2;
+      if(Math.abs(Ie)>6)sh=true;
+    }
+    cur[e.id]=Ie;
+  }
+  return {V:V,cur:cur,sh:sh,any:anySrc};
+}
+function solve(){ SOLV=solveCircuit(CT.els); }
+function elById(id){
+  for(var i=0;i<CT.els.length;i++)if(CT.els[i].id===id)return CT.els[i];
+  return null;
+}
+function bulbP(e){ var Ie=SOLV.cur[e.id]||0; return Ie*Ie*e.val; }
+/* presets */
+function preset(p){
+  CT.els=[];SEL=0;
+  function W(r1,c1,r2,c2,t){addEl(t||'wire',nid(r1,c1),nid(r2,c2))}
+  if(p===0){
+    // his series demo: big loop, 2 batteries on top, ammeter left, switch right, 2 bulbs on the bottom
+    W(0,1,0,2);W(0,2,0,3);W(0,3,0,4,'batt');W(0,4,0,5,'batt');W(0,5,0,6);W(0,6,0,7);W(0,7,0,8);
+    W(0,1,1,1);W(1,1,2,1,'amm');W(2,1,3,1);W(3,1,4,1);
+    W(0,8,1,8);W(1,8,2,8,'sw');W(2,8,3,8);W(3,8,4,8);
+    W(4,1,4,2);W(4,2,4,3);W(4,3,4,4,'bulb');W(4,4,4,5);W(4,5,4,6);W(4,6,4,7,'bulb');W(4,7,4,8);
+    var k;for(k=0;k<CT.els.length;k++)if(CT.els[k].t==='sw')CT.els[k].closed=0;
+  }else{
+    // his parallel demo: battery row on top, main ammeter top-left, two switch+bulb+ammeter branches
+    W(0,1,0,2);W(0,2,0,3);W(0,3,0,4,'batt');W(0,4,0,5,'batt');W(0,5,0,6);W(0,6,0,7);W(0,7,0,8);
+    W(0,1,1,1,'amm');W(1,1,2,1);W(2,1,3,1);W(3,1,4,1);
+    W(0,8,1,8);W(1,8,2,8);W(2,8,3,8);W(3,8,4,8);
+    W(2,1,2,2,'sw');W(2,2,2,3);W(2,3,2,4);W(2,4,2,5,'bulb');W(2,5,2,6);W(2,6,2,7,'amm');W(2,7,2,8);
+    W(4,1,4,2,'sw');W(4,2,4,3);W(4,3,4,4);W(4,4,4,5,'bulb');W(4,5,4,6);W(4,6,4,7,'amm');W(4,7,4,8);
+    var j;for(j=0;j<CT.els.length;j++)if(CT.els[j].t==='sw')CT.els[j].closed=0;
+  }
+  solve();
+}
+/* ================= rendering ================= */
+var LAY={on:false,cur:-1,px:0,py:0};
+function elemSymbol(e){
+  var ax=nx(e.a),ay=ny(e.a),bx=nx(e.b),by=ny(e.b);
+  var mx=(ax+bx)/2,my=(ay+by)/2;
+  var L=Math.sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay));
+  var half=L/2;
+  var ang=Math.atan2(by-ay,bx-ax)*180/Math.PI;
+  var Iv=SOLV.cur[e.id]||0;
+  var s='';
+  var wc='#4B4437';
+  var sel=(SEL===e.id);
+  if(sel){
+    s+='<line x1="'+ax+'" y1="'+ay+'" x2="'+bx+'" y2="'+by+'" stroke="#DA9526" stroke-width="18" stroke-linecap="round" opacity="0.30"/>';
+  }
+  s+='<g transform="translate('+mx+' '+my+') rotate('+ang.toFixed(1)+')">';
+  if(e.t==='wire'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+  }else if(e.t==='batt'){
+    var pb=e.flip?-1:1;
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-7" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="7" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="'+(5*pb)+'" y1="-13" x2="'+(5*pb)+'" y2="13" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="'+(-5*pb)+'" y1="-6" x2="'+(-5*pb)+'" y2="6" stroke="'+wc+'" stroke-width="6"/>';
+  }else if(e.t==='bulb'){
+    var P=bulbP(e), gl=clamp(Math.sqrt(P/1.5),0,1.4);
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-13" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="13" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    if(gl>0.05){
+      s+='<circle cx="0" cy="0" r="'+(14+16*gl).toFixed(1)+'" fill="#F5C445" opacity="'+(0.18+0.4*clamp(gl,0,1)).toFixed(2)+'"/>';
+    }
+    s+='<circle cx="0" cy="0" r="13" fill="'+(gl>0.05?'#F5C445':'#FFFDF7')+'" stroke="'+wc+'" stroke-width="3"/>';
+    s+='<line x1="-8" y1="-8" x2="8" y2="8" stroke="'+wc+'" stroke-width="2.2"/>';
+    s+='<line x1="-8" y1="8" x2="8" y2="-8" stroke="'+wc+'" stroke-width="2.2"/>';
+  }else if(e.t==='res'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-15" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="15" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<rect x="-15" y="-8" width="30" height="16" rx="3" fill="#FFFDF7" stroke="'+wc+'" stroke-width="3"/>';
+  }else if(e.t==='sw'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-11" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="11" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<circle cx="-11" cy="0" r="3.5" fill="'+wc+'"/><circle cx="11" cy="0" r="3.5" fill="'+wc+'"/>';
+    if(e.closed){
+      s+='<line x1="-11" y1="0" x2="11" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    }else{
+      s+='<line x1="-11" y1="0" x2="8" y2="-14" stroke="'+wc+'" stroke-width="3.5"/>';
+    }
+  }else if(e.t==='amm'){
+    s+='<line x1="'+(-half).toFixed(1)+'" y1="0" x2="-13" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<line x1="13" y1="0" x2="'+half.toFixed(1)+'" y2="0" stroke="'+wc+'" stroke-width="3.5"/>';
+    s+='<circle cx="0" cy="0" r="13" fill="#FFFDF7" stroke="'+wc+'" stroke-width="3"/>';
+  }
+  s+='</g>';
+  if(e.t==='amm'){
+    s+=tlplain(mx,my+5,13,'#4B4437','A');
+    s+=tl(mx,my-20,13,'#2C7D8C',Math.abs(Iv).toFixed(2)+' A');
+  }
+  if(e.t==='res'){
+    s+=tl(mx,my-18,13,'#6B6252',e.val+' Ω');
+  }
+  if(e.t==='bulb'){
+    s+=tl(mx,my-24,13,'#6B6252',e.val+' Ω');
+  }
+  if(e.t==='batt'){
+    s+=tl(mx,my-20,13,'#6B6252',e.val.toFixed(1)+' V');
+    var ux=(bx-ax)/L*(e.flip?-1:1), uy=(by-ay)/L*(e.flip?-1:1);
+    s+=tl(mx+ux*15-uy*13,my+uy*15+ux*13+4,13,'#D9542B','＋');
+    if(SOLV.sh&&Math.abs(Iv)>6){
+      s+='<circle cx="'+mx+'" cy="'+my+'" r="30" fill="#D9542B" opacity="0.28"/>';
+    }
+  }
+  if(Math.abs(Iv)>0.02&&!(e.t==='sw'&&!e.closed)){
+    var t0=PH[e.id]||0,m;
+    for(m=0;m<3;m++){
+      var tt=((t0+m/3)%1+1)%1;
+      var dxx=ax+(bx-ax)*tt, dyy=ay+(by-ay)*tt;
+      s+='<circle cx="'+dxx.toFixed(1)+'" cy="'+dyy.toFixed(1)+'" r="4" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    }
+  }
+  return s;
+}
+function drawCC(svgid){
+  var s='',k,r,c;
+  s+='<rect x="0" y="0" width="660" height="470" rx="14" fill="#FBF7EC"/>';
+  // grid dots
+  for(r=0;r<ROWS;r++)for(c=0;c<COLS;c++){
+    s+='<circle cx="'+(GX0+c*STEP)+'" cy="'+(GY0+r*STEP)+'" r="3" fill="#D8D0BC"/>';
+  }
+  // laying preview
+  if(LAY.on&&LAY.cur>=0){
+    s+='<line x1="'+nx(LAY.cur)+'" y1="'+ny(LAY.cur)+'" x2="'+LAY.px.toFixed(0)+'" y2="'+LAY.py.toFixed(0)+'" stroke="#DA9526" stroke-width="3" stroke-dasharray="6 5" opacity="0.7"/>';
+    s+='<circle cx="'+nx(LAY.cur)+'" cy="'+ny(LAY.cur)+'" r="8" fill="none" stroke="#DA9526" stroke-width="3"/>';
+  }
+  // elements
+  for(k=0;k<CT.els.length;k++)s+=elemSymbol(CT.els[k]);
+  // junction dots on used nodes
+  var deg={};
+  for(k=0;k<CT.els.length;k++){
+    deg[CT.els[k].a]=(deg[CT.els[k].a]||0)+1;
+    deg[CT.els[k].b]=(deg[CT.els[k].b]||0)+1;
+  }
+  for(var n in deg){
+    if(deg[n]>=3){
+      s+='<circle cx="'+nx(+n)+'" cy="'+ny(+n)+'" r="6" fill="#4B4437"/>';
+    }else if(deg[n]===1){
+      s+='<circle cx="'+nx(+n)+'" cy="'+ny(+n)+'" r="5" fill="none" stroke="#B9AE95" stroke-width="2.5"/>';
+    }
+  }
+  // draggable voltmeter (brought out via the Ⓥ button)
+  if(VM.on){
+    var pc=['#D9542B','#26221B'],pi;
+    for(pi=0;pi<2;pi++){
+      var P=PR[pi];
+      var px2=P.node>=0?nx(P.node):P.x, py2=P.node>=0?ny(P.node):P.y;
+      s+='<line x1="'+px2.toFixed(0)+'" y1="'+py2.toFixed(0)+'" x2="'+(VM.x+(pi?26:-26)).toFixed(0)+'" y2="'+VM.y.toFixed(0)+'" stroke="'+pc[pi]+'" stroke-width="2" stroke-dasharray="4 4" opacity="0.55"/>';
+      s+='<circle cx="'+px2.toFixed(0)+'" cy="'+py2.toFixed(0)+'" r="10" fill="'+pc[pi]+'" stroke="#FFFDF7" stroke-width="2.5"/>';
+      s+=tlplain(px2,py2+4,11,'#FFFDF7',T(pi?'probeB':'probeR'));
+    }
+    s+='<rect x="'+(VM.x-45).toFixed(0)+'" y="'+(VM.y-17).toFixed(0)+'" width="90" height="34" rx="8" fill="#FFFDF7" stroke="#4B4437" stroke-width="2.5"/>';
+    var vread='—';
+    if(PR[0].node>=0&&PR[1].node>=0&&SOLV.any){
+      vread=(SOLV.V[PR[0].node]-SOLV.V[PR[1].node]).toFixed(2)+' V';
+    }
+    s+=tlplain(VM.x,VM.y+5,14,'#2C7D8C',vread);
+    s+=tl(VM.x,VM.y-26,13,'#6B6252',T('vlt'));
+  }
+  // status (side chip only — nothing drawn over the circuit)
+  var st;
+  if(CT.els.length===0){st=T('st_empty')}
+  else if(SOLV.sh){st=T('st_short')}
+  else{
+    var anyI=false;
+    for(k=0;k<CT.els.length;k++){if(Math.abs(SOLV.cur[CT.els[k].id]||0)>0.02){anyI=true;break}}
+    st=anyI?T('st_ok'):T('st_open2');
+  }
+  var el=$(svgid);
+  if(el)el.innerHTML=PAINT(s);
+  return st;
+}
+function drawBoth(){
+  drawCC(CUR===1?'svgcc2':'svgcc');
+  refreshCtx();
+}
+/* dock context controls for selection */
+function refreshCtx(){
+  var se=elById(SEL);
+  var showV=se&&(se.t==='batt'||se.t==='res'||se.t==='bulb');
+  $('vselwrap').style.display=showV?'':'none';
+  $('flipbtn').style.display=(se&&se.t==='batt')?'':'none';
+  $('delbtn').style.display=se?'':'none';
+  if(showV){
+    var sl=$('vsel');
+    if(se.t==='batt'){sl.min=1.5;sl.max=9;sl.step=1.5;sl.value=se.val;
+      $('vselname').textContent=T('volt');$('vsellab').textContent=se.val.toFixed(1)+' V'}
+    else{sl.min=1;sl.max=20;sl.step=1;sl.value=se.val;
+      $('vselname').textContent=T('ohm');$('vsellab').textContent=se.val+' Ω'}
+  }
+}
+/* ================= interaction ================= */
+function pickNode(pt){
+  var best=-1,bd=26,r,c;
+  for(r=0;r<ROWS;r++)for(c=0;c<COLS;c++){
+    var d=Math.abs(pt.x-(GX0+c*STEP))+Math.abs(pt.y-(GY0+r*STEP));
+    if(d<bd){bd=d;best=nid(r,c)}
+  }
+  return best;
+}
+function pickEl(pt){
+  var k;
+  for(k=CT.els.length-1;k>=0;k--){
+    var e=CT.els[k];
+    var mx=(nx(e.a)+nx(e.b))/2, my=(ny(e.a)+ny(e.b))/2;
+    if(Math.abs(pt.x-mx)<20&&Math.abs(pt.y-my)<20)return e;
+  }
+  return null;
+}
+function pickProbe(pt){
+  for(var pi=0;pi<2;pi++){
+    var P=PR[pi];
+    var px2=P.node>=0?nx(P.node):P.x, py2=P.node>=0?ny(P.node):P.y;
+    if(Math.abs(pt.x-px2)<18&&Math.abs(pt.y-py2)<18)return pi;
+  }
+  return -1;
+}
+function initCanvas(svgid){
+  var mode=0, probeI=-1, hitEl=null, downPt=null, moved=false;
+  makeDrag($(svgid),660,470,function(pt,isdown){
+    if(isdown){
+      moved=false; downPt=pt;
+      probeI=VM.on?pickProbe(pt):-1;
+      if(probeI>=0){mode=1;return}
+      if(VM.on&&Math.abs(pt.x-VM.x)<48&&Math.abs(pt.y-VM.y)<22){mode=4;return}
+      hitEl=pickEl(pt);
+      if(hitEl){mode=2;return}
+      var n=pickNode(pt);
+      if(n>=0){mode=3;LAY.on=true;LAY.cur=n;LAY.px=pt.x;LAY.py=pt.y;drawBoth();return}
+      mode=0;
+      return;
+    }
+    if(Math.abs(pt.x-downPt.x)+Math.abs(pt.y-downPt.y)>8)moved=true;
+    if(mode===1){
+      PR[probeI].x=clamp(pt.x,16,644);PR[probeI].y=clamp(pt.y,16,462);
+      PR[probeI].node=pickNode(pt);
+      drawBoth();
+    }else if(mode===4){
+      VM.x=clamp(pt.x,50,610);VM.y=clamp(pt.y,26,444);
+      drawBoth();
+    }else if(mode===3){
+      LAY.px=pt.x;LAY.py=pt.y;
+      var n=pickNode(pt);
+      if(n>=0&&n!==LAY.cur&&adjacent(LAY.cur,n)){
+        if(!edgeUsed(LAY.cur,n)){
+          var id=addEl(PALETTE,LAY.cur,n);
+          if(id){
+            SEL=id; solve();
+            if(PALETTE==='wire'||PALETTE==='batt'){LAY.cur=n}
+            else{LAY.on=false;mode=0}
+          }
+        }else if(PALETTE==='wire'||PALETTE==='batt'){
+          LAY.cur=n;   // walk along existing elements while wiring
+        }
+      }
+      drawBoth();
+    }
+  },function(){
+    if(mode===2&&hitEl&&!moved){
+      SEL=hitEl.id;
+      if(hitEl.t==='sw'){hitEl.closed=hitEl.closed?0:1;solve()}
+      drawBoth();updSummary();
+    }
+    if(mode===3){LAY.on=false;drawBoth()}
+    mode=0;hitEl=null;
+  });
+}
+/* ambient current-dot animation */
+var AMB=0;
+function ambLoop(){
+  if(CUR===0||CUR===1){
+    var k,any=false;
+    for(k=0;k<CT.els.length;k++){
+      var e=CT.els[k];
+      var Iv=SOLV.cur[e.id]||0;
+      if(Math.abs(Iv)>0.02){
+        PH[e.id]=((PH[e.id]||0)+clamp(Iv,-3,3)*0.012)%1;
+        any=true;
+      }
+    }
+    if(any)drawBoth();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+/* ================= TAB 1 · CHALLENGES ================= */
+var CH={i:0,done:[]};
+function litBulbs(sol){
+  var out=[],k;
+  for(k=0;k<CT.els.length;k++){
+    var e=CT.els[k];
+    if(e.t!=='bulb')continue;
+    var Ie=sol.cur[e.id]||0;
+    if(Ie*Ie*e.val>0.05)out.push({e:e,I:Math.abs(Ie)});
+  }
+  return out;
+}
+function battI(sol){
+  var mx=0,k;
+  for(k=0;k<CT.els.length;k++){
+    var e=CT.els[k];
+    if(e.t==='batt')mx=Math.max(mx,Math.abs(sol.cur[e.id]||0));
+  }
+  return mx;
+}
+function chCheck(i){
+  var sol=SOLV, lb=litBulbs(sol), k;
+  if(i===0){ return lb.length>=1; }
+  if(i===1){
+    // some switch such that toggling changes some bulb's lit state
+    for(k=0;k<CT.els.length;k++){
+      var sw=CT.els[k];
+      if(sw.t!=='sw')continue;
+      var keep=sw.closed;
+      sw.closed=1; var s1=solveCircuit(CT.els); var l1=litBulbs(s1).length;
+      sw.closed=0; var s0=solveCircuit(CT.els); var l0=litBulbs(s0).length;
+      sw.closed=keep;
+      if(l1>l0)return true;
+    }
+    return false;
+  }
+  if(i===2){
+    if(lb.length<2)return false;
+    var Ib=battI(sol);
+    for(k=1;k<lb.length;k++){
+      if(Math.abs(lb[k].I-lb[0].I)>0.02)return false;
+    }
+    return Math.abs(lb[0].I-Ib)<0.05&&Ib>0.05;
+  }
+  if(i===3){
+    if(lb.length<2)return false;
+    var Ib2=battI(sol);
+    var v1=Math.abs(sol.V[lb[0].e.a]-sol.V[lb[0].e.b]);
+    var v2=Math.abs(sol.V[lb[1].e.a]-sol.V[lb[1].e.b]);
+    return Math.abs(v1-v2)<0.08&&Ib2>1.3*lb[0].I;
+  }
+  if(i===4){
+    if(lb.length<1)return false;
+    for(k=0;k<CT.els.length;k++){
+      var am=CT.els[k];
+      if(am.t==='amm'&&Math.abs(sol.cur[am.id]||0)>0.05)return true;
+    }
+    return false;
+  }
+  if(i===5){ return sol.sh; }
+  return false;
+}
+function buildCH(res){
+  var chs=T('chs'), d=chs[CH.i], nd=0, k;
+  for(k=0;k<chs.length;k++)if(CH.done[k])nd++;
+  $('c_chprog').textContent=T('chprog')+' '+nd+' / '+chs.length;
+  var h='<div class="chcard"><div class="cht">'+d.t+(CH.done[CH.i]?' ✅':'')+'</div>';
+  h+='<div class="chg">'+d.g+'</div>';
+  if(res==='ok')h+='<div class="chres ok">'+T('ch_pass')+'</div>';
+  else if(res==='no')h+='<div class="chres no">'+d.h+'</div>';
+  h+='</div>';
+  $('chwrap').innerHTML=h;
+}
+function drawCH(){ drawBoth(); buildCH(''); }
+
+/* ================= TAB 2 · SUMMARY ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP2(){buildCmp()}
+
+/* ================= TAB 3 · QUIZ (one question per page) ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. In a SERIES circuit, the current…',o:[
+    ['Gets used up as it goes around',0,'Current is not consumed — the same charge keeps flowing round.'],
+    ['Is the same at every point',1,'Correct — one path, so the same current everywhere.'],
+    ['Is biggest next to the battery',0,'There is no \u201cbigger near the battery\u201d — one path means one current.'],
+    ['Splits between the components',0,'Splitting happens in PARALLEL circuits, not series.']]},
+   {q:'2. In a PARALLEL circuit, every branch has the same…',o:[
+    ['Current',0,'Branch currents can differ — they depend on each branch\u2019s resistance.'],
+    ['Voltage',1,'Correct — every branch sits directly across the supply.'],
+    ['Resistance',0,'Branches can have completely different resistances.'],
+    ['Power',0,'Power differs whenever resistance differs.']]},
+   {q:'3. Two bulbs in series; one blows. The other…',o:[
+    ['Gets brighter',0,'The path is broken — nothing can flow.'],
+    ['Stays the same',0,'A blown bulb breaks the only path.'],
+    ['Goes out too',1,'Correct — the single path is broken, so all current stops.'],
+    ['Flickers',0,'No path, no current — it simply goes out.']]},
+   {q:'4. At home you plug in one MORE appliance (parallel). The main current…',o:[
+    ['Decreases',0,'An extra branch means an extra current to supply.'],
+    ['Stays exactly the same',0,'The main current is the SUM of the branches — it grows.'],
+    ['Increases',1,'Correct — main current = sum of branch currents. This is why power strips can be overloaded.'],
+    ['Becomes zero',0,'Adding a branch does not stop the others.']]},
+   {q:'5. Why is a short circuit dangerous?',o:[
+    ['The voltage becomes too high',0,'The supply voltage doesn\u2019t rise — the resistance collapses.'],
+    ['Resistance is almost zero, so the current is huge',1,'Correct — I=V/R with a tiny R gives an enormous, wire-heating current.'],
+    ['The current becomes zero',0,'The opposite — the current becomes enormous.'],
+    ['The battery reverses',0,'Polarity doesn\u2019t flip — the current just explodes in size.']]},
+   {q:'6. How do the two meters connect?',o:[
+    ['Ammeter in parallel, voltmeter in series',0,'Exactly backwards — that reads zero or burns the ammeter.'],
+    ['Ammeter in series, voltmeter in parallel',1,'Correct — the ammeter pretends to be a wire; the voltmeter reaches across a component.'],
+    ['Both in series',0,'A voltmeter in series blocks the circuit (its resistance is huge).'],
+    ['Both in parallel',0,'An ammeter in parallel is a short circuit through the meter.']]},
+   {q:'7. The SAME two bulbs on the SAME battery: series vs parallel — which glows brighter?',o:[
+    ['Series',0,'In series each bulb only gets half the voltage.'],
+    ['Parallel',1,'Correct — each parallel bulb enjoys the full supply voltage, so each is brighter.'],
+    ['Equally bright',0,'Half the voltage vs full voltage — a big difference.'],
+    ['Neither lights',0,'Both arrangements light — one just glows brighter.']]}
+  ];
+  return [
+   {q:'1. 串联电路中的电流……',o:[
+    ['一路流一路被"用掉"',0,'电流不会被消耗——同样的电荷一直在绕圈。'],
+    ['处处相等',1,'正确——只有一条路，电流处处一样大。'],
+    ['离电池越近越大',0,'不存在"靠近电池更大"——一条路只有一个电流。'],
+    ['会分给各个元件',0,'分流是并联电路的事，串联不分。']]},
+   {q:'2. 并联电路中，每条支路相同的是……',o:[
+    ['电流',0,'各支路电流可以不同——由各自的电阻决定。'],
+    ['电压',1,'正确——每条支路都直接跨在电源两端。'],
+    ['电阻',0,'各支路电阻完全可以不一样。'],
+    ['功率',0,'电阻不同功率就不同。']]},
+   {q:'3. 两颗灯串联，其中一颗烧坏了，另一颗……',o:[
+    ['变得更亮',0,'唯一的通路断了，什么都流不动。'],
+    ['照常亮',0,'烧坏的灯把唯一的路断开了。'],
+    ['也熄灭',1,'正确——一条路断了，全部电流停止。'],
+    ['闪烁',0,'没有通路就没有电流——直接熄灭。']]},
+   {q:'4. 家里再多插上一个电器（并联），干路电流……',o:[
+    ['变小',0,'多一条支路就多一份电流要供。'],
+    ['完全不变',0,'干路电流 = 各支路之和——会变大。'],
+    ['变大',1,'正确——干路电流等于各支路之和。这就是插线板不能超载的原因。'],
+    ['变为零',0,'多接一条支路不会让其他支路停。']]},
+   {q:'5. 短路危险的原因是……',o:[
+    ['电压变得太高',0,'电源电压没有升高——是电阻塌掉了。'],
+    ['电阻几乎为零，电流变得极大',1,'正确——I=V/R，R 极小时电流巨大，导线发热起火。'],
+    ['电流变为零',0,'恰恰相反——电流会变得极大。'],
+    ['电池正负极对调',0,'极性不会翻转——是电流的大小失控。']]},
+   {q:'6. 两种电表的接法是……',o:[
+    ['电流表并联，电压表串联',0,'正好接反——轻则读零，重则烧电流表。'],
+    ['电流表串联，电压表并联',1,'正确——电流表当自己是导线串进去；电压表跨在元件两端。'],
+    ['都串联',0,'电压表电阻极大，串联会把电路"堵死"。'],
+    ['都并联',0,'电流表电阻极小，并联等于给电路加了条短路支路。']]},
+   {q:'7. 同样两颗灯接同一个电池：串联和并联，哪种更亮？',o:[
+    ['串联',0,'串联时每颗只分到一半电压。'],
+    ['并联',1,'正确——并联时每颗独享全电压，所以每颗都更亮。'],
+    ['一样亮',0,'半电压对全电压——差得远。'],
+    ['都不亮',0,'两种接法都亮，只是并联更亮。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz(); buildCH('');
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawBoth,drawCH,drawP2,drawQZ];
+  SUMMARY=[
+    function(){return drawStatus()},
+    function(){var chs=T('chs'),nd=0,k;for(k=0;k<chs.length;k++)if(CH.done[k])nd++;return T('chprog')+' '+nd+' / '+chs.length},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initCanvas('svgcc'); initCanvas('svgcc2');
+  var k;
+  var cp=document.querySelectorAll('.compP');
+  for(k=0;k<cp.length;k++)cp[k].addEventListener('click',function(){
+    PALETTE=this.getAttribute('data-t');
+    var bs=document.querySelectorAll('.compP');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',bs[j].getAttribute('data-t')===PALETTE);
+  });
+  $('vsel').addEventListener('input',function(){
+    var se=elById(SEL);
+    if(!se)return;
+    se.val=+this.value;
+    $('vsellab').textContent=se.t==='batt'?se.val.toFixed(1)+' V':se.val+' Ω';
+    solve();drawBoth();
+  });
+  $('flipbtn').addEventListener('click',function(){
+    var se=elById(SEL);
+    if(se&&se.t==='batt'){se.flip=se.flip?0:1;solve();drawBoth()}
+  });
+  $('delbtn').addEventListener('click',function(){
+    if(SEL){delEl(SEL);solve();drawBoth();updSummary()}
+  });
+  var vb=document.querySelectorAll('.vmbtn');
+  for(k=0;k<vb.length;k++)vb[k].addEventListener('click',function(){
+    VM.on=!VM.on;
+    var bs=document.querySelectorAll('.vmbtn');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',VM.on);
+    if(VM.on){VM.x=520;VM.y=150;PR[0].x=440;PR[0].y=90;PR[0].node=-1;PR[1].x=600;PR[1].y=90;PR[1].node=-1}
+    drawBoth();updSummary();
+  });
+  var CLRARM=0;
+  $('clrbtn').addEventListener('click',function(){
+    var self=this;
+    if(!CLRARM){
+      this.textContent=T('clr_conf');
+      this.classList.add('warn');
+      CLRARM=setTimeout(function(){
+        CLRARM=0;
+        self.textContent=T('dk_clr');
+        self.classList.remove('warn');
+      },2600);
+      return;
+    }
+    clearTimeout(CLRARM);CLRARM=0;
+    this.textContent=T('dk_clr');
+    this.classList.remove('warn');
+    CT.els=[];SEL=0;solve();drawBoth();updSummary();
+    if(CUR===1)buildCH('');
+  });
+  var pr=document.querySelectorAll('.prep');
+  for(k=0;k<pr.length;k++)pr[k].addEventListener('click',function(){
+    preset(+this.getAttribute('data-p'));drawBoth();updSummary();
+  });
+  $('chprev').addEventListener('click',function(){
+    CH.i=Math.max(0,CH.i-1);buildCH('');updSummary();
+  });
+  $('chnext').addEventListener('click',function(){
+    CH.i=Math.min(T('chs').length-1,CH.i+1);buildCH('');updSummary();
+  });
+  $('chcheck').addEventListener('click',function(){
+    solve();
+    var ok=chCheck(CH.i);
+    if(ok)CH.done[CH.i]=true;
+    buildCH(ok?'ok':'no');
+    drawBoth();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz(); buildCH('');
+  solve();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+function drawStatus(){
+  if(CT.els.length===0)return T('st_empty');
+  if(SOLV.sh)return T('st_short');
+  var k;
+  for(k=0;k<CT.els.length;k++){
+    if(Math.abs(SOLV.cur[CT.els[k].id]||0)>0.02)return T('st_ok');
+  }
+  return T('st_open2');
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // build a series circuit programmatically and solve
+  preset(0);drawBoth();
+  // toggle its switch
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='sw'){CT.els[i].closed=0;break}}
+  solve();drawBoth();
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='sw'){CT.els[i].closed=1;break}}
+  solve();drawBoth();
+  // parallel preset + probes + ammeter + value edits
+  preset(1);
+  VM.on=true;
+  PR[0].node=nid(2,4);PR[1].node=nid(3,4);
+  VM.x=400;VM.y=220;drawBoth();
+  addEl('amm',nid(2,5),nid(2,6));
+  solve();drawBoth();
+  var se=null;
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='batt'){se=CT.els[i];break}}
+  if(se){SEL=se.id;se.val=6;solve();drawBoth();se.flip=1;solve();drawBoth();se.flip=0}
+  var bl=null;
+  for(i=0;i<CT.els.length;i++){if(CT.els[i].t==='bulb'){bl=CT.els[i];break}}
+  if(bl){SEL=bl.id;bl.val=12;solve();drawBoth();bl.val=6}
+  VM.on=false;
+  // challenges: check all on suitable circuits
+  preset(0);solve();
+  for(i=0;i<6;i++){CH.i=i;buildCH(chCheck(i)?'ok':'no')}
+  preset(1);solve();
+  for(i=0;i<6;i++){CH.i=i;buildCH(chCheck(i)?'ok':'no')}
+  // short circuit test
+  CT.els=[];addEl('batt',nid(2,2),nid(2,3));addEl('wire',nid(2,3),nid(3,3));
+  addEl('wire',nid(3,3),nid(3,2));addEl('wire',nid(3,2),nid(2,2));
+  solve();drawBoth();
+  CH.i=5;buildCH(chCheck(5)?'ok':'no');
+  // laying preview branch
+  LAY.on=true;LAY.cur=nid(0,0);LAY.px=100;LAY.py=100;drawBoth();LAY.on=false;
+  // deletion + clear
+  if(CT.els.length){SEL=CT.els[0].id;delEl(SEL);solve();drawBoth()}
+  CT.els=[];solve();drawBoth();
+  // quiz sweep
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  preset(0);showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='circuit-building-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>悬挂法找重心探究实验室 · Center of Gravity Suspension · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="hleft">
+    <div class="brand">ScienceMaterial</div>
+    <h1><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 🎯 <span data-i="title"></span></h1>
+    <div class="sub">Center of Gravity Suspension · chu-yi-xia/b2-c6 · ScienceMaterial</div>
+  </div>
+  <div class="chips">
+    <span data-i="chip1"></span>
+    <span data-i="chip2"></span>
+    <span style="color:var(--neg); border-color:rgba(63,208,108,.55)" data-i="chip3"></span>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="hbtn" id="themeBtn" onclick="toggleTheme()"></button>
+    <button class="hbtn" onclick="toggleFull()"><span data-i="btnFull"></span></button>
+    <button class="hbtn" onclick="resetActive()">↺ <span data-i="btnReset"></span></button>
+  </div>
+</header>
+
+<main>
+  <div class="left">
+    <nav class="tabs">
+      <button id="tab-lab" class="on" onclick="setMode('lab')"><span data-i="tabLab"></span></button>
+      <button id="tab-quiz" onclick="setMode('quiz')"><span data-i="tabQuiz"></span></button>
+      <button id="tab-game" onclick="setMode('game')"><span data-i="tabGame"></span></button>
+    </nav>
+
+    <div class="stage">
+      <section class="panel on" id="panel-lab">
+        <div class="railL">
+          <button class="railbtn op" id="btn-hang" onclick="labHang()"><span data-i="opHang"></span></button>
+          <button class="railbtn op" id="btn-line" onclick="labLine()"><span data-i="opLine"></span></button>
+          <button class="railbtn" id="btn-again" onclick="labAgain()"><span data-i="opAgain"></span></button>
+          <button class="railbtn" id="btn-bal" onclick="labBal(true)"><span data-i="opBal"></span></button>
+          <button class="railbtn" id="btn-bad" onclick="labBal(false)"><span data-i="opBad"></span></button>
+          <button class="railbtn" id="btn-reset" onclick="labReset()"><span data-i="opReset"></span></button>
+        </div>
+        <div class="cvarea"><canvas id="cv-lab" width="2000" height="1000"></canvas></div>
+        <div class="rail">
+          <div class="rail-t" data-i="presetLabel"></div>
+          <button class="railbtn" data-p="pr1" onclick="runPreset('pr1')"><span data-i="pr1"></span></button>
+          <button class="railbtn" data-p="pr2" onclick="runPreset('pr2')"><span data-i="pr2"></span></button>
+          <button class="railbtn" data-p="pr3" onclick="runPreset('pr3')"><span data-i="pr3"></span></button>
+          <button class="railbtn" data-p="pr4" onclick="runPreset('pr4')"><span data-i="pr4"></span></button>
+          <button class="railbtn" data-p="pr5" onclick="runPreset('pr5')"><span data-i="pr5"></span></button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-quiz">
+        <div class="quiz-wrap">
+          <div class="q-timer" id="q-timer"><i id="q-timer-bar"></i></div>
+          <div class="quiz-emoji" id="q-emoji"></div>
+          <div class="quiz-q" id="q-text"></div>
+          <div class="quiz-btns" id="q-opts"></div>
+          <div class="quiz-exp" id="q-exp"></div>
+          <div class="quiz-nav">
+            <button class="btn" id="q-next" style="display:none" onclick="nextQ()"><span data-i="next"></span> ➜</button>
+            <button class="btn ghost" id="q-restart" style="display:none" onclick="restartQ()">🔄 <span data-i="again"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-game">
+        <div class="gamehud">
+          <span class="gt"><span data-i="gRound"></span> <b id="g-round">1</b>/3</span>
+          <span class="gt" id="g-goal-hud"></span>
+          <span class="gt"><span data-i="gScoreLabel"></span> <b id="g-score-hud">0</b></span>
+          <span class="gtime" id="g-time">60</span>
+        </div>
+        <div id="game-cvhost"></div>
+      </section>
+    </div>
+
+    <div class="ctlbar">
+      <div class="ctl-group on" id="ctl-lab">
+        <div class="rowline">
+          <span class="ctl-label" data-i="shapeLabel"></span>
+          <button class="sbtn mini pick" data-sh="square" onclick="pickShape('square')"><span data-i="b_square"></span></button>
+          <button class="sbtn mini" data-sh="blob" onclick="pickShape('blob')"><span data-i="b_blob"></span></button>
+          <button class="sbtn mini" data-sh="L" onclick="pickShape('L')"><span data-i="b_L"></span></button>
+          <button class="sbtn mini" data-sh="leaf" onclick="pickShape('leaf')"><span data-i="b_leaf"></span></button>
+          <button class="sbtn mini" data-sh="gun" onclick="pickShape('gun')"><span data-i="b_gun"></span></button>
+          <button class="sbtn mini" data-sh="moon" onclick="pickShape('moon')"><span data-i="b_moon"></span></button>
+          <button class="sbtn mini" data-sh="ring" onclick="pickShape('ring')"><span data-i="b_ring"></span></button>
+        </div>
+                <div class="hint-line" data-i="labHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-quiz">
+        <div class="hint-line" data-i="quizHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-game">
+        <div class="rowline">
+          <button class="sbtn op" id="gm-hang" onclick="gameHang()"><span data-i="opHang"></span></button>
+          <button class="sbtn op" id="gm-line" onclick="gameLine()"><span data-i="opLine"></span></button>
+          <button class="btn" id="g-act" onclick="gameAct()"></button>
+        </div>
+        <div class="hint-line" data-i="gHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sb on" id="sb-lab">
+      <div class="sb-title" data-i="stepsTitle"></div>
+      <ol class="steps" id="l-steps"></ol>
+      <span class="netchip" id="l-state"></span>
+      <button class="explain-btn" data-exp="l" onclick="toggleExplain('l')"><span data-i="expOpen"></span></button>
+      <div class="explain" id="exp-l">
+        <div class="statusbox" id="l-status"></div>
+        <div class="concl" id="l-conclude"></div>
+      </div>
+    </div>
+
+    <div class="sb" id="sb-quiz">
+      <div class="sb-title" data-i="score"></div>
+      <div class="scorebig"><b id="q-score-n">0</b><span> / 8</span></div>
+      <div class="qdots" id="q-prog"></div>
+      <div class="statusbox" id="q-side-hint"></div>
+    </div>
+
+    <div class="sb" id="sb-game">
+      <div>
+        <div class="sb-title" data-i="gErrLabel"></div>
+        <div class="bigang"><b id="g-err">--</b><i> px</i></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="gGoalLabel"></div>
+        <div class="goalbig" id="g-goal-side">--</div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="score"></div>
+        <div class="scorebig"><b id="g-score">0</b></div>
+      </div>
+      <div class="statusbox" id="g-status"></div>
+    </div>
+
+    <footer id="credit"></footer>
+  </aside>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+function f1(v){ return (Math.abs(v)<5e-3?0:v).toFixed(1); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'⚖️', q:'<b>重心</b>（centre of gravity）是哪一个力的作用点？',
+    o:['重力','绳子的拉力','摩擦力'], a:0,
+    x:'<em>重心就是重力的作用点</em>。画重力示意图时，箭头的起点就画在重心上，方向<em>竖直向下</em>。' },
+  { e:'🪝', q:'薄板被细线悬挂、<b>自由静止</b>后，为什么就能确定重心的位置？',
+    o:['因为薄板静止时不受任何力','因为只受重力和绳的拉力，二力平衡，必在同一条竖直线上','因为薄板的重心一定在几何中心'], a:1,
+    x:'这就是悬挂法的依据：自由静止时只受<em>重力</em>和<em>绳的拉力</em>，二力<em>平衡</em>；平衡的两个力必须在同一条直线上。切回「演示实验」挂一次，看侧栏的 θ 怎样掉到 0°。' },
+  { e:'📏', q:'薄板悬挂静止后，它的重心一定在哪里？',
+    o:['薄板的正中央','细线与薄板的接触点上','悬点正下方的那条铅垂线上'], a:2,
+    x:'重心一定在通过悬点的那条<em>铅垂线（plumb line）</em>上。演示里不管怎么挂，静止后重心<em>总是恰好停在悬点正下方</em>，所以 θ 一定归零。' },
+  { e:'2️⃣', q:'用悬挂法找重心，<b>为什么至少要悬挂两次</b>（换一个悬点再挂）？',
+    o:['挂两次是为了取平均值，减小误差','第一次挂的时候薄板还没有静止','挂一次只能确定重心在某一条直线上，两条线相交才能定出唯一的点'], a:2,
+    x:'挂一次只知道「重心在<em>某一条直线</em>上」；换一个悬点再挂，两条铅垂线<em>相交</em>，才能把重心定在<em>唯一的一个点</em>上。' },
+  { e:'✖️', q:'两次悬挂画出的<b>两条铅垂线的交点</b>是什么？',
+    o:['薄板的重心','薄板的最低点','薄板最重的那一部分'], a:0,
+    x:'两条铅垂线<em>都经过重心</em>，所以交点就是<em>重心</em>。还可以再换第三个悬点验证：<em>三条线交于同一点</em>。' },
+  { e:'⬜', q:'<b>质地均匀、形状规则</b>的物体，它的重心在哪里？',
+    o:['在它的几何中心','在它的最低点','一定在它的表面上'], a:0,
+    x:'质地均匀、形状规则的物体，重心就在<em>几何中心</em>：正方体在体心、圆球在球心、均匀细杆在正中点。到「对比实验」看 ⬜ 正方形和 📐 L 形的差别。' },
+  { e:'⭕', q:'「物体的重心一定在物体上」这句话对吗？',
+    o:['对，重心一定在物体内部','不对，圆环、月牙形薄板的重心就落在物体之外','不对，重心的位置可以随意移动'], a:1,
+    x:'⚠️ 这是最常见的迷思！<em>重心不一定在物体上</em>：均匀<em>圆环</em>的重心在圆心（那里是空的），<em>月牙形</em>薄板的重心落在凹进去的空缺处。切回「演示实验」挂 🌙 和 ⭕ 亲眼看。' },
+  { e:'☝️', q:'找到重心之后，怎样<b>检验</b>找得对不对？',
+    o:['用尺子量一量薄板对不对称','用指尖顶住那一点，薄板能水平平衡不掉下来','把薄板放进水里看它会不会浮起来'], a:1,
+    x:'✅ 验证方法：用<em>指尖顶住</em>找到的那一点，薄板能<em>水平平衡</em>稳稳停住；顶在别处会<em>立刻倾倒</em>。演示实验里点「☝️ 顶住重心」和「👆 顶在别处」对比一下。' },
+];
+const QUIZ_EN = [
+  { e:'⚖️', q:'The <b>centre of gravity</b> is the point of action of which force?',
+    o:['Weight (gravity)','The tension in the string','Friction'], a:0,
+    x:'<em>The centre of gravity is where weight acts.</em> When you draw the weight arrow, it starts at the CG and points <em>straight down</em>.' },
+  { e:'🪝', q:'Once a hanging plate comes to <b>free rest</b>, why does that fix the CG?',
+    o:['Because a resting plate has no forces on it','Because only weight and the string tension act; two balanced forces must lie on one vertical line','Because the CG is always at the geometric centre'], a:1,
+    x:'That is the whole basis of the method: at free rest only <em>weight</em> and <em>tension</em> act, and two balanced forces must share one line. Go to the Demo Lab and watch θ fall to 0°.' },
+  { e:'📏', q:'After the plate hangs still, where must its centre of gravity be?',
+    o:['Exactly in the middle of the plate','At the point where the string touches the plate','On the plumb line straight below the pivot'], a:2,
+    x:'The CG must lie on the <em>plumb line</em> through the pivot. However you hang it, the CG ends up <em>directly below the pivot</em> — that is why θ always returns to zero.' },
+  { e:'2️⃣', q:'Why must you hang the plate <b>at least twice</b> from different points?',
+    o:['To average two readings and reduce error','Because the plate was not yet still the first time','One hanging only fixes a line; two lines must cross to fix a single point'], a:2,
+    x:'One hanging tells you the CG is <em>somewhere on one line</em>. A second pivot gives a second plumb line, and the two lines <em>cross at one unique point</em>.' },
+  { e:'✖️', q:'What is the <b>intersection of the two plumb lines</b>?',
+    o:['The centre of gravity','The lowest point of the plate','The heaviest part of the plate'], a:0,
+    x:'Both plumb lines <em>pass through the CG</em>, so their crossing point is the <em>centre of gravity</em>. A third pivot gives a third line through the same point.' },
+  { e:'⬜', q:'For a <b>uniform, regularly shaped</b> object, where is the centre of gravity?',
+    o:['At its geometric centre','At its lowest point','Always somewhere on its surface'], a:0,
+    x:'A uniform regular body has its CG at the <em>geometric centre</em>: cube at the body centre, sphere at the centre, uniform rod at the midpoint. Compare ⬜ and 📐 in the Compare tab.' },
+  { e:'⭕', q:'"The centre of gravity is always on the object." Is that true?',
+    o:['True, the CG is always inside the object','False — for a ring or a crescent the CG lies off the material','False — the CG can be moved anywhere you like'], a:1,
+    x:'⚠️ The most common misconception! The CG of a uniform <em>ring</em> is at the empty centre, and a <em>crescent</em> has its CG in the hollow. Hang 🌙 and ⭕ in the Demo Lab and see it.' },
+  { e:'☝️', q:'How do you <b>check</b> that you really found the centre of gravity?',
+    o:['Measure whether the plate looks symmetric','Support that point on a fingertip — the plate balances horizontally','Float the plate in water and see if it rises'], a:1,
+    x:'✅ Support the point on a <em>fingertip</em>: the plate stays <em>horizontally balanced</em>. Support anywhere else and it <em>tips over at once</em>. Try "☝️ Balance" and "👆 Off-spot".' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'悬挂法找重心探究实验室', subtitle:'挂两次 · 画两条铅垂线 · 交点就是重心',
+  chip1:'自由静止时：重力与拉力二力平衡', chip2:'重心一定在悬点正下方的铅垂线上', chip3:'两条铅垂线的交点 ＝ 重心',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 猜重心挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  shapeLabel:'薄板：',
+  b_square:'⬜ 正方形', b_blob:'🪨 不规则板', b_L:'📐 L 形', b_leaf:'🍃 树叶形', b_gun:'🔧 手枪形', b_moon:'🌙 月牙形', b_ring:'⭕ 圆环',
+  n_square:'正方形板', n_blob:'不规则多边形板', n_L:'L 形板', n_leaf:'树叶形板', n_gun:'手枪形板', n_moon:'月牙形板', n_ring:'圆环板',
+  opHang:'🪝 挂起来', opLine:'✏️ 画铅垂线', opAgain:'🔁 换悬点', opBal:'☝️ 顶住重心', opBad:'👆 顶在别处', opReset:'↺ 重来',
+  presetLabel:'一键预设：',
+  pr1:'①两次悬挂', pr2:'②月牙·重心在板外', pr3:'③圆环·重心在圆心', pr4:'④同一点画两次', pr5:'⑤正方形·在中心',
+  pr1why:'📌 <em>标准四步</em>：挂 A → 静止 → 画线①；换 B → 静止 → 画线②。两条线的<em>交点</em>就是重心。悬点 A、B 离得越远，交点越准。',
+  pr2why:'🌙 <em>月牙形的重心不在薄板上</em>！它落在月牙凹进去的<em>空缺处</em>——那里根本没有材料。可是两条铅垂线照样在那里相交。',
+  pr3why:'⭕ <em>圆环的重心在圆心</em>，而圆心是空的。所以「重心一定在物体内部」是<em>错</em>的：均匀圆环的重心在几何中心，只是那里没有材料。',
+  pr4why:'✗ <em>同一个悬点画两次，画出来还是同一条线</em>，交点定不出来。<em>一定要换一个悬点</em>，而且两点离得越远越好。',
+  pr5why:'⬜ 质地均匀、形状<em>规则</em>的薄板，重心就在它的<em>几何中心</em>：正方形在对角线交点、圆盘在圆心、均匀细杆在正中点。不规则薄板才要用悬挂法。',
+  labHint:'先选薄板 → 在板的<b>边缘点一下</b>选悬点 → 🪝 挂起来（看侧栏 θ 掉到 0°）→ ✏️ 画铅垂线；换一个悬点再来一次，右边「纸面视图」就会出现交点 ⊕。',
+  stepsTitle:'跟着做（做到哪一步会自动亮起来）',
+  sp1:'在薄板边缘点一下，选一个悬点',
+  sp2:'挂起来，等它停下（θ 掉到 0°）',
+  sp3:'沿悬线画出第一条铅垂线',
+  sp4:'换一个悬点，再挂一次、再画一条',
+  sp5:'两条线的交点 ⊕ 就是重心',
+  stIdleT:'尚未悬挂', stIdleS:'先在薄板边缘点一下选悬点',
+  stPickT:'悬点已选好', stPickS:'放手前：重心还没转到悬点正下方',
+  stLiftT:'正在提起来', stLiftS:'把悬点挂上铁架台的钩子',
+  stSwingT:'摆动中', stSwingS:'重力矩还没消失，θ 还在变',
+  stRestT:'自由静止', stRestS:'二力平衡 · θ ＝ 0° · 重心在铅垂线上',
+  stBalOKT:'指尖顶住重心', stBalOKS:'水平平衡 —— 找对了',
+  stBalNGT:'指尖顶在别处', stBalNGS:'重力使薄板翻转掉落',
+  f_theta:'θ ＝ ∠(悬点→重心 , 铅垂线) ＝ <b>{th}°</b>　｜　悬点↔重心 <b>{d} px</b>',
+  live_idle:'还没选悬点。<b>薄板边缘</b>任意一点都可以当悬点。',
+  live_pick:'放手前 θ ＝ <b>{th}°</b>：重力对悬点还有<b>力矩</b>，所以它一定会转。',
+  live_swing:'θ 还在变 —— 重力矩 <b>M ＝ G·d·sinθ</b> 把它拉回去，θ 越小力矩越小。',
+  live_rest:'θ ＝ <b>0°</b>：重力与拉力在<b>同一条竖直线</b>上，二力平衡 —— 重心就在这条铅垂线上。',
+  live_balok:'支撑点正好在重心上：重力对支点的<b>力矩为零</b>，所以薄板<b>水平平衡</b>。',
+  live_balng:'支撑点不在重心上：重力对支点有<b>力矩</b>，薄板<b>立刻翻转</b>。',
+  tip_need2:'现在只有 <b>{n}</b> 条线 —— 只能确定「重心在这条线上」，还差一条。',
+  tip_done:'两条线已相交：右边纸面视图的 <b>⊕</b> 就是重心。可以再换第三点验证。',
+  tip_first:'挂第一次前先让全班<b>猜一猜</b>重心在哪，再验证。',
+  r_rest:'👉 <em>摆动 → 自由静止</em>：θ 归零，重心正好停在悬点正下方。',
+  r_line1:'👉 <em>第一条铅垂线画好了</em>：重心在这条线上，但还不知道在哪一点。',
+  r_cross:'👉 <em>两条线相交了</em>：交点就是重心 ⊕。',
+  w_dup:'⚠️ 这两个悬点几乎在同一条直线上，画出来<b>还是同一条线</b>。请换一个<b>离得远一些</b>的悬点。',
+  w_near:'⚠️ 这个悬点离重心太近了，换一个吧。',
+  w_again:'👉 现在在薄板<b>边缘的另一处</b>点一下，选下一个悬点（离得越远越好）。',
+  c_cross:'📌 两条铅垂线<em>都经过重心</em>，所以它们的<em>交点</em>就是重心。挂<em>一次</em>只能定一条线，<em>两次</em>才能定一个点。',
+  c_dup:'📌 换悬点是<em>必须</em>的：同一个悬点（或几乎同一条线上的两点）画出来是<em>同一条线</em>，永远交不出点。',
+  c_outside:'📌 这个形状的<em>重心不在薄板上</em>！重心是<em>重力的作用点</em>，它可以落在物体的空缺处 —— 圆环在圆心、月牙在凹处。',
+  c_balok:'📌 <em>验证方法</em>：指尖顶住重心 → 重力对支点<em>力矩为零</em> → 薄板<em>水平平衡</em>。这就是找对了的证据。',
+  c_balng:'📌 顶在别处：重力对支点有<em>力矩</em>，薄板<em>立刻倾倒</em>。所以「能不能顶住」就是重心找得准不准的检验。',
+  outLabel:'重心偏离外框中心的距离',
+  cmpHint:'先按预设 → 全班猜一猜 → 再按「同时开始」。两块板会各自自动挂两次、画两条线，交点由真实的面积质心公式算出。',
+  cp1:'⬜规则 vs 📐不规则', cp2:'🌙月牙 vs 🍃树叶', cp3:'⭕圆环 vs 🔧手枪',
+  cp1a:'⬜ 规则：正方形板', cp1b:'📐 不规则：L 形板',
+  cp1ac:'两个悬点：左上角 · 左下角', cp1bc:'两个悬点：左上角 · 左下角',
+  cp2a:'🌙 月牙形板', cp2b:'🍃 树叶形板',
+  cp2ac:'两个悬点：上尖端 · 左下缘', cp2bc:'两个悬点：左端 · 下缘',
+  cp3a:'⭕ 圆环板', cp3b:'🔧 手枪形板',
+  cp3ac:'两个悬点：左上 · 下缘', cp3bc:'两个悬点：左上角 · 右下缘',
+  guessQ:'猜一猜：哪块板的重心离「外框中心」更远？', gMoreA:'甲更远', gSame:'一样', gMoreB:'乙更远', runCmp:'同时开始',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  kCx:'重心x', kCy:'重心y', kWhere:'位置', vOn:'板上', vOff:'板外',
+  cc_1:'📌 <em>质地均匀、形状规则</em>的薄板，重心就在<em>几何中心</em>（正方形 0.0 px）；形状一不规则，重心就<em>偏离中心</em>（L 形 21.0 px），只能靠<em>悬挂法</em>去找。',
+  cc_2:'📌 月牙的重心<em>偏出去很远</em>，而且落在<em>板外的空缺处</em>；树叶接近对称，重心几乎在中间。<em>形状越不对称，重心偏得越多。</em>',
+  cc_3:'📌 圆环的重心<em>恰在几何中心</em>（0.0 px），可那里是<em>空的</em>！所以「偏离小」<em>不等于</em>「在板上」——重心是重力的作用点，不必落在材料上。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！悬挂法找重心你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手挂一挂，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场挂给全班看。',
+  gRound:'回合', gScoreLabel:'得分', gErrLabel:'猜点与真重心的误差', gGoalLabel:'本轮任务',
+  gGoalGuess:'先猜：重心在哪？', gGoalVerify:'再验证：挂两次画两条线',
+  gHint:'全班指挥一位同学：先<b>凭眼睛猜</b>重心并点一下（点了就锁定），再用悬挂法挂两次画两条线来<b>验证</b>。误差越小分越高。',
+  gGo:'🎮 第 {r} 回合 · <b>{n}</b>。先在板上<b>点一下</b>你猜的重心位置。',
+  gLocked:'🔒 猜测已锁定。现在<b>挂两次、画两条铅垂线</b>，交点出来就揭晓误差。',
+  gWin:'🎯 误差 <b>{e} px</b>（容差 {t} px）＋<b>{p}</b> 分。{msg}',
+  gPerfect:'🏆 太准了！', gClose:'👍 很接近！', gMiss:'💪 差得有点多 —— 重心不是「看起来的正中间」。',
+  gNoGuess:'⏰ 时间到：这一轮没有猜点，0 分。',
+  gTimeUp:'⏰ 时间到，本轮 {p} 分。', gSkipped:'⏭ 跳过，本轮 0 分。',
+  gSkip:'⏭ 跳过本轮', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gFinal:'最终得分', gRank1:'🏆 重心感觉大师！', gRank2:'👍 眼力不错！', gRank3:'💪 回演示实验多挂几次！',
+  cvScene:'🪝 悬挂实景（铁架台）', cvFlat:'📄 纸面视图：板上画的线',
+  cvStand:'铁架台 / 支架', cvPlumb:'铅垂线 plumb line', cvPin:'悬点 {k}', cvPinSel:'悬点（已选）',
+  cvCG:'重心 ⊕', cvBoxC:'外框中心', cvLineN:'线{k}',
+  cvTheta:'θ ＝ {th}°', cvNoCross:'还没有交点：至少要画 2 条线', cvCross:'交点 ⊕ ＝ 重心（{x} , {y}）',
+  cvClick:'👆 在薄板边缘点一下，选一个悬点', cvDrawNow:'👉 静止了，点「✏️ 画铅垂线」',
+  cvBalOK:'⚖️ 平衡！薄板稳稳停住 —— 找对了', cvBalNG:'❌ 顶在别处 —— 薄板马上倾倒掉落',
+  cvFinger:'☝️ 指尖顶住的位置', cvGuess:'你猜的点', cvSwing:'🌀 摆动中……等它自由静止',
+  cvD:'重心↔外框中心 {d} px', cvOn:'重心在板上', cvOff:'⚠️ 重心在板外',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Centre of Gravity Lab', subtitle:'Hang it twice · draw two plumb lines · the crossing point is the CG',
+  chip1:'At free rest: weight and tension balance', chip2:'The CG lies on the plumb line below the pivot', chip3:'Two plumb lines cross at the CG',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Guess the CG',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  shapeLabel:'Plate:',
+  b_square:'⬜ Square', b_blob:'🪨 Blob', b_L:'📐 L-plate', b_leaf:'🍃 Leaf', b_gun:'🔧 Wrench', b_moon:'🌙 Crescent', b_ring:'⭕ Ring',
+  n_square:'square plate', n_blob:'irregular plate', n_L:'L-shaped plate', n_leaf:'leaf plate', n_gun:'wrench plate', n_moon:'crescent plate', n_ring:'ring plate',
+  opHang:'🪝 Hang', opLine:'✏️ Plumb line', opAgain:'🔁 New point', opBal:'☝️ Balance', opBad:'👆 Off-spot', opReset:'↺ Reset',
+  presetLabel:'Presets:',
+  pr1:'①Two hangs', pr2:'②Crescent: off body', pr3:'③Ring: at centre', pr4:'④Same point twice', pr5:'⑤Square: centre',
+  pr1why:'📌 <em>The four steps</em>: hang at A → rest → line ①; move to B → rest → line ②. Their <em>crossing point</em> is the CG. The further apart A and B, the sharper the crossing.',
+  pr2why:'🌙 <em>The crescent has its CG off the plate</em> — in the hollow, where there is no material at all. The two plumb lines still cross exactly there.',
+  pr3why:'⭕ <em>A ring has its CG at the centre of the circle</em>, which is empty. So "the CG must be inside the object" is <em>wrong</em>: it is at the geometric centre, with nothing there.',
+  pr4why:'✗ <em>Two hangs from the same point give the same line</em>, so no crossing point. You <em>must</em> move the pivot — and the further apart, the better.',
+  pr5why:'⬜ A uniform, <em>regular</em> plate has its CG at the <em>geometric centre</em>: a square at the diagonals, a disc at the centre, a rod at its midpoint. Only irregular plates need the suspension method.',
+  labHint:'Pick a plate → <b>click its edge</b> to choose a pivot → 🪝 Hang (watch θ drop to 0°) → ✏️ draw the plumb line; repeat from a second pivot and the ⊕ appears in the paper view on the right.',
+  stepsTitle:'Follow along (each step lights up as you go)',
+  sp1:'Click a point on the edge to pick a pivot',
+  sp2:'Hang it up and wait until it settles (θ → 0°)',
+  sp3:'Draw the first plumb line along the string',
+  sp4:'Pick a different pivot, hang and draw again',
+  sp5:'Where the two lines cross ⊕ is the centre of gravity',
+  stIdleT:'Not hanging yet', stIdleS:'Click the edge of the plate to pick a pivot',
+  stPickT:'Pivot chosen', stPickS:'Before release: the CG is not below the pivot yet',
+  stLiftT:'Lifting it up', stLiftS:'Hooking the pivot onto the stand',
+  stSwingT:'Swinging', stSwingS:'The torque of weight is not gone; θ still changing',
+  stRestT:'Free rest', stRestS:'Forces balanced · θ = 0° · CG on the plumb line',
+  stBalOKT:'Fingertip on the CG', stBalOKS:'Balanced horizontally — you found it',
+  stBalNGT:'Fingertip off the CG', stBalNGS:'Weight tips the plate over',
+  f_theta:'θ ＝ ∠(pivot→CG , plumb line) ＝ <b>{th}°</b>　|　pivot↔CG <b>{d} px</b>',
+  live_idle:'No pivot yet. <b>Any point on the edge</b> of the plate will do.',
+  live_pick:'Before release θ ＝ <b>{th}°</b>: weight still has a <b>torque</b> about the pivot, so it must turn.',
+  live_swing:'θ is still changing — the torque <b>M ＝ G·d·sinθ</b> pulls it back, and shrinks as θ shrinks.',
+  live_rest:'θ ＝ <b>0°</b>: weight and tension lie on the <b>same vertical line</b> — balanced, so the CG is on this plumb line.',
+  live_balok:'The support is exactly at the CG: the <b>torque of weight is zero</b>, so the plate <b>balances</b>.',
+  live_balng:'The support is off the CG: weight has a <b>torque</b> about it, so the plate <b>tips over at once</b>.',
+  tip_need2:'Only <b>{n}</b> line so far — that fixes a line, not a point. One more to go.',
+  tip_done:'The two lines cross: the <b>⊕</b> in the paper view is the CG. Add a third pivot to check.',
+  tip_first:'Let the class <b>guess</b> where the CG is before the first hang, then check it.',
+  r_rest:'👉 <em>Swinging → free rest</em>: θ falls to zero and the CG sits right below the pivot.',
+  r_line1:'👉 <em>First plumb line drawn</em>: the CG is on this line, but we still do not know where.',
+  r_cross:'👉 <em>The two lines crossed</em>: that point is the CG ⊕.',
+  w_dup:'⚠️ These two pivots are almost on one line, so you get <b>the same line again</b>. Pick a pivot <b>further away</b>.',
+  w_near:'⚠️ That pivot is too close to the CG — try another one.',
+  w_again:'👉 Now click <b>another spot on the edge</b> to pick the next pivot — the further, the better.',
+  c_cross:'📌 Both plumb lines <em>pass through the CG</em>, so their <em>crossing point</em> is the CG. One hang fixes a line; <em>two</em> hangs fix a point.',
+  c_dup:'📌 Changing the pivot is <em>compulsory</em>: the same pivot (or two points nearly on one line) gives <em>the same line</em>, which never crosses.',
+  c_outside:'📌 This shape has its <em>CG off the plate</em>! The CG is where <em>weight acts</em>; it may fall in a hollow — a ring at its centre, a crescent in its bay.',
+  c_balok:'📌 <em>The check</em>: a fingertip at the CG makes the <em>torque of weight zero</em>, so the plate <em>balances horizontally</em>. That is the proof.',
+  c_balng:'📌 Off the CG, weight has a <em>torque</em> and the plate <em>tips at once</em>. "Does it balance?" is exactly how you test your answer.',
+  outLabel:'Distance CG ↔ box centre',
+  cmpHint:'Load a preset → let the class predict → press "Start both". Each plate hangs twice on its own; the crossing point comes from the real area-centroid formula.',
+  cp1:'⬜Regular vs 📐Irregular', cp2:'🌙Crescent vs 🍃Leaf', cp3:'⭕Ring vs 🔧Wrench',
+  cp1a:'⬜ Regular: square plate', cp1b:'📐 Irregular: L-plate',
+  cp1ac:'pivots: top-left corner · bottom-left', cp1bc:'pivots: top-left corner · bottom-left',
+  cp2a:'🌙 Crescent plate', cp2b:'🍃 Leaf plate',
+  cp2ac:'pivots: upper tip · lower-left edge', cp2bc:'pivots: left tip · lower edge',
+  cp3a:'⭕ Ring plate', cp3b:'🔧 Wrench plate',
+  cp3ac:'pivots: upper-left · lower edge', cp3bc:'pivots: top-left · lower-right',
+  guessQ:'Predict: whose CG sits further from the box centre?', gMoreA:'A further', gSame:'Same', gMoreB:'B further', runCmp:'Start both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  kCx:'CG x', kCy:'CG y', kWhere:'Where', vOn:'on', vOff:'off',
+  cc_1:'📌 A <em>uniform, regular</em> plate has its CG at the <em>geometric centre</em> (square: 0.0 px). Break the regularity and the CG <em>shifts off centre</em> (L-plate: 21.0 px) — only suspension can find it.',
+  cc_2:'📌 The crescent CG is <em>far off centre</em> and lands <em>outside the material</em>; the near-symmetric leaf keeps its CG almost in the middle. <em>The less symmetric, the bigger the shift.</em>',
+  cc_3:'📌 The ring CG is <em>exactly at the geometric centre</em> (0.0 px) — and that spot is <em>empty</em>! So "small shift" does <em>not</em> mean "on the plate".',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect score — the suspension method is yours!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Hang a few plates in the Demo Lab, then try again!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and hang it live.',
+  gRound:'Round', gScoreLabel:'Score', gErrLabel:'Guess vs true CG', gGoalLabel:'Task this round',
+  gGoalGuess:'First guess: where is the CG?', gGoalVerify:'Now verify: hang twice, draw two lines',
+  gHint:'The class guides one player: <b>guess</b> the CG by eye and click it (that locks it in), then <b>verify</b> with two hangs and two plumb lines. Smaller error, more points.',
+  gGo:'🎮 Round {r} · <b>{n}</b>. Click on the plate where you think the CG is.',
+  gLocked:'🔒 Guess locked. Now <b>hang it twice and draw two plumb lines</b> — the error is revealed at the crossing.',
+  gWin:'🎯 Error <b>{e} px</b> (tolerance {t} px) — <b>{p}</b> points. {msg}',
+  gPerfect:'🏆 Spot on!', gClose:'👍 Very close!', gMiss:'💪 Quite far — the CG is not "the middle of what you see".',
+  gNoGuess:'⏰ Time! No guess this round, 0 points.',
+  gTimeUp:'⏰ Time! {p} points this round.', gSkipped:'⏭ Skipped, 0 points.',
+  gSkip:'⏭ Skip round', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gFinal:'Final score', gRank1:'🏆 CG master!', gRank2:'👍 Sharp eye!', gRank3:'💪 Hang a few more in the Demo Lab!',
+  cvScene:'🪝 The real hang (retort stand)', cvFlat:'📄 Paper view: lines drawn on the plate',
+  cvStand:'retort stand', cvPlumb:'plumb line', cvPin:'pivot {k}', cvPinSel:'pivot (chosen)',
+  cvCG:'CG ⊕', cvBoxC:'box centre', cvLineN:'line {k}',
+  cvTheta:'θ ＝ {th}°', cvNoCross:'no crossing yet: draw at least 2 lines', cvCross:'crossing ⊕ = CG ({x} , {y})',
+  cvClick:'👆 Click the edge of the plate to pick a pivot', cvDrawNow:'👉 At rest — press "✏️ Plumb line"',
+  cvBalOK:'⚖️ Balanced! It stays put — you found it', cvBalNG:'❌ Off the CG — it tips over at once',
+  cvFinger:'☝️ fingertip support', cvGuess:'your guess', cvSwing:'🌀 swinging… wait for free rest',
+  cvD:'CG↔box centre {d} px', cvOn:'CG on the plate', cvOff:'⚠️ CG off the plate',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    grid:'rgba(255,255,255,.10)', axis:'rgba(255,255,255,.34)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.78)', pillLine:'rgba(255,255,255,.22)',
+    board:'#e9d9b4', boardEdge:'#a98c56', boardHole:'rgba(10,20,34,.55)',
+    stand:'#4a5568', standEdge:'#8fa0b4', string:'#cfd8e2',
+    plumb:'rgba(124,196,255,.55)', theta:'#ffc94d',
+    pin:'#ff6a5a', cg:'#3fd06c', bad:'#ff5d55', good:'#3fd06c',
+    line1:'#ff6a5a', line2:'#7cc4ff', line3:'#c79bf0',
+    skin:'#f3cda8', skinEdge:'#c99a6e', tableLine:'rgba(255,255,255,.25)',
+    boxc:'rgba(255,255,255,.55)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    grid:'rgba(30,42,54,.10)', axis:'rgba(30,42,54,.38)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.94)', pillLine:'rgba(30,42,54,.18)',
+    board:'#efe0be', boardEdge:'#9a7f4b', boardHole:'#fbfaf4',
+    stand:'#ddd4bf', standEdge:'#8d8265', string:'#3a4a52',
+    plumb:'rgba(62,124,177,.55)', theta:'#a06d00',
+    pin:'#d3402c', cg:'#1fa050', bad:'#e0443c', good:'#1fa050',
+    line1:'#e0443c', line2:'#2f6690', line3:'#7a45a8',
+    skin:'#f3cda8', skinEdge:'#c99a6e', tableLine:'rgba(30,42,54,.25)',
+    boxc:'rgba(30,42,54,.5)',
+  },
+};
+let THEME = 'dark';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'dark'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  applyTheme();
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  labUI();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  gameSync();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+const SC = 2;
+function ptr(ev, cv, sc){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*cv.width/r.width/(sc||1), y:(ev.clientY-r.top)*cv.height/r.height/(sc||1) };
+}
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  c.fillText(s,x,y);
+}
+function fsOf(font){ const m=/(\d+(?:\.\d+)?)px/.exec(String(font)); return m?parseFloat(m[1]):14; }
+
+/* ---- label bookkeeping: no overlap, always clamped inside the canvas ---- */
+let LBLS=[];
+function labelReset(){ LBLS=[]; }
+function boxHit(a,b){ return !(a.x1<=b.x0 || b.x1<=a.x0 || a.y1<=b.y0 || b.y1<=a.y0); }
+function boxFree(b){ for(let i=0;i<LBLS.length;i++) if(boxHit(LBLS[i],b)) return false; return true; }
+/* pill-backed label; tries each candidate, finally clamps the first one into view */
+function tchip(c,s,cands,font,color,W,H,bgOverride){
+  if(!s) return false;
+  c.font=font;
+  const fs=fsOf(font), tw=c.measureText(s).width, w=tw+22, h=fs+13;
+  const draw = (x,y)=>{
+    rrect(c,x-w/2,y-h/2,w,h,h/2);
+    c.fillStyle=bgOverride||C().pill; c.fill();
+    c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+    TX(c,s,x,y,font,color,'center','middle');
+    LBLS.push({x0:x-w/2-2,y0:y-h/2-2,x1:x+w/2+2,y1:y+h/2+2});
+  };
+  for(let i=0;i<cands.length;i++){
+    const p=cands[i];
+    if(!isFinite(p[0])||!isFinite(p[1])) continue;
+    const b={x0:p[0]-w/2-2,y0:p[1]-h/2-2,x1:p[0]+w/2+2,y1:p[1]+h/2+2};
+    if(b.x0<2||b.x1>W-2||b.y0<2||b.y1>H-2) continue;
+    if(!boxFree(b)) continue;
+    draw(p[0],p[1]); return true;
+  }
+  const p0=cands[0];
+  if(!p0||!isFinite(p0[0])||!isFinite(p0[1])) return false;
+  draw(clamp(p0[0], w/2+4, W-w/2-4), clamp(p0[1], h/2+4, H-h/2-4));
+  return true;
+}
+function labText(c,s,cands,font,color,align,W,H){
+  if(!s) return false;
+  c.font=font;
+  const fs=fsOf(font), tw=c.measureText(s).width, h=fs*1.3;
+  for(let i=0;i<cands.length;i++){
+    const p=cands[i];
+    if(!isFinite(p[0])||!isFinite(p[1])) continue;
+    const ax = align==='right' ? p[0]-tw : (align==='center' ? p[0]-tw/2 : p[0]);
+    const b={x0:ax-3,y0:p[1]-h/2-2,x1:ax+tw+3,y1:p[1]+h/2+2};
+    if(b.x0<2||b.x1>W-2||b.y0<2||b.y1>H-2) continue;
+    if(!boxFree(b)) continue;
+    LBLS.push(b); TX(c,s,p[0],p[1],font,color,align||'left','middle'); return true;
+  }
+  return false;
+}
+
+/* ============================================================
+   Geometry (carried over verbatim from the self-study build)
+============================================================ */
+function polyCentroid(p){
+  let a=0,cx=0,cy=0;
+  for(let i=0,n=p.length;i<n;i++){
+    const j=(i+1)%n;
+    const cr=p[i][0]*p[j][1]-p[j][0]*p[i][1];
+    a+=cr; cx+=(p[i][0]+p[j][0])*cr; cy+=(p[i][1]+p[j][1])*cr;
+  }
+  a/=2;
+  return {x:cx/(6*a), y:cy/(6*a), a:a};
+}
+function pip(p,x,y){
+  let c=false;
+  for(let i=0,j=p.length-1;i<p.length;j=i++){
+    const xi=p[i][0],yi=p[i][1],xj=p[j][0],yj=p[j][1];
+    if(((yi>y)!==(yj>y)) && (x<(xj-xi)*(y-yi)/(yj-yi)+xi)) c=!c;
+  }
+  return c;
+}
+/* composite rule: outer area-weighted centroid minus each hole */
+function shapeCG(s){
+  const co=polyCentroid(s.outer);
+  let A=Math.abs(co.a), mx=co.x*A, my=co.y*A;
+  const hs=s.holes||[];
+  for(let i=0;i<hs.length;i++){
+    const ch=polyCentroid(hs[i]); const ah=Math.abs(ch.a);
+    A-=ah; mx-=ch.x*ah; my-=ch.y*ah;
+  }
+  return {x:mx/A, y:my/A, area:A};
+}
+function inShape(s,x,y){
+  if(!pip(s.outer,x,y)) return false;
+  const hs=s.holes||[];
+  for(let i=0;i<hs.length;i++) if(pip(hs[i],x,y)) return false;
+  return true;
+}
+function bboxOf(s){
+  let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  s.outer.forEach(function(q){ x0=Math.min(x0,q[0]); x1=Math.max(x1,q[0]); y0=Math.min(y0,q[1]); y1=Math.max(y1,q[1]); });
+  return {x0:x0,x1:x1,y0:y0,y1:y1,cx:(x0+x1)/2,cy:(y0+y1)/2,w:x1-x0,h:y1-y0};
+}
+function nearestOnEdge(s,x,y){
+  const p=s.outer; let best=[p[0][0],p[0][1]], bd=1e18;
+  for(let i=0;i<p.length;i++){
+    const a=p[i], b=p[(i+1)%p.length];
+    const vx=b[0]-a[0], vy=b[1]-a[1], L2=vx*vx+vy*vy;
+    let u = L2>0 ? ((x-a[0])*vx+(y-a[1])*vy)/L2 : 0;
+    u=clamp(u,0,1);
+    const qx=a[0]+vx*u, qy=a[1]+vy*u;
+    const d=(qx-x)*(qx-x)+(qy-y)*(qy-y);
+    if(d<bd){ bd=d; best=[qx,qy]; }
+  }
+  return best;
+}
+function lineX(l1,l2){
+  const cr = l1.d[0]*l2.d[1] - l1.d[1]*l2.d[0];
+  if(Math.abs(cr)<1e-7) return null;
+  const ex=l2.p[0]-l1.p[0], ey=l2.p[1]-l1.p[1];
+  const u=(ex*l2.d[1]-ey*l2.d[0])/cr;
+  return {x:l1.p[0]+l1.d[0]*u, y:l1.p[1]+l1.d[1]*u};
+}
+function circlePoly(cx,cy,r,n){
+  const p=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; p.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]); }
+  return p;
+}
+/* crescent = inside circle A, outside circle B; traced as one polygon */
+function crescentPoly(R,r,d,N){
+  const x=(d*d+R*R-r*r)/(2*d), y=Math.sqrt(R*R-x*x);
+  const aA=Math.atan2(y,x), a2=Math.abs(Math.atan2(-y,x-d)), sweep=2*Math.PI-2*a2;
+  const pts=[];
+  for(let i=0;i<=N;i++){ const a=aA+(2*Math.PI-2*aA)*i/N; pts.push([R*Math.cos(a), R*Math.sin(a)]); }
+  for(let i=1;i<N;i++){ const a=-a2-sweep*i/N; pts.push([d+r*Math.cos(a), r*Math.sin(a)]); }
+  return pts;
+}
+function leafPoly(N){
+  const p=[], a=104;
+  for(let i=0;i<=N;i++){ const x=-a+2*a*i/N, u=Math.max(0,1-(x/a)*(x/a)); p.push([x,-54*Math.pow(u,0.72)]); }
+  for(let i=N-1;i>=1;i--){ const x=-a+2*a*i/N, u=Math.max(0,1-(x/a)*(x/a)); p.push([x, 30*Math.pow(u,1.15)]); }
+  return p;
+}
+function rotPoly(p,ang){
+  const c=Math.cos(ang), s=Math.sin(ang);
+  return p.map(function(q){ return [q[0]*c-q[1]*s, q[0]*s+q[1]*c]; });
+}
+
+/* ================= the plates ================= */
+const SHAPES=[
+  {key:'square', outer:[[-78,-78],[78,-78],[78,78],[-78,78]], pick:[[-1,-1],[-1,0.6]]},
+  {key:'blob', outer:[[-90,-40],[-30,-95],[60,-80],[95,-5],[55,75],[-25,95],[-85,45]], pick:[[-1,-1],[0.2,1]]},
+  {key:'L', outer:[[-70,-95],[10,-95],[10,25],[95,25],[95,95],[-70,95]], pick:[[-1,-1],[-1,0.6]]},
+  {key:'leaf', outer:rotPoly(leafPoly(70),-0.38), pick:[[-1,-1],[0.2,1]]},
+  {key:'gun', outer:[[-95,-70],[55,-70],[55,-30],[30,-30],[58,70],[8,78],[-10,-30],[-95,-30]], pick:[[-1,-1],[1,0.3]]},
+  {key:'moon', outside:true, outer:crescentPoly(100,88,30,200), pick:[[-1,-1],[-1,0.6]]},
+  {key:'ring', outside:true, outer:circlePoly(0,0,100,180), holes:[circlePoly(0,0,56,140)], pick:[[-1,-1],[0.2,1]]}
+];
+/* one common scale so a plate hung from any edge point still fits the canvas */
+const SCL=0.82;
+const SHMAP={};
+SHAPES.forEach(function(s){
+  s.outer = s.outer.map(function(q){ return [q[0]*SCL, q[1]*SCL]; });
+  if(s.holes) s.holes = s.holes.map(function(h){ return h.map(function(q){ return [q[0]*SCL, q[1]*SCL]; }); });
+  s.cg = shapeCG(s);
+  s.bb = bboxOf(s);
+  s.diag = Math.hypot(s.bb.w, s.bb.h);
+  s.tol = Math.max(12, s.diag*0.06);
+  s.offC = Math.hypot(s.cg.x-s.bb.cx, s.cg.y-s.bb.cy);
+  s.onBoard = inShape(s, s.cg.x, s.cg.y);
+  SHMAP[s.key]=s;
+});
+function shName(s){ return t('n_'+s.key); }
+
+/* ============================================================
+   Suspension rig (shared by demo lab, compare and game)
+============================================================ */
+function newRig(cv, W, H, cfg){
+  return {
+    cv:cv, ctx:cv.getContext('2d'), W:W, H:H,
+    x0:cfg.x0, x1:cfg.x1, ceilY:cfg.ceilY, PIN:cfg.pin, floorY:cfg.floorY,
+    vs:cfg.vs, tm:cfg.tm||1,
+    sh:null, P:null, phase:'idle', pIdx:0,
+    pose:{aL:[0,0], aS:[cfg.pin[0], cfg.idleY], phi:0}, idleY:cfg.idleY,
+    om:0, target:0, swingT:0, liftU:0, liftFrom:[0,0],
+    lines:[], cross:null, guess:null, ok:null,
+    sup:null, balOK:true, balT:0, balSgn:1
+  };
+}
+/* local (plate) coords → screen coords, with the rig's view scale */
+function L2S(pt,pose,vs){
+  vs=vs||1;
+  const c=Math.cos(pose.phi), s=Math.sin(pose.phi);
+  const dx=(pt[0]-pose.aL[0])*vs, dy=(pt[1]-pose.aL[1])*vs;
+  return {x:pose.aS[0]+dx*c-dy*s, y:pose.aS[1]+dx*s+dy*c};
+}
+function S2L(x,y,pose,vs){
+  vs=vs||1;
+  const c=Math.cos(pose.phi), s=Math.sin(pose.phi);
+  const dx=(x-pose.aS[0])/vs, dy=(y-pose.aS[1])/vs;
+  return [pose.aL[0]+dx*c+dy*s, pose.aL[1]-dx*s+dy*c];
+}
+function wrapPi(a){ while(a>Math.PI)a-=2*Math.PI; while(a<=-Math.PI)a+=2*Math.PI; return a; }
+/* target angle: turn "CG relative to pivot" to point straight down (+y on screen) */
+function targetPhi(sh,P,phiNow){
+  const a=Math.atan2(sh.cg.y-P[1], sh.cg.x-P[0]);
+  return phiNow + wrapPi(Math.PI/2 - a - phiNow);
+}
+function rigSetShape(R,sh){
+  R.sh=sh; R.P=null; R.phase='idle'; R.lines=[]; R.cross=null; R.guess=null; R.ok=null;
+  R.om=0; R.swingT=0; R.pIdx=0;
+  R.pose={aL:[sh.bb.cx, sh.bb.cy], aS:[R.PIN[0], R.idleY], phi:0};
+}
+function rigPickPoint(R,sx,sy){
+  if(!R.sh) return false;
+  const loc=S2L(sx,sy,R.pose,R.vs);
+  const p=nearestOnEdge(R.sh,loc[0],loc[1]);
+  if(Math.hypot(p[0]-R.sh.cg.x, p[1]-R.sh.cg.y) < 6) return false;
+  R.P=p;
+  if(R.phase==='balance') R.phase='rest';
+  return true;
+}
+function rigPickDir(R,dir){
+  if(!R.sh) return false;
+  R.P = nearestOnEdge(R.sh, dir[0]*1000, dir[1]*1000);
+  return true;
+}
+/* release: first align the pivot in place with the string end, then lift it up */
+function rigHang(R){
+  if(!R.sh||!R.P) return false;
+  if(R.phase==='lift'||R.phase==='swing') return false;
+  const now=L2S(R.P,R.pose,R.vs);
+  R.pose.aL=[R.P[0],R.P[1]];
+  R.pose.aS=[now.x,now.y];
+  R.liftFrom=[now.x,now.y];
+  R.pIdx=R.lines.length;
+  R.liftU=0; R.phase='lift'; R.swingT=0;
+  return true;
+}
+function rigStartSwing(R){
+  R.pose.aS=[R.PIN[0],R.PIN[1]];
+  R.target=targetPhi(R.sh,R.P,R.pose.phi);
+  const d=Math.abs(wrapPi(R.pose.phi-R.target));
+  R.om = (d<0.15) ? 1.15 : 0;
+  R.phase='swing'; R.swingT=0;
+}
+function rigSnap(R){
+  const k=Math.round((R.pose.phi-R.target)/(2*Math.PI));
+  R.pose.phi=R.target+2*Math.PI*k;
+  R.om=0; R.phase='rest';
+}
+/* damped pendulum about the pivot, converging on "CG straight below" */
+function rigStep(R,dt0){
+  const dt = dt0*R.tm;
+  if(R.phase==='lift'){
+    R.liftU=Math.min(1,R.liftU+dt*2.4);
+    const u=R.liftU, e=u*u*(3-2*u);
+    R.pose.aS=[R.liftFrom[0]+(R.PIN[0]-R.liftFrom[0])*e, R.liftFrom[1]+(R.PIN[1]-R.liftFrom[1])*e];
+    if(R.liftU>=1) rigStartSwing(R);
+    return;
+  }
+  if(R.phase==='swing'){
+    R.swingT+=dt;
+    const steps=3, h=dt/steps;
+    for(let i=0;i<steps;i++){
+      const d=R.pose.phi-R.target;
+      R.om += (-30*Math.sin(d) - 1.9*R.om)*h;
+      R.pose.phi += R.om*h;
+    }
+    const dd=Math.abs(wrapPi(R.pose.phi-R.target));
+    if((dd<0.005 && Math.abs(R.om)<0.03) || R.swingT>7) rigSnap(R);
+    return;
+  }
+  if(R.phase==='balance'){ R.balT+=dt; return; }
+}
+/* draw the plumb line onto the plate (plate-local, so it turns with the plate) */
+function rigDrawLine(R){
+  if(R.phase!=='rest'||!R.P) return 'notrest';
+  const dx=R.sh.cg.x-R.P[0], dy=R.sh.cg.y-R.P[1], L=Math.hypot(dx,dy);
+  if(L<6) return 'toonear';
+  const nd=[dx/L,dy/L];
+  for(let i=0;i<R.lines.length;i++){
+    const cr=Math.abs(R.lines[i].d[0]*nd[1]-R.lines[i].d[1]*nd[0]);
+    if(cr<0.17) return 'dup';           /* within about 10 degrees of an existing line */
+  }
+  R.lines.push({p:[R.P[0],R.P[1]], d:nd});
+  if(R.lines.length>=2 && !R.cross){
+    for(let i=0;i<R.lines.length&&!R.cross;i++)
+      for(let j=i+1;j<R.lines.length;j++){
+        const x=lineX(R.lines[i],R.lines[j]);
+        if(x){ R.cross=x; break; }
+      }
+  }
+  return 'ok';
+}
+/* a support point that is clearly NOT the CG (still on the plate) */
+function offPoint(sh){
+  const c=sh.cg; let far=sh.outer[0], fd=-1;
+  sh.outer.forEach(function(q){
+    const d=(q[0]-c.x)*(q[0]-c.x)+(q[1]-c.y)*(q[1]-c.y);
+    if(d>fd){ fd=d; far=q; }
+  });
+  const ts=[0.55,0.45,0.65,0.35,0.75];
+  for(let i=0;i<ts.length;i++){
+    const p=[c.x+(far[0]-c.x)*ts[i], c.y+(far[1]-c.y)*ts[i]];
+    if(inShape(sh,p[0],p[1]) && Math.hypot(p[0]-c.x,p[1]-c.y)>26) return p;
+  }
+  const q=[c.x+(far[0]-c.x)*0.9, c.y+(far[1]-c.y)*0.9];
+  return inShape(sh,q[0],q[1])?q:[far[0],far[1]];
+}
+function rigBalance(R,onCG){
+  if(!R.sh) return;
+  R.sup = onCG ? [R.sh.cg.x,R.sh.cg.y] : offPoint(R.sh);
+  R.balOK=!!onCG; R.balT=0;
+  R.balSgn = (R.sh.cg.x-R.sup[0])>=0 ? 1 : -1;
+  R.phase='balance';
+}
+function balPose(R){
+  const u = R.balOK ? 0 : clamp((R.balT-0.55)/1.5,0,1);
+  return {
+    ax:R.PIN[0], ay:R.floorY-140,
+    tilt: R.balOK ? Math.sin(R.balT*3.1)*0.022 : R.balSgn*0.62*u,
+    drop: R.balOK ? 0 : 130*u*u,
+    sq:0.54, u:u
+  };
+}
+function balPos(R,px,py,bp){
+  const dx=(px-R.sup[0])*R.vs, dy=(py-R.sup[1])*R.vs;
+  const c=Math.cos(bp.tilt), s=Math.sin(bp.tilt);
+  return {x: bp.ax + (dx*c-dy*s), y: bp.ay + bp.drop + (dx*s+dy*c)*bp.sq};
+}
+/* θ — the signature reading: angle between (pivot→CG) and straight down */
+function thetaOf(R){
+  if(!R.sh || !R.P) return null;
+  const A=L2S(R.P,R.pose,R.vs), G=L2S([R.sh.cg.x,R.sh.cg.y],R.pose,R.vs);
+  const dx=G.x-A.x, dy=G.y-A.y;
+  if(Math.hypot(dx,dy)<1e-6) return 0;
+  return Math.abs(wrapPi(Math.atan2(dx,dy)))*180/Math.PI;
+}
+function pinDist(R){
+  if(!R.sh||!R.P) return null;
+  return Math.hypot(R.sh.cg.x-R.P[0], R.sh.cg.y-R.P[1]);
+}
+
+/* ============================================================
+   Drawing the rig
+============================================================ */
+function addPoly(g,p){
+  g.moveTo(p[0][0],p[0][1]);
+  for(let i=1;i<p.length;i++) g.lineTo(p[i][0],p[i][1]);
+  g.closePath();
+}
+function shapeOuterPath(g,s){ g.beginPath(); addPoly(g,s.outer); }
+function drawPlate(g,s,lines,lw){
+  shapeOuterPath(g,s);
+  g.fillStyle=C().board; g.fill();
+  g.strokeStyle=C().boardEdge; g.lineWidth=lw||3; g.lineJoin='round'; g.stroke();
+  const hs=s.holes||[];
+  for(let i=0;i<hs.length;i++){
+    g.beginPath(); addPoly(g,hs[i]);
+    g.fillStyle=C().boardHole; g.fill();
+    g.strokeStyle=C().boardEdge; g.lineWidth=lw||3; g.stroke();
+  }
+  const cols=[C().line1,C().line2,C().line3];
+  for(let i=0;i<lines.length;i++){
+    const ln=lines[i], col=cols[i%3];
+    line(g, ln.p[0]-ln.d[0]*6, ln.p[1]-ln.d[1]*6, ln.p[0]+ln.d[0]*s.diag, ln.p[1]+ln.d[1]*s.diag, col, 2.6);
+    circle(g, ln.p[0], ln.p[1], 4.5, col, null, 0);
+  }
+}
+function cgMark(g,x,y,r){
+  const rr=r||11;
+  circle(g,x,y,rr,C().pill,C().cg,3);
+  g.strokeStyle=C().cg; g.lineWidth=2.6;
+  g.beginPath();
+  g.moveTo(x-rr,y); g.lineTo(x+rr,y); g.moveTo(x,y-rr); g.lineTo(x,y+rr);
+  g.stroke();
+}
+function boxMark(g,x,y){
+  g.strokeStyle=C().boxc; g.lineWidth=2;
+  g.beginPath();
+  g.moveTo(x-9,y); g.lineTo(x+9,y); g.moveTo(x,y-9); g.lineTo(x,y+9);
+  g.stroke();
+}
+/* the hanging scene: stand, string, swinging plate, θ wedge */
+function drawScene(g,R,opt){
+  const W=R.W, H=R.H;
+  if(!R.sh) return;
+  if(R.phase==='balance'){ drawBalance(g,R,opt); return; }
+  const hung=(R.phase==='lift'||R.phase==='swing'||R.phase==='rest');
+
+  /* stand / ceiling */
+  const cw=R.x1-R.x0-40;
+  g.fillStyle=C().stand; g.fillRect(R.x0+20,R.ceilY,cw,16);
+  g.strokeStyle=C().standEdge; g.lineWidth=2.2; g.strokeRect(R.x0+20,R.ceilY,cw,16);
+  g.strokeStyle=C().standEdge; g.lineWidth=2; g.beginPath();
+  for(let x=R.x0+30;x<R.x1-22;x+=16){ g.moveTo(x,R.ceilY); g.lineTo(x-8,R.ceilY-8); }
+  g.stroke();
+  const hookY=R.ceilY+16;
+  circle(g,R.PIN[0],hookY+5,5,C().standEdge,null,0);
+
+  /* plumb guide + string */
+  if(hung){
+    line(g,R.PIN[0],R.PIN[1],R.PIN[0],R.floorY,C().plumb,2,[7,6]);
+    line(g,R.PIN[0],hookY+5,R.pose.aS[0],R.pose.aS[1],C().string,2.6);
+  }
+
+  /* plate */
+  g.save();
+  g.translate(R.pose.aS[0],R.pose.aS[1]);
+  g.rotate(R.pose.phi);
+  g.scale(R.vs,R.vs);
+  g.translate(-R.pose.aL[0],-R.pose.aL[1]);
+  drawPlate(g,R.sh,R.lines,3/R.vs*1.15);
+  g.restore();
+
+  /* pivot hole */
+  const Ps = R.P ? L2S(R.P,R.pose,R.vs) : null;
+  if(Ps) circle(g,Ps.x,Ps.y,6,C().pill,C().pin,2.8);
+
+  /* θ wedge between the plumb line and pivot→CG */
+  const Cs = R.sh ? L2S([R.sh.cg.x,R.sh.cg.y],R.pose,R.vs) : null;
+  if(Ps && Cs && opt.showTheta){
+    const ang=Math.atan2(Cs.y-Ps.y, Cs.x-Ps.x);
+    const dd=wrapPi(ang-Math.PI/2);
+    const rad=clamp(Math.hypot(Cs.x-Ps.x,Cs.y-Ps.y)*0.55, 22, 74);
+    line(g,Ps.x,Ps.y,Cs.x,Cs.y,C().theta,2,[6,5]);
+    if(Math.abs(dd)>0.012){
+      g.beginPath();
+      g.arc(Ps.x,Ps.y,rad,Math.PI/2,Math.PI/2+dd,dd<0);
+      g.strokeStyle=C().theta; g.lineWidth=2.4; g.stroke();
+    }
+  }
+
+  /* CG marker + guess cross */
+  if(opt.showCG && Cs) cgMark(g,Cs.x,Cs.y);
+  if(R.guess){
+    const q=L2S(R.guess,R.pose,R.vs);
+    const col=(R.ok===null)?C().theta:(R.ok?C().good:C().bad);
+    g.strokeStyle=col; g.lineWidth=3.2;
+    g.beginPath();
+    g.moveTo(q.x-10,q.y-10); g.lineTo(q.x+10,q.y+10);
+    g.moveTo(q.x+10,q.y-10); g.lineTo(q.x-10,q.y+10);
+    g.stroke();
+    if(opt.showCG && Cs && R.ok===false) line(g,q.x,q.y,Cs.x,Cs.y,C().bad,2,[5,4]);
+  }
+
+  /* ---- labels ---- */
+  labText(g,t('cvStand'),[[R.x0+26,R.ceilY-16]],'700 14px '+CV_FONT,C().cvTextDim,'left',W,H);
+  if(hung) labText(g,t('cvPlumb'),[[R.PIN[0]+10,R.floorY-16],[R.PIN[0]-10,R.floorY-16]],'700 14px '+CV_FONT,C().plumb,(R.PIN[0]>W/2?'right':'left'),W,H);
+  if(opt.showCG && Cs)
+    tchip(g,t('cvCG'),[[Cs.x+62,Cs.y],[Cs.x-62,Cs.y],[Cs.x,Cs.y+34],[Cs.x,Cs.y-34]],'700 14px '+CV_FONT,C().cg,W,H);
+  if(Ps){
+    const key = hung ? tf('cvPin',{k:'ABC'.charAt(Math.min(2,R.pIdx))}) : t('cvPinSel');
+    tchip(g,key,[[Ps.x+58,Ps.y-20],[Ps.x-58,Ps.y-20],[Ps.x+58,Ps.y+22],[Ps.x-58,Ps.y+22]],'700 14px '+CV_FONT,C().pin,W,H);
+  }
+  if(opt.showTheta && Ps){
+    const th=thetaOf(R);
+    if(th!==null) tchip(g,tf('cvTheta',{th:f1(th)}),[[Ps.x+4,Ps.y+58],[Ps.x+4,Ps.y-58]],'900 17px '+CV_FONT,C().theta,W,H);
+  }
+  if(R.guess && opt.guessLabel){
+    const q=L2S(R.guess,R.pose,R.vs);
+    tchip(g,t('cvGuess'),[[q.x,q.y+32],[q.x,q.y-32],[q.x+58,q.y]],'700 13px '+CV_FONT,C().theta,W,H);
+  }
+  if(opt.tip) tchip(g,opt.tip,[[R.PIN[0],R.floorY+22]],'700 15px '+CV_FONT,C().cvText,W,H);
+}
+function drawBalance(g,R,opt){
+  const W=R.W,H=R.H, bp=balPose(R);
+  line(g,R.x0+30,bp.ay,R.x1-30,bp.ay,C().tableLine,2);
+  g.save();
+  g.translate(bp.ax, bp.ay+bp.drop);
+  g.scale(1,bp.sq);
+  g.rotate(bp.tilt);
+  g.scale(R.vs,R.vs);
+  g.translate(-R.sup[0],-R.sup[1]);
+  drawPlate(g,R.sh,R.lines,3.4/R.vs);
+  g.restore();
+  const c=balPos(R,R.sh.cg.x,R.sh.cg.y,bp);
+  cgMark(g,c.x,c.y);
+  /* finger */
+  g.fillStyle=C().skin; rrect(g,bp.ax-14,bp.ay+4,28,104,14); g.fill();
+  g.strokeStyle=C().skinEdge; g.lineWidth=2.4; rrect(g,bp.ax-14,bp.ay+4,28,104,14); g.stroke();
+  circle(g,bp.ax,bp.ay+2,4.5,C().cvText,null,0);
+
+  labText(g,t('cvFinger'),[[bp.ax+22,bp.ay+56],[bp.ax-22,bp.ay+56]],'800 14px '+CV_FONT,C().cvTextDim,(bp.ax>W/2?'right':'left'),W,H);
+  tchip(g,t('cvCG'),[[c.x+62,c.y],[c.x-62,c.y],[c.x,c.y-34],[c.x,c.y+34]],'700 14px '+CV_FONT,C().cg,W,H);
+  tchip(g, R.balOK ? t('cvBalOK') : t('cvBalNG'), [[R.PIN[0],R.ceilY+60]],
+    '800 17px '+CV_FONT, R.balOK?C().good:C().bad, W, H);
+}
+/* the flat "paper view": plate unrotated, with the lines and the crossing point */
+function drawFlat(g,R,cx,cy,vs,W,H,showCross){
+  const s=R.sh;
+  if(!s) return;
+  g.save();
+  g.translate(cx,cy); g.scale(vs,vs); g.translate(-s.bb.cx,-s.bb.cy);
+  drawPlate(g,s,R.lines,3/vs);
+  g.restore();
+  const M = p => ({x:cx+(p[0]-s.bb.cx)*vs, y:cy+(p[1]-s.bb.cy)*vs});
+  for(let i=0;i<R.lines.length;i++){
+    const ln=R.lines[i];
+    const q=M([ln.p[0]+ln.d[0]*s.diag*0.62, ln.p[1]+ln.d[1]*s.diag*0.62]);
+    tchip(g,tf('cvLineN',{k:'①②③'.charAt(i)}),[[q.x,q.y],[q.x+44,q.y],[q.x-44,q.y],[q.x,q.y+26]],
+      '700 13px '+CV_FONT,[C().line1,C().line2,C().line3][i%3],W,H);
+  }
+  if(showCross && R.cross){
+    const q=M([R.cross.x,R.cross.y]);
+    cgMark(g,q.x,q.y);
+    tchip(g,t('cvCG'),[[q.x+60,q.y],[q.x-60,q.y],[q.x,q.y-32],[q.x,q.y+32]],'700 14px '+CV_FONT,C().cg,W,H);
+  }
+}
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const W_W=1000, W_H=500;
+const labCv=$('cv-lab'), labCtx=labCv.getContext('2d');
+const D = newRig(labCv, W_W, W_H, {x0:22, x1:566, ceilY:34, pin:[286,186], floorY:432, idleY:250, vs:1.15});
+const FLAT = {cx:780, cy:250, vs:1.3, x0:588, y0:56, x1:972, y1:456};
+let FLASH=null, CONCL=null, WARN=null;
+
+function drawLab(){
+  const g=labCtx;
+  g.setTransform(1,0,0,1,0,0);
+  g.clearRect(0,0,labCv.width,labCv.height);
+  g.setTransform(SC,0,0,SC,0,0);
+  labelReset();
+  const inGame = $('panel-game').classList.contains('on');
+  const showCG = !!D.cross || (inGame && GAME.reveal);
+
+  /* fixed captions get their box first so they always win */
+  labText(g,t('cvScene'),[[D.x0+8,16]],'700 16px '+CV_FONT,C().cvTextDim,'left',W_W,W_H);
+  labText(g,t('cvFlat'),[[FLAT.x0+12,16]],'700 16px '+CV_FONT,C().cvTextDim,'left',W_W,W_H);
+
+  /* right: paper view panel */
+  rrect(g,FLAT.x0,FLAT.y0,FLAT.x1-FLAT.x0,FLAT.y1-FLAT.y0,12);
+  g.fillStyle=C().panel; g.fill();
+  g.strokeStyle=C().panelLine; g.lineWidth=1.4; g.stroke();
+
+  let tip='';
+  if(!inGame){
+    if(!D.P && D.phase==='idle') tip=t('cvClick');
+    else if(D.phase==='swing'||D.phase==='lift') tip=t('cvSwing');
+    else if(D.phase==='rest' && D.lines.length<2) tip=t('cvDrawNow');
+  } else {
+    tip = GAME.phase==='guess' ? t('gGoalGuess') : (GAME.phase==='verify' ? t('gGoalVerify') : '');
+  }
+  drawScene(g,D,{showCG:showCG, showTheta:(D.phase!=='balance'), tip:tip, guessLabel:true});
+  drawFlat(g,D,FLAT.cx,FLAT.cy,FLAT.vs,W_W,W_H,showCG);
+
+  /* paper-view footer text */
+  const foot = D.cross
+    ? tf('cvCross',{x:f1(D.cross.x), y:f1(D.cross.y)})
+    : t('cvNoCross');
+  labText(g,foot,[[FLAT.cx,FLAT.y1-22]],'700 16px '+CV_FONT, D.cross?C().cg:C().cvTextDim,'center',W_W,W_H);
+  if(D.sh){
+    labText(g, shName(D.sh) + (D.sh.outside ? '　'+t('cvOff') : ''),
+      [[FLAT.cx,FLAT.y0+24]],'700 16px '+CV_FONT, D.sh.outside?C().bad:C().cvText,'center',W_W,W_H);
+  }
+}
+
+
+/* 步骤指引：done = 已完成, cur = 当前该做的那一步 */
+function renderSteps(){
+  const box=$('l-steps'); if(!box) return;
+  const n=D.lines.length;
+  const done=[ !!D.P, (D.phase==='rest'||D.phase==='balance'||n>=1), n>=1, n>=2, !!D.cross ];
+  let cur=done.indexOf(false);
+  const html=[1,2,3,4,5].map(function(i){
+    const cls = done[i-1] ? 'done' : (i-1===cur ? 'cur' : '');
+    return '<li class="'+cls+'">'+t('sp'+i)+'</li>';
+  }).join('');
+  if(box.__h!==html){ box.innerHTML=html; box.__h=html; }
+}
+
+/* ---------- sidebar / messages ---------- */
+function stKeys(){
+  if(D.phase==='balance') return D.balOK ? ['stBalOKT','stBalOKS'] : ['stBalNGT','stBalNGS'];
+  if(D.phase==='lift') return ['stLiftT','stLiftS'];
+  if(D.phase==='swing') return ['stSwingT','stSwingS'];
+  if(D.phase==='rest') return ['stRestT','stRestS'];
+  return D.P ? ['stPickT','stPickS'] : ['stIdleT','stIdleS'];
+}
+function labUI(){
+  renderSteps();
+  const k=stKeys(), bd=$('l-state'), chip=t(k[0])+'<small>'+t(k[1])+'</small>';
+  if(bd && chip!==lastChip){
+    bd.innerHTML = chip; lastChip = chip;
+    const col = D.phase==='rest' ? '#1d7a3a' : (D.phase==='balance' ? (D.balOK?'#1d7a3a':'#b8432f') : (D.phase==='swing'||D.phase==='lift') ? 'var(--gold-ink)' : '#2f6690');
+    bd.style.color=col; bd.style.borderColor=col;
+  }
+  /* buttons */
+  const canHang = !!(D.sh && D.P && (D.phase==='idle'||D.phase==='rest'||D.phase==='balance'));
+  if($('btn-hang')) $('btn-hang').disabled = !canHang;
+  if($('btn-line')) $('btn-line').disabled = !(D.phase==='rest' && D.lines.length<3);
+  if($('btn-again')) $('btn-again').disabled = !(D.phase==='rest' && D.lines.length>=1);
+  if($('btn-bal')) $('btn-bal').disabled = !D.cross;
+  if($('btn-bad')) $('btn-bad').disabled = !D.cross;
+  if($('gm-hang')) $('gm-hang').disabled = !(canHang && GAME.phase==='verify');
+  if($('gm-line')) $('gm-line').disabled = !(D.phase==='rest' && D.lines.length<3 && GAME.phase==='verify');
+  renderMsg();
+}
+let lastMsg='', lastChip='';
+function renderMsg(){
+  const th=thetaOf(D), d=pinDist(D);
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const warn = WARN ? t(WARN)+'<br>' : '';
+  /* θ 只有真正挂起来后才有意义，没数值时不占版面 */
+  const formula = (th===null) ? '' : tf('f_theta',{th:f1(th), d: d===null?'--':f1(d)})+'<br>';
+  let live;
+  if(D.phase==='balance') live = D.balOK ? t('live_balok') : t('live_balng');
+  else if(D.phase==='rest') live = t('live_rest');
+  else if(D.phase==='swing'||D.phase==='lift') live = t('live_swing');
+  else if(D.P) live = tf('live_pick',{th: th===null?'--':f1(th)});
+  else live = t('live_idle');
+  const tip = D.lines.length>=2 ? t('tip_done')
+            : D.lines.length===1 ? tf('tip_need2',{n:1})
+            : t('tip_first');
+  const box=$('l-status'), html = warn + flash + formula + live + '<br>' + tip;
+  if(box && html!==lastMsg){ box.innerHTML = html; lastMsg = html; }
+  const cb=$('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+function pickShape(k){
+  const s=SHMAP[k];
+  if(!s) return;
+  SCRIPT=null;
+  rigSetShape(D,s);
+  FLASH=null; CONCL=null; WARN=null;
+  document.querySelectorAll('.sbtn[data-sh]').forEach(b=>b.classList.toggle('pick', b.dataset.sh===k));
+  labUI();
+}
+function labHang(){
+  WARN=null; FLASH=null;
+  if(rigHang(D)) labUI();
+}
+function labLine(){
+  const r=rigDrawLine(D);
+  if(r==='dup'){ WARN='w_dup'; CONCL='c_dup'; }
+  else if(r==='toonear'){ WARN='w_near'; }
+  else if(r==='ok'){
+    WARN=null;
+    if(D.lines.length===1) FLASH='r_line1';
+    else if(D.cross){ FLASH='r_cross'; CONCL = D.sh.outside ? 'c_outside' : 'c_cross'; }
+  }
+  labUI();
+}
+function labAgain(){
+  FLASH=null;
+  WARN='w_again';
+  labUI();
+}
+function labBal(onCG){
+  if(!D.cross) return;
+  SCRIPT=null;
+  rigBalance(D,onCG);
+  FLASH=null; WARN=null;
+  CONCL = onCG ? 'c_balok' : 'c_balng';
+  labUI();
+}
+function labReset(){
+  SCRIPT=null;
+  rigSetShape(D, D.sh||SHAPES[0]);
+  FLASH=null; CONCL=null; WARN=null;
+  labUI();
+}
+labCv.addEventListener('pointerdown', function(ev){
+  const p=ptr(ev,labCv,SC);
+  const inGame=$('panel-game').classList.contains('on');
+  if(inGame && GAME.phase==='guess'){ gameGuess(p.x,p.y); return; }
+  if(D.phase==='lift'||D.phase==='swing') return;
+  if(p.x>FLAT.x0) return;               /* the paper view is read-only in lab mode */
+  SCRIPT=null;
+  if(rigPickPoint(D,p.x,p.y)){ WARN=null; FLASH=null; labUI(); }
+});
+
+/* ---------- one-click presets (was the static 4-step / myth-buster cards) ---------- */
+const PRESETS = {
+  pr1:{ sh:'blob', hangs:2 }, pr2:{ sh:'moon', hangs:2 }, pr3:{ sh:'ring', hangs:2 },
+  pr4:{ sh:'L', hangs:2, same:true }, pr5:{ sh:'square', hangs:2 }
+};
+let SCRIPT=null;
+function runPreset(id){
+  const p=PRESETS[id];
+  if(!p) return;
+  setMode('lab');
+  pickShape(p.sh);
+  CONCL=id+'why';
+  SCRIPT={ id:id, step:0, wait:0.4, same:!!p.same };
+  const btn=document.querySelector('#ctl-lab [data-p="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+  labUI();
+}
+function scriptStep(dt){
+  if(!SCRIPT) return;
+  if(SCRIPT.wait>0){ SCRIPT.wait-=dt; return; }
+  const s=D.sh;
+  if(SCRIPT.step===0){ rigPickDir(D,s.pick[0]); SCRIPT.step=1; SCRIPT.wait=0.5; labUI(); return; }
+  if(SCRIPT.step===1){ rigHang(D); SCRIPT.step=2; labUI(); return; }
+  if(SCRIPT.step===2){ if(D.phase==='rest'){ SCRIPT.step=3; SCRIPT.wait=0.5; } return; }
+  if(SCRIPT.step===3){ labLine(); SCRIPT.step=4; SCRIPT.wait=0.9; return; }
+  if(SCRIPT.step===4){ rigPickDir(D, SCRIPT.same ? s.pick[0] : s.pick[1]); SCRIPT.step=5; SCRIPT.wait=0.5; labUI(); return; }
+  if(SCRIPT.step===5){ rigHang(D); SCRIPT.step=6; labUI(); return; }
+  if(SCRIPT.step===6){ if(D.phase==='rest'){ SCRIPT.step=7; SCRIPT.wait=0.5; } return; }
+  if(SCRIPT.step===7){ labLine(); CONCL=SCRIPT.id+'why'; renderMsg(); SCRIPT=null; return; }
+}
+
+/* ---------- data recording ---------- */
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME=20;
+let qIdx=0, qScore=0, qDone=[], qTimer=null, qLeft=0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft=QUIZ_TIME;
+  const bar=$('q-timer-bar');
+  bar.style.width='100%';
+  $('q-timer').classList.remove('low');
+  qTimer=setInterval(function(){
+    qLeft-=0.1;
+    bar.style.width=Math.max(0,qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft<=5) $('q-timer').classList.add('low');
+    if(qLeft<=0){ stopTimer(); timeUpQ(); }
+  },100);
+}
+function renderQ(){
+  const item=QUIZ()[qIdx];
+  $('q-emoji').textContent=item.e;
+  $('q-text').innerHTML=(qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML='';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box=$('q-opts');
+  box.innerHTML='';
+  item.o.forEach(function(opt,i){
+    const b=document.createElement('button');
+    b.className='qbtn';
+    b.textContent='ABC'[i]+'. '+opt;
+    b.onclick=function(){ answerQ(i,b); };
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent=qScore;
+  if(qDone[qIdx]!==undefined){
+    const btns=[].slice.call(box.children);
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML=item.x;
+    if(qIdx<QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML=QUIZ().map(function(_,i){
+    return '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>';
+  }).join('');
+}
+function finishQ(prefix,correct){
+  stopTimer();
+  const item=QUIZ()[qIdx];
+  qDone[qIdx]=correct;
+  if(correct) qScore++;
+  const btns=[].slice.call($('q-opts').children);
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML=prefix+item.x;
+  renderProg();
+  $('q-score-n').textContent=qScore;
+  if(qIdx<QUIZ().length-1) $('q-next').style.display='inline-block';
+  else{
+    const pct=qScore/QUIZ().length;
+    const msg=pct===1?t('resGold'):pct>=0.7?t('resGood'):t('resTry');
+    $('q-exp').innerHTML+='<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i,btn){
+  if(qDone[qIdx]!==undefined) return;
+  const item=QUIZ()[qIdx];
+  const correct=i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct?t('rRight')+' ':t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx]!==undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Guess-the-CG challenge (template A — reuses the lab canvas)
+============================================================ */
+const GAME_ROUNDS=3, GAME_TIME=60;
+const GAME={ round:0, score:0, phase:'guess', left:GAME_TIME, timer:null, order:[], err:null, pts:0, reveal:false };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round=0; GAME.score=0;
+  $('g-score').textContent=0;
+  const idx=SHAPES.map(function(_,i){ return i; });
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order=idx.slice(0,GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase='guess'; GAME.err=null; GAME.pts=0; GAME.reveal=false;
+  GAME.left=GAME_TIME;
+  const s=SHAPES[GAME.order[GAME.round-1]];
+  rigSetShape(D,s);
+  FLASH=null; CONCL=null; WARN=null;
+  document.querySelectorAll('.sbtn[data-sh]').forEach(b=>b.classList.toggle('pick', b.dataset.sh===s.key));
+  $('g-status').innerHTML=tf('gGo',{r:GAME.round, n:shName(s)});
+  gameSync();
+  stopGTimer();
+  GAME.timer=setInterval(function(){
+    GAME.left--;
+    $('g-time').textContent=Math.max(0,GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) endRound('time');
+  },1000);
+}
+function gameGuess(wx,wy){
+  if(GAME.phase!=='guess'||!D.sh) return;
+  let loc=null;
+  if(wx>FLAT.x0){
+    loc=[ (wx-FLAT.cx)/FLAT.vs + D.sh.bb.cx, (wy-FLAT.cy)/FLAT.vs + D.sh.bb.cy ];
+  } else {
+    loc=S2L(wx,wy,D.pose,D.vs);
+  }
+  D.guess=loc; D.ok=null;
+  GAME.err=Math.hypot(loc[0]-D.sh.cg.x, loc[1]-D.sh.cg.y);
+  GAME.phase='verify';
+  $('g-status').innerHTML=t('gLocked');
+  gameSync();
+}
+function gameHang(){ labHang(); gameSync(); }
+function gameLine(){
+  labLine();
+  if(D.cross && GAME.phase==='verify') endRound('win');
+  gameSync();
+}
+function endRound(how){
+  stopGTimer();
+  const s=D.sh;
+  if(how==='win'){
+    GAME.reveal=true;
+    D.ok = GAME.err<=s.tol;
+    const e=GAME.err;
+    GAME.pts = e<=s.tol?100 : e<=2*s.tol?70 : e<=3*s.tol?40 : 10;
+    GAME.score+=GAME.pts;
+    const msg = e<=s.tol?t('gPerfect') : e<=2*s.tol?t('gClose') : t('gMiss');
+    $('g-status').innerHTML=tf('gWin',{e:f1(e), t:f1(s.tol), p:GAME.pts, msg:msg});
+  } else if(how==='time'){
+    GAME.reveal=true;
+    if(GAME.err===null){ $('g-status').innerHTML=t('gNoGuess'); }
+    else{
+      D.ok = GAME.err<=s.tol;
+      GAME.pts = GAME.err<=s.tol?50 : GAME.err<=2*s.tol?30 : 10;
+      GAME.score+=GAME.pts;
+      $('g-status').innerHTML=tf('gTimeUp',{p:GAME.pts});
+    }
+  } else {
+    GAME.reveal=true;
+    $('g-status').innerHTML=t('gSkipped');
+  }
+  $('g-score').textContent=GAME.score;
+  GAME.phase = GAME.round>=GAME_ROUNDS ? 'done' : 'next';
+  if(GAME.phase==='done'){
+    const rk = GAME.score>=250?t('gRank1') : GAME.score>=150?t('gRank2') : t('gRank3');
+    $('g-status').innerHTML += '<br>'+t('gFinal')+' '+GAME.score+' — '+rk;
+  }
+  gameSync();
+}
+function gameAct(){
+  if(GAME.phase==='guess'||GAME.phase==='verify') endRound('skip');
+  else if(GAME.phase==='next') nextRound();
+  else startGame();
+}
+function gameSync(){
+  if(!$('g-round')) return;
+  $('g-round').textContent=GAME.round;
+  $('g-score').textContent=GAME.score;
+  $('g-score-hud').textContent=GAME.score;
+  $('g-time').textContent=Math.max(0,GAME.left);
+  $('g-err').textContent = (GAME.reveal && GAME.err!==null) ? f1(GAME.err) : '--';
+  const goal = GAME.phase==='guess' ? t('gGoalGuess') : t('gGoalVerify');
+  $('g-goal-side').textContent=goal;
+  $('g-goal-side').style.color = GAME.phase==='guess' ? '#b8432f' : '#2f6690';
+  $('g-goal-hud').innerHTML='<b style="font-size:15px">'+goal+'</b>';
+  $('g-act').textContent = (GAME.phase==='guess'||GAME.phase==='verify') ? t('gSkip')
+                         : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+  const active = (GAME.phase==='verify');
+  $('gm-hang').disabled = !(active && D.P && (D.phase==='idle'||D.phase==='rest'));
+  $('gm-line').disabled = !(active && D.phase==='rest' && D.lines.length<3);
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT=performance.now();
+function mainLoop(now){
+  const dt=Math.min(0.04,(now-lastT)/1000);
+  lastT=now;
+  const labOn=$('panel-lab').classList.contains('on');
+  const gameOn=$('panel-game').classList.contains('on');
+  if(labOn||gameOn){
+    const was=D.phase;
+    if(labOn) scriptStep(dt);
+    rigStep(D,dt);
+    if(was!==D.phase && D.phase==='rest'){ FLASH='r_rest'; }
+    drawLab();
+    labUI();
+    if(gameOn) gameSync();
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  SCRIPT=null;
+  for(const id of ['lab','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){
+    ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv);
+    D.guess=null; D.ok=null;
+    labUI();
+  }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+pickShape('blob');
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+</script>
+
+<script>
+
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+function f1(v){ return (Math.abs(v)<5e-3?0:v).toFixed(1); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'⚖️', q:'<b>重心</b>（centre of gravity）是哪一个力的作用点？',
+    o:['重力','绳子的拉力','摩擦力'], a:0,
+    x:'<em>重心就是重力的作用点</em>。画重力示意图时，箭头的起点就画在重心上，方向<em>竖直向下</em>。' },
+  { e:'🪝', q:'薄板被细线悬挂、<b>自由静止</b>后，为什么就能确定重心的位置？',
+    o:['因为薄板静止时不受任何力','因为只受重力和绳的拉力，二力平衡，必在同一条竖直线上','因为薄板的重心一定在几何中心'], a:1,
+    x:'这就是悬挂法的依据：自由静止时只受<em>重力</em>和<em>绳的拉力</em>，二力<em>平衡</em>；平衡的两个力必须在同一条直线上。切回「演示实验」挂一次，看侧栏的 θ 怎样掉到 0°。' },
+  { e:'📏', q:'薄板悬挂静止后，它的重心一定在哪里？',
+    o:['薄板的正中央','细线与薄板的接触点上','悬点正下方的那条铅垂线上'], a:2,
+    x:'重心一定在通过悬点的那条<em>铅垂线（plumb line）</em>上。演示里不管怎么挂，静止后重心<em>总是恰好停在悬点正下方</em>，所以 θ 一定归零。' },
+  { e:'2️⃣', q:'用悬挂法找重心，<b>为什么至少要悬挂两次</b>（换一个悬点再挂）？',
+    o:['挂两次是为了取平均值，减小误差','第一次挂的时候薄板还没有静止','挂一次只能确定重心在某一条直线上，两条线相交才能定出唯一的点'], a:2,
+    x:'挂一次只知道「重心在<em>某一条直线</em>上」；换一个悬点再挂，两条铅垂线<em>相交</em>，才能把重心定在<em>唯一的一个点</em>上。' },
+  { e:'✖️', q:'两次悬挂画出的<b>两条铅垂线的交点</b>是什么？',
+    o:['薄板的重心','薄板的最低点','薄板最重的那一部分'], a:0,
+    x:'两条铅垂线<em>都经过重心</em>，所以交点就是<em>重心</em>。还可以再换第三个悬点验证：<em>三条线交于同一点</em>。' },
+  { e:'⬜', q:'<b>质地均匀、形状规则</b>的物体，它的重心在哪里？',
+    o:['在它的几何中心','在它的最低点','一定在它的表面上'], a:0,
+    x:'质地均匀、形状规则的物体，重心就在<em>几何中心</em>：正方体在体心、圆球在球心、均匀细杆在正中点。到「对比实验」看 ⬜ 正方形和 📐 L 形的差别。' },
+  { e:'⭕', q:'「物体的重心一定在物体上」这句话对吗？',
+    o:['对，重心一定在物体内部','不对，圆环、月牙形薄板的重心就落在物体之外','不对，重心的位置可以随意移动'], a:1,
+    x:'⚠️ 这是最常见的迷思！<em>重心不一定在物体上</em>：均匀<em>圆环</em>的重心在圆心（那里是空的），<em>月牙形</em>薄板的重心落在凹进去的空缺处。切回「演示实验」挂 🌙 和 ⭕ 亲眼看。' },
+  { e:'☝️', q:'找到重心之后，怎样<b>检验</b>找得对不对？',
+    o:['用尺子量一量薄板对不对称','用指尖顶住那一点，薄板能水平平衡不掉下来','把薄板放进水里看它会不会浮起来'], a:1,
+    x:'✅ 验证方法：用<em>指尖顶住</em>找到的那一点，薄板能<em>水平平衡</em>稳稳停住；顶在别处会<em>立刻倾倒</em>。演示实验里点「☝️ 顶住重心」和「👆 顶在别处」对比一下。' },
+];
+const QUIZ_EN = [
+  { e:'⚖️', q:'The <b>centre of gravity</b> is the point of action of which force?',
+    o:['Weight (gravity)','The tension in the string','Friction'], a:0,
+    x:'<em>The centre of gravity is where weight acts.</em> When you draw the weight arrow, it starts at the CG and points <em>straight down</em>.' },
+  { e:'🪝', q:'Once a hanging plate comes to <b>free rest</b>, why does that fix the CG?',
+    o:['Because a resting plate has no forces on it','Because only weight and the string tension act; two balanced forces must lie on one vertical line','Because the CG is always at the geometric centre'], a:1,
+    x:'That is the whole basis of the method: at free rest only <em>weight</em> and <em>tension</em> act, and two balanced forces must share one line. Go to the Demo Lab and watch θ fall to 0°.' },
+  { e:'📏', q:'After the plate hangs still, where must its centre of gravity be?',
+    o:['Exactly in the middle of the plate','At the point where the string touches the plate','On the plumb line straight below the pivot'], a:2,
+    x:'The CG must lie on the <em>plumb line</em> through the pivot. However you hang it, the CG ends up <em>directly below the pivot</em> — that is why θ always returns to zero.' },
+  { e:'2️⃣', q:'Why must you hang the plate <b>at least twice</b> from different points?',
+    o:['To average two readings and reduce error','Because the plate was not yet still the first time','One hanging only fixes a line; two lines must cross to fix a single point'], a:2,
+    x:'One hanging tells you the CG is <em>somewhere on one line</em>. A second pivot gives a second plumb line, and the two lines <em>cross at one unique point</em>.' },
+  { e:'✖️', q:'What is the <b>intersection of the two plumb lines</b>?',
+    o:['The centre of gravity','The lowest point of the plate','The heaviest part of the plate'], a:0,
+    x:'Both plumb lines <em>pass through the CG</em>, so their crossing point is the <em>centre of gravity</em>. A third pivot gives a third line through the same point.' },
+  { e:'⬜', q:'For a <b>uniform, regularly shaped</b> object, where is the centre of gravity?',
+    o:['At its geometric centre','At its lowest point','Always somewhere on its surface'], a:0,
+    x:'A uniform regular body has its CG at the <em>geometric centre</em>: cube at the body centre, sphere at the centre, uniform rod at the midpoint. Compare ⬜ and 📐 in the Compare tab.' },
+  { e:'⭕', q:'"The centre of gravity is always on the object." Is that true?',
+    o:['True, the CG is always inside the object','False — for a ring or a crescent the CG lies off the material','False — the CG can be moved anywhere you like'], a:1,
+    x:'⚠️ The most common misconception! The CG of a uniform <em>ring</em> is at the empty centre, and a <em>crescent</em> has its CG in the hollow. Hang 🌙 and ⭕ in the Demo Lab and see it.' },
+  { e:'☝️', q:'How do you <b>check</b> that you really found the centre of gravity?',
+    o:['Measure whether the plate looks symmetric','Support that point on a fingertip — the plate balances horizontally','Float the plate in water and see if it rises'], a:1,
+    x:'✅ Support the point on a <em>fingertip</em>: the plate stays <em>horizontally balanced</em>. Support anywhere else and it <em>tips over at once</em>. Try "☝️ Balance" and "👆 Off-spot".' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'悬挂法找重心探究实验室', subtitle:'挂两次 · 画两条铅垂线 · 交点就是重心',
+  chip1:'自由静止时：重力与拉力二力平衡', chip2:'重心一定在悬点正下方的铅垂线上', chip3:'两条铅垂线的交点 ＝ 重心',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 猜重心挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  shapeLabel:'薄板：',
+  b_square:'⬜ 正方形', b_blob:'🪨 不规则板', b_L:'📐 L 形', b_leaf:'🍃 树叶形', b_gun:'🔧 手枪形', b_moon:'🌙 月牙形', b_ring:'⭕ 圆环',
+  n_square:'正方形板', n_blob:'不规则多边形板', n_L:'L 形板', n_leaf:'树叶形板', n_gun:'手枪形板', n_moon:'月牙形板', n_ring:'圆环板',
+  opHang:'🪝 挂起来', opLine:'✏️ 画铅垂线', opAgain:'🔁 换悬点', opBal:'☝️ 顶住重心', opBad:'👆 顶在别处', opReset:'↺ 重来',
+  presetLabel:'一键预设：',
+  pr1:'①两次悬挂', pr2:'②月牙·重心在板外', pr3:'③圆环·重心在圆心', pr4:'④同一点画两次', pr5:'⑤正方形·在中心',
+  pr1why:'📌 <em>标准四步</em>：挂 A → 静止 → 画线①；换 B → 静止 → 画线②。两条线的<em>交点</em>就是重心。悬点 A、B 离得越远，交点越准。',
+  pr2why:'🌙 <em>月牙形的重心不在薄板上</em>！它落在月牙凹进去的<em>空缺处</em>——那里根本没有材料。可是两条铅垂线照样在那里相交。',
+  pr3why:'⭕ <em>圆环的重心在圆心</em>，而圆心是空的。所以「重心一定在物体内部」是<em>错</em>的：均匀圆环的重心在几何中心，只是那里没有材料。',
+  pr4why:'✗ <em>同一个悬点画两次，画出来还是同一条线</em>，交点定不出来。<em>一定要换一个悬点</em>，而且两点离得越远越好。',
+  pr5why:'⬜ 质地均匀、形状<em>规则</em>的薄板，重心就在它的<em>几何中心</em>：正方形在对角线交点、圆盘在圆心、均匀细杆在正中点。不规则薄板才要用悬挂法。',
+  labHint:'先选薄板 → 在板的<b>边缘点一下</b>选悬点 → 🪝 挂起来（看侧栏 θ 掉到 0°）→ ✏️ 画铅垂线；换一个悬点再来一次，右边「纸面视图」就会出现交点 ⊕。',
+  stepsTitle:'跟着做（做到哪一步会自动亮起来）',
+  sp1:'在薄板边缘点一下，选一个悬点',
+  sp2:'挂起来，等它停下（θ 掉到 0°）',
+  sp3:'沿悬线画出第一条铅垂线',
+  sp4:'换一个悬点，再挂一次、再画一条',
+  sp5:'两条线的交点 ⊕ 就是重心',
+  stIdleT:'尚未悬挂', stIdleS:'先在薄板边缘点一下选悬点',
+  stPickT:'悬点已选好', stPickS:'放手前：重心还没转到悬点正下方',
+  stLiftT:'正在提起来', stLiftS:'把悬点挂上铁架台的钩子',
+  stSwingT:'摆动中', stSwingS:'重力矩还没消失，θ 还在变',
+  stRestT:'自由静止', stRestS:'二力平衡 · θ ＝ 0° · 重心在铅垂线上',
+  stBalOKT:'指尖顶住重心', stBalOKS:'水平平衡 —— 找对了',
+  stBalNGT:'指尖顶在别处', stBalNGS:'重力使薄板翻转掉落',
+  f_theta:'θ ＝ ∠(悬点→重心 , 铅垂线) ＝ <b>{th}°</b>　｜　悬点↔重心 <b>{d} px</b>',
+  live_idle:'还没选悬点。<b>薄板边缘</b>任意一点都可以当悬点。',
+  live_pick:'放手前 θ ＝ <b>{th}°</b>：重力对悬点还有<b>力矩</b>，所以它一定会转。',
+  live_swing:'θ 还在变 —— 重力矩 <b>M ＝ G·d·sinθ</b> 把它拉回去，θ 越小力矩越小。',
+  live_rest:'θ ＝ <b>0°</b>：重力与拉力在<b>同一条竖直线</b>上，二力平衡 —— 重心就在这条铅垂线上。',
+  live_balok:'支撑点正好在重心上：重力对支点的<b>力矩为零</b>，所以薄板<b>水平平衡</b>。',
+  live_balng:'支撑点不在重心上：重力对支点有<b>力矩</b>，薄板<b>立刻翻转</b>。',
+  tip_need2:'现在只有 <b>{n}</b> 条线 —— 只能确定「重心在这条线上」，还差一条。',
+  tip_done:'两条线已相交：右边纸面视图的 <b>⊕</b> 就是重心。可以再换第三点验证。',
+  tip_first:'挂第一次前先让全班<b>猜一猜</b>重心在哪，再验证。',
+  r_rest:'👉 <em>摆动 → 自由静止</em>：θ 归零，重心正好停在悬点正下方。',
+  r_line1:'👉 <em>第一条铅垂线画好了</em>：重心在这条线上，但还不知道在哪一点。',
+  r_cross:'👉 <em>两条线相交了</em>：交点就是重心 ⊕。',
+  w_dup:'⚠️ 这两个悬点几乎在同一条直线上，画出来<b>还是同一条线</b>。请换一个<b>离得远一些</b>的悬点。',
+  w_near:'⚠️ 这个悬点离重心太近了，换一个吧。',
+  w_again:'👉 现在在薄板<b>边缘的另一处</b>点一下，选下一个悬点（离得越远越好）。',
+  c_cross:'📌 两条铅垂线<em>都经过重心</em>，所以它们的<em>交点</em>就是重心。挂<em>一次</em>只能定一条线，<em>两次</em>才能定一个点。',
+  c_dup:'📌 换悬点是<em>必须</em>的：同一个悬点（或几乎同一条线上的两点）画出来是<em>同一条线</em>，永远交不出点。',
+  c_outside:'📌 这个形状的<em>重心不在薄板上</em>！重心是<em>重力的作用点</em>，它可以落在物体的空缺处 —— 圆环在圆心、月牙在凹处。',
+  c_balok:'📌 <em>验证方法</em>：指尖顶住重心 → 重力对支点<em>力矩为零</em> → 薄板<em>水平平衡</em>。这就是找对了的证据。',
+  c_balng:'📌 顶在别处：重力对支点有<em>力矩</em>，薄板<em>立刻倾倒</em>。所以「能不能顶住」就是重心找得准不准的检验。',
+  outLabel:'重心偏离外框中心的距离',
+  cmpHint:'先按预设 → 全班猜一猜 → 再按「同时开始」。两块板会各自自动挂两次、画两条线，交点由真实的面积质心公式算出。',
+  cp1:'⬜规则 vs 📐不规则', cp2:'🌙月牙 vs 🍃树叶', cp3:'⭕圆环 vs 🔧手枪',
+  cp1a:'⬜ 规则：正方形板', cp1b:'📐 不规则：L 形板',
+  cp1ac:'两个悬点：左上角 · 左下角', cp1bc:'两个悬点：左上角 · 左下角',
+  cp2a:'🌙 月牙形板', cp2b:'🍃 树叶形板',
+  cp2ac:'两个悬点：上尖端 · 左下缘', cp2bc:'两个悬点：左端 · 下缘',
+  cp3a:'⭕ 圆环板', cp3b:'🔧 手枪形板',
+  cp3ac:'两个悬点：左上 · 下缘', cp3bc:'两个悬点：左上角 · 右下缘',
+  guessQ:'猜一猜：哪块板的重心离「外框中心」更远？', gMoreA:'甲更远', gSame:'一样', gMoreB:'乙更远', runCmp:'同时开始',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  kCx:'重心x', kCy:'重心y', kWhere:'位置', vOn:'板上', vOff:'板外',
+  cc_1:'📌 <em>质地均匀、形状规则</em>的薄板，重心就在<em>几何中心</em>（正方形 0.0 px）；形状一不规则，重心就<em>偏离中心</em>（L 形 21.0 px），只能靠<em>悬挂法</em>去找。',
+  cc_2:'📌 月牙的重心<em>偏出去很远</em>，而且落在<em>板外的空缺处</em>；树叶接近对称，重心几乎在中间。<em>形状越不对称，重心偏得越多。</em>',
+  cc_3:'📌 圆环的重心<em>恰在几何中心</em>（0.0 px），可那里是<em>空的</em>！所以「偏离小」<em>不等于</em>「在板上」——重心是重力的作用点，不必落在材料上。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！悬挂法找重心你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手挂一挂，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场挂给全班看。',
+  gRound:'回合', gScoreLabel:'得分', gErrLabel:'猜点与真重心的误差', gGoalLabel:'本轮任务',
+  gGoalGuess:'先猜：重心在哪？', gGoalVerify:'再验证：挂两次画两条线',
+  gHint:'全班指挥一位同学：先<b>凭眼睛猜</b>重心并点一下（点了就锁定），再用悬挂法挂两次画两条线来<b>验证</b>。误差越小分越高。',
+  gGo:'🎮 第 {r} 回合 · <b>{n}</b>。先在板上<b>点一下</b>你猜的重心位置。',
+  gLocked:'🔒 猜测已锁定。现在<b>挂两次、画两条铅垂线</b>，交点出来就揭晓误差。',
+  gWin:'🎯 误差 <b>{e} px</b>（容差 {t} px）＋<b>{p}</b> 分。{msg}',
+  gPerfect:'🏆 太准了！', gClose:'👍 很接近！', gMiss:'💪 差得有点多 —— 重心不是「看起来的正中间」。',
+  gNoGuess:'⏰ 时间到：这一轮没有猜点，0 分。',
+  gTimeUp:'⏰ 时间到，本轮 {p} 分。', gSkipped:'⏭ 跳过，本轮 0 分。',
+  gSkip:'⏭ 跳过本轮', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gFinal:'最终得分', gRank1:'🏆 重心感觉大师！', gRank2:'👍 眼力不错！', gRank3:'💪 回演示实验多挂几次！',
+  cvScene:'🪝 悬挂实景（铁架台）', cvFlat:'📄 纸面视图：板上画的线',
+  cvStand:'铁架台 / 支架', cvPlumb:'铅垂线 plumb line', cvPin:'悬点 {k}', cvPinSel:'悬点（已选）',
+  cvCG:'重心 ⊕', cvBoxC:'外框中心', cvLineN:'线{k}',
+  cvTheta:'θ ＝ {th}°', cvNoCross:'还没有交点：至少要画 2 条线', cvCross:'交点 ⊕ ＝ 重心（{x} , {y}）',
+  cvClick:'👆 在薄板边缘点一下，选一个悬点', cvDrawNow:'👉 静止了，点「✏️ 画铅垂线」',
+  cvBalOK:'⚖️ 平衡！薄板稳稳停住 —— 找对了', cvBalNG:'❌ 顶在别处 —— 薄板马上倾倒掉落',
+  cvFinger:'☝️ 指尖顶住的位置', cvGuess:'你猜的点', cvSwing:'🌀 摆动中……等它自由静止',
+  cvD:'重心↔外框中心 {d} px', cvOn:'重心在板上', cvOff:'⚠️ 重心在板外',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Centre of Gravity Lab', subtitle:'Hang it twice · draw two plumb lines · the crossing point is the CG',
+  chip1:'At free rest: weight and tension balance', chip2:'The CG lies on the plumb line below the pivot', chip3:'Two plumb lines cross at the CG',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Guess the CG',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  shapeLabel:'Plate:',
+  b_square:'⬜ Square', b_blob:'🪨 Blob', b_L:'📐 L-plate', b_leaf:'🍃 Leaf', b_gun:'🔧 Wrench', b_moon:'🌙 Crescent', b_ring:'⭕ Ring',
+  n_square:'square plate', n_blob:'irregular plate', n_L:'L-shaped plate', n_leaf:'leaf plate', n_gun:'wrench plate', n_moon:'crescent plate', n_ring:'ring plate',
+  opHang:'🪝 Hang', opLine:'✏️ Plumb line', opAgain:'🔁 New point', opBal:'☝️ Balance', opBad:'👆 Off-spot', opReset:'↺ Reset',
+  presetLabel:'Presets:',
+  pr1:'①Two hangs', pr2:'②Crescent: off body', pr3:'③Ring: at centre', pr4:'④Same point twice', pr5:'⑤Square: centre',
+  pr1why:'📌 <em>The four steps</em>: hang at A → rest → line ①; move to B → rest → line ②. Their <em>crossing point</em> is the CG. The further apart A and B, the sharper the crossing.',
+  pr2why:'🌙 <em>The crescent has its CG off the plate</em> — in the hollow, where there is no material at all. The two plumb lines still cross exactly there.',
+  pr3why:'⭕ <em>A ring has its CG at the centre of the circle</em>, which is empty. So "the CG must be inside the object" is <em>wrong</em>: it is at the geometric centre, with nothing there.',
+  pr4why:'✗ <em>Two hangs from the same point give the same line</em>, so no crossing point. You <em>must</em> move the pivot — and the further apart, the better.',
+  pr5why:'⬜ A uniform, <em>regular</em> plate has its CG at the <em>geometric centre</em>: a square at the diagonals, a disc at the centre, a rod at its midpoint. Only irregular plates need the suspension method.',
+  labHint:'Pick a plate → <b>click its edge</b> to choose a pivot → 🪝 Hang (watch θ drop to 0°) → ✏️ draw the plumb line; repeat from a second pivot and the ⊕ appears in the paper view on the right.',
+  stepsTitle:'Follow along (each step lights up as you go)',
+  sp1:'Click a point on the edge to pick a pivot',
+  sp2:'Hang it up and wait until it settles (θ → 0°)',
+  sp3:'Draw the first plumb line along the string',
+  sp4:'Pick a different pivot, hang and draw again',
+  sp5:'Where the two lines cross ⊕ is the centre of gravity',
+  stIdleT:'Not hanging yet', stIdleS:'Click the edge of the plate to pick a pivot',
+  stPickT:'Pivot chosen', stPickS:'Before release: the CG is not below the pivot yet',
+  stLiftT:'Lifting it up', stLiftS:'Hooking the pivot onto the stand',
+  stSwingT:'Swinging', stSwingS:'The torque of weight is not gone; θ still changing',
+  stRestT:'Free rest', stRestS:'Forces balanced · θ = 0° · CG on the plumb line',
+  stBalOKT:'Fingertip on the CG', stBalOKS:'Balanced horizontally — you found it',
+  stBalNGT:'Fingertip off the CG', stBalNGS:'Weight tips the plate over',
+  f_theta:'θ ＝ ∠(pivot→CG , plumb line) ＝ <b>{th}°</b>　|　pivot↔CG <b>{d} px</b>',
+  live_idle:'No pivot yet. <b>Any point on the edge</b> of the plate will do.',
+  live_pick:'Before release θ ＝ <b>{th}°</b>: weight still has a <b>torque</b> about the pivot, so it must turn.',
+  live_swing:'θ is still changing — the torque <b>M ＝ G·d·sinθ</b> pulls it back, and shrinks as θ shrinks.',
+  live_rest:'θ ＝ <b>0°</b>: weight and tension lie on the <b>same vertical line</b> — balanced, so the CG is on this plumb line.',
+  live_balok:'The support is exactly at the CG: the <b>torque of weight is zero</b>, so the plate <b>balances</b>.',
+  live_balng:'The support is off the CG: weight has a <b>torque</b> about it, so the plate <b>tips over at once</b>.',
+  tip_need2:'Only <b>{n}</b> line so far — that fixes a line, not a point. One more to go.',
+  tip_done:'The two lines cross: the <b>⊕</b> in the paper view is the CG. Add a third pivot to check.',
+  tip_first:'Let the class <b>guess</b> where the CG is before the first hang, then check it.',
+  r_rest:'👉 <em>Swinging → free rest</em>: θ falls to zero and the CG sits right below the pivot.',
+  r_line1:'👉 <em>First plumb line drawn</em>: the CG is on this line, but we still do not know where.',
+  r_cross:'👉 <em>The two lines crossed</em>: that point is the CG ⊕.',
+  w_dup:'⚠️ These two pivots are almost on one line, so you get <b>the same line again</b>. Pick a pivot <b>further away</b>.',
+  w_near:'⚠️ That pivot is too close to the CG — try another one.',
+  w_again:'👉 Now click <b>another spot on the edge</b> to pick the next pivot — the further, the better.',
+  c_cross:'📌 Both plumb lines <em>pass through the CG</em>, so their <em>crossing point</em> is the CG. One hang fixes a line; <em>two</em> hangs fix a point.',
+  c_dup:'📌 Changing the pivot is <em>compulsory</em>: the same pivot (or two points nearly on one line) gives <em>the same line</em>, which never crosses.',
+  c_outside:'📌 This shape has its <em>CG off the plate</em>! The CG is where <em>weight acts</em>; it may fall in a hollow — a ring at its centre, a crescent in its bay.',
+  c_balok:'📌 <em>The check</em>: a fingertip at the CG makes the <em>torque of weight zero</em>, so the plate <em>balances horizontally</em>. That is the proof.',
+  c_balng:'📌 Off the CG, weight has a <em>torque</em> and the plate <em>tips at once</em>. "Does it balance?" is exactly how you test your answer.',
+  outLabel:'Distance CG ↔ box centre',
+  cmpHint:'Load a preset → let the class predict → press "Start both". Each plate hangs twice on its own; the crossing point comes from the real area-centroid formula.',
+  cp1:'⬜Regular vs 📐Irregular', cp2:'🌙Crescent vs 🍃Leaf', cp3:'⭕Ring vs 🔧Wrench',
+  cp1a:'⬜ Regular: square plate', cp1b:'📐 Irregular: L-plate',
+  cp1ac:'pivots: top-left corner · bottom-left', cp1bc:'pivots: top-left corner · bottom-left',
+  cp2a:'🌙 Crescent plate', cp2b:'🍃 Leaf plate',
+  cp2ac:'pivots: upper tip · lower-left edge', cp2bc:'pivots: left tip · lower edge',
+  cp3a:'⭕ Ring plate', cp3b:'🔧 Wrench plate',
+  cp3ac:'pivots: upper-left · lower edge', cp3bc:'pivots: top-left · lower-right',
+  guessQ:'Predict: whose CG sits further from the box centre?', gMoreA:'A further', gSame:'Same', gMoreB:'B further', runCmp:'Start both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  kCx:'CG x', kCy:'CG y', kWhere:'Where', vOn:'on', vOff:'off',
+  cc_1:'📌 A <em>uniform, regular</em> plate has its CG at the <em>geometric centre</em> (square: 0.0 px). Break the regularity and the CG <em>shifts off centre</em> (L-plate: 21.0 px) — only suspension can find it.',
+  cc_2:'📌 The crescent CG is <em>far off centre</em> and lands <em>outside the material</em>; the near-symmetric leaf keeps its CG almost in the middle. <em>The less symmetric, the bigger the shift.</em>',
+  cc_3:'📌 The ring CG is <em>exactly at the geometric centre</em> (0.0 px) — and that spot is <em>empty</em>! So "small shift" does <em>not</em> mean "on the plate".',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect score — the suspension method is yours!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Hang a few plates in the Demo Lab, then try again!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and hang it live.',
+  gRound:'Round', gScoreLabel:'Score', gErrLabel:'Guess vs true CG', gGoalLabel:'Task this round',
+  gGoalGuess:'First guess: where is the CG?', gGoalVerify:'Now verify: hang twice, draw two lines',
+  gHint:'The class guides one player: <b>guess</b> the CG by eye and click it (that locks it in), then <b>verify</b> with two hangs and two plumb lines. Smaller error, more points.',
+  gGo:'🎮 Round {r} · <b>{n}</b>. Click on the plate where you think the CG is.',
+  gLocked:'🔒 Guess locked. Now <b>hang it twice and draw two plumb lines</b> — the error is revealed at the crossing.',
+  gWin:'🎯 Error <b>{e} px</b> (tolerance {t} px) — <b>{p}</b> points. {msg}',
+  gPerfect:'🏆 Spot on!', gClose:'👍 Very close!', gMiss:'💪 Quite far — the CG is not "the middle of what you see".',
+  gNoGuess:'⏰ Time! No guess this round, 0 points.',
+  gTimeUp:'⏰ Time! {p} points this round.', gSkipped:'⏭ Skipped, 0 points.',
+  gSkip:'⏭ Skip round', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gFinal:'Final score', gRank1:'🏆 CG master!', gRank2:'👍 Sharp eye!', gRank3:'💪 Hang a few more in the Demo Lab!',
+  cvScene:'🪝 The real hang (retort stand)', cvFlat:'📄 Paper view: lines drawn on the plate',
+  cvStand:'retort stand', cvPlumb:'plumb line', cvPin:'pivot {k}', cvPinSel:'pivot (chosen)',
+  cvCG:'CG ⊕', cvBoxC:'box centre', cvLineN:'line {k}',
+  cvTheta:'θ ＝ {th}°', cvNoCross:'no crossing yet: draw at least 2 lines', cvCross:'crossing ⊕ = CG ({x} , {y})',
+  cvClick:'👆 Click the edge of the plate to pick a pivot', cvDrawNow:'👉 At rest — press "✏️ Plumb line"',
+  cvBalOK:'⚖️ Balanced! It stays put — you found it', cvBalNG:'❌ Off the CG — it tips over at once',
+  cvFinger:'☝️ fingertip support', cvGuess:'your guess', cvSwing:'🌀 swinging… wait for free rest',
+  cvD:'CG↔box centre {d} px', cvOn:'CG on the plate', cvOff:'⚠️ CG off the plate',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    grid:'rgba(255,255,255,.10)', axis:'rgba(255,255,255,.34)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.78)', pillLine:'rgba(255,255,255,.22)',
+    board:'#e9d9b4', boardEdge:'#a98c56', boardHole:'rgba(10,20,34,.55)',
+    stand:'#4a5568', standEdge:'#8fa0b4', string:'#cfd8e2',
+    plumb:'rgba(124,196,255,.55)', theta:'#ffc94d',
+    pin:'#ff6a5a', cg:'#3fd06c', bad:'#ff5d55', good:'#3fd06c',
+    line1:'#ff6a5a', line2:'#7cc4ff', line3:'#c79bf0',
+    skin:'#f3cda8', skinEdge:'#c99a6e', tableLine:'rgba(255,255,255,.25)',
+    boxc:'rgba(255,255,255,.55)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    grid:'rgba(30,42,54,.10)', axis:'rgba(30,42,54,.38)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.94)', pillLine:'rgba(30,42,54,.18)',
+    board:'#efe0be', boardEdge:'#9a7f4b', boardHole:'#fbfaf4',
+    stand:'#ddd4bf', standEdge:'#8d8265', string:'#3a4a52',
+    plumb:'rgba(62,124,177,.55)', theta:'#a06d00',
+    pin:'#d3402c', cg:'#1fa050', bad:'#e0443c', good:'#1fa050',
+    line1:'#e0443c', line2:'#2f6690', line3:'#7a45a8',
+    skin:'#f3cda8', skinEdge:'#c99a6e', tableLine:'rgba(30,42,54,.25)',
+    boxc:'rgba(30,42,54,.5)',
+  },
+};
+let THEME = 'light';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'light'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  THEME='light'; try{applyTheme();}catch(e){}
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  labUI();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  gameSync();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+const SC = 2;
+function ptr(ev, cv, sc){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*cv.width/r.width/(sc||1), y:(ev.clientY-r.top)*cv.height/r.height/(sc||1) };
+}
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  c.fillText(s,x,y);
+}
+function fsOf(font){ const m=/(\d+(?:\.\d+)?)px/.exec(String(font)); return m?parseFloat(m[1]):14; }
+
+/* ---- label bookkeeping: no overlap, always clamped inside the canvas ---- */
+let LBLS=[];
+function labelReset(){ LBLS=[]; }
+function boxHit(a,b){ return !(a.x1<=b.x0 || b.x1<=a.x0 || a.y1<=b.y0 || b.y1<=a.y0); }
+function boxFree(b){ for(let i=0;i<LBLS.length;i++) if(boxHit(LBLS[i],b)) return false; return true; }
+/* pill-backed label; tries each candidate, finally clamps the first one into view */
+function tchip(c,s,cands,font,color,W,H,bgOverride){
+  if(!s) return false;
+  c.font=font;
+  const fs=fsOf(font), tw=c.measureText(s).width, w=tw+22, h=fs+13;
+  const draw = (x,y)=>{
+    rrect(c,x-w/2,y-h/2,w,h,h/2);
+    c.fillStyle=bgOverride||C().pill; c.fill();
+    c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+    TX(c,s,x,y,font,color,'center','middle');
+    LBLS.push({x0:x-w/2-2,y0:y-h/2-2,x1:x+w/2+2,y1:y+h/2+2});
+  };
+  for(let i=0;i<cands.length;i++){
+    const p=cands[i];
+    if(!isFinite(p[0])||!isFinite(p[1])) continue;
+    const b={x0:p[0]-w/2-2,y0:p[1]-h/2-2,x1:p[0]+w/2+2,y1:p[1]+h/2+2};
+    if(b.x0<2||b.x1>W-2||b.y0<2||b.y1>H-2) continue;
+    if(!boxFree(b)) continue;
+    draw(p[0],p[1]); return true;
+  }
+  const p0=cands[0];
+  if(!p0||!isFinite(p0[0])||!isFinite(p0[1])) return false;
+  draw(clamp(p0[0], w/2+4, W-w/2-4), clamp(p0[1], h/2+4, H-h/2-4));
+  return true;
+}
+function labText(c,s,cands,font,color,align,W,H){
+  if(!s) return false;
+  c.font=font;
+  const fs=fsOf(font), tw=c.measureText(s).width, h=fs*1.3;
+  for(let i=0;i<cands.length;i++){
+    const p=cands[i];
+    if(!isFinite(p[0])||!isFinite(p[1])) continue;
+    const ax = align==='right' ? p[0]-tw : (align==='center' ? p[0]-tw/2 : p[0]);
+    const b={x0:ax-3,y0:p[1]-h/2-2,x1:ax+tw+3,y1:p[1]+h/2+2};
+    if(b.x0<2||b.x1>W-2||b.y0<2||b.y1>H-2) continue;
+    if(!boxFree(b)) continue;
+    LBLS.push(b); TX(c,s,p[0],p[1],font,color,align||'left','middle'); return true;
+  }
+  return false;
+}
+
+/* ============================================================
+   Geometry (carried over verbatim from the self-study build)
+============================================================ */
+function polyCentroid(p){
+  let a=0,cx=0,cy=0;
+  for(let i=0,n=p.length;i<n;i++){
+    const j=(i+1)%n;
+    const cr=p[i][0]*p[j][1]-p[j][0]*p[i][1];
+    a+=cr; cx+=(p[i][0]+p[j][0])*cr; cy+=(p[i][1]+p[j][1])*cr;
+  }
+  a/=2;
+  return {x:cx/(6*a), y:cy/(6*a), a:a};
+}
+function pip(p,x,y){
+  let c=false;
+  for(let i=0,j=p.length-1;i<p.length;j=i++){
+    const xi=p[i][0],yi=p[i][1],xj=p[j][0],yj=p[j][1];
+    if(((yi>y)!==(yj>y)) && (x<(xj-xi)*(y-yi)/(yj-yi)+xi)) c=!c;
+  }
+  return c;
+}
+/* composite rule: outer area-weighted centroid minus each hole */
+function shapeCG(s){
+  const co=polyCentroid(s.outer);
+  let A=Math.abs(co.a), mx=co.x*A, my=co.y*A;
+  const hs=s.holes||[];
+  for(let i=0;i<hs.length;i++){
+    const ch=polyCentroid(hs[i]); const ah=Math.abs(ch.a);
+    A-=ah; mx-=ch.x*ah; my-=ch.y*ah;
+  }
+  return {x:mx/A, y:my/A, area:A};
+}
+function inShape(s,x,y){
+  if(!pip(s.outer,x,y)) return false;
+  const hs=s.holes||[];
+  for(let i=0;i<hs.length;i++) if(pip(hs[i],x,y)) return false;
+  return true;
+}
+function bboxOf(s){
+  let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  s.outer.forEach(function(q){ x0=Math.min(x0,q[0]); x1=Math.max(x1,q[0]); y0=Math.min(y0,q[1]); y1=Math.max(y1,q[1]); });
+  return {x0:x0,x1:x1,y0:y0,y1:y1,cx:(x0+x1)/2,cy:(y0+y1)/2,w:x1-x0,h:y1-y0};
+}
+function nearestOnEdge(s,x,y){
+  const p=s.outer; let best=[p[0][0],p[0][1]], bd=1e18;
+  for(let i=0;i<p.length;i++){
+    const a=p[i], b=p[(i+1)%p.length];
+    const vx=b[0]-a[0], vy=b[1]-a[1], L2=vx*vx+vy*vy;
+    let u = L2>0 ? ((x-a[0])*vx+(y-a[1])*vy)/L2 : 0;
+    u=clamp(u,0,1);
+    const qx=a[0]+vx*u, qy=a[1]+vy*u;
+    const d=(qx-x)*(qx-x)+(qy-y)*(qy-y);
+    if(d<bd){ bd=d; best=[qx,qy]; }
+  }
+  return best;
+}
+function lineX(l1,l2){
+  const cr = l1.d[0]*l2.d[1] - l1.d[1]*l2.d[0];
+  if(Math.abs(cr)<1e-7) return null;
+  const ex=l2.p[0]-l1.p[0], ey=l2.p[1]-l1.p[1];
+  const u=(ex*l2.d[1]-ey*l2.d[0])/cr;
+  return {x:l1.p[0]+l1.d[0]*u, y:l1.p[1]+l1.d[1]*u};
+}
+function circlePoly(cx,cy,r,n){
+  const p=[]; for(let i=0;i<n;i++){ const a=i/n*Math.PI*2; p.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]); }
+  return p;
+}
+/* crescent = inside circle A, outside circle B; traced as one polygon */
+function crescentPoly(R,r,d,N){
+  const x=(d*d+R*R-r*r)/(2*d), y=Math.sqrt(R*R-x*x);
+  const aA=Math.atan2(y,x), a2=Math.abs(Math.atan2(-y,x-d)), sweep=2*Math.PI-2*a2;
+  const pts=[];
+  for(let i=0;i<=N;i++){ const a=aA+(2*Math.PI-2*aA)*i/N; pts.push([R*Math.cos(a), R*Math.sin(a)]); }
+  for(let i=1;i<N;i++){ const a=-a2-sweep*i/N; pts.push([d+r*Math.cos(a), r*Math.sin(a)]); }
+  return pts;
+}
+function leafPoly(N){
+  const p=[], a=104;
+  for(let i=0;i<=N;i++){ const x=-a+2*a*i/N, u=Math.max(0,1-(x/a)*(x/a)); p.push([x,-54*Math.pow(u,0.72)]); }
+  for(let i=N-1;i>=1;i--){ const x=-a+2*a*i/N, u=Math.max(0,1-(x/a)*(x/a)); p.push([x, 30*Math.pow(u,1.15)]); }
+  return p;
+}
+function rotPoly(p,ang){
+  const c=Math.cos(ang), s=Math.sin(ang);
+  return p.map(function(q){ return [q[0]*c-q[1]*s, q[0]*s+q[1]*c]; });
+}
+
+/* ================= the plates ================= */
+const SHAPES=[
+  {key:'square', outer:[[-78,-78],[78,-78],[78,78],[-78,78]], pick:[[-1,-1],[-1,0.6]]},
+  {key:'blob', outer:[[-90,-40],[-30,-95],[60,-80],[95,-5],[55,75],[-25,95],[-85,45]], pick:[[-1,-1],[0.2,1]]},
+  {key:'L', outer:[[-70,-95],[10,-95],[10,25],[95,25],[95,95],[-70,95]], pick:[[-1,-1],[-1,0.6]]},
+  {key:'leaf', outer:rotPoly(leafPoly(70),-0.38), pick:[[-1,-1],[0.2,1]]},
+  {key:'gun', outer:[[-95,-70],[55,-70],[55,-30],[30,-30],[58,70],[8,78],[-10,-30],[-95,-30]], pick:[[-1,-1],[1,0.3]]},
+  {key:'moon', outside:true, outer:crescentPoly(100,88,30,200), pick:[[-1,-1],[-1,0.6]]},
+  {key:'ring', outside:true, outer:circlePoly(0,0,100,180), holes:[circlePoly(0,0,56,140)], pick:[[-1,-1],[0.2,1]]}
+];
+/* one common scale so a plate hung from any edge point still fits the canvas */
+const SCL=0.82;
+const SHMAP={};
+SHAPES.forEach(function(s){
+  s.outer = s.outer.map(function(q){ return [q[0]*SCL, q[1]*SCL]; });
+  if(s.holes) s.holes = s.holes.map(function(h){ return h.map(function(q){ return [q[0]*SCL, q[1]*SCL]; }); });
+  s.cg = shapeCG(s);
+  s.bb = bboxOf(s);
+  s.diag = Math.hypot(s.bb.w, s.bb.h);
+  s.tol = Math.max(12, s.diag*0.06);
+  s.offC = Math.hypot(s.cg.x-s.bb.cx, s.cg.y-s.bb.cy);
+  s.onBoard = inShape(s, s.cg.x, s.cg.y);
+  SHMAP[s.key]=s;
+});
+function shName(s){ return t('n_'+s.key); }
+
+/* ============================================================
+   Suspension rig (shared by demo lab, compare and game)
+============================================================ */
+function newRig(cv, W, H, cfg){
+  return {
+    cv:cv, ctx:cv.getContext('2d'), W:W, H:H,
+    x0:cfg.x0, x1:cfg.x1, ceilY:cfg.ceilY, PIN:cfg.pin, floorY:cfg.floorY,
+    vs:cfg.vs, tm:cfg.tm||1,
+    sh:null, P:null, phase:'idle', pIdx:0,
+    pose:{aL:[0,0], aS:[cfg.pin[0], cfg.idleY], phi:0}, idleY:cfg.idleY,
+    om:0, target:0, swingT:0, liftU:0, liftFrom:[0,0],
+    lines:[], cross:null, guess:null, ok:null,
+    sup:null, balOK:true, balT:0, balSgn:1
+  };
+}
+/* local (plate) coords → screen coords, with the rig's view scale */
+function L2S(pt,pose,vs){
+  vs=vs||1;
+  const c=Math.cos(pose.phi), s=Math.sin(pose.phi);
+  const dx=(pt[0]-pose.aL[0])*vs, dy=(pt[1]-pose.aL[1])*vs;
+  return {x:pose.aS[0]+dx*c-dy*s, y:pose.aS[1]+dx*s+dy*c};
+}
+function S2L(x,y,pose,vs){
+  vs=vs||1;
+  const c=Math.cos(pose.phi), s=Math.sin(pose.phi);
+  const dx=(x-pose.aS[0])/vs, dy=(y-pose.aS[1])/vs;
+  return [pose.aL[0]+dx*c+dy*s, pose.aL[1]-dx*s+dy*c];
+}
+function wrapPi(a){ while(a>Math.PI)a-=2*Math.PI; while(a<=-Math.PI)a+=2*Math.PI; return a; }
+/* target angle: turn "CG relative to pivot" to point straight down (+y on screen) */
+function targetPhi(sh,P,phiNow){
+  const a=Math.atan2(sh.cg.y-P[1], sh.cg.x-P[0]);
+  return phiNow + wrapPi(Math.PI/2 - a - phiNow);
+}
+function rigSetShape(R,sh){
+  R.sh=sh; R.P=null; R.phase='idle'; R.lines=[]; R.cross=null; R.guess=null; R.ok=null;
+  R.om=0; R.swingT=0; R.pIdx=0;
+  R.pose={aL:[sh.bb.cx, sh.bb.cy], aS:[R.PIN[0], R.idleY], phi:0};
+}
+function rigPickPoint(R,sx,sy){
+  if(!R.sh) return false;
+  const loc=S2L(sx,sy,R.pose,R.vs);
+  const p=nearestOnEdge(R.sh,loc[0],loc[1]);
+  if(Math.hypot(p[0]-R.sh.cg.x, p[1]-R.sh.cg.y) < 6) return false;
+  R.P=p;
+  if(R.phase==='balance') R.phase='rest';
+  return true;
+}
+function rigPickDir(R,dir){
+  if(!R.sh) return false;
+  R.P = nearestOnEdge(R.sh, dir[0]*1000, dir[1]*1000);
+  return true;
+}
+/* release: first align the pivot in place with the string end, then lift it up */
+function rigHang(R){
+  if(!R.sh||!R.P) return false;
+  if(R.phase==='lift'||R.phase==='swing') return false;
+  const now=L2S(R.P,R.pose,R.vs);
+  R.pose.aL=[R.P[0],R.P[1]];
+  R.pose.aS=[now.x,now.y];
+  R.liftFrom=[now.x,now.y];
+  R.pIdx=R.lines.length;
+  R.liftU=0; R.phase='lift'; R.swingT=0;
+  return true;
+}
+function rigStartSwing(R){
+  R.pose.aS=[R.PIN[0],R.PIN[1]];
+  R.target=targetPhi(R.sh,R.P,R.pose.phi);
+  const d=Math.abs(wrapPi(R.pose.phi-R.target));
+  R.om = (d<0.15) ? 1.15 : 0;
+  R.phase='swing'; R.swingT=0;
+}
+function rigSnap(R){
+  const k=Math.round((R.pose.phi-R.target)/(2*Math.PI));
+  R.pose.phi=R.target+2*Math.PI*k;
+  R.om=0; R.phase='rest';
+}
+/* damped pendulum about the pivot, converging on "CG straight below" */
+function rigStep(R,dt0){
+  const dt = dt0*R.tm;
+  if(R.phase==='lift'){
+    R.liftU=Math.min(1,R.liftU+dt*2.4);
+    const u=R.liftU, e=u*u*(3-2*u);
+    R.pose.aS=[R.liftFrom[0]+(R.PIN[0]-R.liftFrom[0])*e, R.liftFrom[1]+(R.PIN[1]-R.liftFrom[1])*e];
+    if(R.liftU>=1) rigStartSwing(R);
+    return;
+  }
+  if(R.phase==='swing'){
+    R.swingT+=dt;
+    const steps=3, h=dt/steps;
+    for(let i=0;i<steps;i++){
+      const d=R.pose.phi-R.target;
+      R.om += (-30*Math.sin(d) - 1.9*R.om)*h;
+      R.pose.phi += R.om*h;
+    }
+    const dd=Math.abs(wrapPi(R.pose.phi-R.target));
+    if((dd<0.005 && Math.abs(R.om)<0.03) || R.swingT>7) rigSnap(R);
+    return;
+  }
+  if(R.phase==='balance'){ R.balT+=dt; return; }
+}
+/* draw the plumb line onto the plate (plate-local, so it turns with the plate) */
+function rigDrawLine(R){
+  if(R.phase!=='rest'||!R.P) return 'notrest';
+  const dx=R.sh.cg.x-R.P[0], dy=R.sh.cg.y-R.P[1], L=Math.hypot(dx,dy);
+  if(L<6) return 'toonear';
+  const nd=[dx/L,dy/L];
+  for(let i=0;i<R.lines.length;i++){
+    const cr=Math.abs(R.lines[i].d[0]*nd[1]-R.lines[i].d[1]*nd[0]);
+    if(cr<0.17) return 'dup';           /* within about 10 degrees of an existing line */
+  }
+  R.lines.push({p:[R.P[0],R.P[1]], d:nd});
+  if(R.lines.length>=2 && !R.cross){
+    for(let i=0;i<R.lines.length&&!R.cross;i++)
+      for(let j=i+1;j<R.lines.length;j++){
+        const x=lineX(R.lines[i],R.lines[j]);
+        if(x){ R.cross=x; break; }
+      }
+  }
+  return 'ok';
+}
+/* a support point that is clearly NOT the CG (still on the plate) */
+function offPoint(sh){
+  const c=sh.cg; let far=sh.outer[0], fd=-1;
+  sh.outer.forEach(function(q){
+    const d=(q[0]-c.x)*(q[0]-c.x)+(q[1]-c.y)*(q[1]-c.y);
+    if(d>fd){ fd=d; far=q; }
+  });
+  const ts=[0.55,0.45,0.65,0.35,0.75];
+  for(let i=0;i<ts.length;i++){
+    const p=[c.x+(far[0]-c.x)*ts[i], c.y+(far[1]-c.y)*ts[i]];
+    if(inShape(sh,p[0],p[1]) && Math.hypot(p[0]-c.x,p[1]-c.y)>26) return p;
+  }
+  const q=[c.x+(far[0]-c.x)*0.9, c.y+(far[1]-c.y)*0.9];
+  return inShape(sh,q[0],q[1])?q:[far[0],far[1]];
+}
+function rigBalance(R,onCG){
+  if(!R.sh) return;
+  R.sup = onCG ? [R.sh.cg.x,R.sh.cg.y] : offPoint(R.sh);
+  R.balOK=!!onCG; R.balT=0;
+  R.balSgn = (R.sh.cg.x-R.sup[0])>=0 ? 1 : -1;
+  R.phase='balance';
+}
+function balPose(R){
+  const u = R.balOK ? 0 : clamp((R.balT-0.55)/1.5,0,1);
+  return {
+    ax:R.PIN[0], ay:R.floorY-140,
+    tilt: R.balOK ? Math.sin(R.balT*3.1)*0.022 : R.balSgn*0.62*u,
+    drop: R.balOK ? 0 : 130*u*u,
+    sq:0.54, u:u
+  };
+}
+function balPos(R,px,py,bp){
+  const dx=(px-R.sup[0])*R.vs, dy=(py-R.sup[1])*R.vs;
+  const c=Math.cos(bp.tilt), s=Math.sin(bp.tilt);
+  return {x: bp.ax + (dx*c-dy*s), y: bp.ay + bp.drop + (dx*s+dy*c)*bp.sq};
+}
+/* θ — the signature reading: angle between (pivot→CG) and straight down */
+function thetaOf(R){
+  if(!R.sh || !R.P) return null;
+  const A=L2S(R.P,R.pose,R.vs), G=L2S([R.sh.cg.x,R.sh.cg.y],R.pose,R.vs);
+  const dx=G.x-A.x, dy=G.y-A.y;
+  if(Math.hypot(dx,dy)<1e-6) return 0;
+  return Math.abs(wrapPi(Math.atan2(dx,dy)))*180/Math.PI;
+}
+function pinDist(R){
+  if(!R.sh||!R.P) return null;
+  return Math.hypot(R.sh.cg.x-R.P[0], R.sh.cg.y-R.P[1]);
+}
+
+/* ============================================================
+   Drawing the rig
+============================================================ */
+function addPoly(g,p){
+  g.moveTo(p[0][0],p[0][1]);
+  for(let i=1;i<p.length;i++) g.lineTo(p[i][0],p[i][1]);
+  g.closePath();
+}
+function shapeOuterPath(g,s){ g.beginPath(); addPoly(g,s.outer); }
+function drawPlate(g,s,lines,lw){
+  shapeOuterPath(g,s);
+  g.fillStyle=C().board; g.fill();
+  g.strokeStyle=C().boardEdge; g.lineWidth=lw||3; g.lineJoin='round'; g.stroke();
+  const hs=s.holes||[];
+  for(let i=0;i<hs.length;i++){
+    g.beginPath(); addPoly(g,hs[i]);
+    g.fillStyle=C().boardHole; g.fill();
+    g.strokeStyle=C().boardEdge; g.lineWidth=lw||3; g.stroke();
+  }
+  const cols=[C().line1,C().line2,C().line3];
+  for(let i=0;i<lines.length;i++){
+    const ln=lines[i], col=cols[i%3];
+    line(g, ln.p[0]-ln.d[0]*6, ln.p[1]-ln.d[1]*6, ln.p[0]+ln.d[0]*s.diag, ln.p[1]+ln.d[1]*s.diag, col, 2.6);
+    circle(g, ln.p[0], ln.p[1], 4.5, col, null, 0);
+  }
+}
+function cgMark(g,x,y,r){
+  const rr=r||11;
+  circle(g,x,y,rr,C().pill,C().cg,3);
+  g.strokeStyle=C().cg; g.lineWidth=2.6;
+  g.beginPath();
+  g.moveTo(x-rr,y); g.lineTo(x+rr,y); g.moveTo(x,y-rr); g.lineTo(x,y+rr);
+  g.stroke();
+}
+function boxMark(g,x,y){
+  g.strokeStyle=C().boxc; g.lineWidth=2;
+  g.beginPath();
+  g.moveTo(x-9,y); g.lineTo(x+9,y); g.moveTo(x,y-9); g.lineTo(x,y+9);
+  g.stroke();
+}
+/* the hanging scene: stand, string, swinging plate, θ wedge */
+function drawScene(g,R,opt){
+  const W=R.W, H=R.H;
+  if(!R.sh) return;
+  if(R.phase==='balance'){ drawBalance(g,R,opt); return; }
+  const hung=(R.phase==='lift'||R.phase==='swing'||R.phase==='rest');
+
+  /* stand / ceiling */
+  const cw=R.x1-R.x0-40;
+  g.fillStyle=C().stand; g.fillRect(R.x0+20,R.ceilY,cw,16);
+  g.strokeStyle=C().standEdge; g.lineWidth=2.2; g.strokeRect(R.x0+20,R.ceilY,cw,16);
+  g.strokeStyle=C().standEdge; g.lineWidth=2; g.beginPath();
+  for(let x=R.x0+30;x<R.x1-22;x+=16){ g.moveTo(x,R.ceilY); g.lineTo(x-8,R.ceilY-8); }
+  g.stroke();
+  const hookY=R.ceilY+16;
+  circle(g,R.PIN[0],hookY+5,5,C().standEdge,null,0);
+
+  /* plumb guide + string */
+  if(hung){
+    line(g,R.PIN[0],R.PIN[1],R.PIN[0],R.floorY,C().plumb,2,[7,6]);
+    line(g,R.PIN[0],hookY+5,R.pose.aS[0],R.pose.aS[1],C().string,2.6);
+  }
+
+  /* plate */
+  g.save();
+  g.translate(R.pose.aS[0],R.pose.aS[1]);
+  g.rotate(R.pose.phi);
+  g.scale(R.vs,R.vs);
+  g.translate(-R.pose.aL[0],-R.pose.aL[1]);
+  drawPlate(g,R.sh,R.lines,3/R.vs*1.15);
+  g.restore();
+
+  /* pivot hole */
+  const Ps = R.P ? L2S(R.P,R.pose,R.vs) : null;
+  if(Ps) circle(g,Ps.x,Ps.y,6,C().pill,C().pin,2.8);
+
+  /* θ wedge between the plumb line and pivot→CG */
+  const Cs = R.sh ? L2S([R.sh.cg.x,R.sh.cg.y],R.pose,R.vs) : null;
+  if(Ps && Cs && opt.showTheta){
+    const ang=Math.atan2(Cs.y-Ps.y, Cs.x-Ps.x);
+    const dd=wrapPi(ang-Math.PI/2);
+    const rad=clamp(Math.hypot(Cs.x-Ps.x,Cs.y-Ps.y)*0.55, 22, 74);
+    line(g,Ps.x,Ps.y,Cs.x,Cs.y,C().theta,2,[6,5]);
+    if(Math.abs(dd)>0.012){
+      g.beginPath();
+      g.arc(Ps.x,Ps.y,rad,Math.PI/2,Math.PI/2+dd,dd<0);
+      g.strokeStyle=C().theta; g.lineWidth=2.4; g.stroke();
+    }
+  }
+
+  /* CG marker + guess cross */
+  if(opt.showCG && Cs) cgMark(g,Cs.x,Cs.y);
+  if(R.guess){
+    const q=L2S(R.guess,R.pose,R.vs);
+    const col=(R.ok===null)?C().theta:(R.ok?C().good:C().bad);
+    g.strokeStyle=col; g.lineWidth=3.2;
+    g.beginPath();
+    g.moveTo(q.x-10,q.y-10); g.lineTo(q.x+10,q.y+10);
+    g.moveTo(q.x+10,q.y-10); g.lineTo(q.x-10,q.y+10);
+    g.stroke();
+    if(opt.showCG && Cs && R.ok===false) line(g,q.x,q.y,Cs.x,Cs.y,C().bad,2,[5,4]);
+  }
+
+  /* ---- labels ---- */
+  labText(g,t('cvStand'),[[R.x0+26,R.ceilY-16]],'700 14px '+CV_FONT,C().cvTextDim,'left',W,H);
+  if(hung) labText(g,t('cvPlumb'),[[R.PIN[0]+10,R.floorY-16],[R.PIN[0]-10,R.floorY-16]],'700 14px '+CV_FONT,C().plumb,(R.PIN[0]>W/2?'right':'left'),W,H);
+  if(opt.showCG && Cs)
+    tchip(g,t('cvCG'),[[Cs.x+62,Cs.y],[Cs.x-62,Cs.y],[Cs.x,Cs.y+34],[Cs.x,Cs.y-34]],'700 14px '+CV_FONT,C().cg,W,H);
+  if(Ps){
+    const key = hung ? tf('cvPin',{k:'ABC'.charAt(Math.min(2,R.pIdx))}) : t('cvPinSel');
+    tchip(g,key,[[Ps.x+58,Ps.y-20],[Ps.x-58,Ps.y-20],[Ps.x+58,Ps.y+22],[Ps.x-58,Ps.y+22]],'700 14px '+CV_FONT,C().pin,W,H);
+  }
+  if(opt.showTheta && Ps){
+    const th=thetaOf(R);
+    if(th!==null) tchip(g,tf('cvTheta',{th:f1(th)}),[[Ps.x+4,Ps.y+58],[Ps.x+4,Ps.y-58]],'900 17px '+CV_FONT,C().theta,W,H);
+  }
+  if(R.guess && opt.guessLabel){
+    const q=L2S(R.guess,R.pose,R.vs);
+    tchip(g,t('cvGuess'),[[q.x,q.y+32],[q.x,q.y-32],[q.x+58,q.y]],'700 13px '+CV_FONT,C().theta,W,H);
+  }
+  if(opt.tip) tchip(g,opt.tip,[[R.PIN[0],R.floorY+22]],'700 15px '+CV_FONT,C().cvText,W,H);
+}
+function drawBalance(g,R,opt){
+  const W=R.W,H=R.H, bp=balPose(R);
+  line(g,R.x0+30,bp.ay,R.x1-30,bp.ay,C().tableLine,2);
+  g.save();
+  g.translate(bp.ax, bp.ay+bp.drop);
+  g.scale(1,bp.sq);
+  g.rotate(bp.tilt);
+  g.scale(R.vs,R.vs);
+  g.translate(-R.sup[0],-R.sup[1]);
+  drawPlate(g,R.sh,R.lines,3.4/R.vs);
+  g.restore();
+  const c=balPos(R,R.sh.cg.x,R.sh.cg.y,bp);
+  cgMark(g,c.x,c.y);
+  /* finger */
+  g.fillStyle=C().skin; rrect(g,bp.ax-14,bp.ay+4,28,104,14); g.fill();
+  g.strokeStyle=C().skinEdge; g.lineWidth=2.4; rrect(g,bp.ax-14,bp.ay+4,28,104,14); g.stroke();
+  circle(g,bp.ax,bp.ay+2,4.5,C().cvText,null,0);
+
+  labText(g,t('cvFinger'),[[bp.ax+22,bp.ay+56],[bp.ax-22,bp.ay+56]],'800 14px '+CV_FONT,C().cvTextDim,(bp.ax>W/2?'right':'left'),W,H);
+  tchip(g,t('cvCG'),[[c.x+62,c.y],[c.x-62,c.y],[c.x,c.y-34],[c.x,c.y+34]],'700 14px '+CV_FONT,C().cg,W,H);
+  tchip(g, R.balOK ? t('cvBalOK') : t('cvBalNG'), [[R.PIN[0],R.ceilY+60]],
+    '800 17px '+CV_FONT, R.balOK?C().good:C().bad, W, H);
+}
+/* the flat "paper view": plate unrotated, with the lines and the crossing point */
+function drawFlat(g,R,cx,cy,vs,W,H,showCross){
+  const s=R.sh;
+  if(!s) return;
+  g.save();
+  g.translate(cx,cy); g.scale(vs,vs); g.translate(-s.bb.cx,-s.bb.cy);
+  drawPlate(g,s,R.lines,3/vs);
+  g.restore();
+  const M = p => ({x:cx+(p[0]-s.bb.cx)*vs, y:cy+(p[1]-s.bb.cy)*vs});
+  for(let i=0;i<R.lines.length;i++){
+    const ln=R.lines[i];
+    const q=M([ln.p[0]+ln.d[0]*s.diag*0.62, ln.p[1]+ln.d[1]*s.diag*0.62]);
+    tchip(g,tf('cvLineN',{k:'①②③'.charAt(i)}),[[q.x,q.y],[q.x+44,q.y],[q.x-44,q.y],[q.x,q.y+26]],
+      '700 13px '+CV_FONT,[C().line1,C().line2,C().line3][i%3],W,H);
+  }
+  if(showCross && R.cross){
+    const q=M([R.cross.x,R.cross.y]);
+    cgMark(g,q.x,q.y);
+    tchip(g,t('cvCG'),[[q.x+60,q.y],[q.x-60,q.y],[q.x,q.y-32],[q.x,q.y+32]],'700 14px '+CV_FONT,C().cg,W,H);
+  }
+}
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const W_W=1000, W_H=500;
+const labCv=$('cv-lab'), labCtx=labCv.getContext('2d');
+const D = newRig(labCv, W_W, W_H, {x0:22, x1:566, ceilY:34, pin:[286,186], floorY:432, idleY:250, vs:1.15});
+const FLAT = {cx:780, cy:250, vs:1.3, x0:588, y0:56, x1:972, y1:456};
+let FLASH=null, CONCL=null, WARN=null;
+
+function drawLab(){
+  const g=labCtx;
+  g.setTransform(1,0,0,1,0,0);
+  g.clearRect(0,0,labCv.width,labCv.height);
+  g.setTransform(SC,0,0,SC,0,0);
+  labelReset();
+  const inGame = $('panel-game').classList.contains('on');
+  const showCG = !!D.cross || (inGame && GAME.reveal);
+
+  /* fixed captions get their box first so they always win */
+  labText(g,t('cvScene'),[[D.x0+8,16]],'700 16px '+CV_FONT,C().cvTextDim,'left',W_W,W_H);
+  labText(g,t('cvFlat'),[[FLAT.x0+12,16]],'700 16px '+CV_FONT,C().cvTextDim,'left',W_W,W_H);
+
+  /* right: paper view panel */
+  rrect(g,FLAT.x0,FLAT.y0,FLAT.x1-FLAT.x0,FLAT.y1-FLAT.y0,12);
+  g.fillStyle=C().panel; g.fill();
+  g.strokeStyle=C().panelLine; g.lineWidth=1.4; g.stroke();
+
+  let tip='';
+  if(!inGame){
+    if(!D.P && D.phase==='idle') tip=t('cvClick');
+    else if(D.phase==='swing'||D.phase==='lift') tip=t('cvSwing');
+    else if(D.phase==='rest' && D.lines.length<2) tip=t('cvDrawNow');
+  } else {
+    tip = GAME.phase==='guess' ? t('gGoalGuess') : (GAME.phase==='verify' ? t('gGoalVerify') : '');
+  }
+  drawScene(g,D,{showCG:showCG, showTheta:(D.phase!=='balance'), tip:tip, guessLabel:true});
+  drawFlat(g,D,FLAT.cx,FLAT.cy,FLAT.vs,W_W,W_H,showCG);
+
+  /* paper-view footer text */
+  const foot = D.cross
+    ? tf('cvCross',{x:f1(D.cross.x), y:f1(D.cross.y)})
+    : t('cvNoCross');
+  labText(g,foot,[[FLAT.cx,FLAT.y1-22]],'700 16px '+CV_FONT, D.cross?C().cg:C().cvTextDim,'center',W_W,W_H);
+  if(D.sh){
+    labText(g, shName(D.sh) + (D.sh.outside ? '　'+t('cvOff') : ''),
+      [[FLAT.cx,FLAT.y0+24]],'700 16px '+CV_FONT, D.sh.outside?C().bad:C().cvText,'center',W_W,W_H);
+  }
+}
+
+
+/* 步骤指引：done = 已完成, cur = 当前该做的那一步 */
+function renderSteps(){
+  const box=$('l-steps'); if(!box) return;
+  const n=D.lines.length;
+  const done=[ !!D.P, (D.phase==='rest'||D.phase==='balance'||n>=1), n>=1, n>=2, !!D.cross ];
+  let cur=done.indexOf(false);
+  const html=[1,2,3,4,5].map(function(i){
+    const cls = done[i-1] ? 'done' : (i-1===cur ? 'cur' : '');
+    return '<li class="'+cls+'">'+t('sp'+i)+'</li>';
+  }).join('');
+  if(box.__h!==html){ box.innerHTML=html; box.__h=html; }
+}
+
+/* ---------- sidebar / messages ---------- */
+function stKeys(){
+  if(D.phase==='balance') return D.balOK ? ['stBalOKT','stBalOKS'] : ['stBalNGT','stBalNGS'];
+  if(D.phase==='lift') return ['stLiftT','stLiftS'];
+  if(D.phase==='swing') return ['stSwingT','stSwingS'];
+  if(D.phase==='rest') return ['stRestT','stRestS'];
+  return D.P ? ['stPickT','stPickS'] : ['stIdleT','stIdleS'];
+}
+function labUI(){
+  renderSteps();
+  const k=stKeys(), bd=$('l-state'), chip=t(k[0])+'<small>'+t(k[1])+'</small>';
+  if(bd && chip!==lastChip){
+    bd.innerHTML = chip; lastChip = chip;
+    const col = D.phase==='rest' ? '#1d7a3a' : (D.phase==='balance' ? (D.balOK?'#1d7a3a':'#b8432f') : (D.phase==='swing'||D.phase==='lift') ? 'var(--gold-ink)' : '#2f6690');
+    bd.style.color=col; bd.style.borderColor=col;
+  }
+  /* buttons */
+  const canHang = !!(D.sh && D.P && (D.phase==='idle'||D.phase==='rest'||D.phase==='balance'));
+  if($('btn-hang')) $('btn-hang').disabled = !canHang;
+  if($('btn-line')) $('btn-line').disabled = !(D.phase==='rest' && D.lines.length<3);
+  if($('btn-again')) $('btn-again').disabled = !(D.phase==='rest' && D.lines.length>=1);
+  if($('btn-bal')) $('btn-bal').disabled = !D.cross;
+  if($('btn-bad')) $('btn-bad').disabled = !D.cross;
+  if($('gm-hang')) $('gm-hang').disabled = !(canHang && GAME.phase==='verify');
+  if($('gm-line')) $('gm-line').disabled = !(D.phase==='rest' && D.lines.length<3 && GAME.phase==='verify');
+  renderMsg();
+}
+let lastMsg='', lastChip='';
+function renderMsg(){
+  const th=thetaOf(D), d=pinDist(D);
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const warn = WARN ? t(WARN)+'<br>' : '';
+  /* θ 只有真正挂起来后才有意义，没数值时不占版面 */
+  const formula = (th===null) ? '' : tf('f_theta',{th:f1(th), d: d===null?'--':f1(d)})+'<br>';
+  let live;
+  if(D.phase==='balance') live = D.balOK ? t('live_balok') : t('live_balng');
+  else if(D.phase==='rest') live = t('live_rest');
+  else if(D.phase==='swing'||D.phase==='lift') live = t('live_swing');
+  else if(D.P) live = tf('live_pick',{th: th===null?'--':f1(th)});
+  else live = t('live_idle');
+  const tip = D.lines.length>=2 ? t('tip_done')
+            : D.lines.length===1 ? tf('tip_need2',{n:1})
+            : t('tip_first');
+  const box=$('l-status'), html = warn + flash + formula + live + '<br>' + tip;
+  if(box && html!==lastMsg){ box.innerHTML = html; lastMsg = html; }
+  const cb=$('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+function pickShape(k){
+  const s=SHMAP[k];
+  if(!s) return;
+  SCRIPT=null;
+  rigSetShape(D,s);
+  FLASH=null; CONCL=null; WARN=null;
+  document.querySelectorAll('.sbtn[data-sh]').forEach(b=>b.classList.toggle('pick', b.dataset.sh===k));
+  labUI();
+}
+function labHang(){
+  WARN=null; FLASH=null;
+  if(rigHang(D)) labUI();
+}
+function labLine(){
+  const r=rigDrawLine(D);
+  if(r==='dup'){ WARN='w_dup'; CONCL='c_dup'; }
+  else if(r==='toonear'){ WARN='w_near'; }
+  else if(r==='ok'){
+    WARN=null;
+    if(D.lines.length===1) FLASH='r_line1';
+    else if(D.cross){ FLASH='r_cross'; CONCL = D.sh.outside ? 'c_outside' : 'c_cross'; }
+  }
+  labUI();
+}
+function labAgain(){
+  FLASH=null;
+  WARN='w_again';
+  labUI();
+}
+function labBal(onCG){
+  if(!D.cross) return;
+  SCRIPT=null;
+  rigBalance(D,onCG);
+  FLASH=null; WARN=null;
+  CONCL = onCG ? 'c_balok' : 'c_balng';
+  labUI();
+}
+function labReset(){
+  SCRIPT=null;
+  rigSetShape(D, D.sh||SHAPES[0]);
+  FLASH=null; CONCL=null; WARN=null;
+  labUI();
+}
+labCv.addEventListener('pointerdown', function(ev){
+  const p=ptr(ev,labCv,SC);
+  const inGame=$('panel-game').classList.contains('on');
+  if(inGame && GAME.phase==='guess'){ gameGuess(p.x,p.y); return; }
+  if(D.phase==='lift'||D.phase==='swing') return;
+  if(p.x>FLAT.x0) return;               /* the paper view is read-only in lab mode */
+  SCRIPT=null;
+  if(rigPickPoint(D,p.x,p.y)){ WARN=null; FLASH=null; labUI(); }
+});
+
+/* ---------- one-click presets (was the static 4-step / myth-buster cards) ---------- */
+const PRESETS = {
+  pr1:{ sh:'blob', hangs:2 }, pr2:{ sh:'moon', hangs:2 }, pr3:{ sh:'ring', hangs:2 },
+  pr4:{ sh:'L', hangs:2, same:true }, pr5:{ sh:'square', hangs:2 }
+};
+let SCRIPT=null;
+function runPreset(id){
+  const p=PRESETS[id];
+  if(!p) return;
+  setMode('lab');
+  pickShape(p.sh);
+  CONCL=id+'why';
+  SCRIPT={ id:id, step:0, wait:0.4, same:!!p.same };
+  const btn=document.querySelector('#ctl-lab [data-p="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+  labUI();
+}
+function scriptStep(dt){
+  if(!SCRIPT) return;
+  if(SCRIPT.wait>0){ SCRIPT.wait-=dt; return; }
+  const s=D.sh;
+  if(SCRIPT.step===0){ rigPickDir(D,s.pick[0]); SCRIPT.step=1; SCRIPT.wait=0.5; labUI(); return; }
+  if(SCRIPT.step===1){ rigHang(D); SCRIPT.step=2; labUI(); return; }
+  if(SCRIPT.step===2){ if(D.phase==='rest'){ SCRIPT.step=3; SCRIPT.wait=0.5; } return; }
+  if(SCRIPT.step===3){ labLine(); SCRIPT.step=4; SCRIPT.wait=0.9; return; }
+  if(SCRIPT.step===4){ rigPickDir(D, SCRIPT.same ? s.pick[0] : s.pick[1]); SCRIPT.step=5; SCRIPT.wait=0.5; labUI(); return; }
+  if(SCRIPT.step===5){ rigHang(D); SCRIPT.step=6; labUI(); return; }
+  if(SCRIPT.step===6){ if(D.phase==='rest'){ SCRIPT.step=7; SCRIPT.wait=0.5; } return; }
+  if(SCRIPT.step===7){ labLine(); CONCL=SCRIPT.id+'why'; renderMsg(); SCRIPT=null; return; }
+}
+
+/* ---------- data recording ---------- */
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME=20;
+let qIdx=0, qScore=0, qDone=[], qTimer=null, qLeft=0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft=QUIZ_TIME;
+  const bar=$('q-timer-bar');
+  bar.style.width='100%';
+  $('q-timer').classList.remove('low');
+  qTimer=setInterval(function(){
+    qLeft-=0.1;
+    bar.style.width=Math.max(0,qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft<=5) $('q-timer').classList.add('low');
+    if(qLeft<=0){ stopTimer(); timeUpQ(); }
+  },100);
+}
+function renderQ(){
+  const item=QUIZ()[qIdx];
+  $('q-emoji').textContent=item.e;
+  $('q-text').innerHTML=(qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML='';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box=$('q-opts');
+  box.innerHTML='';
+  item.o.forEach(function(opt,i){
+    const b=document.createElement('button');
+    b.className='qbtn';
+    b.textContent='ABC'[i]+'. '+opt;
+    b.onclick=function(){ answerQ(i,b); };
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent=qScore;
+  if(qDone[qIdx]!==undefined){
+    const btns=[].slice.call(box.children);
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML=item.x;
+    if(qIdx<QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML=QUIZ().map(function(_,i){
+    return '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>';
+  }).join('');
+}
+function finishQ(prefix,correct){
+  stopTimer();
+  const item=QUIZ()[qIdx];
+  qDone[qIdx]=correct;
+  if(correct) qScore++;
+  const btns=[].slice.call($('q-opts').children);
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML=prefix+item.x;
+  renderProg();
+  $('q-score-n').textContent=qScore;
+  if(qIdx<QUIZ().length-1) $('q-next').style.display='inline-block';
+  else{
+    const pct=qScore/QUIZ().length;
+    const msg=pct===1?t('resGold'):pct>=0.7?t('resGood'):t('resTry');
+    $('q-exp').innerHTML+='<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i,btn){
+  if(qDone[qIdx]!==undefined) return;
+  const item=QUIZ()[qIdx];
+  const correct=i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct?t('rRight')+' ':t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx]!==undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Guess-the-CG challenge (template A — reuses the lab canvas)
+============================================================ */
+const GAME_ROUNDS=3, GAME_TIME=60;
+const GAME={ round:0, score:0, phase:'guess', left:GAME_TIME, timer:null, order:[], err:null, pts:0, reveal:false };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round=0; GAME.score=0;
+  $('g-score').textContent=0;
+  const idx=SHAPES.map(function(_,i){ return i; });
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order=idx.slice(0,GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase='guess'; GAME.err=null; GAME.pts=0; GAME.reveal=false;
+  GAME.left=GAME_TIME;
+  const s=SHAPES[GAME.order[GAME.round-1]];
+  rigSetShape(D,s);
+  FLASH=null; CONCL=null; WARN=null;
+  document.querySelectorAll('.sbtn[data-sh]').forEach(b=>b.classList.toggle('pick', b.dataset.sh===s.key));
+  $('g-status').innerHTML=tf('gGo',{r:GAME.round, n:shName(s)});
+  gameSync();
+  stopGTimer();
+  GAME.timer=setInterval(function(){
+    GAME.left--;
+    $('g-time').textContent=Math.max(0,GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) endRound('time');
+  },1000);
+}
+function gameGuess(wx,wy){
+  if(GAME.phase!=='guess'||!D.sh) return;
+  let loc=null;
+  if(wx>FLAT.x0){
+    loc=[ (wx-FLAT.cx)/FLAT.vs + D.sh.bb.cx, (wy-FLAT.cy)/FLAT.vs + D.sh.bb.cy ];
+  } else {
+    loc=S2L(wx,wy,D.pose,D.vs);
+  }
+  D.guess=loc; D.ok=null;
+  GAME.err=Math.hypot(loc[0]-D.sh.cg.x, loc[1]-D.sh.cg.y);
+  GAME.phase='verify';
+  $('g-status').innerHTML=t('gLocked');
+  gameSync();
+}
+function gameHang(){ labHang(); gameSync(); }
+function gameLine(){
+  labLine();
+  if(D.cross && GAME.phase==='verify') endRound('win');
+  gameSync();
+}
+function endRound(how){
+  stopGTimer();
+  const s=D.sh;
+  if(how==='win'){
+    GAME.reveal=true;
+    D.ok = GAME.err<=s.tol;
+    const e=GAME.err;
+    GAME.pts = e<=s.tol?100 : e<=2*s.tol?70 : e<=3*s.tol?40 : 10;
+    GAME.score+=GAME.pts;
+    const msg = e<=s.tol?t('gPerfect') : e<=2*s.tol?t('gClose') : t('gMiss');
+    $('g-status').innerHTML=tf('gWin',{e:f1(e), t:f1(s.tol), p:GAME.pts, msg:msg});
+  } else if(how==='time'){
+    GAME.reveal=true;
+    if(GAME.err===null){ $('g-status').innerHTML=t('gNoGuess'); }
+    else{
+      D.ok = GAME.err<=s.tol;
+      GAME.pts = GAME.err<=s.tol?50 : GAME.err<=2*s.tol?30 : 10;
+      GAME.score+=GAME.pts;
+      $('g-status').innerHTML=tf('gTimeUp',{p:GAME.pts});
+    }
+  } else {
+    GAME.reveal=true;
+    $('g-status').innerHTML=t('gSkipped');
+  }
+  $('g-score').textContent=GAME.score;
+  GAME.phase = GAME.round>=GAME_ROUNDS ? 'done' : 'next';
+  if(GAME.phase==='done'){
+    const rk = GAME.score>=250?t('gRank1') : GAME.score>=150?t('gRank2') : t('gRank3');
+    $('g-status').innerHTML += '<br>'+t('gFinal')+' '+GAME.score+' — '+rk;
+  }
+  gameSync();
+}
+function gameAct(){
+  if(GAME.phase==='guess'||GAME.phase==='verify') endRound('skip');
+  else if(GAME.phase==='next') nextRound();
+  else startGame();
+}
+function gameSync(){
+  if(!$('g-round')) return;
+  $('g-round').textContent=GAME.round;
+  $('g-score').textContent=GAME.score;
+  $('g-score-hud').textContent=GAME.score;
+  $('g-time').textContent=Math.max(0,GAME.left);
+  $('g-err').textContent = (GAME.reveal && GAME.err!==null) ? f1(GAME.err) : '--';
+  const goal = GAME.phase==='guess' ? t('gGoalGuess') : t('gGoalVerify');
+  $('g-goal-side').textContent=goal;
+  $('g-goal-side').style.color = GAME.phase==='guess' ? '#b8432f' : '#2f6690';
+  $('g-goal-hud').innerHTML='<b style="font-size:15px">'+goal+'</b>';
+  $('g-act').textContent = (GAME.phase==='guess'||GAME.phase==='verify') ? t('gSkip')
+                         : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+  const active = (GAME.phase==='verify');
+  $('gm-hang').disabled = !(active && D.P && (D.phase==='idle'||D.phase==='rest'));
+  $('gm-line').disabled = !(active && D.phase==='rest' && D.lines.length<3);
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT=performance.now();
+function mainLoop(now){
+  const dt=Math.min(0.04,(now-lastT)/1000);
+  lastT=now;
+  const labOn=$('panel-lab').classList.contains('on');
+  const gameOn=$('panel-game').classList.contains('on');
+  if(labOn||gameOn){
+    const was=D.phase;
+    if(labOn) scriptStep(dt);
+    rigStep(D,dt);
+    if(was!==D.phase && D.phase==='rest'){ FLASH='r_rest'; }
+    drawLab();
+    labUI();
+    if(gameOn) gameSync();
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  SCRIPT=null;
+  for(const id of ['lab','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){
+    ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv);
+    D.guess=null; D.ok=null;
+    labUI();
+  }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+pickShape('blob');
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+
+</script>
+<script>
+window.LAB_SLUG='center-of-gravity-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

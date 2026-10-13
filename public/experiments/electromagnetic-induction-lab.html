@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>电磁感应与发电机实验室 · Electromagnetic Induction · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 电磁感应与发电机实验室</h1>
+  <div class="sub">Electromagnetic Induction · chu-er-xia/b4-c10 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 发现实验台</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 影响因素</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 发电机</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 能量·与电动机对比</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 要点·测验</button>
+  <button class="tab" data-tab="5" data-i18n="tab5">⑥ 测验</button>
+</div>
+
+<!-- ① 发现实验台 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="in_figtitle">磁场里的导线（拖动导线试试各个方向）</h3>
+    <svg id="svgin" viewBox="0 0 660 500"></svg>
+    <div class="kbox grn" data-i18n-html="in_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="in_sidetitle">当前状态</h3>
+    <div class="statline">
+      <span class="chip hl" id="c_g">—</span>
+      <span class="chip" id="c_st">—</span>
+    </div>
+    <div class="kbox red" data-i18n-html="in_k2"></div>
+    <div class="kbox" data-i18n-html="in_k3"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 影响因素 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="fa_figtitle">让导线自动切割：调一调各个因素</h3>
+    <svg id="svgfa" viewBox="0 0 660 460"></svg>
+    <div class="kbox" data-i18n-html="fa_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="fa_sidetitle">感应电流</h3>
+    <div class="statline">
+      <span class="chip hl" id="c_iamp">—</span>
+      <span class="chip blu" id="c_dir">—</span>
+    </div>
+    <svg id="svgfab" viewBox="0 0 330 120"></svg>
+    <div class="kbox blue" data-i18n-html="fa_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 发电机 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="gn_figtitle">手摇交流发电机（按 ▶ 或直接拖线圈转）</h3>
+    <svg id="svggen" viewBox="0 0 660 500"></svg>
+    <div class="kbox" data-i18n-html="gn_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="gn_sidetitle">电流 – 转角 图像</h3>
+    <svg id="svggenw" viewBox="0 0 330 260"></svg>
+    <div class="statline">
+      <span class="chip hl" id="c_ang">—</span>
+      <span class="chip" id="c_iout">—</span>
+      <span class="chip blu" id="c_type">—</span>
+    </div>
+    <div class="kbox blue" data-i18n-html="gn_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 能量·与电动机对比 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="mg_figtitle">同一个构造，两种用法</h3>
+    <svg id="svgcmp2" viewBox="0 0 660 420"></svg>
+    <div class="kbox grn" data-i18n-html="mg_k1"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="mg_sidetitle">发电机 vs 电动机</h3>
+    <div id="mgwrap"></div>
+    <div class="kbox" data-i18n-html="mg_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ 要点·测验 -->
+<div class="panel" id="p4">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="cmp_title">本章要点总表</h3>
+    <div id="cmpwrap"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="sm_title">一句话总结</h3>
+    <div class="kbox" data-i18n-html="sm_k1"></div>
+  </div>
+ </div>
+</div>
+
+
+<!-- ⑥ 测验 -->
+<div class="panel" id="p5">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip blu" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <button class="tgl" id="nsflip0" data-i18n="dk_ns">🧲 磁铁反向</button>
+    <button class="tgl on" id="circtgl" data-i18n="dk_circ">🔗 闭合电路</button>
+    <button class="tgl" id="viewtgl" data-i18n="dk_view">🧊 立体图</button>
+    <span class="dl" data-i18n="dk_hint0">💡 左右拖=切割磁感线 · 上下拖=沿着磁感线 · 停手=静止</span>
+  </div>
+
+  <div class="dsec" id="d1">
+    <span class="dl"><span data-i18n="dk_mv">运动</span>
+      <button class="mvp on" data-v="2" data-i18n="mv_osc">往返摆动</button>
+      <button class="mvp" data-v="0" data-i18n="mv_r">→ 匀速</button>
+      <button class="mvp" data-v="1" data-i18n="mv_l">← 匀速</button></span>
+    <span class="dl"><span data-i18n="dk_speed">速度</span>
+      <input type="range" id="vsl" min="1" max="5" step="1" value="2">
+      <span class="mono" id="vslab">2</span></span>
+    <span class="dl"><span data-i18n="dk_b">磁场</span>
+      <input type="range" id="bsl" min="1" max="5" step="1" value="3">
+      <span class="mono" id="bslab">3</span></span>
+    <span class="dl"><span data-i18n="dk_loops">匝数</span>
+      <button class="loopp on" data-n="1">1</button>
+      <button class="loopp" data-n="2">2</button>
+      <button class="loopp" data-n="3">3</button></span>
+    <button class="tgl" id="nsflip1" data-i18n="dk_ns">🧲 磁铁反向</button>
+  </div>
+
+  <div class="dsec" id="d2">
+    <button class="dbtn" id="genplay">▶ <span data-i18n="dk_crank">摇动手柄</span></button>
+    <span class="dl"><span data-i18n="dk_w">转速</span>
+      <input type="range" id="wsl" min="0.2" max="1.2" step="0.1" value="0.6">
+      <span class="mono" id="wslab">0.6</span></span>
+    <button class="tgl" id="acdc" data-i18n="dk_acdc">⇌ 换向器（直流）</button>
+    <span class="dl" data-i18n="dk_hint2">💡 也可以直接拖线圈转</span>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="dk_hint3">💡 发电机和电动机：构造相同，能量流向相反</span>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 先看左边总表，再做右边测验</span>
+  </div>
+
+  <div class="dsec" id="d5">
+    <span class="dl" data-i18n="dk_hint5">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'电磁感应与发电机实验室',
+ subtitle:'感应电流的产生条件 · 影响因素 · 交流发电机原理 —— 初中科学课堂演示工具',
+ tab0:'① 发现实验台',tab1:'② 影响因素',tab2:'③ 发电机',tab3:'④ 能量·与电动机对比',tab4:'⑤ 要点·测验',
+ in_figtitle:'磁场里的导线（拖动导线试试各个方向）',
+ in_sidetitle:'当前状态',
+ in_k1:'产生感应电流的<b>三个条件</b>，一个都不能少：① 电路<b>闭合</b>　② 是电路的<b>一部分导体</b>　③ 导体做<b>切割磁感线</b>的运动。这种"磁生电"的现象叫<b>电磁感应</b>（法拉第，1831年）。',
+ in_k2:'⚠️ 三个"没有电流"都试得出来：<b>静止</b>不动——没有；<b>沿着磁感线</b>上下移动——没有（没切割！）；<b>断开电路</b>再切割——还是没有。只有"闭合 + 切割"同时满足才有电流。',
+ in_k3:'电流计指针<b>偏转方向</b>会跟着改变：向左拖和向右拖，偏转相反；把磁铁反过来，同样的动作偏转也反过来。',
+ fa_figtitle:'让导线自动切割：调一调各个因素',
+ fa_sidetitle:'感应电流',
+ fa_k1:'固定刻度的电流条不说谎：<b>速度</b>调快、<b>磁场</b>调强、<b>匝数</b>加多——哪个上去，电流都跟着上去。这三个就是影响感应电流<b>大小</b>的因素。',
+ fa_k2:'感应电流的<b>方向</b>由两个因素共同决定：<b>磁场方向</b> + <b>运动方向</b>。只反其中一个 → 电流反向；<b>两个同时反 → 方向不变</b>（考试最爱）。',
+ gn_figtitle:'手摇交流发电机（按 ▶ 或直接拖线圈转）',
+ gn_sidetitle:'电流 – 转角 图像',
+ gn_k1:'线圈转起来，两条边不停地<b>切割磁感线</b>——这就是发电机，原理是<b>电磁感应</b>。<b>每转过半圈</b>，每条边切割的方向反一次，所以电流方向也反一次：这就是<b>交流电</b>。摇得越快，灯越亮。',
+ gn_k2:'线圈转到<b>竖直位置</b>（平面和磁感线垂直）的瞬间，两条边的运动方向<b>顺着磁感线</b>——不切割，电流为<b>零</b>。这个位置叫<b>中性面</b>，对应图像上的过零点。',
+ mg_figtitle:'同一个构造，两种用法',
+ mg_sidetitle:'发电机 vs 电动机',
+ mg_k1:'水电站、风力发电、火力发电，干的其实是同一件事：<b>想尽办法让线圈转起来</b>——用水冲、用风吹、用蒸汽推。转起来之后，都是电磁感应。',
+ mg_k2:'把发电机接上电池，它就是电动机；摇动电动机的轴，它就在发电。<b>构造相同，过程互逆。</b>',
+ cmp_title:'本章要点总表',
+ sm_k1:'一句话记住整章：<b>电磁铁是"电生磁"，发电机是"磁生电"</b>；前者靠磁场对电流的作用，后者靠电磁感应。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ tab5:'⑥ 测验', dk_hint5:'💡 答对才会解锁下一题', sm_title:'一句话总结',
+ dk_ns:'🧲 磁铁反向', dk_circ:'🔗 闭合电路',
+ dk_hint0:'💡 左右拖=切割磁感线 · 上下拖=沿着磁感线 · 停手=静止',
+ dk_mv:'运动', mv_osc:'往返摆动', mv_r:'→ 匀速', mv_l:'← 匀速',
+ dk_speed:'速度', dk_b:'磁场', dk_loops:'匝数',
+ dk_crank:'摇动手柄', dk_w:'转速', dk_acdc:'⇌ 换向器（直流）',
+ dk_hint2:'💡 也可以直接拖线圈转',
+ dk_hint3:'💡 发电机和电动机：构造相同，能量流向相反',
+ dk_hint4:'💡 先看左边总表，再做右边测验',
+ foot:'© 2026 ScienceMaterial',
+ galv:'灵敏电流计', fieldlbl:'磁感线', wirelbl:'导线（截面）', dragme:'⇋ 拖我',
+ rodlbl:'金属棒 AB', dk_view:'🧊 立体图', flat:'（考卷上的画法：把这根棒画成截面小圆点）',
+ sw:'开关', opensw:'已断开',
+ st_cut:'切割中 ⚡ 有电流', st_still:'静止 · 无电流', st_para:'沿磁感线移动 · 没切割 · 无电流',
+ st_open:'电路断开 · 无电流', st_opencut:'在切割，但电路断开 · 无电流',
+ gread:'电流计', dirout:'⊙ 电流流出', dirin:'⊗ 电流流入',
+ iamp:'大小', dirlbl:'方向', dirboth:'来回变向（往返运动）',
+ spd:'速度', fld:'磁场', lp:'匝',
+ ang:'转角', iout:'输出', typeac:'交流（滑环）', typedc:'直流（换向器）',
+ neutral:'中性面 · 瞬间无电流', crank:'手柄', brush:'电刷', ring:'滑环', ring2:'换向器',
+ bulb:'小灯泡', faster:'摇快 → 灯更亮',
+ genT:'发电机', motT:'电动机', mech:'机械能', elec:'电能',
+ crankit:'摇动手柄', battery:'电池', wheel:'转轮',
+ rev:'⇄ 互为逆过程',
+ mgH:['','发电机','电动机'],
+ mgR:[['依据原理','电磁感应（磁生电）','磁场对电流的作用（电生"动"）'],
+      ['能量转化','机械能 → 电能','电能 → 机械能'],
+      ['谁提供能量','人手 / 水流 / 风 / 蒸汽','电源（电池、电网）'],
+      ['例子','水电站、风力发电机、自行车车灯发电机','风扇、洗衣机、电梯的马达']],
+ cmpH:['要点','内容'],
+ cmpR:[['产生条件','闭合电路 + 部分导体 + 切割磁感线（三者缺一不可）'],
+       ['让电流更大','切割速度更快 / 磁场更强 / 线圈匝数更多'],
+       ['让电流反向','磁场反向 或 运动方向反向（两个同时反 → 不变）'],
+       ['发电机','靠电磁感应，机械能 → 电能；每转半圈电流换向 → 交流电'],
+       ['中性面','线圈平面 ⊥ 磁感线的瞬间，不切割，电流为零'],
+       ['对比电磁铁','电磁铁：电生磁；发电机：磁生电']],
+ mth:''
+},
+en:{
+ title:'Electromagnetic Induction & Generator Lab',
+ subtitle:'When is a current induced? · What affects it? · How an AC generator works — junior-high classroom demo',
+ tab0:'① Discovery Bench',tab1:'② Factors',tab2:'③ Generator',tab3:'④ Energy · vs Motor',tab4:'⑤ Review & Quiz',
+ in_figtitle:'A wire in a magnetic field (drag it in different directions)',
+ in_sidetitle:'Current state',
+ in_k1:'<b>Three conditions</b> for an induced current — all required: ① a <b>closed</b> circuit ② <b>part of the conductor</b> in the field ③ the conductor <b>cutting field lines</b>. This \u201cmagnetism-makes-electricity\u201d effect is <b>electromagnetic induction</b> (Faraday, 1831).',
+ in_k2:'⚠️ All three \u201cno current\u201d cases are right here to try: hold it <b>still</b> — nothing; slide it <b>along the field lines</b> — nothing (no cutting!); <b>open the switch</b> and cut — still nothing. Only \u201cclosed + cutting\u201d together gives a current.',
+ in_k3:'The needle\u2019s <b>direction</b> responds too: dragging left vs right deflects opposite ways, and flipping the magnet reverses the deflection for the same motion.',
+ fa_figtitle:'Automatic cutting: tune each factor',
+ fa_sidetitle:'Induced current',
+ fa_k1:'The fixed-scale bar never lies: raise the <b>speed</b>, strengthen the <b>field</b>, or add <b>turns</b> — the current rises with each. These three set the <b>size</b> of the induced current.',
+ fa_k2:'The <b>direction</b> is set by two things together: <b>field direction</b> + <b>motion direction</b>. Reverse ONE → current reverses; <b>reverse BOTH → unchanged</b> (a favourite exam trap).',
+ gn_figtitle:'Hand-cranked AC generator (press ▶ or drag the coil around)',
+ gn_sidetitle:'Current vs rotation angle',
+ gn_k1:'As the coil spins, its two sides keep <b>cutting field lines</b> — that is a generator, powered by <b>electromagnetic induction</b>. <b>Every half turn</b> each side cuts the opposite way, so the current reverses: that is <b>alternating current</b>. Crank faster and the bulb glows brighter.',
+ gn_k2:'At the instant the coil reaches the <b>vertical position</b> (plane ⊥ field), its sides move <b>along</b> the field lines — no cutting, so the current is <b>zero</b>. That position is the <b>neutral plane</b> — the zero crossings on the graph.',
+ mg_figtitle:'One machine, two directions',
+ mg_sidetitle:'Generator vs Motor',
+ mg_k1:'Hydro, wind and thermal power stations all do the same job: <b>find a way to spin the coil</b> — with falling water, wind, or steam. After that, it is all electromagnetic induction.',
+ mg_k2:'Connect a generator to a battery and it runs as a motor; crank a motor\u2019s shaft and it generates. <b>Same construction, opposite processes.</b>',
+ cmp_title:'Chapter summary',
+ sm_k1:'The whole chapter in one line: <b>an electromagnet turns electricity into magnetism; a generator turns magnetism (plus motion) into electricity.</b>',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ tab5:'⑥ Quiz', dk_hint5:'💡 Answer correctly to unlock the next question', sm_title:'In one line',
+ dk_ns:'🧲 Flip magnet', dk_circ:'🔗 Circuit closed',
+ dk_hint0:'💡 Drag left/right = cutting · up/down = along the field · let go = at rest',
+ dk_mv:'Motion', mv_osc:'Oscillate', mv_r:'→ steady', mv_l:'← steady',
+ dk_speed:'Speed', dk_b:'Field', dk_loops:'Turns',
+ dk_crank:'Crank it', dk_w:'Speed', dk_acdc:'⇌ Commutator (DC)',
+ dk_hint2:'💡 You can also drag the coil around',
+ dk_hint3:'💡 Generator and motor: same build, opposite energy flow',
+ dk_hint4:'💡 Read the table, then take the quiz',
+ foot:'© 2026 ScienceMaterial',
+ galv:'Galvanometer', fieldlbl:'Field lines', wirelbl:'Wire (cross-section)', dragme:'⇋ drag me',
+ rodlbl:'Metal rod AB', dk_view:'🧊 3-D view', flat:'(exam papers draw this rod as a cross-section dot)',
+ sw:'Switch', opensw:'OPEN',
+ st_cut:'Cutting ⚡ current flows', st_still:'At rest · no current', st_para:'Moving along the field · no cutting · no current',
+ st_open:'Circuit open · no current', st_opencut:'Cutting, but the circuit is open · no current',
+ gread:'Meter', dirout:'⊙ current out', dirin:'⊗ current in',
+ iamp:'Size', dirlbl:'Direction', dirboth:'Alternating (oscillation)',
+ spd:'speed', fld:'field', lp:'turns',
+ ang:'Angle', iout:'Output', typeac:'AC (slip rings)', typedc:'DC (commutator)',
+ neutral:'Neutral plane · momentarily zero', crank:'crank', brush:'brushes', ring:'slip rings', ring2:'commutator',
+ bulb:'bulb', faster:'crank faster → brighter',
+ genT:'GENERATOR', motT:'MOTOR', mech:'mechanical', elec:'electrical',
+ crankit:'crank', battery:'battery', wheel:'wheel',
+ rev:'⇄ inverse processes',
+ mgH:['','Generator','Motor'],
+ mgR:[['Principle','Electromagnetic induction','Force on a current in a field'],
+      ['Energy','mechanical → electrical','electrical → mechanical'],
+      ['Energy source','hands / water / wind / steam','a power supply'],
+      ['Examples','hydro & wind turbines, bicycle dynamo','fans, washing machines, lift motors']],
+ cmpH:['Key point','Content'],
+ cmpR:[['Conditions','closed circuit + part of the conductor + cutting field lines (all three)'],
+       ['Bigger current','cut faster / stronger field / more turns'],
+       ['Reversed current','flip the field OR the motion (flip both → unchanged)'],
+       ['Generator','induction; mechanical → electrical; reverses every half turn → AC'],
+       ['Neutral plane','coil plane ⊥ field: no cutting, current = zero for an instant'],
+       ['vs electromagnet','electromagnet: electricity → magnetism; generator: magnetism → electricity']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* ===== theme (light/dark for projector) ===== */
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#E4D5B4':'#2B3346','#C7B68F':'#4A5670',
+'#EFE6CF':'#2A3348','#F3EDDD':'#2A3348','#F0EADA':'#2A3348','#E8E2D4':'#39415A','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#6B655C':'#B8BECE','#5B6770':'#A9BAC8'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<6;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  stopAllPlay();
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='ftconcl'||kb.id==='dtconcl')continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= shared state & play ================= */
+var GEN={a:0.9,w:0.6,playing:false,dc:false};
+var RAF=0;
+function stopAllPlay(){
+  GEN.playing=false;
+  $('genplay').classList.remove('on');
+}
+
+/* ================= drawing helpers ================= */
+function meterSVG(cx,cy,r,val){
+  // center-zero galvanometer; val in [-1,1]
+  var s='';
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#FFFFFF" stroke="#4B4437" stroke-width="3"/>';
+  var k;
+  for(k=-2;k<=2;k++){
+    var a=d2r(k*26-90);
+    s+='<line x1="'+(cx+(r-10)*Math.cos(a)).toFixed(1)+'" y1="'+(cy+(r-10)*Math.sin(a)).toFixed(1)+
+       '" x2="'+(cx+(r-4)*Math.cos(a)).toFixed(1)+'" y2="'+(cy+(r-4)*Math.sin(a)).toFixed(1)+
+       '" stroke="#8A8070" stroke-width="2"/>';
+  }
+  s+=tlplain(cx,cy-r+22,12,'#6B6252','0');
+  s+=tlplain(cx-r+16,cy-6,13,'#6B6252','−','middle');
+  s+=tlplain(cx+r-16,cy-6,13,'#6B6252','＋','middle');
+  var na=d2r(clamp(val,-1,1)*55-90);
+  s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+(r-14)*Math.cos(na)).toFixed(1)+'" y2="'+(cy+(r-14)*Math.sin(na)).toFixed(1)+'" stroke="#D9542B" stroke-width="3.5"/>';
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#4B4437"/>';
+  s+=tlplain(cx,cy+r-10,13,'#4B4437','G');
+  return s;
+}
+function dotsym(x,y,r,out,col){
+  var s='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="#FFFDF7" stroke="'+col+'" stroke-width="2.5"/>';
+  if(out){
+    s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(r*0.32).toFixed(1)+'" fill="'+col+'"/>';
+  }else{
+    var d=r*0.62;
+    s+='<line x1="'+(x-d).toFixed(1)+'" y1="'+(y-d).toFixed(1)+'" x2="'+(x+d).toFixed(1)+'" y2="'+(y+d).toFixed(1)+'" stroke="'+col+'" stroke-width="2.5"/>';
+    s+='<line x1="'+(x-d).toFixed(1)+'" y1="'+(y+d).toFixed(1)+'" x2="'+(x+d).toFixed(1)+'" y2="'+(y-d).toFixed(1)+'" stroke="'+col+'" stroke-width="2.5"/>';
+  }
+  return s;
+}
+
+/* ================= TAB 0 · DISCOVERY BENCH ================= */
+var IN0={x:270,y:240,V:0,ns:1,closed:1,para:0,v3:0};
+var INB={x0:150,x1:390,gy0:172,gy1:308};
+var INPH=0;
+function inCurrent(){ return IN0.closed? clamp(IN0.V*IN0.ns/16,-1,1):0; }
+function pj(x,y,z){ return {x:x+z*0.55, y:y-z*0.30}; }
+function rodScreen(){
+  if(!IN0.v3)return {x:IN0.x,y:IN0.y};
+  return {x:IN0.x+75*0.55, y:IN0.y-75*0.30};
+}
+function inCircuitSVG(ax,ay,bx,by){
+  // leads from two anchor points to switch + galvanometer
+  var s='';
+  s+='<path d="M '+bx.toFixed(0)+' '+by.toFixed(0)+' C '+(bx+70)+' '+(by-40)+', 440 120, 520 150" fill="none" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<path d="M '+ax.toFixed(0)+' '+ay.toFixed(0)+' C '+(ax+60)+' '+(ay+50)+', 430 400, 500 372" fill="none" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<circle cx="500" cy="372" r="4" fill="#4B4437"/><circle cx="546" cy="360" r="4" fill="#4B4437"/>';
+  if(IN0.closed){
+    s+='<line x1="500" y1="372" x2="546" y2="360" stroke="#4B4437" stroke-width="3.5"/>';
+  }else{
+    s+='<line x1="500" y1="372" x2="540" y2="392" stroke="#4B4437" stroke-width="3.5"/>';
+    s+=tl(556,392,13,'#D9542B',T('opensw'),'start');
+  }
+  s+='<line x1="546" y1="360" x2="566" y2="330" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tl(516,412,13,'#6B6252',T('sw'));
+  s+='<line x1="520" y1="150" x2="566" y2="200" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="566" y1="200" x2="566" y2="330" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=meterSVG(566,264,48,inCurrent());
+  s+=tl(566,336,13,'#6B6252',T('galv'));
+  return s;
+}
+function inStatus(){
+  if(!IN0.closed) return Math.abs(IN0.V)>0.5?T('st_opencut'):T('st_open');
+  if(IN0.para>0) return T('st_para');
+  if(Math.abs(IN0.V)>0.5) return T('st_cut');
+  return T('st_still');
+}
+function scene2D(){
+  var s='',k;
+  var topN=IN0.ns>0;
+  s+='<rect x="'+INB.x0+'" y="110" width="'+(INB.x1-INB.x0)+'" height="58" rx="6" fill="'+(topN?'#D9542B':'#2C7D8C')+'"/>';
+  s+='<rect x="'+INB.x0+'" y="312" width="'+(INB.x1-INB.x0)+'" height="58" rx="6" fill="'+(topN?'#2C7D8C':'#D9542B')+'"/>';
+  s+=tl((INB.x0+INB.x1)/2,148,22,'#FFFDF7',topN?'N':'S');
+  s+=tl((INB.x0+INB.x1)/2,350,22,'#FFFDF7',topN?'S':'N');
+  for(k=0;k<6;k++){
+    var fx=INB.x0+22+k*(INB.x1-INB.x0-44)/5;
+    s+='<line x1="'+fx.toFixed(0)+'" y1="'+INB.gy0+'" x2="'+fx.toFixed(0)+'" y2="'+INB.gy1+'" stroke="#2C7D8C" stroke-width="2" opacity="0.65"/>';
+    var ay=(INB.gy0+INB.gy1)/2;
+    if(topN)s+='<path d="M '+fx.toFixed(0)+' '+(ay+8)+' l -6 -12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+    else s+='<path d="M '+fx.toFixed(0)+' '+(ay-8)+' l -6 12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+  }
+  s+=tl(INB.x1+10,(INB.gy0+INB.gy1)/2,13,'#2C7D8C',T('fieldlbl'),'start');
+  var wx=IN0.x, wy=IN0.y;
+  s+=inCircuitSVG(wx,wy,wx,wy);
+  var Iv=inCurrent();
+  s+='<circle cx="'+wx.toFixed(0)+'" cy="'+wy.toFixed(0)+'" r="20" fill="#B5652A" opacity="0.18"/>';
+  var showI=Math.abs(Iv)>0.06;
+  if(showI){
+    s+=dotsym(wx,wy,13,(IN0.V*IN0.ns)<0,'#B5652A');
+  }else{
+    s+='<circle cx="'+wx.toFixed(0)+'" cy="'+wy.toFixed(0)+'" r="13" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+  }
+  s+=tl(wx,wy+38,14,'#B5652A',T('dragme'));
+  s+=tl(wx,wy-28,13,'#6B6252',T('wirelbl'));
+  if(showI){
+    s+=tl(wx,wy+62,13,'#2F7D4F',T((IN0.V*IN0.ns)<0?'dirin':'dirout'));
+  }
+  s+=tlplain(330,478,13,'#8A8070',T('flat'));
+  return s;
+}
+function scene3D(){
+  var s='',k,j;
+  var topN=IN0.ns>0;
+  var cN=topN?'#D9542B':'#2C7D8C', cS=topN?'#2C7D8C':'#D9542B';
+  var X0=140,X1=360,Z1=150,YT0=96,YT1=150,YB0=304,YB1=358;
+  function face(pts,fill,op){
+    var d='M '+pts.map(function(p){return p.x.toFixed(1)+' '+p.y.toFixed(1)}).join(' L ')+' Z';
+    return '<path d="'+d+'" fill="'+fill+'"'+(op?(' opacity="'+op+'"'):'')+' stroke="none"/>';
+  }
+  // ---- top slab ----
+  s+=face([pj(X0,YT0,0),pj(X1,YT0,0),pj(X1,YT0,Z1),pj(X0,YT0,Z1)],cN);
+  s+=face([pj(X0,YT0,0),pj(X1,YT0,0),pj(X1,YT0,Z1),pj(X0,YT0,Z1)],'rgba(255,255,255,0.25)');
+  s+=face([pj(X1,YT0,0),pj(X1,YT1,0),pj(X1,YT1,Z1),pj(X1,YT0,Z1)],cN);
+  s+=face([pj(X1,YT0,0),pj(X1,YT1,0),pj(X1,YT1,Z1),pj(X1,YT0,Z1)],'rgba(0,0,0,0.22)');
+  s+='<rect x="'+X0+'" y="'+YT0+'" width="'+(X1-X0)+'" height="'+(YT1-YT0)+'" fill="'+cN+'"/>';
+  s+=tl((X0+X1)/2,YT0+38,22,'#FFFDF7',topN?'N':'S');
+  // ---- bottom slab ----
+  s+=face([pj(X0,YB0,0),pj(X1,YB0,0),pj(X1,YB0,Z1),pj(X0,YB0,Z1)],cS);
+  s+=face([pj(X0,YB0,0),pj(X1,YB0,0),pj(X1,YB0,Z1),pj(X0,YB0,Z1)],'rgba(255,255,255,0.18)');
+  s+=face([pj(X1,YB0,0),pj(X1,YB1,0),pj(X1,YB1,Z1),pj(X1,YB0,Z1)],cS);
+  s+=face([pj(X1,YB0,0),pj(X1,YB1,0),pj(X1,YB1,Z1),pj(X1,YB0,Z1)],'rgba(0,0,0,0.22)');
+  s+='<rect x="'+X0+'" y="'+YB0+'" width="'+(X1-X0)+'" height="'+(YB1-YB0)+'" fill="'+cS+'"/>';
+  s+=tl((X0+X1)/2,YB0+38,22,'#FFFDF7',topN?'S':'N');
+  // ---- field lines (grid across the depth) ----
+  for(j=0;j<3;j++){
+    var z=30+j*45;
+    for(k=0;k<4;k++){
+      var fx=X0+34+k*(X1-X0-68)/3;
+      var p1=pj(fx,YT1,z),p2=pj(fx,YB0,z);
+      var op=(0.62-j*0.13).toFixed(2);
+      s+='<line x1="'+p1.x.toFixed(1)+'" y1="'+p1.y.toFixed(1)+'" x2="'+p2.x.toFixed(1)+'" y2="'+p2.y.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2" opacity="'+op+'"/>';
+      var my=(p1.y+p2.y)/2;
+      if(topN)s+='<path d="M '+p1.x.toFixed(1)+' '+(my+7)+' l -6 -11 h 12 Z" fill="#2C7D8C" opacity="'+op+'"/>';
+      else s+='<path d="M '+p1.x.toFixed(1)+' '+(my-7)+' l -6 11 h 12 Z" fill="#2C7D8C" opacity="'+op+'"/>';
+    }
+  }
+  s+=tl(pj(X1,YT1,Z1).x+8,pj(X1,(YT1+YB0)/2,Z1).y,13,'#2C7D8C',T('fieldlbl'),'start');
+  // ---- metal rod (along the depth axis) ----
+  var Iv=inCurrent();
+  var A=pj(IN0.x,IN0.y,14), B=pj(IN0.x,IN0.y,138);
+  s+=inCircuitSVG(A.x,A.y,B.x,B.y);
+  s+='<line x1="'+A.x.toFixed(1)+'" y1="'+A.y.toFixed(1)+'" x2="'+B.x.toFixed(1)+'" y2="'+B.y.toFixed(1)+'" stroke="#8A5A2B" stroke-width="13" stroke-linecap="round"/>';
+  s+='<line x1="'+A.x.toFixed(1)+'" y1="'+A.y.toFixed(1)+'" x2="'+B.x.toFixed(1)+'" y2="'+B.y.toFixed(1)+'" stroke="#B5652A" stroke-width="9" stroke-linecap="round"/>';
+  s+=tl(A.x-16,A.y+16,15,'#26221B','A','end');
+  s+=tl(B.x+16,B.y-8,15,'#26221B','B','start');
+  // marching current dots along the rod
+  if(Math.abs(Iv)>0.06){
+    var fwd=(IN0.V*IN0.ns)<0;   // matches the 2-D ⊗(in)=A→B convention
+    for(k=0;k<5;k++){
+      var tp=(INPH+k/5)%1;
+      var t2=fwd?tp:1-tp;
+      var dx=A.x+(B.x-A.x)*t2, dy=A.y+(B.y-A.y)*t2;
+      s+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="4.5" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    }
+  }
+  // velocity arrow while moving
+  if(Math.abs(IN0.V)>0.8){
+    var vd=IN0.V>0?1:-1;
+    var M=pj(IN0.x,IN0.y-34,75);
+    s+='<line x1="'+M.x.toFixed(1)+'" y1="'+M.y.toFixed(1)+'" x2="'+(M.x+vd*44).toFixed(1)+'" y2="'+M.y.toFixed(1)+'" stroke="#DA9526" stroke-width="4"/>';
+    s+='<path d="M '+(M.x+vd*52).toFixed(1)+' '+M.y.toFixed(1)+' l '+(-vd*14)+' -7 v 14 Z" fill="#DA9526"/>';
+  }
+  var Mm=pj(IN0.x,IN0.y,75);
+  s+=tl(Mm.x,Mm.y+40,14,'#B5652A',T('rodlbl')+' · '+T('dragme'));
+  return s;
+}
+function drawIN(){
+  var s='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  s+=IN0.v3?scene3D():scene2D();
+  var Iv=inCurrent();
+  var st=inStatus();
+  s+=tl(330,52,17,(Math.abs(Iv)>0.06)?'#2F7D4F':'#D9542B',st);
+  $('svgin').innerHTML=PAINT(s);
+  $('c_g').textContent=T('gread')+' '+(Iv>=0?'+':'−')+Math.abs(Iv).toFixed(2);
+  $('c_st').textContent=st;
+}
+function initIN(){
+  var lastx=0,lasty=0,started=false;
+  makeDrag($('svgin'),660,500,function(pt,isdown){
+    var dx=pt.x-lastx, dy=pt.y-lasty;
+    var rs=rodScreen();
+    if(isdown){
+      started=Math.abs(pt.x-rs.x)<56&&Math.abs(pt.y-rs.y)<56;
+      lastx=pt.x;lasty=pt.y;
+      return;
+    }
+    if(!started)return;
+    lastx=pt.x;lasty=pt.y;
+    var nx,ny;
+    if(IN0.v3){
+      nx=clamp(IN0.x+dx,168,332);
+      ny=clamp(IN0.y+dy,180,276);
+    }else{
+      nx=clamp(pt.x,INB.x0+24,INB.x1-24);
+      ny=clamp(pt.y,INB.gy0+16,INB.gy1-16);
+    }
+    if(Math.abs(dy)>Math.abs(dx)*1.6&&Math.abs(dy)>1.5){IN0.para=14}
+    else if(Math.abs(dx)>1){IN0.para=0}
+    var moved=nx-IN0.x;
+    IN0.x=nx; IN0.y=ny;
+    IN0.V=0.6*IN0.V+0.4*clamp(moved*1.6,-30,30);
+    drawIN();updSummary();
+  },function(){started=false});
+}
+/* ================= TAB 1 · FACTORS ================= */
+var FA={mode:2,v:2,B:3,loops:1,ns:1,ph:0,x:270,vel:0};
+var FAB={x0:150,x1:390,gy0:132,gy1:298};
+function faStep(){
+  var sp=FA.v*1.1;
+  if(FA.mode===2){
+    FA.ph+=0.012*FA.v;
+    var nx=270+104*Math.sin(FA.ph);
+    FA.vel=nx-FA.x; FA.x=nx;
+  }else if(FA.mode===0){
+    FA.x+=sp; FA.vel=sp;
+    if(FA.x>FAB.x1-26)FA.x=FAB.x0+26;
+  }else{
+    FA.x-=sp; FA.vel=-sp;
+    if(FA.x<FAB.x0+26)FA.x=FAB.x1-26;
+  }
+}
+function faI(){ return FA.vel*FA.B*FA.loops*FA.ns; }
+function drawFA(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="460" rx="14" fill="#FBF7EC"/>';
+  var topN=FA.ns>0;
+  s+='<rect x="'+FAB.x0+'" y="72" width="'+(FAB.x1-FAB.x0)+'" height="52" rx="6" fill="'+(topN?'#D9542B':'#2C7D8C')+'"/>';
+  s+='<rect x="'+FAB.x0+'" y="302" width="'+(FAB.x1-FAB.x0)+'" height="52" rx="6" fill="'+(topN?'#2C7D8C':'#D9542B')+'"/>';
+  s+=tl((FAB.x0+FAB.x1)/2,106,20,'#FFFDF7',topN?'N':'S');
+  s+=tl((FAB.x0+FAB.x1)/2,336,20,'#FFFDF7',topN?'S':'N');
+  // field lines: density scales with B
+  var nL=2+FA.B;
+  for(k=0;k<nL;k++){
+    var fx=FAB.x0+20+k*(FAB.x1-FAB.x0-40)/(nL-1);
+    s+='<line x1="'+fx.toFixed(0)+'" y1="'+FAB.gy0+'" x2="'+fx.toFixed(0)+'" y2="'+FAB.gy1+'" stroke="#2C7D8C" stroke-width="2" opacity="0.65"/>';
+    var ay=(FAB.gy0+FAB.gy1)/2;
+    if(topN)s+='<path d="M '+fx.toFixed(0)+' '+(ay+8)+' l -6 -12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+    else s+='<path d="M '+fx.toFixed(0)+' '+(ay-8)+' l -6 12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+  }
+  // wire bundle (loops = parallel strands)
+  var Iv=faI();
+  var showI=Math.abs(Iv)>0.4;
+  for(k=0;k<FA.loops;k++){
+    var bx=FA.x+(k-(FA.loops-1)/2)*20;
+    if(showI){
+      s+=dotsym(bx,215,10,(FA.vel*FA.ns)<0,'#B5652A');
+    }else{
+      s+='<circle cx="'+bx.toFixed(1)+'" cy="215" r="10" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+    }
+  }
+  // velocity arrow
+  if(Math.abs(FA.vel)>0.3){
+    var vd=FA.vel>0?1:-1;
+    s+='<line x1="'+FA.x.toFixed(0)+'" y1="180" x2="'+(FA.x+vd*40).toFixed(0)+'" y2="180" stroke="#DA9526" stroke-width="4"/>';
+    s+='<path d="M '+(FA.x+vd*46).toFixed(0)+' 180 l '+(-vd*13)+' -7 v 14 Z" fill="#DA9526"/>';
+  }
+  // meter at right
+  s+='<line x1="'+FA.x.toFixed(0)+'" y1="215" x2="470" y2="120" stroke="#4B4437" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/>';
+  s+=meterSVG(548,210,52,clamp(Iv/40,-1,1));
+  s+=tl(548,288,13,'#6B6252',T('galv'));
+  // readout labels
+  s+=tl(330,40,15,'#4B4437',T('spd')+' '+FA.v+' · '+T('fld')+' '+FA.B+' · '+FA.loops+' '+T('lp'));
+  $('svgfa').innerHTML=PAINT(s);
+  // chips + bar
+  var amp=Math.abs(FA.v*1.1*FA.B*FA.loops);
+  if(FA.mode===2)amp=Math.abs(1.25*FA.v*FA.B*FA.loops);
+  $('c_iamp').textContent=T('iamp')+' '+Math.round(amp);
+  $('c_dir').textContent=T('dirlbl')+'：'+(FA.mode===2?T('dirboth'):T((FA.mode===0?1:-1)*FA.ns<0?'dirin':'dirout'));
+  drawFAbar(amp);
+}
+function drawFAbar(amp){
+  var s='',k,L=40,Rr=316,y=62,h=26,MAX=21;
+  s+='<rect x="0" y="0" width="330" height="120" fill="#FFFDF7"/>';
+  s+='<rect x="'+L+'" y="'+(y-h/2)+'" width="'+(Rr-L)+'" height="'+h+'" rx="6" fill="#F3EDDD" stroke="#E3DCCB" stroke-width="2"/>';
+  var w=(Rr-L)*clamp(amp/MAX,0,1);
+  s+='<rect x="'+L+'" y="'+(y-h/2)+'" width="'+w.toFixed(1)+'" height="'+h+'" rx="6" fill="#D9542B"/>';
+  for(k=0;k<=MAX;k+=7){
+    var tx=L+(Rr-L)*k/MAX;
+    s+='<line x1="'+tx.toFixed(0)+'" y1="'+(y+h/2)+'" x2="'+tx.toFixed(0)+'" y2="'+(y+h/2+6)+'" stroke="#8A8070" stroke-width="2"/>';
+    s+=tlplain(tx,y+h/2+22,12,'#6B6252',''+k);
+  }
+  s+=tl(L+4,y-24,14,'#D9542B',Math.round(amp)+'','start');
+  $('svgfab').innerHTML=PAINT(s);
+}
+
+/* ================= TAB 2 · GENERATOR ================= */
+var GC={cx:300,cy:192,r:88};
+function genI(){ return Math.sin(GEN.a)*clamp(GEN.w/1.2,0,1); }
+function drawGEN(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  // poles left N, right S
+  s+='<rect x="30" y="84" width="76" height="216" rx="6" fill="#D9542B"/>';
+  s+='<rect x="494" y="84" width="76" height="216" rx="6" fill="#2C7D8C"/>';
+  s+=tl(68,200,24,'#FFFDF7','N');
+  s+=tl(532,200,24,'#FFFDF7','S');
+  // horizontal field lines
+  for(k=0;k<4;k++){
+    var fy=116+k*50;
+    s+='<line x1="112" y1="'+fy+'" x2="488" y2="'+fy+'" stroke="#2C7D8C" stroke-width="2" opacity="0.55"/>';
+    s+='<path d="M 300 '+fy+' l -12 -6 v 12 Z" fill="#2C7D8C" opacity="0.65" transform="rotate(180 300 '+fy+')"/>';
+  }
+  s+=tl(452,102,13,'#2C7D8C',T('fieldlbl'),'start');
+  // rotation path
+  s+='<circle cx="'+GC.cx+'" cy="'+GC.cy+'" r="'+GC.r+'" fill="none" stroke="#B9AE95" stroke-width="2" stroke-dasharray="6 6"/>';
+  // coil sides
+  var Iv=genI();
+  var x1=GC.cx+GC.r*Math.sin(GEN.a), y1=GC.cy-GC.r*Math.cos(GEN.a);
+  var x2=GC.cx-GC.r*Math.sin(GEN.a), y2=GC.cy+GC.r*Math.cos(GEN.a);
+  s+='<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="#B5652A" stroke-width="5"/>';
+  var showI=Math.abs(Iv)>0.06;
+  if(showI){
+    s+=dotsym(x1,y1,12,Iv>0,'#B5652A');
+    s+=dotsym(x2,y2,12,Iv<=0,'#B5652A');
+  }else{
+    s+='<circle cx="'+x1.toFixed(1)+'" cy="'+y1.toFixed(1)+'" r="12" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+    s+='<circle cx="'+x2.toFixed(1)+'" cy="'+y2.toFixed(1)+'" r="12" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+  }
+  // crank handle
+  s+='<circle cx="'+GC.cx+'" cy="'+GC.cy+'" r="7" fill="#4B4437"/>';
+  s+='<line x1="'+GC.cx+'" y1="'+GC.cy+'" x2="'+(GC.cx+34*Math.sin(GEN.a+0.5)).toFixed(1)+'" y2="'+(GC.cy-34*Math.cos(GEN.a+0.5)).toFixed(1)+'" stroke="#4B4437" stroke-width="4"/>';
+  s+=tl(GC.cx-GC.r-16,GC.cy+5,14,'#B5652A',T('dragme'),'end');
+  // neutral plane badge
+  if(Math.abs(Math.sin(GEN.a))<0.1){
+    s+=tl(GC.cx,44,16,'#D9542B','⊥ '+T('neutral'));
+  }
+  // slip rings / commutator + brushes, then a BIG external circuit with the bulb
+  var ry=350;
+  s+='<line x1="'+GC.cx+'" y1="'+(GC.cy+7)+'" x2="'+GC.cx+'" y2="'+(ry-16)+'" stroke="#8A8070" stroke-width="3"/>';
+  if(!GEN.dc){
+    s+='<circle cx="'+(GC.cx-14)+'" cy="'+ry+'" r="12" fill="none" stroke="#8A8070" stroke-width="3.5"/>';
+    s+='<circle cx="'+(GC.cx+14)+'" cy="'+ry+'" r="12" fill="none" stroke="#8A8070" stroke-width="3.5"/>';
+    s+=tl(GC.cx+62,ry+4,13,'#6B6252',T('ring'),'start');
+  }else{
+    s+='<path d="M '+(GC.cx-2)+' '+(ry-13)+' A 13 13 0 0 0 '+(GC.cx-2)+' '+(ry+13)+'" fill="none" stroke="#8A8070" stroke-width="4"/>';
+    s+='<path d="M '+(GC.cx+2)+' '+(ry-13)+' A 13 13 0 0 1 '+(GC.cx+2)+' '+(ry+13)+'" fill="none" stroke="#8A8070" stroke-width="4"/>';
+    s+=tl(GC.cx+62,ry+4,13,'#6B6252',T('ring2'),'start');
+  }
+  s+='<rect x="'+(GC.cx-42)+'" y="'+(ry-7)+'" width="14" height="14" fill="#4B4437"/>';
+  s+='<rect x="'+(GC.cx+28)+'" y="'+(ry-7)+'" width="14" height="14" fill="#4B4437"/>';
+  s+=tl(GC.cx-58,ry+4,13,'#6B6252',T('brush'),'end');
+  var Iout=GEN.dc?Math.abs(Iv):Iv;
+  var g=Math.abs(Iout);
+  // big rectangular loop down to the bulb
+  s+='<line x1="'+(GC.cx-42)+'" y1="'+ry+'" x2="110" y2="'+ry+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="110" y1="'+ry+'" x2="110" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="110" y1="474" x2="300" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="'+(GC.cx+42)+'" y1="'+ry+'" x2="570" y2="'+ry+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="570" y1="'+ry+'" x2="570" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="570" y1="474" x2="360" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  // bulb: big glow + rays so brightness is obvious
+  s+='<circle cx="330" cy="474" r="'+(26+34*g).toFixed(1)+'" fill="#F5C445" opacity="'+(0.15+0.55*g).toFixed(2)+'"/>';
+  if(g>0.45){
+    for(k=0;k<8;k++){
+      var ra=k*Math.PI/4;
+      s+='<line x1="'+(330+30*Math.cos(ra)).toFixed(1)+'" y1="'+(474+30*Math.sin(ra)).toFixed(1)+
+         '" x2="'+(330+(38+16*g)*Math.cos(ra)).toFixed(1)+'" y2="'+(474+(38+16*g)*Math.sin(ra)).toFixed(1)+
+         '" stroke="#DA9526" stroke-width="3"/>';
+    }
+  }
+  s+='<circle cx="330" cy="474" r="20" fill="'+(g>0.08?'#F5C445':'#FFFDF7')+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="321" y1="483" x2="339" y2="465" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tl(330,432,14,'#6B6252',T('bulb')+' · '+T('faster'));
+  $('svggen').innerHTML=PAINT(s);
+  drawGENW();
+  var deg=Math.round((GEN.a*180/Math.PI)%360); if(deg<0)deg+=360;
+  $('c_ang').textContent=T('ang')+' '+deg+'°';
+  $('c_iout').textContent=T('iout')+' '+(Iout>=0?'+':'−')+Math.abs(Iout).toFixed(2);
+  $('c_type').textContent=GEN.dc?T('typedc'):T('typeac');
+}
+function drawGENW(){
+  var s='',k,L=40,Rr=316,Tt=24,B=210,mid=(Tt+B)/2;
+  var A=clamp(GEN.w/1.2,0,1);
+  s+='<rect x="0" y="0" width="330" height="260" fill="#FFFDF7"/>';
+  s+='<line x1="'+L+'" y1="'+mid+'" x2="'+Rr+'" y2="'+mid+'" stroke="#B9AE95" stroke-width="2"/>';
+  s+='<line x1="'+L+'" y1="'+Tt+'" x2="'+L+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  function X(deg){return L+deg/360*(Rr-L)}
+  function Y(v){return mid-v*(B-Tt)/2*0.9}
+  var tk=[0,90,180,270,360];
+  for(k=0;k<tk.length;k++){
+    s+='<line x1="'+X(tk[k]).toFixed(0)+'" y1="'+B+'" x2="'+X(tk[k]).toFixed(0)+'" y2="'+(B+5)+'" stroke="#8A8070" stroke-width="2"/>';
+    s+=tlplain(X(tk[k]),B+20,12,'#6B6252',tk[k]+'°');
+  }
+  // neutral-plane verticals at 0/180/360
+  var np=[0,180,360];
+  for(k=0;k<np.length;k++){
+    s+='<line x1="'+X(np[k]).toFixed(0)+'" y1="'+Tt+'" x2="'+X(np[k]).toFixed(0)+'" y2="'+B+'" stroke="#DA9526" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"/>';
+  }
+  var p='';
+  for(k=0;k<=360;k+=4){
+    var v=Math.sin(d2r(k))*A;
+    if(GEN.dc)v=Math.abs(v);
+    p+=(k===0?'M':'L')+X(k).toFixed(1)+' '+Y(v).toFixed(1)+' ';
+  }
+  s+='<path d="'+p+'" fill="none" stroke="#2C7D8C" stroke-width="3"/>';
+  var deg=(GEN.a*180/Math.PI)%360; if(deg<0)deg+=360;
+  var cv=Math.sin(d2r(deg))*A; if(GEN.dc)cv=Math.abs(cv);
+  s+='<circle cx="'+X(deg).toFixed(1)+'" cy="'+Y(cv).toFixed(1)+'" r="6" fill="#D9542B" stroke="#FFFDF7" stroke-width="2"/>';
+  s+=tl(X(180),Tt-6,12,'#DA9526',T('neutral'));
+  $('svggenw').innerHTML=PAINT(s);
+}
+function initGEN(){
+  makeDrag($('svggen'),660,500,function(pt,isdown){
+    var dx=pt.x-GC.cx, dy=pt.y-GC.cy;
+    if(Math.sqrt(dx*dx+dy*dy)>GC.r+50)return;
+    GEN.a=Math.atan2(dx,-dy);
+    drawGEN();updSummary();
+  });
+}
+/* ================= TAB 3 · ENERGY & MOTOR COMPARISON ================= */
+var MG={ph:0};
+function drawMG(){
+  var s='',k,ph=MG.ph;
+  s+='<rect x="0" y="0" width="660" height="420" rx="14" fill="#FBF7EC"/>';
+  // ---- left: generator ----
+  s+=tl(165,44,18,'#2F7D4F',T('genT'));
+  s+='<circle cx="70" cy="150" r="24" fill="none" stroke="#4B4437" stroke-width="3"/>';
+  s+='<g transform="rotate('+((ph*130)%360).toFixed(1)+' 70 150)">';
+  s+='<path d="M 70 126 A 24 24 0 0 1 94 150" fill="none" stroke="#D9542B" stroke-width="4"/>';
+  s+='<path d="M 94 150 l -9 -12 l 12 -2 Z" fill="#D9542B"/>';
+  s+='</g>';
+  s+=tl(70,196,13,'#4B4437',T('crankit'));
+  s+='<rect x="120" y="110" width="90" height="80" rx="8" fill="#E8E2D4" stroke="#9A938A" stroke-width="3"/>';
+  s+='<path d="M 130 150 q 10 -18 20 0 q 10 18 20 0 q 10 -18 20 0" fill="none" stroke="#B5652A" stroke-width="4"/>';
+  s+='<line x1="210" y1="150" x2="262" y2="150" stroke="#4B4437" stroke-width="2.5"/>';
+  var pulse=0.3+0.14*Math.sin(ph*3);
+  s+='<circle cx="284" cy="150" r="'+(24+6*Math.sin(ph*3)).toFixed(1)+'" fill="#F5C445" opacity="'+pulse.toFixed(2)+'"/>';
+  s+='<circle cx="284" cy="150" r="15" fill="#F5C445" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="277" y1="157" x2="291" y2="143" stroke="#4B4437" stroke-width="2"/>';
+  s+=tl(284,196,13,'#6B6252',T('bulb'));
+  // energy arrow with marching dots (mech -> elec)
+  s+='<line x1="66" y1="250" x2="272" y2="250" stroke="#2F7D4F" stroke-width="5"/>';
+  s+='<path d="M 284 250 l -18 -9 v 18 Z" fill="#2F7D4F"/>';
+  for(k=0;k<4;k++){
+    var t=(ph*0.35+k/4)%1;
+    s+='<circle cx="'+(66+206*t).toFixed(1)+'" cy="250" r="5" fill="#FFD866" stroke="#2F7D4F" stroke-width="1.5"/>';
+  }
+  s+=tl(90,278,14,'#2F7D4F',T('mech'),'start');
+  s+=tl(258,278,14,'#2F7D4F',T('elec'),'end');
+  // ---- divider + reversal ----
+  s+='<line x1="330" y1="24" x2="330" y2="300" stroke="#E3DCCB" stroke-width="2" stroke-dasharray="6 6"/>';
+  s+=tl(330,346,20,'#DA9526',T('rev'));
+  // ---- right: motor ----
+  s+=tl(495,44,18,'#2C7D8C',T('motT'));
+  s+='<line x1="380" y1="132" x2="380" y2="168" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<line x1="392" y1="140" x2="392" y2="160" stroke="#4B4437" stroke-width="6"/>';
+  s+=tl(386,196,13,'#4B4437',T('battery'));
+  s+='<line x1="392" y1="150" x2="446" y2="150" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<rect x="446" y="110" width="90" height="80" rx="8" fill="#E8E2D4" stroke="#9A938A" stroke-width="3"/>';
+  s+='<path d="M 456 150 q 10 -18 20 0 q 10 18 20 0 q 10 -18 20 0" fill="none" stroke="#B5652A" stroke-width="4"/>';
+  s+='<line x1="536" y1="150" x2="566" y2="150" stroke="#4B4437" stroke-width="3"/>';
+  s+='<circle cx="592" cy="150" r="26" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<g transform="rotate('+((-ph*170)%360).toFixed(1)+' 592 150)">';
+  s+='<line x1="592" y1="128" x2="592" y2="172" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="570" y1="150" x2="614" y2="150" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='</g>';
+  s+='<path d="M 592 118 A 32 32 0 0 1 624 150" fill="none" stroke="#D9542B" stroke-width="4"/>';
+  s+='<path d="M 624 150 l -9 -12 l 12 -2 Z" fill="#D9542B"/>';
+  s+=tl(592,196,13,'#4B4437',T('wheel'));
+  // energy arrow: battery (electrical, left) -> wheel (mechanical, right), matching the layout above
+  s+='<line x1="392" y1="250" x2="582" y2="250" stroke="#2C7D8C" stroke-width="5"/>';
+  s+='<path d="M 594 250 l -18 -9 v 18 Z" fill="#2C7D8C"/>';
+  for(k=0;k<4;k++){
+    var t2=(ph*0.35+k/4)%1;
+    s+='<circle cx="'+(392+190*t2).toFixed(1)+'" cy="250" r="5" fill="#FFD866" stroke="#2C7D8C" stroke-width="1.5"/>';
+  }
+  s+=tl(402,278,14,'#2C7D8C',T('elec'),'start');
+  s+=tl(572,278,14,'#2C7D8C',T('mech'),'end');
+  $('svgcmp2').innerHTML=PAINT(s);
+  buildMG();
+}
+var MGBUILT=false;
+function buildMG(){
+  if(MGBUILT)return;
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('mgH'),R=T('mgR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('mgwrap').innerHTML=h;
+  MGBUILT=true;
+}
+
+/* ================= TAB 4 · REVIEW & QUIZ ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP4(){buildCmp();}
+var QZpick=[];
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. An induced current appears only when…',o:[
+    ['Any conductor sits inside a strong magnetic field',0,'Sitting still in a field — even a strong one — induces nothing.'],
+    ['A closed circuit\u2019s conductor cuts field lines',1,'Correct — closed circuit + part of the conductor + cutting, all three at once.'],
+    ['The circuit is closed, whether or not anything moves',0,'A closed circuit at rest has no induced current.'],
+    ['The conductor moves parallel to the field lines',0,'Moving ALONG the lines is not cutting — no current.']]},
+   {q:'2. Sliding the wire up and down (along the field lines) gives no current because…',o:[
+    ['The wire moves too slowly',0,'Speed isn\u2019t the issue — direction is.'],
+    ['It isn\u2019t cutting any field lines',1,'Correct — motion along the lines crosses none of them.'],
+    ['The magnet is too weak',0,'Even the strongest magnet gives nothing without cutting.'],
+    ['The galvanometer is broken',0,'The meter is fine — drag sideways and it deflects at once.']]},
+   {q:'3. Which change makes the induced current LARGER?',o:[
+    ['Cut the field lines faster',1,'Correct — faster cutting (or stronger field, or more turns) means a bigger current.'],
+    ['Move the wire along the field lines',0,'That gives zero current, not more.'],
+    ['Open the switch',0,'An open circuit carries no current at all.'],
+    ['Use fewer turns of wire',0,'Fewer turns means a smaller current.']]},
+   {q:'4. The DIRECTION of the induced current depends on…',o:[
+    ['Only the speed of motion',0,'Speed sets the size, not the direction.'],
+    ['The field direction AND the motion direction',1,'Correct — both together decide the direction.'],
+    ['Only the number of turns',0,'Turns affect size, never direction.'],
+    ['The thickness of the wire',0,'Wire thickness affects resistance, not the induced direction.']]},
+   {q:'5. Reverse the magnet AND the motion at the same time. The induced current…',o:[
+    ['Reverses',0,'Each flip reverses it once — two flips bring it back.'],
+    ['Stays in the same direction',1,'Correct — reversed twice = unchanged. A classic trap.'],
+    ['Becomes zero',0,'Cutting still happens, so a current still flows.'],
+    ['Doubles',0,'Direction flips don\u2019t change the size.']]},
+   {q:'6. In an AC generator, the current reverses every half turn because…',o:[
+    ['The brushes wear out',0,'Brushes just make contact — they don\u2019t reverse anything (slip rings don\u2019t either).'],
+    ['Each coil side cuts the field in the opposite direction after half a turn',1,'Correct — the side that moved up now moves down, so its induced current flips.'],
+    ['The magnet flips over',0,'The magnet never moves — the coil does.'],
+    ['The wire gets hot',0,'Temperature has nothing to do with it.']]},
+   {q:'7. Generator vs motor — which statement is right?',o:[
+    ['Both turn electrical energy into mechanical energy',0,'That\u2019s only the motor.'],
+    ['A generator uses induction (mechanical→electrical); a motor uses the force on a current (electrical→mechanical)',1,'Correct — same construction, inverse processes.'],
+    ['A generator needs a battery to work',0,'A generator MAKES the electricity — it needs a push, not a battery.'],
+    ['A motor works by electromagnetic induction',0,'A motor runs on the force a field exerts on a current.']]}
+  ];
+  return [
+   {q:'1. 产生感应电流的条件是……',o:[
+    ['任何导体只要放在强磁场里就行',0,'静静放着——磁场再强也不会有电流。'],
+    ['闭合电路的部分导体做切割磁感线运动',1,'正确——闭合电路＋部分导体＋切割磁感线，三者缺一不可。'],
+    ['只要电路闭合，动不动无所谓',0,'闭合但静止，没有感应电流。'],
+    ['导体顺着磁感线方向运动',0,'顺着磁感线运动不是切割——没有电流。']]},
+   {q:'2. 把导线沿磁感线方向上下移动，没有电流，是因为……',o:[
+    ['移动得太慢了',0,'问题不在快慢，在方向。'],
+    ['没有切割到磁感线',1,'正确——顺着线走，一条也没切到。'],
+    ['磁铁太弱了',0,'不切割的话，磁铁再强也没用。'],
+    ['电流计坏了',0,'电流计好好的——横着一拖马上偏转。']]},
+   {q:'3. 哪个做法能让感应电流更大？',o:[
+    ['加快切割磁感线的速度',1,'正确——切得更快（或磁场更强、匝数更多）电流就更大。'],
+    ['让导线顺着磁感线移动',0,'那样电流直接变零，不是变大。'],
+    ['断开开关',0,'开路根本没有电流。'],
+    ['减少线圈匝数',0,'匝数少了电流反而小。']]},
+   {q:'4. 感应电流的方向与什么有关？',o:[
+    ['只与运动速度有关',0,'速度决定大小，不决定方向。'],
+    ['与磁场方向和运动方向都有关',1,'正确——两个方向共同决定电流方向。'],
+    ['只与匝数有关',0,'匝数影响大小，从不影响方向。'],
+    ['与导线粗细有关',0,'粗细影响电阻，不影响感应方向。']]},
+   {q:'5. 把磁铁反向，同时运动方向也反向，感应电流……',o:[
+    ['反向',0,'反一个就反一次——反两个又转回来了。'],
+    ['方向不变',1,'正确——反两次＝不变。经典陷阱题。'],
+    ['变为零',0,'切割照样进行，电流照样有。'],
+    ['变为两倍',0,'方向的翻转不改变大小。']]},
+   {q:'6. 交流发电机每转半圈电流方向变一次，是因为……',o:[
+    ['电刷磨损了',0,'电刷只负责接触，不负责换向（滑环也不换向）。'],
+    ['转过半圈后，每条边切割磁感线的方向反了',1,'正确——原来向上运动的那条边现在向下，感应电流跟着反。'],
+    ['磁铁翻了个面',0,'磁铁根本不动——转的是线圈。'],
+    ['导线发热了',0,'温度和这个没有关系。']]},
+   {q:'7. 发电机 vs 电动机，哪句说对了？',o:[
+    ['两个都把电能变成机械能',0,'那只是电动机。'],
+    ['发电机靠电磁感应（机械能→电能）；电动机靠磁场对电流的作用（电能→机械能）',1,'正确——构造相同，过程互逆。'],
+    ['发电机要接电池才能工作',0,'发电机是"造电"的——它需要的是转动，不是电池。'],
+    ['电动机的原理是电磁感应',0,'电动机靠的是磁场对电流的作用力。']]}
+  ];
+}
+var QZi=0,QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+
+/* ================= ambient animation loop ================= */
+var AMB=0;
+function ambLoop(){
+  if(CUR===0&&Math.abs(IN0.V)>0.15){
+    IN0.V*=0.86;
+    if(Math.abs(IN0.V)<=0.15)IN0.V=0;
+    if(IN0.para>0)IN0.para--;
+    INPH=(INPH+0.02)%1;
+    drawIN();
+  }else if(CUR===0&&IN0.para>0){
+    IN0.para--;
+    if(IN0.para===0)drawIN();
+  }
+  if(CUR===1){
+    faStep();
+    drawFA();
+  }
+  if(CUR===2&&GEN.playing){
+    GEN.a+=GEN.w*0.045;
+    if(GEN.a>Math.PI*4)GEN.a-=Math.PI*2;
+    drawGEN();
+  }
+  if(CUR===3){
+    MG.ph+=0.03;
+    drawMG();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  MGBUILT=false;
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawIN,drawFA,drawGEN,drawMG,drawP4,drawQZ];
+  SUMMARY=[
+    function(){var Iv=inCurrent();return T('gread')+' '+(Iv>=0?'+':'−')+Math.abs(Iv).toFixed(2)+' · '+(IN0.closed?T('dk_circ'):T('opensw'))},
+    function(){return T('spd')+' '+FA.v+' · '+T('fld')+' '+FA.B+' · '+FA.loops+T('lp')},
+    function(){var d=Math.round((GEN.a*180/Math.PI)%360);if(d<0)d+=360;return T('ang')+' '+d+'° · '+(GEN.dc?T('typedc'):T('typeac'))},
+    function(){return T('rev')},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initIN(); initGEN();
+  $('nsflip0').addEventListener('click',function(){
+    IN0.ns=-IN0.ns;this.classList.toggle('on',IN0.ns<0);drawIN();updSummary();
+  });
+  $('circtgl').addEventListener('click',function(){
+    IN0.closed=IN0.closed?0:1;this.classList.toggle('on',!!IN0.closed);drawIN();updSummary();
+  });
+  $('viewtgl').addEventListener('click',function(){
+    IN0.v3=IN0.v3?0:1;this.classList.toggle('on',!!IN0.v3);drawIN();updSummary();
+  });
+  var mv=document.querySelectorAll('.mvp'),k;
+  for(k=0;k<mv.length;k++)mv[k].addEventListener('click',function(){
+    FA.mode=+this.getAttribute('data-v');
+    var bs=document.querySelectorAll('.mvp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',+bs[j].getAttribute('data-v')===FA.mode);
+    drawFA();updSummary();
+  });
+  $('vsl').addEventListener('input',function(){FA.v=+this.value;$('vslab').textContent=''+FA.v;updSummary()});
+  $('bsl').addEventListener('input',function(){FA.B=+this.value;$('bslab').textContent=''+FA.B;updSummary()});
+  var lp=document.querySelectorAll('.loopp');
+  for(k=0;k<lp.length;k++)lp[k].addEventListener('click',function(){
+    FA.loops=+this.getAttribute('data-n');
+    var bs=document.querySelectorAll('.loopp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',+bs[j].getAttribute('data-n')===FA.loops);
+    updSummary();
+  });
+  $('nsflip1').addEventListener('click',function(){
+    FA.ns=-FA.ns;this.classList.toggle('on',FA.ns<0);updSummary();
+  });
+  $('genplay').addEventListener('click',function(){
+    GEN.playing=!GEN.playing;
+    this.classList.toggle('on',GEN.playing);
+  });
+  $('wsl').addEventListener('input',function(){
+    GEN.w=+this.value;$('wslab').textContent=GEN.w.toFixed(1);drawGENW();updSummary();
+  });
+  $('acdc').addEventListener('click',function(){
+    GEN.dc=!GEN.dc;this.classList.toggle('on',GEN.dc);drawGEN();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  $('vslab').textContent=''+FA.v;$('bslab').textContent=''+FA.B;$('wslab').textContent=GEN.w.toFixed(1);
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i,j;
+  for(i=0;i<6;i++){showTab(i)}
+  // tab0 sweeps
+  for(i=-24;i<=24;i+=6){IN0.V=i;IN0.closed=1;IN0.ns=1;drawIN();IN0.ns=-1;drawIN();IN0.closed=0;drawIN();IN0.closed=1}
+  IN0.para=10;drawIN();IN0.para=0;IN0.V=0;drawIN();
+  IN0.v3=1;
+  for(i=-24;i<=24;i+=8){IN0.V=i;INPH=(i+24)/48;drawIN();IN0.ns=-1;drawIN();IN0.ns=1}
+  IN0.closed=0;drawIN();IN0.closed=1;IN0.para=8;drawIN();IN0.para=0;IN0.V=0;drawIN();
+  IN0.v3=0;drawIN();
+  // tab1 sweeps
+  var md,vv,bb,ll;
+  for(md=0;md<3;md++){FA.mode=md;
+    for(vv=1;vv<=5;vv+=2){FA.v=vv;
+      for(bb=1;bb<=5;bb+=2){FA.B=bb;
+        for(ll=1;ll<=3;ll++){FA.loops=ll;faStep();drawFA()}
+      }
+    }
+  }
+  FA.ns=-1;faStep();drawFA();FA.ns=1;FA.mode=2;FA.v=2;FA.B=3;FA.loops=1;
+  // tab2 sweeps
+  for(i=0;i<=24;i++){GEN.a=i*Math.PI/12;GEN.dc=false;drawGEN();GEN.dc=true;drawGEN()}
+  GEN.dc=false;
+  for(i=2;i<=12;i+=2){GEN.w=i/10;drawGENW()}
+  GEN.w=0.6;GEN.a=0.9;
+  drawMG();
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<6;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<6;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'电磁感应与发电机实验室',
+ subtitle:'感应电流的产生条件 · 影响因素 · 交流发电机原理 —— 初中科学课堂演示工具',
+ tab0:'① 发现实验台',tab1:'② 影响因素',tab2:'③ 发电机',tab3:'④ 能量·与电动机对比',tab4:'⑤ 要点·测验',
+ in_figtitle:'磁场里的导线（拖动导线试试各个方向）',
+ in_sidetitle:'当前状态',
+ in_k1:'产生感应电流的<b>三个条件</b>，一个都不能少：① 电路<b>闭合</b>　② 是电路的<b>一部分导体</b>　③ 导体做<b>切割磁感线</b>的运动。这种"磁生电"的现象叫<b>电磁感应</b>（法拉第，1831年）。',
+ in_k2:'⚠️ 三个"没有电流"都试得出来：<b>静止</b>不动——没有；<b>沿着磁感线</b>上下移动——没有（没切割！）；<b>断开电路</b>再切割——还是没有。只有"闭合 + 切割"同时满足才有电流。',
+ in_k3:'电流计指针<b>偏转方向</b>会跟着改变：向左拖和向右拖，偏转相反；把磁铁反过来，同样的动作偏转也反过来。',
+ fa_figtitle:'让导线自动切割：调一调各个因素',
+ fa_sidetitle:'感应电流',
+ fa_k1:'固定刻度的电流条不说谎：<b>速度</b>调快、<b>磁场</b>调强、<b>匝数</b>加多——哪个上去，电流都跟着上去。这三个就是影响感应电流<b>大小</b>的因素。',
+ fa_k2:'感应电流的<b>方向</b>由两个因素共同决定：<b>磁场方向</b> + <b>运动方向</b>。只反其中一个 → 电流反向；<b>两个同时反 → 方向不变</b>（考试最爱）。',
+ gn_figtitle:'手摇交流发电机（按 ▶ 或直接拖线圈转）',
+ gn_sidetitle:'电流 – 转角 图像',
+ gn_k1:'线圈转起来，两条边不停地<b>切割磁感线</b>——这就是发电机，原理是<b>电磁感应</b>。<b>每转过半圈</b>，每条边切割的方向反一次，所以电流方向也反一次：这就是<b>交流电</b>。摇得越快，灯越亮。',
+ gn_k2:'线圈转到<b>竖直位置</b>（平面和磁感线垂直）的瞬间，两条边的运动方向<b>顺着磁感线</b>——不切割，电流为<b>零</b>。这个位置叫<b>中性面</b>，对应图像上的过零点。',
+ mg_figtitle:'同一个构造，两种用法',
+ mg_sidetitle:'发电机 vs 电动机',
+ mg_k1:'水电站、风力发电、火力发电，干的其实是同一件事：<b>想尽办法让线圈转起来</b>——用水冲、用风吹、用蒸汽推。转起来之后，都是电磁感应。',
+ mg_k2:'把发电机接上电池，它就是电动机；摇动电动机的轴，它就在发电。<b>构造相同，过程互逆。</b>',
+ cmp_title:'本章要点总表',
+ sm_k1:'一句话记住整章：<b>电磁铁是"电生磁"，发电机是"磁生电"</b>；前者靠磁场对电流的作用，后者靠电磁感应。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ tab5:'⑥ 测验', dk_hint5:'💡 答对才会解锁下一题', sm_title:'一句话总结',
+ dk_ns:'🧲 磁铁反向', dk_circ:'🔗 闭合电路',
+ dk_hint0:'💡 左右拖=切割磁感线 · 上下拖=沿着磁感线 · 停手=静止',
+ dk_mv:'运动', mv_osc:'往返摆动', mv_r:'→ 匀速', mv_l:'← 匀速',
+ dk_speed:'速度', dk_b:'磁场', dk_loops:'匝数',
+ dk_crank:'摇动手柄', dk_w:'转速', dk_acdc:'⇌ 换向器（直流）',
+ dk_hint2:'💡 也可以直接拖线圈转',
+ dk_hint3:'💡 发电机和电动机：构造相同，能量流向相反',
+ dk_hint4:'💡 先看左边总表，再做右边测验',
+ foot:'© 2026 ScienceMaterial',
+ galv:'灵敏电流计', fieldlbl:'磁感线', wirelbl:'导线（截面）', dragme:'⇋ 拖我',
+ rodlbl:'金属棒 AB', dk_view:'🧊 立体图', flat:'（考卷上的画法：把这根棒画成截面小圆点）',
+ sw:'开关', opensw:'已断开',
+ st_cut:'切割中 ⚡ 有电流', st_still:'静止 · 无电流', st_para:'沿磁感线移动 · 没切割 · 无电流',
+ st_open:'电路断开 · 无电流', st_opencut:'在切割，但电路断开 · 无电流',
+ gread:'电流计', dirout:'⊙ 电流流出', dirin:'⊗ 电流流入',
+ iamp:'大小', dirlbl:'方向', dirboth:'来回变向（往返运动）',
+ spd:'速度', fld:'磁场', lp:'匝',
+ ang:'转角', iout:'输出', typeac:'交流（滑环）', typedc:'直流（换向器）',
+ neutral:'中性面 · 瞬间无电流', crank:'手柄', brush:'电刷', ring:'滑环', ring2:'换向器',
+ bulb:'小灯泡', faster:'摇快 → 灯更亮',
+ genT:'发电机', motT:'电动机', mech:'机械能', elec:'电能',
+ crankit:'摇动手柄', battery:'电池', wheel:'转轮',
+ rev:'⇄ 互为逆过程',
+ mgH:['','发电机','电动机'],
+ mgR:[['依据原理','电磁感应（磁生电）','磁场对电流的作用（电生"动"）'],
+      ['能量转化','机械能 → 电能','电能 → 机械能'],
+      ['谁提供能量','人手 / 水流 / 风 / 蒸汽','电源（电池、电网）'],
+      ['例子','水电站、风力发电机、自行车车灯发电机','风扇、洗衣机、电梯的马达']],
+ cmpH:['要点','内容'],
+ cmpR:[['产生条件','闭合电路 + 部分导体 + 切割磁感线（三者缺一不可）'],
+       ['让电流更大','切割速度更快 / 磁场更强 / 线圈匝数更多'],
+       ['让电流反向','磁场反向 或 运动方向反向（两个同时反 → 不变）'],
+       ['发电机','靠电磁感应，机械能 → 电能；每转半圈电流换向 → 交流电'],
+       ['中性面','线圈平面 ⊥ 磁感线的瞬间，不切割，电流为零'],
+       ['对比电磁铁','电磁铁：电生磁；发电机：磁生电']],
+ mth:''
+},
+en:{
+ title:'Electromagnetic Induction & Generator Lab',
+ subtitle:'When is a current induced? · What affects it? · How an AC generator works — junior-high classroom demo',
+ tab0:'① Discovery Bench',tab1:'② Factors',tab2:'③ Generator',tab3:'④ Energy · vs Motor',tab4:'⑤ Review & Quiz',
+ in_figtitle:'A wire in a magnetic field (drag it in different directions)',
+ in_sidetitle:'Current state',
+ in_k1:'<b>Three conditions</b> for an induced current — all required: ① a <b>closed</b> circuit ② <b>part of the conductor</b> in the field ③ the conductor <b>cutting field lines</b>. This \u201cmagnetism-makes-electricity\u201d effect is <b>electromagnetic induction</b> (Faraday, 1831).',
+ in_k2:'⚠️ All three \u201cno current\u201d cases are right here to try: hold it <b>still</b> — nothing; slide it <b>along the field lines</b> — nothing (no cutting!); <b>open the switch</b> and cut — still nothing. Only \u201cclosed + cutting\u201d together gives a current.',
+ in_k3:'The needle\u2019s <b>direction</b> responds too: dragging left vs right deflects opposite ways, and flipping the magnet reverses the deflection for the same motion.',
+ fa_figtitle:'Automatic cutting: tune each factor',
+ fa_sidetitle:'Induced current',
+ fa_k1:'The fixed-scale bar never lies: raise the <b>speed</b>, strengthen the <b>field</b>, or add <b>turns</b> — the current rises with each. These three set the <b>size</b> of the induced current.',
+ fa_k2:'The <b>direction</b> is set by two things together: <b>field direction</b> + <b>motion direction</b>. Reverse ONE → current reverses; <b>reverse BOTH → unchanged</b> (a favourite exam trap).',
+ gn_figtitle:'Hand-cranked AC generator (press ▶ or drag the coil around)',
+ gn_sidetitle:'Current vs rotation angle',
+ gn_k1:'As the coil spins, its two sides keep <b>cutting field lines</b> — that is a generator, powered by <b>electromagnetic induction</b>. <b>Every half turn</b> each side cuts the opposite way, so the current reverses: that is <b>alternating current</b>. Crank faster and the bulb glows brighter.',
+ gn_k2:'At the instant the coil reaches the <b>vertical position</b> (plane ⊥ field), its sides move <b>along</b> the field lines — no cutting, so the current is <b>zero</b>. That position is the <b>neutral plane</b> — the zero crossings on the graph.',
+ mg_figtitle:'One machine, two directions',
+ mg_sidetitle:'Generator vs Motor',
+ mg_k1:'Hydro, wind and thermal power stations all do the same job: <b>find a way to spin the coil</b> — with falling water, wind, or steam. After that, it is all electromagnetic induction.',
+ mg_k2:'Connect a generator to a battery and it runs as a motor; crank a motor\u2019s shaft and it generates. <b>Same construction, opposite processes.</b>',
+ cmp_title:'Chapter summary',
+ sm_k1:'The whole chapter in one line: <b>an electromagnet turns electricity into magnetism; a generator turns magnetism (plus motion) into electricity.</b>',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ tab5:'⑥ Quiz', dk_hint5:'💡 Answer correctly to unlock the next question', sm_title:'In one line',
+ dk_ns:'🧲 Flip magnet', dk_circ:'🔗 Circuit closed',
+ dk_hint0:'💡 Drag left/right = cutting · up/down = along the field · let go = at rest',
+ dk_mv:'Motion', mv_osc:'Oscillate', mv_r:'→ steady', mv_l:'← steady',
+ dk_speed:'Speed', dk_b:'Field', dk_loops:'Turns',
+ dk_crank:'Crank it', dk_w:'Speed', dk_acdc:'⇌ Commutator (DC)',
+ dk_hint2:'💡 You can also drag the coil around',
+ dk_hint3:'💡 Generator and motor: same build, opposite energy flow',
+ dk_hint4:'💡 Read the table, then take the quiz',
+ foot:'© 2026 ScienceMaterial',
+ galv:'Galvanometer', fieldlbl:'Field lines', wirelbl:'Wire (cross-section)', dragme:'⇋ drag me',
+ rodlbl:'Metal rod AB', dk_view:'🧊 3-D view', flat:'(exam papers draw this rod as a cross-section dot)',
+ sw:'Switch', opensw:'OPEN',
+ st_cut:'Cutting ⚡ current flows', st_still:'At rest · no current', st_para:'Moving along the field · no cutting · no current',
+ st_open:'Circuit open · no current', st_opencut:'Cutting, but the circuit is open · no current',
+ gread:'Meter', dirout:'⊙ current out', dirin:'⊗ current in',
+ iamp:'Size', dirlbl:'Direction', dirboth:'Alternating (oscillation)',
+ spd:'speed', fld:'field', lp:'turns',
+ ang:'Angle', iout:'Output', typeac:'AC (slip rings)', typedc:'DC (commutator)',
+ neutral:'Neutral plane · momentarily zero', crank:'crank', brush:'brushes', ring:'slip rings', ring2:'commutator',
+ bulb:'bulb', faster:'crank faster → brighter',
+ genT:'GENERATOR', motT:'MOTOR', mech:'mechanical', elec:'electrical',
+ crankit:'crank', battery:'battery', wheel:'wheel',
+ rev:'⇄ inverse processes',
+ mgH:['','Generator','Motor'],
+ mgR:[['Principle','Electromagnetic induction','Force on a current in a field'],
+      ['Energy','mechanical → electrical','electrical → mechanical'],
+      ['Energy source','hands / water / wind / steam','a power supply'],
+      ['Examples','hydro & wind turbines, bicycle dynamo','fans, washing machines, lift motors']],
+ cmpH:['Key point','Content'],
+ cmpR:[['Conditions','closed circuit + part of the conductor + cutting field lines (all three)'],
+       ['Bigger current','cut faster / stronger field / more turns'],
+       ['Reversed current','flip the field OR the motion (flip both → unchanged)'],
+       ['Generator','induction; mechanical → electrical; reverses every half turn → AC'],
+       ['Neutral plane','coil plane ⊥ field: no cutting, current = zero for an instant'],
+       ['vs electromagnet','electromagnet: electricity → magnetism; generator: magnetism → electricity']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function d2r(d){return d*Math.PI/180}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+/* ===== theme (light/dark for projector) ===== */
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#E4D5B4':'#2B3346','#C7B68F':'#4A5670',
+'#EFE6CF':'#2A3348','#F3EDDD':'#2A3348','#F0EADA':'#2A3348','#E8E2D4':'#39415A','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#6B655C':'#B8BECE','#5B6770':'#A9BAC8'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<6;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  stopAllPlay();
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.id==='ftconcl'||kb.id==='dtconcl')continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= shared state & play ================= */
+var GEN={a:0.9,w:0.6,playing:false,dc:false};
+var RAF=0;
+function stopAllPlay(){
+  GEN.playing=false;
+  $('genplay').classList.remove('on');
+}
+
+/* ================= drawing helpers ================= */
+function meterSVG(cx,cy,r,val){
+  // center-zero galvanometer; val in [-1,1]
+  var s='';
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#FFFFFF" stroke="#4B4437" stroke-width="3"/>';
+  var k;
+  for(k=-2;k<=2;k++){
+    var a=d2r(k*26-90);
+    s+='<line x1="'+(cx+(r-10)*Math.cos(a)).toFixed(1)+'" y1="'+(cy+(r-10)*Math.sin(a)).toFixed(1)+
+       '" x2="'+(cx+(r-4)*Math.cos(a)).toFixed(1)+'" y2="'+(cy+(r-4)*Math.sin(a)).toFixed(1)+
+       '" stroke="#8A8070" stroke-width="2"/>';
+  }
+  s+=tlplain(cx,cy-r+22,12,'#6B6252','0');
+  s+=tlplain(cx-r+16,cy-6,13,'#6B6252','−','middle');
+  s+=tlplain(cx+r-16,cy-6,13,'#6B6252','＋','middle');
+  var na=d2r(clamp(val,-1,1)*55-90);
+  s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+(r-14)*Math.cos(na)).toFixed(1)+'" y2="'+(cy+(r-14)*Math.sin(na)).toFixed(1)+'" stroke="#D9542B" stroke-width="3.5"/>';
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#4B4437"/>';
+  s+=tlplain(cx,cy+r-10,13,'#4B4437','G');
+  return s;
+}
+function dotsym(x,y,r,out,col){
+  var s='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="#FFFDF7" stroke="'+col+'" stroke-width="2.5"/>';
+  if(out){
+    s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(r*0.32).toFixed(1)+'" fill="'+col+'"/>';
+  }else{
+    var d=r*0.62;
+    s+='<line x1="'+(x-d).toFixed(1)+'" y1="'+(y-d).toFixed(1)+'" x2="'+(x+d).toFixed(1)+'" y2="'+(y+d).toFixed(1)+'" stroke="'+col+'" stroke-width="2.5"/>';
+    s+='<line x1="'+(x-d).toFixed(1)+'" y1="'+(y+d).toFixed(1)+'" x2="'+(x+d).toFixed(1)+'" y2="'+(y-d).toFixed(1)+'" stroke="'+col+'" stroke-width="2.5"/>';
+  }
+  return s;
+}
+
+/* ================= TAB 0 · DISCOVERY BENCH ================= */
+var IN0={x:270,y:240,V:0,ns:1,closed:1,para:0,v3:0};
+var INB={x0:150,x1:390,gy0:172,gy1:308};
+var INPH=0;
+function inCurrent(){ return IN0.closed? clamp(IN0.V*IN0.ns/16,-1,1):0; }
+function pj(x,y,z){ return {x:x+z*0.55, y:y-z*0.30}; }
+function rodScreen(){
+  if(!IN0.v3)return {x:IN0.x,y:IN0.y};
+  return {x:IN0.x+75*0.55, y:IN0.y-75*0.30};
+}
+function inCircuitSVG(ax,ay,bx,by){
+  // leads from two anchor points to switch + galvanometer
+  var s='';
+  s+='<path d="M '+bx.toFixed(0)+' '+by.toFixed(0)+' C '+(bx+70)+' '+(by-40)+', 440 120, 520 150" fill="none" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<path d="M '+ax.toFixed(0)+' '+ay.toFixed(0)+' C '+(ax+60)+' '+(ay+50)+', 430 400, 500 372" fill="none" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<circle cx="500" cy="372" r="4" fill="#4B4437"/><circle cx="546" cy="360" r="4" fill="#4B4437"/>';
+  if(IN0.closed){
+    s+='<line x1="500" y1="372" x2="546" y2="360" stroke="#4B4437" stroke-width="3.5"/>';
+  }else{
+    s+='<line x1="500" y1="372" x2="540" y2="392" stroke="#4B4437" stroke-width="3.5"/>';
+    s+=tl(556,392,13,'#D9542B',T('opensw'),'start');
+  }
+  s+='<line x1="546" y1="360" x2="566" y2="330" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tl(516,412,13,'#6B6252',T('sw'));
+  s+='<line x1="520" y1="150" x2="566" y2="200" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="566" y1="200" x2="566" y2="330" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=meterSVG(566,264,48,inCurrent());
+  s+=tl(566,336,13,'#6B6252',T('galv'));
+  return s;
+}
+function inStatus(){
+  if(!IN0.closed) return Math.abs(IN0.V)>0.5?T('st_opencut'):T('st_open');
+  if(IN0.para>0) return T('st_para');
+  if(Math.abs(IN0.V)>0.5) return T('st_cut');
+  return T('st_still');
+}
+function scene2D(){
+  var s='',k;
+  var topN=IN0.ns>0;
+  s+='<rect x="'+INB.x0+'" y="110" width="'+(INB.x1-INB.x0)+'" height="58" rx="6" fill="'+(topN?'#D9542B':'#2C7D8C')+'"/>';
+  s+='<rect x="'+INB.x0+'" y="312" width="'+(INB.x1-INB.x0)+'" height="58" rx="6" fill="'+(topN?'#2C7D8C':'#D9542B')+'"/>';
+  s+=tl((INB.x0+INB.x1)/2,148,22,'#FFFDF7',topN?'N':'S');
+  s+=tl((INB.x0+INB.x1)/2,350,22,'#FFFDF7',topN?'S':'N');
+  for(k=0;k<6;k++){
+    var fx=INB.x0+22+k*(INB.x1-INB.x0-44)/5;
+    s+='<line x1="'+fx.toFixed(0)+'" y1="'+INB.gy0+'" x2="'+fx.toFixed(0)+'" y2="'+INB.gy1+'" stroke="#2C7D8C" stroke-width="2" opacity="0.65"/>';
+    var ay=(INB.gy0+INB.gy1)/2;
+    if(topN)s+='<path d="M '+fx.toFixed(0)+' '+(ay+8)+' l -6 -12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+    else s+='<path d="M '+fx.toFixed(0)+' '+(ay-8)+' l -6 12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+  }
+  s+=tl(INB.x1+10,(INB.gy0+INB.gy1)/2,13,'#2C7D8C',T('fieldlbl'),'start');
+  var wx=IN0.x, wy=IN0.y;
+  s+=inCircuitSVG(wx,wy,wx,wy);
+  var Iv=inCurrent();
+  s+='<circle cx="'+wx.toFixed(0)+'" cy="'+wy.toFixed(0)+'" r="20" fill="#B5652A" opacity="0.18"/>';
+  var showI=Math.abs(Iv)>0.06;
+  if(showI){
+    s+=dotsym(wx,wy,13,(IN0.V*IN0.ns)<0,'#B5652A');
+  }else{
+    s+='<circle cx="'+wx.toFixed(0)+'" cy="'+wy.toFixed(0)+'" r="13" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+  }
+  s+=tl(wx,wy+38,14,'#B5652A',T('dragme'));
+  s+=tl(wx,wy-28,13,'#6B6252',T('wirelbl'));
+  if(showI){
+    s+=tl(wx,wy+62,13,'#2F7D4F',T((IN0.V*IN0.ns)<0?'dirin':'dirout'));
+  }
+  s+=tlplain(330,478,13,'#8A8070',T('flat'));
+  return s;
+}
+function scene3D(){
+  var s='',k,j;
+  var topN=IN0.ns>0;
+  var cN=topN?'#D9542B':'#2C7D8C', cS=topN?'#2C7D8C':'#D9542B';
+  var X0=140,X1=360,Z1=150,YT0=96,YT1=150,YB0=304,YB1=358;
+  function face(pts,fill,op){
+    var d='M '+pts.map(function(p){return p.x.toFixed(1)+' '+p.y.toFixed(1)}).join(' L ')+' Z';
+    return '<path d="'+d+'" fill="'+fill+'"'+(op?(' opacity="'+op+'"'):'')+' stroke="none"/>';
+  }
+  // ---- top slab ----
+  s+=face([pj(X0,YT0,0),pj(X1,YT0,0),pj(X1,YT0,Z1),pj(X0,YT0,Z1)],cN);
+  s+=face([pj(X0,YT0,0),pj(X1,YT0,0),pj(X1,YT0,Z1),pj(X0,YT0,Z1)],'rgba(255,255,255,0.25)');
+  s+=face([pj(X1,YT0,0),pj(X1,YT1,0),pj(X1,YT1,Z1),pj(X1,YT0,Z1)],cN);
+  s+=face([pj(X1,YT0,0),pj(X1,YT1,0),pj(X1,YT1,Z1),pj(X1,YT0,Z1)],'rgba(0,0,0,0.22)');
+  s+='<rect x="'+X0+'" y="'+YT0+'" width="'+(X1-X0)+'" height="'+(YT1-YT0)+'" fill="'+cN+'"/>';
+  s+=tl((X0+X1)/2,YT0+38,22,'#FFFDF7',topN?'N':'S');
+  // ---- bottom slab ----
+  s+=face([pj(X0,YB0,0),pj(X1,YB0,0),pj(X1,YB0,Z1),pj(X0,YB0,Z1)],cS);
+  s+=face([pj(X0,YB0,0),pj(X1,YB0,0),pj(X1,YB0,Z1),pj(X0,YB0,Z1)],'rgba(255,255,255,0.18)');
+  s+=face([pj(X1,YB0,0),pj(X1,YB1,0),pj(X1,YB1,Z1),pj(X1,YB0,Z1)],cS);
+  s+=face([pj(X1,YB0,0),pj(X1,YB1,0),pj(X1,YB1,Z1),pj(X1,YB0,Z1)],'rgba(0,0,0,0.22)');
+  s+='<rect x="'+X0+'" y="'+YB0+'" width="'+(X1-X0)+'" height="'+(YB1-YB0)+'" fill="'+cS+'"/>';
+  s+=tl((X0+X1)/2,YB0+38,22,'#FFFDF7',topN?'S':'N');
+  // ---- field lines (grid across the depth) ----
+  for(j=0;j<3;j++){
+    var z=30+j*45;
+    for(k=0;k<4;k++){
+      var fx=X0+34+k*(X1-X0-68)/3;
+      var p1=pj(fx,YT1,z),p2=pj(fx,YB0,z);
+      var op=(0.62-j*0.13).toFixed(2);
+      s+='<line x1="'+p1.x.toFixed(1)+'" y1="'+p1.y.toFixed(1)+'" x2="'+p2.x.toFixed(1)+'" y2="'+p2.y.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2" opacity="'+op+'"/>';
+      var my=(p1.y+p2.y)/2;
+      if(topN)s+='<path d="M '+p1.x.toFixed(1)+' '+(my+7)+' l -6 -11 h 12 Z" fill="#2C7D8C" opacity="'+op+'"/>';
+      else s+='<path d="M '+p1.x.toFixed(1)+' '+(my-7)+' l -6 11 h 12 Z" fill="#2C7D8C" opacity="'+op+'"/>';
+    }
+  }
+  s+=tl(pj(X1,YT1,Z1).x+8,pj(X1,(YT1+YB0)/2,Z1).y,13,'#2C7D8C',T('fieldlbl'),'start');
+  // ---- metal rod (along the depth axis) ----
+  var Iv=inCurrent();
+  var A=pj(IN0.x,IN0.y,14), B=pj(IN0.x,IN0.y,138);
+  s+=inCircuitSVG(A.x,A.y,B.x,B.y);
+  s+='<line x1="'+A.x.toFixed(1)+'" y1="'+A.y.toFixed(1)+'" x2="'+B.x.toFixed(1)+'" y2="'+B.y.toFixed(1)+'" stroke="#8A5A2B" stroke-width="13" stroke-linecap="round"/>';
+  s+='<line x1="'+A.x.toFixed(1)+'" y1="'+A.y.toFixed(1)+'" x2="'+B.x.toFixed(1)+'" y2="'+B.y.toFixed(1)+'" stroke="#B5652A" stroke-width="9" stroke-linecap="round"/>';
+  s+=tl(A.x-16,A.y+16,15,'#26221B','A','end');
+  s+=tl(B.x+16,B.y-8,15,'#26221B','B','start');
+  // marching current dots along the rod
+  if(Math.abs(Iv)>0.06){
+    var fwd=(IN0.V*IN0.ns)<0;   // matches the 2-D ⊗(in)=A→B convention
+    for(k=0;k<5;k++){
+      var tp=(INPH+k/5)%1;
+      var t2=fwd?tp:1-tp;
+      var dx=A.x+(B.x-A.x)*t2, dy=A.y+(B.y-A.y)*t2;
+      s+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="4.5" fill="#FFD866" stroke="#8A5A2B" stroke-width="1.5"/>';
+    }
+  }
+  // velocity arrow while moving
+  if(Math.abs(IN0.V)>0.8){
+    var vd=IN0.V>0?1:-1;
+    var M=pj(IN0.x,IN0.y-34,75);
+    s+='<line x1="'+M.x.toFixed(1)+'" y1="'+M.y.toFixed(1)+'" x2="'+(M.x+vd*44).toFixed(1)+'" y2="'+M.y.toFixed(1)+'" stroke="#DA9526" stroke-width="4"/>';
+    s+='<path d="M '+(M.x+vd*52).toFixed(1)+' '+M.y.toFixed(1)+' l '+(-vd*14)+' -7 v 14 Z" fill="#DA9526"/>';
+  }
+  var Mm=pj(IN0.x,IN0.y,75);
+  s+=tl(Mm.x,Mm.y+40,14,'#B5652A',T('rodlbl')+' · '+T('dragme'));
+  return s;
+}
+function drawIN(){
+  var s='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  s+=IN0.v3?scene3D():scene2D();
+  var Iv=inCurrent();
+  var st=inStatus();
+  s+=tl(330,52,17,(Math.abs(Iv)>0.06)?'#2F7D4F':'#D9542B',st);
+  $('svgin').innerHTML=PAINT(s);
+  $('c_g').textContent=T('gread')+' '+(Iv>=0?'+':'−')+Math.abs(Iv).toFixed(2);
+  $('c_st').textContent=st;
+}
+function initIN(){
+  var lastx=0,lasty=0,started=false;
+  makeDrag($('svgin'),660,500,function(pt,isdown){
+    var dx=pt.x-lastx, dy=pt.y-lasty;
+    var rs=rodScreen();
+    if(isdown){
+      started=Math.abs(pt.x-rs.x)<56&&Math.abs(pt.y-rs.y)<56;
+      lastx=pt.x;lasty=pt.y;
+      return;
+    }
+    if(!started)return;
+    lastx=pt.x;lasty=pt.y;
+    var nx,ny;
+    if(IN0.v3){
+      nx=clamp(IN0.x+dx,168,332);
+      ny=clamp(IN0.y+dy,180,276);
+    }else{
+      nx=clamp(pt.x,INB.x0+24,INB.x1-24);
+      ny=clamp(pt.y,INB.gy0+16,INB.gy1-16);
+    }
+    if(Math.abs(dy)>Math.abs(dx)*1.6&&Math.abs(dy)>1.5){IN0.para=14}
+    else if(Math.abs(dx)>1){IN0.para=0}
+    var moved=nx-IN0.x;
+    IN0.x=nx; IN0.y=ny;
+    IN0.V=0.6*IN0.V+0.4*clamp(moved*1.6,-30,30);
+    drawIN();updSummary();
+  },function(){started=false});
+}
+/* ================= TAB 1 · FACTORS ================= */
+var FA={mode:2,v:2,B:3,loops:1,ns:1,ph:0,x:270,vel:0};
+var FAB={x0:150,x1:390,gy0:132,gy1:298};
+function faStep(){
+  var sp=FA.v*1.1;
+  if(FA.mode===2){
+    FA.ph+=0.012*FA.v;
+    var nx=270+104*Math.sin(FA.ph);
+    FA.vel=nx-FA.x; FA.x=nx;
+  }else if(FA.mode===0){
+    FA.x+=sp; FA.vel=sp;
+    if(FA.x>FAB.x1-26)FA.x=FAB.x0+26;
+  }else{
+    FA.x-=sp; FA.vel=-sp;
+    if(FA.x<FAB.x0+26)FA.x=FAB.x1-26;
+  }
+}
+function faI(){ return FA.vel*FA.B*FA.loops*FA.ns; }
+function drawFA(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="460" rx="14" fill="#FBF7EC"/>';
+  var topN=FA.ns>0;
+  s+='<rect x="'+FAB.x0+'" y="72" width="'+(FAB.x1-FAB.x0)+'" height="52" rx="6" fill="'+(topN?'#D9542B':'#2C7D8C')+'"/>';
+  s+='<rect x="'+FAB.x0+'" y="302" width="'+(FAB.x1-FAB.x0)+'" height="52" rx="6" fill="'+(topN?'#2C7D8C':'#D9542B')+'"/>';
+  s+=tl((FAB.x0+FAB.x1)/2,106,20,'#FFFDF7',topN?'N':'S');
+  s+=tl((FAB.x0+FAB.x1)/2,336,20,'#FFFDF7',topN?'S':'N');
+  // field lines: density scales with B
+  var nL=2+FA.B;
+  for(k=0;k<nL;k++){
+    var fx=FAB.x0+20+k*(FAB.x1-FAB.x0-40)/(nL-1);
+    s+='<line x1="'+fx.toFixed(0)+'" y1="'+FAB.gy0+'" x2="'+fx.toFixed(0)+'" y2="'+FAB.gy1+'" stroke="#2C7D8C" stroke-width="2" opacity="0.65"/>';
+    var ay=(FAB.gy0+FAB.gy1)/2;
+    if(topN)s+='<path d="M '+fx.toFixed(0)+' '+(ay+8)+' l -6 -12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+    else s+='<path d="M '+fx.toFixed(0)+' '+(ay-8)+' l -6 12 h 12 Z" fill="#2C7D8C" opacity="0.75"/>';
+  }
+  // wire bundle (loops = parallel strands)
+  var Iv=faI();
+  var showI=Math.abs(Iv)>0.4;
+  for(k=0;k<FA.loops;k++){
+    var bx=FA.x+(k-(FA.loops-1)/2)*20;
+    if(showI){
+      s+=dotsym(bx,215,10,(FA.vel*FA.ns)<0,'#B5652A');
+    }else{
+      s+='<circle cx="'+bx.toFixed(1)+'" cy="215" r="10" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+    }
+  }
+  // velocity arrow
+  if(Math.abs(FA.vel)>0.3){
+    var vd=FA.vel>0?1:-1;
+    s+='<line x1="'+FA.x.toFixed(0)+'" y1="180" x2="'+(FA.x+vd*40).toFixed(0)+'" y2="180" stroke="#DA9526" stroke-width="4"/>';
+    s+='<path d="M '+(FA.x+vd*46).toFixed(0)+' 180 l '+(-vd*13)+' -7 v 14 Z" fill="#DA9526"/>';
+  }
+  // meter at right
+  s+='<line x1="'+FA.x.toFixed(0)+'" y1="215" x2="470" y2="120" stroke="#4B4437" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/>';
+  s+=meterSVG(548,210,52,clamp(Iv/40,-1,1));
+  s+=tl(548,288,13,'#6B6252',T('galv'));
+  // readout labels
+  s+=tl(330,40,15,'#4B4437',T('spd')+' '+FA.v+' · '+T('fld')+' '+FA.B+' · '+FA.loops+' '+T('lp'));
+  $('svgfa').innerHTML=PAINT(s);
+  // chips + bar
+  var amp=Math.abs(FA.v*1.1*FA.B*FA.loops);
+  if(FA.mode===2)amp=Math.abs(1.25*FA.v*FA.B*FA.loops);
+  $('c_iamp').textContent=T('iamp')+' '+Math.round(amp);
+  $('c_dir').textContent=T('dirlbl')+'：'+(FA.mode===2?T('dirboth'):T((FA.mode===0?1:-1)*FA.ns<0?'dirin':'dirout'));
+  drawFAbar(amp);
+}
+function drawFAbar(amp){
+  var s='',k,L=40,Rr=316,y=62,h=26,MAX=21;
+  s+='<rect x="0" y="0" width="330" height="120" fill="#FFFDF7"/>';
+  s+='<rect x="'+L+'" y="'+(y-h/2)+'" width="'+(Rr-L)+'" height="'+h+'" rx="6" fill="#F3EDDD" stroke="#E3DCCB" stroke-width="2"/>';
+  var w=(Rr-L)*clamp(amp/MAX,0,1);
+  s+='<rect x="'+L+'" y="'+(y-h/2)+'" width="'+w.toFixed(1)+'" height="'+h+'" rx="6" fill="#D9542B"/>';
+  for(k=0;k<=MAX;k+=7){
+    var tx=L+(Rr-L)*k/MAX;
+    s+='<line x1="'+tx.toFixed(0)+'" y1="'+(y+h/2)+'" x2="'+tx.toFixed(0)+'" y2="'+(y+h/2+6)+'" stroke="#8A8070" stroke-width="2"/>';
+    s+=tlplain(tx,y+h/2+22,12,'#6B6252',''+k);
+  }
+  s+=tl(L+4,y-24,14,'#D9542B',Math.round(amp)+'','start');
+  $('svgfab').innerHTML=PAINT(s);
+}
+
+/* ================= TAB 2 · GENERATOR ================= */
+var GC={cx:300,cy:192,r:88};
+function genI(){ return Math.sin(GEN.a)*clamp(GEN.w/1.2,0,1); }
+function drawGEN(){
+  var s='',k;
+  s+='<rect x="0" y="0" width="660" height="500" rx="14" fill="#FBF7EC"/>';
+  // poles left N, right S
+  s+='<rect x="30" y="84" width="76" height="216" rx="6" fill="#D9542B"/>';
+  s+='<rect x="494" y="84" width="76" height="216" rx="6" fill="#2C7D8C"/>';
+  s+=tl(68,200,24,'#FFFDF7','N');
+  s+=tl(532,200,24,'#FFFDF7','S');
+  // horizontal field lines
+  for(k=0;k<4;k++){
+    var fy=116+k*50;
+    s+='<line x1="112" y1="'+fy+'" x2="488" y2="'+fy+'" stroke="#2C7D8C" stroke-width="2" opacity="0.55"/>';
+    s+='<path d="M 300 '+fy+' l -12 -6 v 12 Z" fill="#2C7D8C" opacity="0.65" transform="rotate(180 300 '+fy+')"/>';
+  }
+  s+=tl(452,102,13,'#2C7D8C',T('fieldlbl'),'start');
+  // rotation path
+  s+='<circle cx="'+GC.cx+'" cy="'+GC.cy+'" r="'+GC.r+'" fill="none" stroke="#B9AE95" stroke-width="2" stroke-dasharray="6 6"/>';
+  // coil sides
+  var Iv=genI();
+  var x1=GC.cx+GC.r*Math.sin(GEN.a), y1=GC.cy-GC.r*Math.cos(GEN.a);
+  var x2=GC.cx-GC.r*Math.sin(GEN.a), y2=GC.cy+GC.r*Math.cos(GEN.a);
+  s+='<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="#B5652A" stroke-width="5"/>';
+  var showI=Math.abs(Iv)>0.06;
+  if(showI){
+    s+=dotsym(x1,y1,12,Iv>0,'#B5652A');
+    s+=dotsym(x2,y2,12,Iv<=0,'#B5652A');
+  }else{
+    s+='<circle cx="'+x1.toFixed(1)+'" cy="'+y1.toFixed(1)+'" r="12" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+    s+='<circle cx="'+x2.toFixed(1)+'" cy="'+y2.toFixed(1)+'" r="12" fill="#B5652A" stroke="#8A5A2B" stroke-width="2.5"/>';
+  }
+  // crank handle
+  s+='<circle cx="'+GC.cx+'" cy="'+GC.cy+'" r="7" fill="#4B4437"/>';
+  s+='<line x1="'+GC.cx+'" y1="'+GC.cy+'" x2="'+(GC.cx+34*Math.sin(GEN.a+0.5)).toFixed(1)+'" y2="'+(GC.cy-34*Math.cos(GEN.a+0.5)).toFixed(1)+'" stroke="#4B4437" stroke-width="4"/>';
+  s+=tl(GC.cx-GC.r-16,GC.cy+5,14,'#B5652A',T('dragme'),'end');
+  // neutral plane badge
+  if(Math.abs(Math.sin(GEN.a))<0.1){
+    s+=tl(GC.cx,44,16,'#D9542B','⊥ '+T('neutral'));
+  }
+  // slip rings / commutator + brushes, then a BIG external circuit with the bulb
+  var ry=350;
+  s+='<line x1="'+GC.cx+'" y1="'+(GC.cy+7)+'" x2="'+GC.cx+'" y2="'+(ry-16)+'" stroke="#8A8070" stroke-width="3"/>';
+  if(!GEN.dc){
+    s+='<circle cx="'+(GC.cx-14)+'" cy="'+ry+'" r="12" fill="none" stroke="#8A8070" stroke-width="3.5"/>';
+    s+='<circle cx="'+(GC.cx+14)+'" cy="'+ry+'" r="12" fill="none" stroke="#8A8070" stroke-width="3.5"/>';
+    s+=tl(GC.cx+62,ry+4,13,'#6B6252',T('ring'),'start');
+  }else{
+    s+='<path d="M '+(GC.cx-2)+' '+(ry-13)+' A 13 13 0 0 0 '+(GC.cx-2)+' '+(ry+13)+'" fill="none" stroke="#8A8070" stroke-width="4"/>';
+    s+='<path d="M '+(GC.cx+2)+' '+(ry-13)+' A 13 13 0 0 1 '+(GC.cx+2)+' '+(ry+13)+'" fill="none" stroke="#8A8070" stroke-width="4"/>';
+    s+=tl(GC.cx+62,ry+4,13,'#6B6252',T('ring2'),'start');
+  }
+  s+='<rect x="'+(GC.cx-42)+'" y="'+(ry-7)+'" width="14" height="14" fill="#4B4437"/>';
+  s+='<rect x="'+(GC.cx+28)+'" y="'+(ry-7)+'" width="14" height="14" fill="#4B4437"/>';
+  s+=tl(GC.cx-58,ry+4,13,'#6B6252',T('brush'),'end');
+  var Iout=GEN.dc?Math.abs(Iv):Iv;
+  var g=Math.abs(Iout);
+  // big rectangular loop down to the bulb
+  s+='<line x1="'+(GC.cx-42)+'" y1="'+ry+'" x2="110" y2="'+ry+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="110" y1="'+ry+'" x2="110" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="110" y1="474" x2="300" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="'+(GC.cx+42)+'" y1="'+ry+'" x2="570" y2="'+ry+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="570" y1="'+ry+'" x2="570" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="570" y1="474" x2="360" y2="474" stroke="#4B4437" stroke-width="3"/>';
+  // bulb: big glow + rays so brightness is obvious
+  s+='<circle cx="330" cy="474" r="'+(26+34*g).toFixed(1)+'" fill="#F5C445" opacity="'+(0.15+0.55*g).toFixed(2)+'"/>';
+  if(g>0.45){
+    for(k=0;k<8;k++){
+      var ra=k*Math.PI/4;
+      s+='<line x1="'+(330+30*Math.cos(ra)).toFixed(1)+'" y1="'+(474+30*Math.sin(ra)).toFixed(1)+
+         '" x2="'+(330+(38+16*g)*Math.cos(ra)).toFixed(1)+'" y2="'+(474+(38+16*g)*Math.sin(ra)).toFixed(1)+
+         '" stroke="#DA9526" stroke-width="3"/>';
+    }
+  }
+  s+='<circle cx="330" cy="474" r="20" fill="'+(g>0.08?'#F5C445':'#FFFDF7')+'" stroke="#4B4437" stroke-width="3"/>';
+  s+='<line x1="321" y1="483" x2="339" y2="465" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tl(330,432,14,'#6B6252',T('bulb')+' · '+T('faster'));
+  $('svggen').innerHTML=PAINT(s);
+  drawGENW();
+  var deg=Math.round((GEN.a*180/Math.PI)%360); if(deg<0)deg+=360;
+  $('c_ang').textContent=T('ang')+' '+deg+'°';
+  $('c_iout').textContent=T('iout')+' '+(Iout>=0?'+':'−')+Math.abs(Iout).toFixed(2);
+  $('c_type').textContent=GEN.dc?T('typedc'):T('typeac');
+}
+function drawGENW(){
+  var s='',k,L=40,Rr=316,Tt=24,B=210,mid=(Tt+B)/2;
+  var A=clamp(GEN.w/1.2,0,1);
+  s+='<rect x="0" y="0" width="330" height="260" fill="#FFFDF7"/>';
+  s+='<line x1="'+L+'" y1="'+mid+'" x2="'+Rr+'" y2="'+mid+'" stroke="#B9AE95" stroke-width="2"/>';
+  s+='<line x1="'+L+'" y1="'+Tt+'" x2="'+L+'" y2="'+B+'" stroke="#B9AE95" stroke-width="2"/>';
+  function X(deg){return L+deg/360*(Rr-L)}
+  function Y(v){return mid-v*(B-Tt)/2*0.9}
+  var tk=[0,90,180,270,360];
+  for(k=0;k<tk.length;k++){
+    s+='<line x1="'+X(tk[k]).toFixed(0)+'" y1="'+B+'" x2="'+X(tk[k]).toFixed(0)+'" y2="'+(B+5)+'" stroke="#8A8070" stroke-width="2"/>';
+    s+=tlplain(X(tk[k]),B+20,12,'#6B6252',tk[k]+'°');
+  }
+  // neutral-plane verticals at 0/180/360
+  var np=[0,180,360];
+  for(k=0;k<np.length;k++){
+    s+='<line x1="'+X(np[k]).toFixed(0)+'" y1="'+Tt+'" x2="'+X(np[k]).toFixed(0)+'" y2="'+B+'" stroke="#DA9526" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"/>';
+  }
+  var p='';
+  for(k=0;k<=360;k+=4){
+    var v=Math.sin(d2r(k))*A;
+    if(GEN.dc)v=Math.abs(v);
+    p+=(k===0?'M':'L')+X(k).toFixed(1)+' '+Y(v).toFixed(1)+' ';
+  }
+  s+='<path d="'+p+'" fill="none" stroke="#2C7D8C" stroke-width="3"/>';
+  var deg=(GEN.a*180/Math.PI)%360; if(deg<0)deg+=360;
+  var cv=Math.sin(d2r(deg))*A; if(GEN.dc)cv=Math.abs(cv);
+  s+='<circle cx="'+X(deg).toFixed(1)+'" cy="'+Y(cv).toFixed(1)+'" r="6" fill="#D9542B" stroke="#FFFDF7" stroke-width="2"/>';
+  s+=tl(X(180),Tt-6,12,'#DA9526',T('neutral'));
+  $('svggenw').innerHTML=PAINT(s);
+}
+function initGEN(){
+  makeDrag($('svggen'),660,500,function(pt,isdown){
+    var dx=pt.x-GC.cx, dy=pt.y-GC.cy;
+    if(Math.sqrt(dx*dx+dy*dy)>GC.r+50)return;
+    GEN.a=Math.atan2(dx,-dy);
+    drawGEN();updSummary();
+  });
+}
+/* ================= TAB 3 · ENERGY & MOTOR COMPARISON ================= */
+var MG={ph:0};
+function drawMG(){
+  var s='',k,ph=MG.ph;
+  s+='<rect x="0" y="0" width="660" height="420" rx="14" fill="#FBF7EC"/>';
+  // ---- left: generator ----
+  s+=tl(165,44,18,'#2F7D4F',T('genT'));
+  s+='<circle cx="70" cy="150" r="24" fill="none" stroke="#4B4437" stroke-width="3"/>';
+  s+='<g transform="rotate('+((ph*130)%360).toFixed(1)+' 70 150)">';
+  s+='<path d="M 70 126 A 24 24 0 0 1 94 150" fill="none" stroke="#D9542B" stroke-width="4"/>';
+  s+='<path d="M 94 150 l -9 -12 l 12 -2 Z" fill="#D9542B"/>';
+  s+='</g>';
+  s+=tl(70,196,13,'#4B4437',T('crankit'));
+  s+='<rect x="120" y="110" width="90" height="80" rx="8" fill="#E8E2D4" stroke="#9A938A" stroke-width="3"/>';
+  s+='<path d="M 130 150 q 10 -18 20 0 q 10 18 20 0 q 10 -18 20 0" fill="none" stroke="#B5652A" stroke-width="4"/>';
+  s+='<line x1="210" y1="150" x2="262" y2="150" stroke="#4B4437" stroke-width="2.5"/>';
+  var pulse=0.3+0.14*Math.sin(ph*3);
+  s+='<circle cx="284" cy="150" r="'+(24+6*Math.sin(ph*3)).toFixed(1)+'" fill="#F5C445" opacity="'+pulse.toFixed(2)+'"/>';
+  s+='<circle cx="284" cy="150" r="15" fill="#F5C445" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="277" y1="157" x2="291" y2="143" stroke="#4B4437" stroke-width="2"/>';
+  s+=tl(284,196,13,'#6B6252',T('bulb'));
+  // energy arrow with marching dots (mech -> elec)
+  s+='<line x1="66" y1="250" x2="272" y2="250" stroke="#2F7D4F" stroke-width="5"/>';
+  s+='<path d="M 284 250 l -18 -9 v 18 Z" fill="#2F7D4F"/>';
+  for(k=0;k<4;k++){
+    var t=(ph*0.35+k/4)%1;
+    s+='<circle cx="'+(66+206*t).toFixed(1)+'" cy="250" r="5" fill="#FFD866" stroke="#2F7D4F" stroke-width="1.5"/>';
+  }
+  s+=tl(90,278,14,'#2F7D4F',T('mech'),'start');
+  s+=tl(258,278,14,'#2F7D4F',T('elec'),'end');
+  // ---- divider + reversal ----
+  s+='<line x1="330" y1="24" x2="330" y2="300" stroke="#E3DCCB" stroke-width="2" stroke-dasharray="6 6"/>';
+  s+=tl(330,346,20,'#DA9526',T('rev'));
+  // ---- right: motor ----
+  s+=tl(495,44,18,'#2C7D8C',T('motT'));
+  s+='<line x1="380" y1="132" x2="380" y2="168" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<line x1="392" y1="140" x2="392" y2="160" stroke="#4B4437" stroke-width="6"/>';
+  s+=tl(386,196,13,'#4B4437',T('battery'));
+  s+='<line x1="392" y1="150" x2="446" y2="150" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<rect x="446" y="110" width="90" height="80" rx="8" fill="#E8E2D4" stroke="#9A938A" stroke-width="3"/>';
+  s+='<path d="M 456 150 q 10 -18 20 0 q 10 18 20 0 q 10 -18 20 0" fill="none" stroke="#B5652A" stroke-width="4"/>';
+  s+='<line x1="536" y1="150" x2="566" y2="150" stroke="#4B4437" stroke-width="3"/>';
+  s+='<circle cx="592" cy="150" r="26" fill="none" stroke="#4B4437" stroke-width="3.5"/>';
+  s+='<g transform="rotate('+((-ph*170)%360).toFixed(1)+' 592 150)">';
+  s+='<line x1="592" y1="128" x2="592" y2="172" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="570" y1="150" x2="614" y2="150" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='</g>';
+  s+='<path d="M 592 118 A 32 32 0 0 1 624 150" fill="none" stroke="#D9542B" stroke-width="4"/>';
+  s+='<path d="M 624 150 l -9 -12 l 12 -2 Z" fill="#D9542B"/>';
+  s+=tl(592,196,13,'#4B4437',T('wheel'));
+  // energy arrow: battery (electrical, left) -> wheel (mechanical, right), matching the layout above
+  s+='<line x1="392" y1="250" x2="582" y2="250" stroke="#2C7D8C" stroke-width="5"/>';
+  s+='<path d="M 594 250 l -18 -9 v 18 Z" fill="#2C7D8C"/>';
+  for(k=0;k<4;k++){
+    var t2=(ph*0.35+k/4)%1;
+    s+='<circle cx="'+(392+190*t2).toFixed(1)+'" cy="250" r="5" fill="#FFD866" stroke="#2C7D8C" stroke-width="1.5"/>';
+  }
+  s+=tl(402,278,14,'#2C7D8C',T('elec'),'start');
+  s+=tl(572,278,14,'#2C7D8C',T('mech'),'end');
+  $('svgcmp2').innerHTML=PAINT(s);
+  buildMG();
+}
+var MGBUILT=false;
+function buildMG(){
+  if(MGBUILT)return;
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('mgH'),R=T('mgR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('mgwrap').innerHTML=h;
+  MGBUILT=true;
+}
+
+/* ================= TAB 4 · REVIEW & QUIZ ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var H=T('cmpH'),R=T('cmpR');
+  for(k=0;k<H.length;k++)h+='<th>'+H[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP4(){buildCmp();}
+var QZpick=[];
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. An induced current appears only when…',o:[
+    ['Any conductor sits inside a strong magnetic field',0,'Sitting still in a field — even a strong one — induces nothing.'],
+    ['A closed circuit\u2019s conductor cuts field lines',1,'Correct — closed circuit + part of the conductor + cutting, all three at once.'],
+    ['The circuit is closed, whether or not anything moves',0,'A closed circuit at rest has no induced current.'],
+    ['The conductor moves parallel to the field lines',0,'Moving ALONG the lines is not cutting — no current.']]},
+   {q:'2. Sliding the wire up and down (along the field lines) gives no current because…',o:[
+    ['The wire moves too slowly',0,'Speed isn\u2019t the issue — direction is.'],
+    ['It isn\u2019t cutting any field lines',1,'Correct — motion along the lines crosses none of them.'],
+    ['The magnet is too weak',0,'Even the strongest magnet gives nothing without cutting.'],
+    ['The galvanometer is broken',0,'The meter is fine — drag sideways and it deflects at once.']]},
+   {q:'3. Which change makes the induced current LARGER?',o:[
+    ['Cut the field lines faster',1,'Correct — faster cutting (or stronger field, or more turns) means a bigger current.'],
+    ['Move the wire along the field lines',0,'That gives zero current, not more.'],
+    ['Open the switch',0,'An open circuit carries no current at all.'],
+    ['Use fewer turns of wire',0,'Fewer turns means a smaller current.']]},
+   {q:'4. The DIRECTION of the induced current depends on…',o:[
+    ['Only the speed of motion',0,'Speed sets the size, not the direction.'],
+    ['The field direction AND the motion direction',1,'Correct — both together decide the direction.'],
+    ['Only the number of turns',0,'Turns affect size, never direction.'],
+    ['The thickness of the wire',0,'Wire thickness affects resistance, not the induced direction.']]},
+   {q:'5. Reverse the magnet AND the motion at the same time. The induced current…',o:[
+    ['Reverses',0,'Each flip reverses it once — two flips bring it back.'],
+    ['Stays in the same direction',1,'Correct — reversed twice = unchanged. A classic trap.'],
+    ['Becomes zero',0,'Cutting still happens, so a current still flows.'],
+    ['Doubles',0,'Direction flips don\u2019t change the size.']]},
+   {q:'6. In an AC generator, the current reverses every half turn because…',o:[
+    ['The brushes wear out',0,'Brushes just make contact — they don\u2019t reverse anything (slip rings don\u2019t either).'],
+    ['Each coil side cuts the field in the opposite direction after half a turn',1,'Correct — the side that moved up now moves down, so its induced current flips.'],
+    ['The magnet flips over',0,'The magnet never moves — the coil does.'],
+    ['The wire gets hot',0,'Temperature has nothing to do with it.']]},
+   {q:'7. Generator vs motor — which statement is right?',o:[
+    ['Both turn electrical energy into mechanical energy',0,'That\u2019s only the motor.'],
+    ['A generator uses induction (mechanical→electrical); a motor uses the force on a current (electrical→mechanical)',1,'Correct — same construction, inverse processes.'],
+    ['A generator needs a battery to work',0,'A generator MAKES the electricity — it needs a push, not a battery.'],
+    ['A motor works by electromagnetic induction',0,'A motor runs on the force a field exerts on a current.']]}
+  ];
+  return [
+   {q:'1. 产生感应电流的条件是……',o:[
+    ['任何导体只要放在强磁场里就行',0,'静静放着——磁场再强也不会有电流。'],
+    ['闭合电路的部分导体做切割磁感线运动',1,'正确——闭合电路＋部分导体＋切割磁感线，三者缺一不可。'],
+    ['只要电路闭合，动不动无所谓',0,'闭合但静止，没有感应电流。'],
+    ['导体顺着磁感线方向运动',0,'顺着磁感线运动不是切割——没有电流。']]},
+   {q:'2. 把导线沿磁感线方向上下移动，没有电流，是因为……',o:[
+    ['移动得太慢了',0,'问题不在快慢，在方向。'],
+    ['没有切割到磁感线',1,'正确——顺着线走，一条也没切到。'],
+    ['磁铁太弱了',0,'不切割的话，磁铁再强也没用。'],
+    ['电流计坏了',0,'电流计好好的——横着一拖马上偏转。']]},
+   {q:'3. 哪个做法能让感应电流更大？',o:[
+    ['加快切割磁感线的速度',1,'正确——切得更快（或磁场更强、匝数更多）电流就更大。'],
+    ['让导线顺着磁感线移动',0,'那样电流直接变零，不是变大。'],
+    ['断开开关',0,'开路根本没有电流。'],
+    ['减少线圈匝数',0,'匝数少了电流反而小。']]},
+   {q:'4. 感应电流的方向与什么有关？',o:[
+    ['只与运动速度有关',0,'速度决定大小，不决定方向。'],
+    ['与磁场方向和运动方向都有关',1,'正确——两个方向共同决定电流方向。'],
+    ['只与匝数有关',0,'匝数影响大小，从不影响方向。'],
+    ['与导线粗细有关',0,'粗细影响电阻，不影响感应方向。']]},
+   {q:'5. 把磁铁反向，同时运动方向也反向，感应电流……',o:[
+    ['反向',0,'反一个就反一次——反两个又转回来了。'],
+    ['方向不变',1,'正确——反两次＝不变。经典陷阱题。'],
+    ['变为零',0,'切割照样进行，电流照样有。'],
+    ['变为两倍',0,'方向的翻转不改变大小。']]},
+   {q:'6. 交流发电机每转半圈电流方向变一次，是因为……',o:[
+    ['电刷磨损了',0,'电刷只负责接触，不负责换向（滑环也不换向）。'],
+    ['转过半圈后，每条边切割磁感线的方向反了',1,'正确——原来向上运动的那条边现在向下，感应电流跟着反。'],
+    ['磁铁翻了个面',0,'磁铁根本不动——转的是线圈。'],
+    ['导线发热了',0,'温度和这个没有关系。']]},
+   {q:'7. 发电机 vs 电动机，哪句说对了？',o:[
+    ['两个都把电能变成机械能',0,'那只是电动机。'],
+    ['发电机靠电磁感应（机械能→电能）；电动机靠磁场对电流的作用（电能→机械能）',1,'正确——构造相同，过程互逆。'],
+    ['发电机要接电池才能工作',0,'发电机是"造电"的——它需要的是转动，不是电池。'],
+    ['电动机的原理是电磁感应',0,'电动机靠的是磁场对电流的作用力。']]}
+  ];
+}
+var QZi=0,QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+
+/* ================= ambient animation loop ================= */
+var AMB=0;
+function ambLoop(){
+  if(CUR===0&&Math.abs(IN0.V)>0.15){
+    IN0.V*=0.86;
+    if(Math.abs(IN0.V)<=0.15)IN0.V=0;
+    if(IN0.para>0)IN0.para--;
+    INPH=(INPH+0.02)%1;
+    drawIN();
+  }else if(CUR===0&&IN0.para>0){
+    IN0.para--;
+    if(IN0.para===0)drawIN();
+  }
+  if(CUR===1){
+    faStep();
+    drawFA();
+  }
+  if(CUR===2&&GEN.playing){
+    GEN.a+=GEN.w*0.045;
+    if(GEN.a>Math.PI*4)GEN.a-=Math.PI*2;
+    drawGEN();
+  }
+  if(CUR===3){
+    MG.ph+=0.03;
+    drawMG();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  MGBUILT=false;
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+function boot(){
+  RENDER=[drawIN,drawFA,drawGEN,drawMG,drawP4,drawQZ];
+  SUMMARY=[
+    function(){var Iv=inCurrent();return T('gread')+' '+(Iv>=0?'+':'−')+Math.abs(Iv).toFixed(2)+' · '+(IN0.closed?T('dk_circ'):T('opensw'))},
+    function(){return T('spd')+' '+FA.v+' · '+T('fld')+' '+FA.B+' · '+FA.loops+T('lp')},
+    function(){var d=Math.round((GEN.a*180/Math.PI)%360);if(d<0)d+=360;return T('ang')+' '+d+'° · '+(GEN.dc?T('typedc'):T('typeac'))},
+    function(){return T('rev')},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initIN(); initGEN();
+  $('nsflip0').addEventListener('click',function(){
+    IN0.ns=-IN0.ns;this.classList.toggle('on',IN0.ns<0);drawIN();updSummary();
+  });
+  $('circtgl').addEventListener('click',function(){
+    IN0.closed=IN0.closed?0:1;this.classList.toggle('on',!!IN0.closed);drawIN();updSummary();
+  });
+  $('viewtgl').addEventListener('click',function(){
+    IN0.v3=IN0.v3?0:1;this.classList.toggle('on',!!IN0.v3);drawIN();updSummary();
+  });
+  var mv=document.querySelectorAll('.mvp'),k;
+  for(k=0;k<mv.length;k++)mv[k].addEventListener('click',function(){
+    FA.mode=+this.getAttribute('data-v');
+    var bs=document.querySelectorAll('.mvp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',+bs[j].getAttribute('data-v')===FA.mode);
+    drawFA();updSummary();
+  });
+  $('vsl').addEventListener('input',function(){FA.v=+this.value;$('vslab').textContent=''+FA.v;updSummary()});
+  $('bsl').addEventListener('input',function(){FA.B=+this.value;$('bslab').textContent=''+FA.B;updSummary()});
+  var lp=document.querySelectorAll('.loopp');
+  for(k=0;k<lp.length;k++)lp[k].addEventListener('click',function(){
+    FA.loops=+this.getAttribute('data-n');
+    var bs=document.querySelectorAll('.loopp');
+    for(var j=0;j<bs.length;j++)bs[j].classList.toggle('on',+bs[j].getAttribute('data-n')===FA.loops);
+    updSummary();
+  });
+  $('nsflip1').addEventListener('click',function(){
+    FA.ns=-FA.ns;this.classList.toggle('on',FA.ns<0);updSummary();
+  });
+  $('genplay').addEventListener('click',function(){
+    GEN.playing=!GEN.playing;
+    this.classList.toggle('on',GEN.playing);
+  });
+  $('wsl').addEventListener('input',function(){
+    GEN.w=+this.value;$('wslab').textContent=GEN.w.toFixed(1);drawGENW();updSummary();
+  });
+  $('acdc').addEventListener('click',function(){
+    GEN.dc=!GEN.dc;this.classList.toggle('on',GEN.dc);drawGEN();updSummary();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  $('vslab').textContent=''+FA.v;$('bslab').textContent=''+FA.B;$('wslab').textContent=GEN.w.toFixed(1);
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i,j;
+  for(i=0;i<6;i++){showTab(i)}
+  // tab0 sweeps
+  for(i=-24;i<=24;i+=6){IN0.V=i;IN0.closed=1;IN0.ns=1;drawIN();IN0.ns=-1;drawIN();IN0.closed=0;drawIN();IN0.closed=1}
+  IN0.para=10;drawIN();IN0.para=0;IN0.V=0;drawIN();
+  IN0.v3=1;
+  for(i=-24;i<=24;i+=8){IN0.V=i;INPH=(i+24)/48;drawIN();IN0.ns=-1;drawIN();IN0.ns=1}
+  IN0.closed=0;drawIN();IN0.closed=1;IN0.para=8;drawIN();IN0.para=0;IN0.V=0;drawIN();
+  IN0.v3=0;drawIN();
+  // tab1 sweeps
+  var md,vv,bb,ll;
+  for(md=0;md<3;md++){FA.mode=md;
+    for(vv=1;vv<=5;vv+=2){FA.v=vv;
+      for(bb=1;bb<=5;bb+=2){FA.B=bb;
+        for(ll=1;ll<=3;ll++){FA.loops=ll;faStep();drawFA()}
+      }
+    }
+  }
+  FA.ns=-1;faStep();drawFA();FA.ns=1;FA.mode=2;FA.v=2;FA.B=3;FA.loops=1;
+  // tab2 sweeps
+  for(i=0;i<=24;i++){GEN.a=i*Math.PI/12;GEN.dc=false;drawGEN();GEN.dc=true;drawGEN()}
+  GEN.dc=false;
+  for(i=2;i<=12;i+=2){GEN.w=i/10;drawGENW()}
+  GEN.w=0.6;GEN.a=0.9;
+  drawMG();
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<6;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<6;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='electromagnetic-induction-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+  // Ensure hint exists for usability
+  try{
+    if(!document.querySelector('.hint-line') && !document.querySelector('.note')){
+      const bar=document.querySelector('.ctlbar'); if(bar){const h=document.createElement('div');h.className='hint-line';h.textContent='💡 拖一拖·调一调 — 拖动滑块和画布探索';bar.appendChild(h);}
+    }
+  }catch{}
+})();
+</script>
+</body>
+</html>

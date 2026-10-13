@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>导体电阻影响因素实验室 · Resistance Factors · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 导体电阻影响因素实验室</h1>
+  <div class="sub">Resistance Factors · chu-er-shang/b3-c11 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 实验台</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 公平实验设计</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 微观解释·温度</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 数据与图像</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svgb" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="b_sidetitle">电阻测量台</h3>
+    <div class="statline">
+      <span class="chip" id="b_r">—</span>
+      <span class="chip blu" id="b_i">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="b_k1"></div>
+    <div class="kbox blue" data-i18n-html="b_k2"></div>
+  </div>
+ </div>
+</div>
+
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb1">—</div>
+    <svg id="svgf" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="f_sidetitle">控制变量法</h3>
+    <div class="kbox" data-i18n-html="f_k1"></div>
+  </div>
+ </div>
+</div>
+
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb2">—</div>
+    <svg id="svgm" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="m_sidetitle">电阻的本质</h3>
+    <div class="kbox" data-i18n-html="m_k1"></div>
+    <div class="kbox red" data-i18n-html="m_k2"></div>
+  </div>
+ </div>
+</div>
+
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb3">—</div>
+    <svg id="svgg" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="g_sidetitle">定量规律</h3>
+    <div class="statline"><span class="chip grn" id="g_n">—</span></div>
+    <div class="kbox" data-i18n-html="g_k1"></div>
+    <div class="kbox grn" data-i18n-html="g_sum"></div>
+  </div>
+ </div>
+</div>
+
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <span class="dl">
+      <button class="tgl" id="bm0" data-i18n="mt_cu">铜</button><button class="tgl" id="bm1" data-i18n="mt_mn">锰铜</button><button class="tgl on" id="bm2" data-i18n="mt_ni">镍铬合金</button>
+    </span>
+    <span class="dl"><span data-i18n="dk_len">长度</span>
+      <input type="range" id="bL" min="0.2" max="2" step="0.1" value="1">
+      <span class="mono" id="bLlab">1.0 m</span></span>
+    <span class="dl"><span data-i18n="dk_area">粗细(横截面积)</span>
+      <input type="range" id="bA" min="0.5" max="2" step="0.1" value="1">
+      <span class="mono" id="bAlab">1.0 mm²</span></span>
+    <button class="tgl" id="breset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d1">
+    <span class="dl">乙:
+      <button class="tgl" id="fm0" data-i18n="mt_cu">铜</button><button class="tgl on" id="fm1" data-i18n="mt_mn">锰铜</button><button class="tgl" id="fm2" data-i18n="mt_ni">镍铬合金</button>
+    </span>
+    <button class="tgl" id="flen">长↔短</button>
+    <button class="tgl" id="farea">粗↔细</button>
+    <button class="tgl" id="ftrap">⚠ 试试双变量</button>
+    <button class="tgl" id="freset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d2">
+    <span class="dl"><span data-i18n="dk_len">长度</span>
+      <input type="range" id="mL" min="0.4" max="2" step="0.1" value="1">
+      <span class="mono" id="mLlab">1.0 m</span></span>
+    <span class="dl"><span data-i18n="dk_area">粗细(横截面积)</span>
+      <input type="range" id="mlanes" min="1" max="4" step="1" value="2">
+      <span class="mono" id="mlaneslab">2 条通道</span></span>
+    <span class="dl"><span data-i18n="dk_T">温度</span>
+      <input type="range" id="mT" min="20" max="200" step="5" value="20">
+      <span class="mono" id="mTlab">20 °C</span></span>
+    <button class="tgl" id="mreset" data-i18n="dk_reset">↺ 重置</button>
+  </div>
+
+  <div class="dsec" id="d3">
+    <button class="tgl on" id="gmodeL" data-i18n="dk_mode_L">变长度</button>
+    <button class="tgl" id="gmodeA" data-i18n="dk_mode_A">变粗细</button>
+    <span class="dl">
+      <input type="range" id="gv" min="0.2" max="2" step="0.1" value="1">
+      <span class="mono" id="gvlab">1.0 m</span></span>
+    <button class="dbtn" id="grec"><span data-i18n="dk_rec">📋 记录一组</span></button>
+    <button class="tgl" id="gclr" data-i18n="dk_clr">🧹 清空数据</button>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+<div class="foot" style="padding:8px 12px;font-size:11px;color:#5A605D">© 2026 ScienceMaterial</div>
+</div>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'导体电阻影响因素实验室',
+ subtitle:'材料 · 长度 · 横截面积 · 温度 —— R 由什么决定 · 初中科学课堂演示工具',
+ tab0:'① 实验台',tab1:'② 公平实验设计',tab2:'③ 微观解释·温度',tab3:'④ 数据与图像',tab4:'⑤ 测验',
+ bqb:'同样接进电路，有的导线让灯泡很亮，有的让灯泡很暗。导体的电阻到底跟什么有关？',
+ fqb:'想证明"长度影响电阻"，甲乙两根导线该怎么选？如果材料和长度同时不一样，实验还公平吗？',
+ mqb:'电阻的本质是什么？把导线放大一亿倍——看看电子在里面经历了什么。',
+ gqb:'把长度加倍、再加倍，电阻怎么变？把导线换粗一倍呢？规律画成图像是什么形状？',
+ b_sidetitle:'电阻测量台',
+ b_k1:'导体的电阻由<b>自身性质</b>决定：<b>材料、长度、横截面积（粗细）</b>，还受<b>温度</b>影响——跟接不接电、电压多大<b>无关</b>。规律：越<b>长</b>电阻越大，越<b>粗</b>电阻越小；镍铬合金 ≫ 锰铜 ≫ 铜。',
+ b_k2:'这里用<b>转换法</b>：电阻看不见，就看<b>电流表读数和灯泡亮度</b>——电阻越大，电流越小，灯越暗。拖动长度滑杆时你已经在用<b>滑动变阻器</b>的原理了：改变接入电路的导线长度来改变电阻！',
+ f_sidetitle:'控制变量法',
+ f_k1:'要研究一个因素，就必须<b>只让这一个因素不同</b>，其余全部相同——这就是<b>控制变量法</b>。两根导线若同时材料不同、长度也不同，灯泡亮度的差别就说不清是谁造成的。',
+ m_sidetitle:'电阻的本质',
+ m_k1:'导线内部是排列整齐但<b>不停振动的金属离子</b>，自由电子在其间穿行，不断<b>碰撞</b>——碰撞越多，前进越困难，宏观上就是<b>电阻越大</b>。导线越长=要穿过的"障碍区"越长；越粗=可走的"车道"越多。',
+ m_k2:'<b>温度升高 → 离子振动更剧烈 → 碰撞更频繁 → 金属电阻变大</b>。灯丝就是例子：亮着的灯丝上千度，电阻比冷态大十几倍。（诚实说明：这是简化的经典图像，够初中用。）',
+ g_sidetitle:'定量规律',
+ g_k1:'控制其他条件：<b>R 与长度 L 成正比</b>（图像是过原点的直线）；<b>R 与横截面积 A 成反比</b>(粗一倍，电阻一半，图像是双曲线的一支)。合起来就是 <b>R = ρL/A</b>，ρ 叫电阻率，由材料决定。',
+ g_sum:'<b>总结</b>：材料（ρ）、长度（∝L）、粗细（∝1/A）、温度（金属升温 R↑）。应用：铜做导线（ρ 小），镍铬合金做电热丝（ρ 大），滑动变阻器改变接入长度。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_reset:'↺ 重置',
+ dk_mat:'材料', dk_len:'长度', dk_area:'粗细(横截面积)', dk_T:'温度',
+ mt_cu:'铜', mt_mn:'锰铜', mt_ni:'镍铬合金',
+ dk_mode_L:'变长度', dk_mode_A:'变粗细',
+ dk_rec:'📋 记录一组', dk_clr:'🧹 清空数据',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ b_R:'电阻', b_I:'电流', b_wire:'待测导线', b_amm:'电流表',
+ b_dim:'长', b_thick:'截面积',
+ f_jiaN:'甲（基准）', f_yiN:'乙（你来配）',
+ f_fair:'✓ 公平实验：只有一个变量不同', f_same:'⚠ 两根完全一样——没有对比',
+ f_unfair:'✗ 不公平：同时有多个变量不同', f_diff:'不同项',
+ f_conc_mat:'结论方向：材料对电阻的影响', f_conc_len:'结论方向：长度对电阻的影响', f_conc_area:'结论方向：粗细对电阻的影响',
+ m_col:'每秒碰撞', m_lane:'条通道', m_hotter:'离子振动加剧！',
+ g_L:'长度 L / m', g_A:'截面积 A / mm²', g_R:'电阻 R / Ω',
+ g_line:'过原点的直线：R ∝ L', g_hyp:'反比曲线：R ∝ 1/A',
+ g_pts:'已记录', g_ptsu:'组',
+ mth:''
+},
+en:{
+ title:'Resistance Factors Lab',
+ subtitle:'Material · length · cross-section · temperature — what sets R · junior-high classroom demo',
+ tab0:'① Test Bench',tab1:'② Fair-Test Design',tab2:'③ Microscopic View · Heat',tab3:'④ Data & Graphs',tab4:'⑤ Quiz',
+ bqb:'Wired in the same way, one wire lights the bulb brightly and another dimly. What does a conductor\u2019s resistance depend on?',
+ fqb:'To prove that LENGTH affects resistance, how should wires 甲 and 乙 be chosen? If material AND length both differ, is the test still fair?',
+ mqb:'What IS resistance, really? Magnify the wire 100-million times and watch what the electrons go through.',
+ gqb:'Double the length, then double it again — what happens to R? Double the thickness? What curves do these rules draw?',
+ b_sidetitle:'Measuring bench',
+ b_k1:'A conductor\u2019s resistance is set by its <b>own properties</b>: <b>material, length, cross-sectional area</b>, plus <b>temperature</b> — NOT by the voltage across it. Rules: <b>longer → larger R</b>, <b>thicker → smaller R</b>; nichrome ≫ manganin ≫ copper.',
+ b_k2:'We use the <b>conversion method</b>: resistance is invisible, so read the <b>ammeter and bulb brightness</b> — bigger R, smaller current, dimmer bulb. Dragging the length slider IS the principle of the <b>rheostat</b>: change the connected length to change R!',
+ f_sidetitle:'Control of variables',
+ f_k1:'To study one factor, <b>only that factor may differ</b> — everything else identical. That is the <b>control-of-variables method</b>. If two wires differ in material AND length, the brightness difference cannot be attributed to either.',
+ m_sidetitle:'What resistance IS',
+ m_k1:'Inside a wire, <b>metal ions vibrate in place</b> while free electrons thread between them, constantly <b>colliding</b> — more collisions = harder progress = <b>more resistance</b>. Longer wire = a longer obstacle zone; thicker wire = more "lanes" to use.',
+ m_k2:'<b>Higher temperature → ions vibrate harder → more collisions → metal resistance rises.</b> A lit filament runs at over 2000 °C with 10+�� its cold resistance. (Honesty note: this is the simplified classical picture — right level for junior high.)',
+ g_sidetitle:'The quantitative law',
+ g_k1:'Holding the rest constant: <b>R is proportional to length L</b> (a straight line through the origin); <b>R is inversely proportional to area A</b> (double the thickness → half the R; one branch of a hyperbola). Together: <b>R = ρL/A</b>, where ρ (resistivity) is set by the material.',
+ g_sum:'<b>Summary</b>: material (ρ), length (∝L), thickness (∝1/A), temperature (metals: hotter → R↑). Applications: copper for wiring (small ρ), nichrome for heater elements (large ρ), rheostats vary the connected length.',
+ qz_title:'🎯 Quiz', qz_reset:'Restart',
+ dk_reset:'↺ Reset',
+ dk_mat:'Material', dk_len:'Length', dk_area:'Thickness (area)', dk_T:'Temp.',
+ mt_cu:'copper', mt_mn:'manganin', mt_ni:'nichrome',
+ dk_mode_L:'Vary length', dk_mode_A:'Vary thickness',
+ dk_rec:'📋 Record', dk_clr:'🧹 Clear',
+ dk_hint4:'💡 answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 hide notes', exp_off:'💬 tap for notes',
+ qtag:'Q',
+ b_R:'resistance', b_I:'current', b_wire:'test wire', b_amm:'ammeter',
+ b_dim:'length', b_thick:'area',
+ f_jiaN:'甲 (reference)', f_yiN:'乙 (you build it)',
+ f_fair:'✓ FAIR test: exactly one variable differs', f_same:'⚠ Identical wires — nothing to compare',
+ f_unfair:'✗ UNFAIR: more than one variable differs', f_diff:'differs in',
+ f_conc_mat:'conclusion targets: effect of MATERIAL', f_conc_len:'conclusion targets: effect of LENGTH', f_conc_area:'conclusion targets: effect of THICKNESS',
+ m_col:'collisions/s', m_lane:'lane(s)', m_hotter:'ions vibrating harder!',
+ g_L:'length L / m', g_A:'area A / mm²', g_R:'resistance R / Ω',
+ g_line:'straight line through the origin: R ∝ L', g_hyp:'inverse curve: R ∝ 1/A',
+ g_pts:'recorded', g_ptsu:'',
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C','#D9542B':'#FF7A50',
+'#DA9526':'#FFB84D','#3B6EA5':'#7FB2E0'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.hasAttribute('data-dyn'))continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+
+
+/* ================= resistance model ================= */
+/* resistivity in Ω·mm²/m (relative teaching values) */
+var RHO=[0.017,0.44,1.10];
+var MATN=['mt_cu','mt_mn','mt_ni'];
+var MATC=['#B5652A','#8A5A2B','#6B6252'];
+var VSRC=3.0, RBASE=2.0;
+function RES(mat,L,A){return RHO[mat]*L/A}
+function RTEMP(R,T){return R*(1+0.004*(T-20))}
+function AMPS(R){return VSRC/(RBASE+R)}
+
+/* ---- ① bench state ---- */
+var B={mat:2,L:1.0,A:1.0};
+function initB(){B.mat=2;B.L=1.0;B.A=1.0}
+
+/* ---- ② fair test ---- */
+var F={mat:0,len:0,area:0};      /* 乙 config; 甲 = [0,0,0] = 铜/短/细 */
+var FJIA=[0,0,0];
+function fairDiff(){
+  var d=[];
+  if(F.mat!==FJIA[0])d.push('mat');
+  if(F.len!==FJIA[1])d.push('len');
+  if(F.area!==FJIA[2])d.push('area');
+  return d;
+}
+function initF(){F.mat=2;F.len=0;F.area=0}
+
+/* ---- ③ micro state ---- */
+var M={L:1.0,lanes:2,T:20,cols:0,colRate:0,ex:[]};
+function microR(){return RTEMP(1.1*M.L/(M.lanes*0.5),M.T)}
+function initMicroE(){
+  M.ex=[];
+  var k;
+  for(k=0;k<14;k++){
+    M.ex.push({u:rnd(k,601),lane:k%M.lanes,off:rnd(k,607)});
+  }
+}
+function initM(){M.L=1.0;M.lanes=2;M.T=20;M.cols=0;M.colRate=0;initMicroE()}
+/* electron drift speed: slower when R bigger (fixed V) */
+function eSpeed(){return 0.14/(0.6+microR()*0.35)}
+function collideP(){return 0.25+0.55*(M.T-20)/180}
+
+/* ---- ④ graph state ---- */
+var G={mode:'L',pts:[]};   /* pts: [x,R] */
+function gCurX(){return G.mode==='L'?B.L:B.A}
+function initG(){G.mode='L';G.pts=[]}
+'use strict';
+function benchBG(w,h){
+  return '<rect x="0" y="0" width="'+w+'" height="'+h+'" rx="14" fill="#FBF7EC"/>';
+}
+function arrowHead(x,y,vx,vy,col,w){
+  var vd=Math.hypot(vx,vy)||1;vx/=vd;vy/=vd;
+  var lx=-vy,ly=vx;
+  return '<path d="M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10+lx*5.5).toFixed(1)+' '+(-vy*10+ly*5.5).toFixed(1)+
+   ' M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10-lx*5.5).toFixed(1)+' '+(-vy*10-ly*5.5).toFixed(1)+
+   '" stroke="'+col+'" stroke-width="'+(w||3)+'" fill="none" stroke-linecap="round"/>';
+}
+
+/* ================= ① bench ================= */
+function drawB(){
+  var s=benchBG(660,470);
+  var R=RES(B.mat,B.L,B.A);
+  var Iv=AMPS(R);
+  /* circuit frame */
+  s+='<path d="M 80 120 L 80 400 L 250 400 M 320 400 L 580 400 L 580 120 L 470 120 M 190 120 L 80 120" fill="none" stroke="#8A8070" stroke-width="4" stroke-linecap="round"/>';
+  /* battery */
+  s+='<line x1="250" y1="386" x2="250" y2="414" stroke="#26221B" stroke-width="4"/>';
+  s+='<line x1="266" y1="392" x2="266" y2="408" stroke="#8A8070" stroke-width="6"/>';
+  s+='<path d="M 266 400 L 320 400" fill="none" stroke="#8A8070" stroke-width="4"/>';
+  s+=tlplain(258,438,13,'#6B6252','3 V');
+  /* ammeter */
+  var ax=230,ay=120;
+  s+='<circle cx="'+ax+'" cy="'+ay+'" r="40" fill="#FFFDF7" stroke="#8A8070" stroke-width="3"/>';
+  s+=tl(ax,ay+24,15,'#26221B','A');
+  var na=-60+Iv/1.5*120;
+  na=clamp(na,-62,62);
+  var nr=na*Math.PI/180;
+  s+='<line x1="'+ax+'" y1="'+ay+'" x2="'+(ax+30*Math.sin(nr)).toFixed(1)+'" y2="'+(ay-30*Math.cos(nr)).toFixed(1)+'" stroke="#D9542B" stroke-width="3" stroke-linecap="round"/>';
+  s+=tlplain(ax,ay-50,13,'#6B6252',T('b_amm'));
+  /* bulb: glow ∝ power */
+  var bx=520,by=120;
+  var P=Iv*Iv*RBASE;
+  var glow=clamp(P/2.2,0.06,1);
+  s+='<circle cx="'+bx+'" cy="'+by+'" r="'+(26+16*glow)+'" fill="#DA9526" opacity="'+(0.30*glow).toFixed(2)+'"/>';
+  s+='<circle cx="'+bx+'" cy="'+by+'" r="24" fill="'+(glow>0.45?'#F2C94C':'#E8E2D4')+'" stroke="#8A8070" stroke-width="3"/>';
+  s+='<path d="M '+(bx-8)+' '+(by+4)+' q 4 -12 8 0 q 4 12 8 0" fill="none" stroke="#8A5A2B" stroke-width="2"/>';
+  s+='<path d="M 470 120 L 496 120 M 544 120 L 580 120" fill="none" stroke="#8A8070" stroke-width="4"/>';
+  /* test wire between clips: length & thickness drawn to scale */
+  var wx0=190,wx1max=470;
+  var wl=(B.L/2.0)*(wx1max-wx0-20)+20;
+  var wx1=wx0+wl;
+  var th=3+B.A*5;
+  s+='<circle cx="'+wx0+'" cy="120" r="6" fill="#4B4437"/>';
+  s+='<circle cx="'+(wx0+wl).toFixed(1)+'" cy="120" r="6" fill="#4B4437"/>';
+  s+='<line x1="'+wx0+'" y1="120" x2="'+wx1.toFixed(1)+'" y2="120" stroke="'+MATC[B.mat]+'" stroke-width="'+th.toFixed(1)+'" stroke-linecap="round"/>';
+  if(wx1<wx1max-8)s+='<line x1="'+wx1.toFixed(1)+'" y1="120" x2="'+wx1max+'" y2="120" stroke="#8A8070" stroke-width="4" stroke-dasharray="3 5"/>';
+  s+=tl((wx0+wx1)/2,96,14,MATC[B.mat],T(MATN[B.mat])+' · '+B.L.toFixed(1)+' m · '+B.A.toFixed(1)+' mm²');
+  s+=tlplain((wx0+wx1max)/2,152,13,'#6B6252',T('b_wire'));
+  /* marching current dots (speed ∝ I) */
+  var k;
+  var segs=[[80,120,80,400],[80,400,266,400],[266,400,580,400],[580,400,580,120],[580,120,190,120],[190,120,80,120]];
+  var lens=segs.map(function(g){return Math.hypot(g[2]-g[0],g[3]-g[1])});
+  var tot=0;for(k=0;k<lens.length;k++)tot+=lens[k];
+  for(k=0;k<20;k++){
+    var u=frac(rnd(k,701)+CLK*0.05*Iv);
+    var d=u*tot,p=null,j;
+    for(j=0;j<segs.length;j++){
+      if(d<=lens[j]){var t2=d/lens[j];p=[segs[j][0]+(segs[j][2]-segs[j][0])*t2,segs[j][1]+(segs[j][3]-segs[j][1])*t2];break}
+      d-=lens[j];
+    }
+    if(p)s+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.2" fill="#DA9526"/>';
+  }
+  /* readout panel */
+  s+='<rect x="96" y="196" width="200" height="150" rx="12" fill="#FFFDF7" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(196,228,15,'#6B6252',T('b_R'));
+  s+=tl(196,264,26,'#2C7D8C','R = '+R.toFixed(2)+' Ω');
+  s+=tl(196,300,15,'#6B6252',T('b_I'));
+  s+=tl(196,330,22,'#D9542B','I = '+Iv.toFixed(2)+' A');
+  $('svgb').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('bqb');
+  $('b_r').textContent='R = '+R.toFixed(2)+' Ω';
+  $('b_i').textContent='I = '+AMPS(R).toFixed(2)+' A';
+}
+
+/* ================= ② fair test ================= */
+function wireIcon(x,y,mat,len,area,label){
+  var L=len===0?120:220;
+  var th=area===0?4:11;
+  var s='<circle cx="'+x+'" cy="'+y+'" r="5" fill="#4B4437"/><circle cx="'+(x+L)+'" cy="'+y+'" r="5" fill="#4B4437"/>';
+  s+='<line x1="'+x+'" y1="'+y+'" x2="'+(x+L)+'" y2="'+y+'" stroke="'+MATC[mat]+'" stroke-width="'+th+'" stroke-linecap="round"/>';
+  s+=tl(x+L/2,y-18,14,MATC[mat],T(MATN[mat]));
+  s+=tl(x-16,y+5,15,'#26221B',label,'end');
+  return s;
+}
+function drawF(){
+  var s=benchBG(660,470);
+  s+=tlplain(330,44,15,'#6B6252',T('f_jiaN')+'  vs  '+T('f_yiN'));
+  s+=wireIcon(160,110,FJIA[0],FJIA[1],FJIA[2],'甲');
+  s+=wireIcon(160,210,F.mat,F.len,F.area,'乙');
+  /* chips comparing the three attributes */
+  var attrs=[['dk_mat',F.mat!==FJIA[0]],['dk_len',F.len!==FJIA[1]],['dk_area',F.area!==FJIA[2]]];
+  var k;
+  for(k=0;k<3;k++){
+    var same=!attrs[k][1];
+    s+='<rect x="'+(120+k*150)+'" y="268" width="130" height="36" rx="10" fill="'+(same?'#E8E2D4':'#F6D9CC')+'" stroke="'+(same?'#9A938A':'#D9542B')+'" stroke-width="1.6"/>';
+    s+=tl(185+k*150,291,14,same?'#6B6252':'#D9542B',T(attrs[k][0])+(same?' ✓同':' ✗不同'));
+  }
+  /* verdict */
+  var d=fairDiff();
+  var vt,vc;
+  if(d.length===1){vt=T('f_fair');vc='#2F7D4F'}
+  else if(d.length===0){vt=T('f_same');vc='#DA9526'}
+  else {vt=T('f_unfair');vc='#D9542B'}
+  s+='<rect x="110" y="330" width="440" height="44" rx="12" fill="#FFFDF7" stroke="'+vc+'" stroke-width="2.5"/>';
+  s+=tl(330,358,16,vc,vt);
+  if(d.length===1){
+    var cm={mat:'f_conc_mat',len:'f_conc_len',area:'f_conc_area'};
+    s+=tl(330,408,14,'#2C7D8C','→ '+T(cm[d[0]]));
+  }
+  $('svgf').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('fqb');
+}
+
+/* ================= ③ micro ================= */
+var MC={x0:70,x1:590,y0:120,y1:360};
+function microStep(dt){
+  var k;
+  var newCols=0;
+  for(k=0;k<M.ex.length;k++){
+    var e=M.ex[k];
+    var du=eSpeed()*dt*3*(0.9+0.2*rnd(k,613));
+    e.u+=du;
+    if(e.u>=1){e.u-=1;e.lane=Math.floor(rnd(k,617)*M.lanes+CLK)%M.lanes}
+    /* collision events at ion columns */
+    var ncol=Math.floor(4+M.L*6);
+    var prevCol=Math.floor((e.u-du)*ncol),nowCol=Math.floor(e.u*ncol);
+    if(nowCol>prevCol&&rnd(k*7+nowCol,631)<collideP())newCols++;
+  }
+  M.colRate=M.colRate*0.96+newCols*0.04/dt;
+}
+function drawM(){
+  var s=benchBG(660,470);
+  /* wire cross-section chamber sized by L (width) and lanes (height) */
+  var wLen=(MC.x1-MC.x0)*(0.45+0.55*M.L/2);
+  var x1=MC.x0+wLen;
+  var laneH=44;
+  var h=M.lanes*laneH+24;
+  var y0=240-h/2,y1=240+h/2;
+  s+='<rect x="'+MC.x0+'" y="'+y0.toFixed(0)+'" width="'+wLen.toFixed(0)+'" height="'+h+'" rx="12" fill="#F3EDDD" stroke="#B5652A" stroke-width="3"/>';
+  /* ions vibrating on a grid */
+  var ncol=Math.floor(4+M.L*6),k,j;
+  var amp=1+ (M.T-20)/180*5.5;
+  for(k=0;k<ncol;k++){
+    for(j=0;j<M.lanes+1;j++){
+      var ix=MC.x0+24+(wLen-48)*k/(ncol-1);
+      var iy=y0+16+(h-32)*j/M.lanes;
+      var jx=Math.sin(CLK*7+k*2.1+j*3.7)*amp,jy=Math.cos(CLK*8.3+k*1.3+j*2.9)*amp;
+      s+='<circle cx="'+(ix+jx).toFixed(1)+'" cy="'+(iy+jy).toFixed(1)+'" r="7" fill="#9A938A" stroke="#6B655C" stroke-width="1.5"/>';
+      s+=tlplain(ix+jx,iy+jy+4,10,'#F3EDDD','+');
+    }
+  }
+  /* electrons drifting in lanes */
+  for(k=0;k<M.ex.length;k++){
+    var e=M.ex[k];
+    var exx=MC.x0+14+(wLen-28)*e.u;
+    var eyy=y0+16+(h-32)*(e.lane+0.5)/M.lanes + Math.sin(CLK*5+k)*4;
+    s+='<circle cx="'+exx.toFixed(1)+'" cy="'+eyy.toFixed(1)+'" r="5.5" fill="#3B6EA5" stroke="#7FB2E0" stroke-width="1.5"/>';
+    /* collision flash */
+    var ncol2=Math.floor(4+M.L*6);
+    var cc=Math.floor(e.u*ncol2);
+    if(rnd(k*7+cc,631)<collideP()&&frac(e.u*ncol2)<0.25){
+      s+='<circle cx="'+exx.toFixed(1)+'" cy="'+eyy.toFixed(1)+'" r="10" fill="none" stroke="#D9542B" stroke-width="2.5" opacity="0.8"/>';
+    }
+  }
+  /* drift direction */
+  s+=arrowHead(x1+34,240,1,0,'#3B6EA5',4);
+  s+=tlplain(x1+34,214,13,'#3B6EA5','e⁻→');
+  /* labels */
+  s+=tl(MC.x0+wLen/2,y0-14,14,'#8A5A2B',T('dk_len')+' '+M.L.toFixed(1)+' m · '+M.lanes+' '+T('m_lane'));
+  var R=microR();
+  s+=tl(150,64,16,'#2C7D8C','R ≈ '+R.toFixed(2)+' Ω','start');
+  s+=tl(150,92,14,'#D9542B','💥 '+T('m_col')+' ≈ '+Math.round(M.colRate),'start');
+  if(M.T>90)s+=tl(470,64,14,'#D9542B','🔥 '+T('m_hotter'),'start');
+  s+=tlplain(330,440,13,'#8A8070','T = '+Math.round(M.T)+' °C');
+  $('svgm').innerHTML=PAINT(s);
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('mqb');
+}
+
+/* ================= ④ graphs ================= */
+var GC={x0:120,x1:600,y0:60,y1:360};
+function gMaxX(){return G.mode==='L'?2.2:2.2}
+function gMaxY(){return 2.6}
+function gX(v){return GC.x0+(v/gMaxX())*(GC.x1-GC.x0)}
+function gY(v){return GC.y1-(v/gMaxY())*(GC.y1-GC.y0)}
+function drawG(){
+  var s=benchBG(660,470);
+  /* axes */
+  s+='<line x1="'+GC.x0+'" y1="'+GC.y1+'" x2="'+GC.x1+'" y2="'+GC.y1+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="'+GC.x0+'" y1="'+GC.y1+'" x2="'+GC.x0+'" y2="'+GC.y0+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=arrowHead(GC.x1+8,GC.y1,1,0,'#4B4437',2.5);
+  s+=arrowHead(GC.x0,GC.y0-8,0,-1,'#4B4437',2.5);
+  var k;
+  for(k=0;k<=4;k++){
+    var xv=k*0.5;
+    s+=tlplain(gX(xv),GC.y1+22,13,'#6B6252',xv.toFixed(1));
+    if(k>0)s+='<line x1="'+gX(xv).toFixed(0)+'" y1="'+GC.y1+'" x2="'+gX(xv).toFixed(0)+'" y2="'+GC.y0+'" stroke="#E8E2D4" stroke-width="1"/>';
+  }
+  for(k=0;k<=5;k++){
+    var yv=k*0.5;
+    s+=tlplain(GC.x0-16,gY(yv)+5,13,'#6B6252',yv.toFixed(1),'end');
+    if(k>0)s+='<line x1="'+GC.x0+'" y1="'+gY(yv).toFixed(0)+'" x2="'+GC.x1+'" y2="'+gY(yv).toFixed(0)+'" stroke="#E8E2D4" stroke-width="1"/>';
+  }
+  s+=tl(GC.x1-10,GC.y1+44,14,'#26221B',G.mode==='L'?T('g_L'):T('g_A'),'end');
+  s+=tl(GC.x0+8,GC.y0-16,14,'#26221B',T('g_R'),'start');
+  /* theory curve */
+  var pth='',n=60;
+  for(k=0;k<=n;k++){
+    var xv2=0.2+(gMaxX()-0.25)*k/n;
+    var Rv=G.mode==='L'?RES(B.mat,xv2,B.A):RES(B.mat,B.L,xv2);
+    if(Rv>gMaxY())continue;
+    pth+=(pth?' L ':'M ')+gX(xv2).toFixed(1)+' '+gY(Rv).toFixed(1);
+  }
+  s+='<path d="'+pth+'" fill="none" stroke="#B9AE95" stroke-width="2" stroke-dasharray="5 6"/>';
+  /* recorded points */
+  for(k=0;k<G.pts.length;k++){
+    s+='<circle cx="'+gX(G.pts[k][0]).toFixed(1)+'" cy="'+gY(G.pts[k][1]).toFixed(1)+'" r="6" fill="#D9542B" stroke="#FFFDF7" stroke-width="2"/>';
+  }
+  /* current position marker */
+  var curR=G.mode==='L'?RES(B.mat,B.L,B.A):RES(B.mat,B.L,B.A);
+  var curX=gCurX();
+  if(curR<=gMaxY())s+='<circle cx="'+gX(curX).toFixed(1)+'" cy="'+gY(curR).toFixed(1)+'" r="7" fill="none" stroke="#2C7D8C" stroke-width="2.5" stroke-dasharray="3 3"/>';
+  s+=tl(GC.x0+14,84,14,'#2C7D8C',(G.mode==='L'?T('g_line'):T('g_hyp')),'start');
+  s+=tl(GC.x1-6,84,13,'#8A5A2B',T(MATN[B.mat])+' · '+(G.mode==='L'?('A='+B.A.toFixed(1)+' mm²'):('L='+B.L.toFixed(1)+' m')),'end');
+  $('svgg').innerHTML=PAINT(s);
+  $('qb3').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('gqb');
+  $('g_n').textContent=T('g_pts')+' '+G.pts.length+' '+T('g_ptsu');
+}
+'use strict';
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. A conductor\u2019s resistance depends on…',o:[
+    ['its material, length and cross-sectional area',1,'Correct — plus temperature. R is a property of the conductor itself.'],
+    ['the voltage across it',0,'Change the voltage and R stays put — only the current changes.'],
+    ['the current through it',0,'Current is the RESULT (I=V/R), not a cause of R.'],
+    ['how many cells drive the circuit',0,'The battery cannot alter the wire\u2019s own property.']]},
+   {q:'2. Same material and thickness, double the LENGTH →',o:[
+    ['R doubles',1,'Correct — R ∝ L: twice the obstacle zone to cross.'],
+    ['R halves',0,'Backwards — longer means MORE resistance.'],
+    ['R unchanged',0,'Length is one of the three deciding factors.'],
+    ['R quadruples',0,'Proportional, not squared.']]},
+   {q:'3. Same material and length, double the cross-sectional AREA →',o:[
+    ['R halves',1,'Correct — R ∝ 1/A: twice the lanes for electrons.'],
+    ['R doubles',0,'Thicker is EASIER, not harder.'],
+    ['R unchanged',0,'Thickness matters — inverse proportion.'],
+    ['R quarters',0,'Inverse, not inverse-square.']]},
+   {q:'4. Copper is used for wiring because…',o:[
+    ['its resistivity is very small',1,'Correct — little energy wasted along the way.'],
+    ['it is heavy',0,'Weight is irrelevant to conduction.'],
+    ['it looks nice',0,'Appearance does not carry current.'],
+    ['it is an insulator',0,'Copper is one of the BEST conductors.']]},
+   {q:'5. Nichrome makes heater elements because…',o:[
+    ['its large resistance turns current into lots of heat',1,'Correct — big ρ + heat tolerance = perfect heating wire.'],
+    ['its resistance is nearly zero',0,'Near-zero resistance would barely heat at all.'],
+    ['it does not conduct',0,'Then no current — no heat.'],
+    ['it is the cheapest metal',0,'It is chosen for physics, not price.']]},
+   {q:'6. To test how LENGTH affects R, the two wires must…',o:[
+    ['share material and thickness, differing only in length',1,'Correct — control of variables: exactly one difference.'],
+    ['differ in material and length together',0,'Two differences — you cannot tell which one acted.'],
+    ['be completely identical',0,'Identical wires show no comparison at all.'],
+    ['differ in every property',0,'That is the least fair test possible.']]},
+   {q:'7. A glowing filament, compared to when cold, has…',o:[
+    ['larger resistance',1,'Correct — thousands of degrees hotter → ions vibrate harder → many more collisions.'],
+    ['smaller resistance',0,'For metals, hotter means MORE resistance.'],
+    ['the same resistance',0,'Temperature is the fourth factor.'],
+    ['zero resistance',0,'Zero R would mean no heating — and no light.']]},
+   {q:'8. A rheostat (sliding resistor) changes resistance by changing…',o:[
+    ['the LENGTH of wire connected in the circuit',1,'Correct — slide the contact, change the connected length: R ∝ L in action.'],
+    ['the wire\u2019s material',0,'The material is fixed at manufacture.'],
+    ['the wire\u2019s thickness',0,'The wire diameter never changes.'],
+    ['the wire\u2019s temperature',0,'Heating is a side effect, not the mechanism.']]}
+  ];
+  return [
+   {q:'1. 导体的电阻由什么决定？',o:[
+    ['材料、长度、横截面积（还受温度影响）',1,'正确——电阻是导体自身的性质。'],
+    ['加在它两端的电压',0,'电压变了 R 不变——变的只是电流。'],
+    ['通过它的电流',0,'电流是结果（I=V/R），不是决定 R 的原因。'],
+    ['电池的数量',0,'电池改变不了导线自身的性质。']]},
+   {q:'2. 材料和粗细相同，长度加倍，电阻……',o:[
+    ['加倍',1,'正确——R 与 L 成正比：要穿过的"障碍区"长了一倍。'],
+    ['减半',0,'反了——越长电阻越大。'],
+    ['不变',0,'长度正是三大因素之一。'],
+    ['变为四倍',0,'是正比，不是平方。']]},
+   {q:'3. 材料和长度相同，横截面积加倍，电阻……',o:[
+    ['减半',1,'正确——R 与 A 成反比：电子的"车道"多了一倍。'],
+    ['加倍',0,'越粗越好走，不是越难走。'],
+    ['不变',0,'粗细有影响——成反比。'],
+    ['变为四分之一',0,'是反比，不是平方反比。']]},
+   {q:'4. 家里的电线用铜做，是因为铜……',o:[
+    ['电阻率很小',1,'正确——输电路上浪费的能量少。'],
+    ['比较重',0,'轻重与导电无关。'],
+    ['颜色好看',0,'好看不能导电。'],
+    ['是绝缘体',0,'铜是最好的导体之一。']]},
+   {q:'5. 电热水壶的发热丝用镍铬合金，是因为它……',o:[
+    ['电阻大，通电后发热多',1,'正确——电阻率大又耐高温，是理想的电热材料。'],
+    ['电阻几乎为零',0,'电阻近零的话几乎不发热。'],
+    ['不导电',0,'不导电就没有电流，更没有热。'],
+    ['是最便宜的金属',0,'选它是因为物理性质，不是价格。']]},
+   {q:'6. 要研究"长度对电阻的影响"，两根导线必须……',o:[
+    ['材料、粗细相同，只有长度不同',1,'正确——控制变量法：只允许一个变量不同。'],
+    ['材料和长度同时不同',0,'两个变量都变——说不清是谁的作用。'],
+    ['完全一模一样',0,'完全相同就没有对比了。'],
+    ['每一项都不同',0,'那是最不公平的实验。']]},
+   {q:'7. 亮着的灯丝和冷态相比，电阻……',o:[
+    ['变大了',1,'正确——上千度高温使离子振动加剧、碰撞更多。'],
+    ['变小了',0,'金属升温电阻是变大的。'],
+    ['一样大',0,'温度正是第四个影响因素。'],
+    ['变为零',0,'电阻为零就不发热，也不会发光了。']]},
+   {q:'8. 滑动变阻器改变电阻，靠的是改变……',o:[
+    ['接入电路的导线长度',1,'正确—���滑片一动，接入长度就变：R ∝ L 的直接应用。'],
+    ['导线的材料',0,'材料出厂就定了。'],
+    ['导线的粗细',0,'线径不会变。'],
+    ['导线的温度',0,'发热是副作用，不是调节原理。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  CLK+=0.016;
+  if(CUR===0){ drawB(); }
+  else if(CUR===2){ microStep(0.016); drawM(); }
+  updSummary();
+  AMB=requestAnimationFrame(ambLoop);
+}
+function selMat(i){
+  B.mat=i;
+  var k;
+  for(k=0;k<3;k++)$('bm'+k).classList.toggle('on',k===i);
+}
+function selFMat(i){
+  F.mat=i;
+  var k;
+  for(k=0;k<3;k++)$('fm'+k).classList.toggle('on',k===i);
+}
+function gSlideApply(){
+  var v=+$('gv').value;
+  if(G.mode==='L')B.L=v; else B.A=v;
+  $('gvlab').textContent=v.toFixed(1)+(G.mode==='L'?' m':' mm²');
+  drawG();
+}
+function boot(){
+  RENDER=[drawB,drawF,drawM,drawG,drawQZ];
+  SUMMARY=[
+    function(){return 'R='+RES(B.mat,B.L,B.A).toFixed(2)+'Ω · I='+AMPS(RES(B.mat,B.L,B.A)).toFixed(2)+'A'},
+    function(){var d=fairDiff();return d.length===1?'✓':(d.length===0?'⚠':'✗')},
+    function(){return 'R≈'+microR().toFixed(2)+'Ω · '+Math.round(M.colRate)+'/s'},
+    function(){return (G.mode==='L'?'R∝L':'R∝1/A')+' · '+G.pts.length},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initB(); initF(); initM(); initG();
+  /* --- ① --- */
+  var k;
+  for(k=0;k<3;k++)(function(i){$('bm'+i).addEventListener('click',function(){selMat(i);drawB();updSummary()})})(k);
+  $('bL').addEventListener('input',function(){B.L=+this.value;$('bLlab').textContent=B.L.toFixed(1)+' m';drawB();updSummary()});
+  $('bA').addEventListener('input',function(){B.A=+this.value;$('bAlab').textContent=B.A.toFixed(1)+' mm²';drawB();updSummary()});
+  $('breset').addEventListener('click',function(){initB();selMat(2);$('bL').value=1;$('bA').value=1;$('bLlab').textContent='1.0 m';$('bAlab').textContent='1.0 mm²';drawB();updSummary()});
+  /* --- ② --- */
+  for(k=0;k<3;k++)(function(i){$('fm'+i).addEventListener('click',function(){selFMat(i);drawF();updSummary()})})(k);
+  $('flen').addEventListener('click',function(){F.len=1-F.len;this.classList.toggle('on',F.len===1);drawF();updSummary()});
+  $('farea').addEventListener('click',function(){F.area=1-F.area;this.classList.toggle('on',F.area===1);drawF();updSummary()});
+  $('ftrap').addEventListener('click',function(){selFMat(2);F.len=1;$('flen').classList.add('on');drawF();updSummary()});
+  $('freset').addEventListener('click',function(){initF();selFMat(2);F.len=0;F.area=0;$('flen').classList.remove('on');$('farea').classList.remove('on');drawF();updSummary()});
+  /* --- ③ --- */
+  $('mL').addEventListener('input',function(){M.L=+this.value;$('mLlab').textContent=M.L.toFixed(1)+' m';drawM();updSummary()});
+  $('mlanes').addEventListener('input',function(){M.lanes=+this.value;$('mlaneslab').textContent=M.lanes+' '+T('m_lane');initMicroE();drawM();updSummary()});
+  $('mT').addEventListener('input',function(){M.T=+this.value;$('mTlab').textContent=Math.round(M.T)+' °C';drawM();updSummary()});
+  $('mreset').addEventListener('click',function(){initM();$('mL').value=1;$('mlanes').value=2;$('mT').value=20;$('mLlab').textContent='1.0 m';$('mlaneslab').textContent='2 '+T('m_lane');$('mTlab').textContent='20 °C';drawM();updSummary()});
+  /* --- ④ --- */
+  $('gmodeL').addEventListener('click',function(){G.mode='L';this.classList.add('on');$('gmodeA').classList.remove('on');$('gv').value=B.L;gSlideApply();updSummary()});
+  $('gmodeA').addEventListener('click',function(){G.mode='A';this.classList.add('on');$('gmodeL').classList.remove('on');$('gv').value=B.A;gSlideApply();updSummary()});
+  $('gv').addEventListener('input',function(){gSlideApply();updSummary()});
+  $('grec').addEventListener('click',function(){
+    var x=gCurX(),R=RES(B.mat,B.L,B.A),j,dup=false;
+    for(j=0;j<G.pts.length;j++)if(Math.abs(G.pts[j][0]-x)<1e-9)dup=true;
+    if(!dup)G.pts.push([x,R]);
+    drawG();updSummary();
+  });
+  $('gclr').addEventListener('click',function(){G.pts=[];drawG();updSummary()});
+  /* --- chrome --- */
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  selMat(2);selFMat(2);
+  buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  for(i=0;i<3;i++){selMat(i);drawB()}
+  B.L=0.2;drawB();B.L=2;drawB();B.A=0.5;drawB();B.A=2;drawB();
+  initB();selMat(2);
+  showTab(1);
+  selFMat(0);drawF();
+  selFMat(2);drawF();
+  F.len=1;drawF();
+  F.len=0;F.area=1;drawF();
+  initF();selFMat(2);drawF();
+  showTab(2);
+  for(i=0;i<200;i++){CLK+=0.016;microStep(0.016);if(i%50===0)drawM()}
+  M.T=180;for(i=0;i<200;i++){CLK+=0.016;microStep(0.016);if(i%50===0)drawM()}
+  M.lanes=4;initMicroE();drawM();
+  initM();drawM();
+  showTab(3);
+  G.mode='L';
+  for(i=1;i<=4;i++){B.L=i*0.5;G.pts.push([B.L,RES(B.mat,B.L,B.A)]);drawG()}
+  G.pts=[];G.mode='A';
+  for(i=1;i<=4;i++){B.A=i*0.5;G.pts.push([B.A,RES(B.mat,B.L,B.A)]);drawG()}
+  G.pts=[];G.mode='L';B.L=1;B.A=1;drawG();
+  showTab(4);
+  for(i=0;i<8;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=8;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'导体电阻影响因素实验室',
+ subtitle:'材料 · 长度 · 横截面积 · 温度 —— R 由什么决定 · 初中科学课堂演示工具',
+ tab0:'① 实验台',tab1:'② 公平实验设计',tab2:'③ 微观解释·温度',tab3:'④ 数据与图像',tab4:'⑤ 测验',
+ bqb:'同样接进电路，有的导线让灯泡很亮，有的让灯泡很暗。导体的电阻到底跟什么有关？',
+ fqb:'想证明"长度影响电阻"，甲乙两根导线该怎么选？如果材料和长度同时不一样，实验还公平吗？',
+ mqb:'电阻的本质是什么？把导线放大一亿倍——看看电子在里面经历了什么。',
+ gqb:'把长度加倍、再加倍，电阻怎么变？把导线换粗一倍呢？规律画成图像是什么形状？',
+ b_sidetitle:'电阻测量台',
+ b_k1:'导体的电阻由<b>自身性质</b>决定：<b>材料、长度、横截面积（粗细）</b>，还受<b>温度</b>影响——跟接不接电、电压多大<b>无关</b>。规律：越<b>长</b>电阻越大，越<b>粗</b>电阻越小；镍铬合金 ≫ 锰铜 ≫ 铜。',
+ b_k2:'这里用<b>转换法</b>：电阻看不见，就看<b>电流表读数和灯泡亮度</b>——电阻越大，电流越小，灯越暗。拖动长度滑杆时你已经在用<b>滑动变阻器</b>的原理了：改变接入电路的导线长度来改变电阻！',
+ f_sidetitle:'控制变量法',
+ f_k1:'要研究一个因素，就必须<b>只让这一个因素不同</b>，其余全部相同——这就是<b>控制变量法</b>。两根导线若同时材料不同、长度也不同，灯泡亮度的差别就说不清是谁造成的。',
+ m_sidetitle:'电阻的本质',
+ m_k1:'导线内部是排列整齐但<b>不停振动的金属离子</b>，自由电子在其间穿行，不断<b>碰撞</b>——碰撞越多，前进越困难，宏观上就是<b>电阻越大</b>。导线越长=要穿过的"障碍区"越长；越粗=可走的"车道"越多。',
+ m_k2:'<b>温度升高 → 离子振动更剧烈 → 碰撞更频繁 → 金属电阻变大</b>。灯丝就是例子：亮着的灯丝上千度，电阻比冷态大十几倍。（诚实说明：这是简化的经典图像，够初中用。）',
+ g_sidetitle:'定量规律',
+ g_k1:'控制其他条件：<b>R 与长度 L 成正比</b>（图像是过原点的直线）；<b>R 与横截面积 A 成反比</b>(粗一倍，电阻一半，图像是双曲线的一支)。合起来就是 <b>R = ρL/A</b>，ρ 叫电阻率，由材料决定。',
+ g_sum:'<b>总结</b>：材料（ρ）、长度（∝L）、粗细（∝1/A）、温度（金属升温 R↑）。应用：铜做导线（ρ 小），镍铬合金做电热丝（ρ 大），滑动变阻器改变接入长度。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_reset:'↺ 重置',
+ dk_mat:'材料', dk_len:'长度', dk_area:'粗细(横截面积)', dk_T:'温度',
+ mt_cu:'铜', mt_mn:'锰铜', mt_ni:'镍铬合金',
+ dk_mode_L:'变长度', dk_mode_A:'变粗细',
+ dk_rec:'📋 记录一组', dk_clr:'🧹 清空数据',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ b_R:'电阻', b_I:'电流', b_wire:'待测导线', b_amm:'电流表',
+ b_dim:'长', b_thick:'截面积',
+ f_jiaN:'甲（基准）', f_yiN:'乙（你来配）',
+ f_fair:'✓ 公平实验：只有一个变量不同', f_same:'⚠ 两根完全一样——没有对比',
+ f_unfair:'✗ 不公平：同时有多个变量不同', f_diff:'不同项',
+ f_conc_mat:'结论方向：材料对电阻的影响', f_conc_len:'结论方向：长度对电阻的影响', f_conc_area:'结论方向：粗细对电阻的影响',
+ m_col:'每秒碰撞', m_lane:'条通道', m_hotter:'离子振动加剧！',
+ g_L:'长度 L / m', g_A:'截面积 A / mm²', g_R:'电阻 R / Ω',
+ g_line:'过原点的直线：R ∝ L', g_hyp:'反比曲线：R ∝ 1/A',
+ g_pts:'已记录', g_ptsu:'组',
+ mth:''
+},
+en:{
+ title:'Resistance Factors Lab',
+ subtitle:'Material · length · cross-section · temperature — what sets R · junior-high classroom demo',
+ tab0:'① Test Bench',tab1:'② Fair-Test Design',tab2:'③ Microscopic View · Heat',tab3:'④ Data & Graphs',tab4:'⑤ Quiz',
+ bqb:'Wired in the same way, one wire lights the bulb brightly and another dimly. What does a conductor\u2019s resistance depend on?',
+ fqb:'To prove that LENGTH affects resistance, how should wires 甲 and 乙 be chosen? If material AND length both differ, is the test still fair?',
+ mqb:'What IS resistance, really? Magnify the wire 100-million times and watch what the electrons go through.',
+ gqb:'Double the length, then double it again — what happens to R? Double the thickness? What curves do these rules draw?',
+ b_sidetitle:'Measuring bench',
+ b_k1:'A conductor\u2019s resistance is set by its <b>own properties</b>: <b>material, length, cross-sectional area</b>, plus <b>temperature</b> — NOT by the voltage across it. Rules: <b>longer → larger R</b>, <b>thicker → smaller R</b>; nichrome ≫ manganin ≫ copper.',
+ b_k2:'We use the <b>conversion method</b>: resistance is invisible, so read the <b>ammeter and bulb brightness</b> — bigger R, smaller current, dimmer bulb. Dragging the length slider IS the principle of the <b>rheostat</b>: change the connected length to change R!',
+ f_sidetitle:'Control of variables',
+ f_k1:'To study one factor, <b>only that factor may differ</b> — everything else identical. That is the <b>control-of-variables method</b>. If two wires differ in material AND length, the brightness difference cannot be attributed to either.',
+ m_sidetitle:'What resistance IS',
+ m_k1:'Inside a wire, <b>metal ions vibrate in place</b> while free electrons thread between them, constantly <b>colliding</b> — more collisions = harder progress = <b>more resistance</b>. Longer wire = a longer obstacle zone; thicker wire = more "lanes" to use.',
+ m_k2:'<b>Higher temperature → ions vibrate harder → more collisions → metal resistance rises.</b> A lit filament runs at over 2000 °C with 10+�� its cold resistance. (Honesty note: this is the simplified classical picture — right level for junior high.)',
+ g_sidetitle:'The quantitative law',
+ g_k1:'Holding the rest constant: <b>R is proportional to length L</b> (a straight line through the origin); <b>R is inversely proportional to area A</b> (double the thickness → half the R; one branch of a hyperbola). Together: <b>R = ρL/A</b>, where ρ (resistivity) is set by the material.',
+ g_sum:'<b>Summary</b>: material (ρ), length (∝L), thickness (∝1/A), temperature (metals: hotter → R↑). Applications: copper for wiring (small ρ), nichrome for heater elements (large ρ), rheostats vary the connected length.',
+ qz_title:'🎯 Quiz', qz_reset:'Restart',
+ dk_reset:'↺ Reset',
+ dk_mat:'Material', dk_len:'Length', dk_area:'Thickness (area)', dk_T:'Temp.',
+ mt_cu:'copper', mt_mn:'manganin', mt_ni:'nichrome',
+ dk_mode_L:'Vary length', dk_mode_A:'Vary thickness',
+ dk_rec:'📋 Record', dk_clr:'🧹 Clear',
+ dk_hint4:'💡 answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 hide notes', exp_off:'💬 tap for notes',
+ qtag:'Q',
+ b_R:'resistance', b_I:'current', b_wire:'test wire', b_amm:'ammeter',
+ b_dim:'length', b_thick:'area',
+ f_jiaN:'甲 (reference)', f_yiN:'乙 (you build it)',
+ f_fair:'✓ FAIR test: exactly one variable differs', f_same:'⚠ Identical wires — nothing to compare',
+ f_unfair:'✗ UNFAIR: more than one variable differs', f_diff:'differs in',
+ f_conc_mat:'conclusion targets: effect of MATERIAL', f_conc_len:'conclusion targets: effect of LENGTH', f_conc_area:'conclusion targets: effect of THICKNESS',
+ m_col:'collisions/s', m_lane:'lane(s)', m_hotter:'ions vibrating harder!',
+ g_L:'length L / m', g_A:'area A / mm²', g_R:'resistance R / Ω',
+ g_line:'straight line through the origin: R ∝ L', g_hyp:'inverse curve: R ∝ 1/A',
+ g_pts:'recorded', g_ptsu:'',
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function frac(x){return x-Math.floor(x)}
+function rnd(k,s){return frac(Math.sin(k*127.1+s*311.7)*43758.5453)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C','#D9542B':'#FF7A50',
+'#DA9526':'#FFB84D','#3B6EA5':'#7FB2E0'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+
+/* ================= tabs & dock ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+var CLK=0;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    if(kb.hasAttribute('data-dyn'))continue;
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+
+
+/* ================= resistance model ================= */
+/* resistivity in Ω·mm²/m (relative teaching values) */
+var RHO=[0.017,0.44,1.10];
+var MATN=['mt_cu','mt_mn','mt_ni'];
+var MATC=['#B5652A','#8A5A2B','#6B6252'];
+var VSRC=3.0, RBASE=2.0;
+function RES(mat,L,A){return RHO[mat]*L/A}
+function RTEMP(R,T){return R*(1+0.004*(T-20))}
+function AMPS(R){return VSRC/(RBASE+R)}
+
+/* ---- ① bench state ---- */
+var B={mat:2,L:1.0,A:1.0};
+function initB(){B.mat=2;B.L=1.0;B.A=1.0}
+
+/* ---- ② fair test ---- */
+var F={mat:0,len:0,area:0};      /* 乙 config; 甲 = [0,0,0] = 铜/短/细 */
+var FJIA=[0,0,0];
+function fairDiff(){
+  var d=[];
+  if(F.mat!==FJIA[0])d.push('mat');
+  if(F.len!==FJIA[1])d.push('len');
+  if(F.area!==FJIA[2])d.push('area');
+  return d;
+}
+function initF(){F.mat=2;F.len=0;F.area=0}
+
+/* ---- ③ micro state ---- */
+var M={L:1.0,lanes:2,T:20,cols:0,colRate:0,ex:[]};
+function microR(){return RTEMP(1.1*M.L/(M.lanes*0.5),M.T)}
+function initMicroE(){
+  M.ex=[];
+  var k;
+  for(k=0;k<14;k++){
+    M.ex.push({u:rnd(k,601),lane:k%M.lanes,off:rnd(k,607)});
+  }
+}
+function initM(){M.L=1.0;M.lanes=2;M.T=20;M.cols=0;M.colRate=0;initMicroE()}
+/* electron drift speed: slower when R bigger (fixed V) */
+function eSpeed(){return 0.14/(0.6+microR()*0.35)}
+function collideP(){return 0.25+0.55*(M.T-20)/180}
+
+/* ---- ④ graph state ---- */
+var G={mode:'L',pts:[]};   /* pts: [x,R] */
+function gCurX(){return G.mode==='L'?B.L:B.A}
+function initG(){G.mode='L';G.pts=[]}
+'use strict';
+function benchBG(w,h){
+  return '<rect x="0" y="0" width="'+w+'" height="'+h+'" rx="14" fill="#FBF7EC"/>';
+}
+function arrowHead(x,y,vx,vy,col,w){
+  var vd=Math.hypot(vx,vy)||1;vx/=vd;vy/=vd;
+  var lx=-vy,ly=vx;
+  return '<path d="M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10+lx*5.5).toFixed(1)+' '+(-vy*10+ly*5.5).toFixed(1)+
+   ' M '+x.toFixed(1)+' '+y.toFixed(1)+
+   ' l '+(-vx*10-lx*5.5).toFixed(1)+' '+(-vy*10-ly*5.5).toFixed(1)+
+   '" stroke="'+col+'" stroke-width="'+(w||3)+'" fill="none" stroke-linecap="round"/>';
+}
+
+/* ================= ① bench ================= */
+function drawB(){
+  var s=benchBG(660,470);
+  var R=RES(B.mat,B.L,B.A);
+  var Iv=AMPS(R);
+  /* circuit frame */
+  s+='<path d="M 80 120 L 80 400 L 250 400 M 320 400 L 580 400 L 580 120 L 470 120 M 190 120 L 80 120" fill="none" stroke="#8A8070" stroke-width="4" stroke-linecap="round"/>';
+  /* battery */
+  s+='<line x1="250" y1="386" x2="250" y2="414" stroke="#26221B" stroke-width="4"/>';
+  s+='<line x1="266" y1="392" x2="266" y2="408" stroke="#8A8070" stroke-width="6"/>';
+  s+='<path d="M 266 400 L 320 400" fill="none" stroke="#8A8070" stroke-width="4"/>';
+  s+=tlplain(258,438,13,'#6B6252','3 V');
+  /* ammeter */
+  var ax=230,ay=120;
+  s+='<circle cx="'+ax+'" cy="'+ay+'" r="40" fill="#FFFDF7" stroke="#8A8070" stroke-width="3"/>';
+  s+=tl(ax,ay+24,15,'#26221B','A');
+  var na=-60+Iv/1.5*120;
+  na=clamp(na,-62,62);
+  var nr=na*Math.PI/180;
+  s+='<line x1="'+ax+'" y1="'+ay+'" x2="'+(ax+30*Math.sin(nr)).toFixed(1)+'" y2="'+(ay-30*Math.cos(nr)).toFixed(1)+'" stroke="#D9542B" stroke-width="3" stroke-linecap="round"/>';
+  s+=tlplain(ax,ay-50,13,'#6B6252',T('b_amm'));
+  /* bulb: glow ∝ power */
+  var bx=520,by=120;
+  var P=Iv*Iv*RBASE;
+  var glow=clamp(P/2.2,0.06,1);
+  s+='<circle cx="'+bx+'" cy="'+by+'" r="'+(26+16*glow)+'" fill="#DA9526" opacity="'+(0.30*glow).toFixed(2)+'"/>';
+  s+='<circle cx="'+bx+'" cy="'+by+'" r="24" fill="'+(glow>0.45?'#F2C94C':'#E8E2D4')+'" stroke="#8A8070" stroke-width="3"/>';
+  s+='<path d="M '+(bx-8)+' '+(by+4)+' q 4 -12 8 0 q 4 12 8 0" fill="none" stroke="#8A5A2B" stroke-width="2"/>';
+  s+='<path d="M 470 120 L 496 120 M 544 120 L 580 120" fill="none" stroke="#8A8070" stroke-width="4"/>';
+  /* test wire between clips: length & thickness drawn to scale */
+  var wx0=190,wx1max=470;
+  var wl=(B.L/2.0)*(wx1max-wx0-20)+20;
+  var wx1=wx0+wl;
+  var th=3+B.A*5;
+  s+='<circle cx="'+wx0+'" cy="120" r="6" fill="#4B4437"/>';
+  s+='<circle cx="'+(wx0+wl).toFixed(1)+'" cy="120" r="6" fill="#4B4437"/>';
+  s+='<line x1="'+wx0+'" y1="120" x2="'+wx1.toFixed(1)+'" y2="120" stroke="'+MATC[B.mat]+'" stroke-width="'+th.toFixed(1)+'" stroke-linecap="round"/>';
+  if(wx1<wx1max-8)s+='<line x1="'+wx1.toFixed(1)+'" y1="120" x2="'+wx1max+'" y2="120" stroke="#8A8070" stroke-width="4" stroke-dasharray="3 5"/>';
+  s+=tl((wx0+wx1)/2,96,14,MATC[B.mat],T(MATN[B.mat])+' · '+B.L.toFixed(1)+' m · '+B.A.toFixed(1)+' mm²');
+  s+=tlplain((wx0+wx1max)/2,152,13,'#6B6252',T('b_wire'));
+  /* marching current dots (speed ∝ I) */
+  var k;
+  var segs=[[80,120,80,400],[80,400,266,400],[266,400,580,400],[580,400,580,120],[580,120,190,120],[190,120,80,120]];
+  var lens=segs.map(function(g){return Math.hypot(g[2]-g[0],g[3]-g[1])});
+  var tot=0;for(k=0;k<lens.length;k++)tot+=lens[k];
+  for(k=0;k<20;k++){
+    var u=frac(rnd(k,701)+CLK*0.05*Iv);
+    var d=u*tot,p=null,j;
+    for(j=0;j<segs.length;j++){
+      if(d<=lens[j]){var t2=d/lens[j];p=[segs[j][0]+(segs[j][2]-segs[j][0])*t2,segs[j][1]+(segs[j][3]-segs[j][1])*t2];break}
+      d-=lens[j];
+    }
+    if(p)s+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.2" fill="#DA9526"/>';
+  }
+  /* readout panel */
+  s+='<rect x="96" y="196" width="200" height="150" rx="12" fill="#FFFDF7" stroke="#B9AE95" stroke-width="1.5"/>';
+  s+=tl(196,228,15,'#6B6252',T('b_R'));
+  s+=tl(196,264,26,'#2C7D8C','R = '+R.toFixed(2)+' Ω');
+  s+=tl(196,300,15,'#6B6252',T('b_I'));
+  s+=tl(196,330,22,'#D9542B','I = '+Iv.toFixed(2)+' A');
+  $('svgb').innerHTML=PAINT(s);
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('bqb');
+  $('b_r').textContent='R = '+R.toFixed(2)+' Ω';
+  $('b_i').textContent='I = '+AMPS(R).toFixed(2)+' A';
+}
+
+/* ================= ② fair test ================= */
+function wireIcon(x,y,mat,len,area,label){
+  var L=len===0?120:220;
+  var th=area===0?4:11;
+  var s='<circle cx="'+x+'" cy="'+y+'" r="5" fill="#4B4437"/><circle cx="'+(x+L)+'" cy="'+y+'" r="5" fill="#4B4437"/>';
+  s+='<line x1="'+x+'" y1="'+y+'" x2="'+(x+L)+'" y2="'+y+'" stroke="'+MATC[mat]+'" stroke-width="'+th+'" stroke-linecap="round"/>';
+  s+=tl(x+L/2,y-18,14,MATC[mat],T(MATN[mat]));
+  s+=tl(x-16,y+5,15,'#26221B',label,'end');
+  return s;
+}
+function drawF(){
+  var s=benchBG(660,470);
+  s+=tlplain(330,44,15,'#6B6252',T('f_jiaN')+'  vs  '+T('f_yiN'));
+  s+=wireIcon(160,110,FJIA[0],FJIA[1],FJIA[2],'甲');
+  s+=wireIcon(160,210,F.mat,F.len,F.area,'乙');
+  /* chips comparing the three attributes */
+  var attrs=[['dk_mat',F.mat!==FJIA[0]],['dk_len',F.len!==FJIA[1]],['dk_area',F.area!==FJIA[2]]];
+  var k;
+  for(k=0;k<3;k++){
+    var same=!attrs[k][1];
+    s+='<rect x="'+(120+k*150)+'" y="268" width="130" height="36" rx="10" fill="'+(same?'#E8E2D4':'#F6D9CC')+'" stroke="'+(same?'#9A938A':'#D9542B')+'" stroke-width="1.6"/>';
+    s+=tl(185+k*150,291,14,same?'#6B6252':'#D9542B',T(attrs[k][0])+(same?' ✓同':' ✗不同'));
+  }
+  /* verdict */
+  var d=fairDiff();
+  var vt,vc;
+  if(d.length===1){vt=T('f_fair');vc='#2F7D4F'}
+  else if(d.length===0){vt=T('f_same');vc='#DA9526'}
+  else {vt=T('f_unfair');vc='#D9542B'}
+  s+='<rect x="110" y="330" width="440" height="44" rx="12" fill="#FFFDF7" stroke="'+vc+'" stroke-width="2.5"/>';
+  s+=tl(330,358,16,vc,vt);
+  if(d.length===1){
+    var cm={mat:'f_conc_mat',len:'f_conc_len',area:'f_conc_area'};
+    s+=tl(330,408,14,'#2C7D8C','→ '+T(cm[d[0]]));
+  }
+  $('svgf').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('fqb');
+}
+
+/* ================= ③ micro ================= */
+var MC={x0:70,x1:590,y0:120,y1:360};
+function microStep(dt){
+  var k;
+  var newCols=0;
+  for(k=0;k<M.ex.length;k++){
+    var e=M.ex[k];
+    var du=eSpeed()*dt*3*(0.9+0.2*rnd(k,613));
+    e.u+=du;
+    if(e.u>=1){e.u-=1;e.lane=Math.floor(rnd(k,617)*M.lanes+CLK)%M.lanes}
+    /* collision events at ion columns */
+    var ncol=Math.floor(4+M.L*6);
+    var prevCol=Math.floor((e.u-du)*ncol),nowCol=Math.floor(e.u*ncol);
+    if(nowCol>prevCol&&rnd(k*7+nowCol,631)<collideP())newCols++;
+  }
+  M.colRate=M.colRate*0.96+newCols*0.04/dt;
+}
+function drawM(){
+  var s=benchBG(660,470);
+  /* wire cross-section chamber sized by L (width) and lanes (height) */
+  var wLen=(MC.x1-MC.x0)*(0.45+0.55*M.L/2);
+  var x1=MC.x0+wLen;
+  var laneH=44;
+  var h=M.lanes*laneH+24;
+  var y0=240-h/2,y1=240+h/2;
+  s+='<rect x="'+MC.x0+'" y="'+y0.toFixed(0)+'" width="'+wLen.toFixed(0)+'" height="'+h+'" rx="12" fill="#F3EDDD" stroke="#B5652A" stroke-width="3"/>';
+  /* ions vibrating on a grid */
+  var ncol=Math.floor(4+M.L*6),k,j;
+  var amp=1+ (M.T-20)/180*5.5;
+  for(k=0;k<ncol;k++){
+    for(j=0;j<M.lanes+1;j++){
+      var ix=MC.x0+24+(wLen-48)*k/(ncol-1);
+      var iy=y0+16+(h-32)*j/M.lanes;
+      var jx=Math.sin(CLK*7+k*2.1+j*3.7)*amp,jy=Math.cos(CLK*8.3+k*1.3+j*2.9)*amp;
+      s+='<circle cx="'+(ix+jx).toFixed(1)+'" cy="'+(iy+jy).toFixed(1)+'" r="7" fill="#9A938A" stroke="#6B655C" stroke-width="1.5"/>';
+      s+=tlplain(ix+jx,iy+jy+4,10,'#F3EDDD','+');
+    }
+  }
+  /* electrons drifting in lanes */
+  for(k=0;k<M.ex.length;k++){
+    var e=M.ex[k];
+    var exx=MC.x0+14+(wLen-28)*e.u;
+    var eyy=y0+16+(h-32)*(e.lane+0.5)/M.lanes + Math.sin(CLK*5+k)*4;
+    s+='<circle cx="'+exx.toFixed(1)+'" cy="'+eyy.toFixed(1)+'" r="5.5" fill="#3B6EA5" stroke="#7FB2E0" stroke-width="1.5"/>';
+    /* collision flash */
+    var ncol2=Math.floor(4+M.L*6);
+    var cc=Math.floor(e.u*ncol2);
+    if(rnd(k*7+cc,631)<collideP()&&frac(e.u*ncol2)<0.25){
+      s+='<circle cx="'+exx.toFixed(1)+'" cy="'+eyy.toFixed(1)+'" r="10" fill="none" stroke="#D9542B" stroke-width="2.5" opacity="0.8"/>';
+    }
+  }
+  /* drift direction */
+  s+=arrowHead(x1+34,240,1,0,'#3B6EA5',4);
+  s+=tlplain(x1+34,214,13,'#3B6EA5','e⁻→');
+  /* labels */
+  s+=tl(MC.x0+wLen/2,y0-14,14,'#8A5A2B',T('dk_len')+' '+M.L.toFixed(1)+' m · '+M.lanes+' '+T('m_lane'));
+  var R=microR();
+  s+=tl(150,64,16,'#2C7D8C','R ≈ '+R.toFixed(2)+' Ω','start');
+  s+=tl(150,92,14,'#D9542B','💥 '+T('m_col')+' ≈ '+Math.round(M.colRate),'start');
+  if(M.T>90)s+=tl(470,64,14,'#D9542B','🔥 '+T('m_hotter'),'start');
+  s+=tlplain(330,440,13,'#8A8070','T = '+Math.round(M.T)+' °C');
+  $('svgm').innerHTML=PAINT(s);
+  $('qb2').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('mqb');
+}
+
+/* ================= ④ graphs ================= */
+var GC={x0:120,x1:600,y0:60,y1:360};
+function gMaxX(){return G.mode==='L'?2.2:2.2}
+function gMaxY(){return 2.6}
+function gX(v){return GC.x0+(v/gMaxX())*(GC.x1-GC.x0)}
+function gY(v){return GC.y1-(v/gMaxY())*(GC.y1-GC.y0)}
+function drawG(){
+  var s=benchBG(660,470);
+  /* axes */
+  s+='<line x1="'+GC.x0+'" y1="'+GC.y1+'" x2="'+GC.x1+'" y2="'+GC.y1+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="'+GC.x0+'" y1="'+GC.y1+'" x2="'+GC.x0+'" y2="'+GC.y0+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=arrowHead(GC.x1+8,GC.y1,1,0,'#4B4437',2.5);
+  s+=arrowHead(GC.x0,GC.y0-8,0,-1,'#4B4437',2.5);
+  var k;
+  for(k=0;k<=4;k++){
+    var xv=k*0.5;
+    s+=tlplain(gX(xv),GC.y1+22,13,'#6B6252',xv.toFixed(1));
+    if(k>0)s+='<line x1="'+gX(xv).toFixed(0)+'" y1="'+GC.y1+'" x2="'+gX(xv).toFixed(0)+'" y2="'+GC.y0+'" stroke="#E8E2D4" stroke-width="1"/>';
+  }
+  for(k=0;k<=5;k++){
+    var yv=k*0.5;
+    s+=tlplain(GC.x0-16,gY(yv)+5,13,'#6B6252',yv.toFixed(1),'end');
+    if(k>0)s+='<line x1="'+GC.x0+'" y1="'+gY(yv).toFixed(0)+'" x2="'+GC.x1+'" y2="'+gY(yv).toFixed(0)+'" stroke="#E8E2D4" stroke-width="1"/>';
+  }
+  s+=tl(GC.x1-10,GC.y1+44,14,'#26221B',G.mode==='L'?T('g_L'):T('g_A'),'end');
+  s+=tl(GC.x0+8,GC.y0-16,14,'#26221B',T('g_R'),'start');
+  /* theory curve */
+  var pth='',n=60;
+  for(k=0;k<=n;k++){
+    var xv2=0.2+(gMaxX()-0.25)*k/n;
+    var Rv=G.mode==='L'?RES(B.mat,xv2,B.A):RES(B.mat,B.L,xv2);
+    if(Rv>gMaxY())continue;
+    pth+=(pth?' L ':'M ')+gX(xv2).toFixed(1)+' '+gY(Rv).toFixed(1);
+  }
+  s+='<path d="'+pth+'" fill="none" stroke="#B9AE95" stroke-width="2" stroke-dasharray="5 6"/>';
+  /* recorded points */
+  for(k=0;k<G.pts.length;k++){
+    s+='<circle cx="'+gX(G.pts[k][0]).toFixed(1)+'" cy="'+gY(G.pts[k][1]).toFixed(1)+'" r="6" fill="#D9542B" stroke="#FFFDF7" stroke-width="2"/>';
+  }
+  /* current position marker */
+  var curR=G.mode==='L'?RES(B.mat,B.L,B.A):RES(B.mat,B.L,B.A);
+  var curX=gCurX();
+  if(curR<=gMaxY())s+='<circle cx="'+gX(curX).toFixed(1)+'" cy="'+gY(curR).toFixed(1)+'" r="7" fill="none" stroke="#2C7D8C" stroke-width="2.5" stroke-dasharray="3 3"/>';
+  s+=tl(GC.x0+14,84,14,'#2C7D8C',(G.mode==='L'?T('g_line'):T('g_hyp')),'start');
+  s+=tl(GC.x1-6,84,13,'#8A5A2B',T(MATN[B.mat])+' · '+(G.mode==='L'?('A='+B.A.toFixed(1)+' mm²'):('L='+B.L.toFixed(1)+' m')),'end');
+  $('svgg').innerHTML=PAINT(s);
+  $('qb3').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('gqb');
+  $('g_n').textContent=T('g_pts')+' '+G.pts.length+' '+T('g_ptsu');
+}
+'use strict';
+/* ================= quiz ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. A conductor\u2019s resistance depends on…',o:[
+    ['its material, length and cross-sectional area',1,'Correct — plus temperature. R is a property of the conductor itself.'],
+    ['the voltage across it',0,'Change the voltage and R stays put — only the current changes.'],
+    ['the current through it',0,'Current is the RESULT (I=V/R), not a cause of R.'],
+    ['how many cells drive the circuit',0,'The battery cannot alter the wire\u2019s own property.']]},
+   {q:'2. Same material and thickness, double the LENGTH →',o:[
+    ['R doubles',1,'Correct — R ∝ L: twice the obstacle zone to cross.'],
+    ['R halves',0,'Backwards — longer means MORE resistance.'],
+    ['R unchanged',0,'Length is one of the three deciding factors.'],
+    ['R quadruples',0,'Proportional, not squared.']]},
+   {q:'3. Same material and length, double the cross-sectional AREA →',o:[
+    ['R halves',1,'Correct — R ∝ 1/A: twice the lanes for electrons.'],
+    ['R doubles',0,'Thicker is EASIER, not harder.'],
+    ['R unchanged',0,'Thickness matters — inverse proportion.'],
+    ['R quarters',0,'Inverse, not inverse-square.']]},
+   {q:'4. Copper is used for wiring because…',o:[
+    ['its resistivity is very small',1,'Correct — little energy wasted along the way.'],
+    ['it is heavy',0,'Weight is irrelevant to conduction.'],
+    ['it looks nice',0,'Appearance does not carry current.'],
+    ['it is an insulator',0,'Copper is one of the BEST conductors.']]},
+   {q:'5. Nichrome makes heater elements because…',o:[
+    ['its large resistance turns current into lots of heat',1,'Correct — big ρ + heat tolerance = perfect heating wire.'],
+    ['its resistance is nearly zero',0,'Near-zero resistance would barely heat at all.'],
+    ['it does not conduct',0,'Then no current — no heat.'],
+    ['it is the cheapest metal',0,'It is chosen for physics, not price.']]},
+   {q:'6. To test how LENGTH affects R, the two wires must…',o:[
+    ['share material and thickness, differing only in length',1,'Correct — control of variables: exactly one difference.'],
+    ['differ in material and length together',0,'Two differences — you cannot tell which one acted.'],
+    ['be completely identical',0,'Identical wires show no comparison at all.'],
+    ['differ in every property',0,'That is the least fair test possible.']]},
+   {q:'7. A glowing filament, compared to when cold, has…',o:[
+    ['larger resistance',1,'Correct — thousands of degrees hotter → ions vibrate harder → many more collisions.'],
+    ['smaller resistance',0,'For metals, hotter means MORE resistance.'],
+    ['the same resistance',0,'Temperature is the fourth factor.'],
+    ['zero resistance',0,'Zero R would mean no heating — and no light.']]},
+   {q:'8. A rheostat (sliding resistor) changes resistance by changing…',o:[
+    ['the LENGTH of wire connected in the circuit',1,'Correct — slide the contact, change the connected length: R ∝ L in action.'],
+    ['the wire\u2019s material',0,'The material is fixed at manufacture.'],
+    ['the wire\u2019s thickness',0,'The wire diameter never changes.'],
+    ['the wire\u2019s temperature',0,'Heating is a side effect, not the mechanism.']]}
+  ];
+  return [
+   {q:'1. 导体的电阻由什么决定？',o:[
+    ['材料、长度、横截面积（还受温度影响）',1,'正确——电阻是导体自身的性质。'],
+    ['加在它两端的电压',0,'电压变了 R 不变——变的只是电流。'],
+    ['通过它的电流',0,'电流是结果（I=V/R），不是决定 R 的原因。'],
+    ['电池的数量',0,'电池改变不了导线自身的性质。']]},
+   {q:'2. 材料和粗细相同，长度加倍，电阻……',o:[
+    ['加倍',1,'正确——R 与 L 成正比：要穿过的"障碍区"长了一倍。'],
+    ['减半',0,'反了——越长电阻越大。'],
+    ['不变',0,'长度正是三大因素之一。'],
+    ['变为四倍',0,'是正比，不是平方。']]},
+   {q:'3. 材料和长度相同，横截面积加倍，电阻……',o:[
+    ['减半',1,'正确——R 与 A 成反比：电子的"车道"多了一倍。'],
+    ['加倍',0,'越粗越好走，不是越难走。'],
+    ['不变',0,'粗细有影响——成反比。'],
+    ['变为四分之一',0,'是反比，不是平方反比。']]},
+   {q:'4. 家里的电线用铜做，是因为铜……',o:[
+    ['电阻率很小',1,'正确——输电路上浪费的能量少。'],
+    ['比较重',0,'轻重与导电无关。'],
+    ['颜色好看',0,'好看不能导电。'],
+    ['是绝缘体',0,'铜是最好的导体之一。']]},
+   {q:'5. 电热水壶的发热丝用镍铬合金，是因为它……',o:[
+    ['电阻大，通电后发热多',1,'正确——电阻率大又耐高温，是理想的电热材料。'],
+    ['电阻几乎为零',0,'电阻近零的话几乎不发热。'],
+    ['不导电',0,'不导电就没有电流，更没有热。'],
+    ['是最便宜的金属',0,'选它是因为物理性质，不是价格。']]},
+   {q:'6. 要研究"长度对电阻的影响"，两根导线必须……',o:[
+    ['材料、粗细相同，只有长度不同',1,'正确——控制变量法：只允许一个变量不同。'],
+    ['材料和长度同时不同',0,'两个变量都变——说不清是谁的作用。'],
+    ['完全一模一样',0,'完全相同就没有对比了。'],
+    ['每一项都不同',0,'那是最不公平的实验。']]},
+   {q:'7. 亮着的灯丝和冷态相比，电阻……',o:[
+    ['变大了',1,'正确——上千度高温使离子振动加剧、碰撞更多。'],
+    ['变小了',0,'金属升温电阻是变大的。'],
+    ['一样大',0,'温度正是第四个影响因素。'],
+    ['变为零',0,'电阻为零就不发热，也不会发光了。']]},
+   {q:'8. 滑动变阻器改变电阻，靠的是改变……',o:[
+    ['接入电路的导线长度',1,'正确—���滑片一动，接入长度就变：R ∝ L 的直接应用。'],
+    ['导线的材料',0,'材料出厂就定了。'],
+    ['导线的粗细',0,'线径不会变。'],
+    ['导线的温度',0,'发热是副作用，不是调节原理。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+function ambLoop(){
+  CLK+=0.016;
+  if(CUR===0){ drawB(); }
+  else if(CUR===2){ microStep(0.016); drawM(); }
+  updSummary();
+  AMB=requestAnimationFrame(ambLoop);
+}
+function selMat(i){
+  B.mat=i;
+  var k;
+  for(k=0;k<3;k++)$('bm'+k).classList.toggle('on',k===i);
+}
+function selFMat(i){
+  F.mat=i;
+  var k;
+  for(k=0;k<3;k++)$('fm'+k).classList.toggle('on',k===i);
+}
+function gSlideApply(){
+  var v=+$('gv').value;
+  if(G.mode==='L')B.L=v; else B.A=v;
+  $('gvlab').textContent=v.toFixed(1)+(G.mode==='L'?' m':' mm²');
+  drawG();
+}
+function boot(){
+  RENDER=[drawB,drawF,drawM,drawG,drawQZ];
+  SUMMARY=[
+    function(){return 'R='+RES(B.mat,B.L,B.A).toFixed(2)+'Ω · I='+AMPS(RES(B.mat,B.L,B.A)).toFixed(2)+'A'},
+    function(){var d=fairDiff();return d.length===1?'✓':(d.length===0?'⚠':'✗')},
+    function(){return 'R≈'+microR().toFixed(2)+'Ω · '+Math.round(M.colRate)+'/s'},
+    function(){return (G.mode==='L'?'R∝L':'R∝1/A')+' · '+G.pts.length},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initB(); initF(); initM(); initG();
+  /* --- ① --- */
+  var k;
+  for(k=0;k<3;k++)(function(i){$('bm'+i).addEventListener('click',function(){selMat(i);drawB();updSummary()})})(k);
+  $('bL').addEventListener('input',function(){B.L=+this.value;$('bLlab').textContent=B.L.toFixed(1)+' m';drawB();updSummary()});
+  $('bA').addEventListener('input',function(){B.A=+this.value;$('bAlab').textContent=B.A.toFixed(1)+' mm²';drawB();updSummary()});
+  $('breset').addEventListener('click',function(){initB();selMat(2);$('bL').value=1;$('bA').value=1;$('bLlab').textContent='1.0 m';$('bAlab').textContent='1.0 mm²';drawB();updSummary()});
+  /* --- ② --- */
+  for(k=0;k<3;k++)(function(i){$('fm'+i).addEventListener('click',function(){selFMat(i);drawF();updSummary()})})(k);
+  $('flen').addEventListener('click',function(){F.len=1-F.len;this.classList.toggle('on',F.len===1);drawF();updSummary()});
+  $('farea').addEventListener('click',function(){F.area=1-F.area;this.classList.toggle('on',F.area===1);drawF();updSummary()});
+  $('ftrap').addEventListener('click',function(){selFMat(2);F.len=1;$('flen').classList.add('on');drawF();updSummary()});
+  $('freset').addEventListener('click',function(){initF();selFMat(2);F.len=0;F.area=0;$('flen').classList.remove('on');$('farea').classList.remove('on');drawF();updSummary()});
+  /* --- ③ --- */
+  $('mL').addEventListener('input',function(){M.L=+this.value;$('mLlab').textContent=M.L.toFixed(1)+' m';drawM();updSummary()});
+  $('mlanes').addEventListener('input',function(){M.lanes=+this.value;$('mlaneslab').textContent=M.lanes+' '+T('m_lane');initMicroE();drawM();updSummary()});
+  $('mT').addEventListener('input',function(){M.T=+this.value;$('mTlab').textContent=Math.round(M.T)+' °C';drawM();updSummary()});
+  $('mreset').addEventListener('click',function(){initM();$('mL').value=1;$('mlanes').value=2;$('mT').value=20;$('mLlab').textContent='1.0 m';$('mlaneslab').textContent='2 '+T('m_lane');$('mTlab').textContent='20 °C';drawM();updSummary()});
+  /* --- ④ --- */
+  $('gmodeL').addEventListener('click',function(){G.mode='L';this.classList.add('on');$('gmodeA').classList.remove('on');$('gv').value=B.L;gSlideApply();updSummary()});
+  $('gmodeA').addEventListener('click',function(){G.mode='A';this.classList.add('on');$('gmodeL').classList.remove('on');$('gv').value=B.A;gSlideApply();updSummary()});
+  $('gv').addEventListener('input',function(){gSlideApply();updSummary()});
+  $('grec').addEventListener('click',function(){
+    var x=gCurX(),R=RES(B.mat,B.L,B.A),j,dup=false;
+    for(j=0;j<G.pts.length;j++)if(Math.abs(G.pts[j][0]-x)<1e-9)dup=true;
+    if(!dup)G.pts.push([x,R]);
+    drawG();updSummary();
+  });
+  $('gclr').addEventListener('click',function(){G.pts=[];drawG();updSummary()});
+  /* --- chrome --- */
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  selMat(2);selFMat(2);
+  buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  showTab(0);
+  for(i=0;i<3;i++){selMat(i);drawB()}
+  B.L=0.2;drawB();B.L=2;drawB();B.A=0.5;drawB();B.A=2;drawB();
+  initB();selMat(2);
+  showTab(1);
+  selFMat(0);drawF();
+  selFMat(2);drawF();
+  F.len=1;drawF();
+  F.len=0;F.area=1;drawF();
+  initF();selFMat(2);drawF();
+  showTab(2);
+  for(i=0;i<200;i++){CLK+=0.016;microStep(0.016);if(i%50===0)drawM()}
+  M.T=180;for(i=0;i<200;i++){CLK+=0.016;microStep(0.016);if(i%50===0)drawM()}
+  M.lanes=4;initMicroE();drawM();
+  initM();drawM();
+  showTab(3);
+  G.mode='L';
+  for(i=1;i<=4;i++){B.L=i*0.5;G.pts.push([B.L,RES(B.mat,B.L,B.A)]);drawG()}
+  G.pts=[];G.mode='A';
+  for(i=1;i<=4;i++){B.A=i*0.5;G.pts.push([B.A,RES(B.mat,B.L,B.A)]);drawG()}
+  G.pts=[];G.mode='L';B.L=1;B.A=1;drawG();
+  showTab(4);
+  for(i=0;i<8;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=8;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='resistance-factors-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

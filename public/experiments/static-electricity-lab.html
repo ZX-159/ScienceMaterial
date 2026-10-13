@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Static Electricity Lab · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="hleft">
+    <div class="brand">ScienceMaterial</div>
+    <h1><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 🔔 <span data-i="title"></span></h1>
+    <div class="sub">Electroscope Demo · chu-er-shang/b3-c9 · ScienceMaterial</div>
+  </div>
+  <div class="chips">
+    <span data-i="chip1"></span>
+    <span data-i="chip2"></span>
+    <span style="color:var(--neg); border-color:rgba(63,208,108,.55)" data-i="chip3"></span>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="hbtn" id="themeBtn" onclick="toggleTheme()"></button>
+    <button class="hbtn" onclick="toggleFull()"><span data-i="btnFull"></span></button>
+    <button class="hbtn" onclick="resetActive()">↺ <span data-i="btnReset"></span></button>
+  </div>
+</header>
+
+<main>
+  <div class="left">
+    <nav class="tabs">
+      <button id="tab-lab" class="on" onclick="setMode('lab')"><span data-i="tabLab"></span></button>
+      <button id="tab-cmp" onclick="setMode('cmp')"><span data-i="tabCmp"></span></button>
+      <button id="tab-quiz" onclick="setMode('quiz')"><span data-i="tabQuiz"></span></button>
+      <button id="tab-game" onclick="setMode('game')"><span data-i="tabGame"></span></button>
+    </nav>
+
+    <div class="stage">
+      <section class="panel on" id="panel-lab">
+        <canvas id="cv-lab" width="1880" height="862"></canvas>
+      </section>
+
+      <section class="panel" id="panel-cmp">
+        <div class="duo">
+          <div class="box">
+            <div class="track-label" data-i="expA"></div>
+            <div class="cvwrap"><canvas id="cv-ca" width="1120" height="940"></canvas></div>
+            <div class="minictl">
+              <button class="sbtn mini" data-s="ca" data-rod="glass" onclick="pickCmpRod(this)"><span data-i="glassShort"></span></button>
+              <button class="sbtn mini pick" data-s="ca" data-rod="rubber" onclick="pickCmpRod(this)"><span data-i="rubberShort"></span></button>
+              <label class="ctl" style="font-size:13px"><span data-i="qShort"></span>
+                <input type="range" id="ca-q" min="1" max="3" step="1" value="1" oninput="cmpInput()"><output id="ca-q-o" style="font-size:15px">1</output>
+              </label>
+            </div>
+          </div>
+          <div class="box">
+            <div class="track-label" data-i="expB"></div>
+            <div class="cvwrap"><canvas id="cv-cb" width="1120" height="940"></canvas></div>
+            <div class="minictl">
+              <button class="sbtn mini" data-s="cb" data-rod="glass" onclick="pickCmpRod(this)"><span data-i="glassShort"></span></button>
+              <button class="sbtn mini pick" data-s="cb" data-rod="rubber" onclick="pickCmpRod(this)"><span data-i="rubberShort"></span></button>
+              <label class="ctl" style="font-size:13px"><span data-i="qShort"></span>
+                <input type="range" id="cb-q" min="1" max="3" step="1" value="3" oninput="cmpInput()"><output id="cb-q-o" style="font-size:15px">3</output>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-quiz">
+        <div class="quiz-wrap">
+          <div class="q-timer" id="q-timer"><i id="q-timer-bar"></i></div>
+          <div class="quiz-emoji" id="q-emoji"></div>
+          <div class="quiz-q" id="q-text"></div>
+          <div class="quiz-btns" id="q-opts"></div>
+          <div class="quiz-exp" id="q-exp"></div>
+          <div class="quiz-nav">
+            <button class="btn" id="q-next" style="display:none" onclick="nextQ()"><span data-i="next"></span> ➜</button>
+            <button class="btn ghost" id="q-restart" style="display:none" onclick="restartQ()">🔄 <span data-i="again"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-game">
+        <div class="gamehud">
+          <span class="gt"><span data-i="gTarget"></span> <b id="g-target">--</b>°</span>
+          <span class="gt"><span data-i="gRound"></span> <b id="g-round" style="font-size:24px">1</b>/3</span>
+          <span class="gtime" id="g-time">30</span>
+        </div>
+        <div id="game-cvhost"></div>
+      </section>
+    </div>
+
+    <div class="ctlbar">
+      <div class="ctl-group on" id="ctl-lab">
+        <span class="ctl-label" data-i="rodInHand"></span>
+        <button class="sbtn" data-rod="glass" onclick="pickRod(this)"><span data-i="rodGlass"></span></button>
+        <button class="sbtn pick" data-rod="rubber" onclick="pickRod(this)"><span data-i="rodRubber"></span></button>
+        <button class="sbtn" data-rod="wood" onclick="pickRod(this)"><span data-i="rodWood"></span></button>
+        <label class="ctl"><span data-i="chargeAmt"></span>
+          <input type="range" id="l-q" min="1" max="3" step="1" value="2" oninput="labInput()">
+          <output id="l-q-o">2</output>
+        </label>
+        <div class="hint-line" data-i="labHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-cmp">
+        <button class="btn ghost" style="font-size:15px; letter-spacing:0" onclick="presetCmp('amount')">📕 <span data-i="preset1"></span></button>
+        <button class="btn ghost" style="font-size:15px; letter-spacing:0" onclick="presetCmp('sign')">📙 <span data-i="preset2"></span></button>
+        <span class="ctl-label" data-i="guessQ"></span>
+        <button class="sbtn" data-g="a" onclick="pickGuess(this)"><span data-i="gA"></span></button>
+        <button class="sbtn" data-g="same" onclick="pickGuess(this)"><span data-i="gSame"></span></button>
+        <button class="sbtn" data-g="b" onclick="pickGuess(this)"><span data-i="gB"></span></button>
+        <button class="btn" id="cmp-run" onclick="runCmp()" disabled>⏱ <span data-i="runCmp"></span></button>
+      </div>
+
+      <div class="ctl-group" id="ctl-quiz">
+        <div class="hint-line" data-i="quizHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-game">
+        <button class="sbtn" data-rod="glass" onclick="pickRod(this)"><span data-i="rodGlass"></span></button>
+        <button class="sbtn pick" data-rod="rubber" onclick="pickRod(this)"><span data-i="rodRubber"></span></button>
+        <label class="ctl"><span data-i="chargeAmt"></span>
+          <input type="range" id="g-q" min="1" max="3" step="1" value="2" oninput="setRodQ(+this.value)">
+          <output id="g-q-o">2</output>
+        </label>
+        <button class="btn" id="g-lock" onclick="lockAngle()">🎯 <span data-i="gLock"></span></button>
+        <div class="hint-line" data-i="gHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sb on" id="sb-lab">
+      <div>
+        <div class="sb-title" data-i="angleLabel"></div>
+        <div class="bigang"><b id="l-ang">0</b><i>°</i></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="netLabel"></div>
+        <span class="netchip" id="l-net"></span>
+      </div>
+      <button class="explain-btn" data-exp="l" onclick="toggleExplain('l')"><span data-i="expOpen"></span></button>
+      <div class="explain" id="exp-l">
+        <div class="statusbox" id="l-status"></div>
+        <div class="concl" id="l-conclude"></div>
+      </div>
+      <div class="rec-head">
+        <button class="rec-btn" onclick="recordData()">📌 <span data-i="recBtn"></span></button>
+        <button class="rec-clear" onclick="clearRec()" data-i="recClear"></button>
+      </div>
+      <table class="rec">
+        <thead><tr><th data-i="thRod"></th><th data-i="thQ"></th><th data-i="thAng"></th><th style="width:38%"></th></tr></thead>
+        <tbody id="rec-body"></tbody>
+      </table>
+    </div>
+
+    <div class="sb" id="sb-cmp">
+      <div class="sb-title" data-i="angleLabel"></div>
+      <div class="cmp-angs">
+        <div class="one"><span data-i="expA"></span><b id="c-ang-a">0°</b></div>
+        <div class="one"><span data-i="expB"></span><b id="c-ang-b">0°</b></div>
+      </div>
+      <div class="feedback" id="cmp-fb"></div>
+      <div class="concl" id="cmp-conclude"></div>
+    </div>
+
+    <div class="sb" id="sb-quiz">
+      <div class="sb-title" data-i="score"></div>
+      <div class="scorebig"><b id="q-score-n">0</b><span> / 8</span></div>
+      <div class="qdots" id="q-prog"></div>
+      <div class="statusbox" id="q-side-hint"></div>
+    </div>
+
+    <div class="sb" id="sb-game">
+      <div>
+        <div class="sb-title" data-i="gTargetLabel"></div>
+        <div class="bigang"><b id="g-target-side">--</b><i>°</i></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="angleLabel"></div>
+        <div class="cmp-angs"><div class="one"><b id="g-cur">0°</b></div></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="score"></div>
+        <div class="scorebig"><b id="g-score">0</b></div>
+      </div>
+      <div class="statusbox" id="g-status"></div>
+    </div>
+
+    <footer id="credit"></footer>
+  </aside>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'🔔', q:'验电器金属箔张开，靠的是什么原理？',
+    o:['异种电荷相吸','同种电荷相斥','磁铁的吸力'], a:1,
+    x:'两片金属箔带上<em>同种电荷</em>，互相排斥就张开了。这是验电器的核心原理。' },
+  { e:'🥢', q:'带负电的橡胶棒靠近（不接触）金属球，金属箔带什么电？',
+    o:['正电','负电','不带电'], a:1,
+    x:'负棒把验电器里的<em>负电荷排斥</em>到最远的金属箔上 → 箔带<em>负</em>电张开；金属球则带正电。' },
+  { e:'⚽', q:'上一题中，金属球带什么电？',
+    o:['正电','负电','不带电'], a:0,
+    x:'负电荷都被赶到箔片去了，球上剩下的正电荷偏多 → 带<em>正</em>电。注意：正电荷本身没有动！' },
+  { e:'📐', q:'物体所带电荷越多，金属箔张开的角度——',
+    o:['越大','越小','不变'], a:0,
+    x:'电荷越多 → 箔片上的同种电荷越多 → 排斥力越大 → 张角越<em>大</em>（转换法）。' },
+  { e:'↩️', q:'带电棒只是靠近（没碰到）金属球，然后移开。金属箔会——',
+    o:['仍然张开','闭合，恢复中性','张得更开'], a:1,
+    x:'没接触就没有电荷转移——只是<em>暂时重新分布</em>。棒一移开，电荷回到原位，箔片<em>闭合</em>。' },
+  { e:'🤝', q:'带电棒碰了一下金属球再移开，金属箔会——',
+    o:['闭合','仍然张开','先张开后闭合'], a:1,
+    x:'接触时电荷<em>转移</em>了，验电器自己带上了电——棒移开后箔片<em>仍然张开</em>。这是「靠近」和「接触」的关键区别！' },
+  { e:'🕵️', q:'验电器能不能直接分辨物体带的是正电还是负电？',
+    o:['能，张角方向不同','不能，只能验出是否带电和电荷多少','能，正电张得更大'], a:1,
+    x:'不管正电负电，箔片都是同种电荷相斥张开——去对比实验试试 ＋3 和 －3，张角一模一样！' },
+  { e:'👆', q:'金属箔张开着，用手指摸一下金属球，会发生什么？',
+    o:['张得更开','箔片闭合——电荷经过人体导走了','没有变化'], a:1,
+    x:'人体能导电，电荷经人体<em>导走（接地）</em>，恢复中性。所以拿验电器要拿绝缘底座！' },
+];
+const QUIZ_EN = [
+  { e:'🔔', q:'What makes the electroscope leaves spread apart?',
+    o:['Unlike charges attract','Like charges repel','Magnetic force'], a:1,
+    x:'Both leaves gain the <em>same type of charge</em> and push each other apart. That is the core principle.' },
+  { e:'🥢', q:'A negative rubber rod comes NEAR (no contact). What charge do the leaves get?',
+    o:['Positive','Negative','No charge'], a:1,
+    x:'The rod <em>repels electrons</em> down to the leaves → leaves turn <em>negative</em> and spread; the ball is left positive.' },
+  { e:'⚽', q:'In the last question, what charge is on the ball?',
+    o:['Positive','Negative','No charge'], a:0,
+    x:'Electrons were pushed away to the leaves, so the ball keeps excess <em>positive</em> charge. Note: the positive charges never moved!' },
+  { e:'📐', q:'The more charge an object carries, the leaf angle becomes —',
+    o:['Larger','Smaller','Unchanged'], a:0,
+    x:'More charge on the leaves → stronger repulsion → <em>wider</em> angle. That is how we compare amounts (conversion method).' },
+  { e:'↩️', q:'A charged rod comes near (no contact), then moves away. The leaves —',
+    o:['Stay open','Close — back to neutral','Open wider'], a:1,
+    x:'No contact, no transfer — charges only <em>shifted temporarily</em> and return once the rod leaves, so the leaves <em>close</em>.' },
+  { e:'🤝', q:'The rod touches the ball once, then moves away. The leaves —',
+    o:['Close','Stay open','Open, then close'], a:1,
+    x:'Contact <em>transfers</em> charge — the electroscope is now charged itself, so the leaves <em>stay open</em>. The key difference between near and touch!' },
+  { e:'🕵️', q:'Can an electroscope tell positive charge from negative?',
+    o:['Yes — the leaves tilt differently','No — only whether charged, and how much','Yes — positive opens wider'], a:1,
+    x:'Either sign makes like charges repel the same way. Try <em>+3 vs −3</em> in Compare — the angles are identical!' },
+  { e:'👆', q:'The leaves are open. You touch the ball with a finger —',
+    o:['They open wider','They close — charge escapes through your body','Nothing happens'], a:1,
+    x:'Your body conducts the charge to the ground (<em>earthing</em>); the scope turns neutral. That is why you hold it by the insulating base!' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'验电器演示实验室', subtitle:'检验物体是否带电 · 比较电荷多少',
+  chip1:'原理：同种电荷相斥 → 金属箔张开', chip2:'转换法：看不见的电荷 → 看得见的张角', chip3:'金属中只有负电荷（电子）能移动',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  rodGlass:'玻璃棒（＋）', rodRubber:'橡胶棒（－）', rodWood:'木棒（不带电）',
+  glassShort:'玻璃棒＋', rubberShort:'橡胶棒－', woodShort:'木棒', qShort:'电量',
+  rodInHand:'手上的棒：', chargeAmt:'棒上电荷量',
+  labHint:'在画面里按住棒子拖到金属球附近；也可以让棒碰一下球，或把手指拖去摸球放电。',
+  angleLabel:'金属箔张角', netLabel:'验电器净电荷', neutral:'0（中性）', posW:'带正电', negW:'带负电',
+  s_idle:'拖动棒子靠近金属球试试！',
+  s_wood:'木棒不带电——电子不为所动��箔片不张开（这就是<b>对照实验</b>！）',
+  s_neg:'负棒靠近 → 电子被<b>排斥到金属箔</b>，箔带负电，同种电荷相斥张开！',
+  s_pos:'正棒靠近 → 电子被<b>吸引到金属球</b>，箔带正电，同种电荷相斥张开！',
+  s_touched:'棒移开了箔片还张着——刚才<b>接触</b>时电荷转移了，验电器自己带电了！',
+  c_lab:'📌 <em>靠近（不接触）</em>：电荷只是暂时重新分布，移开就恢复中性。<br>📌 <em>接触</em>：电荷真的转移了，验电器长期带电——想清零？用手指摸一下金属球，电荷经人体导走。',
+  recBtn:'记录数据', recClear:'清空', thRod:'棒', thQ:'电量', thAng:'张角',
+  expA:'实验甲', expB:'实验乙',
+  guessQ:'猜一猜：哪边张角更大？', gA:'甲更大', gSame:'一样大', gB:'乙更大', runCmp:'同时靠近',
+  preset1:'电荷量不同（1 vs 3）', preset2:'正负相反、量相同（＋3 vs －3）',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同——想想为什么？', angWord:'张角',
+  cc_amount:'📌 <b>结论：</b>电荷越<em>多</em>，张角越<em>大</em>——这就是<em>转换法</em>：用看得见的张角，比较看不见的电荷多少。',
+  cc_sign:'📌 电荷量相同、正负相反 → 张角<em>一样大</em>！<br>📌 验电器只能检验<em>是否带电</em>和<em>电荷多少</em>，<em>分不出正负</em>。',
+  cc_same:'📌 完全相同的两根棒，张角当然一样。试着<em>只改变一个量</em>再对比！',
+  cc_mixed:'📌 正负和电荷量都不同——但张角只跟<em>电荷量</em>有关。请<em>只改变一个量</em>再比一次（控制变量法）！',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  resGold:'🏆 满分！你们就是验电器大师！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」再试试，然后再来！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  qSideHint:'想不通的题，切回「演示实验」当场做给大家看。',
+  tabGame:'🎮 目标挑战', gTarget:'目标', gTargetLabel:'目标张角', gRound:'回合',
+  gLock:'锁定张角', gNextRound:'下一轮', gPlayAgain:'再来一局',
+  gHint:'全班指挥一位同学：选棒、调电量、控制距离，让张角对准目标，再按锁定！',
+  gGo:'把张角调到目标值，然后锁定！',
+  gPerfect:'🎯 神准！', gGood:'👍 很接近！', gOk:'还行，再稳一点！', gMiss:'差得有点远——再试！',
+  gFinal:'最终得分', gRank1:'🏆 静电狙击手！', gRank2:'👍 不错的手感！', gRank3:'💪 多练几轮就准了！',
+  gTimeUp:'⏰ 时间到，自动锁定！',
+  cvDrag:'（按住拖动）', cvFinger:'手指（拖去摸球放电）',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Electroscope Demo Lab', subtitle:'Detect charge · Compare how much',
+  chip1:'Principle: like charges repel → leaves spread', chip2:'Conversion: invisible charge → visible angle', chip3:'Only electrons (−) can move in metals',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  rodGlass:'Glass rod (＋)', rodRubber:'Rubber rod (－)', rodWood:'Wooden rod (neutral)',
+  glassShort:'Glass＋', rubberShort:'Rubber－', woodShort:'Wood', qShort:'Q',
+  rodInHand:'Rod in hand:', chargeAmt:'Charge on rod',
+  labHint:'Drag the rod toward the metal ball; try touching the ball with it, or drag the finger to the ball to discharge.',
+  angleLabel:'Leaf angle', netLabel:'Net charge on scope', neutral:'0 (neutral)', posW:'positive', negW:'negative',
+  s_idle:'Drag a rod toward the metal ball!',
+  s_wood:'A wooden rod carries no charge — electrons stay put, leaves stay closed (a <b>control test</b>!)',
+  s_neg:'Negative rod near → electrons are <b>repelled down to the leaves</b>; like charges repel — the leaves spread!',
+  s_pos:'Positive rod near → electrons are <b>drawn up to the ball</b>; the leaves turn positive and repel — they spread!',
+  s_touched:'The rod is away but the leaves stay open — <b>contact</b> transferred charge, the electroscope is charged itself!',
+  c_lab:'📌 <em>Near (no contact)</em>: charges shift temporarily; remove the rod and it is neutral again.<br>📌 <em>Touch</em>: charge truly transfers and the scope stays charged — to reset, ground the ball with the finger.',
+  recBtn:'Record data', recClear:'Clear', thRod:'Rod', thQ:'Q', thAng:'Angle',
+  expA:'Setup A', expB:'Setup B',
+  guessQ:'Predict: which spreads wider?', gA:'A wider', gSame:'Same', gB:'B wider', runCmp:'Bring both near',
+  preset1:'Different amounts (1 vs 3)', preset2:'Opposite signs, same amount (＋3 vs －3)',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?', angWord:'Angle',
+  cc_amount:'📌 <b>Conclusion:</b> more charge → <em>wider</em> angle. The <em>conversion method</em>: a visible angle compares invisible charge.',
+  cc_sign:'📌 Same amount, opposite signs → <em>same angle</em>!<br>📌 An electroscope shows <em>whether</em> something is charged and <em>how much</em> — it <em>cannot tell + from −</em>.',
+  cc_same:'📌 Two identical rods — of course the angles match. <em>Change only one variable</em> and compare again!',
+  cc_mixed:'📌 Both sign and amount differ — yet the angle only tracks <em>amount</em>. Prove it by <em>changing one variable at a time</em> (fair test!).',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  resGold:'🏆 Perfect score — electroscope masters!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Revisit the Demo Lab, then try again!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and show it live.',
+  tabGame:'🎮 Target Challenge', gTarget:'Target', gTargetLabel:'Target angle', gRound:'Round',
+  gLock:'Lock angle', gNextRound:'Next round', gPlayAgain:'Play again',
+  gHint:'The class guides one player: pick the rod, set its charge, control the distance — hit the target, then lock!',
+  gGo:'Match the target angle, then lock it in!',
+  gPerfect:'🎯 Bullseye!', gGood:'👍 So close!', gOk:'Not bad — steady it!', gMiss:'Way off — try again!',
+  gFinal:'Final score', gRank1:'🏆 Electrostatic sniper!', gRank2:'👍 Nice control!', gRank3:'💪 A few more rounds and you have it!',
+  gTimeUp:'⏰ Time! Auto-locked.',
+  cvDrag:'(drag me)', cvFinger:'Finger (touch ball to ground)',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ---------- Theme (canvas palettes) ---------- */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.75)',
+    table:'rgba(255,255,255,.35)',
+    stand:'rgba(175,190,205,.95)', base:'rgba(135,155,170,.95)',
+    ring:'rgba(205,220,235,.9)', stem:'rgba(225,232,240,.95)',
+    leaf:'rgba(255,225,150,1)',
+    glass:'rgba(215,242,248,.75)', rubber:'rgba(95,95,108,1)', wood:'rgba(180,138,86,.95)',
+    rodStroke:'rgba(255,255,255,.75)',
+    pos:'#ff5d55', neg:'#3fd06c',
+    spark:'255,201,77', arc:'rgba(255,201,77,.7)',
+    pill:'rgba(0,0,0,.5)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.7)',
+    table:'rgba(30,42,54,.35)',
+    stand:'rgba(105,120,133,1)', base:'rgba(130,145,158,1)',
+    ring:'rgba(110,128,144,.95)', stem:'rgba(145,158,170,1)',
+    leaf:'rgba(200,150,20,1)',
+    glass:'rgba(140,200,218,.95)', rubber:'rgba(72,72,86,1)', wood:'rgba(158,114,62,1)',
+    rodStroke:'rgba(30,42,54,.5)',
+    pos:'#e0443c', neg:'#1fa050',
+    spark:'200,140,10', arc:'rgba(160,109,0,.85)',
+    pill:'rgba(255,255,255,.8)',
+  },
+};
+let THEME = 'dark';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'dark'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')){ drawCmp(cA); drawCmp(cB); }
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  applyTheme();
+}
+
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  renderRec();
+  if($('panel-cmp').classList.contains('on')){ drawCmp(cA); drawCmp(cB); }
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')){ syncGameBtn(); $('g-status').textContent = t('gGo'); }
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) resetLab();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+function ptr(ev, cv, sc=1){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*cv.width/r.width/sc, y:(ev.clientY-r.top)*cv.height/r.height/sc };
+}
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  if(ctx.roundRect) ctx.roundRect(x,y,w,h,r); else ctx.rect(x,y,w,h);
+}
+function drawCharge(ctx, x, y, sign, scale=1){
+  const r = 9*scale;
+  ctx.fillStyle = sign==='+' ? C().pos : C().neg;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.lineWidth=1; ctx.stroke();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2*scale;
+  ctx.beginPath(); ctx.moveTo(x-4*scale, y); ctx.lineTo(x+4*scale, y); ctx.stroke();
+  if(sign==='+'){ ctx.beginPath(); ctx.moveTo(x, y-4*scale); ctx.lineTo(x, y+4*scale); ctx.stroke(); }
+}
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+
+function drawScopeBody(ctx, cx, topY, theta){
+  const ballC = { x:cx, y:topY+30 }, ballR = 24;
+  const pivot = { x:cx, y:topY+156 };
+  const ringC = { x:cx, y:topY+158 }, ringR = 66;
+  ctx.strokeStyle=C().stand; ctx.lineWidth=7;
+  ctx.beginPath(); ctx.moveTo(cx, ringC.y+ringR); ctx.lineTo(cx, ringC.y+ringR+34); ctx.stroke();
+  ctx.fillStyle=C().base;
+  ctx.beginPath(); ctx.ellipse(cx, ringC.y+ringR+38, 46, 10, 0, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle=C().ring; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.arc(ringC.x, ringC.y, ringR, 0, Math.PI*2); ctx.stroke();
+  ctx.strokeStyle=C().stem; ctx.lineWidth=4;
+  ctx.beginPath(); ctx.moveTo(cx, ballC.y+ballR-4); ctx.lineTo(cx, pivot.y); ctx.stroke();
+  ctx.fillStyle='rgba(110,85,60,.95)';
+  rrect(ctx, cx-9, ringC.y-ringR-5, 18, 12, 4); ctx.fill();
+  const L = 52;
+  for(const s of [-1,1]){
+    const a = Math.PI/2 + s*theta;
+    const ex = pivot.x + Math.cos(a)*L, ey = pivot.y + Math.sin(a)*L;
+    ctx.strokeStyle=C().leaf; ctx.lineWidth=3.5;
+    ctx.beginPath(); ctx.moveTo(pivot.x, pivot.y); ctx.lineTo(ex, ey); ctx.stroke();
+  }
+  const g = ctx.createRadialGradient(ballC.x-8, ballC.y-9, 4, ballC.x, ballC.y, ballR);
+  g.addColorStop(0,'#f8f2dc'); g.addColorStop(.55,'#c0b58c'); g.addColorStop(1,'#79704e');
+  ctx.fillStyle=g;
+  ctx.beginPath(); ctx.arc(ballC.x, ballC.y, ballR, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.lineWidth=1.5; ctx.stroke();
+  return { ballC, ballR, pivot, ringC, ringR, leafLen:L };
+}
+function leafPoint(geo, theta, s, frac){
+  const a = Math.PI/2 + s*theta;
+  return { x: geo.pivot.x + Math.cos(a)*geo.leafLen*frac,
+           y: geo.pivot.y + Math.sin(a)*geo.leafLen*frac };
+}
+
+/* ============================================================
+   Tab 1: Demo lab  (world coords 940x431, rendered at 1.35x)
+============================================================ */
+const SC = 2, WORLD_W = 940, WORLD_H = 431;
+const lab = {
+  rodType:'rubber', rodQ:2,
+  rod:{ x:660, y:120 }, finger:{ x:790, y:330 },
+  dragObj:null, dx:0, dy:0,
+  Q:0, theta:0, electrons:[], transferCd:0, sparks:[],
+  cx:280, topY:40,
+};
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const ROD_LEN = 170;
+function rodSign(){ return lab.rodType==='glass' ? 1 : lab.rodType==='rubber' ? -1 : 0; }
+function rodTip(){ return { x: lab.rod.x - ROD_LEN/2, y: lab.rod.y }; }
+function initElectrons(){
+  lab.electrons = [];
+  for(let i=0;i<4;i++) lab.electrons.push({ x: lab.cx + (i-1.5)*20, y: lab.topY+70, home:i });
+  lab.Q = 0; lab.theta = 0;
+}
+function labPhysics(dt){
+  const geo = labGeo;
+  const tip = rodTip();
+  const d = Math.hypot(tip.x-geo.ballC.x, tip.y-geo.ballC.y);
+  const s = rodSign();
+  const prox = Math.max(0, Math.min(1, (200-d)/150));
+  const induced = s * lab.rodQ * prox;
+  const leafQ = lab.Q*0.55 + induced;
+  const thTarget = Math.min(0.8, Math.abs(leafQ)*0.27);
+  lab.theta += (thTarget - lab.theta)*Math.min(1, dt*7);
+
+  lab.transferCd -= dt;
+  if(d < geo.ballR + 12 && s !== 0 && lab.transferCd <= 0){
+    if(s < 0 && lab.Q > -2){
+      lab.Q -= 1;
+      lab.electrons.push({ x:tip.x, y:tip.y });
+      spark(geo.ballC.x, geo.ballC.y-geo.ballR);
+    } else if(s > 0 && lab.Q < 2){
+      lab.Q += 1;
+      const e = lab.electrons.pop();
+      if(e) flyAway(e, tip);
+      spark(geo.ballC.x, geo.ballC.y-geo.ballR);
+    }
+    lab.transferCd = 0.9;
+  }
+  const fd = Math.hypot(lab.finger.x-geo.ballC.x, (lab.finger.y-16)-geo.ballC.y);
+  if(fd < geo.ballR + 16 && lab.Q !== 0 && lab.transferCd <= 0){
+    if(lab.Q < 0){ const e = lab.electrons.pop(); if(e) flyAway(e, {x:lab.finger.x, y:lab.finger.y}); lab.Q += 1; }
+    else { lab.Q -= 1; lab.electrons.push({ x:lab.finger.x, y:lab.finger.y-10 }); }
+    spark(geo.ballC.x+14, geo.ballC.y);
+    lab.transferCd = 0.35;
+  }
+
+  const total = lab.electrons.length;
+  let eLeaf = Math.round(2 - leafQ*1.15) + (total-4);
+  eLeaf = Math.max(0, Math.min(4, Math.min(total, eLeaf)));
+  const ballSlots = [[-13,-6],[13,-6],[-9,10],[9,10],[0,-14],[0,16]];
+  lab.electrons.forEach((e,i)=>{
+    let tx, ty;
+    if(i < eLeaf){
+      const side = i%2 ? 1 : -1;
+      const frac = 0.45 + 0.35*Math.floor(i/2);
+      const p = leafPoint(geo, lab.theta, side, Math.min(0.85, frac));
+      tx = p.x; ty = p.y;
+    } else {
+      const sl = ballSlots[(i-eLeaf) % ballSlots.length];
+      tx = geo.ballC.x + sl[0]; ty = geo.ballC.y + sl[1];
+    }
+    e.x += (tx-e.x)*Math.min(1, dt*6);
+    e.y += (ty-e.y)*Math.min(1, dt*6);
+  });
+  for(const sp of lab.sparks) sp.a -= dt*3;
+  lab.sparks = lab.sparks.filter(sp=>sp.a>0);
+  return { leafQ, induced, d, s, prox, eLeaf };
+}
+let flyers = [];
+function flyAway(e, target){ flyers.push({ x:e.x, y:e.y, tx:target.x, ty:target.y, life:1 }); }
+function spark(x,y){ lab.sparks.push({x, y, a:1}); }
+
+let labGeo = null;
+function drawLab(){
+  const ctx = labCtx;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,labCv.width,labCv.height);
+  ctx.setTransform(SC,0,0,SC,0,0);
+  ctx.strokeStyle=C().table; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(40, lab.topY+300); ctx.lineTo(WORLD_W-40, lab.topY+300); ctx.stroke();
+  labGeo = drawScopeBody(ctx, lab.cx, lab.topY, lab.theta);
+  const geo = labGeo;
+  drawCharge(ctx, geo.ballC.x-8, geo.ballC.y-2, '+');
+  drawCharge(ctx, geo.ballC.x+8, geo.ballC.y+4, '+');
+  const pL = leafPoint(geo, lab.theta, -1, 0.28), pR = leafPoint(geo, lab.theta, 1, 0.28);
+  drawCharge(ctx, pL.x, pL.y, '+', 0.85);
+  drawCharge(ctx, pR.x, pR.y, '+', 0.85);
+  for(const e of lab.electrons) drawCharge(ctx, e.x, e.y, '-');
+  for(const f of flyers){
+    f.x += (f.tx-f.x)*0.15; f.y += (f.ty-f.y)*0.15; f.life -= 0.03;
+    if(f.life>0) drawCharge(ctx, f.x, f.y, '-');
+  }
+  flyers = flyers.filter(f=>f.life>0);
+  for(const sp of lab.sparks){
+    ctx.fillStyle='rgba('+C().spark+','+Math.max(0,sp.a)+')';
+    ctx.font='22px serif'; ctx.textAlign='center';
+    ctx.fillText('⚡', sp.x, sp.y);
+  }
+  const s = rodSign();
+  ctx.save();
+  ctx.translate(lab.rod.x, lab.rod.y);
+  ctx.fillStyle = lab.rodType==='glass' ? C().glass :
+                  lab.rodType==='rubber' ? C().rubber : C().wood;
+  rrect(ctx, -ROD_LEN/2, -11, ROD_LEN, 22, 11); ctx.fill();
+  ctx.strokeStyle=C().rodStroke; ctx.lineWidth=1.6;
+  rrect(ctx, -ROD_LEN/2, -11, ROD_LEN, 22, 11); ctx.stroke();
+  if(s!==0){
+    for(let i=0;i<lab.rodQ*2;i++){
+      drawCharge(ctx, -ROD_LEN/2+22+i*(ROD_LEN-44)/Math.max(1,lab.rodQ*2-1), 0, s>0?'+':'-', 0.85);
+    }
+  }
+  ctx.restore();
+  /* rod label: pill below the rod, clamped inside the canvas */
+  const rodName = t(lab.rodType==='glass'?'glassShort':lab.rodType==='rubber'?'rubberShort':'woodShort');
+  const label = rodName+' '+t('cvDrag');
+  ctx.font='700 16px '+CV_FONT; ctx.textAlign='center';
+  const tw = ctx.measureText(label).width;
+  const lx = Math.max(tw/2+16, Math.min(WORLD_W-tw/2-16, lab.rod.x));
+  const ly = Math.min(WORLD_H-14, lab.rod.y + 36);
+  ctx.fillStyle=C().pill;
+  rrect(ctx, lx-tw/2-10, ly-15, tw+20, 24, 12); ctx.fill();
+  ctx.fillStyle=C().cvText;
+  ctx.fillText(label, lx, ly+3);
+  /* finger */
+  ctx.font='36px serif';
+  ctx.fillText('👆', lab.finger.x, lab.finger.y);
+  ctx.font='700 14px '+CV_FONT; ctx.fillStyle=C().cvTextDim;
+  ctx.fillText(t('cvFinger'), lab.finger.x, Math.min(WORLD_H-6, lab.finger.y+20));
+  if(lab.theta > 0.04){
+    ctx.strokeStyle=C().arc; ctx.setLineDash([4,4]); ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(geo.pivot.x, geo.pivot.y, 34, Math.PI/2-lab.theta, Math.PI/2+lab.theta); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+}
+function curDeg(){ return Math.round(lab.theta*180/Math.PI*2); }
+function updateLabSide(st){
+  $('l-ang').textContent = curDeg();
+  const fmt = n => n>0?'+'+n:''+n;
+  $('l-net').textContent = lab.Q===0 ? t('neutral') : fmt(lab.Q)+'（'+(lab.Q>0?t('posW'):t('negW'))+'）';
+  $('l-net').style.borderColor = lab.Q===0 ? 'var(--ink)' : lab.Q>0 ? 'var(--pos)' : '#1d7a3a';
+  let key;
+  if(st.s===0 && st.prox>0.2) key='s_wood';
+  else if(st.prox>0.15 && st.s<0) key='s_neg';
+  else if(st.prox>0.15 && st.s>0) key='s_pos';
+  else if(lab.Q!==0) key='s_touched';
+  else key='s_idle';
+  $('l-status').innerHTML = t(key);
+  const box = $('l-conclude');
+  if(lab.Q!==0 && st.prox<0.1){ box.innerHTML = t('c_lab'); box.classList.add('on'); }
+  else box.classList.remove('on');
+}
+labCv.addEventListener('pointerdown', ev=>{
+  const p = ptr(ev, labCv, SC);
+  if(Math.hypot(p.x-lab.rod.x, p.y-lab.rod.y) < 100){
+    lab.dragObj = lab.rod;
+  } else if(Math.hypot(p.x-lab.finger.x, p.y-(lab.finger.y-12)) < 40){
+    lab.dragObj = lab.finger;
+  } else return;
+  lab.dx = p.x-lab.dragObj.x; lab.dy = p.y-lab.dragObj.y;
+  labCv.setPointerCapture(ev.pointerId);
+});
+labCv.addEventListener('pointermove', ev=>{
+  if(!lab.dragObj) return;
+  const p = ptr(ev, labCv, SC);
+  lab.dragObj.x = Math.max(40, Math.min(WORLD_W-40, p.x-lab.dx));
+  lab.dragObj.y = Math.max(30, Math.min(WORLD_H-24, p.y-lab.dy));
+});
+labCv.addEventListener('pointerup', ()=>{ lab.dragObj = null; });
+function pickRod(btn){
+  const r = btn.dataset.rod;
+  document.querySelectorAll('.ctl-group .sbtn[data-rod]').forEach(b=>b.classList.toggle('pick', b.dataset.rod===r));
+  lab.rodType = r;
+}
+function setRodQ(v){
+  lab.rodQ = v;
+  $('l-q').value = v; $('g-q').value = v;
+  $('l-q-o').textContent = v; $('g-q-o').textContent = v;
+}
+function labInput(){ setRodQ(+$('l-q').value); }
+function resetLab(){
+  initElectrons();
+  lab.rod.x = 660; lab.rod.y = 120;
+  lab.finger.x = 790; lab.finger.y = 330;
+  flyers = []; lab.sparks = [];
+}
+
+/* ---------- Data recording ---------- */
+let recRows = [];
+function recordData(){
+  recRows.push({ rod:lab.rodType, q:lab.rodQ, ang:curDeg() });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  body.innerHTML = recRows.map(r=>{
+    const name = t(r.rod==='glass'?'glassShort':r.rod==='rubber'?'rubberShort':'woodShort');
+    const cls = r.rod==='glass'?'pos':r.rod==='rubber'?'neg':'';
+    const pct = Math.min(100, r.ang/90*100);
+    return '<tr><td>'+name+'</td><td>'+r.q+'</td><td>'+r.ang+'°</td>'+
+      '<td><div class="bar '+cls+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare
+============================================================ */
+function makeCmpScope(cvId){
+  return { cv:$(cvId), ctx:$(cvId).getContext('2d'),
+    rodType:'rubber', q:1, theta:0, rodX:1 };
+}
+const cA = makeCmpScope('cv-ca'); cA.q = 1;
+const cB = makeCmpScope('cv-cb'); cB.q = 3;
+let guess = null, cmpRunning = false;
+const CMP_SC = 2, CMP_W = 560, CMP_H = 470;
+function drawCmp(c){
+  const ctx = c.ctx, W = CMP_W;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,c.cv.width,c.cv.height);
+  ctx.setTransform(CMP_SC,0,0,CMP_SC,0,0);
+  const cx = 170, topY = 130;
+  const geo = drawScopeBody(ctx, cx, topY, c.theta);
+  const s = c.rodType==='glass' ? 1 : -1;
+  const n = c.q;
+  const level = c.theta / 0.8;
+  if(level > 0.06){
+    for(let i=0;i<n;i++){
+      drawCharge(ctx, geo.ballC.x + (i-(n-1)/2)*16, geo.ballC.y, s>0?'-':'+', 0.9);
+    }
+    for(const side of [-1,1]){
+      for(let i=0;i<n;i++){
+        const p = leafPoint(geo, c.theta, side, 0.35+0.25*i);
+        drawCharge(ctx, p.x, p.y, s>0?'+':'-', 0.8);
+      }
+    }
+  }
+  const rodNear = geo.ballC.x + geo.ballR + 96;
+  const rodFar = W - 100;
+  const rx = rodNear + (rodFar-rodNear)*c.rodX;
+  ctx.save();
+  ctx.translate(rx, geo.ballC.y);
+  ctx.fillStyle = s>0 ? C().glass : C().rubber;
+  rrect(ctx, -80, -11, 160, 22, 11); ctx.fill();
+  ctx.strokeStyle=C().rodStroke; ctx.lineWidth=1.5;
+  rrect(ctx, -80, -11, 160, 22, 11); ctx.stroke();
+  for(let i=0;i<c.q*2;i++){
+    drawCharge(ctx, -80+18+i*(160-36)/Math.max(1,c.q*2-1), 0, s>0?'+':'-', 0.85);
+  }
+  ctx.restore();
+  ctx.fillStyle=C().cvText; ctx.font='900 26px '+CV_FONT; ctx.textAlign='left';
+  ctx.fillText(t('angWord')+' '+Math.round(c.theta*180/Math.PI*2)+'°', 20, 44);
+  ctx.font='700 18px '+CV_FONT; ctx.textAlign='right';
+  ctx.fillText(t(s>0?'glassShort':'rubberShort')+' × '+c.q, W-16, 42);
+  ctx.textAlign='left';
+  updateCmpSide();
+}
+function updateCmpSide(){
+  $('c-ang-a').textContent = Math.round(cA.theta*180/Math.PI*2)+'°';
+  $('c-ang-b').textContent = Math.round(cB.theta*180/Math.PI*2)+'°';
+}
+function pickCmpRod(btn){
+  const c = btn.dataset.s==='ca' ? cA : cB;
+  document.querySelectorAll('.sbtn[data-s="'+btn.dataset.s+'"]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  c.rodType = btn.dataset.rod;
+  cmpReset();
+}
+function cmpInput(){
+  cA.q = +$('ca-q').value; cB.q = +$('cb-q').value;
+  $('ca-q-o').textContent = cA.q; $('cb-q-o').textContent = cB.q;
+  cmpReset();
+}
+function presetCmp(kind){
+  if(kind==='amount'){
+    cA.rodType='rubber'; cB.rodType='rubber';
+    $('ca-q').value=1; $('cb-q').value=3;
+  } else {
+    cA.rodType='glass'; cB.rodType='rubber';
+    $('ca-q').value=3; $('cb-q').value=3;
+  }
+  document.querySelectorAll('.sbtn[data-s="ca"]').forEach(b=>b.classList.toggle('pick', b.dataset.rod===cA.rodType));
+  document.querySelectorAll('.sbtn[data-s="cb"]').forEach(b=>b.classList.toggle('pick', b.dataset.rod===cB.rodType));
+  clearGuess(); cmpInput();
+}
+function cmpReset(){
+  if(cmpRunning) return;
+  cA.theta=0; cA.rodX=1; cB.theta=0; cB.rodX=1;
+  drawCmp(cA); drawCmp(cB);
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(cmpRunning) return;
+  cmpRunning = true;
+  $('cmp-run').disabled = true;
+  let t0 = performance.now();
+  function step(now){
+    const dt = Math.min(0.04,(now-t0)/1000); t0 = now;
+    let done = true;
+    for(const c of [cA,cB]){
+      c.rodX = Math.max(0, c.rodX - dt*0.8);
+      const target = Math.min(0.8, c.q*0.27) * (1-c.rodX);
+      c.theta += (target-c.theta)*Math.min(1,dt*6);
+      if(c.rodX > 0 || Math.abs(target-c.theta) > 0.01) done = false;
+      drawCmp(c);
+    }
+    if(!done) requestAnimationFrame(step);
+    else { cmpRunning = false; finishCmp(); }
+  }
+  requestAnimationFrame(step);
+}
+function finishCmp(){
+  const aQ = cA.q, bQ = cB.q;
+  const real = aQ===bQ ? 'same' : (aQ>bQ ? 'a' : 'b');
+  const fb = $('cmp-fb');
+  const name = {a:t('gA'), b:t('gB'), same:t('gSame')}[real];
+  const degA = Math.round(cA.theta*180/Math.PI*2), degB = Math.round(cB.theta*180/Math.PI*2);
+  const detail = ' '+name+'（A '+degA+'° · B '+degB+'°）';
+  if(guess === real){ fb.textContent = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.textContent = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const sameSign = cA.rodType===cB.rodType;
+  const box = $('cmp-conclude');
+  if(aQ!==bQ && sameSign) box.innerHTML = t('cc_amount');
+  else if(aQ===bQ && !sameSign) box.innerHTML = t('cc_sign');
+  else if(aQ===bQ && sameSign) box.innerHTML = t('cc_same');
+  else box.innerHTML = t('cc_mixed');
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz (with countdown)
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer = null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').textContent = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt, i)=>{
+    const b = document.createElement('button');
+    b.className = 'qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i, b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefixHtml, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefixHtml + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i === item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Target challenge mini-game (reuses the demo lab sim)
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 30;
+const game = { round:0, score:0, target:0, phase:'aim', left:GAME_TIME, timer:null };
+function stopGTimer(){ if(game.timer){ clearInterval(game.timer); game.timer = null; } }
+function startGame(){
+  game.round = 0; game.score = 0;
+  $('g-score').textContent = 0;
+  resetLab();
+  nextRound();
+}
+function nextRound(){
+  game.round++; game.phase = 'aim';
+  game.target = 20 + Math.round(Math.random()*60);
+  game.left = GAME_TIME;
+  $('g-target').textContent = game.target;
+  $('g-target-side').textContent = game.target;
+  $('g-round').textContent = game.round;
+  $('g-status').textContent = t('gGo');
+  $('g-time').textContent = game.left;
+  $('g-time').classList.remove('low');
+  syncGameBtn();
+  stopGTimer();
+  game.timer = setInterval(()=>{
+    game.left--;
+    $('g-time').textContent = Math.max(0, game.left);
+    $('g-time').classList.toggle('low', game.left <= 10);
+    if(game.left <= 0) lockAngle(true);
+  }, 1000);
+}
+function lockAngle(timedOut){
+  if(game.phase === 'aim'){
+    stopGTimer();
+    const diff = Math.abs(curDeg() - game.target);
+    const pts = diff<=2?100: diff<=5?80: diff<=10?50: diff<=20?20:5;
+    game.score += pts;
+    $('g-score').textContent = game.score;
+    const msg = (timedOut===true ? t('gTimeUp')+' ' : '') +
+      (diff<=2?t('gPerfect'): diff<=5?t('gGood'): diff<=10?t('gOk'): t('gMiss'));
+    game.phase = game.round >= GAME_ROUNDS ? 'done' : 'next';
+    if(game.phase === 'done'){
+      const rk = game.score>=270?t('gRank1'): game.score>=180?t('gRank2'): t('gRank3');
+      $('g-status').textContent = msg+'（±'+diff+'° · +'+pts+'）— '+t('gFinal')+' '+game.score+'！'+rk;
+    } else {
+      $('g-status').textContent = msg+'（±'+diff+'° · +'+pts+'）';
+    }
+    syncGameBtn();
+  } else if(game.phase === 'next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function syncGameBtn(){
+  const label = game.phase==='aim' ? '🎯 '+t('gLock') :
+                game.phase==='next' ? t('gNextRound')+' ➜' : '🔄 '+t('gPlayAgain');
+  $('g-lock').textContent = label;
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    if(!labGeo) drawLab();
+    const st = labPhysics(dt);
+    drawLab();
+    if(labOn) updateLabSide(st);
+    else $('g-cur').textContent = curDeg()+'°';
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab') $('panel-lab').appendChild(labCv);
+  if(m==='cmp') cmpReset();
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+applyTheme();
+applyLang();
+syncExplain();
+initElectrons();
+labInput();
+drawLab();
+cmpInput();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+</script>
+
+<script>
+
+'use strict';
+const $ = id => document.getElementById(id);
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'🔔', q:'验电器金属箔张开，靠的是什么原理？',
+    o:['异种电荷相吸','同种电荷相斥','磁铁的吸力'], a:1,
+    x:'两片金属箔带上<em>同种电荷</em>，互相排斥就张开了。这是验电器的核心原理。' },
+  { e:'🥢', q:'带负电的橡胶棒靠近（不接触）金属球，金属箔带什么电？',
+    o:['正电','负电','不带电'], a:1,
+    x:'负棒把验电器里的<em>负电荷排斥</em>到最远的金属箔上 → 箔带<em>负</em>电张开；金属球则带正电。' },
+  { e:'⚽', q:'上一题中，金属球带什么电？',
+    o:['正电','负电','不带电'], a:0,
+    x:'负电荷都被赶到箔片去了，球上剩下的正电荷偏多 → 带<em>正</em>电。注意：正电荷本身没有动！' },
+  { e:'📐', q:'物体所带电荷越多，金属箔张开的角度——',
+    o:['越大','越小','不变'], a:0,
+    x:'电荷越多 → 箔片上的同种电荷越多 → 排斥力越大 → 张角越<em>大</em>（转换法）。' },
+  { e:'↩️', q:'带电棒只是靠近（没碰到）金属球，然后移开。金属箔会——',
+    o:['仍然张开','闭合，恢复中性','张得更开'], a:1,
+    x:'没接触就没有电荷转移——只是<em>暂时重新分布</em>。棒一移开，电荷回到原位，箔片<em>闭合</em>。' },
+  { e:'🤝', q:'带电棒碰了一下金属球再移开，金属箔会——',
+    o:['闭合','仍然张开','先张开后闭合'], a:1,
+    x:'接触时电荷<em>转移</em>了，验电器自己带上了电——棒移开后箔片<em>仍然张开</em>。这是「靠近」和「接触」的关键区别！' },
+  { e:'🕵️', q:'验电器能不能直接分辨物体带的是正电还是负电？',
+    o:['能，张角方向不同','不能，只能验出是否带电和电荷多少','能，正电张得更大'], a:1,
+    x:'不管正电负电，箔片都是同种电荷相斥张开——去对比实验试试 ＋3 和 －3，张角一模一样！' },
+  { e:'👆', q:'金属箔张开着，用手指摸一下金属球，会发生什么？',
+    o:['张得更开','箔片闭合——电荷经过人体导走了','没有变化'], a:1,
+    x:'人体能导电，电荷经人体<em>导走（接地）</em>，恢复中性。所以拿验电器要拿绝缘底座！' },
+];
+const QUIZ_EN = [
+  { e:'🔔', q:'What makes the electroscope leaves spread apart?',
+    o:['Unlike charges attract','Like charges repel','Magnetic force'], a:1,
+    x:'Both leaves gain the <em>same type of charge</em> and push each other apart. That is the core principle.' },
+  { e:'🥢', q:'A negative rubber rod comes NEAR (no contact). What charge do the leaves get?',
+    o:['Positive','Negative','No charge'], a:1,
+    x:'The rod <em>repels electrons</em> down to the leaves → leaves turn <em>negative</em> and spread; the ball is left positive.' },
+  { e:'⚽', q:'In the last question, what charge is on the ball?',
+    o:['Positive','Negative','No charge'], a:0,
+    x:'Electrons were pushed away to the leaves, so the ball keeps excess <em>positive</em> charge. Note: the positive charges never moved!' },
+  { e:'📐', q:'The more charge an object carries, the leaf angle becomes —',
+    o:['Larger','Smaller','Unchanged'], a:0,
+    x:'More charge on the leaves → stronger repulsion → <em>wider</em> angle. That is how we compare amounts (conversion method).' },
+  { e:'↩️', q:'A charged rod comes near (no contact), then moves away. The leaves —',
+    o:['Stay open','Close — back to neutral','Open wider'], a:1,
+    x:'No contact, no transfer — charges only <em>shifted temporarily</em> and return once the rod leaves, so the leaves <em>close</em>.' },
+  { e:'🤝', q:'The rod touches the ball once, then moves away. The leaves —',
+    o:['Close','Stay open','Open, then close'], a:1,
+    x:'Contact <em>transfers</em> charge — the electroscope is now charged itself, so the leaves <em>stay open</em>. The key difference between near and touch!' },
+  { e:'🕵️', q:'Can an electroscope tell positive charge from negative?',
+    o:['Yes — the leaves tilt differently','No — only whether charged, and how much','Yes — positive opens wider'], a:1,
+    x:'Either sign makes like charges repel the same way. Try <em>+3 vs −3</em> in Compare — the angles are identical!' },
+  { e:'👆', q:'The leaves are open. You touch the ball with a finger —',
+    o:['They open wider','They close — charge escapes through your body','Nothing happens'], a:1,
+    x:'Your body conducts the charge to the ground (<em>earthing</em>); the scope turns neutral. That is why you hold it by the insulating base!' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'验电器演示实验室', subtitle:'检验物体是否带电 · 比较电荷多少',
+  chip1:'原理：同种电荷相斥 → 金属箔张开', chip2:'转换法：看不见的电荷 → 看得见的张角', chip3:'金属中只有负电荷（电子）能移动',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  rodGlass:'玻璃棒（＋）', rodRubber:'橡胶棒（－）', rodWood:'木棒（不带电）',
+  glassShort:'玻璃棒＋', rubberShort:'橡胶棒－', woodShort:'木棒', qShort:'电量',
+  rodInHand:'手上的棒：', chargeAmt:'棒上电荷量',
+  labHint:'在画面里按住棒子拖到金属球附近；也可以让棒碰一下球，或把手指拖去摸球放电。',
+  angleLabel:'金属箔张角', netLabel:'验电器净电荷', neutral:'0（中性）', posW:'带正电', negW:'带负电',
+  s_idle:'拖动棒子靠近金属球试试！',
+  s_wood:'木棒不带电——电子不为所动��箔片不张开（这就是<b>对照实验</b>！）',
+  s_neg:'负棒靠近 → 电子被<b>排斥到金属箔</b>，箔带负电，同种电荷相斥张开！',
+  s_pos:'正棒靠近 → 电子被<b>吸引到金属球</b>，箔带正电，同种电荷相斥张开！',
+  s_touched:'棒移开了箔片还张着——刚才<b>接触</b>时电荷转移了，验电器自己带电了！',
+  c_lab:'📌 <em>靠近（不接触）</em>：电荷只是暂时重新分布，移开就恢复中性。<br>📌 <em>接触</em>：电荷真的转移了，验电器长期带电——想清零？用手指摸一下金属球，电荷经人体导走。',
+  recBtn:'记录数据', recClear:'清空', thRod:'棒', thQ:'电量', thAng:'张角',
+  expA:'实验甲', expB:'实验乙',
+  guessQ:'猜一猜：哪边张角更大？', gA:'甲更大', gSame:'一样大', gB:'乙更大', runCmp:'同时靠近',
+  preset1:'电荷量不同（1 vs 3）', preset2:'正负相反、量相同（＋3 vs －3）',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同——想想为什么？', angWord:'张角',
+  cc_amount:'📌 <b>结论：</b>电荷越<em>多</em>，张角越<em>大</em>——这就是<em>转换法</em>：用看得见的张角，比较看不见的电荷多少。',
+  cc_sign:'📌 电荷量相同、正负相反 → 张角<em>一样大</em>！<br>📌 验电器只能检验<em>是否带电</em>和<em>电荷多少</em>，<em>分不出正负</em>。',
+  cc_same:'📌 完全相同的两根棒，张角当然一样。试着<em>只改变一个量</em>再对比！',
+  cc_mixed:'📌 正负和电荷量都不同——但张角只跟<em>电荷量</em>有关。请<em>只改变一个量</em>再比一次（控制变量法）！',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  resGold:'🏆 满分！你们就是验电器大师！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」再试试，然后再来！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  qSideHint:'想不通的题，切回「演示实验」当场做给大家看。',
+  tabGame:'🎮 目标挑战', gTarget:'目标', gTargetLabel:'目标张角', gRound:'回合',
+  gLock:'锁定张角', gNextRound:'下一轮', gPlayAgain:'再来一局',
+  gHint:'全班指挥一位同学：选棒、调电量、控制距离，让张角对准目标，再按锁定！',
+  gGo:'把张角调到目标值，然后锁定！',
+  gPerfect:'🎯 神准！', gGood:'👍 很接近！', gOk:'还行，再稳一点！', gMiss:'差得有点远——再试！',
+  gFinal:'最终得分', gRank1:'🏆 静电狙击手！', gRank2:'👍 不错的手感！', gRank3:'💪 多练几轮就准了！',
+  gTimeUp:'⏰ 时间到，自动锁定！',
+  cvDrag:'（按住拖动）', cvFinger:'手指（拖去摸球放电）',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Electroscope Demo Lab', subtitle:'Detect charge · Compare how much',
+  chip1:'Principle: like charges repel → leaves spread', chip2:'Conversion: invisible charge → visible angle', chip3:'Only electrons (−) can move in metals',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  rodGlass:'Glass rod (＋)', rodRubber:'Rubber rod (－)', rodWood:'Wooden rod (neutral)',
+  glassShort:'Glass＋', rubberShort:'Rubber－', woodShort:'Wood', qShort:'Q',
+  rodInHand:'Rod in hand:', chargeAmt:'Charge on rod',
+  labHint:'Drag the rod toward the metal ball; try touching the ball with it, or drag the finger to the ball to discharge.',
+  angleLabel:'Leaf angle', netLabel:'Net charge on scope', neutral:'0 (neutral)', posW:'positive', negW:'negative',
+  s_idle:'Drag a rod toward the metal ball!',
+  s_wood:'A wooden rod carries no charge — electrons stay put, leaves stay closed (a <b>control test</b>!)',
+  s_neg:'Negative rod near → electrons are <b>repelled down to the leaves</b>; like charges repel — the leaves spread!',
+  s_pos:'Positive rod near → electrons are <b>drawn up to the ball</b>; the leaves turn positive and repel — they spread!',
+  s_touched:'The rod is away but the leaves stay open — <b>contact</b> transferred charge, the electroscope is charged itself!',
+  c_lab:'📌 <em>Near (no contact)</em>: charges shift temporarily; remove the rod and it is neutral again.<br>📌 <em>Touch</em>: charge truly transfers and the scope stays charged — to reset, ground the ball with the finger.',
+  recBtn:'Record data', recClear:'Clear', thRod:'Rod', thQ:'Q', thAng:'Angle',
+  expA:'Setup A', expB:'Setup B',
+  guessQ:'Predict: which spreads wider?', gA:'A wider', gSame:'Same', gB:'B wider', runCmp:'Bring both near',
+  preset1:'Different amounts (1 vs 3)', preset2:'Opposite signs, same amount (＋3 vs －3)',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?', angWord:'Angle',
+  cc_amount:'📌 <b>Conclusion:</b> more charge → <em>wider</em> angle. The <em>conversion method</em>: a visible angle compares invisible charge.',
+  cc_sign:'📌 Same amount, opposite signs → <em>same angle</em>!<br>📌 An electroscope shows <em>whether</em> something is charged and <em>how much</em> — it <em>cannot tell + from −</em>.',
+  cc_same:'📌 Two identical rods — of course the angles match. <em>Change only one variable</em> and compare again!',
+  cc_mixed:'📌 Both sign and amount differ — yet the angle only tracks <em>amount</em>. Prove it by <em>changing one variable at a time</em> (fair test!).',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  resGold:'🏆 Perfect score — electroscope masters!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Revisit the Demo Lab, then try again!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and show it live.',
+  tabGame:'🎮 Target Challenge', gTarget:'Target', gTargetLabel:'Target angle', gRound:'Round',
+  gLock:'Lock angle', gNextRound:'Next round', gPlayAgain:'Play again',
+  gHint:'The class guides one player: pick the rod, set its charge, control the distance — hit the target, then lock!',
+  gGo:'Match the target angle, then lock it in!',
+  gPerfect:'🎯 Bullseye!', gGood:'👍 So close!', gOk:'Not bad — steady it!', gMiss:'Way off — try again!',
+  gFinal:'Final score', gRank1:'🏆 Electrostatic sniper!', gRank2:'👍 Nice control!', gRank3:'💪 A few more rounds and you have it!',
+  gTimeUp:'⏰ Time! Auto-locked.',
+  cvDrag:'(drag me)', cvFinger:'Finger (touch ball to ground)',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ---------- Theme (canvas palettes) ---------- */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.75)',
+    table:'rgba(255,255,255,.35)',
+    stand:'rgba(175,190,205,.95)', base:'rgba(135,155,170,.95)',
+    ring:'rgba(205,220,235,.9)', stem:'rgba(225,232,240,.95)',
+    leaf:'rgba(255,225,150,1)',
+    glass:'rgba(215,242,248,.75)', rubber:'rgba(95,95,108,1)', wood:'rgba(180,138,86,.95)',
+    rodStroke:'rgba(255,255,255,.75)',
+    pos:'#ff5d55', neg:'#3fd06c',
+    spark:'255,201,77', arc:'rgba(255,201,77,.7)',
+    pill:'rgba(0,0,0,.5)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.7)',
+    table:'rgba(30,42,54,.35)',
+    stand:'rgba(105,120,133,1)', base:'rgba(130,145,158,1)',
+    ring:'rgba(110,128,144,.95)', stem:'rgba(145,158,170,1)',
+    leaf:'rgba(200,150,20,1)',
+    glass:'rgba(140,200,218,.95)', rubber:'rgba(72,72,86,1)', wood:'rgba(158,114,62,1)',
+    rodStroke:'rgba(30,42,54,.5)',
+    pos:'#e0443c', neg:'#1fa050',
+    spark:'200,140,10', arc:'rgba(160,109,0,.85)',
+    pill:'rgba(255,255,255,.8)',
+  },
+};
+let THEME = 'light';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'light'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')){ drawCmp(cA); drawCmp(cB); }
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  THEME='light'; try{applyTheme();}catch(e){}
+}
+
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  renderRec();
+  if($('panel-cmp').classList.contains('on')){ drawCmp(cA); drawCmp(cB); }
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')){ syncGameBtn(); $('g-status').textContent = t('gGo'); }
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) resetLab();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+function ptr(ev, cv, sc=1){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*cv.width/r.width/sc, y:(ev.clientY-r.top)*cv.height/r.height/sc };
+}
+function rrect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  if(ctx.roundRect) ctx.roundRect(x,y,w,h,r); else ctx.rect(x,y,w,h);
+}
+function drawCharge(ctx, x, y, sign, scale=1){
+  const r = 9*scale;
+  ctx.fillStyle = sign==='+' ? C().pos : C().neg;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.lineWidth=1; ctx.stroke();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2*scale;
+  ctx.beginPath(); ctx.moveTo(x-4*scale, y); ctx.lineTo(x+4*scale, y); ctx.stroke();
+  if(sign==='+'){ ctx.beginPath(); ctx.moveTo(x, y-4*scale); ctx.lineTo(x, y+4*scale); ctx.stroke(); }
+}
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+
+function drawScopeBody(ctx, cx, topY, theta){
+  const ballC = { x:cx, y:topY+30 }, ballR = 24;
+  const pivot = { x:cx, y:topY+156 };
+  const ringC = { x:cx, y:topY+158 }, ringR = 66;
+  ctx.strokeStyle=C().stand; ctx.lineWidth=7;
+  ctx.beginPath(); ctx.moveTo(cx, ringC.y+ringR); ctx.lineTo(cx, ringC.y+ringR+34); ctx.stroke();
+  ctx.fillStyle=C().base;
+  ctx.beginPath(); ctx.ellipse(cx, ringC.y+ringR+38, 46, 10, 0, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle=C().ring; ctx.lineWidth=6;
+  ctx.beginPath(); ctx.arc(ringC.x, ringC.y, ringR, 0, Math.PI*2); ctx.stroke();
+  ctx.strokeStyle=C().stem; ctx.lineWidth=4;
+  ctx.beginPath(); ctx.moveTo(cx, ballC.y+ballR-4); ctx.lineTo(cx, pivot.y); ctx.stroke();
+  ctx.fillStyle='rgba(110,85,60,.95)';
+  rrect(ctx, cx-9, ringC.y-ringR-5, 18, 12, 4); ctx.fill();
+  const L = 52;
+  for(const s of [-1,1]){
+    const a = Math.PI/2 + s*theta;
+    const ex = pivot.x + Math.cos(a)*L, ey = pivot.y + Math.sin(a)*L;
+    ctx.strokeStyle=C().leaf; ctx.lineWidth=3.5;
+    ctx.beginPath(); ctx.moveTo(pivot.x, pivot.y); ctx.lineTo(ex, ey); ctx.stroke();
+  }
+  const g = ctx.createRadialGradient(ballC.x-8, ballC.y-9, 4, ballC.x, ballC.y, ballR);
+  g.addColorStop(0,'#f8f2dc'); g.addColorStop(.55,'#c0b58c'); g.addColorStop(1,'#79704e');
+  ctx.fillStyle=g;
+  ctx.beginPath(); ctx.arc(ballC.x, ballC.y, ballR, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.35)'; ctx.lineWidth=1.5; ctx.stroke();
+  return { ballC, ballR, pivot, ringC, ringR, leafLen:L };
+}
+function leafPoint(geo, theta, s, frac){
+  const a = Math.PI/2 + s*theta;
+  return { x: geo.pivot.x + Math.cos(a)*geo.leafLen*frac,
+           y: geo.pivot.y + Math.sin(a)*geo.leafLen*frac };
+}
+
+/* ============================================================
+   Tab 1: Demo lab  (world coords 940x431, rendered at 1.35x)
+============================================================ */
+const SC = 2, WORLD_W = 940, WORLD_H = 431;
+const lab = {
+  rodType:'rubber', rodQ:2,
+  rod:{ x:660, y:120 }, finger:{ x:790, y:330 },
+  dragObj:null, dx:0, dy:0,
+  Q:0, theta:0, electrons:[], transferCd:0, sparks:[],
+  cx:280, topY:40,
+};
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const ROD_LEN = 170;
+function rodSign(){ return lab.rodType==='glass' ? 1 : lab.rodType==='rubber' ? -1 : 0; }
+function rodTip(){ return { x: lab.rod.x - ROD_LEN/2, y: lab.rod.y }; }
+function initElectrons(){
+  lab.electrons = [];
+  for(let i=0;i<4;i++) lab.electrons.push({ x: lab.cx + (i-1.5)*20, y: lab.topY+70, home:i });
+  lab.Q = 0; lab.theta = 0;
+}
+function labPhysics(dt){
+  const geo = labGeo;
+  const tip = rodTip();
+  const d = Math.hypot(tip.x-geo.ballC.x, tip.y-geo.ballC.y);
+  const s = rodSign();
+  const prox = Math.max(0, Math.min(1, (200-d)/150));
+  const induced = s * lab.rodQ * prox;
+  const leafQ = lab.Q*0.55 + induced;
+  const thTarget = Math.min(0.8, Math.abs(leafQ)*0.27);
+  lab.theta += (thTarget - lab.theta)*Math.min(1, dt*7);
+
+  lab.transferCd -= dt;
+  if(d < geo.ballR + 12 && s !== 0 && lab.transferCd <= 0){
+    if(s < 0 && lab.Q > -2){
+      lab.Q -= 1;
+      lab.electrons.push({ x:tip.x, y:tip.y });
+      spark(geo.ballC.x, geo.ballC.y-geo.ballR);
+    } else if(s > 0 && lab.Q < 2){
+      lab.Q += 1;
+      const e = lab.electrons.pop();
+      if(e) flyAway(e, tip);
+      spark(geo.ballC.x, geo.ballC.y-geo.ballR);
+    }
+    lab.transferCd = 0.9;
+  }
+  const fd = Math.hypot(lab.finger.x-geo.ballC.x, (lab.finger.y-16)-geo.ballC.y);
+  if(fd < geo.ballR + 16 && lab.Q !== 0 && lab.transferCd <= 0){
+    if(lab.Q < 0){ const e = lab.electrons.pop(); if(e) flyAway(e, {x:lab.finger.x, y:lab.finger.y}); lab.Q += 1; }
+    else { lab.Q -= 1; lab.electrons.push({ x:lab.finger.x, y:lab.finger.y-10 }); }
+    spark(geo.ballC.x+14, geo.ballC.y);
+    lab.transferCd = 0.35;
+  }
+
+  const total = lab.electrons.length;
+  let eLeaf = Math.round(2 - leafQ*1.15) + (total-4);
+  eLeaf = Math.max(0, Math.min(4, Math.min(total, eLeaf)));
+  const ballSlots = [[-13,-6],[13,-6],[-9,10],[9,10],[0,-14],[0,16]];
+  lab.electrons.forEach((e,i)=>{
+    let tx, ty;
+    if(i < eLeaf){
+      const side = i%2 ? 1 : -1;
+      const frac = 0.45 + 0.35*Math.floor(i/2);
+      const p = leafPoint(geo, lab.theta, side, Math.min(0.85, frac));
+      tx = p.x; ty = p.y;
+    } else {
+      const sl = ballSlots[(i-eLeaf) % ballSlots.length];
+      tx = geo.ballC.x + sl[0]; ty = geo.ballC.y + sl[1];
+    }
+    e.x += (tx-e.x)*Math.min(1, dt*6);
+    e.y += (ty-e.y)*Math.min(1, dt*6);
+  });
+  for(const sp of lab.sparks) sp.a -= dt*3;
+  lab.sparks = lab.sparks.filter(sp=>sp.a>0);
+  return { leafQ, induced, d, s, prox, eLeaf };
+}
+let flyers = [];
+function flyAway(e, target){ flyers.push({ x:e.x, y:e.y, tx:target.x, ty:target.y, life:1 }); }
+function spark(x,y){ lab.sparks.push({x, y, a:1}); }
+
+let labGeo = null;
+function drawLab(){
+  const ctx = labCtx;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,labCv.width,labCv.height);
+  ctx.setTransform(SC,0,0,SC,0,0);
+  ctx.strokeStyle=C().table; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(40, lab.topY+300); ctx.lineTo(WORLD_W-40, lab.topY+300); ctx.stroke();
+  labGeo = drawScopeBody(ctx, lab.cx, lab.topY, lab.theta);
+  const geo = labGeo;
+  drawCharge(ctx, geo.ballC.x-8, geo.ballC.y-2, '+');
+  drawCharge(ctx, geo.ballC.x+8, geo.ballC.y+4, '+');
+  const pL = leafPoint(geo, lab.theta, -1, 0.28), pR = leafPoint(geo, lab.theta, 1, 0.28);
+  drawCharge(ctx, pL.x, pL.y, '+', 0.85);
+  drawCharge(ctx, pR.x, pR.y, '+', 0.85);
+  for(const e of lab.electrons) drawCharge(ctx, e.x, e.y, '-');
+  for(const f of flyers){
+    f.x += (f.tx-f.x)*0.15; f.y += (f.ty-f.y)*0.15; f.life -= 0.03;
+    if(f.life>0) drawCharge(ctx, f.x, f.y, '-');
+  }
+  flyers = flyers.filter(f=>f.life>0);
+  for(const sp of lab.sparks){
+    ctx.fillStyle='rgba('+C().spark+','+Math.max(0,sp.a)+')';
+    ctx.font='22px serif'; ctx.textAlign='center';
+    ctx.fillText('⚡', sp.x, sp.y);
+  }
+  const s = rodSign();
+  ctx.save();
+  ctx.translate(lab.rod.x, lab.rod.y);
+  ctx.fillStyle = lab.rodType==='glass' ? C().glass :
+                  lab.rodType==='rubber' ? C().rubber : C().wood;
+  rrect(ctx, -ROD_LEN/2, -11, ROD_LEN, 22, 11); ctx.fill();
+  ctx.strokeStyle=C().rodStroke; ctx.lineWidth=1.6;
+  rrect(ctx, -ROD_LEN/2, -11, ROD_LEN, 22, 11); ctx.stroke();
+  if(s!==0){
+    for(let i=0;i<lab.rodQ*2;i++){
+      drawCharge(ctx, -ROD_LEN/2+22+i*(ROD_LEN-44)/Math.max(1,lab.rodQ*2-1), 0, s>0?'+':'-', 0.85);
+    }
+  }
+  ctx.restore();
+  /* rod label: pill below the rod, clamped inside the canvas */
+  const rodName = t(lab.rodType==='glass'?'glassShort':lab.rodType==='rubber'?'rubberShort':'woodShort');
+  const label = rodName+' '+t('cvDrag');
+  ctx.font='700 16px '+CV_FONT; ctx.textAlign='center';
+  const tw = ctx.measureText(label).width;
+  const lx = Math.max(tw/2+16, Math.min(WORLD_W-tw/2-16, lab.rod.x));
+  const ly = Math.min(WORLD_H-14, lab.rod.y + 36);
+  ctx.fillStyle=C().pill;
+  rrect(ctx, lx-tw/2-10, ly-15, tw+20, 24, 12); ctx.fill();
+  ctx.fillStyle=C().cvText;
+  ctx.fillText(label, lx, ly+3);
+  /* finger */
+  ctx.font='36px serif';
+  ctx.fillText('👆', lab.finger.x, lab.finger.y);
+  ctx.font='700 14px '+CV_FONT; ctx.fillStyle=C().cvTextDim;
+  ctx.fillText(t('cvFinger'), lab.finger.x, Math.min(WORLD_H-6, lab.finger.y+20));
+  if(lab.theta > 0.04){
+    ctx.strokeStyle=C().arc; ctx.setLineDash([4,4]); ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(geo.pivot.x, geo.pivot.y, 34, Math.PI/2-lab.theta, Math.PI/2+lab.theta); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+}
+function curDeg(){ return Math.round(lab.theta*180/Math.PI*2); }
+function updateLabSide(st){
+  $('l-ang').textContent = curDeg();
+  const fmt = n => n>0?'+'+n:''+n;
+  $('l-net').textContent = lab.Q===0 ? t('neutral') : fmt(lab.Q)+'（'+(lab.Q>0?t('posW'):t('negW'))+'）';
+  $('l-net').style.borderColor = lab.Q===0 ? 'var(--ink)' : lab.Q>0 ? 'var(--pos)' : '#1d7a3a';
+  let key;
+  if(st.s===0 && st.prox>0.2) key='s_wood';
+  else if(st.prox>0.15 && st.s<0) key='s_neg';
+  else if(st.prox>0.15 && st.s>0) key='s_pos';
+  else if(lab.Q!==0) key='s_touched';
+  else key='s_idle';
+  $('l-status').innerHTML = t(key);
+  const box = $('l-conclude');
+  if(lab.Q!==0 && st.prox<0.1){ box.innerHTML = t('c_lab'); box.classList.add('on'); }
+  else box.classList.remove('on');
+}
+labCv.addEventListener('pointerdown', ev=>{
+  const p = ptr(ev, labCv, SC);
+  if(Math.hypot(p.x-lab.rod.x, p.y-lab.rod.y) < 100){
+    lab.dragObj = lab.rod;
+  } else if(Math.hypot(p.x-lab.finger.x, p.y-(lab.finger.y-12)) < 40){
+    lab.dragObj = lab.finger;
+  } else return;
+  lab.dx = p.x-lab.dragObj.x; lab.dy = p.y-lab.dragObj.y;
+  labCv.setPointerCapture(ev.pointerId);
+});
+labCv.addEventListener('pointermove', ev=>{
+  if(!lab.dragObj) return;
+  const p = ptr(ev, labCv, SC);
+  lab.dragObj.x = Math.max(40, Math.min(WORLD_W-40, p.x-lab.dx));
+  lab.dragObj.y = Math.max(30, Math.min(WORLD_H-24, p.y-lab.dy));
+});
+labCv.addEventListener('pointerup', ()=>{ lab.dragObj = null; });
+function pickRod(btn){
+  const r = btn.dataset.rod;
+  document.querySelectorAll('.ctl-group .sbtn[data-rod]').forEach(b=>b.classList.toggle('pick', b.dataset.rod===r));
+  lab.rodType = r;
+}
+function setRodQ(v){
+  lab.rodQ = v;
+  $('l-q').value = v; $('g-q').value = v;
+  $('l-q-o').textContent = v; $('g-q-o').textContent = v;
+}
+function labInput(){ setRodQ(+$('l-q').value); }
+function resetLab(){
+  initElectrons();
+  lab.rod.x = 660; lab.rod.y = 120;
+  lab.finger.x = 790; lab.finger.y = 330;
+  flyers = []; lab.sparks = [];
+}
+
+/* ---------- Data recording ---------- */
+let recRows = [];
+function recordData(){
+  recRows.push({ rod:lab.rodType, q:lab.rodQ, ang:curDeg() });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  body.innerHTML = recRows.map(r=>{
+    const name = t(r.rod==='glass'?'glassShort':r.rod==='rubber'?'rubberShort':'woodShort');
+    const cls = r.rod==='glass'?'pos':r.rod==='rubber'?'neg':'';
+    const pct = Math.min(100, r.ang/90*100);
+    return '<tr><td>'+name+'</td><td>'+r.q+'</td><td>'+r.ang+'°</td>'+
+      '<td><div class="bar '+cls+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare
+============================================================ */
+function makeCmpScope(cvId){
+  return { cv:$(cvId), ctx:$(cvId).getContext('2d'),
+    rodType:'rubber', q:1, theta:0, rodX:1 };
+}
+const cA = makeCmpScope('cv-ca'); cA.q = 1;
+const cB = makeCmpScope('cv-cb'); cB.q = 3;
+let guess = null, cmpRunning = false;
+const CMP_SC = 2, CMP_W = 560, CMP_H = 470;
+function drawCmp(c){
+  const ctx = c.ctx, W = CMP_W;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,c.cv.width,c.cv.height);
+  ctx.setTransform(CMP_SC,0,0,CMP_SC,0,0);
+  const cx = 170, topY = 130;
+  const geo = drawScopeBody(ctx, cx, topY, c.theta);
+  const s = c.rodType==='glass' ? 1 : -1;
+  const n = c.q;
+  const level = c.theta / 0.8;
+  if(level > 0.06){
+    for(let i=0;i<n;i++){
+      drawCharge(ctx, geo.ballC.x + (i-(n-1)/2)*16, geo.ballC.y, s>0?'-':'+', 0.9);
+    }
+    for(const side of [-1,1]){
+      for(let i=0;i<n;i++){
+        const p = leafPoint(geo, c.theta, side, 0.35+0.25*i);
+        drawCharge(ctx, p.x, p.y, s>0?'+':'-', 0.8);
+      }
+    }
+  }
+  const rodNear = geo.ballC.x + geo.ballR + 96;
+  const rodFar = W - 100;
+  const rx = rodNear + (rodFar-rodNear)*c.rodX;
+  ctx.save();
+  ctx.translate(rx, geo.ballC.y);
+  ctx.fillStyle = s>0 ? C().glass : C().rubber;
+  rrect(ctx, -80, -11, 160, 22, 11); ctx.fill();
+  ctx.strokeStyle=C().rodStroke; ctx.lineWidth=1.5;
+  rrect(ctx, -80, -11, 160, 22, 11); ctx.stroke();
+  for(let i=0;i<c.q*2;i++){
+    drawCharge(ctx, -80+18+i*(160-36)/Math.max(1,c.q*2-1), 0, s>0?'+':'-', 0.85);
+  }
+  ctx.restore();
+  ctx.fillStyle=C().cvText; ctx.font='900 26px '+CV_FONT; ctx.textAlign='left';
+  ctx.fillText(t('angWord')+' '+Math.round(c.theta*180/Math.PI*2)+'°', 20, 44);
+  ctx.font='700 18px '+CV_FONT; ctx.textAlign='right';
+  ctx.fillText(t(s>0?'glassShort':'rubberShort')+' × '+c.q, W-16, 42);
+  ctx.textAlign='left';
+  updateCmpSide();
+}
+function updateCmpSide(){
+  $('c-ang-a').textContent = Math.round(cA.theta*180/Math.PI*2)+'°';
+  $('c-ang-b').textContent = Math.round(cB.theta*180/Math.PI*2)+'°';
+}
+function pickCmpRod(btn){
+  const c = btn.dataset.s==='ca' ? cA : cB;
+  document.querySelectorAll('.sbtn[data-s="'+btn.dataset.s+'"]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  c.rodType = btn.dataset.rod;
+  cmpReset();
+}
+function cmpInput(){
+  cA.q = +$('ca-q').value; cB.q = +$('cb-q').value;
+  $('ca-q-o').textContent = cA.q; $('cb-q-o').textContent = cB.q;
+  cmpReset();
+}
+function presetCmp(kind){
+  if(kind==='amount'){
+    cA.rodType='rubber'; cB.rodType='rubber';
+    $('ca-q').value=1; $('cb-q').value=3;
+  } else {
+    cA.rodType='glass'; cB.rodType='rubber';
+    $('ca-q').value=3; $('cb-q').value=3;
+  }
+  document.querySelectorAll('.sbtn[data-s="ca"]').forEach(b=>b.classList.toggle('pick', b.dataset.rod===cA.rodType));
+  document.querySelectorAll('.sbtn[data-s="cb"]').forEach(b=>b.classList.toggle('pick', b.dataset.rod===cB.rodType));
+  clearGuess(); cmpInput();
+}
+function cmpReset(){
+  if(cmpRunning) return;
+  cA.theta=0; cA.rodX=1; cB.theta=0; cB.rodX=1;
+  drawCmp(cA); drawCmp(cB);
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(cmpRunning) return;
+  cmpRunning = true;
+  $('cmp-run').disabled = true;
+  let t0 = performance.now();
+  function step(now){
+    const dt = Math.min(0.04,(now-t0)/1000); t0 = now;
+    let done = true;
+    for(const c of [cA,cB]){
+      c.rodX = Math.max(0, c.rodX - dt*0.8);
+      const target = Math.min(0.8, c.q*0.27) * (1-c.rodX);
+      c.theta += (target-c.theta)*Math.min(1,dt*6);
+      if(c.rodX > 0 || Math.abs(target-c.theta) > 0.01) done = false;
+      drawCmp(c);
+    }
+    if(!done) requestAnimationFrame(step);
+    else { cmpRunning = false; finishCmp(); }
+  }
+  requestAnimationFrame(step);
+}
+function finishCmp(){
+  const aQ = cA.q, bQ = cB.q;
+  const real = aQ===bQ ? 'same' : (aQ>bQ ? 'a' : 'b');
+  const fb = $('cmp-fb');
+  const name = {a:t('gA'), b:t('gB'), same:t('gSame')}[real];
+  const degA = Math.round(cA.theta*180/Math.PI*2), degB = Math.round(cB.theta*180/Math.PI*2);
+  const detail = ' '+name+'（A '+degA+'° · B '+degB+'°）';
+  if(guess === real){ fb.textContent = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.textContent = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const sameSign = cA.rodType===cB.rodType;
+  const box = $('cmp-conclude');
+  if(aQ!==bQ && sameSign) box.innerHTML = t('cc_amount');
+  else if(aQ===bQ && !sameSign) box.innerHTML = t('cc_sign');
+  else if(aQ===bQ && sameSign) box.innerHTML = t('cc_same');
+  else box.innerHTML = t('cc_mixed');
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz (with countdown)
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer = null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').textContent = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt, i)=>{
+    const b = document.createElement('button');
+    b.className = 'qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i, b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefixHtml, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefixHtml + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i === item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Target challenge mini-game (reuses the demo lab sim)
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 30;
+const game = { round:0, score:0, target:0, phase:'aim', left:GAME_TIME, timer:null };
+function stopGTimer(){ if(game.timer){ clearInterval(game.timer); game.timer = null; } }
+function startGame(){
+  game.round = 0; game.score = 0;
+  $('g-score').textContent = 0;
+  resetLab();
+  nextRound();
+}
+function nextRound(){
+  game.round++; game.phase = 'aim';
+  game.target = 20 + Math.round(Math.random()*60);
+  game.left = GAME_TIME;
+  $('g-target').textContent = game.target;
+  $('g-target-side').textContent = game.target;
+  $('g-round').textContent = game.round;
+  $('g-status').textContent = t('gGo');
+  $('g-time').textContent = game.left;
+  $('g-time').classList.remove('low');
+  syncGameBtn();
+  stopGTimer();
+  game.timer = setInterval(()=>{
+    game.left--;
+    $('g-time').textContent = Math.max(0, game.left);
+    $('g-time').classList.toggle('low', game.left <= 10);
+    if(game.left <= 0) lockAngle(true);
+  }, 1000);
+}
+function lockAngle(timedOut){
+  if(game.phase === 'aim'){
+    stopGTimer();
+    const diff = Math.abs(curDeg() - game.target);
+    const pts = diff<=2?100: diff<=5?80: diff<=10?50: diff<=20?20:5;
+    game.score += pts;
+    $('g-score').textContent = game.score;
+    const msg = (timedOut===true ? t('gTimeUp')+' ' : '') +
+      (diff<=2?t('gPerfect'): diff<=5?t('gGood'): diff<=10?t('gOk'): t('gMiss'));
+    game.phase = game.round >= GAME_ROUNDS ? 'done' : 'next';
+    if(game.phase === 'done'){
+      const rk = game.score>=270?t('gRank1'): game.score>=180?t('gRank2'): t('gRank3');
+      $('g-status').textContent = msg+'（±'+diff+'° · +'+pts+'）— '+t('gFinal')+' '+game.score+'！'+rk;
+    } else {
+      $('g-status').textContent = msg+'（±'+diff+'° · +'+pts+'）';
+    }
+    syncGameBtn();
+  } else if(game.phase === 'next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function syncGameBtn(){
+  const label = game.phase==='aim' ? '🎯 '+t('gLock') :
+                game.phase==='next' ? t('gNextRound')+' ➜' : '🔄 '+t('gPlayAgain');
+  $('g-lock').textContent = label;
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    if(!labGeo) drawLab();
+    const st = labPhysics(dt);
+    drawLab();
+    if(labOn) updateLabSide(st);
+    else $('g-cur').textContent = curDeg()+'°';
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab') $('panel-lab').appendChild(labCv);
+  if(m==='cmp') cmpReset();
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+applyTheme();
+applyLang();
+syncExplain();
+initElectrons();
+labInput();
+drawLab();
+cmpInput();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+
+</script>
+<script>
+window.LAB_SLUG='electroscope-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

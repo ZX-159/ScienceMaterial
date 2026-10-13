@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>压强探究实验室 · Pressure Inquiry · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="hleft">
+    <div class="brand">ScienceMaterial</div>
+    <h1><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 🧱 <span data-i="title"></span></h1>
+    <div class="sub">Pressure Inquiry · chu-yi-xia/b2-c5 · ScienceMaterial</div>
+  </div>
+  <div class="chips">
+    <span data-i="chip1"></span>
+    <span data-i="chip2"></span>
+    <span style="color:var(--neg); border-color:rgba(63,208,108,.55)" data-i="chip3"></span>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="hbtn" id="themeBtn" onclick="toggleTheme()"></button>
+    <button class="hbtn" onclick="toggleFull()"><span data-i="btnFull"></span></button>
+    <button class="hbtn" onclick="resetActive()">↺ <span data-i="btnReset"></span></button>
+  </div>
+</header>
+
+<main>
+  <div class="left">
+    <nav class="tabs">
+      <button id="tab-lab" class="on" onclick="setMode('lab')"><span data-i="tabLab"></span></button>
+      <button id="tab-cmp" onclick="setMode('cmp')"><span data-i="tabCmp"></span></button>
+      <button id="tab-quiz" onclick="setMode('quiz')"><span data-i="tabQuiz"></span></button>
+      <button id="tab-game" onclick="setMode('game')"><span data-i="tabGame"></span></button>
+    </nav>
+
+    <div class="stage">
+      <section class="panel on" id="panel-lab">
+        <div class="cvarea"><canvas id="cv-lab" width="2000" height="1000"></canvas></div>
+        <div class="rail">
+          <div class="rail-t" data-i="lifeLabel"></div>
+          <button class="railbtn" data-life="lf1" onclick="lifeDemo('lf1')"><span data-i="lf1"></span></button>
+          <button class="railbtn" data-life="lf2" onclick="lifeDemo('lf2')"><span data-i="lf2"></span></button>
+          <button class="railbtn" data-life="lf3" onclick="lifeDemo('lf3')"><span data-i="lf3"></span></button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-cmp">
+        <div class="duo">
+          <div class="box">
+            <div class="track-label" id="ca-name"></div>
+            <div class="cvwrap"><canvas id="cv-ca" width="880" height="760"></canvas></div>
+            <div class="minictl" id="ca-cond"></div>
+          </div>
+          <div class="box">
+            <div class="track-label" id="cb-name"></div>
+            <div class="cvwrap"><canvas id="cv-cb" width="880" height="760"></canvas></div>
+            <div class="minictl" id="cb-cond"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-quiz">
+        <div class="quiz-wrap">
+          <div class="q-timer" id="q-timer"><i id="q-timer-bar"></i></div>
+          <div class="quiz-emoji" id="q-emoji"></div>
+          <div class="quiz-q" id="q-text"></div>
+          <div class="quiz-btns" id="q-opts"></div>
+          <div class="quiz-exp" id="q-exp"></div>
+          <div class="quiz-nav">
+            <button class="btn" id="q-next" style="display:none" onclick="nextQ()"><span data-i="next"></span> ➜</button>
+            <button class="btn ghost" id="q-restart" style="display:none" onclick="restartQ()">🔄 <span data-i="again"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-game">
+        <div class="gamehud">
+          <span class="gt"><span data-i="gRound"></span> <b id="g-round">1</b>/3</span>
+          <span class="gt"><span data-i="gGoalLabel"></span> <b id="g-goal-hud">--</b></span>
+          <span class="gt"><span data-i="gCurLabel"></span> <b id="g-cur-hud">--</b></span>
+          <span class="gtime" id="g-time">30</span>
+        </div>
+        <div id="game-cvhost"></div>
+      </section>
+    </div>
+
+    <div class="ctlbar">
+      <div class="ctl-group on" id="ctl-lab">
+        <div class="rowline">
+          <label class="ctl"><span data-i="slF"></span>
+            <input type="range" id="s-f" min="10" max="60" step="10" value="30" oninput="setF(+this.value)">
+            <output id="s-f-o">30 N</output>
+          </label>
+          <span class="ctl-label" data-i="areaLabel"></span>
+          <button class="sbtn mini area" data-a="5" onclick="setArea(5)"><span data-i="a5"></span></button>
+          <button class="sbtn mini area" data-a="10" onclick="setArea(10)"><span data-i="a10"></span></button>
+          <button class="sbtn mini area pick" data-a="20" onclick="setArea(20)"><span data-i="a20"></span></button>
+          <button class="sbtn mini area" data-a="50" onclick="setArea(50)"><span data-i="a50"></span></button>
+        </div>
+        <div class="hint-line" data-i="labHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-cmp">
+        <div class="rowline">
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(0)"><span data-i="cp1"></span></button>
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(1)"><span data-i="cp2"></span></button>
+          <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(2)"><span data-i="cp3"></span></button>
+        </div>
+        <div class="rowline">
+          <span class="ctl-label" data-i="guessQ"></span>
+          <button class="sbtn" data-g="a" onclick="pickGuess(this)"><span data-i="gMoreA"></span></button>
+          <button class="sbtn" data-g="same" onclick="pickGuess(this)"><span data-i="gSame"></span></button>
+          <button class="sbtn" data-g="b" onclick="pickGuess(this)"><span data-i="gMoreB"></span></button>
+          <button class="btn" id="cmp-run" onclick="runCmp()" disabled>⬇ <span data-i="runCmp"></span></button>
+        </div>
+        <div class="hint-line" data-i="cmpHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-quiz">
+        <div class="hint-line" data-i="quizHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-game">
+        <div class="rowline">
+          <label class="ctl"><span data-i="slF"></span>
+            <input type="range" id="g-s-f" min="10" max="60" step="10" value="10" oninput="setF(+this.value)">
+            <output id="g-s-f-o">10 N</output>
+          </label>
+          <span class="ctl-label" data-i="areaLabel"></span>
+          <button class="sbtn mini area" data-ga="5" onclick="setArea(5)"><span data-i="a5"></span></button>
+          <button class="sbtn mini area" data-ga="10" onclick="setArea(10)"><span data-i="a10"></span></button>
+          <button class="sbtn mini area pick" data-ga="20" onclick="setArea(20)"><span data-i="a20"></span></button>
+          <button class="sbtn mini area" data-ga="50" onclick="setArea(50)"><span data-i="a50"></span></button>
+          <button class="btn" id="g-lock" onclick="lockP()">🎯</button>
+        </div>
+        <div class="hint-line" data-i="gHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sb on" id="sb-lab">
+      <div>
+        <div class="sb-title" data-i="pLabel"></div>
+        <div class="bigang"><b id="l-p">1.5</b><i> N/cm²</i></div>
+      </div>
+      <span class="netchip" id="l-state"></span>
+      <div class="mini3">
+        <div><span data-i="kF"></span><b id="l-f">30</b></div>
+        <div><span data-i="kA"></span><b id="l-a">20</b></div>
+        <div><span data-i="kPa"></span><b id="l-pa">15000</b></div>
+      </div>
+      <button class="explain-btn" data-exp="l" onclick="toggleExplain('l')"><span data-i="expOpen"></span></button>
+      <div class="explain" id="exp-l">
+        <div class="statusbox" id="l-status"></div>
+        <div class="concl" id="l-conclude"></div>
+      </div>
+      <div class="rec-head">
+        <button class="rec-btn" onclick="recordData()">📌 <span data-i="recBtn"></span></button>
+        <button class="rec-clear" onclick="clearRec()" data-i="recClear"></button>
+      </div>
+      <table class="rec">
+        <thead><tr><th data-i="thF"></th><th data-i="thA"></th><th data-i="thP"></th><th style="width:34%"></th></tr></thead>
+        <tbody id="rec-body"></tbody>
+      </table>
+    </div>
+
+    <div class="sb" id="sb-cmp">
+      <div class="sb-title" data-i="outLabel"></div>
+      <div class="cmp-angs">
+        <div class="one"><span id="s-ca-name"></span><b id="c-p-a">0.0</b><em> N/cm²</em></div>
+        <div class="one"><span id="s-cb-name"></span><b id="c-p-b">0.0</b><em> N/cm²</em></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kF"></span><b id="c-f-a">--</b></div>
+        <div><span data-i="kA"></span><b id="c-a-a">--</b></div>
+        <div><span data-i="kPa"></span><b id="c-pa-a">--</b></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kF"></span><b id="c-f-b">--</b></div>
+        <div><span data-i="kA"></span><b id="c-a-b">--</b></div>
+        <div><span data-i="kPa"></span><b id="c-pa-b">--</b></div>
+      </div>
+      <div class="feedback" id="cmp-fb"></div>
+      <div class="concl" id="cmp-conclude"></div>
+    </div>
+
+    <div class="sb" id="sb-quiz">
+      <div class="sb-title" data-i="score"></div>
+      <div class="scorebig"><b id="q-score-n">0</b><span> / 8</span></div>
+      <div class="qdots" id="q-prog"></div>
+      <div class="statusbox" id="q-side-hint"></div>
+    </div>
+
+    <div class="sb" id="sb-game">
+      <div>
+        <div class="sb-title" data-i="gGoalLabel"></div>
+        <div class="goalbig" id="g-goal-side">--</div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="gCurLabel"></div>
+        <div class="bigang"><b id="g-cur-side">0.5</b><i> N/cm²</i></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="score"></div>
+        <div class="scorebig"><b id="g-score">0</b></div>
+      </div>
+      <div class="statusbox" id="g-status"></div>
+    </div>
+
+    <footer id="credit"></footer>
+  </aside>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'📐', q:'根据 P = F ÷ A，压力 F 不变时，受力面积 A 越小，压强 P 会——',
+    o:['越大','越小','不变'], a:0,
+    x:'F 不变、A 变小 → P <em>变大</em>，就像图钉尖头面积极小、压强极大。切回「演示实验」把面积从 50 按到 5 cm² 看看海绵。' },
+  { e:'🧱', q:'受力面积 A 相同时，压力 F 越大，压强 P 会——',
+    o:['不变','越大','越小'], a:1,
+    x:'A 相同时 P 与 F <em>成正比</em>，F 越大 P 越大，海绵陷得更深。到「对比实验 · 探究二」拉压力滑条验证。' },
+  { e:'📌', q:'图钉做成很尖的尖头，主要是为了——',
+    o:['增大受力面积、减小压强','增大压力','减小受力面积、增大压强'], a:2,
+    x:'尖头让受力面积 A 极小，压力不大也能产生<em>很大的压强</em>，轻松刺入木板。「生活情境 · 📌 图钉」一键演示。' },
+  { e:'🐪', q:'骆驼的大脚掌、宽书包带、坦克的履带，共同的科学原理是——',
+    o:['增大受力面积、减小压强','减小受力面积、增大压强','增大压力'], a:0,
+    x:'它们都靠<em>增大受力面积 A</em> 来减小压强 P，避免陷入沙里或硌痛肩膀。见「生活情境 · 🐪 骆驼 / 🎒 书包带」。' },
+  { e:'🧮', q:'一个物体对地面的压力是 100 N，受力面积是 0.5 m²，它对地面的压强是——',
+    o:['50 Pa','200 Pa','500 Pa'], a:1,
+    x:'P = F ÷ A = 100 ÷ 0.5 = <em>200 Pa</em>。注意国际单位：F 用 N、A 用 m²，算出来才是 Pa。' },
+  { e:'🔁', q:'1 N/cm² 换算成帕斯卡（Pa）是——',
+    o:['100 Pa','1000 Pa','10000 Pa'], a:2,
+    x:'1 cm² = 0.0001 m²，所以 1 N/cm² = 1 ÷ 0.0001 = <em>10000 Pa</em>。侧栏的换算行每次都把这一步写给你看。' },
+  { e:'⚖️', q:'甲：F = 30 N、A = 10 cm²；乙：F = 30 N、A = 50 cm²。哪一边海绵陷得更深？',
+    o:['甲','乙','一样深'], a:0,
+    x:'甲 P = 30 ÷ 10 = <em>3.0</em>，乙 P = 30 ÷ 50 = <em>0.6</em> N/cm²，甲的压强是乙的 5 倍。「对比实验 · 探究一」就是这一组。' },
+  { e:'🔬', q:'甲（20 N、5 cm²）比乙（60 N、20 cm²）陷得更深。能不能由此说「压力越小压强越大」？',
+    o:['能，甲压力小却更深','不能，两个条件同时变了','能，因为甲面积也小'], a:1,
+    x:'甲 P = 4.0、乙 P = 3.0 N/cm²，甲确实更大，但压力和面积<em>两个条件都不同</em>，无法归因给某一个。这正是要用<em>控制变量法</em>的原因。' },
+];
+const QUIZ_EN = [
+  { e:'📐', q:'From P = F ÷ A, with the force F fixed, a SMALLER contact area A makes the pressure P —',
+    o:['larger','smaller','unchanged'], a:0,
+    x:'F fixed, A smaller → P <em>larger</em>, just like the tiny tip of a drawing pin. Go to the Demo Lab and drop the area from 50 to 5 cm².' },
+  { e:'🧱', q:'With the contact area A fixed, a LARGER force F makes the pressure P —',
+    o:['unchanged','larger','smaller'], a:1,
+    x:'With A fixed, P is <em>directly proportional</em> to F. Check it in Compare · Test 2 by dragging the force slider.' },
+  { e:'📌', q:'A drawing pin is made with a very sharp tip mainly in order to —',
+    o:['increase the area and lower the pressure','increase the force','shrink the area and raise the pressure'], a:2,
+    x:'The tip makes A tiny, so even a small force gives a <em>huge pressure</em> and it slides into the board. Try the 📌 preset in the Demo Lab.' },
+  { e:'🐪', q:'Camel foot pads, wide backpack straps and tank tracks all share which principle?',
+    o:['larger area → smaller pressure','smaller area → larger pressure','larger force'], a:0,
+    x:'They all <em>increase the contact area A</em> to cut the pressure P, so they do not sink or dig in. See the 🐪 and 🎒 presets.' },
+  { e:'🧮', q:'A body presses on the ground with 100 N over 0.5 m². The pressure on the ground is —',
+    o:['50 Pa','200 Pa','500 Pa'], a:1,
+    x:'P = F ÷ A = 100 ÷ 0.5 = <em>200 Pa</em>. Use SI units: newtons and square metres give pascals.' },
+  { e:'🔁', q:'1 N/cm² converted into pascals (Pa) is —',
+    o:['100 Pa','1000 Pa','10000 Pa'], a:2,
+    x:'1 cm² = 0.0001 m², so 1 N/cm² = 1 ÷ 0.0001 = <em>10000 Pa</em>. The sidebar spells this step out every time.' },
+  { e:'⚖️', q:'A: F = 30 N, A = 10 cm². B: F = 30 N, A = 50 cm². Which sponge is pressed deeper?',
+    o:['A','B','the same'], a:0,
+    x:'A: P = 30 ÷ 10 = <em>3.0</em>; B: P = 30 ÷ 50 = <em>0.6</em> N/cm² — five times as much. That is exactly Compare · Test 1.' },
+  { e:'🔬', q:'A (20 N, 5 cm²) sinks deeper than B (60 N, 20 cm²). Does that prove "less force means more pressure"?',
+    o:['Yes — A has less force yet sinks deeper','No — two conditions changed at once','Yes, because A also has a smaller area'], a:1,
+    x:'A: P = 4.0, B: P = 3.0 N/cm², so A really is larger — but force AND area both differ, so you cannot blame either one. That is why we <em>control the variables</em>.' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'压强探究实验室', subtitle:'海绵 · 压板 · 砝码 —— 用控制变量法找出影响压强的两个因素',
+  chip1:'压强 P ＝ 压力 F ÷ 受力面积 A', chip2:'压力相同：面积越小，压强越大', chip3:'1 N/cm² ＝ 10000 Pa',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 压强狙击',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  slF:'⬇ 压力 F', areaLabel:'受力面积 A：',
+  a5:'5 cm²', a10:'10 cm²', a20:'20 cm²', a50:'50 cm²',
+  lifeLabel:'生活情境：', lf1:'🐪 骆驼脚掌', lf2:'📌 图钉尖头', lf3:'🎒 宽书包带',
+  labHint:'拉「压力 F」滑条、按「受力面积 A」四档，看海绵凹陷怎么变；右边曲线是 F 固定时 P 随 A 变化的关系。',
+  pLabel:'压强 P', kF:'压力 F/N', kA:'面积 A/cm²', kPa:'换算 / Pa',
+  stHi:'压强很大', stHiSub:'海绵陷得很深', stMid:'压强中等', stMidSub:'海绵明显凹陷', stLo:'压强很小', stLoSub:'海绵几乎不陷',
+  f_formula:'P ＝ F ÷ A ＝ {f} N ÷ {a} cm² ＝ <b>{p} N/cm²</b>',
+  f_convert:'换算：A ＝ {a} cm² ＝ {m} m²，所以 P ＝ {f} ÷ {m} ＝ <b>{pa} Pa</b>（帕斯卡）',
+  live_hi:'压强很大 —— 想减小它：<b>压力变小</b>或<b>面积变大</b>。',
+  live_mid:'中等压强 —— 只改一个条件再看一次，才能说清是谁造成的。',
+  live_lo:'压强很小 —— 面积大而压力小，海绵几乎不凹陷。',
+  tip_small:'现在是<b>最小面积（5 cm²）</b>：同样的压力压在这里最「扎」。',
+  tip_big:'现在是<b>最大面积（50 cm²）</b>：压力被摊开，压强降到最低。',
+  tip_mid:'固定一个条件、只改另一个 —— 这就是<b>控制变量法</b>。',
+  r_up:'👉 <em>压强变大了</em>：海绵陷得更深。',
+  r_down:'👉 <em>压强变小了</em>：海绵回弹，凹陷变浅。',
+  c_force:'📌 <em>受力面积不变</em>时，压力越大，压强越大 —— P 与 F <em>成正比</em>。',
+  c_area:'📌 <em>压力不变</em>时，受力面积越小，压强越大 —— P 与 A <em>成反比</em>。',
+  c_lf1:'🐪 骆驼体重很大（F 大），但脚掌宽大（A 大），压强 P 变小，所以不会陷进沙里 —— <em>增大受力面积来减小压强</em>。',
+  c_lf2:'📌 手指轻轻一按（F 不大），针尖面积极小（A 极小），压强 P 变得非常大，能轻松刺入木板 —— <em>减小受力面积来增大压强</em>。真实针尖比 5 cm² 还小几万倍，压强大得多。',
+  c_lf3:'🎒 书包很重（F 大），宽带子增大了与肩膀的接触面积（A 大），压强变小，肩膀就不会被勒痛 —— <em>窄带子为什么勒得痛，你能解释吗？</em>',
+  recBtn:'记录数据', recClear:'清空', thF:'F/N', thA:'A/cm²', thP:'P',
+  outLabel:'两边的压强 P', cmpHint:'先按预设 → 全班猜一猜哪边陷得更深 → 再按「同时加压」验证。两边的数都由 P = F ÷ A 真算。',
+  cp1:'🔬 探究一 · 压力相同', cp2:'🔬 探究二 · 面积相同', cp3:'⚠️ 两个条件都变',
+  cp1a:'甲 · 面积小', cp1b:'乙 · 面积大',
+  cp2a:'甲 · 压力小', cp2b:'乙 · 压力大',
+  cp3a:'甲 · 20 N / 5 cm²', cp3b:'乙 · 60 N / 20 cm²',
+  condLine:'F ＝ {f} N ｜ A ＝ {a} cm²',
+  guessQ:'猜一猜：哪边陷得更深？', gMoreA:'甲更深', gSame:'一样深', gMoreB:'乙更深', runCmp:'同时加压',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  cc_1:'📌 两组<em>压力相同（30 N）</em>，只有面积不同：面积小的一边压强更大、陷得更深。结论：<em>压力相同时，受力面积越小，压强越大。</em>',
+  cc_2:'📌 两组<em>受力面积相同（20 cm²）</em>，只有压力不同：压力大的一边压强更大、陷得更深。结论：<em>受力面积相同时，压力越大，压强越大。</em>',
+  cc_3:'⚠️ 这一组压力和面积<em>两个条件都不同</em>，虽然甲陷得更深，却<em>无法判断</em>是哪个因素造成的 —— 这就是实验必须用<em>控制变量法</em>、一次只改一个条件的原因。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！P = F ÷ A 你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手压一压再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场压给全班看。',
+  gGoalLabel:'目标压强', gCurLabel:'当前压强', gRound:'回合',
+  gLock:'锁定读数', gNextRound:'下一轮', gPlayAgain:'再来一局',
+  gHint:'全班指挥一位同学：调压力和面积，让压强正好等于目标值。同一个 P 常常有<b>好几种</b>组合！',
+  gGo:'把压强调到 <b>{g} N/cm²</b>。提示：P = F ÷ A，先想要几倍，再选面积。',
+  gPerfect:'🎯 分毫不差！', gGood:'👍 很接近！', gOk:'🙂 方向对了。', gMiss:'💪 差得有点多。',
+  gTimeUp:'⏰ 时间到！', gFinal:'最终得分', gRank1:'🏆 压强狙击手！', gRank2:'👍 感觉很好！', gRank3:'💪 回演示实验再练几次！',
+  cvTitle:'压力 F ＝ {f} N ｜ 受力面积 A ＝ {a} cm²',
+  cvForce:'F ＝ {f} N', cvArea:'A ＝ {a} cm²', cvDent:'凹陷',
+  cvCurve:'F 固定时 · P 随 A 变化', cvAxisA:'受力面积 A/cm²', cvAxisP:'P /（N/cm²）',
+  cvPnow:'P ＝ {f} ÷ {a} ＝ {p} N/cm²', cvPa:'＝ {pa} Pa', cvDentLv:'凹陷程度：{lv}',
+  lvHi:'很深', lvMid:'中等', lvLo:'很浅',
+  cvSide:'F ＝ {f} N ｜ A ＝ {a} cm²', cvPbig:'P ＝ {p} N/cm²',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Pressure Lab', subtitle:'Sponge · plate · weights — find the two factors behind pressure by controlling variables',
+  chip1:'Pressure P ＝ force F ÷ area A', chip2:'Same force: smaller area, bigger pressure', chip3:'1 N/cm² ＝ 10000 Pa',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Hit the P',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  slF:'⬇ Force F', areaLabel:'Area A:',
+  a5:'5 cm²', a10:'10 cm²', a20:'20 cm²', a50:'50 cm²',
+  lifeLabel:'Real life:', lf1:'🐪 Camel pad', lf2:'📌 Pin tip', lf3:'🎒 Wide strap',
+  labHint:'Drag the force slider, tap the four area buttons, and watch the dent. The chart on the right shows P against A while F stays fixed.',
+  pLabel:'Pressure P', kF:'Force F/N', kA:'Area A/cm²', kPa:'in Pa',
+  stHi:'Very high', stHiSub:'the sponge caves in', stMid:'Moderate', stMidSub:'a clear dent', stLo:'Very low', stLoSub:'barely a dent',
+  f_formula:'P ＝ F ÷ A ＝ {f} N ÷ {a} cm² ＝ <b>{p} N/cm²</b>',
+  f_convert:'Convert: A ＝ {a} cm² ＝ {m} m², so P ＝ {f} ÷ {m} ＝ <b>{pa} Pa</b> (pascals)',
+  live_hi:'Very high pressure — to lower it: <b>less force</b> or <b>more area</b>.',
+  live_mid:'Moderate pressure — change ONE condition and look again to know which one did it.',
+  live_lo:'Very low pressure — a big area under a small force barely dents the sponge.',
+  tip_small:'Now at the <b>smallest area (5 cm²)</b>: the same force bites hardest here.',
+  tip_big:'Now at the <b>largest area (50 cm²)</b>: the force is spread out and P is at its lowest.',
+  tip_mid:'Hold one condition fixed and change only the other — that is <b>controlling variables</b>.',
+  r_up:'👉 <em>Pressure went up</em> — the sponge sinks deeper.',
+  r_down:'👉 <em>Pressure went down</em> — the sponge springs back.',
+  c_force:'📌 With the <em>area unchanged</em>, more force means more pressure — P is <em>proportional to F</em>.',
+  c_area:'📌 With the <em>force unchanged</em>, a smaller area means more pressure — P is <em>inversely proportional to A</em>.',
+  c_lf1:'🐪 A camel is heavy (large F) but its pads are broad (large A), so P is small and it does not sink into the sand — <em>more area, less pressure</em>.',
+  c_lf2:'📌 A light push (small F) on a tiny tip (very small A) gives a huge P, so it slips into the board — <em>less area, more pressure</em>. A real pin tip is tens of thousands of times smaller than 5 cm².',
+  c_lf3:'🎒 A heavy bag (large F) with a wide strap spreads the load over your shoulder (large A), so P drops and it stops hurting — <em>can you now explain why a thin strap digs in?</em>',
+  recBtn:'Record data', recClear:'Clear', thF:'F/N', thA:'A/cm²', thP:'P',
+  outLabel:'Pressure on each side', cmpHint:'Load a preset → let the class predict which sponge sinks deeper → press "Press both". Both sides are computed from P = F ÷ A.',
+  cp1:'🔬 Test 1 · same force', cp2:'🔬 Test 2 · same area', cp3:'⚠️ Both changed',
+  cp1a:'A · small area', cp1b:'B · large area',
+  cp2a:'A · small force', cp2b:'B · large force',
+  cp3a:'A · 20 N / 5 cm²', cp3b:'B · 60 N / 20 cm²',
+  condLine:'F ＝ {f} N ｜ A ＝ {a} cm²',
+  guessQ:'Predict: which sinks deeper?', gMoreA:'A deeper', gSame:'Same', gMoreB:'B deeper', runCmp:'Press both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  cc_1:'📌 Both sides have the <em>same force (30 N)</em> and differ only in area: the smaller area gives more pressure and a deeper dent. Rule: <em>same force — the smaller the area, the greater the pressure.</em>',
+  cc_2:'📌 Both sides have the <em>same area (20 cm²)</em> and differ only in force: the bigger force gives more pressure and a deeper dent. Rule: <em>same area — the greater the force, the greater the pressure.</em>',
+  cc_3:'⚠️ Here force AND area <em>both differ</em>. A does sink deeper, but you <em>cannot tell which factor caused it</em> — which is exactly why an experiment must <em>change one variable at a time</em>.',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect — P = F ÷ A is yours!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Press a few sponges in the Demo Lab, then retry!',
+  qSideHint:'Stuck on a question? Switch to the Demo Lab and press it live for the class.',
+  gGoalLabel:'Target P', gCurLabel:'Current P', gRound:'Round',
+  gLock:'Lock reading', gNextRound:'Next round', gPlayAgain:'Play again',
+  gHint:'The class guides one player: set force and area so the pressure hits the target. One P often has <b>several</b> valid combinations!',
+  gGo:'Reach <b>{g} N/cm²</b>. Hint: P = F ÷ A — decide the ratio first, then pick the area.',
+  gPerfect:'🎯 Spot on!', gGood:'👍 Very close!', gOk:'🙂 Right direction.', gMiss:'💪 Quite far off.',
+  gTimeUp:'⏰ Time is up!', gFinal:'Final score', gRank1:'🏆 Pressure sniper!', gRank2:'👍 Good feel for it!', gRank3:'💪 Practise in the Demo Lab!',
+  cvTitle:'Force F ＝ {f} N ｜ Area A ＝ {a} cm²',
+  cvForce:'F ＝ {f} N', cvArea:'A ＝ {a} cm²', cvDent:'dent',
+  cvCurve:'F fixed · P against A', cvAxisA:'contact area A/cm²', cvAxisP:'P /(N/cm²)',
+  cvPnow:'P ＝ {f} ÷ {a} ＝ {p} N/cm²', cvPa:'＝ {pa} Pa', cvDentLv:'Dent: {lv}',
+  lvHi:'deep', lvMid:'medium', lvLo:'shallow',
+  cvSide:'F ＝ {f} N ｜ A ＝ {a} cm²', cvPbig:'P ＝ {p} N/cm²',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    grid:'rgba(255,255,255,.10)', axis:'rgba(255,255,255,.34)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    table:'#16233a', tableLine:'rgba(255,255,255,.30)',
+    sponge:'#f0c24e', spongeDark:'#c9992d', spongeHot:'#e8563c',
+    pore:'rgba(120,80,10,.30)',
+    block:'#5aa8e0', blockEdge:'#2b6d9e',
+    weight:'#8a96a3', weightEdge:'#5b6772', weightGloss:'rgba(255,255,255,.35)', weightText:'#ffffff',
+    force:'#ff6a5a', area:'#7cc4ff', gold:'#ffc94d',
+    tick:'rgba(255,255,255,.35)', gauge:'rgba(255,255,255,.8)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    grid:'rgba(30,42,54,.10)', axis:'rgba(30,42,54,.38)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    table:'#e8e3d2', tableLine:'#b9b299',
+    sponge:'#f6ce5b', spongeDark:'#c8971f', spongeHot:'#d63b26',
+    pore:'rgba(150,110,20,.26)',
+    block:'#3e7cb1', blockEdge:'#24506f',
+    weight:'#8e99a6', weightEdge:'#525d68', weightGloss:'rgba(255,255,255,.55)', weightText:'#ffffff',
+    force:'#e0443c', area:'#2f6690', gold:'#a06d00',
+    tick:'rgba(30,42,54,.32)', gauge:'rgba(30,42,54,.75)',
+  },
+};
+let THEME = 'dark';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'dark'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  applyTheme();
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  syncAll();
+  renderRec();
+  cmpLabels();
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')) gameSync();
+  syncGameBtn();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+14;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-11,yy-h/2,w+22,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+function panelLines(c, cx, yBottom, lines, font, gap, W, H){
+  const F=font||('700 14px '+CV_FONT), G=gap||21;
+  c.font=F;
+  let w=0;
+  for(let i=0;i<lines.length;i++) w=Math.max(w, c.measureText(lines[i].s).width);
+  const n=lines.length;
+  const x0 = clamp(cx-w/2-12, 8, Math.max(8,(W||1000)-w-32));
+  const cxx = x0+w/2+12;
+  const top = clamp(yBottom-(n-1)*G, G, (H||500)-8);
+  rrect(c, cxx-w/2-12, top-G*0.6-4, w+24, (n-1)*G+G*1.2+8, 10);
+  c.fillStyle=C().panel; c.fill();
+  c.strokeStyle=C().panelLine; c.lineWidth=1.3; c.stroke();
+  for(let i=0;i<n;i++) TX(c, lines[i].s, cxx, top+i*G, F, lines[i].c, 'center', 'middle');
+}
+function mix(c1,c2,k){
+  const p = h => [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)];
+  const a=p(c1), b=p(c2), f=clamp(k,0,1);
+  return 'rgb('+Math.round(a[0]+(b[0]-a[0])*f)+','+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+')';
+}
+function prand(i){ const v=Math.sin(i*127.1+311.7)*43758.5453; return v-Math.floor(v); }
+function grp(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+/* ============================================================
+   Physics (ported verbatim from the self-study version)
+   P = F / A  (N/cm²) ;  Pa = F / (A/10000)
+============================================================ */
+const AREAS = [5, 10, 20, 50];
+const FMIN = 10, FMAX = 60, FSTEP = 10;
+function pressure(F,A){ return F/A; }
+function paOf(F,A){ return Math.round(F/(A/10000)); }
+function fmtP(v){ return Number.isInteger(v) ? String(v) : v.toFixed(1); }
+function levelOf(p){ return p>=4 ? 'hi' : (p>=1.5 ? 'mid' : 'lo'); }
+function lvKey(p){ const l=levelOf(p); return l==='hi'?'lvHi':(l==='mid'?'lvMid':'lvLo'); }
+/* visual dent depth, world px — same shape as the source (depth ∝ P, capped) */
+function depth(p){ return clamp(p*8, 4, 96); }
+function bwOf(a){ return 25*Math.sqrt(a); }
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 500;
+const SP = { x0:70, x1:580, top:320, h:120 };
+const SCX = (SP.x0+SP.x1)/2;
+const TBY = SP.top + SP.h;
+const PC = { x0:660, x1:962, y0:96, y1:300 };
+const P_YMAX = 12.6, A_XMAX = 56;
+
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const ST = { F:30, A:20 };
+const VIS = { d:depth(1.5), bw:bwOf(20) };
+let FLASH = null, CONCL = null;
+
+function curP(){ return pressure(ST.F, ST.A); }
+
+function drawScene(c, o){
+  /* o = {W,H, x0,x1,top,h, d, bw, F, A, drop, wH, blockH, small} */
+  const cx = (o.x0+o.x1)/2, top = o.top, d = o.d, half = o.bw/2 + o.shoulder;
+  const tableY = top + o.h;
+
+  /* table */
+  c.fillStyle = C().table;
+  c.fillRect(0, tableY, o.W, o.H-tableY);
+  line(c, 0, tableY, o.W, tableY, C().tableLine, 2.2);
+
+  /* sponge body with the dented top */
+  c.beginPath();
+  c.moveTo(o.x0, top);
+  c.lineTo(cx-half-o.shoulder*1.6, top);
+  c.bezierCurveTo(cx-half, top, cx-half, top+d, cx-half+o.shoulder, top+d);
+  c.lineTo(cx+half-o.shoulder, top+d);
+  c.bezierCurveTo(cx+half, top+d, cx+half, top, cx+half+o.shoulder*1.6, top);
+  c.lineTo(o.x1, top);
+  c.lineTo(o.x1, tableY);
+  c.lineTo(o.x0, tableY);
+  c.closePath();
+  c.fillStyle = C().sponge; c.fill();
+  c.strokeStyle = C().spongeDark; c.lineWidth = o.small?2.2:3; c.lineJoin='round'; c.stroke();
+
+  /* pores */
+  const nPore = o.small ? 12 : 18;
+  for(let i=0;i<nPore;i++){
+    const px = o.x0+18 + prand(i*2+1)*(o.x1-o.x0-36);
+    const py = top+22 + prand(i*2+2)*(o.h-40);
+    if(py < top + d + 14 && Math.abs(px-cx) < half) continue;
+    c.beginPath();
+    c.ellipse(px, py, 3.5+(i%3), 2.8+(i%2), 0, 0, Math.PI*2);
+    c.fillStyle = C().pore; c.fill();
+  }
+
+  /* compressed zone: hotter colour as P grows */
+  const heat = clamp(pressure(o.F,o.A)/10, 0, 1);
+  const hotCol = mix(C().sponge, C().spongeHot, heat);
+  rrect(c, cx-half+o.shoulder, top+d, (half-o.shoulder)*2, o.small?8:11, 4);
+  c.fillStyle = hotCol; c.globalAlpha = 0.9; c.fill(); c.globalAlpha = 1;
+
+  /* pressure plate */
+  const blockTop = top + d - o.blockH;
+  rrect(c, cx-o.bw/2, blockTop, o.bw, o.blockH, 4);
+  c.fillStyle = C().block; c.fill();
+  c.strokeStyle = C().blockEdge; c.lineWidth = o.small?1.8:2.4; c.stroke();
+
+  /* weight stack */
+  const n = Math.round(o.F/FSTEP);
+  const wW = o.small ? 62 : 88, wH = o.wH;
+  let stackTop = blockTop;
+  for(let i=0;i<n;i++){
+    const y = blockTop - (i+1)*wH - 2 - o.drop;
+    stackTop = y;
+    rrect(c, cx-wW/2, y, wW, wH-3, 5);
+    c.fillStyle = C().weight; c.fill();
+    c.strokeStyle = C().weightEdge; c.lineWidth = 1.6; c.stroke();
+    rrect(c, cx-wW/2+6, y+3, wW-12, 4, 2);
+    c.fillStyle = C().weightGloss; c.fill();
+    TX(c, '10N', cx, y+wH/2-1, '700 13px '+CV_FONT, C().weightText, 'center', 'middle');
+  }
+
+  /* downward force arrow */
+  const aLen = o.small ? (14+n*5) : (20+n*6);
+  const aBot = stackTop - (o.small?8:12);
+  const aTop = aBot - aLen;
+  line(c, cx, aTop, cx, aBot, C().force, o.small?4:5);
+  c.beginPath();
+  c.moveTo(cx-(o.small?7:9), aBot-3);
+  c.lineTo(cx, aBot+(o.small?8:11));
+  c.lineTo(cx+(o.small?7:9), aBot-3);
+  c.closePath();
+  c.fillStyle = C().force; c.fill();
+  TX(c, tf('cvForce',{f:o.F}), cx+(o.small?12:16), (aTop+aBot)/2, (o.small?'900 14px ':'900 18px ')+CV_FONT, C().force, 'left', 'middle');
+
+  /* dent gauge */
+  if(d > (o.small?8:10)){
+    const gx = cx + half + (o.small?26:40);
+    line(c, gx, top, gx, top+d, C().gauge, 1.6);
+    line(c, gx-6, top, gx+6, top, C().gauge, 1.6);
+    line(c, gx-6, top+d, gx+6, top+d, C().gauge, 1.6);
+    TX(c, t('cvDent'), gx+9, top+d/2, (o.small?'700 13px ':'700 15px ')+CV_FONT, C().cvTextDim, 'left', 'middle');
+  }
+  return { cx:cx, tableY:tableY };
+}
+
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const p = curP();
+
+  drawScene(c, {
+    W:W_W, H:W_H, x0:SP.x0, x1:SP.x1, top:SP.top, h:SP.h,
+    d:VIS.d, bw:VIS.bw, F:ST.F, A:ST.A, drop:0,
+    wH:26, blockH:20, shoulder:18, small:false
+  });
+
+  /* captions */
+  tchip(c, tf('cvTitle',{f:ST.F, a:ST.A}), SP.x0-6, 28, '700 18px '+CV_FONT, C().cvText, 'left', W_W, W_H);
+  tchip(c, tf('cvArea',{a:ST.A}), SCX, 470, '900 18px '+CV_FONT, C().area, 'center', W_W, W_H);
+
+  /* ---- P–A chart at fixed F ---- */
+  const GX = a => PC.x0 + clamp(a,0,A_XMAX)/A_XMAX*(PC.x1-PC.x0);
+  const GY = v => PC.y1 - clamp(v,0,P_YMAX)/P_YMAX*(PC.y1-PC.y0);
+  rrect(c, PC.x0, PC.y0, PC.x1-PC.x0, PC.y1-PC.y0, 8);
+  c.fillStyle=C().panel; c.fill(); c.strokeStyle=C().panelLine; c.lineWidth=1.3; c.stroke();
+  [0,3,6,9,12].forEach(v=>{
+    const yy = GY(v);
+    line(c, PC.x0, yy, PC.x1, yy, v===0?C().axis:C().grid, v===0?1.8:1);
+    TX(c, String(v), PC.x0-8, yy, '700 13px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+  });
+  [0,10,20,30,40,50].forEach(a=>{
+    line(c, GX(a), PC.y0, GX(a), PC.y1, a===0?C().axis:C().grid, a===0?1.8:1);
+    TX(c, String(a), GX(a), PC.y1+16, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  });
+  c.beginPath();
+  const aStart = Math.max(3, ST.F/P_YMAX);
+  for(let i=0;i<=70;i++){
+    const a = aStart + (A_XMAX-aStart)*i/70;
+    const x = GX(a), y = GY(ST.F/a);
+    if(i===0) c.moveTo(x,y); else c.lineTo(x,y);
+  }
+  c.strokeStyle=C().gold; c.lineWidth=3.2; c.lineCap='round'; c.stroke();
+  AREAS.forEach(a=>{
+    circle(c, GX(a), GY(ST.F/a), 4.4, C().panel, C().gold, 2);
+  });
+  line(c, GX(ST.A), PC.y0, GX(ST.A), GY(p), C().force, 1.6, [5,4]);
+  circle(c, GX(ST.A), GY(p), 7.5, C().force, C().pill, 2.6);
+  TX(c, t('cvCurve'), (PC.x0+PC.x1)/2, PC.y0-16, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(c, t('cvAxisA'), PC.x1, PC.y1+36, '700 14px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+  TX(c, t('cvAxisP'), PC.x0, PC.y0-36, '700 14px '+CV_FONT, C().cvTextDim, 'left', 'middle');
+
+  /* ---- live readout panel under the chart ---- */
+  const lvCol = levelOf(p)==='hi' ? C().force : levelOf(p)==='mid' ? C().gold : C().area;
+  panelLines(c, (PC.x0+PC.x1)/2, 420, [
+    {s:tf('cvPnow',{f:ST.F, a:ST.A, p:fmtP(p)}), c:lvCol},
+    {s:tf('cvPa',{pa:grp(paOf(ST.F,ST.A))}), c:C().cvTextDim},
+    {s:tf('cvDentLv',{lv:t(lvKey(p))}), c:C().cvText}
+  ], '700 16px '+CV_FONT, 23, W_W, W_H);
+}
+function easeVis(dt){
+  const k = Math.min(1, dt*6);
+  VIS.d  += (depth(curP()) - VIS.d)*k;
+  VIS.bw += (bwOf(ST.A) - VIS.bw)*k;
+}
+
+/* ---------- sidebar messages ---------- */
+function renderMsg(){
+  const p = curP(), lv = levelOf(p);
+  const flash = FLASH ? '<em>'+t(FLASH.k)+'</em><br>' : '';
+  const formula = tf('f_formula', {f:ST.F, a:ST.A, p:fmtP(p)});
+  const conv = tf('f_convert', {a:ST.A, m:String(ST.A/10000), f:ST.F, pa:grp(paOf(ST.F,ST.A))});
+  const live = lv==='hi' ? t('live_hi') : lv==='mid' ? t('live_mid') : t('live_lo');
+  const tip = ST.A===AREAS[0] ? t('tip_small') : ST.A===AREAS[AREAS.length-1] ? t('tip_big') : t('tip_mid');
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + conv + '<br>' + live + ' ' + tip;
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- shared setters (lab + game share one state) ---------- */
+function afterChange(oldP){
+  const p = curP();
+  if(levelOf(p) !== levelOf(oldP)) FLASH = (p>oldP) ? {k:'r_up'} : {k:'r_down'};
+}
+function setF(v){
+  const oldP = curP();
+  ST.F = clamp(Math.round(v/FSTEP)*FSTEP, FMIN, FMAX);
+  afterChange(oldP);
+  CONCL = 'c_force';
+  clearLifePick();
+  syncAll();
+  if(GAME.phase==='aim' && $('panel-game').classList.contains('on')) gameSync();
+}
+function setArea(a){
+  if(AREAS.indexOf(a) < 0) return;
+  const oldP = curP();
+  ST.A = a;
+  afterChange(oldP);
+  CONCL = 'c_area';
+  clearLifePick();
+  syncAll();
+  if(GAME.phase==='aim' && $('panel-game').classList.contains('on')) gameSync();
+}
+function clearLifePick(){
+  document.querySelectorAll('[data-life]').forEach(b=>b.classList.remove('pick'));
+}
+function syncControls(){
+  const sf = $('s-f'), gf = $('g-s-f');
+  if(sf){ sf.value = ST.F; }
+  if(gf){ gf.value = ST.F; }
+  if($('s-f-o')) $('s-f-o').textContent = ST.F + ' N';
+  if($('g-s-f-o')) $('g-s-f-o').textContent = ST.F + ' N';
+  document.querySelectorAll('.sbtn[data-a]').forEach(b=>b.classList.toggle('pick', +b.dataset.a === ST.A));
+  document.querySelectorAll('.sbtn[data-ga]').forEach(b=>b.classList.toggle('pick', +b.dataset.ga === ST.A));
+}
+function syncAll(){
+  const p = curP(), lv = levelOf(p);
+  if($('l-p')) $('l-p').textContent = fmtP(p);
+  if($('l-f')) $('l-f').textContent = ST.F;
+  if($('l-a')) $('l-a').textContent = ST.A;
+  if($('l-pa')) $('l-pa').textContent = grp(paOf(ST.F,ST.A));
+  const bd = $('l-state');
+  if(bd){
+    bd.innerHTML = lv==='hi' ? t('stHi')+'<small>'+t('stHiSub')+'</small>'
+                 : lv==='mid' ? t('stMid')+'<small>'+t('stMidSub')+'</small>'
+                 : t('stLo')+'<small>'+t('stLoSub')+'</small>';
+    bd.style.color = lv==='hi' ? '#b8432f' : lv==='mid' ? 'var(--gold-ink)' : '#2f6690';
+    bd.style.borderColor = lv==='hi' ? 'var(--pos)' : lv==='mid' ? 'var(--gold-ink)' : '#2f6690';
+  }
+  if($('g-cur-side')) $('g-cur-side').textContent = fmtP(p);
+  if($('g-cur-hud')) $('g-cur-hud').textContent = fmtP(p);
+  syncControls();
+  renderMsg();
+}
+function labReset(){
+  ST.F = 30; ST.A = 20;
+  FLASH = null; CONCL = null;
+  clearLifePick();
+  VIS.d = depth(curP()); VIS.bw = bwOf(ST.A);
+  syncAll();
+}
+
+/* ---------- one-click real-life presets (was the "生活中的压强" cards) ---------- */
+const LIFE = {
+  lf1:{ from:{F:60,A:5},  to:{F:60,A:50}, c:'c_lf1' },
+  lf2:{ from:{F:10,A:50}, to:{F:10,A:5},  c:'c_lf2' },
+  lf3:{ from:{F:40,A:5},  to:{F:40,A:50}, c:'c_lf3' },
+};
+let lifeTimer = null;
+function stopLife(){ if(lifeTimer){ clearTimeout(lifeTimer); lifeTimer=null; } }
+function lifeDemo(id){
+  const L = LIFE[id];
+  if(!L) return;
+  setMode('lab');
+  stopLife();
+  ST.F = L.from.F; ST.A = L.from.A;
+  FLASH = null; CONCL = null;
+  VIS.d = depth(curP()); VIS.bw = bwOf(ST.A);
+  syncAll();
+  document.querySelectorAll('[data-life]').forEach(b=>b.classList.toggle('pick', b.dataset.life===id));
+  const btn = document.querySelector('.rail [data-life="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+  lifeTimer = setTimeout(()=>{
+    const oldP = curP();
+    ST.F = L.to.F; ST.A = L.to.A;
+    afterChange(oldP);
+    CONCL = L.c;
+    syncAll();
+    document.querySelectorAll('[data-life]').forEach(b=>b.classList.toggle('pick', b.dataset.life===id));
+    lifeTimer = null;
+  }, 1100);
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  recRows.push({ F:ST.F, A:ST.A, p:curP() });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.p); });
+  body.innerHTML = recRows.map(r=>{
+    const pct = top>1e-6 ? Math.max(6, r.p/top*100) : 0;
+    const cls = levelOf(r.p)==='hi' ? 'hi' : levelOf(r.p)==='lo' ? 'lo' : '';
+    return '<tr><td>'+r.F+'</td><td>'+r.A+'</td><td>'+fmtP(r.p)+'</td>'+
+      '<td><div class="bar '+cls+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare (two sponges, world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CSP = { x0:26, x1:414, top:245, h:88 };
+function depthC(p){ return clamp(p*5.8, 3, 70); }
+function bwC(a){ return 17*Math.sqrt(a); }
+const CMP_PRESETS = [
+  { id:0, a:{F:30, A:10, nameK:'cp1a'}, b:{F:30, A:50, nameK:'cp1b'}, concl:'cc_1' },
+  { id:1, a:{F:20, A:20, nameK:'cp2a'}, b:{F:60, A:20, nameK:'cp2b'}, concl:'cc_2' },
+  { id:2, a:{F:20, A:5,  nameK:'cp3a'}, b:{F:60, A:20, nameK:'cp3b'}, concl:'cc_3' },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+function side(which){ return CMP_PRESETS[CMP.preset][which]; }
+
+function drawCmpSide(ctx, s, prog){
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,CM_W*SC,CM_H*SC);
+  ctx.setTransform(SC,0,0,SC,0,0);
+  const e = prog*prog*(3-2*prog);
+  const pFull = pressure(s.F, s.A);
+  const d = depthC(pFull)*e;
+  const drop = (1-e)*16;
+
+  drawScene(ctx, {
+    W:CM_W, H:CM_H, x0:CSP.x0, x1:CSP.x1, top:CSP.top, h:CSP.h,
+    d:d, bw:bwC(s.A), F:s.F, A:s.A, drop:drop,
+    wH:19, blockH:15, shoulder:12, small:true
+  });
+
+  tchip(ctx, tf('cvSide',{f:s.F, a:s.A}), CM_W/2, 18, '700 15px '+CV_FONT, C().cvText, 'center', CM_W, CM_H);
+  const shown = pFull*e;
+  const col = e>0.98 ? (levelOf(pFull)==='hi'?C().force:levelOf(pFull)==='mid'?C().gold:C().area) : C().cvTextDim;
+  TX(ctx, tf('cvPbig',{p:fmtP(Math.round(shown*10)/10)}), CM_W/2, 352, '900 26px '+CV_FONT, col, 'center', 'middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, side('a'), CMP.p);
+  drawCmpSide(ctxB, side('b'), CMP.p);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const a = side('a'), b = side('b');
+  $('c-p-a').textContent = fmtP(pressure(a.F,a.A));
+  $('c-p-b').textContent = fmtP(pressure(b.F,b.A));
+  $('c-f-a').textContent = a.F;
+  $('c-a-a').textContent = a.A;
+  $('c-pa-a').textContent = grp(paOf(a.F,a.A));
+  $('c-f-b').textContent = b.F;
+  $('c-a-b').textContent = b.A;
+  $('c-pa-b').textContent = grp(paOf(b.F,b.A));
+}
+function cmpLabels(){
+  const a = side('a'), b = side('b');
+  $('ca-name').textContent = t(a.nameK);
+  $('cb-name').textContent = t(b.nameK);
+  $('ca-cond').textContent = tf('condLine',{f:a.F, a:a.A});
+  $('cb-cond').textContent = tf('condLine',{f:b.F, a:b.A});
+  $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = side('a'), b = side('b');
+  const pa = pressure(a.F,a.A), pb = pressure(b.F,b.A);
+  const real = Math.abs(pa-pb) < 1e-9 ? 'same' : (pa>pb ? 'a' : 'b');
+  const nA = LANG==='zh' ? '甲' : 'A', nB = LANG==='zh' ? '乙' : 'B';
+  const detail = '（'+nA+' '+fmtP(pa)+' · '+nB+' '+fmtP(pb)+' N/cm²）';
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Target challenge (reuses the demo-lab engine & canvas)
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 30;
+const GOAL_POOL = [2, 1, 3, 0.6, 4, 1.5, 6, 2.5];
+const GAME = { round:0, score:0, goal:2, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GOAL_POOL.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  GAME.goal = GOAL_POOL[GAME.order[GAME.round-1]];
+  ST.F = 10; ST.A = 20;
+  FLASH = null; CONCL = null;
+  VIS.d = depth(curP()); VIS.bw = bwOf(ST.A);
+  syncAll();
+  $('g-status').innerHTML = tf('gGo', {g:fmtP(GAME.goal)});
+  gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) lockP(true);
+  }, 1000);
+}
+function lockP(timedOut){
+  if(GAME.phase==='aim'){
+    stopGTimer();
+    const p = curP();
+    const err = Math.abs(p-GAME.goal)/GAME.goal;
+    const pts = err<=0.001 ? 100 : err<=0.1 ? 80 : err<=0.25 ? 50 : err<=0.5 ? 20 : 5;
+    GAME.score += pts;
+    const msg = (timedOut===true ? t('gTimeUp')+' ' : '') +
+      (err<=0.001 ? t('gPerfect') : err<=0.1 ? t('gGood') : err<=0.25 ? t('gOk') : t('gMiss'));
+    GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+    const tail = '（'+fmtP(p)+' vs '+fmtP(GAME.goal)+' · +'+pts+'）';
+    if(GAME.phase==='done'){
+      const rk = GAME.score>=270 ? t('gRank1') : GAME.score>=180 ? t('gRank2') : t('gRank3');
+      $('g-status').innerHTML = msg+tail+'<br>'+t('gFinal')+' '+GAME.score+' — '+rk;
+    } else {
+      $('g-status').innerHTML = msg+tail;
+    }
+    gameSync();
+  } else if(GAME.phase==='next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function syncGameBtn(){
+  const b = $('g-lock');
+  if(!b) return;
+  b.textContent = GAME.phase==='aim' ? '🎯 '+t('gLock')
+                : GAME.phase==='next' ? t('gNextRound')+' ➜'
+                : '🔄 '+t('gPlayAgain');
+}
+function gameSync(){
+  $('g-round').textContent = Math.max(1, GAME.round);
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-goal-hud').textContent = fmtP(GAME.goal);
+  $('g-goal-side').textContent = fmtP(GAME.goal)+' N/cm²';
+  $('g-cur-hud').textContent = fmtP(curP());
+  $('g-cur-side').textContent = fmtP(curP());
+  $('g-score').textContent = GAME.score;
+  syncGameBtn();
+  const frozen = GAME.phase!=='aim';
+  document.querySelectorAll('#ctl-game .sbtn[data-ga]').forEach(b=>{ b.disabled = frozen; });
+  if($('g-s-f')) $('g-s-f').disabled = frozen;
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    easeVis(dt);
+    drawLab();
+  } else if($('panel-cmp').classList.contains('on')){
+    if(CMP.running){
+      CMP.p += dt/2.4;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; drawCmpBoth(); finishCmp(); }
+      else drawCmpBoth();
+    }
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer(); stopLife();
+  CMP.running = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); if($('s-f')) $('s-f').disabled=false; syncAll(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+labReset();
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+</script>
+
+<script>
+
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'📐', q:'根据 P = F ÷ A，压力 F 不变时，受力面积 A 越小，压强 P 会——',
+    o:['越大','越小','不变'], a:0,
+    x:'F 不变、A 变小 → P <em>变大</em>，就像图钉尖头面积极小、压强极大。切回「演示实验」把面积从 50 按到 5 cm² 看看海绵。' },
+  { e:'🧱', q:'受力面积 A 相同时，压力 F 越大，压强 P 会——',
+    o:['不变','越大','越小'], a:1,
+    x:'A 相同时 P 与 F <em>成正比</em>，F 越大 P 越大，海绵陷得更深。到「对比实验 · 探究二」拉压力滑条验证。' },
+  { e:'📌', q:'图钉做成很尖的尖头，主要是为了——',
+    o:['增大受力面积、减小压强','增大压力','减小受力面积、增大压强'], a:2,
+    x:'尖头让受力面积 A 极小，压力不大也能产生<em>很大的压强</em>，轻松刺入木板。「生活情境 · 📌 图钉」一键演示。' },
+  { e:'🐪', q:'骆驼的大脚掌、宽书包带、坦克的履带，共同的科学原理是——',
+    o:['增大受力面积、减小压强','减小受力面积、增大压强','增大压力'], a:0,
+    x:'它们都靠<em>增大受力面积 A</em> 来减小压强 P，避免陷入沙里或硌痛肩膀。见「生活情境 · 🐪 骆驼 / 🎒 书包带」。' },
+  { e:'🧮', q:'一个物体对地面的压力是 100 N，受力面积是 0.5 m²，它对地面的压强是——',
+    o:['50 Pa','200 Pa','500 Pa'], a:1,
+    x:'P = F ÷ A = 100 ÷ 0.5 = <em>200 Pa</em>。注意国际单位：F 用 N、A 用 m²，算出来才是 Pa。' },
+  { e:'🔁', q:'1 N/cm² 换算成帕斯卡（Pa）是——',
+    o:['100 Pa','1000 Pa','10000 Pa'], a:2,
+    x:'1 cm² = 0.0001 m²，所以 1 N/cm² = 1 ÷ 0.0001 = <em>10000 Pa</em>。侧栏的换算行每次都把这一步写给你看。' },
+  { e:'⚖️', q:'甲：F = 30 N、A = 10 cm²；乙：F = 30 N、A = 50 cm²。哪一边海绵陷得更深？',
+    o:['甲','乙','一样深'], a:0,
+    x:'甲 P = 30 ÷ 10 = <em>3.0</em>，乙 P = 30 ÷ 50 = <em>0.6</em> N/cm²，甲的压强是乙的 5 倍。「对比实验 · 探究一」就是这一组。' },
+  { e:'🔬', q:'甲（20 N、5 cm²）比乙（60 N、20 cm²）陷得更深。能不能由此说「压力越小压强越大」？',
+    o:['能，甲压力小却更深','不能，两个条件同时变了','能，因为甲面积也小'], a:1,
+    x:'甲 P = 4.0、乙 P = 3.0 N/cm²，甲确实更大，但压力和面积<em>两个条件都不同</em>，无法归因给某一个。这正是要用<em>控制变量法</em>的原因。' },
+];
+const QUIZ_EN = [
+  { e:'📐', q:'From P = F ÷ A, with the force F fixed, a SMALLER contact area A makes the pressure P —',
+    o:['larger','smaller','unchanged'], a:0,
+    x:'F fixed, A smaller → P <em>larger</em>, just like the tiny tip of a drawing pin. Go to the Demo Lab and drop the area from 50 to 5 cm².' },
+  { e:'🧱', q:'With the contact area A fixed, a LARGER force F makes the pressure P —',
+    o:['unchanged','larger','smaller'], a:1,
+    x:'With A fixed, P is <em>directly proportional</em> to F. Check it in Compare · Test 2 by dragging the force slider.' },
+  { e:'📌', q:'A drawing pin is made with a very sharp tip mainly in order to —',
+    o:['increase the area and lower the pressure','increase the force','shrink the area and raise the pressure'], a:2,
+    x:'The tip makes A tiny, so even a small force gives a <em>huge pressure</em> and it slides into the board. Try the 📌 preset in the Demo Lab.' },
+  { e:'🐪', q:'Camel foot pads, wide backpack straps and tank tracks all share which principle?',
+    o:['larger area → smaller pressure','smaller area → larger pressure','larger force'], a:0,
+    x:'They all <em>increase the contact area A</em> to cut the pressure P, so they do not sink or dig in. See the 🐪 and 🎒 presets.' },
+  { e:'🧮', q:'A body presses on the ground with 100 N over 0.5 m². The pressure on the ground is —',
+    o:['50 Pa','200 Pa','500 Pa'], a:1,
+    x:'P = F ÷ A = 100 ÷ 0.5 = <em>200 Pa</em>. Use SI units: newtons and square metres give pascals.' },
+  { e:'🔁', q:'1 N/cm² converted into pascals (Pa) is —',
+    o:['100 Pa','1000 Pa','10000 Pa'], a:2,
+    x:'1 cm² = 0.0001 m², so 1 N/cm² = 1 ÷ 0.0001 = <em>10000 Pa</em>. The sidebar spells this step out every time.' },
+  { e:'⚖️', q:'A: F = 30 N, A = 10 cm². B: F = 30 N, A = 50 cm². Which sponge is pressed deeper?',
+    o:['A','B','the same'], a:0,
+    x:'A: P = 30 ÷ 10 = <em>3.0</em>; B: P = 30 ÷ 50 = <em>0.6</em> N/cm² — five times as much. That is exactly Compare · Test 1.' },
+  { e:'🔬', q:'A (20 N, 5 cm²) sinks deeper than B (60 N, 20 cm²). Does that prove "less force means more pressure"?',
+    o:['Yes — A has less force yet sinks deeper','No — two conditions changed at once','Yes, because A also has a smaller area'], a:1,
+    x:'A: P = 4.0, B: P = 3.0 N/cm², so A really is larger — but force AND area both differ, so you cannot blame either one. That is why we <em>control the variables</em>.' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'压强探究实验室', subtitle:'海绵 · 压板 · 砝码 —— 用控制变量法找出影响压强的两个因素',
+  chip1:'压强 P ＝ 压力 F ÷ 受力面积 A', chip2:'压力相同：面积越小，压强越大', chip3:'1 N/cm² ＝ 10000 Pa',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 压强狙击',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  slF:'⬇ 压力 F', areaLabel:'受力面积 A：',
+  a5:'5 cm²', a10:'10 cm²', a20:'20 cm²', a50:'50 cm²',
+  lifeLabel:'生活情境：', lf1:'🐪 骆驼脚掌', lf2:'📌 图钉尖头', lf3:'🎒 宽书包带',
+  labHint:'拉「压力 F」滑条、按「受力面积 A」四档，看海绵凹陷怎么变；右边曲线是 F 固定时 P 随 A 变化的关系。',
+  pLabel:'压强 P', kF:'压力 F/N', kA:'面积 A/cm²', kPa:'换算 / Pa',
+  stHi:'压强很大', stHiSub:'海绵陷得很深', stMid:'压强中等', stMidSub:'海绵明显凹陷', stLo:'压强很小', stLoSub:'海绵几乎不陷',
+  f_formula:'P ＝ F ÷ A ＝ {f} N ÷ {a} cm² ＝ <b>{p} N/cm²</b>',
+  f_convert:'换算：A ＝ {a} cm² ＝ {m} m²，所以 P ＝ {f} ÷ {m} ＝ <b>{pa} Pa</b>（帕斯卡）',
+  live_hi:'压强很大 —— 想减小它：<b>压力变小</b>或<b>面积变大</b>。',
+  live_mid:'中等压强 —— 只改一个条件再看一次，才能说清是谁造成的。',
+  live_lo:'压强很小 —— 面积大而压力小，海绵几乎不凹陷。',
+  tip_small:'现在是<b>最小面积（5 cm²）</b>：同样的压力压在这里最「扎」。',
+  tip_big:'现在是<b>最大面积（50 cm²）</b>：压力被摊开，压强降到最低。',
+  tip_mid:'固定一个条件、只改另一个 —— 这就是<b>控制变量法</b>。',
+  r_up:'👉 <em>压强变大了</em>：海绵陷得更深。',
+  r_down:'👉 <em>压强变小了</em>：海绵回弹，凹陷变浅。',
+  c_force:'📌 <em>受力面积不变</em>时，压力越大，压强越大 —— P 与 F <em>成正比</em>。',
+  c_area:'📌 <em>压力不变</em>时，受力面积越小，压强越大 —— P 与 A <em>成反比</em>。',
+  c_lf1:'🐪 骆驼体重很大（F 大），但脚掌宽大（A 大），压强 P 变小，所以不会陷进沙里 —— <em>增大受力面积来减小压强</em>。',
+  c_lf2:'📌 手指轻轻一按（F 不大），针尖面积极小（A 极小），压强 P 变得非常大，能轻松刺入木板 —— <em>减小受力面积来增大压强</em>。真实针尖比 5 cm² 还小几万倍，压强大得多。',
+  c_lf3:'🎒 书包很重（F 大），宽带子增大了与肩膀的接触面积（A 大），压强变小，肩膀就不会被勒痛 —— <em>窄带子为什么勒得痛，你能解释吗？</em>',
+  recBtn:'记录数据', recClear:'清空', thF:'F/N', thA:'A/cm²', thP:'P',
+  outLabel:'两边的压强 P', cmpHint:'先按预设 → 全班猜一猜哪边陷得更深 → 再按「同时加压」验证。两边的数都由 P = F ÷ A 真算。',
+  cp1:'🔬 探究一 · 压力相同', cp2:'🔬 探究二 · 面积相同', cp3:'⚠️ 两个条件都变',
+  cp1a:'甲 · 面积小', cp1b:'乙 · 面积大',
+  cp2a:'甲 · 压力小', cp2b:'乙 · 压力大',
+  cp3a:'甲 · 20 N / 5 cm²', cp3b:'乙 · 60 N / 20 cm²',
+  condLine:'F ＝ {f} N ｜ A ＝ {a} cm²',
+  guessQ:'猜一猜：哪边陷得更深？', gMoreA:'甲更深', gSame:'一样深', gMoreB:'乙更深', runCmp:'同时加压',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  cc_1:'📌 两组<em>压力相同（30 N）</em>，只有面积不同：面积小的一边压强更大、陷得更深。结论：<em>压力相同时，受力面积越小，压强越大。</em>',
+  cc_2:'📌 两组<em>受力面积相同（20 cm²）</em>，只有压力不同：压力大的一边压强更大、陷得更深。结论：<em>受力面积相同时，压力越大，压强越大。</em>',
+  cc_3:'⚠️ 这一组压力和面积<em>两个条件都不同</em>，虽然甲陷得更深，却<em>无法判断</em>是哪个因素造成的 —— 这就是实验必须用<em>控制变量法</em>、一次只改一个条件的原因。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！P = F ÷ A 你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手压一压再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场压给全班看。',
+  gGoalLabel:'目标压强', gCurLabel:'当前压强', gRound:'回合',
+  gLock:'锁定读数', gNextRound:'下一轮', gPlayAgain:'再来一局',
+  gHint:'全班指挥一位同学：调压力和面积，让压强正好等于目标值。同一个 P 常常有<b>好几种</b>组合！',
+  gGo:'把压强调到 <b>{g} N/cm²</b>。提示：P = F ÷ A，先想要几倍，再选面积。',
+  gPerfect:'🎯 分毫不差！', gGood:'👍 很接近！', gOk:'🙂 方向对了。', gMiss:'💪 差得有点多。',
+  gTimeUp:'⏰ 时间到！', gFinal:'最终得分', gRank1:'🏆 压强狙击手！', gRank2:'👍 感觉很好！', gRank3:'💪 回演示实验再练几次！',
+  cvTitle:'压力 F ＝ {f} N ｜ 受力面积 A ＝ {a} cm²',
+  cvForce:'F ＝ {f} N', cvArea:'A ＝ {a} cm²', cvDent:'凹陷',
+  cvCurve:'F 固定时 · P 随 A 变化', cvAxisA:'受力面积 A/cm²', cvAxisP:'P /（N/cm²）',
+  cvPnow:'P ＝ {f} ÷ {a} ＝ {p} N/cm²', cvPa:'＝ {pa} Pa', cvDentLv:'凹陷程度：{lv}',
+  lvHi:'很深', lvMid:'中等', lvLo:'很浅',
+  cvSide:'F ＝ {f} N ｜ A ＝ {a} cm²', cvPbig:'P ＝ {p} N/cm²',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Pressure Lab', subtitle:'Sponge · plate · weights — find the two factors behind pressure by controlling variables',
+  chip1:'Pressure P ＝ force F ÷ area A', chip2:'Same force: smaller area, bigger pressure', chip3:'1 N/cm² ＝ 10000 Pa',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Hit the P',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  slF:'⬇ Force F', areaLabel:'Area A:',
+  a5:'5 cm²', a10:'10 cm²', a20:'20 cm²', a50:'50 cm²',
+  lifeLabel:'Real life:', lf1:'🐪 Camel pad', lf2:'📌 Pin tip', lf3:'🎒 Wide strap',
+  labHint:'Drag the force slider, tap the four area buttons, and watch the dent. The chart on the right shows P against A while F stays fixed.',
+  pLabel:'Pressure P', kF:'Force F/N', kA:'Area A/cm²', kPa:'in Pa',
+  stHi:'Very high', stHiSub:'the sponge caves in', stMid:'Moderate', stMidSub:'a clear dent', stLo:'Very low', stLoSub:'barely a dent',
+  f_formula:'P ＝ F ÷ A ＝ {f} N ÷ {a} cm² ＝ <b>{p} N/cm²</b>',
+  f_convert:'Convert: A ＝ {a} cm² ＝ {m} m², so P ＝ {f} ÷ {m} ＝ <b>{pa} Pa</b> (pascals)',
+  live_hi:'Very high pressure — to lower it: <b>less force</b> or <b>more area</b>.',
+  live_mid:'Moderate pressure — change ONE condition and look again to know which one did it.',
+  live_lo:'Very low pressure — a big area under a small force barely dents the sponge.',
+  tip_small:'Now at the <b>smallest area (5 cm²)</b>: the same force bites hardest here.',
+  tip_big:'Now at the <b>largest area (50 cm²)</b>: the force is spread out and P is at its lowest.',
+  tip_mid:'Hold one condition fixed and change only the other — that is <b>controlling variables</b>.',
+  r_up:'👉 <em>Pressure went up</em> — the sponge sinks deeper.',
+  r_down:'👉 <em>Pressure went down</em> — the sponge springs back.',
+  c_force:'📌 With the <em>area unchanged</em>, more force means more pressure — P is <em>proportional to F</em>.',
+  c_area:'📌 With the <em>force unchanged</em>, a smaller area means more pressure — P is <em>inversely proportional to A</em>.',
+  c_lf1:'🐪 A camel is heavy (large F) but its pads are broad (large A), so P is small and it does not sink into the sand — <em>more area, less pressure</em>.',
+  c_lf2:'📌 A light push (small F) on a tiny tip (very small A) gives a huge P, so it slips into the board — <em>less area, more pressure</em>. A real pin tip is tens of thousands of times smaller than 5 cm².',
+  c_lf3:'🎒 A heavy bag (large F) with a wide strap spreads the load over your shoulder (large A), so P drops and it stops hurting — <em>can you now explain why a thin strap digs in?</em>',
+  recBtn:'Record data', recClear:'Clear', thF:'F/N', thA:'A/cm²', thP:'P',
+  outLabel:'Pressure on each side', cmpHint:'Load a preset → let the class predict which sponge sinks deeper → press "Press both". Both sides are computed from P = F ÷ A.',
+  cp1:'🔬 Test 1 · same force', cp2:'🔬 Test 2 · same area', cp3:'⚠️ Both changed',
+  cp1a:'A · small area', cp1b:'B · large area',
+  cp2a:'A · small force', cp2b:'B · large force',
+  cp3a:'A · 20 N / 5 cm²', cp3b:'B · 60 N / 20 cm²',
+  condLine:'F ＝ {f} N ｜ A ＝ {a} cm²',
+  guessQ:'Predict: which sinks deeper?', gMoreA:'A deeper', gSame:'Same', gMoreB:'B deeper', runCmp:'Press both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  cc_1:'📌 Both sides have the <em>same force (30 N)</em> and differ only in area: the smaller area gives more pressure and a deeper dent. Rule: <em>same force — the smaller the area, the greater the pressure.</em>',
+  cc_2:'📌 Both sides have the <em>same area (20 cm²)</em> and differ only in force: the bigger force gives more pressure and a deeper dent. Rule: <em>same area — the greater the force, the greater the pressure.</em>',
+  cc_3:'⚠️ Here force AND area <em>both differ</em>. A does sink deeper, but you <em>cannot tell which factor caused it</em> — which is exactly why an experiment must <em>change one variable at a time</em>.',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect — P = F ÷ A is yours!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Press a few sponges in the Demo Lab, then retry!',
+  qSideHint:'Stuck on a question? Switch to the Demo Lab and press it live for the class.',
+  gGoalLabel:'Target P', gCurLabel:'Current P', gRound:'Round',
+  gLock:'Lock reading', gNextRound:'Next round', gPlayAgain:'Play again',
+  gHint:'The class guides one player: set force and area so the pressure hits the target. One P often has <b>several</b> valid combinations!',
+  gGo:'Reach <b>{g} N/cm²</b>. Hint: P = F ÷ A — decide the ratio first, then pick the area.',
+  gPerfect:'🎯 Spot on!', gGood:'👍 Very close!', gOk:'🙂 Right direction.', gMiss:'💪 Quite far off.',
+  gTimeUp:'⏰ Time is up!', gFinal:'Final score', gRank1:'🏆 Pressure sniper!', gRank2:'👍 Good feel for it!', gRank3:'💪 Practise in the Demo Lab!',
+  cvTitle:'Force F ＝ {f} N ｜ Area A ＝ {a} cm²',
+  cvForce:'F ＝ {f} N', cvArea:'A ＝ {a} cm²', cvDent:'dent',
+  cvCurve:'F fixed · P against A', cvAxisA:'contact area A/cm²', cvAxisP:'P /(N/cm²)',
+  cvPnow:'P ＝ {f} ÷ {a} ＝ {p} N/cm²', cvPa:'＝ {pa} Pa', cvDentLv:'Dent: {lv}',
+  lvHi:'deep', lvMid:'medium', lvLo:'shallow',
+  cvSide:'F ＝ {f} N ｜ A ＝ {a} cm²', cvPbig:'P ＝ {p} N/cm²',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    grid:'rgba(255,255,255,.10)', axis:'rgba(255,255,255,.34)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    table:'#16233a', tableLine:'rgba(255,255,255,.30)',
+    sponge:'#f0c24e', spongeDark:'#c9992d', spongeHot:'#e8563c',
+    pore:'rgba(120,80,10,.30)',
+    block:'#5aa8e0', blockEdge:'#2b6d9e',
+    weight:'#8a96a3', weightEdge:'#5b6772', weightGloss:'rgba(255,255,255,.35)', weightText:'#ffffff',
+    force:'#ff6a5a', area:'#7cc4ff', gold:'#ffc94d',
+    tick:'rgba(255,255,255,.35)', gauge:'rgba(255,255,255,.8)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    grid:'rgba(30,42,54,.10)', axis:'rgba(30,42,54,.38)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    table:'#e8e3d2', tableLine:'#b9b299',
+    sponge:'#f6ce5b', spongeDark:'#c8971f', spongeHot:'#d63b26',
+    pore:'rgba(150,110,20,.26)',
+    block:'#3e7cb1', blockEdge:'#24506f',
+    weight:'#8e99a6', weightEdge:'#525d68', weightGloss:'rgba(255,255,255,.55)', weightText:'#ffffff',
+    force:'#e0443c', area:'#2f6690', gold:'#a06d00',
+    tick:'rgba(30,42,54,.32)', gauge:'rgba(30,42,54,.75)',
+  },
+};
+let THEME = 'light';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'light'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  THEME='light'; try{applyTheme();}catch(e){}
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  syncAll();
+  renderRec();
+  cmpLabels();
+  if($('panel-cmp').classList.contains('on')) drawCmpBoth();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')) gameSync();
+  syncGameBtn();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) labReset();
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+14;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-11,yy-h/2,w+22,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+function panelLines(c, cx, yBottom, lines, font, gap, W, H){
+  const F=font||('700 14px '+CV_FONT), G=gap||21;
+  c.font=F;
+  let w=0;
+  for(let i=0;i<lines.length;i++) w=Math.max(w, c.measureText(lines[i].s).width);
+  const n=lines.length;
+  const x0 = clamp(cx-w/2-12, 8, Math.max(8,(W||1000)-w-32));
+  const cxx = x0+w/2+12;
+  const top = clamp(yBottom-(n-1)*G, G, (H||500)-8);
+  rrect(c, cxx-w/2-12, top-G*0.6-4, w+24, (n-1)*G+G*1.2+8, 10);
+  c.fillStyle=C().panel; c.fill();
+  c.strokeStyle=C().panelLine; c.lineWidth=1.3; c.stroke();
+  for(let i=0;i<n;i++) TX(c, lines[i].s, cxx, top+i*G, F, lines[i].c, 'center', 'middle');
+}
+function mix(c1,c2,k){
+  const p = h => [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)];
+  const a=p(c1), b=p(c2), f=clamp(k,0,1);
+  return 'rgb('+Math.round(a[0]+(b[0]-a[0])*f)+','+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+')';
+}
+function prand(i){ const v=Math.sin(i*127.1+311.7)*43758.5453; return v-Math.floor(v); }
+function grp(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+/* ============================================================
+   Physics (ported verbatim from the self-study version)
+   P = F / A  (N/cm²) ;  Pa = F / (A/10000)
+============================================================ */
+const AREAS = [5, 10, 20, 50];
+const FMIN = 10, FMAX = 60, FSTEP = 10;
+function pressure(F,A){ return F/A; }
+function paOf(F,A){ return Math.round(F/(A/10000)); }
+function fmtP(v){ return Number.isInteger(v) ? String(v) : v.toFixed(1); }
+function levelOf(p){ return p>=4 ? 'hi' : (p>=1.5 ? 'mid' : 'lo'); }
+function lvKey(p){ const l=levelOf(p); return l==='hi'?'lvHi':(l==='mid'?'lvMid':'lvLo'); }
+/* visual dent depth, world px — same shape as the source (depth ∝ P, capped) */
+function depth(p){ return clamp(p*8, 4, 96); }
+function bwOf(a){ return 25*Math.sqrt(a); }
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 500;
+const SP = { x0:70, x1:580, top:320, h:120 };
+const SCX = (SP.x0+SP.x1)/2;
+const TBY = SP.top + SP.h;
+const PC = { x0:660, x1:962, y0:96, y1:300 };
+const P_YMAX = 12.6, A_XMAX = 56;
+
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const ST = { F:30, A:20 };
+const VIS = { d:depth(1.5), bw:bwOf(20) };
+let FLASH = null, CONCL = null;
+
+function curP(){ return pressure(ST.F, ST.A); }
+
+function drawScene(c, o){
+  /* o = {W,H, x0,x1,top,h, d, bw, F, A, drop, wH, blockH, small} */
+  const cx = (o.x0+o.x1)/2, top = o.top, d = o.d, half = o.bw/2 + o.shoulder;
+  const tableY = top + o.h;
+
+  /* table */
+  c.fillStyle = C().table;
+  c.fillRect(0, tableY, o.W, o.H-tableY);
+  line(c, 0, tableY, o.W, tableY, C().tableLine, 2.2);
+
+  /* sponge body with the dented top */
+  c.beginPath();
+  c.moveTo(o.x0, top);
+  c.lineTo(cx-half-o.shoulder*1.6, top);
+  c.bezierCurveTo(cx-half, top, cx-half, top+d, cx-half+o.shoulder, top+d);
+  c.lineTo(cx+half-o.shoulder, top+d);
+  c.bezierCurveTo(cx+half, top+d, cx+half, top, cx+half+o.shoulder*1.6, top);
+  c.lineTo(o.x1, top);
+  c.lineTo(o.x1, tableY);
+  c.lineTo(o.x0, tableY);
+  c.closePath();
+  c.fillStyle = C().sponge; c.fill();
+  c.strokeStyle = C().spongeDark; c.lineWidth = o.small?2.2:3; c.lineJoin='round'; c.stroke();
+
+  /* pores */
+  const nPore = o.small ? 12 : 18;
+  for(let i=0;i<nPore;i++){
+    const px = o.x0+18 + prand(i*2+1)*(o.x1-o.x0-36);
+    const py = top+22 + prand(i*2+2)*(o.h-40);
+    if(py < top + d + 14 && Math.abs(px-cx) < half) continue;
+    c.beginPath();
+    c.ellipse(px, py, 3.5+(i%3), 2.8+(i%2), 0, 0, Math.PI*2);
+    c.fillStyle = C().pore; c.fill();
+  }
+
+  /* compressed zone: hotter colour as P grows */
+  const heat = clamp(pressure(o.F,o.A)/10, 0, 1);
+  const hotCol = mix(C().sponge, C().spongeHot, heat);
+  rrect(c, cx-half+o.shoulder, top+d, (half-o.shoulder)*2, o.small?8:11, 4);
+  c.fillStyle = hotCol; c.globalAlpha = 0.9; c.fill(); c.globalAlpha = 1;
+
+  /* pressure plate */
+  const blockTop = top + d - o.blockH;
+  rrect(c, cx-o.bw/2, blockTop, o.bw, o.blockH, 4);
+  c.fillStyle = C().block; c.fill();
+  c.strokeStyle = C().blockEdge; c.lineWidth = o.small?1.8:2.4; c.stroke();
+
+  /* weight stack */
+  const n = Math.round(o.F/FSTEP);
+  const wW = o.small ? 62 : 88, wH = o.wH;
+  let stackTop = blockTop;
+  for(let i=0;i<n;i++){
+    const y = blockTop - (i+1)*wH - 2 - o.drop;
+    stackTop = y;
+    rrect(c, cx-wW/2, y, wW, wH-3, 5);
+    c.fillStyle = C().weight; c.fill();
+    c.strokeStyle = C().weightEdge; c.lineWidth = 1.6; c.stroke();
+    rrect(c, cx-wW/2+6, y+3, wW-12, 4, 2);
+    c.fillStyle = C().weightGloss; c.fill();
+    TX(c, '10N', cx, y+wH/2-1, '700 13px '+CV_FONT, C().weightText, 'center', 'middle');
+  }
+
+  /* downward force arrow */
+  const aLen = o.small ? (14+n*5) : (20+n*6);
+  const aBot = stackTop - (o.small?8:12);
+  const aTop = aBot - aLen;
+  line(c, cx, aTop, cx, aBot, C().force, o.small?4:5);
+  c.beginPath();
+  c.moveTo(cx-(o.small?7:9), aBot-3);
+  c.lineTo(cx, aBot+(o.small?8:11));
+  c.lineTo(cx+(o.small?7:9), aBot-3);
+  c.closePath();
+  c.fillStyle = C().force; c.fill();
+  TX(c, tf('cvForce',{f:o.F}), cx+(o.small?12:16), (aTop+aBot)/2, (o.small?'900 14px ':'900 18px ')+CV_FONT, C().force, 'left', 'middle');
+
+  /* dent gauge */
+  if(d > (o.small?8:10)){
+    const gx = cx + half + (o.small?26:40);
+    line(c, gx, top, gx, top+d, C().gauge, 1.6);
+    line(c, gx-6, top, gx+6, top, C().gauge, 1.6);
+    line(c, gx-6, top+d, gx+6, top+d, C().gauge, 1.6);
+    TX(c, t('cvDent'), gx+9, top+d/2, (o.small?'700 13px ':'700 15px ')+CV_FONT, C().cvTextDim, 'left', 'middle');
+  }
+  return { cx:cx, tableY:tableY };
+}
+
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const p = curP();
+
+  drawScene(c, {
+    W:W_W, H:W_H, x0:SP.x0, x1:SP.x1, top:SP.top, h:SP.h,
+    d:VIS.d, bw:VIS.bw, F:ST.F, A:ST.A, drop:0,
+    wH:26, blockH:20, shoulder:18, small:false
+  });
+
+  /* captions */
+  tchip(c, tf('cvTitle',{f:ST.F, a:ST.A}), SP.x0-6, 28, '700 18px '+CV_FONT, C().cvText, 'left', W_W, W_H);
+  tchip(c, tf('cvArea',{a:ST.A}), SCX, 470, '900 18px '+CV_FONT, C().area, 'center', W_W, W_H);
+
+  /* ---- P–A chart at fixed F ---- */
+  const GX = a => PC.x0 + clamp(a,0,A_XMAX)/A_XMAX*(PC.x1-PC.x0);
+  const GY = v => PC.y1 - clamp(v,0,P_YMAX)/P_YMAX*(PC.y1-PC.y0);
+  rrect(c, PC.x0, PC.y0, PC.x1-PC.x0, PC.y1-PC.y0, 8);
+  c.fillStyle=C().panel; c.fill(); c.strokeStyle=C().panelLine; c.lineWidth=1.3; c.stroke();
+  [0,3,6,9,12].forEach(v=>{
+    const yy = GY(v);
+    line(c, PC.x0, yy, PC.x1, yy, v===0?C().axis:C().grid, v===0?1.8:1);
+    TX(c, String(v), PC.x0-8, yy, '700 13px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+  });
+  [0,10,20,30,40,50].forEach(a=>{
+    line(c, GX(a), PC.y0, GX(a), PC.y1, a===0?C().axis:C().grid, a===0?1.8:1);
+    TX(c, String(a), GX(a), PC.y1+16, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  });
+  c.beginPath();
+  const aStart = Math.max(3, ST.F/P_YMAX);
+  for(let i=0;i<=70;i++){
+    const a = aStart + (A_XMAX-aStart)*i/70;
+    const x = GX(a), y = GY(ST.F/a);
+    if(i===0) c.moveTo(x,y); else c.lineTo(x,y);
+  }
+  c.strokeStyle=C().gold; c.lineWidth=3.2; c.lineCap='round'; c.stroke();
+  AREAS.forEach(a=>{
+    circle(c, GX(a), GY(ST.F/a), 4.4, C().panel, C().gold, 2);
+  });
+  line(c, GX(ST.A), PC.y0, GX(ST.A), GY(p), C().force, 1.6, [5,4]);
+  circle(c, GX(ST.A), GY(p), 7.5, C().force, C().pill, 2.6);
+  TX(c, t('cvCurve'), (PC.x0+PC.x1)/2, PC.y0-16, '700 16px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+  TX(c, t('cvAxisA'), PC.x1, PC.y1+36, '700 14px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+  TX(c, t('cvAxisP'), PC.x0, PC.y0-36, '700 14px '+CV_FONT, C().cvTextDim, 'left', 'middle');
+
+  /* ---- live readout panel under the chart ---- */
+  const lvCol = levelOf(p)==='hi' ? C().force : levelOf(p)==='mid' ? C().gold : C().area;
+  panelLines(c, (PC.x0+PC.x1)/2, 420, [
+    {s:tf('cvPnow',{f:ST.F, a:ST.A, p:fmtP(p)}), c:lvCol},
+    {s:tf('cvPa',{pa:grp(paOf(ST.F,ST.A))}), c:C().cvTextDim},
+    {s:tf('cvDentLv',{lv:t(lvKey(p))}), c:C().cvText}
+  ], '700 16px '+CV_FONT, 23, W_W, W_H);
+}
+function easeVis(dt){
+  const k = Math.min(1, dt*6);
+  VIS.d  += (depth(curP()) - VIS.d)*k;
+  VIS.bw += (bwOf(ST.A) - VIS.bw)*k;
+}
+
+/* ---------- sidebar messages ---------- */
+function renderMsg(){
+  const p = curP(), lv = levelOf(p);
+  const flash = FLASH ? '<em>'+t(FLASH.k)+'</em><br>' : '';
+  const formula = tf('f_formula', {f:ST.F, a:ST.A, p:fmtP(p)});
+  const conv = tf('f_convert', {a:ST.A, m:String(ST.A/10000), f:ST.F, pa:grp(paOf(ST.F,ST.A))});
+  const live = lv==='hi' ? t('live_hi') : lv==='mid' ? t('live_mid') : t('live_lo');
+  const tip = ST.A===AREAS[0] ? t('tip_small') : ST.A===AREAS[AREAS.length-1] ? t('tip_big') : t('tip_mid');
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + conv + '<br>' + live + ' ' + tip;
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- shared setters (lab + game share one state) ---------- */
+function afterChange(oldP){
+  const p = curP();
+  if(levelOf(p) !== levelOf(oldP)) FLASH = (p>oldP) ? {k:'r_up'} : {k:'r_down'};
+}
+function setF(v){
+  const oldP = curP();
+  ST.F = clamp(Math.round(v/FSTEP)*FSTEP, FMIN, FMAX);
+  afterChange(oldP);
+  CONCL = 'c_force';
+  clearLifePick();
+  syncAll();
+  if(GAME.phase==='aim' && $('panel-game').classList.contains('on')) gameSync();
+}
+function setArea(a){
+  if(AREAS.indexOf(a) < 0) return;
+  const oldP = curP();
+  ST.A = a;
+  afterChange(oldP);
+  CONCL = 'c_area';
+  clearLifePick();
+  syncAll();
+  if(GAME.phase==='aim' && $('panel-game').classList.contains('on')) gameSync();
+}
+function clearLifePick(){
+  document.querySelectorAll('[data-life]').forEach(b=>b.classList.remove('pick'));
+}
+function syncControls(){
+  const sf = $('s-f'), gf = $('g-s-f');
+  if(sf){ sf.value = ST.F; }
+  if(gf){ gf.value = ST.F; }
+  if($('s-f-o')) $('s-f-o').textContent = ST.F + ' N';
+  if($('g-s-f-o')) $('g-s-f-o').textContent = ST.F + ' N';
+  document.querySelectorAll('.sbtn[data-a]').forEach(b=>b.classList.toggle('pick', +b.dataset.a === ST.A));
+  document.querySelectorAll('.sbtn[data-ga]').forEach(b=>b.classList.toggle('pick', +b.dataset.ga === ST.A));
+}
+function syncAll(){
+  const p = curP(), lv = levelOf(p);
+  if($('l-p')) $('l-p').textContent = fmtP(p);
+  if($('l-f')) $('l-f').textContent = ST.F;
+  if($('l-a')) $('l-a').textContent = ST.A;
+  if($('l-pa')) $('l-pa').textContent = grp(paOf(ST.F,ST.A));
+  const bd = $('l-state');
+  if(bd){
+    bd.innerHTML = lv==='hi' ? t('stHi')+'<small>'+t('stHiSub')+'</small>'
+                 : lv==='mid' ? t('stMid')+'<small>'+t('stMidSub')+'</small>'
+                 : t('stLo')+'<small>'+t('stLoSub')+'</small>';
+    bd.style.color = lv==='hi' ? '#b8432f' : lv==='mid' ? 'var(--gold-ink)' : '#2f6690';
+    bd.style.borderColor = lv==='hi' ? 'var(--pos)' : lv==='mid' ? 'var(--gold-ink)' : '#2f6690';
+  }
+  if($('g-cur-side')) $('g-cur-side').textContent = fmtP(p);
+  if($('g-cur-hud')) $('g-cur-hud').textContent = fmtP(p);
+  syncControls();
+  renderMsg();
+}
+function labReset(){
+  ST.F = 30; ST.A = 20;
+  FLASH = null; CONCL = null;
+  clearLifePick();
+  VIS.d = depth(curP()); VIS.bw = bwOf(ST.A);
+  syncAll();
+}
+
+/* ---------- one-click real-life presets (was the "生活中的压强" cards) ---------- */
+const LIFE = {
+  lf1:{ from:{F:60,A:5},  to:{F:60,A:50}, c:'c_lf1' },
+  lf2:{ from:{F:10,A:50}, to:{F:10,A:5},  c:'c_lf2' },
+  lf3:{ from:{F:40,A:5},  to:{F:40,A:50}, c:'c_lf3' },
+};
+let lifeTimer = null;
+function stopLife(){ if(lifeTimer){ clearTimeout(lifeTimer); lifeTimer=null; } }
+function lifeDemo(id){
+  const L = LIFE[id];
+  if(!L) return;
+  setMode('lab');
+  stopLife();
+  ST.F = L.from.F; ST.A = L.from.A;
+  FLASH = null; CONCL = null;
+  VIS.d = depth(curP()); VIS.bw = bwOf(ST.A);
+  syncAll();
+  document.querySelectorAll('[data-life]').forEach(b=>b.classList.toggle('pick', b.dataset.life===id));
+  const btn = document.querySelector('.rail [data-life="'+id+'"]');
+  if(btn){ btn.classList.remove('flash'); void btn.offsetWidth; btn.classList.add('flash');
+    setTimeout(()=>btn.classList.remove('flash'), 1800); }
+  lifeTimer = setTimeout(()=>{
+    const oldP = curP();
+    ST.F = L.to.F; ST.A = L.to.A;
+    afterChange(oldP);
+    CONCL = L.c;
+    syncAll();
+    document.querySelectorAll('[data-life]').forEach(b=>b.classList.toggle('pick', b.dataset.life===id));
+    lifeTimer = null;
+  }, 1100);
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  recRows.push({ F:ST.F, A:ST.A, p:curP() });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.p); });
+  body.innerHTML = recRows.map(r=>{
+    const pct = top>1e-6 ? Math.max(6, r.p/top*100) : 0;
+    const cls = levelOf(r.p)==='hi' ? 'hi' : levelOf(r.p)==='lo' ? 'lo' : '';
+    return '<tr><td>'+r.F+'</td><td>'+r.A+'</td><td>'+fmtP(r.p)+'</td>'+
+      '<td><div class="bar '+cls+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare (two sponges, world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CSP = { x0:26, x1:414, top:245, h:88 };
+function depthC(p){ return clamp(p*5.8, 3, 70); }
+function bwC(a){ return 17*Math.sqrt(a); }
+const CMP_PRESETS = [
+  { id:0, a:{F:30, A:10, nameK:'cp1a'}, b:{F:30, A:50, nameK:'cp1b'}, concl:'cc_1' },
+  { id:1, a:{F:20, A:20, nameK:'cp2a'}, b:{F:60, A:20, nameK:'cp2b'}, concl:'cc_2' },
+  { id:2, a:{F:20, A:5,  nameK:'cp3a'}, b:{F:60, A:20, nameK:'cp3b'}, concl:'cc_3' },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+function side(which){ return CMP_PRESETS[CMP.preset][which]; }
+
+function drawCmpSide(ctx, s, prog){
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,CM_W*SC,CM_H*SC);
+  ctx.setTransform(SC,0,0,SC,0,0);
+  const e = prog*prog*(3-2*prog);
+  const pFull = pressure(s.F, s.A);
+  const d = depthC(pFull)*e;
+  const drop = (1-e)*16;
+
+  drawScene(ctx, {
+    W:CM_W, H:CM_H, x0:CSP.x0, x1:CSP.x1, top:CSP.top, h:CSP.h,
+    d:d, bw:bwC(s.A), F:s.F, A:s.A, drop:drop,
+    wH:19, blockH:15, shoulder:12, small:true
+  });
+
+  tchip(ctx, tf('cvSide',{f:s.F, a:s.A}), CM_W/2, 18, '700 15px '+CV_FONT, C().cvText, 'center', CM_W, CM_H);
+  const shown = pFull*e;
+  const col = e>0.98 ? (levelOf(pFull)==='hi'?C().force:levelOf(pFull)==='mid'?C().gold:C().area) : C().cvTextDim;
+  TX(ctx, tf('cvPbig',{p:fmtP(Math.round(shown*10)/10)}), CM_W/2, 352, '900 26px '+CV_FONT, col, 'center', 'middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, side('a'), CMP.p);
+  drawCmpSide(ctxB, side('b'), CMP.p);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const a = side('a'), b = side('b');
+  $('c-p-a').textContent = fmtP(pressure(a.F,a.A));
+  $('c-p-b').textContent = fmtP(pressure(b.F,b.A));
+  $('c-f-a').textContent = a.F;
+  $('c-a-a').textContent = a.A;
+  $('c-pa-a').textContent = grp(paOf(a.F,a.A));
+  $('c-f-b').textContent = b.F;
+  $('c-a-b').textContent = b.A;
+  $('c-pa-b').textContent = grp(paOf(b.F,b.A));
+}
+function cmpLabels(){
+  const a = side('a'), b = side('b');
+  $('ca-name').textContent = t(a.nameK);
+  $('cb-name').textContent = t(b.nameK);
+  $('ca-cond').textContent = tf('condLine',{f:a.F, a:a.A});
+  $('cb-cond').textContent = tf('condLine',{f:b.F, a:b.A});
+  $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels(); drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = side('a'), b = side('b');
+  const pa = pressure(a.F,a.A), pb = pressure(b.F,b.A);
+  const real = Math.abs(pa-pb) < 1e-9 ? 'same' : (pa>pb ? 'a' : 'b');
+  const nA = LANG==='zh' ? '甲' : 'A', nB = LANG==='zh' ? '乙' : 'B';
+  const detail = '（'+nA+' '+fmtP(pa)+' · '+nB+' '+fmtP(pb)+' N/cm²）';
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Target challenge (reuses the demo-lab engine & canvas)
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 30;
+const GOAL_POOL = [2, 1, 3, 0.6, 4, 1.5, 6, 2.5];
+const GAME = { round:0, score:0, goal:2, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GOAL_POOL.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  GAME.goal = GOAL_POOL[GAME.order[GAME.round-1]];
+  ST.F = 10; ST.A = 20;
+  FLASH = null; CONCL = null;
+  VIS.d = depth(curP()); VIS.bw = bwOf(ST.A);
+  syncAll();
+  $('g-status').innerHTML = tf('gGo', {g:fmtP(GAME.goal)});
+  gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) lockP(true);
+  }, 1000);
+}
+function lockP(timedOut){
+  if(GAME.phase==='aim'){
+    stopGTimer();
+    const p = curP();
+    const err = Math.abs(p-GAME.goal)/GAME.goal;
+    const pts = err<=0.001 ? 100 : err<=0.1 ? 80 : err<=0.25 ? 50 : err<=0.5 ? 20 : 5;
+    GAME.score += pts;
+    const msg = (timedOut===true ? t('gTimeUp')+' ' : '') +
+      (err<=0.001 ? t('gPerfect') : err<=0.1 ? t('gGood') : err<=0.25 ? t('gOk') : t('gMiss'));
+    GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+    const tail = '（'+fmtP(p)+' vs '+fmtP(GAME.goal)+' · +'+pts+'）';
+    if(GAME.phase==='done'){
+      const rk = GAME.score>=270 ? t('gRank1') : GAME.score>=180 ? t('gRank2') : t('gRank3');
+      $('g-status').innerHTML = msg+tail+'<br>'+t('gFinal')+' '+GAME.score+' — '+rk;
+    } else {
+      $('g-status').innerHTML = msg+tail;
+    }
+    gameSync();
+  } else if(GAME.phase==='next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function syncGameBtn(){
+  const b = $('g-lock');
+  if(!b) return;
+  b.textContent = GAME.phase==='aim' ? '🎯 '+t('gLock')
+                : GAME.phase==='next' ? t('gNextRound')+' ➜'
+                : '🔄 '+t('gPlayAgain');
+}
+function gameSync(){
+  $('g-round').textContent = Math.max(1, GAME.round);
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-goal-hud').textContent = fmtP(GAME.goal);
+  $('g-goal-side').textContent = fmtP(GAME.goal)+' N/cm²';
+  $('g-cur-hud').textContent = fmtP(curP());
+  $('g-cur-side').textContent = fmtP(curP());
+  $('g-score').textContent = GAME.score;
+  syncGameBtn();
+  const frozen = GAME.phase!=='aim';
+  document.querySelectorAll('#ctl-game .sbtn[data-ga]').forEach(b=>{ b.disabled = frozen; });
+  if($('g-s-f')) $('g-s-f').disabled = frozen;
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now();
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    easeVis(dt);
+    drawLab();
+  } else if($('panel-cmp').classList.contains('on')){
+    if(CMP.running){
+      CMP.p += dt/2.4;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; drawCmpBoth(); finishCmp(); }
+      else drawCmpBoth();
+    }
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer(); stopLife();
+  CMP.running = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); if($('s-f')) $('s-f').disabled=false; syncAll(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+applyTheme();
+applyLang();
+syncExplain();
+labReset();
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+
+</script>
+<script>
+window.LAB_SLUG='pressure-inquiry-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

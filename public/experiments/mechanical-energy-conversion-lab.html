@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>机械能转化实验室 · Mechanical Energy Conversion · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="toolbar">
+  <h1 data-i18n="title"><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 机械能转化实验室</h1>
+  <div class="sub">Mechanical Energy Conversion · chu-san-shang/b5-c5 · ScienceMaterial</div>
+  <div class="topright">
+    <button class="langbtn" id="thmbtn">🌙</button>
+    <button class="langbtn" id="langbtn">EN</button>
+    
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on" data-tab="0" data-i18n="tab0">① 单摆实验台</button>
+  <button class="tab" data-tab="1" data-i18n="tab1">② 滚摆实验台</button>
+  <button class="tab" data-tab="2" data-i18n="tab2">③ 能量-时间图像</button>
+  <button class="tab" data-tab="3" data-i18n="tab3">④ 要点</button>
+  <button class="tab" data-tab="4" data-i18n="tab4">⑤ 测验</button>
+</div>
+
+<!-- ① 单摆 -->
+<div class="panel on" id="p0">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb0">—</div>
+    <svg id="svgpd" viewBox="0 0 660 520"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="pd_sidetitle">能量账本</h3>
+    <div class="statline">
+      <span class="chip hl big" id="c_state">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="c_ke">—</span>
+      <span class="chip blu" id="c_pe">—</span>
+      <span class="chip grn" id="c_e">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="c_h">—</span>
+      <span class="chip" id="c_v">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="pd_k1"></div>
+    <div class="kbox red" data-i18n-html="pd_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ② 滚摆 -->
+<div class="panel" id="p1">
+ <div class="cols">
+  <div class="card figwrap">
+    <div class="qbox" id="qb1">—</div>
+    <svg id="svgmw" viewBox="0 0 660 520"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="mw_sidetitle">能量账本</h3>
+    <div class="statline">
+      <span class="chip hl big" id="m_state">—</span>
+    </div>
+    <div class="statline">
+      <span class="chip" id="m_ke">—</span>
+      <span class="chip blu" id="m_pe">—</span>
+      <span class="chip grn" id="m_e">—</span>
+    </div>
+    <div class="kbox" data-i18n-html="mw_k1"></div>
+    <div class="kbox blue" data-i18n-html="mw_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ③ 能量-时间图像 -->
+<div class="panel" id="p2">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="gr_figtitle">红橙=动能，青=势能，金=总机械能（边摆边画）</h3>
+    <svg id="svggr" viewBox="0 0 660 470"></svg>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="gr_sidetitle">怎么读这张图</h3>
+    <div class="kbox grn" data-i18n-html="gr_k1"></div>
+    <div class="kbox red" data-i18n-html="gr_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ④ 要点 -->
+<div class="panel" id="p3">
+ <div class="cols">
+  <div class="card figwrap">
+    <h3 data-i18n="cmp_title">机械能转化要点总表</h3>
+    <div id="cmpwrap"></div>
+  </div>
+  <div class="card side">
+    <h3 data-i18n="sm_title">一句话总结</h3>
+    <div class="kbox grn" data-i18n-html="sm_k1"></div>
+    <div class="kbox" data-i18n-html="sm_k2"></div>
+  </div>
+ </div>
+</div>
+
+<!-- ⑤ 测验 -->
+<div class="panel" id="p4">
+ <div class="card">
+  <h3><span data-i18n="qz_title">🎯 课堂小测验</span>
+    <button class="tgl" id="qzreset" style="float:right" data-i18n="qz_reset">重新开始</button></h3>
+  <div class="statline"><span class="chip" id="qzprog">—</span><span class="chip grn" id="qzscore">—</span></div>
+  <div id="quiz" style="margin-top:10px"></div>
+ </div>
+</div>
+
+<!-- ===== dock ===== -->
+<div id="dock">
+ <div class="din">
+  <button id="dockfold">⌄</button>
+  <div id="docksum"></div>
+
+  <div class="dsec on" id="d0">
+    <button class="dbtn" id="pdplay">▶ <span data-i18n="dk_go">摆动</span></button>
+    <span class="dl"><span data-i18n="dk_len">摆长 L</span>
+      <input type="range" id="lsl" min="1" max="2.5" step="0.1" value="1.8">
+      <span class="mono" id="llab">1.8 m</span></span>
+    <button class="tgl" id="pdslow" data-i18n="dk_slow">🐢 慢动作</button>
+    <button class="tgl" id="pddamp" data-i18n="dk_damp">🌬 空气阻力</button>
+    <button class="tgl" id="pdreset" data-i18n="dk_reset">↺ 重置</button>
+    <span class="dl" data-i18n="dk_hint0">💡 直接拖摆球到想要的角度，放手就摆</span>
+  </div>
+
+  <div class="dsec" id="d1">
+    <button class="dbtn" id="mwplay">▶ <span data-i18n="dk_go1">释放</span></button>
+    <button class="tgl" id="mwslow" data-i18n="dk_slow1">🐢 慢动作</button>
+    <button class="tgl" id="mwdamp" data-i18n="dk_damp1">🌬 摩擦阻力</button>
+    <button class="tgl" id="mwreset" data-i18n="dk_reset1">↺ 卷回顶部</button>
+    <span class="dl" data-i18n="dk_hint1">💡 注意：越低转得越快</span>
+  </div>
+
+  <div class="dsec" id="d2">
+    <button class="tgl" id="g3damp" data-i18n="dk_damp2">🌬 空气阻力</button>
+    <button class="tgl" id="g3reset" data-i18n="dk_reset2">↺ 清空曲线</button>
+    <span class="dl" data-i18n="dk_hint2">💡 红橙和青此消彼长，金线水平 = 守恒</span>
+  </div>
+
+  <div class="dsec" id="d3">
+    <span class="dl" data-i18n="dk_hint3">💡 表格按"位置→速度→能量"三步走</span>
+  </div>
+
+  <div class="dsec" id="d4">
+    <span class="dl" data-i18n="dk_hint4">💡 答对才会解锁下一题</span>
+  </div>
+ </div>
+</div>
+
+</div>
+<footer style="padding:8px 12px;font-size:11px;color:#5A605D;display:flex;justify-content:space-between;font-family:ui-monospace"><span>© 2026 ScienceMaterial</span><span>ScienceMaterial</span></footer>
+<script>
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'机械能转化实验室',
+ subtitle:'单摆 · 滚摆 · 动能⇌势能 · 机械能守恒 —— 初中科学课堂演示工具',
+ tab0:'① 单摆实验台',tab1:'② 滚摆实验台',tab2:'③ 能量-时间图像',tab3:'④ 要点',tab4:'⑤ 测验',
+ pd_sidetitle:'能量账本', mw_sidetitle:'能量账本',
+ pd_k1:'看下方的能量条：<b>橙色动能和青色势能此消彼长，总长度不变</b>——这就是机械能守恒。最高点全是势能，最低点全是动能，中间在两者之间来回换。',
+ pd_k2:'⚠️ 打开<b>空气阻力</b>后，彩条越来越短，缺口标着「→ 变成热」：机械能没有消失，而是被摩擦变成了<b>内能</b>。这就是秋千不蹬会停的原因。',
+ mw_k1:'滚摆下落时<b>重力势能 → 动能</b>（主要是转动动能，所以越低转得越快）；到最低点绳子重新往上卷，<b>动能 → 势能</b>，几乎回到原来的高度。',
+ mw_k2:'滚摆比自由落体慢得多——因为势能要"分一大份"给转动。这正好让我们看清整个转化过程，是它成为经典演示的原因。',
+ gr_figtitle:'红橙=动能，青=势能，金=总机械能（边摆边画）',
+ gr_sidetitle:'怎么读这张图',
+ gr_k1:'两条曲线<b>一升一降、互为镜像</b>：动能最大时势能恰好最小。把两条随时相加，永远等于那条<b>水平的金线</b>——总机械能不变。',
+ gr_k2:'打开空气阻力：金线开始<b>往下斜</b>，两条曲线的峰也一次比一次矮——流失的部分全部变成了热（内能），不是凭空消失。',
+ cmp_title:'机械能转化要点总表',
+ sm_title:'一句话总结',
+ sm_k1:'<b>上升：动能→势能；下降：势能→动能；没有摩擦时总机械能不变。</b>',
+ sm_k2:'有摩擦/空气阻力时，机械能逐渐<b>转化为内能（热）</b>——总能量仍然守恒，只是不再全是"机械"的了。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_go:'摆动', dk_go1:'释放', dk_len:'摆长 L',
+ dk_damp:'🌬 空气阻力', dk_damp1:'🌬 摩擦阻力', dk_damp2:'🌬 空气阻力',
+ dk_slow:'🐢 慢动作', dk_slow1:'🐢 慢动作',
+ dk_reset:'↺ 重置', dk_reset1:'↺ 卷回顶部', dk_reset2:'↺ 清空曲线',
+ dk_hint0:'💡 直接拖摆球到想要的角度，放手就摆',
+ dk_hint1:'💡 注意：越低转得越快',
+ dk_hint2:'💡 红橙和青此消彼长，金线水平 = 守恒',
+ dk_hint3:'💡 表格按"位置→速度→能量"三步走',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0a:'把质量 1 kg 的摆球拉到 ', qb0b:'（比最低点高 ', qb0c:'）后放手。摆到最低点时速度多大？摆到对面最高能升到多高？',
+ qb1a:'质量 0.5 kg 的滚摆从比最低点高 ', qb1b:' 处释放。到最低点时转得最快。若没有摩擦，它能回卷到多高？',
+ ke:'动能', pe:'势能', etot:'总机械能',
+ toheat:'→ 变成热', h:'高度', v:'速度',
+ st_top:'最高点：v ≈ 0，全是势能', st_bot:'最低点：v 最大，全是动能',
+ st_up:'上升中：动能 → 势能', st_dn:'下降中：势能 → 动能', st_ready:'拖摆球到一个角度，放手',
+ st_wtop:'顶部：全是势能', st_wbot:'底部：转速最大，全是动能',
+ st_wup:'上卷中：动能 → 势能', st_wdn:'下落中：势能 → 动能', st_wready:'按 ▶ 释放滚摆',
+ href:'最低点 h = 0', hrel:'释放高度',
+ axis_t:'时间 →', axis_e:'能量',
+ spin:'转速',
+ cmpH:['位置/过程','速度','动能','势能','转化方向'],
+ cmpR:[['最高点','v = 0','最小（0）','最大','—（瞬间静止）'],
+       ['下降过程','越来越快','增大','减小','势能 → 动能'],
+       ['最低点','最大','最大','最小','—（全是动能）'],
+       ['上升过程','越来越慢','减小','增大','动能 → 势能'],
+       ['无摩擦','—','—','—','总机械能不变（守恒）'],
+       ['有摩擦/阻力','整体变慢','峰值变小','回不到原高','机械能 → 内能（热）']],
+ mth:''
+},
+en:{
+ title:'Mechanical Energy Lab',
+ subtitle:'Pendulum · Maxwell wheel · KE⇌PE · conservation — junior-high classroom demo',
+ tab0:'① Pendulum',tab1:'② Maxwell Wheel',tab2:'③ Energy–Time Graph',tab3:'④ Review',tab4:'⑤ Quiz',
+ pd_sidetitle:'Energy ledger', mw_sidetitle:'Energy ledger',
+ pd_k1:'Watch the bar below the figure: <b>orange KE and teal PE trade places while the total length never changes</b> — that IS conservation of mechanical energy. All PE at the top, all KE at the bottom, trading in between.',
+ pd_k2:'⚠️ Switch on <b>air resistance</b>: the bar keeps shrinking and the gap is labelled "→ heat". The energy didn\u2019t vanish — friction turned it into <b>internal energy</b>. That\u2019s why a swing dies out unless you pump it.',
+ mw_k1:'As the wheel falls, <b>gravitational PE → KE</b> (mostly rotational — that\u2019s why it spins fastest at the bottom); then the string rewinds and <b>KE → PE</b>, climbing back to nearly the same height.',
+ mw_k2:'A Maxwell wheel falls far slower than free fall, because most of the PE feeds the spin. That slowness is exactly why it\u2019s the classic demo — you can watch the conversion happen.',
+ gr_figtitle:'Orange = KE, teal = PE, gold = total (drawn live as it swings)',
+ gr_sidetitle:'Reading the graph',
+ gr_k1:'The two curves are <b>mirror images</b>: KE peaks exactly when PE dips. Add them at any moment and you get the <b>flat gold line</b> — total mechanical energy unchanged.',
+ gr_k2:'Turn on air resistance: the gold line <b>slopes downward</b> and every peak is lower than the last — the missing part became heat (internal energy), not nothing.',
+ cmp_title:'Energy-conversion essentials',
+ sm_title:'In one line',
+ sm_k1:'<b>Going up: KE → PE. Coming down: PE → KE. Without friction the total never changes.</b>',
+ sm_k2:'With friction or air resistance, mechanical energy gradually <b>becomes internal energy (heat)</b> — total energy is still conserved, it just stops being "mechanical".',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_go:'Swing', dk_go1:'Release', dk_len:'Length L',
+ dk_damp:'🌬 Air resistance', dk_damp1:'🌬 Friction', dk_damp2:'🌬 Air resistance',
+ dk_slow:'🐢 Slow motion', dk_slow1:'🐢 Slow motion',
+ dk_reset:'↺ Reset', dk_reset1:'↺ Wind to top', dk_reset2:'↺ Clear curves',
+ dk_hint0:'💡 Drag the bob to any angle and let go',
+ dk_hint1:'💡 Notice: the lower it gets, the faster it spins',
+ dk_hint2:'💡 Orange and teal trade places; a flat gold line = conservation',
+ dk_hint3:'💡 Read the table position → speed → energy',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0a:'A 1 kg bob is pulled to ', qb0b:' (a height of ', qb0c:' above the lowest point) and released. How fast is it at the bottom? How high does it rise on the far side?',
+ qb1a:'A 0.5 kg Maxwell wheel is released from ', qb1b:' above its lowest point. It spins fastest at the bottom. With no friction, how high does it rewind?',
+ ke:'KE', pe:'PE', etot:'Total ME',
+ toheat:'→ heat', h:'height', v:'speed',
+ st_top:'Top: v ≈ 0 — all PE', st_bot:'Bottom: max speed — all KE',
+ st_up:'Rising: KE → PE', st_dn:'Falling: PE → KE', st_ready:'Drag the bob to an angle, then let go',
+ st_wtop:'Top: all PE', st_wbot:'Bottom: fastest spin — all KE',
+ st_wup:'Rewinding: KE → PE', st_wdn:'Falling: PE → KE', st_wready:'Press ▶ to release',
+ href:'lowest point h = 0', hrel:'release height',
+ axis_t:'time →', axis_e:'energy',
+ spin:'spin',
+ cmpH:['Position / process','Speed','KE','PE','Conversion'],
+ cmpR:[['Highest point','v = 0','minimum (0)','maximum','— (momentarily still)'],
+       ['Falling','speeding up','rising','falling','PE → KE'],
+       ['Lowest point','maximum','maximum','minimum','— (all KE)'],
+       ['Rising','slowing down','falling','rising','KE → PE'],
+       ['No friction','—','—','—','total ME constant (conserved)'],
+       ['With friction','everything slows','peaks shrink','never regains full height','ME → internal energy (heat)']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock (5 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= physics ================= */
+var G=9.8;
+/* pendulum: m = 1 kg, full sinθ dynamics, symplectic Euler */
+var PD={L:1.8, th:0.9, w:0, run:false, damp:false, th0:0.9, E0:0};
+function pdH(th){ return PD.L*(1-Math.cos(th)); }
+function pdKE(){ var v=PD.L*PD.w; return 0.5*v*v; }
+function pdPE(){ return G*pdH(PD.th); }
+function pdSetRelease(th){
+  PD.th=th; PD.w=0; PD.th0=Math.abs(th);
+  PD.E0=G*pdH(th);
+}
+function pdStep(dt){
+  var n=4,i;
+  for(i=0;i<n;i++){
+    var acc=-(G/PD.L)*Math.sin(PD.th)-(PD.damp?0.22*PD.w:0);
+    PD.w+=acc*dt/n;
+    PD.th+=PD.w*dt/n;
+  }
+}
+/* Maxwell wheel: m = 0.5 kg, I/(m r²) = 18 → a = g/19; y measured DOWN from top, 0..H0 */
+var MWH0=1.2, MWK=18, MWM=0.5;
+var MW={y:0, v:0, run:false, damp:false, ph:0};
+function mwKE(){ return 0.5*MWM*MW.v*MW.v*(1+MWK); }
+function mwPE(){ return MWM*G*(MWH0-MW.y); }
+function mwE0(){ return MWM*G*MWH0; }
+function mwStep(dt){
+  var n=4,i;
+  var a=G/(1+MWK);
+  for(i=0;i<n;i++){
+    var h=dt/n;
+    var aEff=a-(MW.damp?0.12*MW.v:0);
+    MW.y+=MW.v*h+0.5*aEff*h*h;   // exact for constant acceleration → energy-conserving
+    MW.v+=aEff*h;
+    if(MW.y>=MWH0){ MW.y=MWH0; MW.v=-Math.abs(MW.v)*(MW.damp?0.97:1); }
+    if(MW.y<=0){ MW.y=0; if(MW.v<0)MW.v=0; }
+    MW.ph+=MW.v*7*h;
+  }
+}
+/* graph-tab pendulum (independent, always swinging while the tab is open) */
+var G3={th:0.9, w:0, damp:false, hist:[], E0:G*1.4*(1-Math.cos(0.9))};
+function g3Step(dt){
+  var n=4,i,L=1.4;
+  for(i=0;i<n;i++){
+    var acc=-(G/L)*Math.sin(G3.th)-(G3.damp?0.22*G3.w:0);
+    G3.w+=acc*dt/n;
+    G3.th+=G3.w*dt/n;
+  }
+  var v=L*G3.w;
+  var ke=0.5*v*v, pe=G*L*(1-Math.cos(G3.th));
+  G3.hist.push([ke,pe]);
+  if(G3.hist.length>420)G3.hist.shift();
+}
+/* ================= shared energy bar ================= */
+function ebar(ke,pe,E0,y){
+  var s='';
+  var L=60,W=540,h=34;
+  var E=ke+pe;
+  var wKE=W*clamp(ke/E0,0,1), wPE=W*clamp(pe/E0,0,1);
+  if(wKE+wPE>W)wPE=W-wKE;
+  s+='<rect x="'+L+'" y="'+y+'" width="'+wKE.toFixed(1)+'" height="'+h+'" fill="#D9542B" rx="3"/>';
+  s+='<rect x="'+(L+wKE).toFixed(1)+'" y="'+y+'" width="'+wPE.toFixed(1)+'" height="'+h+'" fill="#2C7D8C" rx="3"/>';
+  // ghost outline = the ORIGINAL total; a growing gap means energy left as heat
+  s+='<rect x="'+L+'" y="'+y+'" width="'+W+'" height="'+h+'" fill="none" stroke="#C9A227" stroke-width="3" rx="5"/>';
+  var gap=W-(wKE+wPE);
+  if(gap>8){
+    s+=tl(L+wKE+wPE+gap/2,y+23,13,'#D9542B',T('toheat'));
+  }
+  if(wKE>62)s+=tl(L+wKE/2,y+23,14,'#FFFDF7',T('ke')+' '+ke.toFixed(1)+' J');
+  if(wPE>62)s+=tl(L+wKE+wPE/2,y+23,14,'#FFFDF7',T('pe')+' '+pe.toFixed(1)+' J');
+  var rT=Math.round(ke*10)/10+Math.round(pe*10)/10;
+  s+=tl(L,y-10,13,'#8A6A1E',T('etot')+' '+rT.toFixed(1)+' / '+E0.toFixed(1)+' J','start');
+  return s;
+}
+/* vertical KE / PE / ME column chart (fixed scale, E0 reference line) */
+function vbars(x0,ke,pe,E0){
+  var s2='';
+  var base=420, H=290, top=base-H;
+  var Emax=Math.max(E0,0.01)*1.06;
+  var names=[T('ke'),T('pe'),T('etot')];
+  var rk=Math.round(ke*10)/10, rp=Math.round(pe*10)/10;
+  var vals=[ke,pe,ke+pe];
+  var disp=[rk,rp,rk+rp];              // shown total = sum of the shown parts (no rounding mismatch)
+  var laby=[17,33,17];                 // staggered label rows so names never collide
+  var cols=['#D9542B','#2C7D8C','#C9A227'];
+  var w=22, gap=5, k;
+  // frame + E0 reference
+  var yE0=base-H*(E0/Emax);
+  s2+='<line x1="'+(x0-8)+'" y1="'+base+'" x2="'+(x0+3*w+2*gap+8)+'" y2="'+base+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s2+='<line x1="'+(x0-8)+'" y1="'+yE0.toFixed(1)+'" x2="'+(x0+3*w+2*gap+8)+'" y2="'+yE0.toFixed(1)+'" stroke="#C9A227" stroke-width="2" stroke-dasharray="5 5"/>';
+  s2+=tl(x0-12,yE0+4,12,'#8A6A1E','E₀','end');
+  for(k=0;k<3;k++){
+    var x=x0+k*(w+gap);
+    var h=H*clamp(vals[k]/Emax,0,1);
+    s2+='<rect x="'+x+'" y="'+(base-h).toFixed(1)+'" width="'+w+'" height="'+h.toFixed(1)+'" fill="'+cols[k]+'" rx="3"'+(k===2?' opacity="0.92"':'')+'/>';
+    s2+=tl(x+w/2,(base-h-7),12,cols[k],disp[k].toFixed(1));
+    s2+=tl(x+w/2,base+laby[k],13,cols[k],names[k]);
+  }
+  return s2;
+}
+/* ================= TAB 0 · PENDULUM ================= */
+var PX=250, PY=80, SCALE=122;
+function pdState(){
+  if(!PD.run)return T('st_ready');
+  var a=Math.abs(PD.th), a0=Math.max(PD.th0,1e-6);
+  if(a>0.9*a0)return T('st_top');
+  if(a<0.15*a0)return T('st_bot');
+  return (PD.th*PD.w>0)?T('st_up'):T('st_dn');
+}
+function drawPD(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="520" rx="14" fill="#FBF7EC"/>';
+  var Lpx=PD.L*SCALE;
+  var bx=PX+Lpx*Math.sin(PD.th), by=PY+Lpx*Math.cos(PD.th);
+  var yBot=PY+Lpx;
+  // ceiling + pivot
+  s+='<rect x="150" y="56" width="200" height="12" fill="#B9AE95"/>';
+  var k;
+  for(k=0;k<8;k++)s+='<line x1="'+(158+k*24)+'" y1="56" x2="'+(248+k*24)+'" y2="44" stroke="#B9AE95" stroke-width="3"/>';
+  // release-amplitude guides
+  if(PD.th0>0.02){
+    var gx1=PX+Lpx*Math.sin(PD.th0), gy1=PY+Lpx*Math.cos(PD.th0);
+    var gx2=PX-Lpx*Math.sin(PD.th0);
+    s+='<line x1="'+PX+'" y1="'+PY+'" x2="'+gx1.toFixed(1)+'" y2="'+gy1.toFixed(1)+'" stroke="#B9AE95" stroke-width="2" stroke-dasharray="5 6"/>';
+    s+='<line x1="'+PX+'" y1="'+PY+'" x2="'+gx2.toFixed(1)+'" y2="'+gy1.toFixed(1)+'" stroke="#B9AE95" stroke-width="2" stroke-dasharray="5 6"/>';
+    s+='<line x1="66" y1="'+gy1.toFixed(1)+'" x2="522" y2="'+gy1.toFixed(1)+'" stroke="#DA9526" stroke-width="2" stroke-dasharray="7 6" opacity="0.75"/>';
+    s+=tl(70,gy1-8,13,'#8A6A1E',T('hrel')+' h₀','start');
+  }
+  // h = 0 reference at the lowest point
+  s+='<line x1="66" y1="'+yBot.toFixed(1)+'" x2="522" y2="'+yBot.toFixed(1)+'" stroke="#8A8070" stroke-width="2" stroke-dasharray="4 6" opacity="0.7"/>';
+  s+=tlplain(520,yBot+18,13,'#8A8070',T('href'),'end');
+  // current-height marker
+  var hNow=pdH(PD.th);
+  if(hNow>0.01){
+    s+='<line x1="'+(bx+30).toFixed(1)+'" y1="'+by.toFixed(1)+'" x2="'+(bx+30).toFixed(1)+'" y2="'+yBot.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+='<line x1="'+(bx+24).toFixed(1)+'" y1="'+by.toFixed(1)+'" x2="'+(bx+36).toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+=tl(bx+40,(by+yBot)/2+5,13,'#2C7D8C','h='+hNow.toFixed(2)+'m','start');
+  }
+  // string + bob
+  s+='<line x1="'+PX+'" y1="'+PY+'" x2="'+bx.toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="#6B655C" stroke-width="3"/>';
+  s+='<circle cx="'+PX+'" cy="'+PY+'" r="6" fill="#4B4437"/>';
+  var sp=Math.abs(PD.L*PD.w);
+  var glow=clamp(sp/3.2,0,1);
+  if(glow>0.08)s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="'+(18+14*glow).toFixed(0)+'" fill="#D9542B" opacity="'+(0.25*glow).toFixed(2)+'"/>';
+  s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="17" fill="#D8D0BC" stroke="#8A8070" stroke-width="3"/>';
+  // velocity arrow (tangential)
+  var vpx=PD.L*PD.w*46;
+  if(Math.abs(vpx)>7){
+    var tx=Math.cos(PD.th)*vpx, ty=-Math.sin(PD.th)*vpx;
+    var ex=bx+tx, ey=by+ty;
+    s+='<line x1="'+bx.toFixed(1)+'" y1="'+by.toFixed(1)+'" x2="'+ex.toFixed(1)+'" y2="'+ey.toFixed(1)+'" stroke="#D9542B" stroke-width="4"/>';
+    var ang=Math.atan2(ey-by,ex-bx);
+    s+='<path d="M '+ex.toFixed(1)+' '+ey.toFixed(1)+' l '+(-11*Math.cos(ang-0.42)).toFixed(1)+' '+(-11*Math.sin(ang-0.42)).toFixed(1)+' m '+(11*Math.cos(ang-0.42)).toFixed(1)+' '+(11*Math.sin(ang-0.42)).toFixed(1)+' l '+(-11*Math.cos(ang+0.42)).toFixed(1)+' '+(-11*Math.sin(ang+0.42)).toFixed(1)+'" stroke="#D9542B" stroke-width="4" fill="none"/>';
+    s+=tl((bx+ex)/2+14,(by+ey)/2,13,'#D9542B','v');
+  }
+  // state badge
+  s+=tl(280,36,17,'#B5652A',pdState());
+  // energy displays: column chart (right) + stacked bar (bottom)
+  var E0=Math.max(PD.E0,0.01);
+  s+=vbars(566,pdKE(),pdPE(),E0);
+  s+=ebar(pdKE(),pdPE(),E0,460);
+  $('svgpd').innerHTML=PAINT(s);
+  // qbox + chips
+  var deg=Math.round(PD.th0*180/Math.PI);
+  var h0=PD.L*(1-Math.cos(PD.th0));
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0a')+'<b>θ = '+deg+'°</b>'+T('qb0b')+'<b>h₀ = '+h0.toFixed(2)+' m</b>'+T('qb0c');
+  $('c_state').textContent=pdState();
+  $('c_ke').textContent=T('ke')+' '+pdKE().toFixed(1)+' J';
+  $('c_pe').textContent=T('pe')+' '+pdPE().toFixed(1)+' J';
+  $('c_e').textContent=T('etot')+' '+(Math.round(pdKE()*10)/10+Math.round(pdPE()*10)/10).toFixed(1)+' J';
+  $('c_h').textContent='h = '+pdH(PD.th).toFixed(2)+' m';
+  $('c_v').textContent='v = '+Math.abs(PD.L*PD.w).toFixed(2)+' m/s';
+}
+function initPD(){
+  var dragging=false;
+  makeDrag($('svgpd'),660,520,function(pt,isdown){
+    var Lpx=PD.L*SCALE;
+    var bx=PX+Lpx*Math.sin(PD.th), by=PY+Lpx*Math.cos(PD.th);
+    if(isdown){
+      dragging=(Math.abs(pt.x-bx)<46&&Math.abs(pt.y-by)<46);
+      if(!dragging)return;
+      PD.run=false;
+      $('pdplay').classList.remove('on');
+    }
+    if(!dragging)return;
+    var th=Math.atan2(pt.x-PX,pt.y-PY);
+    pdSetRelease(clamp(th,-1.25,1.25));
+    drawPD();updSummary();
+  },function(){
+    if(dragging){
+      dragging=false;
+      PD.run=true;
+      $('pdplay').classList.add('on');
+    }
+  });
+}
+
+/* ================= TAB 1 · MAXWELL WHEEL ================= */
+var MWX=300, MWTOP=110, MWSC=230;
+function mwState(){
+  if(!MW.run)return T('st_wready');
+  if(MW.y<0.06)return T('st_wtop');
+  if(MW.y>MWH0-0.06)return T('st_wbot');
+  return (MW.v>0)?T('st_wdn'):T('st_wup');
+}
+function drawMW(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="520" rx="14" fill="#FBF7EC"/>';
+  var wy=MWTOP+MW.y*MWSC;
+  var yBot=MWTOP+MWH0*MWSC;
+  // top bar + hatching
+  s+='<rect x="180" y="56" width="240" height="12" fill="#B9AE95"/>';
+  var k;
+  for(k=0;k<10;k++)s+='<line x1="'+(188+k*24)+'" y1="56" x2="'+(198+k*24)+'" y2="44" stroke="#B9AE95" stroke-width="3"/>';
+  // strings to the axle
+  s+='<line x1="'+(MWX-42)+'" y1="68" x2="'+(MWX-42)+'" y2="'+wy.toFixed(1)+'" stroke="#6B655C" stroke-width="2.5"/>';
+  s+='<line x1="'+(MWX+42)+'" y1="68" x2="'+(MWX+42)+'" y2="'+wy.toFixed(1)+'" stroke="#6B655C" stroke-width="2.5"/>';
+  // height guides
+  s+='<line x1="110" y1="'+(MWTOP)+'" x2="508" y2="'+(MWTOP)+'" stroke="#DA9526" stroke-width="2" stroke-dasharray="7 6" opacity="0.75"/>';
+  s+=tl(114,MWTOP-8,13,'#8A6A1E',T('hrel')+' h₀ = '+MWH0.toFixed(1)+' m','start');
+  s+='<line x1="110" y1="'+yBot+'" x2="508" y2="'+yBot+'" stroke="#8A8070" stroke-width="2" stroke-dasharray="4 6" opacity="0.7"/>';
+  s+=tlplain(506,yBot+18,13,'#8A8070',T('href'),'end');
+  // current height marker (right side)
+  var hNow=MWH0-MW.y;
+  if(hNow>0.02){
+    s+='<line x1="452" y1="'+wy.toFixed(1)+'" x2="452" y2="'+yBot+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+='<line x1="446" y1="'+wy.toFixed(1)+'" x2="458" y2="'+wy.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+=tl(444,(wy+yBot)/2+5,13,'#2C7D8C','h='+hNow.toFixed(2)+'m','end');
+  }
+  // wheel: disk + spokes rotating with ph, spin glow ∝ |v|
+  var sp=Math.abs(MW.v);
+  var glow=clamp(sp/1.15,0,1);
+  if(glow>0.08)s+='<circle cx="'+MWX+'" cy="'+wy.toFixed(1)+'" r="'+(58+16*glow).toFixed(0)+'" fill="#D9542B" opacity="'+(0.22*glow).toFixed(2)+'"/>';
+  s+='<circle cx="'+MWX+'" cy="'+wy.toFixed(1)+'" r="54" fill="#D8D0BC" stroke="#8A8070" stroke-width="4"/>';
+  for(k=0;k<4;k++){
+    var a=MW.ph+k*Math.PI/4;
+    s+='<line x1="'+(MWX+50*Math.cos(a)).toFixed(1)+'" y1="'+(wy+50*Math.sin(a)).toFixed(1)+'" x2="'+(MWX-50*Math.cos(a)).toFixed(1)+'" y2="'+(wy-50*Math.sin(a)).toFixed(1)+'" stroke="#8A8070" stroke-width="3.5"/>';
+  }
+  s+='<circle cx="'+MWX+'" cy="'+wy.toFixed(1)+'" r="9" fill="#6B655C"/>';
+  // spin-rate arc arrow
+  if(sp>0.06){
+    var dir=MW.v>0?1:-1;
+    s+='<path d="M '+(MWX+70)+' '+(wy-16).toFixed(1)+' a 24 24 0 0 '+(dir>0?1:0)+' 0 32" fill="none" stroke="#D9542B" stroke-width="4"/>';
+    s+=tl(MWX+96,wy+5,13,'#D9542B',T('spin'));
+  }
+  // state badge
+  s+=tl(330,36,17,'#B5652A',mwState());
+  // energy displays: column chart (right) + stacked bar (bottom)
+  s+=vbars(566,mwKE(),mwPE(),mwE0());
+  s+=ebar(mwKE(),mwPE(),mwE0(),460);
+  $('svgmw').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb1a')+'<b>h₀ = '+MWH0.toFixed(1)+' m</b>'+T('qb1b');
+  $('m_state').textContent=mwState();
+  $('m_ke').textContent=T('ke')+' '+mwKE().toFixed(1)+' J';
+  $('m_pe').textContent=T('pe')+' '+mwPE().toFixed(1)+' J';
+  $('m_e').textContent=T('etot')+' '+(Math.round(mwKE()*10)/10+Math.round(mwPE()*10)/10).toFixed(1)+' J';
+}
+
+/* ================= TAB 2 · ENERGY–TIME GRAPH ================= */
+function drawGR(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="470" rx="14" fill="#FBF7EC"/>';
+  // mini pendulum (top-left)
+  var L=1.4, px=120, py=52, sc=78;
+  var bx=px+L*sc/1.4*Math.sin(G3.th)*0.62, by=py+L*sc*Math.cos(G3.th)/1.4*1.0+0;
+  bx=px+sc*Math.sin(G3.th); by=py+sc*Math.cos(G3.th);
+  s+='<rect x="'+(px-50)+'" y="'+(py-14)+'" width="100" height="8" fill="#B9AE95"/>';
+  s+='<line x1="'+px+'" y1="'+py+'" x2="'+bx.toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="#6B655C" stroke-width="2.5"/>';
+  var spd=Math.abs(1.4*G3.w), gl=clamp(spd/3,0,1);
+  if(gl>0.08)s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="'+(11+9*gl).toFixed(0)+'" fill="#D9542B" opacity="'+(0.3*gl).toFixed(2)+'"/>';
+  s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="10" fill="#D8D0BC" stroke="#8A8070" stroke-width="2.5"/>';
+  // legend
+  s+='<rect x="250" y="34" width="16" height="10" fill="#D9542B"/>';
+  s+=tl(272,44,14,'#D9542B',T('ke'),'start');
+  s+='<rect x="340" y="34" width="16" height="10" fill="#2C7D8C"/>';
+  s+=tl(362,44,14,'#2C7D8C',T('pe'),'start');
+  s+='<rect x="430" y="34" width="16" height="10" fill="#C9A227"/>';
+  s+=tl(452,44,14,'#8A6A1E',T('etot'),'start');
+  // axes
+  var gx0=64, gx1=636, gy0=430, gy1=160;
+  s+='<line x1="'+gx0+'" y1="'+gy0+'" x2="'+gx1+'" y2="'+gy0+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="'+gx0+'" y1="'+gy0+'" x2="'+gx0+'" y2="'+gy1+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tlplain(gx1-4,gy0+22,13,'#6B6252',T('axis_t'),'end');
+  s+=tlplain(gx0-8,gy1+4,13,'#6B6252',T('axis_e'),'end');
+  // curves
+  var H=G3.hist, n=H.length, k;
+  if(n>2){
+    var Emax=G3.E0*1.18;
+    function Y(e){return gy0-(gy0-gy1)*clamp(e/Emax,0,1)}
+    function X(i){return gx0+(gx1-gx0)*i/419}
+    var pKE='',pPE='',pE='';
+    for(k=0;k<n;k++){
+      var x=X(k).toFixed(1);
+      pKE+=(k?' L ':'M ')+x+' '+Y(H[k][0]).toFixed(1);
+      pPE+=(k?' L ':'M ')+x+' '+Y(H[k][1]).toFixed(1);
+      pE+=(k?' L ':'M ')+x+' '+Y(H[k][0]+H[k][1]).toFixed(1);
+    }
+    s+='<path d="'+pE+'" fill="none" stroke="#C9A227" stroke-width="4"/>';
+    s+='<path d="'+pKE+'" fill="none" stroke="#D9542B" stroke-width="3"/>';
+    s+='<path d="'+pPE+'" fill="none" stroke="#2C7D8C" stroke-width="3"/>';
+  }
+  $('svggr').innerHTML=PAINT(s);
+}
+
+/* ================= TAB 3 · REVIEW ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var Hh=T('cmpH'),R=T('cmpR');
+  for(k=0;k<Hh.length;k++)h+='<th>'+Hh[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP3(){buildCmp()}
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. At the LOWEST point of its swing, a pendulum bob has…',o:[
+    ['Maximum PE, minimum KE',0,'That describes the highest point, not the lowest.'],
+    ['Maximum KE, minimum PE',1,'Correct — lowest height means least PE, and all of it has become motion.'],
+    ['Zero energy of both kinds',0,'The energy hasn\u2019t vanished — it\u2019s all kinetic there.'],
+    ['Equal KE and PE',0,'They\u2019re only equal somewhere in between, not at the bottom.']]},
+   {q:'2. While the bob swings UPWARD, the conversion is…',o:[
+    ['PE → KE',0,'That\u2019s the downward part of the swing.'],
+    ['KE → PE',1,'Correct — it slows down as it climbs: motion energy is being banked as height.'],
+    ['KE → heat only',0,'With little friction, almost all of it becomes PE.'],
+    ['No conversion at all',0,'Speed and height are both changing — energy is definitely converting.']]},
+   {q:'3. At the HIGHEST point of the swing, the bob\u2019s speed is…',o:[
+    ['Maximum',0,'Maximum speed is at the BOTTOM.'],
+    ['About half of maximum',0,'It\u2019s not half — it\u2019s momentarily zero.'],
+    ['Zero for an instant',1,'Correct — all KE has become PE, so the bob is momentarily at rest.'],
+    ['Impossible to know',0,'Energy accounting tells us exactly: v = 0 there.']]},
+   {q:'4. With NO friction, the bob released from height h rises on the far side to…',o:[
+    ['Half of h',0,'Losing half would mean losing energy — but nothing takes it away.'],
+    ['Exactly h',1,'Correct — total mechanical energy is conserved, so it regains exactly the same height.'],
+    ['Higher than h',0,'That would create energy from nowhere.'],
+    ['It depends on the mass',0,'Both PE and KE scale with mass — the height is mass-independent.']]},
+   {q:'5. As a Maxwell wheel falls, the conversion is…',o:[
+    ['KE → PE',0,'That\u2019s the rewinding (rising) phase.'],
+    ['PE → KE (mostly rotational)',1,'Correct — height is traded for spin, which is why it rotates fastest at the bottom.'],
+    ['PE → heat',0,'With good bearings almost all of it becomes kinetic energy.'],
+    ['Nothing converts',0,'It visibly speeds up — energy is flowing from PE to KE.']]},
+   {q:'6. With air resistance ON, the pendulum finally stops at the lowest point. Its mechanical energy…',o:[
+    ['Disappeared completely',0,'Energy never disappears — it changed form.'],
+    ['Became internal energy (heat) through friction',1,'Correct — friction converted the mechanical energy into heat in the air and string.'],
+    ['Went back into the Earth\u2019s gravity',0,'Gravity stores PE by height — the bob ends at h = 0.'],
+    ['Turned into electrical energy',0,'Nothing here generates electricity.']]},
+   {q:'7. A playground swing dies out if you don\u2019t pump it because…',o:[
+    ['Gravity gets weaker with each swing',0,'Gravity is constant — it doesn\u2019t fade.'],
+    ['Friction and air resistance turn its mechanical energy into heat',1,'Correct — every pass loses a little to heat, so each swing is lower than the last.'],
+    ['KE and PE cancel each other out',0,'They convert INTO each other — they don\u2019t cancel.'],
+    ['The mass of the rider decreases',0,'The rider\u2019s mass certainly doesn\u2019t change.']]}
+  ];
+  return [
+   {q:'1. 摆球摆到最低点时……',o:[
+    ['势能最大，动能最小',0,'那是最高点的情况。'],
+    ['动能最大，势能最小',1,'正确——高度最低势能最小，能量全部变成了运动。'],
+    ['动能势能都为零',0,'能量没有消失——在最低点全是动能。'],
+    ['动能等于势能',0,'两者只在中途某处相等，不在最低点。']]},
+   {q:'2. 摆球向上摆的过程中，能量转化是……',o:[
+    ['势能 → 动能',0,'那是下摆的过程。'],
+    ['动能 → 势能',1,'正确——越升越慢：运动的能量被"存"成了高度。'],
+    ['动能全部变成热',0,'摩擦很小时，绝大部分变成了势能。'],
+    ['没有转化',0,'速度和高度都在变，能量一定在转化。']]},
+   {q:'3. 摆球到达最高点时，速度是……',o:[
+    ['最大',0,'速度最大在最低点。'],
+    ['大约是最大值的一半',0,'不是一半——是瞬间为零。'],
+    ['瞬间为零',1,'正确——动能全部转化成了势能，摆球瞬间静止。'],
+    ['无法判断',0,'能量账算得清清楚楚：那里 v = 0。']]},
+   {q:'4. 没有摩擦时，从高度 h 释放的摆球，摆到对面能升到……',o:[
+    ['h 的一半',0,'升一半意味着能量少了一半——但没有任何东西把它拿走。'],
+    ['恰好 h',1,'正确——机械能守恒，它恰好回到同样的高度。'],
+    ['比 h 更高',0,'那就是凭空创造能量了。'],
+    ['取决于质量',0,'动能势能都跟质量成正比——高度和质量无关。']]},
+   {q:'5. 滚摆下落时，能量转化是……',o:[
+    ['动能 → 势能',0,'那是上卷（回升）的阶段。'],
+    ['势能 → 动能（主要是转动动能）',1,'正确——高度换成了转动，所以越低转得越快。'],
+    ['势能 → 热',0,'轴承良好时几乎全部变成了动能。'],
+    ['没有转化',0,'它明显越转越快——势能正在流向动能。']]},
+   {q:'6. 开着空气阻力，单摆最终停在最低点。它的机械能……',o:[
+    ['彻底消失了',0,'能量从不消失——只是换了形式。'],
+    ['通过摩擦变成了内能（热）',1,'正确——摩擦把机械能转化成了空气和绳子里的热。'],
+    ['还给了地球的引力',0,'重力势能由高度决定——摆球最后停在 h = 0。'],
+    ['变成了电能',0,'这里没有任何发电装置。']]},
+   {q:'7. 荡秋千不蹬会越荡越低，原因是……',o:[
+    ['重力一次比一次弱',0,'重力是恒定的，不会衰减。'],
+    ['摩擦和空气阻力把机械能变成了热',1,'正确——每荡一个来回都损失一点变成热，所以一次比一次低。'],
+    ['动能和势能互相抵消了',0,'它们是互相转化，不是互相抵消。'],
+    ['人的质量变小了',0,'人的质量当然不会变。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+var PDSLOW=false, MWSLOW=false;
+function ambLoop(){
+  if(CUR===0&&PD.run){
+    pdStep(PDSLOW?0.004:0.016);
+    drawPD();updSummary();
+  }
+  if(CUR===1&&MW.run){
+    mwStep(MWSLOW?0.004:0.016);
+    drawMW();updSummary();
+  }
+  if(CUR===2){
+    g3Step(0.016);
+    drawGR();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawPD,drawMW,drawGR,drawP3,drawQZ];
+  SUMMARY=[
+    function(){return pdState()+' · '+T('etot')+' '+(pdKE()+pdPE()).toFixed(1)+' J'},
+    function(){return mwState()+' · '+T('etot')+' '+(mwKE()+mwPE()).toFixed(1)+' J'},
+    function(){return T('gr_figtitle')},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initPD();
+  pdSetRelease(0.9);
+  $('pdplay').addEventListener('click',function(){
+    PD.run=!PD.run;
+    this.classList.toggle('on',PD.run);
+  });
+  $('lsl').addEventListener('input',function(){
+    PD.L=+this.value; $('llab').textContent=PD.L.toFixed(1)+' m';
+    pdSetRelease(Math.sign(PD.th||1)*PD.th0);
+    if(CUR===0)drawPD();
+  });
+  $('pdslow').addEventListener('click',function(){
+    PDSLOW=!PDSLOW;
+    this.classList.toggle('on',PDSLOW);
+  });
+  $('pddamp').addEventListener('click',function(){
+    PD.damp=!PD.damp;
+    this.classList.toggle('on',PD.damp);
+  });
+  $('pdreset').addEventListener('click',function(){
+    PD.run=false;$('pdplay').classList.remove('on');
+    pdSetRelease(0.9);
+    drawPD();updSummary();
+  });
+  $('mwplay').addEventListener('click',function(){
+    MW.run=!MW.run;
+    this.classList.toggle('on',MW.run);
+  });
+  $('mwslow').addEventListener('click',function(){
+    MWSLOW=!MWSLOW;
+    this.classList.toggle('on',MWSLOW);
+  });
+  $('mwdamp').addEventListener('click',function(){
+    MW.damp=!MW.damp;
+    this.classList.toggle('on',MW.damp);
+  });
+  $('mwreset').addEventListener('click',function(){
+    MW.run=false;$('mwplay').classList.remove('on');
+    MW.y=0;MW.v=0;MW.ph=0;
+    drawMW();updSummary();
+  });
+  $('g3damp').addEventListener('click',function(){
+    G3.damp=!G3.damp;
+    this.classList.toggle('on',G3.damp);
+  });
+  $('g3reset').addEventListener('click',function(){
+    G3.hist=[];G3.th=0.9;G3.w=0;
+    drawGR();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // pendulum: drag-release + run + damp + length sweep
+  showTab(0);
+  pdSetRelease(1.1);PD.run=true;
+  for(i=0;i<240;i++){pdStep(0.016);if(i%40===0)drawPD()}
+  PD.damp=true;
+  for(i=0;i<240;i++){pdStep(0.016);if(i%40===0)drawPD()}
+  PD.damp=false;PD.L=2.4;pdSetRelease(0.6);drawPD();
+  PD.L=1.8;pdSetRelease(0.9);PD.run=false;drawPD();
+  // wheel: full cycles ideal + damped
+  showTab(1);
+  MW.y=0;MW.v=0;MW.run=true;
+  for(i=0;i<600;i++){mwStep(0.016);if(i%80===0)drawMW()}
+  MW.damp=true;
+  for(i=0;i<400;i++){mwStep(0.016);if(i%80===0)drawMW()}
+  MW.damp=false;MW.run=false;MW.y=0;MW.v=0;MW.ph=0;drawMW();
+  // graph tab accumulates + damp
+  showTab(2);
+  for(i=0;i<500;i++){g3Step(0.016);if(i%100===0)drawGR()}
+  G3.damp=true;
+  for(i=0;i<300;i++){g3Step(0.016)}
+  drawGR();G3.damp=false;G3.hist=[];G3.th=0.9;G3.w=0;
+  // quiz pager
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+</script>
+
+<script>
+
+'use strict';
+/* ================= i18n ================= */
+var LANG='zh';
+var I={
+zh:{
+ title:'机械能转化实验室',
+ subtitle:'单摆 · 滚摆 · 动能⇌势能 · 机械能守恒 —— 初中科学课堂演示工具',
+ tab0:'① 单摆实验台',tab1:'② 滚摆实验台',tab2:'③ 能量-时间图像',tab3:'④ 要点',tab4:'⑤ 测验',
+ pd_sidetitle:'能量账本', mw_sidetitle:'能量账本',
+ pd_k1:'看下方的能量条：<b>橙色动能和青色势能此消彼长，总长度不变</b>——这就是机械能守恒。最高点全是势能，最低点全是动能，中间在两者之间来回换。',
+ pd_k2:'⚠️ 打开<b>空气阻力</b>后，彩条越来越短，缺口标着「→ 变成热」：机械能没有消失，而是被摩擦变成了<b>内能</b>。这就是秋千不蹬会停的原因。',
+ mw_k1:'滚摆下落时<b>重力势能 → 动能</b>（主要是转动动能，所以越低转得越快）；到最低点绳子重新往上卷，<b>动能 → 势能</b>，几乎回到原来的高度。',
+ mw_k2:'滚摆比自由落体慢得多——因为势能要"分一大份"给转动。这正好让我们看清整个转化过程，是它成为经典演示的原因。',
+ gr_figtitle:'红橙=动能，青=势能，金=总机械能（边摆边画）',
+ gr_sidetitle:'怎么读这张图',
+ gr_k1:'两条曲线<b>一升一降、互为镜像</b>：动能最大时势能恰好最小。把两条随时相加，永远等于那条<b>水平的金线</b>——总机械能不变。',
+ gr_k2:'打开空气阻力：金线开始<b>往下斜</b>，两条曲线的峰也一次比一次矮——流失的部分全部变成了热（内能），不是凭空消失。',
+ cmp_title:'机械能转化要点总表',
+ sm_title:'一句话总结',
+ sm_k1:'<b>上升：动能→势能；下降：势能→动能；没有摩擦时总机械能不变。</b>',
+ sm_k2:'有摩擦/空气阻力时，机械能逐渐<b>转化为内能（热）</b>——总能量仍然守恒，只是不再全是"机械"的了。',
+ qz_title:'🎯 课堂小测验', qz_reset:'重新开始',
+ dk_go:'摆动', dk_go1:'释放', dk_len:'摆长 L',
+ dk_damp:'🌬 空气阻力', dk_damp1:'🌬 摩擦阻力', dk_damp2:'🌬 空气阻力',
+ dk_slow:'🐢 慢动作', dk_slow1:'🐢 慢动作',
+ dk_reset:'↺ 重置', dk_reset1:'↺ 卷回顶部', dk_reset2:'↺ 清空曲线',
+ dk_hint0:'💡 直接拖摆球到想要的角度，放手就摆',
+ dk_hint1:'💡 注意：越低转得越快',
+ dk_hint2:'💡 红橙和青此消彼长，金线水平 = 守恒',
+ dk_hint3:'💡 表格按"位置→速度→能量"三步走',
+ dk_hint4:'💡 答对才会解锁下一题',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 收起解释', exp_off:'💬 点我看解释',
+ qtag:'题目',
+ qb0a:'把质量 1 kg 的摆球拉到 ', qb0b:'（比最低点高 ', qb0c:'）后放手。摆到最低点时速度多大？摆到对面最高能升到多高？',
+ qb1a:'质量 0.5 kg 的滚摆从比最低点高 ', qb1b:' 处释放。到最低点时转得最快。若没有摩擦，它能回卷到多高？',
+ ke:'动能', pe:'势能', etot:'总机械能',
+ toheat:'→ 变成热', h:'高度', v:'速度',
+ st_top:'最高点：v ≈ 0，全是势能', st_bot:'最低点：v 最大，全是动能',
+ st_up:'上升中：动能 → 势能', st_dn:'下降中：势能 → 动能', st_ready:'拖摆球到一个角度，放手',
+ st_wtop:'顶部：全是势能', st_wbot:'底部：转速最大，全是动能',
+ st_wup:'上卷中：动能 → 势能', st_wdn:'下落中：势能 → 动能', st_wready:'按 ▶ 释放滚摆',
+ href:'最低点 h = 0', hrel:'释放高度',
+ axis_t:'时间 →', axis_e:'能量',
+ spin:'转速',
+ cmpH:['位置/过程','速度','动能','势能','转化方向'],
+ cmpR:[['最高点','v = 0','最小（0）','最大','—（瞬间静止）'],
+       ['下降过程','越来越快','增大','减小','势能 → 动能'],
+       ['最低点','最大','最大','最小','—（全是动能）'],
+       ['上升过程','越来越慢','减小','增大','动能 → 势能'],
+       ['无摩擦','—','—','—','总机械能不变（守恒）'],
+       ['有摩擦/阻力','整体变慢','峰值变小','回不到原高','机械能 → 内能（热）']],
+ mth:''
+},
+en:{
+ title:'Mechanical Energy Lab',
+ subtitle:'Pendulum · Maxwell wheel · KE⇌PE · conservation — junior-high classroom demo',
+ tab0:'① Pendulum',tab1:'② Maxwell Wheel',tab2:'③ Energy–Time Graph',tab3:'④ Review',tab4:'⑤ Quiz',
+ pd_sidetitle:'Energy ledger', mw_sidetitle:'Energy ledger',
+ pd_k1:'Watch the bar below the figure: <b>orange KE and teal PE trade places while the total length never changes</b> — that IS conservation of mechanical energy. All PE at the top, all KE at the bottom, trading in between.',
+ pd_k2:'⚠️ Switch on <b>air resistance</b>: the bar keeps shrinking and the gap is labelled "→ heat". The energy didn\u2019t vanish — friction turned it into <b>internal energy</b>. That\u2019s why a swing dies out unless you pump it.',
+ mw_k1:'As the wheel falls, <b>gravitational PE → KE</b> (mostly rotational — that\u2019s why it spins fastest at the bottom); then the string rewinds and <b>KE → PE</b>, climbing back to nearly the same height.',
+ mw_k2:'A Maxwell wheel falls far slower than free fall, because most of the PE feeds the spin. That slowness is exactly why it\u2019s the classic demo — you can watch the conversion happen.',
+ gr_figtitle:'Orange = KE, teal = PE, gold = total (drawn live as it swings)',
+ gr_sidetitle:'Reading the graph',
+ gr_k1:'The two curves are <b>mirror images</b>: KE peaks exactly when PE dips. Add them at any moment and you get the <b>flat gold line</b> — total mechanical energy unchanged.',
+ gr_k2:'Turn on air resistance: the gold line <b>slopes downward</b> and every peak is lower than the last — the missing part became heat (internal energy), not nothing.',
+ cmp_title:'Energy-conversion essentials',
+ sm_title:'In one line',
+ sm_k1:'<b>Going up: KE → PE. Coming down: PE → KE. Without friction the total never changes.</b>',
+ sm_k2:'With friction or air resistance, mechanical energy gradually <b>becomes internal energy (heat)</b> — total energy is still conserved, it just stops being "mechanical".',
+ qz_title:'🎯 Class Quiz', qz_reset:'Restart',
+ dk_go:'Swing', dk_go1:'Release', dk_len:'Length L',
+ dk_damp:'🌬 Air resistance', dk_damp1:'🌬 Friction', dk_damp2:'🌬 Air resistance',
+ dk_slow:'🐢 Slow motion', dk_slow1:'🐢 Slow motion',
+ dk_reset:'↺ Reset', dk_reset1:'↺ Wind to top', dk_reset2:'↺ Clear curves',
+ dk_hint0:'💡 Drag the bob to any angle and let go',
+ dk_hint1:'💡 Notice: the lower it gets, the faster it spins',
+ dk_hint2:'💡 Orange and teal trade places; a flat gold line = conservation',
+ dk_hint3:'💡 Read the table position → speed → energy',
+ dk_hint4:'💡 Answer correctly to unlock the next question',
+ foot:'© 2026 ScienceMaterial',
+ exp_on:'💬 Hide notes', exp_off:'💬 Show notes',
+ qtag:'Question',
+ qb0a:'A 1 kg bob is pulled to ', qb0b:' (a height of ', qb0c:' above the lowest point) and released. How fast is it at the bottom? How high does it rise on the far side?',
+ qb1a:'A 0.5 kg Maxwell wheel is released from ', qb1b:' above its lowest point. It spins fastest at the bottom. With no friction, how high does it rewind?',
+ ke:'KE', pe:'PE', etot:'Total ME',
+ toheat:'→ heat', h:'height', v:'speed',
+ st_top:'Top: v ≈ 0 — all PE', st_bot:'Bottom: max speed — all KE',
+ st_up:'Rising: KE → PE', st_dn:'Falling: PE → KE', st_ready:'Drag the bob to an angle, then let go',
+ st_wtop:'Top: all PE', st_wbot:'Bottom: fastest spin — all KE',
+ st_wup:'Rewinding: KE → PE', st_wdn:'Falling: PE → KE', st_wready:'Press ▶ to release',
+ href:'lowest point h = 0', hrel:'release height',
+ axis_t:'time →', axis_e:'energy',
+ spin:'spin',
+ cmpH:['Position / process','Speed','KE','PE','Conversion'],
+ cmpR:[['Highest point','v = 0','minimum (0)','maximum','— (momentarily still)'],
+       ['Falling','speeding up','rising','falling','PE → KE'],
+       ['Lowest point','maximum','maximum','minimum','— (all KE)'],
+       ['Rising','slowing down','falling','rising','KE → PE'],
+       ['No friction','—','—','—','total ME constant (conserved)'],
+       ['With friction','everything slows','peaks shrink','never regains full height','ME → internal energy (heat)']],
+ mth:''
+}};
+function T(k){return (I[LANG][k]!==undefined)?I[LANG][k]:k}
+
+/* ================= helpers ================= */
+function $(id){return document.getElementById(id)}
+function clamp(v,a,b){return v<a?a:(v>b?b:v)}
+function lum(hex){
+  if(hex[0]!=='#')return 0.5;
+  var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
+  return 0.299*r+0.587*g+0.114*b;
+}
+var DARK=false;
+var THMAP={'#FBF7EC':'#1A2130','#FFFDF7':'#1E2637','#F3EDDD':'#2A3348','#FFFFFF':'#2E3850',
+'#26221B':'#EDE7D6','#4B4437':'#D2CCBC','#6B6252':'#5A605D','#8A8070':'#9AA2B4','#B9AE95':'#66708A',
+'#E3DCCB':'#39435C','#D8D0BC':'#39435C','#E8E2D4':'#39415A','#9A938A':'#8F97A8','#6B655C':'#B8BECE',
+'#2C7D8C':'#5FC8DE','#B5652A':'#E0904E','#8A5A2B':'#C98F52','#2F7D4F':'#52B87C'};
+function THX(c){return (DARK&&THMAP[c])?THMAP[c]:c}
+function PAINT(str){
+  if(!DARK)return str;
+  return str.replace(/(fill|stroke)="(#[0-9A-Fa-f]{6})"/g,function(m,a,c){
+    var mm=THMAP[c.toUpperCase()];
+    return mm?(a+'="'+mm+'"'):m;
+  });
+}
+function tl(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  var halo=lum(fill)>0.5?'#26221B':'#FFFFFF';
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+
+   '" style="paint-order:stroke;stroke:'+halo+';stroke-width:3px;stroke-linejoin:round">'+txt+'</text>';
+}
+function tlplain(x,y,size,fill,txt,anchor,weight){
+  fill=THX(fill);
+  return '<text x="'+Math.round(x)+'" y="'+Math.round(y)+'" font-size="'+Math.round(size)+
+   '" font-weight="'+(weight||700)+'" fill="'+fill+'" text-anchor="'+(anchor||'middle')+'">'+txt+'</text>';
+}
+function svgPt(svg,ev,vw,vh){
+  var r=svg.getBoundingClientRect();
+  return {x:(ev.clientX-r.left)*vw/r.width, y:(ev.clientY-r.top)*vh/r.height};
+}
+function makeDrag(svg,vw,vh,onmove,onup){
+  var down=false;
+  svg.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    try{svg.setPointerCapture(e.pointerId)}catch(err){}
+    onmove(svgPt(svg,e,vw,vh),true);
+  });
+  svg.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    onmove(svgPt(svg,e,vw,vh),false);
+  });
+  svg.addEventListener('pointerup',function(){down=false;if(onup)onup()});
+  svg.addEventListener('pointercancel',function(){down=false;if(onup)onup()});
+}
+
+/* ================= tabs & dock (5 tabs) ================= */
+var CUR=0;
+var RENDER=[];
+var SUMMARY=[];
+var TABN=5;
+function showTab(i){
+  CUR=i;
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++)tabs[k].classList.toggle('on',+tabs[k].getAttribute('data-tab')===i);
+  for(k=0;k<TABN;k++){
+    $('p'+k).classList.toggle('on',k===i);
+    $('d'+k).classList.toggle('on',k===i);
+  }
+  RENDER[i]();
+  updSummary();
+}
+function updSummary(){ $('docksum').textContent=SUMMARY[CUR]?SUMMARY[CUR]():''; }
+function initTabs(){
+  var tabs=document.querySelectorAll('.tab'),k;
+  for(k=0;k<tabs.length;k++){
+    tabs[k].addEventListener('click',function(){showTab(+this.getAttribute('data-tab'))});
+  }
+  $('dockfold').addEventListener('click',function(){
+    var d=$('dock'); d.classList.toggle('folded');
+    this.textContent=d.classList.contains('folded')?'⌃':'⌄';
+    updSummary();
+  });
+}
+function applyI18n(){
+  var els=document.querySelectorAll('[data-i18n]'),k;
+  for(k=0;k<els.length;k++)els[k].textContent=T(els[k].getAttribute('data-i18n'));
+  els=document.querySelectorAll('[data-i18n-html]');
+  for(k=0;k<els.length;k++){
+    var tgt=(els[k].querySelector)?els[k].querySelector('.kin'):null;
+    (tgt||els[k]).innerHTML=T(els[k].getAttribute('data-i18n-html'));
+  }
+}
+function initExp(){
+  var kbs=document.querySelectorAll('.kbox'),k;
+  for(k=0;k<kbs.length;k++){
+    var kb=kbs[k];
+    kb.classList.add('exp');
+    kb.innerHTML='<button class="expbtn2" data-i18n="exp_off">💬 点我看解释</button><div class="kin">'+kb.innerHTML+'</div>';
+  }
+  var bs=document.querySelectorAll('.expbtn2');
+  for(k=0;k<bs.length;k++){
+    bs[k].addEventListener('click',function(){
+      var kb=this.parentNode;
+      var open=kb.classList.toggle('open');
+      this.setAttribute('data-i18n',open?'exp_on':'exp_off');
+      this.textContent=T(open?'exp_on':'exp_off');
+    });
+  }
+}
+
+/* ================= physics ================= */
+var G=9.8;
+/* pendulum: m = 1 kg, full sinθ dynamics, symplectic Euler */
+var PD={L:1.8, th:0.9, w:0, run:false, damp:false, th0:0.9, E0:0};
+function pdH(th){ return PD.L*(1-Math.cos(th)); }
+function pdKE(){ var v=PD.L*PD.w; return 0.5*v*v; }
+function pdPE(){ return G*pdH(PD.th); }
+function pdSetRelease(th){
+  PD.th=th; PD.w=0; PD.th0=Math.abs(th);
+  PD.E0=G*pdH(th);
+}
+function pdStep(dt){
+  var n=4,i;
+  for(i=0;i<n;i++){
+    var acc=-(G/PD.L)*Math.sin(PD.th)-(PD.damp?0.22*PD.w:0);
+    PD.w+=acc*dt/n;
+    PD.th+=PD.w*dt/n;
+  }
+}
+/* Maxwell wheel: m = 0.5 kg, I/(m r²) = 18 → a = g/19; y measured DOWN from top, 0..H0 */
+var MWH0=1.2, MWK=18, MWM=0.5;
+var MW={y:0, v:0, run:false, damp:false, ph:0};
+function mwKE(){ return 0.5*MWM*MW.v*MW.v*(1+MWK); }
+function mwPE(){ return MWM*G*(MWH0-MW.y); }
+function mwE0(){ return MWM*G*MWH0; }
+function mwStep(dt){
+  var n=4,i;
+  var a=G/(1+MWK);
+  for(i=0;i<n;i++){
+    var h=dt/n;
+    var aEff=a-(MW.damp?0.12*MW.v:0);
+    MW.y+=MW.v*h+0.5*aEff*h*h;   // exact for constant acceleration → energy-conserving
+    MW.v+=aEff*h;
+    if(MW.y>=MWH0){ MW.y=MWH0; MW.v=-Math.abs(MW.v)*(MW.damp?0.97:1); }
+    if(MW.y<=0){ MW.y=0; if(MW.v<0)MW.v=0; }
+    MW.ph+=MW.v*7*h;
+  }
+}
+/* graph-tab pendulum (independent, always swinging while the tab is open) */
+var G3={th:0.9, w:0, damp:false, hist:[], E0:G*1.4*(1-Math.cos(0.9))};
+function g3Step(dt){
+  var n=4,i,L=1.4;
+  for(i=0;i<n;i++){
+    var acc=-(G/L)*Math.sin(G3.th)-(G3.damp?0.22*G3.w:0);
+    G3.w+=acc*dt/n;
+    G3.th+=G3.w*dt/n;
+  }
+  var v=L*G3.w;
+  var ke=0.5*v*v, pe=G*L*(1-Math.cos(G3.th));
+  G3.hist.push([ke,pe]);
+  if(G3.hist.length>420)G3.hist.shift();
+}
+/* ================= shared energy bar ================= */
+function ebar(ke,pe,E0,y){
+  var s='';
+  var L=60,W=540,h=34;
+  var E=ke+pe;
+  var wKE=W*clamp(ke/E0,0,1), wPE=W*clamp(pe/E0,0,1);
+  if(wKE+wPE>W)wPE=W-wKE;
+  s+='<rect x="'+L+'" y="'+y+'" width="'+wKE.toFixed(1)+'" height="'+h+'" fill="#D9542B" rx="3"/>';
+  s+='<rect x="'+(L+wKE).toFixed(1)+'" y="'+y+'" width="'+wPE.toFixed(1)+'" height="'+h+'" fill="#2C7D8C" rx="3"/>';
+  // ghost outline = the ORIGINAL total; a growing gap means energy left as heat
+  s+='<rect x="'+L+'" y="'+y+'" width="'+W+'" height="'+h+'" fill="none" stroke="#C9A227" stroke-width="3" rx="5"/>';
+  var gap=W-(wKE+wPE);
+  if(gap>8){
+    s+=tl(L+wKE+wPE+gap/2,y+23,13,'#D9542B',T('toheat'));
+  }
+  if(wKE>62)s+=tl(L+wKE/2,y+23,14,'#FFFDF7',T('ke')+' '+ke.toFixed(1)+' J');
+  if(wPE>62)s+=tl(L+wKE+wPE/2,y+23,14,'#FFFDF7',T('pe')+' '+pe.toFixed(1)+' J');
+  var rT=Math.round(ke*10)/10+Math.round(pe*10)/10;
+  s+=tl(L,y-10,13,'#8A6A1E',T('etot')+' '+rT.toFixed(1)+' / '+E0.toFixed(1)+' J','start');
+  return s;
+}
+/* vertical KE / PE / ME column chart (fixed scale, E0 reference line) */
+function vbars(x0,ke,pe,E0){
+  var s2='';
+  var base=420, H=290, top=base-H;
+  var Emax=Math.max(E0,0.01)*1.06;
+  var names=[T('ke'),T('pe'),T('etot')];
+  var rk=Math.round(ke*10)/10, rp=Math.round(pe*10)/10;
+  var vals=[ke,pe,ke+pe];
+  var disp=[rk,rp,rk+rp];              // shown total = sum of the shown parts (no rounding mismatch)
+  var laby=[17,33,17];                 // staggered label rows so names never collide
+  var cols=['#D9542B','#2C7D8C','#C9A227'];
+  var w=22, gap=5, k;
+  // frame + E0 reference
+  var yE0=base-H*(E0/Emax);
+  s2+='<line x1="'+(x0-8)+'" y1="'+base+'" x2="'+(x0+3*w+2*gap+8)+'" y2="'+base+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s2+='<line x1="'+(x0-8)+'" y1="'+yE0.toFixed(1)+'" x2="'+(x0+3*w+2*gap+8)+'" y2="'+yE0.toFixed(1)+'" stroke="#C9A227" stroke-width="2" stroke-dasharray="5 5"/>';
+  s2+=tl(x0-12,yE0+4,12,'#8A6A1E','E₀','end');
+  for(k=0;k<3;k++){
+    var x=x0+k*(w+gap);
+    var h=H*clamp(vals[k]/Emax,0,1);
+    s2+='<rect x="'+x+'" y="'+(base-h).toFixed(1)+'" width="'+w+'" height="'+h.toFixed(1)+'" fill="'+cols[k]+'" rx="3"'+(k===2?' opacity="0.92"':'')+'/>';
+    s2+=tl(x+w/2,(base-h-7),12,cols[k],disp[k].toFixed(1));
+    s2+=tl(x+w/2,base+laby[k],13,cols[k],names[k]);
+  }
+  return s2;
+}
+/* ================= TAB 0 · PENDULUM ================= */
+var PX=250, PY=80, SCALE=122;
+function pdState(){
+  if(!PD.run)return T('st_ready');
+  var a=Math.abs(PD.th), a0=Math.max(PD.th0,1e-6);
+  if(a>0.9*a0)return T('st_top');
+  if(a<0.15*a0)return T('st_bot');
+  return (PD.th*PD.w>0)?T('st_up'):T('st_dn');
+}
+function drawPD(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="520" rx="14" fill="#FBF7EC"/>';
+  var Lpx=PD.L*SCALE;
+  var bx=PX+Lpx*Math.sin(PD.th), by=PY+Lpx*Math.cos(PD.th);
+  var yBot=PY+Lpx;
+  // ceiling + pivot
+  s+='<rect x="150" y="56" width="200" height="12" fill="#B9AE95"/>';
+  var k;
+  for(k=0;k<8;k++)s+='<line x1="'+(158+k*24)+'" y1="56" x2="'+(248+k*24)+'" y2="44" stroke="#B9AE95" stroke-width="3"/>';
+  // release-amplitude guides
+  if(PD.th0>0.02){
+    var gx1=PX+Lpx*Math.sin(PD.th0), gy1=PY+Lpx*Math.cos(PD.th0);
+    var gx2=PX-Lpx*Math.sin(PD.th0);
+    s+='<line x1="'+PX+'" y1="'+PY+'" x2="'+gx1.toFixed(1)+'" y2="'+gy1.toFixed(1)+'" stroke="#B9AE95" stroke-width="2" stroke-dasharray="5 6"/>';
+    s+='<line x1="'+PX+'" y1="'+PY+'" x2="'+gx2.toFixed(1)+'" y2="'+gy1.toFixed(1)+'" stroke="#B9AE95" stroke-width="2" stroke-dasharray="5 6"/>';
+    s+='<line x1="66" y1="'+gy1.toFixed(1)+'" x2="522" y2="'+gy1.toFixed(1)+'" stroke="#DA9526" stroke-width="2" stroke-dasharray="7 6" opacity="0.75"/>';
+    s+=tl(70,gy1-8,13,'#8A6A1E',T('hrel')+' h₀','start');
+  }
+  // h = 0 reference at the lowest point
+  s+='<line x1="66" y1="'+yBot.toFixed(1)+'" x2="522" y2="'+yBot.toFixed(1)+'" stroke="#8A8070" stroke-width="2" stroke-dasharray="4 6" opacity="0.7"/>';
+  s+=tlplain(520,yBot+18,13,'#8A8070',T('href'),'end');
+  // current-height marker
+  var hNow=pdH(PD.th);
+  if(hNow>0.01){
+    s+='<line x1="'+(bx+30).toFixed(1)+'" y1="'+by.toFixed(1)+'" x2="'+(bx+30).toFixed(1)+'" y2="'+yBot.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+='<line x1="'+(bx+24).toFixed(1)+'" y1="'+by.toFixed(1)+'" x2="'+(bx+36).toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+=tl(bx+40,(by+yBot)/2+5,13,'#2C7D8C','h='+hNow.toFixed(2)+'m','start');
+  }
+  // string + bob
+  s+='<line x1="'+PX+'" y1="'+PY+'" x2="'+bx.toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="#6B655C" stroke-width="3"/>';
+  s+='<circle cx="'+PX+'" cy="'+PY+'" r="6" fill="#4B4437"/>';
+  var sp=Math.abs(PD.L*PD.w);
+  var glow=clamp(sp/3.2,0,1);
+  if(glow>0.08)s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="'+(18+14*glow).toFixed(0)+'" fill="#D9542B" opacity="'+(0.25*glow).toFixed(2)+'"/>';
+  s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="17" fill="#D8D0BC" stroke="#8A8070" stroke-width="3"/>';
+  // velocity arrow (tangential)
+  var vpx=PD.L*PD.w*46;
+  if(Math.abs(vpx)>7){
+    var tx=Math.cos(PD.th)*vpx, ty=-Math.sin(PD.th)*vpx;
+    var ex=bx+tx, ey=by+ty;
+    s+='<line x1="'+bx.toFixed(1)+'" y1="'+by.toFixed(1)+'" x2="'+ex.toFixed(1)+'" y2="'+ey.toFixed(1)+'" stroke="#D9542B" stroke-width="4"/>';
+    var ang=Math.atan2(ey-by,ex-bx);
+    s+='<path d="M '+ex.toFixed(1)+' '+ey.toFixed(1)+' l '+(-11*Math.cos(ang-0.42)).toFixed(1)+' '+(-11*Math.sin(ang-0.42)).toFixed(1)+' m '+(11*Math.cos(ang-0.42)).toFixed(1)+' '+(11*Math.sin(ang-0.42)).toFixed(1)+' l '+(-11*Math.cos(ang+0.42)).toFixed(1)+' '+(-11*Math.sin(ang+0.42)).toFixed(1)+'" stroke="#D9542B" stroke-width="4" fill="none"/>';
+    s+=tl((bx+ex)/2+14,(by+ey)/2,13,'#D9542B','v');
+  }
+  // state badge
+  s+=tl(280,36,17,'#B5652A',pdState());
+  // energy displays: column chart (right) + stacked bar (bottom)
+  var E0=Math.max(PD.E0,0.01);
+  s+=vbars(566,pdKE(),pdPE(),E0);
+  s+=ebar(pdKE(),pdPE(),E0,460);
+  $('svgpd').innerHTML=PAINT(s);
+  // qbox + chips
+  var deg=Math.round(PD.th0*180/Math.PI);
+  var h0=PD.L*(1-Math.cos(PD.th0));
+  $('qb0').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb0a')+'<b>θ = '+deg+'°</b>'+T('qb0b')+'<b>h₀ = '+h0.toFixed(2)+' m</b>'+T('qb0c');
+  $('c_state').textContent=pdState();
+  $('c_ke').textContent=T('ke')+' '+pdKE().toFixed(1)+' J';
+  $('c_pe').textContent=T('pe')+' '+pdPE().toFixed(1)+' J';
+  $('c_e').textContent=T('etot')+' '+(Math.round(pdKE()*10)/10+Math.round(pdPE()*10)/10).toFixed(1)+' J';
+  $('c_h').textContent='h = '+pdH(PD.th).toFixed(2)+' m';
+  $('c_v').textContent='v = '+Math.abs(PD.L*PD.w).toFixed(2)+' m/s';
+}
+function initPD(){
+  var dragging=false;
+  makeDrag($('svgpd'),660,520,function(pt,isdown){
+    var Lpx=PD.L*SCALE;
+    var bx=PX+Lpx*Math.sin(PD.th), by=PY+Lpx*Math.cos(PD.th);
+    if(isdown){
+      dragging=(Math.abs(pt.x-bx)<46&&Math.abs(pt.y-by)<46);
+      if(!dragging)return;
+      PD.run=false;
+      $('pdplay').classList.remove('on');
+    }
+    if(!dragging)return;
+    var th=Math.atan2(pt.x-PX,pt.y-PY);
+    pdSetRelease(clamp(th,-1.25,1.25));
+    drawPD();updSummary();
+  },function(){
+    if(dragging){
+      dragging=false;
+      PD.run=true;
+      $('pdplay').classList.add('on');
+    }
+  });
+}
+
+/* ================= TAB 1 · MAXWELL WHEEL ================= */
+var MWX=300, MWTOP=110, MWSC=230;
+function mwState(){
+  if(!MW.run)return T('st_wready');
+  if(MW.y<0.06)return T('st_wtop');
+  if(MW.y>MWH0-0.06)return T('st_wbot');
+  return (MW.v>0)?T('st_wdn'):T('st_wup');
+}
+function drawMW(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="520" rx="14" fill="#FBF7EC"/>';
+  var wy=MWTOP+MW.y*MWSC;
+  var yBot=MWTOP+MWH0*MWSC;
+  // top bar + hatching
+  s+='<rect x="180" y="56" width="240" height="12" fill="#B9AE95"/>';
+  var k;
+  for(k=0;k<10;k++)s+='<line x1="'+(188+k*24)+'" y1="56" x2="'+(198+k*24)+'" y2="44" stroke="#B9AE95" stroke-width="3"/>';
+  // strings to the axle
+  s+='<line x1="'+(MWX-42)+'" y1="68" x2="'+(MWX-42)+'" y2="'+wy.toFixed(1)+'" stroke="#6B655C" stroke-width="2.5"/>';
+  s+='<line x1="'+(MWX+42)+'" y1="68" x2="'+(MWX+42)+'" y2="'+wy.toFixed(1)+'" stroke="#6B655C" stroke-width="2.5"/>';
+  // height guides
+  s+='<line x1="110" y1="'+(MWTOP)+'" x2="508" y2="'+(MWTOP)+'" stroke="#DA9526" stroke-width="2" stroke-dasharray="7 6" opacity="0.75"/>';
+  s+=tl(114,MWTOP-8,13,'#8A6A1E',T('hrel')+' h₀ = '+MWH0.toFixed(1)+' m','start');
+  s+='<line x1="110" y1="'+yBot+'" x2="508" y2="'+yBot+'" stroke="#8A8070" stroke-width="2" stroke-dasharray="4 6" opacity="0.7"/>';
+  s+=tlplain(506,yBot+18,13,'#8A8070',T('href'),'end');
+  // current height marker (right side)
+  var hNow=MWH0-MW.y;
+  if(hNow>0.02){
+    s+='<line x1="452" y1="'+wy.toFixed(1)+'" x2="452" y2="'+yBot+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+='<line x1="446" y1="'+wy.toFixed(1)+'" x2="458" y2="'+wy.toFixed(1)+'" stroke="#2C7D8C" stroke-width="2.5"/>';
+    s+=tl(444,(wy+yBot)/2+5,13,'#2C7D8C','h='+hNow.toFixed(2)+'m','end');
+  }
+  // wheel: disk + spokes rotating with ph, spin glow ∝ |v|
+  var sp=Math.abs(MW.v);
+  var glow=clamp(sp/1.15,0,1);
+  if(glow>0.08)s+='<circle cx="'+MWX+'" cy="'+wy.toFixed(1)+'" r="'+(58+16*glow).toFixed(0)+'" fill="#D9542B" opacity="'+(0.22*glow).toFixed(2)+'"/>';
+  s+='<circle cx="'+MWX+'" cy="'+wy.toFixed(1)+'" r="54" fill="#D8D0BC" stroke="#8A8070" stroke-width="4"/>';
+  for(k=0;k<4;k++){
+    var a=MW.ph+k*Math.PI/4;
+    s+='<line x1="'+(MWX+50*Math.cos(a)).toFixed(1)+'" y1="'+(wy+50*Math.sin(a)).toFixed(1)+'" x2="'+(MWX-50*Math.cos(a)).toFixed(1)+'" y2="'+(wy-50*Math.sin(a)).toFixed(1)+'" stroke="#8A8070" stroke-width="3.5"/>';
+  }
+  s+='<circle cx="'+MWX+'" cy="'+wy.toFixed(1)+'" r="9" fill="#6B655C"/>';
+  // spin-rate arc arrow
+  if(sp>0.06){
+    var dir=MW.v>0?1:-1;
+    s+='<path d="M '+(MWX+70)+' '+(wy-16).toFixed(1)+' a 24 24 0 0 '+(dir>0?1:0)+' 0 32" fill="none" stroke="#D9542B" stroke-width="4"/>';
+    s+=tl(MWX+96,wy+5,13,'#D9542B',T('spin'));
+  }
+  // state badge
+  s+=tl(330,36,17,'#B5652A',mwState());
+  // energy displays: column chart (right) + stacked bar (bottom)
+  s+=vbars(566,mwKE(),mwPE(),mwE0());
+  s+=ebar(mwKE(),mwPE(),mwE0(),460);
+  $('svgmw').innerHTML=PAINT(s);
+  $('qb1').innerHTML='<span class="qtag">'+T('qtag')+'</span>'+T('qb1a')+'<b>h₀ = '+MWH0.toFixed(1)+' m</b>'+T('qb1b');
+  $('m_state').textContent=mwState();
+  $('m_ke').textContent=T('ke')+' '+mwKE().toFixed(1)+' J';
+  $('m_pe').textContent=T('pe')+' '+mwPE().toFixed(1)+' J';
+  $('m_e').textContent=T('etot')+' '+(Math.round(mwKE()*10)/10+Math.round(mwPE()*10)/10).toFixed(1)+' J';
+}
+
+/* ================= TAB 2 · ENERGY–TIME GRAPH ================= */
+function drawGR(){
+  var s='';
+  s+='<rect x="0" y="0" width="660" height="470" rx="14" fill="#FBF7EC"/>';
+  // mini pendulum (top-left)
+  var L=1.4, px=120, py=52, sc=78;
+  var bx=px+L*sc/1.4*Math.sin(G3.th)*0.62, by=py+L*sc*Math.cos(G3.th)/1.4*1.0+0;
+  bx=px+sc*Math.sin(G3.th); by=py+sc*Math.cos(G3.th);
+  s+='<rect x="'+(px-50)+'" y="'+(py-14)+'" width="100" height="8" fill="#B9AE95"/>';
+  s+='<line x1="'+px+'" y1="'+py+'" x2="'+bx.toFixed(1)+'" y2="'+by.toFixed(1)+'" stroke="#6B655C" stroke-width="2.5"/>';
+  var spd=Math.abs(1.4*G3.w), gl=clamp(spd/3,0,1);
+  if(gl>0.08)s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="'+(11+9*gl).toFixed(0)+'" fill="#D9542B" opacity="'+(0.3*gl).toFixed(2)+'"/>';
+  s+='<circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="10" fill="#D8D0BC" stroke="#8A8070" stroke-width="2.5"/>';
+  // legend
+  s+='<rect x="250" y="34" width="16" height="10" fill="#D9542B"/>';
+  s+=tl(272,44,14,'#D9542B',T('ke'),'start');
+  s+='<rect x="340" y="34" width="16" height="10" fill="#2C7D8C"/>';
+  s+=tl(362,44,14,'#2C7D8C',T('pe'),'start');
+  s+='<rect x="430" y="34" width="16" height="10" fill="#C9A227"/>';
+  s+=tl(452,44,14,'#8A6A1E',T('etot'),'start');
+  // axes
+  var gx0=64, gx1=636, gy0=430, gy1=160;
+  s+='<line x1="'+gx0+'" y1="'+gy0+'" x2="'+gx1+'" y2="'+gy0+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+='<line x1="'+gx0+'" y1="'+gy0+'" x2="'+gx0+'" y2="'+gy1+'" stroke="#4B4437" stroke-width="2.5"/>';
+  s+=tlplain(gx1-4,gy0+22,13,'#6B6252',T('axis_t'),'end');
+  s+=tlplain(gx0-8,gy1+4,13,'#6B6252',T('axis_e'),'end');
+  // curves
+  var H=G3.hist, n=H.length, k;
+  if(n>2){
+    var Emax=G3.E0*1.18;
+    function Y(e){return gy0-(gy0-gy1)*clamp(e/Emax,0,1)}
+    function X(i){return gx0+(gx1-gx0)*i/419}
+    var pKE='',pPE='',pE='';
+    for(k=0;k<n;k++){
+      var x=X(k).toFixed(1);
+      pKE+=(k?' L ':'M ')+x+' '+Y(H[k][0]).toFixed(1);
+      pPE+=(k?' L ':'M ')+x+' '+Y(H[k][1]).toFixed(1);
+      pE+=(k?' L ':'M ')+x+' '+Y(H[k][0]+H[k][1]).toFixed(1);
+    }
+    s+='<path d="'+pE+'" fill="none" stroke="#C9A227" stroke-width="4"/>';
+    s+='<path d="'+pKE+'" fill="none" stroke="#D9542B" stroke-width="3"/>';
+    s+='<path d="'+pPE+'" fill="none" stroke="#2C7D8C" stroke-width="3"/>';
+  }
+  $('svggr').innerHTML=PAINT(s);
+}
+
+/* ================= TAB 3 · REVIEW ================= */
+function buildCmp(){
+  var h='<table class="cmp"><tr>',k,j;
+  var Hh=T('cmpH'),R=T('cmpR');
+  for(k=0;k<Hh.length;k++)h+='<th>'+Hh[k]+'</th>';
+  h+='</tr>';
+  for(k=0;k<R.length;k++){
+    h+='<tr>';
+    for(j=0;j<R[k].length;j++)h+='<td>'+R[k][j]+'</td>';
+    h+='</tr>';
+  }
+  h+='</table>';
+  $('cmpwrap').innerHTML=h;
+}
+function drawP3(){buildCmp()}
+/* ================= TAB 4 · QUIZ ================= */
+function QZdata(){
+  if(LANG==='en')return [
+   {q:'1. At the LOWEST point of its swing, a pendulum bob has…',o:[
+    ['Maximum PE, minimum KE',0,'That describes the highest point, not the lowest.'],
+    ['Maximum KE, minimum PE',1,'Correct — lowest height means least PE, and all of it has become motion.'],
+    ['Zero energy of both kinds',0,'The energy hasn\u2019t vanished — it\u2019s all kinetic there.'],
+    ['Equal KE and PE',0,'They\u2019re only equal somewhere in between, not at the bottom.']]},
+   {q:'2. While the bob swings UPWARD, the conversion is…',o:[
+    ['PE → KE',0,'That\u2019s the downward part of the swing.'],
+    ['KE → PE',1,'Correct — it slows down as it climbs: motion energy is being banked as height.'],
+    ['KE → heat only',0,'With little friction, almost all of it becomes PE.'],
+    ['No conversion at all',0,'Speed and height are both changing — energy is definitely converting.']]},
+   {q:'3. At the HIGHEST point of the swing, the bob\u2019s speed is…',o:[
+    ['Maximum',0,'Maximum speed is at the BOTTOM.'],
+    ['About half of maximum',0,'It\u2019s not half — it\u2019s momentarily zero.'],
+    ['Zero for an instant',1,'Correct — all KE has become PE, so the bob is momentarily at rest.'],
+    ['Impossible to know',0,'Energy accounting tells us exactly: v = 0 there.']]},
+   {q:'4. With NO friction, the bob released from height h rises on the far side to…',o:[
+    ['Half of h',0,'Losing half would mean losing energy — but nothing takes it away.'],
+    ['Exactly h',1,'Correct — total mechanical energy is conserved, so it regains exactly the same height.'],
+    ['Higher than h',0,'That would create energy from nowhere.'],
+    ['It depends on the mass',0,'Both PE and KE scale with mass — the height is mass-independent.']]},
+   {q:'5. As a Maxwell wheel falls, the conversion is…',o:[
+    ['KE → PE',0,'That\u2019s the rewinding (rising) phase.'],
+    ['PE → KE (mostly rotational)',1,'Correct — height is traded for spin, which is why it rotates fastest at the bottom.'],
+    ['PE → heat',0,'With good bearings almost all of it becomes kinetic energy.'],
+    ['Nothing converts',0,'It visibly speeds up — energy is flowing from PE to KE.']]},
+   {q:'6. With air resistance ON, the pendulum finally stops at the lowest point. Its mechanical energy…',o:[
+    ['Disappeared completely',0,'Energy never disappears — it changed form.'],
+    ['Became internal energy (heat) through friction',1,'Correct — friction converted the mechanical energy into heat in the air and string.'],
+    ['Went back into the Earth\u2019s gravity',0,'Gravity stores PE by height — the bob ends at h = 0.'],
+    ['Turned into electrical energy',0,'Nothing here generates electricity.']]},
+   {q:'7. A playground swing dies out if you don\u2019t pump it because…',o:[
+    ['Gravity gets weaker with each swing',0,'Gravity is constant — it doesn\u2019t fade.'],
+    ['Friction and air resistance turn its mechanical energy into heat',1,'Correct — every pass loses a little to heat, so each swing is lower than the last.'],
+    ['KE and PE cancel each other out',0,'They convert INTO each other — they don\u2019t cancel.'],
+    ['The mass of the rider decreases',0,'The rider\u2019s mass certainly doesn\u2019t change.']]}
+  ];
+  return [
+   {q:'1. 摆球摆到最低点时……',o:[
+    ['势能最大，动能最小',0,'那是最高点的情况。'],
+    ['动能最大，势能最小',1,'正确——高度最低势能最小，能量全部变成了运动。'],
+    ['动能势能都为零',0,'能量没有消失——在最低点全是动能。'],
+    ['动能等于势能',0,'两者只在中途某处相等，不在最低点。']]},
+   {q:'2. 摆球向上摆的过程中，能量转化是……',o:[
+    ['势能 → 动能',0,'那是下摆的过程。'],
+    ['动能 → 势能',1,'正确——越升越慢：运动的能量被"存"成了高度。'],
+    ['动能全部变成热',0,'摩擦很小时，绝大部分变成了势能。'],
+    ['没有转化',0,'速度和高度都在变，能量一定在转化。']]},
+   {q:'3. 摆球到达最高点时，速度是……',o:[
+    ['最大',0,'速度最大在最低点。'],
+    ['大约是最大值的一半',0,'不是一半——是瞬间为零。'],
+    ['瞬间为零',1,'正确——动能全部转化成了势能，摆球瞬间静止。'],
+    ['无法判断',0,'能量账算得清清楚楚：那里 v = 0。']]},
+   {q:'4. 没有摩擦时，从高度 h 释放的摆球，摆到对面能升到……',o:[
+    ['h 的一半',0,'升一半意味着能量少了一半——但没有任何东西把它拿走。'],
+    ['恰好 h',1,'正确——机械能守恒，它恰好回到同样的高度。'],
+    ['比 h 更高',0,'那就是凭空创造能量了。'],
+    ['取决于质量',0,'动能势能都跟质量成正比——高度和质量无关。']]},
+   {q:'5. 滚摆下落时，能量转化是……',o:[
+    ['动能 → 势能',0,'那是上卷（回升）的阶段。'],
+    ['势能 → 动能（主要是转动动能）',1,'正确——高度换成了转动，所以越低转得越快。'],
+    ['势能 → 热',0,'轴承良好时几乎全部变成了动能。'],
+    ['没有转化',0,'它明显越转越快——势能正在流向动能。']]},
+   {q:'6. 开着空气阻力，单摆最终停在最低点。它的机械能……',o:[
+    ['彻底消失了',0,'能量从不消失——只是换了形式。'],
+    ['通过摩擦变成了内能（热）',1,'正确——摩擦把机械能转化成了空气和绳子里的热。'],
+    ['还给了地球的引力',0,'重力势能由高度决定——摆球最后停在 h = 0。'],
+    ['变成了电能',0,'这里没有任何发电装置。']]},
+   {q:'7. 荡秋千不蹬会越荡越低，原因是……',o:[
+    ['重力一次比一次弱',0,'重力是恒定的，不会衰减。'],
+    ['摩擦和空气阻力把机械能变成了热',1,'正确——每荡一个来回都损失一点变成热，所以一次比一次低。'],
+    ['动能和势能互相抵消了',0,'它们是互相转化，不是互相抵消。'],
+    ['人的质量变小了',0,'人的质量当然不会变。']]}
+  ];
+}
+var QZi=0,QZpick=[],QZdone=[],QZfirst=[];
+function drawQZ(){buildQuiz()}
+function qzHead(){
+  var data=QZdata(),N=data.length,nf=0,k;
+  for(k=0;k<N;k++)if(QZfirst[k]===true)nf++;
+  $('qzprog').textContent=(LANG==='en'?'Q ':'第 ')+Math.min(QZi+1,N)+' / '+N+(LANG==='en'?'':' 题');
+  $('qzscore').textContent=(LANG==='en'?'first try ':'一次答对 ')+nf+' / '+N;
+  return nf;
+}
+function buildQuiz(){
+  var data=QZdata(),h='',k,j,N=data.length;
+  var nf=qzHead();
+  if(QZi>=N){
+    $('quiz').innerHTML='<div class="q"><div class="qt">'+(LANG==='en'?'🎉 Done! First-try score: ':'🎉 全部完成！一次答对：')+nf+' / '+N+'</div></div>';
+    return;
+  }
+  var d=data[QZi];
+  h+='<div class="q"><div class="qt">'+d.q+'</div>';
+  for(j=0;j<d.o.length;j++){
+    h+='<button class="opt" data-o="'+j+'">'+String.fromCharCode(65+j)+'. '+d.o[j][0]+'</button>';
+    h+='<div class="fb" id="fbq_'+j+'">'+d.o[j][2]+'</div>';
+  }
+  h+='</div>';
+  h+='<button class="dbtn" id="qznext" style="display:none">'+(QZi===N-1?(LANG==='en'?'Finish ✔':'完成 ✔'):(LANG==='en'?'Next ▶':'下一题 ▶'))+'</button>';
+  $('quiz').innerHTML=h;
+  var ops=document.querySelectorAll('#quiz .opt');
+  for(k=0;k<ops.length;k++){
+    ops[k].addEventListener('click',function(){
+      if(QZdone[QZi])return;
+      pickQ(+this.getAttribute('data-o'));
+    });
+  }
+  var nb=$('qznext');
+  if(nb)nb.addEventListener('click',function(){QZi++;buildQuiz();updSummary()});
+  if(QZpick[QZi]!==undefined)restoreQ();
+}
+function pickQ(oi){
+  var data=QZdata(),d=data[QZi];
+  QZpick[QZi]=oi;
+  if(QZfirst[QZi]===undefined)QZfirst[QZi]=(d.o[oi][1]===1);
+  if(d.o[oi][1]===1)QZdone[QZi]=true;
+  restoreQ();
+  qzHead();
+}
+function restoreQ(){
+  var data=QZdata(),d=data[QZi],j;
+  var ops=document.querySelectorAll('#quiz .opt');
+  var oi=QZpick[QZi];
+  for(j=0;j<ops.length;j++){
+    ops[j].classList.remove('ok');ops[j].classList.remove('bad');
+    var f=$('fbq_'+j);if(f)f.classList.remove('show');
+  }
+  if(oi===undefined||!ops[oi])return;
+  var right=d.o[oi][1]===1;
+  ops[oi].classList.add(right?'ok':'bad');
+  var fb=$('fbq_'+oi);if(fb)fb.classList.add('show');
+  var nb=$('qznext');
+  if(nb)nb.style.display=QZdone[QZi]?'':'none';
+}
+
+/* ================= boot ================= */
+function setLang(l){
+  LANG=l;
+  $('langbtn').textContent=(l==='zh')?'EN':'中';
+  document.documentElement.setAttribute('lang',l==='zh'?'zh':'en');
+  applyI18n();
+  buildCmp(); buildQuiz();
+  RENDER[CUR](); updSummary();
+}
+var AMB=0;
+var PDSLOW=false, MWSLOW=false;
+function ambLoop(){
+  if(CUR===0&&PD.run){
+    pdStep(PDSLOW?0.004:0.016);
+    drawPD();updSummary();
+  }
+  if(CUR===1&&MW.run){
+    mwStep(MWSLOW?0.004:0.016);
+    drawMW();updSummary();
+  }
+  if(CUR===2){
+    g3Step(0.016);
+    drawGR();
+  }
+  AMB=requestAnimationFrame(ambLoop);
+}
+function boot(){
+  RENDER=[drawPD,drawMW,drawGR,drawP3,drawQZ];
+  SUMMARY=[
+    function(){return pdState()+' · '+T('etot')+' '+(pdKE()+pdPE()).toFixed(1)+' J'},
+    function(){return mwState()+' · '+T('etot')+' '+(mwKE()+mwPE()).toFixed(1)+' J'},
+    function(){return T('gr_figtitle')},
+    function(){return T('cmp_title')},
+    function(){return T('qz_title')+' '+$('qzscore').textContent}
+  ];
+  initTabs(); initPD();
+  pdSetRelease(0.9);
+  $('pdplay').addEventListener('click',function(){
+    PD.run=!PD.run;
+    this.classList.toggle('on',PD.run);
+  });
+  $('lsl').addEventListener('input',function(){
+    PD.L=+this.value; $('llab').textContent=PD.L.toFixed(1)+' m';
+    pdSetRelease(Math.sign(PD.th||1)*PD.th0);
+    if(CUR===0)drawPD();
+  });
+  $('pdslow').addEventListener('click',function(){
+    PDSLOW=!PDSLOW;
+    this.classList.toggle('on',PDSLOW);
+  });
+  $('pddamp').addEventListener('click',function(){
+    PD.damp=!PD.damp;
+    this.classList.toggle('on',PD.damp);
+  });
+  $('pdreset').addEventListener('click',function(){
+    PD.run=false;$('pdplay').classList.remove('on');
+    pdSetRelease(0.9);
+    drawPD();updSummary();
+  });
+  $('mwplay').addEventListener('click',function(){
+    MW.run=!MW.run;
+    this.classList.toggle('on',MW.run);
+  });
+  $('mwslow').addEventListener('click',function(){
+    MWSLOW=!MWSLOW;
+    this.classList.toggle('on',MWSLOW);
+  });
+  $('mwdamp').addEventListener('click',function(){
+    MW.damp=!MW.damp;
+    this.classList.toggle('on',MW.damp);
+  });
+  $('mwreset').addEventListener('click',function(){
+    MW.run=false;$('mwplay').classList.remove('on');
+    MW.y=0;MW.v=0;MW.ph=0;
+    drawMW();updSummary();
+  });
+  $('g3damp').addEventListener('click',function(){
+    G3.damp=!G3.damp;
+    this.classList.toggle('on',G3.damp);
+  });
+  $('g3reset').addEventListener('click',function(){
+    G3.hist=[];G3.th=0.9;G3.w=0;
+    drawGR();
+  });
+  $('qzreset').addEventListener('click',function(){QZpick=[];QZdone=[];QZfirst=[];QZi=0;buildQuiz();updSummary()});
+  $('langbtn').addEventListener('click',function(){setLang(LANG==='zh'?'en':'zh')});
+  $('thmbtn').addEventListener('click',function(){
+    DARK=!DARK;
+    if(document.body)document.body.classList.toggle('dark',DARK);
+    this.textContent=DARK?'☀️':'🌙';
+    RENDER[CUR]();updSummary();
+  });
+  initExp();
+  applyI18n();
+  buildCmp(); buildQuiz();
+  showTab(0);
+  AMB=requestAnimationFrame(ambLoop);
+}
+boot();
+
+/* test hook */
+window.__test=function(){
+  var i;
+  for(i=0;i<TABN;i++){showTab(i)}
+  // pendulum: drag-release + run + damp + length sweep
+  showTab(0);
+  pdSetRelease(1.1);PD.run=true;
+  for(i=0;i<240;i++){pdStep(0.016);if(i%40===0)drawPD()}
+  PD.damp=true;
+  for(i=0;i<240;i++){pdStep(0.016);if(i%40===0)drawPD()}
+  PD.damp=false;PD.L=2.4;pdSetRelease(0.6);drawPD();
+  PD.L=1.8;pdSetRelease(0.9);PD.run=false;drawPD();
+  // wheel: full cycles ideal + damped
+  showTab(1);
+  MW.y=0;MW.v=0;MW.run=true;
+  for(i=0;i<600;i++){mwStep(0.016);if(i%80===0)drawMW()}
+  MW.damp=true;
+  for(i=0;i<400;i++){mwStep(0.016);if(i%80===0)drawMW()}
+  MW.damp=false;MW.run=false;MW.y=0;MW.v=0;MW.ph=0;drawMW();
+  // graph tab accumulates + damp
+  showTab(2);
+  for(i=0;i<500;i++){g3Step(0.016);if(i%100===0)drawGR()}
+  G3.damp=true;
+  for(i=0;i<300;i++){g3Step(0.016)}
+  drawGR();G3.damp=false;G3.hist=[];G3.th=0.9;G3.w=0;
+  // quiz pager
+  showTab(4);
+  for(i=0;i<7;i++){QZi=i;buildQuiz();pickQ(i%4)}
+  QZi=7;buildQuiz();
+  QZi=0;QZpick=[];QZdone=[];QZfirst=[];buildQuiz();
+  DARK=true;for(i=0;i<TABN;i++){RENDER[i]()}
+  DARK=false;
+  setLang('en');for(i=0;i<TABN;i++){RENDER[i]()}
+  setLang('zh');
+  showTab(0);
+};
+
+
+</script>
+<script>
+window.LAB_SLUG='mechanical-energy-conversion-lab';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>

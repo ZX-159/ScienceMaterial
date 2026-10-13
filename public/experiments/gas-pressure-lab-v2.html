@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>气体压强探究实验室 · Gas Pressure · ScienceMaterial</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fffefb; --bg:#f2f1e9; --card:#FFFEFB; --surface:#FFFFFF;
+  --ink:#1c2c42; --muted:#68786f; --line:#DDD9CF; --line2:#EDE9E0;
+  --teal:#146e61; --teal-soft:#e4eee4; --gold:#b88a43; --red:#bd6151; --hot:#D9542B; --warm:#B88A43; --cool:#2C7D8C; --green:#2F7D4F;
+  --app-height:100vh;
+</style>
+</head>
+<body>
+
+<header class="toolbar">
+  <div class="hleft">
+    <div class="brand">ScienceMaterial</div>
+    <h1><svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex:none;display:inline-block;vertical-align:middle"><rect width="28" height="28" rx="6" fill="#1C2C42"/><path d="M9 9H19L17.5 19C17.5 19 16 21 14 21C12 21 10.5 19 10.5 19L9 9Z" fill="#FFFEFB"/><circle cx="14" cy="14" r="2" fill="#146E61"/></svg> 💨 <span data-i="title"></span></h1>
+    <div class="sub">Gas Pressure · chu-er-shang/b3-c4 · ScienceMaterial</div>
+  </div>
+  <div class="chips">
+    <span data-i="chip1"></span>
+    <span data-i="chip2"></span>
+    <span style="color:var(--neg); border-color:rgba(63,208,108,.55)" data-i="chip3"></span>
+  </div>
+  <div class="hbtns">
+    <button class="hbtn lang" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="hbtn" id="themeBtn" onclick="toggleTheme()"></button>
+    <button class="hbtn" onclick="toggleFull()"><span data-i="btnFull"></span></button>
+    <button class="hbtn" onclick="resetActive()">↺ <span data-i="btnReset"></span></button>
+  </div>
+</header>
+
+<main>
+  <div class="left">
+    <nav class="tabs">
+      <button id="tab-lab" class="on" onclick="setMode('lab')"><span data-i="tabLab"></span></button>
+      <button id="tab-cmp" onclick="setMode('cmp')"><span data-i="tabCmp"></span></button>
+      <button id="tab-quiz" onclick="setMode('quiz')"><span data-i="tabQuiz"></span></button>
+      <button id="tab-game" onclick="setMode('game')"><span data-i="tabGame"></span></button>
+    </nav>
+
+    <div class="stage">
+      <section class="panel on" id="panel-lab">
+        <div class="cvarea"><canvas id="cv-lab" width="2000" height="1000"></canvas></div>
+        <div class="rail">
+          <div class="rail-t" data-i="sceLabel"></div>
+          <button class="railbtn" data-sc="sc1" onclick="playScene('sc1')"><span data-i="sc1"></span></button>
+          <button class="railbtn" data-sc="sc2" onclick="playScene('sc2')"><span data-i="sc2"></span></button>
+          <button class="railbtn" data-sc="sc3" onclick="playScene('sc3')"><span data-i="sc3"></span></button>
+          <button class="railbtn" data-sc="sc4" onclick="playScene('sc4')"><span data-i="sc4"></span></button>
+          <button class="railbtn" data-sc="sc5" onclick="playScene('sc5')"><span data-i="sc5"></span></button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-cmp">
+        <div class="duo">
+          <div class="box">
+            <div class="track-label" id="ca-name"></div>
+            <div class="cvwrap"><canvas id="cv-ca" width="880" height="760"></canvas></div>
+            <div class="minictl" id="ca-cond"></div>
+          </div>
+          <div class="box">
+            <div class="track-label" id="cb-name"></div>
+            <div class="cvwrap"><canvas id="cv-cb" width="880" height="760"></canvas></div>
+            <div class="minictl" id="cb-cond"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-quiz">
+        <div class="quiz-wrap">
+          <div class="q-timer" id="q-timer"><i id="q-timer-bar"></i></div>
+          <div class="quiz-emoji" id="q-emoji"></div>
+          <div class="quiz-q" id="q-text"></div>
+          <div class="quiz-btns" id="q-opts"></div>
+          <div class="quiz-exp" id="q-exp"></div>
+          <div class="quiz-nav">
+            <button class="btn" id="q-next" style="display:none" onclick="nextQ()"><span data-i="next"></span> ➜</button>
+            <button class="btn ghost" id="q-restart" style="display:none" onclick="restartQ()">🔄 <span data-i="again"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-game">
+        <div class="gamehud">
+          <span class="gt"><span data-i="gTarget"></span> <b id="g-target">--</b> kPa</span>
+          <span class="gt"><span data-i="gRound"></span> <b id="g-round" style="font-size:18px">1</b>/3</span>
+          <span class="gt"><span data-i="gNow"></span> <b id="g-cur-hud">--</b></span>
+          <span class="gtime" id="g-time">40</span>
+        </div>
+        <div id="game-cvhost"></div>
+      </section>
+    </div>
+
+    <div class="ctlbar">
+      <div class="ctl-group on" id="ctl-lab">
+        <div class="rowline">
+          <label class="ctl"><span data-i="slN"></span>
+            <input type="range" id="s-n" min="5" max="60" step="5" value="20" oninput="setN(+this.value,1)">
+            <output id="s-n-o">20</output>
+          </label>
+          <label class="ctl"><span data-i="slT"></span>
+            <input type="range" id="s-t" min="-20" max="100" step="10" value="20" oninput="setT(+this.value,1)">
+            <output id="s-t-o">20 ℃</output>
+          </label>
+          <label class="ctl"><span data-i="slV"></span>
+            <input type="range" id="s-v" min="45" max="100" step="5" value="100" oninput="setV(+this.value,1)">
+            <output id="s-v-o">100 %</output>
+          </label>
+        </div>
+        <div class="hint-line" data-i="labHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-cmp">
+        <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(0)">📕 <span data-i="cp1"></span></button>
+        <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(1)">📗 <span data-i="cp2"></span></button>
+        <button class="btn ghost" style="font-size:14px; letter-spacing:0" onclick="presetCmp(2)">📙 <span data-i="cp3"></span></button>
+        <span class="ctl-label" data-i="guessQ"></span>
+        <button class="sbtn" data-g="a" onclick="pickGuess(this)"><span data-i="gMoreA"></span></button>
+        <button class="sbtn" data-g="same" onclick="pickGuess(this)"><span data-i="gSame"></span></button>
+        <button class="sbtn" data-g="b" onclick="pickGuess(this)"><span data-i="gMoreB"></span></button>
+        <button class="btn" id="cmp-run" onclick="runCmp()" disabled>⏱ <span data-i="runCmp"></span></button>
+        <div class="hint-line" data-i="cmpHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-quiz">
+        <div class="hint-line" data-i="quizHint"></div>
+      </div>
+
+      <div class="ctl-group" id="ctl-game">
+        <div class="rowline">
+          <label class="ctl"><span data-i="slN"></span>
+            <input type="range" id="g-n" min="5" max="60" step="5" value="20" oninput="setN(+this.value,1)">
+            <output id="g-n-o">20</output>
+          </label>
+          <label class="ctl"><span data-i="slT"></span>
+            <input type="range" id="g-t" min="-20" max="100" step="10" value="20" oninput="setT(+this.value,1)">
+            <output id="g-t-o">20 ℃</output>
+          </label>
+          <label class="ctl"><span data-i="slV"></span>
+            <input type="range" id="g-v" min="45" max="100" step="5" value="100" oninput="setV(+this.value,1)">
+            <output id="g-v-o">100 %</output>
+          </label>
+        </div>
+        <div class="rowline">
+          <button class="btn" id="g-lock" onclick="lockP()">🎯</button>
+        </div>
+        <div class="hint-line" data-i="gHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <div class="sb on" id="sb-lab">
+      <div>
+        <div class="sb-title" data-i="pLabel"></div>
+        <div class="bigang"><b id="l-p">200</b><i> kPa</i></div>
+      </div>
+      <span class="netchip" id="l-state"></span>
+      <div class="mini3">
+        <div><span data-i="kHits"></span><b id="l-hits">0</b></div>
+        <div><span data-i="kTK"></span><b id="l-tk">293</b></div>
+        <div><span data-i="kV"></span><b id="l-v">100</b></div>
+      </div>
+      <button class="explain-btn" data-exp="l" onclick="toggleExplain('l')"><span data-i="expOpen"></span></button>
+      <div class="explain" id="exp-l">
+        <div class="statusbox" id="l-status"></div>
+        <div class="concl" id="l-conclude"></div>
+      </div>
+      <div class="rec-head">
+        <button class="rec-btn" onclick="recordData()">📌 <span data-i="recBtn"></span></button>
+        <button class="rec-clear" onclick="clearRec()" data-i="recClear"></button>
+      </div>
+      <table class="rec">
+        <thead><tr><th data-i="thN"></th><th data-i="thT"></th><th data-i="thV"></th><th data-i="thP"></th><th style="width:26%"></th></tr></thead>
+        <tbody id="rec-body"></tbody>
+      </table>
+    </div>
+
+    <div class="sb" id="sb-cmp">
+      <div class="sb-title" data-i="outLabel"></div>
+      <div class="cmp-angs">
+        <div class="one"><span id="s-ca-name"></span><b id="c-p-a">0</b><em> kPa</em></div>
+        <div class="one"><span id="s-cb-name"></span><b id="c-p-b">0</b><em> kPa</em></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kN"></span><b id="c-n-a">--</b></div>
+        <div><span data-i="kT"></span><b id="c-t-a">--</b></div>
+        <div><span data-i="kV"></span><b id="c-v-a">--</b></div>
+      </div>
+      <div class="mini3">
+        <div><span data-i="kN"></span><b id="c-n-b">--</b></div>
+        <div><span data-i="kT"></span><b id="c-t-b">--</b></div>
+        <div><span data-i="kV"></span><b id="c-v-b">--</b></div>
+      </div>
+      <div class="feedback" id="cmp-fb"></div>
+      <div class="concl" id="cmp-conclude"></div>
+    </div>
+
+    <div class="sb" id="sb-quiz">
+      <div class="sb-title" data-i="score"></div>
+      <div class="scorebig"><b id="q-score-n">0</b><span> / 8</span></div>
+      <div class="qdots" id="q-prog"></div>
+      <div class="statusbox" id="q-side-hint"></div>
+    </div>
+
+    <div class="sb" id="sb-game">
+      <div>
+        <div class="sb-title" data-i="gTargetLabel"></div>
+        <div class="goalbig" id="g-target-side">--</div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="gNowLabel"></div>
+        <div class="bigang"><b id="g-cur">200</b><i> kPa</i></div>
+      </div>
+      <div>
+        <div class="sb-title" data-i="score"></div>
+        <div class="scorebig"><b id="g-score">0</b></div>
+      </div>
+      <div class="statusbox" id="g-status"></div>
+    </div>
+
+    <footer id="credit"></footer>
+  </aside>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'💥', q:'气体压强是怎么产生的？',
+    o:['大量气体粒子不断撞击容器壁',
+       '气体粒子静止不动、压在器壁上',
+       '器壁自己产生的弹力'], a:0,
+    x:'无数气体粒子不停撞击器壁，就形成了气体压强。<em>撞得越多、越猛，压强越大</em>。' },
+  { e:'🚲', q:'温度、体积不变，往容器里打入更多气体（粒子变多），压强会——',
+    o:['不变','增大','减小'], a:1,
+    x:'粒子变多 → 单位时间撞击器壁<em>更频繁</em> → 压强增大（就像给轮胎打气）。回演示实验拉「粒子数」滑条看看。' },
+  { e:'☀️', q:'粒子数、体积不变，温度升高，气体压强会——',
+    o:['减小','不变','增大'], a:2,
+    x:'温度升高 → 粒子运动更快、撞击<em>更猛烈</em> → 压强增大。夏天容易爆胎就是这个原因。' },
+  { e:'💉', q:'用手堵住注射器口并向里推活塞（气体量、温度不变），压强会——',
+    o:['增大','减小','不变'], a:0,
+    x:'体积变小 → 粒子撞击器壁<em>更频繁</em> → 压强增大，所以越推越费力，松手还会被弹回来。' },
+  { e:'🔬', q:'要探究「温度对气体压强的影响」，必须保持不变的量是——',
+    o:['只保持体积不变','粒子数量和体积都不变','都可以随便变'], a:1,
+    x:'<em>控制变量法</em>：只改变温度，粒子数量和体积都要相同。去演示实验按「☀️ 夏天暴晒」，它就只动温度。' },
+  { e:'🌡️', q:'气体从 20 ℃ 升到 40 ℃（粒子数、体积不变），压强会——',
+    o:['正好变成原来的 2 倍','只增大约 7%','完全不变'], a:1,
+    x:'温度必须用<em>绝对温度（开尔文）</em>：293 K → 313 K，只涨 6.8%。<em>摄氏度加倍 ≠ 温度加倍</em>！' },
+  { e:'⚖️', q:'同一团气体：「体积减半」和「20 ℃ 升到 40 ℃」，哪个让压强涨得更多？',
+    o:['体积减半','温度升高','两者一样'], a:0,
+    x:'体积减半 → 压强正好<em>翻倍</em>；20→40 ℃ 只让压强涨 6.8%。去对比实验按 📕 亲眼比一比。' },
+  { e:'🪝', q:'把吸盘挂钩压在墙上、挤出里面的空气，它能吸住是因为——',
+    o:['吸盘上有胶水','内部气体变少、压强变小，外面大气压把它压住','吸盘内的压强变大了'], a:1,
+    x:'挤出空气 = 里面<em>粒子变少</em>、压强变小，内外压强差让<em>大气压</em>把吸盘牢牢按在墙上。' },
+];
+const QUIZ_EN = [
+  { e:'💥', q:'How is gas pressure produced?',
+    o:['Countless gas particles keep hitting the container wall',
+       'Still particles simply resting on the wall',
+       'The wall produces the force by itself'], a:0,
+    x:'Countless particles keep striking the wall — that IS gas pressure. <em>More hits, harder hits → higher pressure.</em>' },
+  { e:'🚲', q:'Temperature and volume fixed; you pump in more gas. The pressure —',
+    o:['Stays the same','Increases','Decreases'], a:1,
+    x:'More particles → <em>more frequent</em> hits on the wall → higher pressure (exactly like pumping a tyre). Try the N slider in the Demo Lab.' },
+  { e:'☀️', q:'Particle number and volume fixed; the temperature rises. The pressure —',
+    o:['Decreases','Stays the same','Increases'], a:2,
+    x:'Hotter → particles move faster and hit <em>harder</em> → higher pressure. That is why tyres burst in hot sun.' },
+  { e:'💉', q:'You block a syringe and push the plunger in (same gas, same temperature). The pressure —',
+    o:['Increases','Decreases','Stays the same'], a:0,
+    x:'Smaller volume → hits become <em>more frequent</em> → higher pressure, so it gets harder to push and springs back.' },
+  { e:'🔬', q:'To investigate "how temperature affects gas pressure", what must be kept constant?',
+    o:['Only the volume','Both the particle number and the volume','Nothing in particular'], a:1,
+    x:'A <em>fair test</em>: change temperature only. Press "☀️ Hot sun" in the Demo Lab — it moves temperature alone.' },
+  { e:'🌡️', q:'A gas is heated from 20 ℃ to 40 ℃ (N and V fixed). The pressure —',
+    o:['Becomes exactly twice as large','Rises by only about 7%','Does not change at all'], a:1,
+    x:'Temperature must be in <em>kelvin</em>: 293 K → 313 K, only 6.8% more. <em>Doubling ℃ is NOT doubling temperature!</em>' },
+  { e:'⚖️', q:'Same gas: "halve the volume" or "heat from 20 ℃ to 40 ℃" — which raises the pressure more?',
+    o:['Halving the volume','Heating it','They are the same'], a:0,
+    x:'Halving V <em>doubles</em> p; 20→40 ℃ adds only 6.8%. Press 📕 in Compare and watch both at once.' },
+  { e:'🪝', q:'A suction hook sticks to the wall after you squeeze the air out because —',
+    o:['There is glue on the cup','Fewer particles inside → lower pressure, so outside air holds it on','The pressure inside the cup becomes larger'], a:1,
+    x:'Squeezing out air means <em>fewer particles</em> and lower pressure inside; the <em>atmospheric pressure</em> outside presses the cup onto the wall.' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'气体压强探究实验室', subtitle:'粒子数 · 温度 · 体积 —— 看得见的撞击，量得出的压强',
+  chip1:'压强来自粒子对器壁的撞击', chip2:'p ∝ N × T(K) ÷ V', chip3:'温度必须用绝对温度 K',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 压强狙击',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  sceLabel:'生活情境：',
+  sc1:'🚲 给轮胎打气', sc2:'☀️ 夏天暴晒', sc3:'💉 堵住注射器', sc4:'🧊 放进冰箱', sc5:'🧪 回到常态',
+  sc1why:'🚲 <em>打气</em>：温度、体积没变，只把粒子塞得更多 → 单位时间撞击器壁<em>更频繁</em> → 压强变大，轮胎变硬。',
+  sc2why:'☀️ <em>暴晒</em>：粒子数、体积没变，温度升高 → 粒子跑得更快、撞得<em>更猛烈</em> → 压强变大，气打太足就爆胎。',
+  sc3why:'💉 <em>推活塞</em>：粒子数、温度没变，体积变小 → 同样多的粒子挤在更小空间 → 撞击<em>更频繁</em> → 压强变大，越推越费力。',
+  sc4why:'🧊 <em>冷冻</em>：粒子数、体积没变，温度降低 → 粒子变慢、撞得更轻 → 压强变小。注意：−20 ℃ 也还有 253 K，压强<em>不会归零</em>。',
+  sc5why:'🧪 回到参照态：N ＝ 20、T ＝ 20 ℃、V ＝ 100% → p ＝ 200 kPa。以后每一次改变，都跟这个状态比。',
+  slN:'⚛️ 粒子数', slT:'🌡️ 温度', slV:'📦 体积',
+  labHint:'拉三条滑条，或直接按住画面里的活塞左右拖动。每次<b>只改一个量</b>，右边的规律卡就会亮起来。',
+  pLabel:'气体压强 p', kHits:'每秒撞击', kTK:'绝对温度 K', kV:'体积 %', kN:'粒子数 N', kT:'温度 ℃',
+  stNorm:'常压', stNormSub:'跟参照态 200 kPa 差不多',
+  stHigh:'高压', stHighSub:'撞击又多又猛 —— 容器壁受力很大',
+  stOver:'⚠️ 超压危险', stOverSub:'超过 600 kPa —— 容器可能爆裂！',
+  stLow:'低压', stLowSub:'撞击稀疏又无力 —— 外面的大气压会把它压扁',
+  f_formula:'p ＝ 200 kPa × (N {n}/20) × (T {k}/293 K) ÷ (V {v}/100) ＝ <b>{p} kPa</b>',
+  live_norm:'每秒约 <b>{h}</b> 次撞击。改动任何一个量，看这个数字怎么跟着压强一起变。',
+  live_high:'撞击已经很密集（每秒约 <b>{h}</b> 次），压强是参照态的 <b>{r}</b> 倍。',
+  live_over:'⚠️ <b>超过 600 kPa</b>：指针打到底、器壁发红 —— 现实中轮胎/瓶子会爆。',
+  live_low:'撞击稀疏（每秒约 <b>{h}</b> 次），压强只有参照态的 <b>{r}</b> 倍。',
+  tipIdle:'先按一个生活情境，或直接拉滑条。',
+  tipN:'👉 只动<b>粒子数</b>：温度、体积不变 —— 这是探究「质量」影响的标准做法。',
+  tipT:'👉 只动<b>温度</b>：粒子数、体积不变。别忘了换算成 <b>K ＝ ℃ + 273</b>。',
+  tipV:'👉 只动<b>体积</b>：粒子数、温度不变 —— 体积减半，压强正好加倍。',
+  r_Nup:'👉 <em>粒子变多</em> → 撞击更频繁 → 压强<b>变大</b>',
+  r_Ndn:'👉 <em>粒子变少</em> → 撞击变稀疏 → 压强<b>变小</b>',
+  r_Tup:'👉 <em>温度升高</em> → 粒子更快、撞得更猛 → 压强<b>变大</b>',
+  r_Tdn:'👉 <em>温度降低</em> → 粒子变慢、撞得更轻 → 压强<b>变小</b>',
+  r_Vup:'👉 <em>体积变大</em> → 撞击变稀疏 → 压强<b>变小</b>',
+  r_Vdn:'👉 <em>体积变小</em> → 撞击更频繁 → 压强<b>变大</b>',
+  c1:'📌 规律一：温度、体积相同时，气体<em>质量越大</em>（粒子越多），撞击越频繁，<em>压强越大</em>。',
+  c2:'📌 规律二：质量、体积相同时，<em>温度越高</em>，粒子运动越快、撞击越猛烈，<em>压强越大</em>（温度要用 K）。',
+  c3:'📌 规律三：质量、温度相同时，<em>体积越小</em>，粒子撞击器壁越频繁，<em>压强越大</em>。',
+  recBtn:'记录数据', recClear:'清空', thN:'N', thT:'t/℃', thV:'V/%', thP:'p/kPa',
+  outLabel:'最终压强 p', cmpHint:'先按预设 → 全班猜一猜 → 再按「同时开始」验证。两边的压强都由同一条公式真算。',
+  cp1:'体积减半 vs 温度「加倍」', cp2:'升温 80 ℃ vs 打气加倍', cp3:'体积加倍 vs 放气一半',
+  cp1a:'📦 体积减半（100% → 50%）', cp1b:'🌡️ 温度「加倍」（20 → 40 ℃）',
+  cp1ac:'N ＝ 20 不变 · T ＝ 20 ℃ 不变', cp1bc:'N ＝ 20 不变 · V ＝ 100% 不变',
+  cp2a:'☀️ 升温 20 → 100 ℃', cp2b:'🔧 打气 20 → 40 个粒子',
+  cp2ac:'N ＝ 20 不变 · V ＝ 100% 不变', cp2bc:'T ＝ 20 ℃ 不变 · V ＝ 100% 不变',
+  cp3a:'📦 体积加倍（50% → 100%）', cp3b:'💨 放气一半（40 → 20 个）',
+  cp3ac:'N ＝ 20 不变 · T ＝ 20 ℃ 不变 · 起点 400 kPa', cp3bc:'T ＝ 20 ℃ 不变 · V ＝ 100% 不变 · 起点 400 kPa',
+  guessQ:'猜一猜：最后哪边压强更大？', gMoreA:'甲更大', gSame:'一样大', gMoreB:'乙更大', runCmp:'同时开始',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  cc_1:'📌 体积减半 → 压强<em>正好翻倍</em>（200 → 400 kPa）；20 → 40 ℃ 只是 293 → 313 K，压强<em>只涨 6.8%</em>。<em>摄氏度加倍不等于温度加倍</em>！',
+  cc_2:'📌 升温 80 ℃ 只让压强变成 1.27 倍；粒子数加倍却让压强<em>正好翻倍</em>。<em>p 与 N 成正比、与绝对温度成正比</em>，但 ℃ 的「涨幅」被 273 稀释了。',
+  cc_3:'📌 体积加倍和粒子数减半，结果<em>一模一样</em>（都回到 200 kPa）。因为 p ∝ N ÷ V —— <em>分子加倍</em>和<em>分母减半</em>效果相同。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！气体压强的微观模型你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手拉一遍滑条，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场做给全班看。',
+  gTarget:'目标', gNow:'当前', gTargetLabel:'本轮目标压强', gNowLabel:'当前压强', gRound:'回合',
+  gLock:'锁定读数', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gHint:'全班指挥一位同学：调粒子数 / 温度 / 体积，把压强调到目标值再锁定。想清楚哪个量该往哪边动！',
+  gGo:'把压强调到 <b>{p} kPa</b>，然后按锁定。误差越小分越高。',
+  gPerfect:'🎯 神准！', gGood:'👍 很接近！', gOk:'还行，再稳一点！', gMiss:'差得有点远 —— 再试！',
+  gTimeUp:'⏰ 时间到，自动锁定！',
+  gFinal:'最终得分', gRank1:'🏆 压强狙击手！', gRank2:'👍 手感不错！', gRank3:'💪 回演示实验再练几轮！',
+  cvMicro:'微观读数', cvN:'粒子数 N ＝ {n}', cvTemp:'温度 {t} ℃ ＝ {k} K',
+  cvHits:'每秒撞击 {h} 次', cvSpeed:'平均速率 {s} ×', cvGauge:'压强表 p / kPa',
+  cvVol:'体积 V ＝ {v}% · 按住活塞左右拖动', cvOver:'⚠️ 超压！容器可能爆裂',
+  cvP:'p ＝ {p} kPa', cvNTV:'N {n} · T {t} ℃ · V {v}%',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Gas Pressure Lab', subtitle:'Particles · temperature · volume — collisions you can see, pressure you can read',
+  chip1:'Pressure = particles hitting the wall', chip2:'p ∝ N × T(K) ÷ V', chip3:'Temperature must be in kelvin',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Pressure Sniper',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  sceLabel:'Scenario:',
+  sc1:'🚲 Pump tyre', sc2:'☀️ Hot sun', sc3:'💉 Push syringe', sc4:'🧊 Freezer', sc5:'🧪 Baseline',
+  sc1why:'🚲 <em>Pumping</em>: T and V untouched, just more particles → <em>more frequent</em> hits → higher pressure, a harder tyre.',
+  sc2why:'☀️ <em>Hot sun</em>: N and V untouched, T rises → faster particles hitting <em>harder</em> → higher pressure; over-inflated tyres burst.',
+  sc3why:'💉 <em>Pushing in</em>: N and T untouched, V shrinks → the same particles crowd a smaller space → <em>more frequent</em> hits → harder to push.',
+  sc4why:'🧊 <em>Cooling</em>: N and V untouched, T falls → slower, gentler hits → lower pressure. Note −20 ℃ is still 253 K, so p <em>never hits zero</em>.',
+  sc5why:'🧪 Back to baseline: N ＝ 20, T ＝ 20 ℃, V ＝ 100% → p ＝ 200 kPa. Compare every later change against this state.',
+  slN:'⚛️ Particles', slT:'🌡️ Temp', slV:'📦 Volume',
+  labHint:'Drag the three sliders, or grab the piston in the picture. Change <b>one thing at a time</b> and the matching rule card lights up.',
+  pLabel:'Gas pressure p', kHits:'Hits per s', kTK:'Absolute T/K', kV:'Volume %', kN:'Particles N', kT:'Temp ℃',
+  stNorm:'Normal', stNormSub:'close to the 200 kPa baseline',
+  stHigh:'High', stHighSub:'many hard collisions — the wall is loaded',
+  stOver:'⚠️ Over-pressure', stOverSub:'above 600 kPa — the vessel may burst!',
+  stLow:'Low', stLowSub:'sparse, gentle hits — outside air would crush it',
+  f_formula:'p ＝ 200 kPa × (N {n}/20) × (T {k}/293 K) ÷ (V {v}/100) ＝ <b>{p} kPa</b>',
+  live_norm:'About <b>{h}</b> hits per second. Change any one quantity and watch this number move with the pressure.',
+  live_high:'Collisions are dense (about <b>{h}</b> per second); pressure is <b>{r}</b>× the baseline.',
+  live_over:'⚠️ <b>Above 600 kPa</b>: the needle is pinned and the wall glows red — a real tyre or bottle would burst.',
+  live_low:'Collisions are sparse (about <b>{h}</b> per second); pressure is only <b>{r}</b>× the baseline.',
+  tipIdle:'Press a scenario button, or just drag a slider.',
+  tipN:'👉 Only <b>N</b> changed: T and V fixed — the standard fair test for "amount of gas".',
+  tipT:'👉 Only <b>T</b> changed: N and V fixed. Remember <b>K ＝ ℃ + 273</b>.',
+  tipV:'👉 Only <b>V</b> changed: N and T fixed — halve the volume and the pressure doubles exactly.',
+  r_Nup:'👉 <em>More particles</em> → more frequent hits → pressure <b>rises</b>',
+  r_Ndn:'👉 <em>Fewer particles</em> → sparser hits → pressure <b>falls</b>',
+  r_Tup:'👉 <em>Hotter</em> → faster, harder hits → pressure <b>rises</b>',
+  r_Tdn:'👉 <em>Colder</em> → slower, gentler hits → pressure <b>falls</b>',
+  r_Vup:'👉 <em>Bigger volume</em> → sparser hits → pressure <b>falls</b>',
+  r_Vdn:'👉 <em>Smaller volume</em> → more frequent hits → pressure <b>rises</b>',
+  c1:'📌 Rule 1: at the same T and V, <em>more gas</em> (more particles) means more frequent hits and <em>higher pressure</em>.',
+  c2:'📌 Rule 2: at the same N and V, a <em>higher temperature</em> means faster, harder hits and <em>higher pressure</em> (use kelvin).',
+  c3:'📌 Rule 3: at the same N and T, a <em>smaller volume</em> means more frequent hits and <em>higher pressure</em>.',
+  recBtn:'Record data', recClear:'Clear', thN:'N', thT:'t/℃', thV:'V/%', thP:'p/kPa',
+  outLabel:'Final pressure p', cmpHint:'Load a preset → let the class predict → press "Start both". Both sides use the same formula.',
+  cp1:'Half volume vs "double" temp', cp2:'Heat 80 ℃ vs double the gas', cp3:'Double volume vs half the gas',
+  cp1a:'📦 Volume halved (100% → 50%)', cp1b:'🌡️ Temp "doubled" (20 → 40 ℃)',
+  cp1ac:'N ＝ 20 fixed · T ＝ 20 ℃ fixed', cp1bc:'N ＝ 20 fixed · V ＝ 100% fixed',
+  cp2a:'☀️ Heated 20 → 100 ℃', cp2b:'🔧 Pumped 20 → 40 particles',
+  cp2ac:'N ＝ 20 fixed · V ＝ 100% fixed', cp2bc:'T ＝ 20 ℃ fixed · V ＝ 100% fixed',
+  cp3a:'📦 Volume doubled (50% → 100%)', cp3b:'💨 Half the gas (40 → 20)',
+  cp3ac:'N ＝ 20 fixed · T ＝ 20 ℃ fixed · starts at 400 kPa', cp3bc:'T ＝ 20 ℃ fixed · V ＝ 100% fixed · starts at 400 kPa',
+  guessQ:'Predict: which side ends with more pressure?', gMoreA:'A more', gSame:'Same', gMoreB:'B more', runCmp:'Start both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  cc_1:'📌 Halving V <em>exactly doubles</em> p (200 → 400 kPa); 20 → 40 ℃ is only 293 → 313 K, worth <em>just 6.8%</em>. <em>Doubling ℃ is not doubling temperature!</em>',
+  cc_2:'📌 Heating by 80 ℃ multiplies p by only 1.27; doubling the particles <em>exactly doubles</em> it. p is proportional to N and to <em>absolute</em> T — the 273 dilutes every ℃.',
+  cc_3:'📌 Doubling V and halving N give the <em>identical</em> result (both back to 200 kPa), because p ∝ N ÷ V — <em>double the top</em> or <em>halve the bottom</em>, same effect.',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect score — you own the particle model!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Drag the sliders in the Demo Lab, then try again!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and show it live.',
+  gTarget:'Target', gNow:'Now', gTargetLabel:'Target pressure', gNowLabel:'Current pressure', gRound:'Round',
+  gLock:'Lock reading', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gHint:'The class guides one player: set N / T / V to hit the target pressure, then lock. Think about which knob to turn, and which way!',
+  gGo:'Bring the pressure to <b>{p} kPa</b>, then lock it in. Smaller error, more points.',
+  gPerfect:'🎯 Bullseye!', gGood:'👍 So close!', gOk:'Not bad — steady it!', gMiss:'Way off — try again!',
+  gTimeUp:'⏰ Time! Auto-locked.',
+  gFinal:'Final score', gRank1:'🏆 Pressure sniper!', gRank2:'👍 Nice control!', gRank3:'💪 A few more rounds in the Demo Lab!',
+  cvMicro:'Micro readout', cvN:'Particles N ＝ {n}', cvTemp:'Temp {t} ℃ ＝ {k} K',
+  cvHits:'{h} hits per second', cvSpeed:'Mean speed {s} ×', cvGauge:'Gauge p / kPa',
+  cvVol:'Volume V ＝ {v}% · drag the piston sideways', cvOver:'⚠️ Over-pressure! It may burst',
+  cvP:'p ＝ {p} kPa', cvNTV:'N {n} · T {t} ℃ · V {v}%',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    wall:'#7e939d', wallHot:'#ff6a5a', gasFill:'rgba(150,195,225,.10)',
+    desk:'rgba(255,255,255,.22)',
+    gaugeFace:'#f6f4ec', gaugeInk:'#22303d', gaugeRim:'#3a4750',
+    piston:'#5b7a8c', pistonHi:'#9fb9c9', handle:'#43606f', pistonTag:'#7cc4ff',
+    partEdge:'rgba(255,255,255,.55)', arrow:'rgba(255,255,255,.6)',
+    flash:'255,201,77', bar:'#7cc4ff', barHot:'#ff6a5a',
+    cold:'#5e9fd0', hot:'#ff6a5a', amber:'#ffc94d', dim:'rgba(255,255,255,.28)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    wall:'#6c828e', wallHot:'#e0443c', gasFill:'rgba(120,170,205,.12)',
+    desk:'rgba(30,42,54,.28)',
+    gaugeFace:'#ffffff', gaugeInk:'#22303d', gaugeRim:'#54636d',
+    piston:'#5b7a8c', pistonHi:'#8faabb', handle:'#43606f', pistonTag:'#2f6690',
+    partEdge:'rgba(30,42,54,.45)', arrow:'rgba(30,42,54,.5)',
+    flash:'200,140,10', bar:'#3e7cb1', barHot:'#e0443c',
+    cold:'#3e7cb1', hot:'#e4573d', amber:'#a06d00', dim:'rgba(30,42,54,.25)',
+  },
+};
+let THEME = 'dark';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'dark'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  applyTheme();
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  syncLab();
+  renderRec();
+  cmpLabels();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')) syncGameBtn();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) playScene('sc5');
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function ptr(ev, cv, sc){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*cv.width/r.width/(sc||1),
+           y:(ev.clientY-r.top)*cv.height/r.height/(sc||1) };
+}
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+14;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-11,yy-h/2,w+22,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+
+/* ============================================================
+   Gas engine (shared by lab / compare / game)
+   p(kPa) = 200 × (N/20) × (T_K/293) ÷ (V/100)
+   — identical to the source model (gauge 2.0 → 200 kPa)
+============================================================ */
+const P_REF = 200, P_MAX = 600;
+function tK(T){ return T + 273; }
+function pressureOf(N,T,V){ return P_REF * (N/20) * (tK(T)/293) / (V/100); }
+/* classroom-visible temperature→speed map (from the source file) */
+function tempFactor(T){ return 0.35 + 1.65 * ((T + 20) / 120); }
+
+function makeGas(N,T,V,base){
+  return { N:N, T:T, V:V, base:base, parts:[], flashes:[], hits:0, hitDisp:0, hitTimer:0 };
+}
+function gasP(g){ return pressureOf(g.N, g.T, g.V); }
+function pistonX(g, geo){ return geo.left + (geo.right-geo.left)*g.V/100; }
+function meanSpeed(g){ return g.base * tempFactor(g.T); }
+function spawnPart(g, geo){
+  const px = pistonX(g, geo), ang = Math.random()*Math.PI*2;
+  const sp = meanSpeed(g) * (0.7 + Math.random()*0.6);
+  return {
+    x: geo.left+geo.r+2 + Math.random()*Math.max(6, px-geo.left-2*geo.r-4),
+    y: geo.top+geo.r+2 + Math.random()*Math.max(6, geo.bot-geo.top-2*geo.r-4),
+    vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp,
+  };
+}
+function syncParts(g, geo){
+  const n = Math.round(g.N);
+  while(g.parts.length < n) g.parts.push(spawnPart(g, geo));
+  while(g.parts.length > n) g.parts.pop();
+  const px = pistonX(g, geo);
+  for(const p of g.parts){
+    p.x = clamp(p.x, geo.left+geo.r, px-geo.r);
+    p.y = clamp(p.y, geo.top+geo.r, geo.bot-geo.r);
+  }
+}
+function rescaleSpeeds(g){
+  const target = meanSpeed(g);
+  for(const p of g.parts){
+    const sp = Math.hypot(p.vx,p.vy) || 1;
+    const ns = target * (0.7 + Math.random()*0.6);
+    p.vx = p.vx/sp*ns; p.vy = p.vy/sp*ns;
+  }
+}
+function gasHit(g,x,y){ g.hits++; if(g.flashes.length < 90) g.flashes.push({x:x, y:y, life:0.25}); }
+function gasStep(g, geo, dt){
+  const px = pistonX(g, geo), R = geo.r;
+  for(const p of g.parts){
+    p.x += p.vx*dt; p.y += p.vy*dt;
+    if(p.x < geo.left+R){ p.x = geo.left+R; p.vx = Math.abs(p.vx); gasHit(g, geo.left, p.y); }
+    if(p.x > px-R){ p.x = px-R; p.vx = -Math.abs(p.vx); gasHit(g, px, p.y); }
+    if(p.y < geo.top+R){ p.y = geo.top+R; p.vy = Math.abs(p.vy); gasHit(g, p.x, geo.top); }
+    if(p.y > geo.bot-R){ p.y = geo.bot-R; p.vy = -Math.abs(p.vy); gasHit(g, p.x, geo.bot); }
+  }
+  g.hitTimer += dt;
+  if(g.hitTimer >= 1){ g.hitDisp = g.hits; g.hits = 0; g.hitTimer = 0; }
+  for(const f of g.flashes) f.life -= dt;
+  g.flashes = g.flashes.filter(f=>f.life > 0);
+}
+function partColor(T){
+  const k = clamp((T + 20) / 120, 0, 1);
+  return 'rgb('+Math.round(90+k*160)+','+Math.round(140-k*60)+','+Math.round(215-k*150)+')';
+}
+function drawGas(c, g, geo){
+  const px = pistonX(g, geo), over = gasP(g) > P_MAX;
+  /* gas volume */
+  c.fillStyle = C().gasFill;
+  c.fillRect(geo.left, geo.top, px-geo.left, geo.bot-geo.top);
+  /* collision flashes */
+  for(const f of g.flashes){
+    circle(c, f.x, f.y, geo.r*1.3*f.life/0.25 + 3, 'rgba('+C().flash+','+(f.life/0.25*0.7)+')', null, 0);
+  }
+  /* particles + velocity arrows */
+  const col = partColor(g.T);
+  for(const p of g.parts){
+    circle(c, p.x, p.y, geo.r, col, C().partEdge, 1.2);
+    const sp = Math.hypot(p.vx,p.vy) || 1;
+    line(c, p.x + p.vx/sp*geo.r*1.1, p.y + p.vy/sp*geo.r*1.1,
+            p.x + p.vx/sp*geo.r*2.3, p.y + p.vy/sp*geo.r*2.3, C().arrow, 2);
+  }
+  /* walls (open on the piston side) */
+  c.beginPath();
+  c.moveTo(px, geo.top); c.lineTo(geo.left, geo.top);
+  c.lineTo(geo.left, geo.bot); c.lineTo(px, geo.bot);
+  c.strokeStyle = over ? C().wallHot : C().wall;
+  c.lineWidth = geo.lw; c.lineJoin='round'; c.lineCap='round'; c.stroke();
+  return px;
+}
+function drawPiston(c, px, geo, tagText){
+  const mid = (geo.top+geo.bot)/2, w = geo.pw;
+  c.fillStyle = C().piston;
+  c.fillRect(px, geo.top-4, w, geo.bot-geo.top+8);
+  c.fillStyle = C().pistonHi;
+  c.fillRect(px+w*0.22, geo.top+4, w*0.3, geo.bot-geo.top-8);
+  c.fillStyle = C().handle;
+  c.fillRect(px+w, mid-w*0.3, geo.hl, w*0.6);
+  c.fillRect(px+w+geo.hl, mid-w*1.4, w*0.6, w*2.8);
+  if(tagText) TX(c, tagText, px+w, geo.top-16, '700 14px '+CV_FONT, C().pistonTag, 'left', 'middle');
+}
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 500;
+const LGEO = { left:70, top:170, bot:430, right:660, r:8, lw:5, pw:20, hl:52 };
+const GA = { cy:94, r:58 };
+const IP = { x:770, y:176, w:220, h:170 };
+
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const LG = makeGas(20, 20, 100, 150);
+
+function labP(){ return gasP(LG); }
+function pShow(p){ return Math.round(p); }
+function pState(p){
+  if(p > P_MAX) return 'over';
+  if(p >= 280) return 'high';
+  if(p <= 140) return 'low';
+  return 'norm';
+}
+
+/* ---------- gauge ---------- */
+function drawGauge(c, cx, cy, r, p){
+  const over = p > P_MAX;
+  circle(c, cx, cy, r, C().gaugeFace, over ? C().wallHot : C().gaugeRim, 6);
+  for(let i=0;i<=6;i++){
+    const ang = (210 - i*40) * Math.PI/180;
+    const big = (i%2===0);
+    line(c, cx+Math.cos(ang)*(r-7), cy-Math.sin(ang)*(r-7),
+            cx+Math.cos(ang)*(r-(big?18:13)), cy-Math.sin(ang)*(r-(big?18:13)),
+            C().gaugeRim, big?2.4:1.6);
+    if(big){
+      TX(c, String(i*100), cx+Math.cos(ang)*(r-30), cy-Math.sin(ang)*(r-30)+1,
+         '700 13px '+CV_FONT, C().gaugeInk, 'center', 'middle');
+    }
+  }
+  const shown = Math.min(P_MAX, p)/100 + (over ? Math.sin(Date.now()/40)*0.12 : Math.sin(Date.now()/300)*0.03);
+  const ang = (210 - shown*40) * Math.PI/180;
+  line(c, cx-Math.cos(ang)*10, cy+Math.sin(ang)*10,
+          cx+Math.cos(ang)*(r-22), cy-Math.sin(ang)*(r-22),
+          over ? C().wallHot : C().gaugeInk, 3.5);
+  circle(c, cx, cy, 5, C().gaugeInk, null, 0);
+  TX(c, t('cvGauge'), cx, cy+r+15, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+}
+
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const p = labP(), over = p > P_MAX;
+
+  /* desk line */
+  line(c, 40, 452, 740, 452, C().desk, 2);
+  /* container + gas */
+  const px = drawGas(c, LG, LGEO);
+  /* gauge + connecting pipe */
+  const gx = (LGEO.left + px)/2;
+  c.fillStyle = C().wall;
+  c.fillRect(gx-9, GA.cy+GA.r-6, 18, LGEO.top-GA.cy-GA.r+10);
+  drawGauge(c, gx, GA.cy, GA.r, p);
+  if(over) tchip(c, t('cvOver'), gx, 26, '900 16px '+CV_FONT, C().wallHot, 'center', W_W, W_H);
+  /* piston */
+  drawPiston(c, px, LGEO, null);
+  /* caption under the box */
+  TX(c, tf('cvVol',{v:LG.V}), gx, 470, '700 15px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* micro readout panel */
+  rrect(c, IP.x, IP.y, IP.w, IP.h, 12);
+  c.fillStyle = C().panel; c.fill();
+  c.strokeStyle = C().panelLine; c.lineWidth = 1.3; c.stroke();
+  const cx = IP.x + IP.w/2;
+  TX(c, t('cvMicro'), cx, IP.y+24, '900 16px '+CV_FONT, C().amber, 'center', 'middle');
+  TX(c, tf('cvN',{n:LG.N}), cx, IP.y+58, '700 15px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(c, tf('cvTemp',{t:LG.T, k:tK(LG.T)}), cx, IP.y+88, '700 15px '+CV_FONT,
+     LG.T>=40 ? C().hot : LG.T<=0 ? C().cold : C().cvText, 'center', 'middle');
+  TX(c, tf('cvHits',{h:LG.hitDisp}), cx, IP.y+118, '700 15px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(c, tf('cvSpeed',{s:tempFactor(LG.T).toFixed(2)}), cx, IP.y+146, '700 15px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* pressure bar under the panel */
+  const bw = IP.w, bx = IP.x, by = IP.y + IP.h + 34;
+  rrect(c, bx, by, bw, 18, 9); c.fillStyle = C().panel; c.fill();
+  c.strokeStyle = C().panelLine; c.lineWidth = 1.2; c.stroke();
+  const fw = clamp(p/P_MAX, 0, 1)*(bw-4);
+  rrect(c, bx+2, by+2, Math.max(3, fw), 14, 7);
+  c.fillStyle = over ? C().barHot : C().bar; c.fill();
+  TX(c, tf('cvP',{p:pShow(p)}), bx+bw/2, by-16, '900 20px '+CV_FONT, over ? C().wallHot : C().amber, 'center', 'middle');
+  TX(c, '0', bx, by+32, '700 13px '+CV_FONT, C().cvTextDim, 'left', 'middle');
+  TX(c, '600', bx+bw, by+32, '700 13px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+}
+
+/* ---------- piston dragging ---------- */
+let dragPiston = false;
+labCv.addEventListener('pointerdown', ev=>{
+  const q = ptr(ev, labCv, SC), px = pistonX(LG, LGEO);
+  if(q.x > px-26 && q.x < px + LGEO.pw + LGEO.hl + 30 && q.y > LGEO.top-30 && q.y < LGEO.bot+30){
+    dragPiston = true;
+    labCv.setPointerCapture(ev.pointerId);
+  }
+});
+labCv.addEventListener('pointermove', ev=>{
+  if(!dragPiston) return;
+  const q = ptr(ev, labCv, SC);
+  let v = Math.round((q.x - LGEO.left)/(LGEO.right - LGEO.left)*100/5)*5;
+  v = clamp(v, 45, 100);
+  if(v !== LG.V) setV(v, 1);
+});
+labCv.addEventListener('pointerup', ()=>{ dragPiston = false; });
+labCv.addEventListener('pointercancel', ()=>{ dragPiston = false; });
+
+/* ---------- messages ---------- */
+let FLASH = null, TIPK = 'tipIdle', CONCL = null;
+function renderMsg(){
+  const p = labP(), st = pState(p);
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const formula = tf('f_formula', {n:LG.N, k:tK(LG.T), v:LG.V, p:pShow(p)});
+  const ratio = (p/P_REF).toFixed(2);
+  const live = st==='over' ? t('live_over')
+             : st==='high' ? tf('live_high',{h:LG.hitDisp, r:ratio})
+             : st==='low'  ? tf('live_low',{h:LG.hitDisp, r:ratio})
+             : tf('live_norm',{h:LG.hitDisp});
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + live + '<br>' + t(TIPK);
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- setters (sliders + piston drag + scenes) ---------- */
+function setN(v, byUser){
+  const up = v > LG.N;
+  LG.N = clamp(v, 5, 60);
+  syncParts(LG, LGEO);
+  if(byUser){ stopScene(); FLASH = up ? 'r_Nup' : 'r_Ndn'; TIPK = 'tipN'; CONCL = 'c1'; }
+  syncLab();
+}
+function setT(v, byUser){
+  const up = v > LG.T;
+  LG.T = clamp(v, -20, 100);
+  rescaleSpeeds(LG);
+  if(byUser){ stopScene(); FLASH = up ? 'r_Tup' : 'r_Tdn'; TIPK = 'tipT'; CONCL = 'c2'; }
+  syncLab();
+}
+function setV(v, byUser){
+  const up = v > LG.V;
+  LG.V = clamp(v, 45, 100);
+  syncParts(LG, LGEO);
+  if(byUser){ stopScene(); FLASH = up ? 'r_Vup' : 'r_Vdn'; TIPK = 'tipV'; CONCL = 'c3'; }
+  syncLab();
+}
+function syncSliders(){
+  const set = (id,val)=>{ const el=$(id); if(el) el.value = val; };
+  const out = (id,txt)=>{ const el=$(id); if(el) el.textContent = txt; };
+  set('s-n', LG.N); set('g-n', LG.N);
+  set('s-t', LG.T); set('g-t', LG.T);
+  set('s-v', LG.V); set('g-v', LG.V);
+  out('s-n-o', LG.N); out('g-n-o', LG.N);
+  out('s-t-o', LG.T+' ℃'); out('g-t-o', LG.T+' ℃');
+  out('s-v-o', LG.V+' %'); out('g-v-o', LG.V+' %');
+}
+function syncLab(){
+  const p = labP(), st = pState(p);
+  if($('l-p')) $('l-p').textContent = p > P_MAX ? '600+' : pShow(p);
+  if($('l-hits')) $('l-hits').textContent = LG.hitDisp;
+  if($('l-tk')) $('l-tk').textContent = tK(LG.T);
+  if($('l-v')) $('l-v').textContent = LG.V;
+  const bd = $('l-state');
+  if(bd){
+    const nm = st==='over'?'stOver':st==='high'?'stHigh':st==='low'?'stLow':'stNorm';
+    bd.innerHTML = t(nm)+'<small>'+t(nm+'Sub')+'</small>';
+    const col = st==='over' ? '#b8432f' : st==='high' ? 'var(--gold-ink)' : st==='low' ? '#2f6690' : 'var(--ink)';
+    bd.style.color = col; bd.style.borderColor = col;
+  }
+  syncSliders();
+  renderMsg();
+}
+
+/* ---------- one-click scenarios (was the source's missions + life cards) ---------- */
+const SCENES = {
+  sc1:{ start:{N:10, T:20, V:100}, key:'N', to:45,  dur:3.0, why:'sc1why' },
+  sc2:{ start:{N:20, T:20, V:100}, key:'T', to:90,  dur:3.0, why:'sc2why' },
+  sc3:{ start:{N:20, T:20, V:100}, key:'V', to:50,  dur:3.0, why:'sc3why' },
+  sc4:{ start:{N:20, T:30, V:100}, key:'T', to:-20, dur:3.0, why:'sc4why' },
+  sc5:{ start:{N:20, T:20, V:100}, key:null, to:0,  dur:0,   why:'sc5why' },
+};
+let SCENE = null;
+function stopScene(){
+  if(SCENE){
+    document.querySelectorAll('.railbtn[data-sc]').forEach(b=>b.classList.remove('pick'));
+    SCENE = null;
+  }
+}
+function playScene(id){
+  const s = SCENES[id];
+  if(!s) return;
+  setMode('lab');
+  stopScene();
+  LG.N = s.start.N; LG.T = s.start.T; LG.V = s.start.V;
+  syncParts(LG, LGEO); rescaleSpeeds(LG);
+  FLASH = null; CONCL = s.why;
+  TIPK = s.key==='N' ? 'tipN' : s.key==='T' ? 'tipT' : s.key==='V' ? 'tipV' : 'tipIdle';
+  if(s.key){
+    SCENE = { id:id, key:s.key, from:s.start[s.key], to:s.to, tt:0, dur:s.dur };
+    document.querySelectorAll('.railbtn[data-sc]').forEach(b=>b.classList.toggle('pick', b.dataset.sc===id));
+  }
+  syncLab();
+}
+function stepScene(dt){
+  if(!SCENE) return;
+  SCENE.tt += dt;
+  const k = clamp(SCENE.tt/SCENE.dur, 0, 1);
+  const e = k<0.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+  const raw = SCENE.from + (SCENE.to-SCENE.from)*e;
+  if(SCENE.key==='N'){ LG.N = clamp(Math.round(raw/5)*5, 5, 60); syncParts(LG, LGEO); }
+  else if(SCENE.key==='T'){ LG.T = clamp(Math.round(raw/10)*10, -20, 100); rescaleSpeeds(LG); }
+  else { LG.V = clamp(Math.round(raw/5)*5, 45, 100); syncParts(LG, LGEO); }
+  if(k >= 1){
+    FLASH = 'r_'+SCENE.key+(SCENE.to>SCENE.from?'up':'dn');
+    const done = SCENE.id;
+    document.querySelectorAll('.railbtn[data-sc]').forEach(b=>b.classList.remove('pick'));
+    SCENE = null;
+    CONCL = SCENES[done].why;
+  }
+  syncLab();
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  recRows.push({ N:LG.N, T:LG.T, V:LG.V, p:labP() });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.p); });
+  body.innerHTML = recRows.map(r=>{
+    const pct = top>1e-6 ? Math.max(6, r.p/top*100) : 0;
+    const cls = r.p > P_MAX ? 'hi' : r.p < 140 ? 'lo' : '';
+    return '<tr><td>'+r.N+'</td><td>'+r.T+'</td><td>'+r.V+'</td><td>'+(r.p>P_MAX?'600+':pShow(r.p))+'</td>'+
+      '<td><div class="bar '+cls+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare (two boxes, world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CGEO = { left:36, top:120, bot:320, right:356, r:6, lw:4, pw:14, hl:32 };
+const CMP_PRESETS = [
+  { id:0, concl:'cc_1',
+    a:{ N0:20, N1:20, T0:20, T1:20, V0:100, V1:50,  nameK:'cp1a', condK:'cp1ac' },
+    b:{ N0:20, N1:20, T0:20, T1:40, V0:100, V1:100, nameK:'cp1b', condK:'cp1bc' } },
+  { id:1, concl:'cc_2',
+    a:{ N0:20, N1:20, T0:20, T1:100, V0:100, V1:100, nameK:'cp2a', condK:'cp2ac' },
+    b:{ N0:20, N1:40, T0:20, T1:20,  V0:100, V1:100, nameK:'cp2b', condK:'cp2bc' } },
+  { id:2, concl:'cc_3',
+    a:{ N0:20, N1:20, T0:20, T1:20, V0:50,  V1:100, nameK:'cp3a', condK:'cp3ac' },
+    b:{ N0:40, N1:20, T0:20, T1:20, V0:100, V1:100, nameK:'cp3b', condK:'cp3bc' } },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+const CA = makeGas(20, 20, 100, 110), CB = makeGas(20, 20, 100, 110);
+function side(which){ return CMP_PRESETS[CMP.preset][which]; }
+function sideAt(s, p0){
+  const prog = clamp(p0, 0, 1);
+  return { N: Math.round(s.N0 + (s.N1-s.N0)*prog),
+           T: Math.round((s.T0 + (s.T1-s.T0)*prog)/2)*2,
+           V: Math.round(s.V0 + (s.V1-s.V0)*prog) };
+}
+function applySide(g, s, prog){
+  const st = sideAt(s, prog);
+  const dT = st.T !== g.T;
+  g.N = st.N; g.T = st.T; g.V = st.V;
+  syncParts(g, CGEO);
+  if(dT) rescaleSpeeds(g);
+}
+function drawCmpSide(c, g, cv){
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,cv.width,cv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const p = gasP(g), over = p > P_MAX;
+  /* pressure headline + bar */
+  TX(c, tf('cvP',{p:pShow(p)}), CM_W/2, 24, '900 26px '+CV_FONT, over ? C().wallHot : C().amber, 'center', 'middle');
+  const bx = 36, bw = CM_W-72, by = 48;
+  rrect(c, bx, by, bw, 18, 9); c.fillStyle = C().panel; c.fill();
+  c.strokeStyle = C().panelLine; c.lineWidth = 1.2; c.stroke();
+  rrect(c, bx+2, by+2, Math.max(3, clamp(p/P_MAX,0,1)*(bw-4)), 14, 7);
+  c.fillStyle = over ? C().barHot : C().bar; c.fill();
+  TX(c, '0', bx, by+30, '700 14px '+CV_FONT, C().cvTextDim, 'left', 'middle');
+  TX(c, '600 kPa', bx+bw, by+30, '700 14px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+  /* container */
+  const px = drawGas(c, g, CGEO);
+  drawPiston(c, px, CGEO, null);
+  /* conditions */
+  TX(c, tf('cvNTV',{n:g.N, t:g.T, v:g.V}), CM_W/2, 348, '700 16px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(c, tf('cvHits',{h:g.hitDisp}), CM_W/2, 370, '700 14px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, CA, cvA);
+  drawCmpSide(ctxB, CB, cvB);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const pa = gasP(CA), pb = gasP(CB);
+  $('c-p-a').textContent = pa > P_MAX ? '600+' : pShow(pa);
+  $('c-p-b').textContent = pb > P_MAX ? '600+' : pShow(pb);
+  $('c-n-a').textContent = CA.N; $('c-t-a').textContent = CA.T; $('c-v-a').textContent = CA.V;
+  $('c-n-b').textContent = CB.N; $('c-t-b').textContent = CB.T; $('c-v-b').textContent = CB.V;
+}
+function cmpLabels(){
+  const a = side('a'), b = side('b');
+  if($('ca-name')) $('ca-name').textContent = t(a.nameK);
+  if($('cb-name')) $('cb-name').textContent = t(b.nameK);
+  if($('ca-cond')) $('ca-cond').textContent = t(a.condK);
+  if($('cb-cond')) $('cb-cond').textContent = t(b.condK);
+  if($('s-ca-name')) $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  if($('s-cb-name')) $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels();
+  applySide(CA, side('a'), 0); applySide(CB, side('b'), 0);
+  rescaleSpeeds(CA); rescaleSpeeds(CB);
+  drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels();
+  applySide(CA, side('a'), 0); applySide(CB, side('b'), 0);
+  rescaleSpeeds(CA); rescaleSpeeds(CB);
+  drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = sideAt(side('a'),1), b = sideAt(side('b'),1);
+  const pa = pressureOf(a.N,a.T,a.V), pb = pressureOf(b.N,b.T,b.V);
+  const real = Math.abs(pa-pb) < Math.max(pa,pb)*0.03 ? 'same' : (pa>pb ? 'a' : 'b');
+  const detail = '（'+(LANG==='zh'?'甲':'A')+' '+pShow(pa)+' kPa · '+(LANG==='zh'?'乙':'B')+' '+pShow(pb)+' kPa）';
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Pressure sniper (target challenge — reuses the lab engine)
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 40;
+const GAME_TARGETS = [120, 150, 180, 250, 300, 350, 400, 450, 500];
+const GAME = { round:0, score:0, target:0, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GAME_TARGETS.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  GAME.target = GAME_TARGETS[GAME.order[GAME.round-1]];
+  LG.N = 20; LG.T = 20; LG.V = 100;
+  syncParts(LG, LGEO); rescaleSpeeds(LG);
+  FLASH = null; CONCL = null; TIPK = 'tipIdle';
+  stopScene();
+  syncLab();
+  $('g-status').innerHTML = tf('gGo', {p:GAME.target});
+  gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) lockP(true);
+  }, 1000);
+}
+function lockP(timedOut){
+  if(GAME.phase === 'aim'){
+    stopGTimer();
+    const cur = labP();
+    const diff = Math.abs(cur - GAME.target);
+    const pts = diff<=5?100 : diff<=15?80 : diff<=30?50 : diff<=60?20 : 5;
+    GAME.score += pts;
+    const msg = (timedOut===true ? t('gTimeUp')+' ' : '') +
+      (diff<=5?t('gPerfect') : diff<=15?t('gGood') : diff<=30?t('gOk') : t('gMiss'));
+    GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+    let html = msg+'（'+pShow(cur)+' kPa · ±'+Math.round(diff)+' · +'+pts+'）';
+    if(GAME.phase === 'done'){
+      const rk = GAME.score>=270 ? t('gRank1') : GAME.score>=180 ? t('gRank2') : t('gRank3');
+      html += '<br>' + t('gFinal')+' '+GAME.score+' — '+rk;
+    }
+    $('g-status').innerHTML = html;
+    gameSync();
+  } else if(GAME.phase === 'next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function syncGameBtn(){
+  $('g-lock').textContent = GAME.phase==='aim' ? '🎯 '+t('gLock')
+                          : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+}
+function gameSync(){
+  $('g-round').textContent = GAME.round;
+  $('g-target').textContent = GAME.target;
+  $('g-target-side').textContent = GAME.target + ' kPa';
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-score').textContent = GAME.score;
+  syncGameBtn();
+  document.querySelectorAll('#ctl-game input[type=range]').forEach(el=>{ el.disabled = GAME.phase!=='aim'; });
+}
+function gameLive(){
+  const p = labP();
+  $('g-cur').textContent = p > P_MAX ? '600+' : pShow(p);
+  $('g-cur-hud').textContent = (p > P_MAX ? '600+' : pShow(p)) + ' kPa';
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now(), lastHits = -1;
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    if(labOn && SCENE) stepScene(dt);
+    gasStep(LG, LGEO, dt);
+    drawLab();
+    /* the sidebar is rebuilt by the setters; here only the once-a-second hit count moves */
+    if(labOn){ if(LG.hitDisp !== lastHits){ lastHits = LG.hitDisp; syncLab(); } }
+    else gameLive();
+  } else if($('panel-cmp').classList.contains('on')){
+    if(CMP.running){
+      CMP.p += dt/5;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; }
+      applySide(CA, side('a'), CMP.p);
+      applySide(CB, side('b'), CMP.p);
+      if(!CMP.running) finishCmp();
+    }
+    gasStep(CA, CGEO, dt);
+    gasStep(CB, CGEO, dt);
+    drawCmpBoth();
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  CMP.running = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); syncLab(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+syncParts(LG, LGEO);
+applyTheme();
+applyLang();
+syncExplain();
+playScene('sc5');
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+</script>
+
+<script>
+
+'use strict';
+const $ = id => document.getElementById(id);
+function clamp(v,a,b){ if(!isFinite(v)) return a; return v<a?a:(v>b?b:v); }
+
+/* ============================================================
+   i18n
+============================================================ */
+const QUIZ_ZH = [
+  { e:'💥', q:'气体压强是怎么产生的？',
+    o:['大量气体粒子不断撞击容器壁',
+       '气体粒子静止不动、压在器壁上',
+       '器壁自己产生的弹力'], a:0,
+    x:'无数气体粒子不停撞击器壁，就形成了气体压强。<em>撞得越多、越猛，压强越大</em>。' },
+  { e:'🚲', q:'温度、体积不变，往容器里打入更多气体（粒子变多），压强会——',
+    o:['不变','增大','减小'], a:1,
+    x:'粒子变多 → 单位时间撞击器壁<em>更频繁</em> → 压强增大（就像给轮胎打气）。回演示实验拉「粒子数」滑条看看。' },
+  { e:'☀️', q:'粒子数、体积不变，温度升高，气体压强会——',
+    o:['减小','不变','增大'], a:2,
+    x:'温度升高 → 粒子运动更快、撞击<em>更猛烈</em> → 压强增大。夏天容易爆胎就是这个原因。' },
+  { e:'💉', q:'用手堵住注射器口并向里推活塞（气体量、温度不变），压强会——',
+    o:['增大','减小','不变'], a:0,
+    x:'体积变小 → 粒子撞击器壁<em>更频繁</em> → 压强增大，所以越推越费力，松手还会被弹回来。' },
+  { e:'🔬', q:'要探究「温度对气体压强的影响」，必须保持不变的量是——',
+    o:['只保持体积不变','粒子数量和体积都不变','都可以随便变'], a:1,
+    x:'<em>控制变量法</em>：只改变温度，粒子数量和体积都要相同。去演示实验按「☀️ 夏天暴晒」，它就只动温度。' },
+  { e:'🌡️', q:'气体从 20 ℃ 升到 40 ℃（粒子数、体积不变），压强会——',
+    o:['正好变成原来的 2 倍','只增大约 7%','完全不变'], a:1,
+    x:'温度必须用<em>绝对温度（开尔文）</em>：293 K → 313 K，只涨 6.8%。<em>摄氏度加倍 ≠ 温度加倍</em>！' },
+  { e:'⚖️', q:'同一团气体：「体积减半」和「20 ℃ 升到 40 ℃」，哪个让压强涨得更多？',
+    o:['体积减半','温度升高','两者一样'], a:0,
+    x:'体积减半 → 压强正好<em>翻倍</em>；20→40 ℃ 只让压强涨 6.8%。去对比实验按 📕 亲眼比一比。' },
+  { e:'🪝', q:'把吸盘挂钩压在墙上、挤出里面的空气，它能吸住是因为——',
+    o:['吸盘上有胶水','内部气体变少、压强变小，外面大气压把它压住','吸盘内的压强变大了'], a:1,
+    x:'挤出空气 = 里面<em>粒子变少</em>、压强变小，内外压强差让<em>大气压</em>把吸盘牢牢按在墙上。' },
+];
+const QUIZ_EN = [
+  { e:'💥', q:'How is gas pressure produced?',
+    o:['Countless gas particles keep hitting the container wall',
+       'Still particles simply resting on the wall',
+       'The wall produces the force by itself'], a:0,
+    x:'Countless particles keep striking the wall — that IS gas pressure. <em>More hits, harder hits → higher pressure.</em>' },
+  { e:'🚲', q:'Temperature and volume fixed; you pump in more gas. The pressure —',
+    o:['Stays the same','Increases','Decreases'], a:1,
+    x:'More particles → <em>more frequent</em> hits on the wall → higher pressure (exactly like pumping a tyre). Try the N slider in the Demo Lab.' },
+  { e:'☀️', q:'Particle number and volume fixed; the temperature rises. The pressure —',
+    o:['Decreases','Stays the same','Increases'], a:2,
+    x:'Hotter → particles move faster and hit <em>harder</em> → higher pressure. That is why tyres burst in hot sun.' },
+  { e:'💉', q:'You block a syringe and push the plunger in (same gas, same temperature). The pressure —',
+    o:['Increases','Decreases','Stays the same'], a:0,
+    x:'Smaller volume → hits become <em>more frequent</em> → higher pressure, so it gets harder to push and springs back.' },
+  { e:'🔬', q:'To investigate "how temperature affects gas pressure", what must be kept constant?',
+    o:['Only the volume','Both the particle number and the volume','Nothing in particular'], a:1,
+    x:'A <em>fair test</em>: change temperature only. Press "☀️ Hot sun" in the Demo Lab — it moves temperature alone.' },
+  { e:'🌡️', q:'A gas is heated from 20 ℃ to 40 ℃ (N and V fixed). The pressure —',
+    o:['Becomes exactly twice as large','Rises by only about 7%','Does not change at all'], a:1,
+    x:'Temperature must be in <em>kelvin</em>: 293 K → 313 K, only 6.8% more. <em>Doubling ℃ is NOT doubling temperature!</em>' },
+  { e:'⚖️', q:'Same gas: "halve the volume" or "heat from 20 ℃ to 40 ℃" — which raises the pressure more?',
+    o:['Halving the volume','Heating it','They are the same'], a:0,
+    x:'Halving V <em>doubles</em> p; 20→40 ℃ adds only 6.8%. Press 📕 in Compare and watch both at once.' },
+  { e:'🪝', q:'A suction hook sticks to the wall after you squeeze the air out because —',
+    o:['There is glue on the cup','Fewer particles inside → lower pressure, so outside air holds it on','The pressure inside the cup becomes larger'], a:1,
+    x:'Squeezing out air means <em>fewer particles</em> and lower pressure inside; the <em>atmospheric pressure</em> outside presses the cup onto the wall.' },
+];
+
+const I18N = {
+zh:{
+  expOpen:'👉 点我看解释', expClose:'✕ 收起解释',
+  title:'气体压强探究实验室', subtitle:'粒子数 · 温度 · 体积 —— 看得见的撞击，量得出的压强',
+  chip1:'压强来自粒子对器壁的撞击', chip2:'p ∝ N × T(K) ÷ V', chip3:'温度必须用绝对温度 K',
+  tabLab:'🖐️ 演示实验', tabCmp:'⚖️ 对比实验', tabQuiz:'🎯 抢答挑战', tabGame:'🎮 压强狙击',
+  btnFull:'⛶ 全屏', btnReset:'复位', themeLight:'☀️ 浅色', themeDark:'🌙 深色',
+  sceLabel:'生活情境：',
+  sc1:'🚲 给轮胎打气', sc2:'☀️ 夏天暴晒', sc3:'💉 堵住注射器', sc4:'🧊 放进冰箱', sc5:'🧪 回到常态',
+  sc1why:'🚲 <em>打气</em>：温度、体积没变，只把粒子塞得更多 → 单位时间撞击器壁<em>更频繁</em> → 压强变大，轮胎变硬。',
+  sc2why:'☀️ <em>暴晒</em>：粒子数、体积没变，温度升高 → 粒子跑得更快、撞得<em>更猛烈</em> → 压强变大，气打太足就爆胎。',
+  sc3why:'💉 <em>推活塞</em>：粒子数、温度没变，体积变小 → 同样多的粒子挤在更小空间 → 撞击<em>更频繁</em> → 压强变大，越推越费力。',
+  sc4why:'🧊 <em>冷冻</em>：粒子数、体积没变，温度降低 → 粒子变慢、撞得更轻 → 压强变小。注意：−20 ℃ 也还有 253 K，压强<em>不会归零</em>。',
+  sc5why:'🧪 回到参照态：N ＝ 20、T ＝ 20 ℃、V ＝ 100% → p ＝ 200 kPa。以后每一次改变，都跟这个状态比。',
+  slN:'⚛️ 粒子数', slT:'🌡️ 温度', slV:'📦 体积',
+  labHint:'拉三条滑条，或直接按住画面里的活塞左右拖动。每次<b>只改一个量</b>，右边的规律卡就会亮起来。',
+  pLabel:'气体压强 p', kHits:'每秒撞击', kTK:'绝对温度 K', kV:'体积 %', kN:'粒子数 N', kT:'温度 ℃',
+  stNorm:'常压', stNormSub:'跟参照态 200 kPa 差不多',
+  stHigh:'高压', stHighSub:'撞击又多又猛 —— 容器壁受力很大',
+  stOver:'⚠️ 超压危险', stOverSub:'超过 600 kPa —— 容器可能爆裂！',
+  stLow:'低压', stLowSub:'撞击稀疏又无力 —— 外面的大气压会把它压扁',
+  f_formula:'p ＝ 200 kPa × (N {n}/20) × (T {k}/293 K) ÷ (V {v}/100) ＝ <b>{p} kPa</b>',
+  live_norm:'每秒约 <b>{h}</b> 次撞击。改动任何一个量，看这个数字怎么跟着压强一起变。',
+  live_high:'撞击已经很密集（每秒约 <b>{h}</b> 次），压强是参照态的 <b>{r}</b> 倍。',
+  live_over:'⚠️ <b>超过 600 kPa</b>：指针打到底、器壁发红 —— 现实中轮胎/瓶子会爆。',
+  live_low:'撞击稀疏（每秒约 <b>{h}</b> 次），压强只有参照态的 <b>{r}</b> 倍。',
+  tipIdle:'先按一个生活情境，或直接拉滑条。',
+  tipN:'👉 只动<b>粒子数</b>：温度、体积不变 —— 这是探究「质量」影响的标准做法。',
+  tipT:'👉 只动<b>温度</b>：粒子数、体积不变。别忘了换算成 <b>K ＝ ℃ + 273</b>。',
+  tipV:'👉 只动<b>体积</b>：粒子数、温度不变 —— 体积减半，压强正好加倍。',
+  r_Nup:'👉 <em>粒子变多</em> → 撞击更频繁 → 压强<b>变大</b>',
+  r_Ndn:'👉 <em>粒子变少</em> → 撞击变稀疏 → 压强<b>变小</b>',
+  r_Tup:'👉 <em>温度升高</em> → 粒子更快、撞得更猛 → 压强<b>变大</b>',
+  r_Tdn:'👉 <em>温度降低</em> → 粒子变慢、撞得更轻 → 压强<b>变小</b>',
+  r_Vup:'👉 <em>体积变大</em> → 撞击变稀疏 → 压强<b>变小</b>',
+  r_Vdn:'👉 <em>体积变小</em> → 撞击更频繁 → 压强<b>变大</b>',
+  c1:'📌 规律一：温度、体积相同时，气体<em>质量越大</em>（粒子越多），撞击越频繁，<em>压强越大</em>。',
+  c2:'📌 规律二：质量、体积相同时，<em>温度越高</em>，粒子运动越快、撞击越猛烈，<em>压强越大</em>（温度要用 K）。',
+  c3:'📌 规律三：质量、温度相同时，<em>体积越小</em>，粒子撞击器壁越频繁，<em>压强越大</em>。',
+  recBtn:'记录数据', recClear:'清空', thN:'N', thT:'t/℃', thV:'V/%', thP:'p/kPa',
+  outLabel:'最终压强 p', cmpHint:'先按预设 → 全班猜一猜 → 再按「同时开始」验证。两边的压强都由同一条公式真算。',
+  cp1:'体积减半 vs 温度「加倍」', cp2:'升温 80 ℃ vs 打气加倍', cp3:'体积加倍 vs 放气一半',
+  cp1a:'📦 体积减半（100% → 50%）', cp1b:'🌡️ 温度「加倍」（20 → 40 ℃）',
+  cp1ac:'N ＝ 20 不变 · T ＝ 20 ℃ 不变', cp1bc:'N ＝ 20 不变 · V ＝ 100% 不变',
+  cp2a:'☀️ 升温 20 → 100 ℃', cp2b:'🔧 打气 20 → 40 个粒子',
+  cp2ac:'N ＝ 20 不变 · V ＝ 100% 不变', cp2bc:'T ＝ 20 ℃ 不变 · V ＝ 100% 不变',
+  cp3a:'📦 体积加倍（50% → 100%）', cp3b:'💨 放气一半（40 → 20 个）',
+  cp3ac:'N ＝ 20 不变 · T ＝ 20 ℃ 不变 · 起点 400 kPa', cp3bc:'T ＝ 20 ℃ 不变 · V ＝ 100% 不变 · 起点 400 kPa',
+  guessQ:'猜一猜：最后哪边压强更大？', gMoreA:'甲更大', gSame:'一样大', gMoreB:'乙更大', runCmp:'同时开始',
+  fbRight:'✅ 猜对了！', fbWrong:'❌ 和猜想不同 —— 想想为什么？',
+  cc_1:'📌 体积减半 → 压强<em>正好翻倍</em>（200 → 400 kPa）；20 → 40 ℃ 只是 293 → 313 K，压强<em>只涨 6.8%</em>。<em>摄氏度加倍不等于温度加倍</em>！',
+  cc_2:'📌 升温 80 ℃ 只让压强变成 1.27 倍；粒子数加倍却让压强<em>正好翻倍</em>。<em>p 与 N 成正比、与绝对温度成正比</em>，但 ℃ 的「涨幅」被 273 稀释了。',
+  cc_3:'📌 体积加倍和粒子数减半，结果<em>一模一样</em>（都回到 200 kPa）。因为 p ∝ N ÷ V —— <em>分子加倍</em>和<em>分母减半</em>效果相同。',
+  quizHint:'全班抢答：读题 → 举手 / 喊答案 → 老师点选。每题限时 20 秒！',
+  score:'得分', next:'下一题', again:'再玩一次', timeUp:'⏰ 时间到！',
+  rRight:'✅ 答对了！', rWrong:'❌ 不对哦。',
+  resGold:'🏆 满分！气体压强的微观模型你们拿下了！', resGood:'👍 很不错，重玩挑战满分！', resTry:'💪 回「演示实验」亲手拉一遍滑条，再来！',
+  qSideHint:'想不通的题，切回「演示实验」当场做给全班看。',
+  gTarget:'目标', gNow:'当前', gTargetLabel:'本轮目标压强', gNowLabel:'当前压强', gRound:'回合',
+  gLock:'锁定读数', gNextRound:'下一轮 ➜', gPlayAgain:'🔄 再来一局',
+  gHint:'全班指挥一位同学：调粒子数 / 温度 / 体积，把压强调到目标值再锁定。想清楚哪个量该往哪边动！',
+  gGo:'把压强调到 <b>{p} kPa</b>，然后按锁定。误差越小分越高。',
+  gPerfect:'🎯 神准！', gGood:'👍 很接近！', gOk:'还行，再稳一点！', gMiss:'差得有点远 —— 再试！',
+  gTimeUp:'⏰ 时间到，自动锁定！',
+  gFinal:'最终得分', gRank1:'🏆 压强狙击手！', gRank2:'👍 手感不错！', gRank3:'💪 回演示实验再练几轮！',
+  cvMicro:'微观读数', cvN:'粒子数 N ＝ {n}', cvTemp:'温度 {t} ℃ ＝ {k} K',
+  cvHits:'每秒撞击 {h} 次', cvSpeed:'平均速率 {s} ×', cvGauge:'压强表 p / kPa',
+  cvVol:'体积 V ＝ {v}% · 按住活塞左右拖动', cvOver:'⚠️ 超压！容器可能爆裂',
+  cvP:'p ＝ {p} kPa', cvNTV:'N {n} · T {t} ℃ · V {v}%',
+  credit:'ScienceMaterial',
+},
+en:{
+  expOpen:'👉 Show the explanation', expClose:'✕ Hide the explanation',
+  title:'Gas Pressure Lab', subtitle:'Particles · temperature · volume — collisions you can see, pressure you can read',
+  chip1:'Pressure = particles hitting the wall', chip2:'p ∝ N × T(K) ÷ V', chip3:'Temperature must be in kelvin',
+  tabLab:'🖐️ Demo Lab', tabCmp:'⚖️ Compare', tabQuiz:'🎯 Class Quiz', tabGame:'🎮 Pressure Sniper',
+  btnFull:'⛶ Fullscreen', btnReset:'Reset', themeLight:'☀️ Light', themeDark:'🌙 Dark',
+  sceLabel:'Scenario:',
+  sc1:'🚲 Pump tyre', sc2:'☀️ Hot sun', sc3:'💉 Push syringe', sc4:'🧊 Freezer', sc5:'🧪 Baseline',
+  sc1why:'🚲 <em>Pumping</em>: T and V untouched, just more particles → <em>more frequent</em> hits → higher pressure, a harder tyre.',
+  sc2why:'☀️ <em>Hot sun</em>: N and V untouched, T rises → faster particles hitting <em>harder</em> → higher pressure; over-inflated tyres burst.',
+  sc3why:'💉 <em>Pushing in</em>: N and T untouched, V shrinks → the same particles crowd a smaller space → <em>more frequent</em> hits → harder to push.',
+  sc4why:'🧊 <em>Cooling</em>: N and V untouched, T falls → slower, gentler hits → lower pressure. Note −20 ℃ is still 253 K, so p <em>never hits zero</em>.',
+  sc5why:'🧪 Back to baseline: N ＝ 20, T ＝ 20 ℃, V ＝ 100% → p ＝ 200 kPa. Compare every later change against this state.',
+  slN:'⚛️ Particles', slT:'🌡️ Temp', slV:'📦 Volume',
+  labHint:'Drag the three sliders, or grab the piston in the picture. Change <b>one thing at a time</b> and the matching rule card lights up.',
+  pLabel:'Gas pressure p', kHits:'Hits per s', kTK:'Absolute T/K', kV:'Volume %', kN:'Particles N', kT:'Temp ℃',
+  stNorm:'Normal', stNormSub:'close to the 200 kPa baseline',
+  stHigh:'High', stHighSub:'many hard collisions — the wall is loaded',
+  stOver:'⚠️ Over-pressure', stOverSub:'above 600 kPa — the vessel may burst!',
+  stLow:'Low', stLowSub:'sparse, gentle hits — outside air would crush it',
+  f_formula:'p ＝ 200 kPa × (N {n}/20) × (T {k}/293 K) ÷ (V {v}/100) ＝ <b>{p} kPa</b>',
+  live_norm:'About <b>{h}</b> hits per second. Change any one quantity and watch this number move with the pressure.',
+  live_high:'Collisions are dense (about <b>{h}</b> per second); pressure is <b>{r}</b>× the baseline.',
+  live_over:'⚠️ <b>Above 600 kPa</b>: the needle is pinned and the wall glows red — a real tyre or bottle would burst.',
+  live_low:'Collisions are sparse (about <b>{h}</b> per second); pressure is only <b>{r}</b>× the baseline.',
+  tipIdle:'Press a scenario button, or just drag a slider.',
+  tipN:'👉 Only <b>N</b> changed: T and V fixed — the standard fair test for "amount of gas".',
+  tipT:'👉 Only <b>T</b> changed: N and V fixed. Remember <b>K ＝ ℃ + 273</b>.',
+  tipV:'👉 Only <b>V</b> changed: N and T fixed — halve the volume and the pressure doubles exactly.',
+  r_Nup:'👉 <em>More particles</em> → more frequent hits → pressure <b>rises</b>',
+  r_Ndn:'👉 <em>Fewer particles</em> → sparser hits → pressure <b>falls</b>',
+  r_Tup:'👉 <em>Hotter</em> → faster, harder hits → pressure <b>rises</b>',
+  r_Tdn:'👉 <em>Colder</em> → slower, gentler hits → pressure <b>falls</b>',
+  r_Vup:'👉 <em>Bigger volume</em> → sparser hits → pressure <b>falls</b>',
+  r_Vdn:'👉 <em>Smaller volume</em> → more frequent hits → pressure <b>rises</b>',
+  c1:'📌 Rule 1: at the same T and V, <em>more gas</em> (more particles) means more frequent hits and <em>higher pressure</em>.',
+  c2:'📌 Rule 2: at the same N and V, a <em>higher temperature</em> means faster, harder hits and <em>higher pressure</em> (use kelvin).',
+  c3:'📌 Rule 3: at the same N and T, a <em>smaller volume</em> means more frequent hits and <em>higher pressure</em>.',
+  recBtn:'Record data', recClear:'Clear', thN:'N', thT:'t/℃', thV:'V/%', thP:'p/kPa',
+  outLabel:'Final pressure p', cmpHint:'Load a preset → let the class predict → press "Start both". Both sides use the same formula.',
+  cp1:'Half volume vs "double" temp', cp2:'Heat 80 ℃ vs double the gas', cp3:'Double volume vs half the gas',
+  cp1a:'📦 Volume halved (100% → 50%)', cp1b:'🌡️ Temp "doubled" (20 → 40 ℃)',
+  cp1ac:'N ＝ 20 fixed · T ＝ 20 ℃ fixed', cp1bc:'N ＝ 20 fixed · V ＝ 100% fixed',
+  cp2a:'☀️ Heated 20 → 100 ℃', cp2b:'🔧 Pumped 20 → 40 particles',
+  cp2ac:'N ＝ 20 fixed · V ＝ 100% fixed', cp2bc:'T ＝ 20 ℃ fixed · V ＝ 100% fixed',
+  cp3a:'📦 Volume doubled (50% → 100%)', cp3b:'💨 Half the gas (40 → 20)',
+  cp3ac:'N ＝ 20 fixed · T ＝ 20 ℃ fixed · starts at 400 kPa', cp3bc:'T ＝ 20 ℃ fixed · V ＝ 100% fixed · starts at 400 kPa',
+  guessQ:'Predict: which side ends with more pressure?', gMoreA:'A more', gSame:'Same', gMoreB:'B more', runCmp:'Start both',
+  fbRight:'✅ Correct prediction!', fbWrong:'❌ Not what you predicted — why?',
+  cc_1:'📌 Halving V <em>exactly doubles</em> p (200 → 400 kPa); 20 → 40 ℃ is only 293 → 313 K, worth <em>just 6.8%</em>. <em>Doubling ℃ is not doubling temperature!</em>',
+  cc_2:'📌 Heating by 80 ℃ multiplies p by only 1.27; doubling the particles <em>exactly doubles</em> it. p is proportional to N and to <em>absolute</em> T — the 273 dilutes every ℃.',
+  cc_3:'📌 Doubling V and halving N give the <em>identical</em> result (both back to 200 kPa), because p ∝ N ÷ V — <em>double the top</em> or <em>halve the bottom</em>, same effect.',
+  quizHint:'Whole-class quiz: read → hands up / shout the answer → teacher clicks. 20 seconds per question!',
+  score:'Score', next:'Next', again:'Play again', timeUp:'⏰ Time is up!',
+  rRight:'✅ Correct!', rWrong:'❌ Not quite.',
+  resGold:'🏆 Perfect score — you own the particle model!', resGood:'👍 Nice — replay for a perfect score!', resTry:'💪 Drag the sliders in the Demo Lab, then try again!',
+  qSideHint:'Stuck on a question? Switch back to the Demo Lab and show it live.',
+  gTarget:'Target', gNow:'Now', gTargetLabel:'Target pressure', gNowLabel:'Current pressure', gRound:'Round',
+  gLock:'Lock reading', gNextRound:'Next round ➜', gPlayAgain:'🔄 Play again',
+  gHint:'The class guides one player: set N / T / V to hit the target pressure, then lock. Think about which knob to turn, and which way!',
+  gGo:'Bring the pressure to <b>{p} kPa</b>, then lock it in. Smaller error, more points.',
+  gPerfect:'🎯 Bullseye!', gGood:'👍 So close!', gOk:'Not bad — steady it!', gMiss:'Way off — try again!',
+  gTimeUp:'⏰ Time! Auto-locked.',
+  gFinal:'Final score', gRank1:'🏆 Pressure sniper!', gRank2:'👍 Nice control!', gRank3:'💪 A few more rounds in the Demo Lab!',
+  cvMicro:'Micro readout', cvN:'Particles N ＝ {n}', cvTemp:'Temp {t} ℃ ＝ {k} K',
+  cvHits:'{h} hits per second', cvSpeed:'Mean speed {s} ×', cvGauge:'Gauge p / kPa',
+  cvVol:'Volume V ＝ {v}% · drag the piston sideways', cvOver:'⚠️ Over-pressure! It may burst',
+  cvP:'p ＝ {p} kPa', cvNTV:'N {n} · T {t} ℃ · V {v}%',
+  credit:'ScienceMaterial',
+},
+};
+let LANG = 'zh';
+try{ LANG = localStorage.getItem('dzlab-lang') || 'zh'; }catch(e){}
+const t = k => I18N[LANG][k];
+function tf(k,p){ return t(k).replace(/\{(\w+)\}/g, (m,x)=> (p && p[x]!==undefined) ? p[x] : m); }
+const QUIZ = () => LANG==='zh' ? QUIZ_ZH : QUIZ_EN;
+
+/* ============================================================
+   Theme (canvas palettes)
+============================================================ */
+const THEMES = {
+  dark:{
+    cvText:'rgba(255,255,255,.95)', cvTextDim:'rgba(255,255,255,.72)',
+    panel:'rgba(255,255,255,.06)', panelLine:'rgba(255,255,255,.18)',
+    pill:'rgba(6,14,26,.72)', pillLine:'rgba(255,255,255,.22)',
+    wall:'#7e939d', wallHot:'#ff6a5a', gasFill:'rgba(150,195,225,.10)',
+    desk:'rgba(255,255,255,.22)',
+    gaugeFace:'#f6f4ec', gaugeInk:'#22303d', gaugeRim:'#3a4750',
+    piston:'#5b7a8c', pistonHi:'#9fb9c9', handle:'#43606f', pistonTag:'#7cc4ff',
+    partEdge:'rgba(255,255,255,.55)', arrow:'rgba(255,255,255,.6)',
+    flash:'255,201,77', bar:'#7cc4ff', barHot:'#ff6a5a',
+    cold:'#5e9fd0', hot:'#ff6a5a', amber:'#ffc94d', dim:'rgba(255,255,255,.28)',
+  },
+  light:{
+    cvText:'rgba(30,42,54,.95)', cvTextDim:'rgba(30,42,54,.68)',
+    panel:'#fcfcf6', panelLine:'rgba(30,42,54,.18)',
+    pill:'rgba(255,255,255,.92)', pillLine:'rgba(30,42,54,.18)',
+    wall:'#6c828e', wallHot:'#e0443c', gasFill:'rgba(120,170,205,.12)',
+    desk:'rgba(30,42,54,.28)',
+    gaugeFace:'#ffffff', gaugeInk:'#22303d', gaugeRim:'#54636d',
+    piston:'#5b7a8c', pistonHi:'#8faabb', handle:'#43606f', pistonTag:'#2f6690',
+    partEdge:'rgba(30,42,54,.45)', arrow:'rgba(30,42,54,.5)',
+    flash:'200,140,10', bar:'#3e7cb1', barHot:'#e0443c',
+    cold:'#3e7cb1', hot:'#e4573d', amber:'#a06d00', dim:'rgba(30,42,54,.25)',
+  },
+};
+let THEME = 'light';
+try{ THEME = localStorage.getItem('dzlab-theme') || 'light'; }catch(e){}
+const C = () => THEMES[THEME];
+
+function applyTheme(){
+  document.body.classList.toggle('light', THEME==='light');
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+}
+function toggleTheme(){
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('dzlab-theme', THEME); }catch(e){}
+  THEME='light'; try{applyTheme();}catch(e){}
+}
+/* 侧栏说明默认收起来 —— 平时只留大数字，要讲的时候才点开 */
+const EXPLAIN = {};
+function syncExplain(){
+  document.querySelectorAll('.explain-btn').forEach(function(b){
+    const k = b.dataset.exp, on = !!EXPLAIN[k], box = $('exp-'+k);
+    if(box) box.classList.toggle('on', on);
+    b.classList.toggle('open', on);
+    const sp = b.querySelector('span');
+    if(sp){ sp.dataset.i = on ? 'expClose' : 'expOpen'; sp.innerHTML = t(sp.dataset.i); }
+  });
+}
+function toggleExplain(k){ EXPLAIN[k] = !EXPLAIN[k]; syncExplain(); }
+
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i); });
+  $('langBtn').textContent = LANG==='zh' ? 'EN' : '中文';
+  $('themeBtn').textContent = THEME==='dark' ? t('themeLight') : t('themeDark');
+  $('credit').textContent = t('credit');
+  $('q-side-hint').textContent = t('qSideHint');
+  syncLab();
+  renderRec();
+  cmpLabels();
+  if($('panel-quiz').classList.contains('on')) renderQ();
+  if($('panel-game').classList.contains('on')) syncGameBtn();
+}
+function toggleLang(){
+  LANG = LANG==='zh' ? 'en' : 'zh';
+  try{ localStorage.setItem('dzlab-lang', LANG); }catch(e){}
+  applyLang();
+}
+function toggleFull(){
+  try{
+    if(document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  }catch(e){}
+}
+function resetActive(){
+  if($('panel-lab').classList.contains('on')) playScene('sc5');
+  else if($('panel-cmp').classList.contains('on')){ clearGuess(); cmpReset(); }
+  else if($('panel-game').classList.contains('on')) startGame();
+  else restartQ();
+}
+
+/* ============================================================
+   Shared drawing helpers
+============================================================ */
+const CV_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif';
+function ptr(ev, cv, sc){
+  const r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)*cv.width/r.width/(sc||1),
+           y:(ev.clientY-r.top)*cv.height/r.height/(sc||1) };
+}
+function rrect(c,x,y,w,h,r){
+  c.beginPath();
+  if(c.roundRect){ c.roundRect(x,y,w,h,r); return; }
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+function circle(c,x,y,r,fill,stroke,lw){
+  c.beginPath(); c.arc(x,y,r,0,Math.PI*2);
+  if(fill){ c.fillStyle=fill; c.fill(); }
+  if(stroke){ c.strokeStyle=stroke; c.lineWidth=lw||1.5; c.stroke(); }
+}
+function line(c,x1,y1,x2,y2,col,lw,dash){
+  c.beginPath();
+  if(c.setLineDash) c.setLineDash(dash||[]);
+  c.moveTo(x1,y1); c.lineTo(x2,y2);
+  c.strokeStyle=col; c.lineWidth=lw||1.5; c.stroke();
+  if(c.setLineDash) c.setLineDash([]);
+}
+function TX(c,s,x,y,font,color,align,base){
+  if(!isFinite(x)||!isFinite(y)) return;
+  c.font=font; c.fillStyle=color; c.textAlign=align||'left'; c.textBaseline=base||'middle';
+  c.fillText(s,x,y);
+}
+/* pill-backed text, clamped inside the canvas */
+function tchip(c,s,x,y,font,color,align,W,H){
+  c.font=font;
+  const w=c.measureText(s).width;
+  const m=/([\d.]+)px/.exec(font), fs=m?parseFloat(m[1]):14, h=fs+14;
+  const al=align||'center';
+  let x0 = al==='left' ? x : (al==='right' ? x-w : x-w/2);
+  x0 = clamp(x0, 10, Math.max(10, (W||1000)-w-10));
+  const yy = clamp(y, h/2+4, (H||500)-h/2-4);
+  rrect(c,x0-11,yy-h/2,w+22,h,9);
+  c.fillStyle=C().pill; c.fill();
+  c.strokeStyle=C().pillLine; c.lineWidth=1.2; c.stroke();
+  TX(c,s,x0+w/2,yy,font,color,'center','middle');
+}
+
+/* ============================================================
+   Gas engine (shared by lab / compare / game)
+   p(kPa) = 200 × (N/20) × (T_K/293) ÷ (V/100)
+   — identical to the source model (gauge 2.0 → 200 kPa)
+============================================================ */
+const P_REF = 200, P_MAX = 600;
+function tK(T){ return T + 273; }
+function pressureOf(N,T,V){ return P_REF * (N/20) * (tK(T)/293) / (V/100); }
+/* classroom-visible temperature→speed map (from the source file) */
+function tempFactor(T){ return 0.35 + 1.65 * ((T + 20) / 120); }
+
+function makeGas(N,T,V,base){
+  return { N:N, T:T, V:V, base:base, parts:[], flashes:[], hits:0, hitDisp:0, hitTimer:0 };
+}
+function gasP(g){ return pressureOf(g.N, g.T, g.V); }
+function pistonX(g, geo){ return geo.left + (geo.right-geo.left)*g.V/100; }
+function meanSpeed(g){ return g.base * tempFactor(g.T); }
+function spawnPart(g, geo){
+  const px = pistonX(g, geo), ang = Math.random()*Math.PI*2;
+  const sp = meanSpeed(g) * (0.7 + Math.random()*0.6);
+  return {
+    x: geo.left+geo.r+2 + Math.random()*Math.max(6, px-geo.left-2*geo.r-4),
+    y: geo.top+geo.r+2 + Math.random()*Math.max(6, geo.bot-geo.top-2*geo.r-4),
+    vx: Math.cos(ang)*sp, vy: Math.sin(ang)*sp,
+  };
+}
+function syncParts(g, geo){
+  const n = Math.round(g.N);
+  while(g.parts.length < n) g.parts.push(spawnPart(g, geo));
+  while(g.parts.length > n) g.parts.pop();
+  const px = pistonX(g, geo);
+  for(const p of g.parts){
+    p.x = clamp(p.x, geo.left+geo.r, px-geo.r);
+    p.y = clamp(p.y, geo.top+geo.r, geo.bot-geo.r);
+  }
+}
+function rescaleSpeeds(g){
+  const target = meanSpeed(g);
+  for(const p of g.parts){
+    const sp = Math.hypot(p.vx,p.vy) || 1;
+    const ns = target * (0.7 + Math.random()*0.6);
+    p.vx = p.vx/sp*ns; p.vy = p.vy/sp*ns;
+  }
+}
+function gasHit(g,x,y){ g.hits++; if(g.flashes.length < 90) g.flashes.push({x:x, y:y, life:0.25}); }
+function gasStep(g, geo, dt){
+  const px = pistonX(g, geo), R = geo.r;
+  for(const p of g.parts){
+    p.x += p.vx*dt; p.y += p.vy*dt;
+    if(p.x < geo.left+R){ p.x = geo.left+R; p.vx = Math.abs(p.vx); gasHit(g, geo.left, p.y); }
+    if(p.x > px-R){ p.x = px-R; p.vx = -Math.abs(p.vx); gasHit(g, px, p.y); }
+    if(p.y < geo.top+R){ p.y = geo.top+R; p.vy = Math.abs(p.vy); gasHit(g, p.x, geo.top); }
+    if(p.y > geo.bot-R){ p.y = geo.bot-R; p.vy = -Math.abs(p.vy); gasHit(g, p.x, geo.bot); }
+  }
+  g.hitTimer += dt;
+  if(g.hitTimer >= 1){ g.hitDisp = g.hits; g.hits = 0; g.hitTimer = 0; }
+  for(const f of g.flashes) f.life -= dt;
+  g.flashes = g.flashes.filter(f=>f.life > 0);
+}
+function partColor(T){
+  const k = clamp((T + 20) / 120, 0, 1);
+  return 'rgb('+Math.round(90+k*160)+','+Math.round(140-k*60)+','+Math.round(215-k*150)+')';
+}
+function drawGas(c, g, geo){
+  const px = pistonX(g, geo), over = gasP(g) > P_MAX;
+  /* gas volume */
+  c.fillStyle = C().gasFill;
+  c.fillRect(geo.left, geo.top, px-geo.left, geo.bot-geo.top);
+  /* collision flashes */
+  for(const f of g.flashes){
+    circle(c, f.x, f.y, geo.r*1.3*f.life/0.25 + 3, 'rgba('+C().flash+','+(f.life/0.25*0.7)+')', null, 0);
+  }
+  /* particles + velocity arrows */
+  const col = partColor(g.T);
+  for(const p of g.parts){
+    circle(c, p.x, p.y, geo.r, col, C().partEdge, 1.2);
+    const sp = Math.hypot(p.vx,p.vy) || 1;
+    line(c, p.x + p.vx/sp*geo.r*1.1, p.y + p.vy/sp*geo.r*1.1,
+            p.x + p.vx/sp*geo.r*2.3, p.y + p.vy/sp*geo.r*2.3, C().arrow, 2);
+  }
+  /* walls (open on the piston side) */
+  c.beginPath();
+  c.moveTo(px, geo.top); c.lineTo(geo.left, geo.top);
+  c.lineTo(geo.left, geo.bot); c.lineTo(px, geo.bot);
+  c.strokeStyle = over ? C().wallHot : C().wall;
+  c.lineWidth = geo.lw; c.lineJoin='round'; c.lineCap='round'; c.stroke();
+  return px;
+}
+function drawPiston(c, px, geo, tagText){
+  const mid = (geo.top+geo.bot)/2, w = geo.pw;
+  c.fillStyle = C().piston;
+  c.fillRect(px, geo.top-4, w, geo.bot-geo.top+8);
+  c.fillStyle = C().pistonHi;
+  c.fillRect(px+w*0.22, geo.top+4, w*0.3, geo.bot-geo.top-8);
+  c.fillStyle = C().handle;
+  c.fillRect(px+w, mid-w*0.3, geo.hl, w*0.6);
+  c.fillRect(px+w+geo.hl, mid-w*1.4, w*0.6, w*2.8);
+  if(tagText) TX(c, tagText, px+w, geo.top-16, '700 14px '+CV_FONT, C().pistonTag, 'left', 'middle');
+}
+
+/* ============================================================
+   Tab 1: Demo lab (world 1000 x 500, canvas at 2x)
+============================================================ */
+const SC = 2, W_W = 1000, W_H = 500;
+const LGEO = { left:70, top:170, bot:430, right:660, r:8, lw:5, pw:20, hl:52 };
+const GA = { cy:94, r:58 };
+const IP = { x:770, y:176, w:220, h:170 };
+
+const labCv = $('cv-lab'), labCtx = labCv.getContext('2d');
+const LG = makeGas(20, 20, 100, 150);
+
+function labP(){ return gasP(LG); }
+function pShow(p){ return Math.round(p); }
+function pState(p){
+  if(p > P_MAX) return 'over';
+  if(p >= 280) return 'high';
+  if(p <= 140) return 'low';
+  return 'norm';
+}
+
+/* ---------- gauge ---------- */
+function drawGauge(c, cx, cy, r, p){
+  const over = p > P_MAX;
+  circle(c, cx, cy, r, C().gaugeFace, over ? C().wallHot : C().gaugeRim, 6);
+  for(let i=0;i<=6;i++){
+    const ang = (210 - i*40) * Math.PI/180;
+    const big = (i%2===0);
+    line(c, cx+Math.cos(ang)*(r-7), cy-Math.sin(ang)*(r-7),
+            cx+Math.cos(ang)*(r-(big?18:13)), cy-Math.sin(ang)*(r-(big?18:13)),
+            C().gaugeRim, big?2.4:1.6);
+    if(big){
+      TX(c, String(i*100), cx+Math.cos(ang)*(r-30), cy-Math.sin(ang)*(r-30)+1,
+         '700 13px '+CV_FONT, C().gaugeInk, 'center', 'middle');
+    }
+  }
+  const shown = Math.min(P_MAX, p)/100 + (over ? Math.sin(Date.now()/40)*0.12 : Math.sin(Date.now()/300)*0.03);
+  const ang = (210 - shown*40) * Math.PI/180;
+  line(c, cx-Math.cos(ang)*10, cy+Math.sin(ang)*10,
+          cx+Math.cos(ang)*(r-22), cy-Math.sin(ang)*(r-22),
+          over ? C().wallHot : C().gaugeInk, 3.5);
+  circle(c, cx, cy, 5, C().gaugeInk, null, 0);
+  TX(c, t('cvGauge'), cx, cy+r+15, '700 13px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+}
+
+function drawLab(){
+  const c = labCtx;
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,labCv.width,labCv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const p = labP(), over = p > P_MAX;
+
+  /* desk line */
+  line(c, 40, 452, 740, 452, C().desk, 2);
+  /* container + gas */
+  const px = drawGas(c, LG, LGEO);
+  /* gauge + connecting pipe */
+  const gx = (LGEO.left + px)/2;
+  c.fillStyle = C().wall;
+  c.fillRect(gx-9, GA.cy+GA.r-6, 18, LGEO.top-GA.cy-GA.r+10);
+  drawGauge(c, gx, GA.cy, GA.r, p);
+  if(over) tchip(c, t('cvOver'), gx, 26, '900 16px '+CV_FONT, C().wallHot, 'center', W_W, W_H);
+  /* piston */
+  drawPiston(c, px, LGEO, null);
+  /* caption under the box */
+  TX(c, tf('cvVol',{v:LG.V}), gx, 470, '700 15px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* micro readout panel */
+  rrect(c, IP.x, IP.y, IP.w, IP.h, 12);
+  c.fillStyle = C().panel; c.fill();
+  c.strokeStyle = C().panelLine; c.lineWidth = 1.3; c.stroke();
+  const cx = IP.x + IP.w/2;
+  TX(c, t('cvMicro'), cx, IP.y+24, '900 16px '+CV_FONT, C().amber, 'center', 'middle');
+  TX(c, tf('cvN',{n:LG.N}), cx, IP.y+58, '700 15px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(c, tf('cvTemp',{t:LG.T, k:tK(LG.T)}), cx, IP.y+88, '700 15px '+CV_FONT,
+     LG.T>=40 ? C().hot : LG.T<=0 ? C().cold : C().cvText, 'center', 'middle');
+  TX(c, tf('cvHits',{h:LG.hitDisp}), cx, IP.y+118, '700 15px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(c, tf('cvSpeed',{s:tempFactor(LG.T).toFixed(2)}), cx, IP.y+146, '700 15px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+
+  /* pressure bar under the panel */
+  const bw = IP.w, bx = IP.x, by = IP.y + IP.h + 34;
+  rrect(c, bx, by, bw, 18, 9); c.fillStyle = C().panel; c.fill();
+  c.strokeStyle = C().panelLine; c.lineWidth = 1.2; c.stroke();
+  const fw = clamp(p/P_MAX, 0, 1)*(bw-4);
+  rrect(c, bx+2, by+2, Math.max(3, fw), 14, 7);
+  c.fillStyle = over ? C().barHot : C().bar; c.fill();
+  TX(c, tf('cvP',{p:pShow(p)}), bx+bw/2, by-16, '900 20px '+CV_FONT, over ? C().wallHot : C().amber, 'center', 'middle');
+  TX(c, '0', bx, by+32, '700 13px '+CV_FONT, C().cvTextDim, 'left', 'middle');
+  TX(c, '600', bx+bw, by+32, '700 13px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+}
+
+/* ---------- piston dragging ---------- */
+let dragPiston = false;
+labCv.addEventListener('pointerdown', ev=>{
+  const q = ptr(ev, labCv, SC), px = pistonX(LG, LGEO);
+  if(q.x > px-26 && q.x < px + LGEO.pw + LGEO.hl + 30 && q.y > LGEO.top-30 && q.y < LGEO.bot+30){
+    dragPiston = true;
+    labCv.setPointerCapture(ev.pointerId);
+  }
+});
+labCv.addEventListener('pointermove', ev=>{
+  if(!dragPiston) return;
+  const q = ptr(ev, labCv, SC);
+  let v = Math.round((q.x - LGEO.left)/(LGEO.right - LGEO.left)*100/5)*5;
+  v = clamp(v, 45, 100);
+  if(v !== LG.V) setV(v, 1);
+});
+labCv.addEventListener('pointerup', ()=>{ dragPiston = false; });
+labCv.addEventListener('pointercancel', ()=>{ dragPiston = false; });
+
+/* ---------- messages ---------- */
+let FLASH = null, TIPK = 'tipIdle', CONCL = null;
+function renderMsg(){
+  const p = labP(), st = pState(p);
+  const flash = FLASH ? '<em>'+t(FLASH)+'</em><br>' : '';
+  const formula = tf('f_formula', {n:LG.N, k:tK(LG.T), v:LG.V, p:pShow(p)});
+  const ratio = (p/P_REF).toFixed(2);
+  const live = st==='over' ? t('live_over')
+             : st==='high' ? tf('live_high',{h:LG.hitDisp, r:ratio})
+             : st==='low'  ? tf('live_low',{h:LG.hitDisp, r:ratio})
+             : tf('live_norm',{h:LG.hitDisp});
+  const box = $('l-status');
+  if(box) box.innerHTML = flash + formula + '<br>' + live + '<br>' + t(TIPK);
+  const cb = $('l-conclude');
+  if(cb){
+    if(CONCL){ cb.innerHTML = t(CONCL); cb.classList.add('on'); }
+    else cb.classList.remove('on');
+  }
+}
+
+/* ---------- setters (sliders + piston drag + scenes) ---------- */
+function setN(v, byUser){
+  const up = v > LG.N;
+  LG.N = clamp(v, 5, 60);
+  syncParts(LG, LGEO);
+  if(byUser){ stopScene(); FLASH = up ? 'r_Nup' : 'r_Ndn'; TIPK = 'tipN'; CONCL = 'c1'; }
+  syncLab();
+}
+function setT(v, byUser){
+  const up = v > LG.T;
+  LG.T = clamp(v, -20, 100);
+  rescaleSpeeds(LG);
+  if(byUser){ stopScene(); FLASH = up ? 'r_Tup' : 'r_Tdn'; TIPK = 'tipT'; CONCL = 'c2'; }
+  syncLab();
+}
+function setV(v, byUser){
+  const up = v > LG.V;
+  LG.V = clamp(v, 45, 100);
+  syncParts(LG, LGEO);
+  if(byUser){ stopScene(); FLASH = up ? 'r_Vup' : 'r_Vdn'; TIPK = 'tipV'; CONCL = 'c3'; }
+  syncLab();
+}
+function syncSliders(){
+  const set = (id,val)=>{ const el=$(id); if(el) el.value = val; };
+  const out = (id,txt)=>{ const el=$(id); if(el) el.textContent = txt; };
+  set('s-n', LG.N); set('g-n', LG.N);
+  set('s-t', LG.T); set('g-t', LG.T);
+  set('s-v', LG.V); set('g-v', LG.V);
+  out('s-n-o', LG.N); out('g-n-o', LG.N);
+  out('s-t-o', LG.T+' ℃'); out('g-t-o', LG.T+' ℃');
+  out('s-v-o', LG.V+' %'); out('g-v-o', LG.V+' %');
+}
+function syncLab(){
+  const p = labP(), st = pState(p);
+  if($('l-p')) $('l-p').textContent = p > P_MAX ? '600+' : pShow(p);
+  if($('l-hits')) $('l-hits').textContent = LG.hitDisp;
+  if($('l-tk')) $('l-tk').textContent = tK(LG.T);
+  if($('l-v')) $('l-v').textContent = LG.V;
+  const bd = $('l-state');
+  if(bd){
+    const nm = st==='over'?'stOver':st==='high'?'stHigh':st==='low'?'stLow':'stNorm';
+    bd.innerHTML = t(nm)+'<small>'+t(nm+'Sub')+'</small>';
+    const col = st==='over' ? '#b8432f' : st==='high' ? 'var(--gold-ink)' : st==='low' ? '#2f6690' : 'var(--ink)';
+    bd.style.color = col; bd.style.borderColor = col;
+  }
+  syncSliders();
+  renderMsg();
+}
+
+/* ---------- one-click scenarios (was the source's missions + life cards) ---------- */
+const SCENES = {
+  sc1:{ start:{N:10, T:20, V:100}, key:'N', to:45,  dur:3.0, why:'sc1why' },
+  sc2:{ start:{N:20, T:20, V:100}, key:'T', to:90,  dur:3.0, why:'sc2why' },
+  sc3:{ start:{N:20, T:20, V:100}, key:'V', to:50,  dur:3.0, why:'sc3why' },
+  sc4:{ start:{N:20, T:30, V:100}, key:'T', to:-20, dur:3.0, why:'sc4why' },
+  sc5:{ start:{N:20, T:20, V:100}, key:null, to:0,  dur:0,   why:'sc5why' },
+};
+let SCENE = null;
+function stopScene(){
+  if(SCENE){
+    document.querySelectorAll('.railbtn[data-sc]').forEach(b=>b.classList.remove('pick'));
+    SCENE = null;
+  }
+}
+function playScene(id){
+  const s = SCENES[id];
+  if(!s) return;
+  setMode('lab');
+  stopScene();
+  LG.N = s.start.N; LG.T = s.start.T; LG.V = s.start.V;
+  syncParts(LG, LGEO); rescaleSpeeds(LG);
+  FLASH = null; CONCL = s.why;
+  TIPK = s.key==='N' ? 'tipN' : s.key==='T' ? 'tipT' : s.key==='V' ? 'tipV' : 'tipIdle';
+  if(s.key){
+    SCENE = { id:id, key:s.key, from:s.start[s.key], to:s.to, tt:0, dur:s.dur };
+    document.querySelectorAll('.railbtn[data-sc]').forEach(b=>b.classList.toggle('pick', b.dataset.sc===id));
+  }
+  syncLab();
+}
+function stepScene(dt){
+  if(!SCENE) return;
+  SCENE.tt += dt;
+  const k = clamp(SCENE.tt/SCENE.dur, 0, 1);
+  const e = k<0.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+  const raw = SCENE.from + (SCENE.to-SCENE.from)*e;
+  if(SCENE.key==='N'){ LG.N = clamp(Math.round(raw/5)*5, 5, 60); syncParts(LG, LGEO); }
+  else if(SCENE.key==='T'){ LG.T = clamp(Math.round(raw/10)*10, -20, 100); rescaleSpeeds(LG); }
+  else { LG.V = clamp(Math.round(raw/5)*5, 45, 100); syncParts(LG, LGEO); }
+  if(k >= 1){
+    FLASH = 'r_'+SCENE.key+(SCENE.to>SCENE.from?'up':'dn');
+    const done = SCENE.id;
+    document.querySelectorAll('.railbtn[data-sc]').forEach(b=>b.classList.remove('pick'));
+    SCENE = null;
+    CONCL = SCENES[done].why;
+  }
+  syncLab();
+}
+
+/* ---------- data recording ---------- */
+let recRows = [];
+function recordData(){
+  recRows.push({ N:LG.N, T:LG.T, V:LG.V, p:labP() });
+  if(recRows.length > 7) recRows.shift();
+  renderRec();
+}
+function clearRec(){ recRows = []; renderRec(); }
+function renderRec(){
+  const body = $('rec-body');
+  if(!body) return;
+  let top = 0;
+  recRows.forEach(r=>{ top = Math.max(top, r.p); });
+  body.innerHTML = recRows.map(r=>{
+    const pct = top>1e-6 ? Math.max(6, r.p/top*100) : 0;
+    const cls = r.p > P_MAX ? 'hi' : r.p < 140 ? 'lo' : '';
+    return '<tr><td>'+r.N+'</td><td>'+r.T+'</td><td>'+r.V+'</td><td>'+(r.p>P_MAX?'600+':pShow(r.p))+'</td>'+
+      '<td><div class="bar '+cls+'"><i style="width:'+pct+'%"></i></div></td></tr>';
+  }).join('');
+}
+
+/* ============================================================
+   Tab 2: Compare (two boxes, world 440 x 380)
+============================================================ */
+const CM_W = 440, CM_H = 380;
+const CGEO = { left:36, top:120, bot:320, right:356, r:6, lw:4, pw:14, hl:32 };
+const CMP_PRESETS = [
+  { id:0, concl:'cc_1',
+    a:{ N0:20, N1:20, T0:20, T1:20, V0:100, V1:50,  nameK:'cp1a', condK:'cp1ac' },
+    b:{ N0:20, N1:20, T0:20, T1:40, V0:100, V1:100, nameK:'cp1b', condK:'cp1bc' } },
+  { id:1, concl:'cc_2',
+    a:{ N0:20, N1:20, T0:20, T1:100, V0:100, V1:100, nameK:'cp2a', condK:'cp2ac' },
+    b:{ N0:20, N1:40, T0:20, T1:20,  V0:100, V1:100, nameK:'cp2b', condK:'cp2bc' } },
+  { id:2, concl:'cc_3',
+    a:{ N0:20, N1:20, T0:20, T1:20, V0:50,  V1:100, nameK:'cp3a', condK:'cp3ac' },
+    b:{ N0:40, N1:20, T0:20, T1:20, V0:100, V1:100, nameK:'cp3b', condK:'cp3bc' } },
+];
+const CMP = { preset:0, p:0, running:false, guess:null };
+const cvA = $('cv-ca'), ctxA = cvA.getContext('2d');
+const cvB = $('cv-cb'), ctxB = cvB.getContext('2d');
+const CA = makeGas(20, 20, 100, 110), CB = makeGas(20, 20, 100, 110);
+function side(which){ return CMP_PRESETS[CMP.preset][which]; }
+function sideAt(s, p0){
+  const prog = clamp(p0, 0, 1);
+  return { N: Math.round(s.N0 + (s.N1-s.N0)*prog),
+           T: Math.round((s.T0 + (s.T1-s.T0)*prog)/2)*2,
+           V: Math.round(s.V0 + (s.V1-s.V0)*prog) };
+}
+function applySide(g, s, prog){
+  const st = sideAt(s, prog);
+  const dT = st.T !== g.T;
+  g.N = st.N; g.T = st.T; g.V = st.V;
+  syncParts(g, CGEO);
+  if(dT) rescaleSpeeds(g);
+}
+function drawCmpSide(c, g, cv){
+  c.setTransform(1,0,0,1,0,0);
+  c.clearRect(0,0,cv.width,cv.height);
+  c.setTransform(SC,0,0,SC,0,0);
+  const p = gasP(g), over = p > P_MAX;
+  /* pressure headline + bar */
+  TX(c, tf('cvP',{p:pShow(p)}), CM_W/2, 24, '900 26px '+CV_FONT, over ? C().wallHot : C().amber, 'center', 'middle');
+  const bx = 36, bw = CM_W-72, by = 48;
+  rrect(c, bx, by, bw, 18, 9); c.fillStyle = C().panel; c.fill();
+  c.strokeStyle = C().panelLine; c.lineWidth = 1.2; c.stroke();
+  rrect(c, bx+2, by+2, Math.max(3, clamp(p/P_MAX,0,1)*(bw-4)), 14, 7);
+  c.fillStyle = over ? C().barHot : C().bar; c.fill();
+  TX(c, '0', bx, by+30, '700 14px '+CV_FONT, C().cvTextDim, 'left', 'middle');
+  TX(c, '600 kPa', bx+bw, by+30, '700 14px '+CV_FONT, C().cvTextDim, 'right', 'middle');
+  /* container */
+  const px = drawGas(c, g, CGEO);
+  drawPiston(c, px, CGEO, null);
+  /* conditions */
+  TX(c, tf('cvNTV',{n:g.N, t:g.T, v:g.V}), CM_W/2, 348, '700 16px '+CV_FONT, C().cvText, 'center', 'middle');
+  TX(c, tf('cvHits',{h:g.hitDisp}), CM_W/2, 370, '700 14px '+CV_FONT, C().cvTextDim, 'center', 'middle');
+}
+function drawCmpBoth(){
+  drawCmpSide(ctxA, CA, cvA);
+  drawCmpSide(ctxB, CB, cvB);
+  updateCmpSide();
+}
+function updateCmpSide(){
+  const pa = gasP(CA), pb = gasP(CB);
+  $('c-p-a').textContent = pa > P_MAX ? '600+' : pShow(pa);
+  $('c-p-b').textContent = pb > P_MAX ? '600+' : pShow(pb);
+  $('c-n-a').textContent = CA.N; $('c-t-a').textContent = CA.T; $('c-v-a').textContent = CA.V;
+  $('c-n-b').textContent = CB.N; $('c-t-b').textContent = CB.T; $('c-v-b').textContent = CB.V;
+}
+function cmpLabels(){
+  const a = side('a'), b = side('b');
+  if($('ca-name')) $('ca-name').textContent = t(a.nameK);
+  if($('cb-name')) $('cb-name').textContent = t(b.nameK);
+  if($('ca-cond')) $('ca-cond').textContent = t(a.condK);
+  if($('cb-cond')) $('cb-cond').textContent = t(b.condK);
+  if($('s-ca-name')) $('s-ca-name').textContent = LANG==='zh' ? '甲' : 'A';
+  if($('s-cb-name')) $('s-cb-name').textContent = LANG==='zh' ? '乙' : 'B';
+}
+function presetCmp(i){
+  CMP.preset = i; CMP.p = 0; CMP.running = false;
+  document.querySelectorAll('#ctl-cmp .btn.ghost').forEach((b,k)=>b.style.opacity = (k===i?'1':'.6'));
+  clearGuess(); cmpLabels();
+  applySide(CA, side('a'), 0); applySide(CB, side('b'), 0);
+  rescaleSpeeds(CA); rescaleSpeeds(CB);
+  drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function cmpReset(){
+  if(CMP.running) return;
+  CMP.p = 0;
+  cmpLabels();
+  applySide(CA, side('a'), 0); applySide(CB, side('b'), 0);
+  rescaleSpeeds(CA); rescaleSpeeds(CB);
+  drawCmpBoth();
+  $('cmp-fb').textContent=''; $('cmp-fb').className='feedback';
+  $('cmp-conclude').classList.remove('on');
+}
+function pickGuess(btn){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  btn.classList.add('pick');
+  CMP.guess = btn.dataset.g;
+  $('cmp-run').disabled = false;
+}
+function clearGuess(){
+  document.querySelectorAll('#ctl-cmp .sbtn[data-g]').forEach(b=>b.classList.remove('pick'));
+  CMP.guess = null; $('cmp-run').disabled = true;
+}
+function runCmp(){
+  if(CMP.running) return;
+  CMP.p = 0; CMP.running = true;
+  $('cmp-run').disabled = true;
+}
+function finishCmp(){
+  const a = sideAt(side('a'),1), b = sideAt(side('b'),1);
+  const pa = pressureOf(a.N,a.T,a.V), pb = pressureOf(b.N,b.T,b.V);
+  const real = Math.abs(pa-pb) < Math.max(pa,pb)*0.03 ? 'same' : (pa>pb ? 'a' : 'b');
+  const detail = '（'+(LANG==='zh'?'甲':'A')+' '+pShow(pa)+' kPa · '+(LANG==='zh'?'乙':'B')+' '+pShow(pb)+' kPa）';
+  const fb = $('cmp-fb');
+  if(CMP.guess === real){ fb.innerHTML = t('fbRight')+detail; fb.className='feedback good'; }
+  else { fb.innerHTML = t('fbWrong')+detail; fb.className='feedback bad'; }
+  const box = $('cmp-conclude');
+  box.innerHTML = t(CMP_PRESETS[CMP.preset].concl);
+  box.classList.add('on');
+  clearGuess();
+}
+
+/* ============================================================
+   Tab 3: Class quiz
+============================================================ */
+const QUIZ_TIME = 20;
+let qIdx = 0, qScore = 0, qDone = [], qTimer = null, qLeft = 0;
+function stopTimer(){ if(qTimer){ clearInterval(qTimer); qTimer=null; } }
+function startTimer(){
+  stopTimer();
+  qLeft = QUIZ_TIME;
+  const bar = $('q-timer-bar');
+  bar.style.width = '100%';
+  $('q-timer').classList.remove('low');
+  qTimer = setInterval(()=>{
+    qLeft -= 0.1;
+    bar.style.width = Math.max(0, qLeft/QUIZ_TIME*100)+'%';
+    if(qLeft <= 5) $('q-timer').classList.add('low');
+    if(qLeft <= 0){ stopTimer(); timeUpQ(); }
+  }, 100);
+}
+function renderQ(){
+  const item = QUIZ()[qIdx];
+  $('q-emoji').textContent = item.e;
+  $('q-text').innerHTML = (qIdx+1)+'. '+item.q;
+  $('q-exp').innerHTML = '';
+  $('q-next').style.display='none';
+  $('q-restart').style.display='none';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  item.o.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className='qbtn';
+    b.textContent = 'ABC'[i]+'. '+opt;
+    b.onclick = ()=>answerQ(i,b);
+    box.appendChild(b);
+  });
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qDone[qIdx] !== undefined){
+    const btns=[...box.children];
+    btns.forEach(b=>b.disabled=true);
+    btns[item.a].classList.add('right');
+    $('q-exp').innerHTML = item.x;
+    if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+    else $('q-restart').style.display='inline-block';
+  } else startTimer();
+}
+function renderProg(){
+  $('q-prog').innerHTML = QUIZ().map((_,i)=>
+    '<div class="qdot '+(i===qIdx?'cur ':'')+(qDone[i]===true?'right':qDone[i]===false?'wrong':'')+'"></div>').join('');
+}
+function finishQ(prefix, correct){
+  stopTimer();
+  const item = QUIZ()[qIdx];
+  qDone[qIdx] = correct;
+  if(correct) qScore++;
+  const btns = [...$('q-opts').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[item.a].classList.add('right');
+  $('q-exp').innerHTML = prefix + item.x;
+  renderProg();
+  $('q-score-n').textContent = qScore;
+  if(qIdx < QUIZ().length-1) $('q-next').style.display='inline-block';
+  else {
+    const pct = qScore/QUIZ().length;
+    const msg = pct===1 ? t('resGold') : pct>=0.7 ? t('resGood') : t('resTry');
+    $('q-exp').innerHTML += '<br><em>'+qScore+' / '+QUIZ().length+' — '+msg+'</em>';
+    $('q-restart').style.display='inline-block';
+  }
+}
+function answerQ(i, btn){
+  if(qDone[qIdx] !== undefined) return;
+  const item = QUIZ()[qIdx];
+  const correct = i===item.a;
+  if(!correct) btn.classList.add('wrong');
+  finishQ(correct ? t('rRight')+' ' : t('rWrong')+' ', correct);
+}
+function timeUpQ(){
+  if(qDone[qIdx] !== undefined) return;
+  finishQ(t('timeUp')+' ', false);
+}
+function nextQ(){ qIdx++; renderQ(); }
+function restartQ(){ qIdx=0; qScore=0; qDone=[]; renderQ(); }
+
+/* ============================================================
+   Tab 4: Pressure sniper (target challenge — reuses the lab engine)
+============================================================ */
+const GAME_ROUNDS = 3, GAME_TIME = 40;
+const GAME_TARGETS = [120, 150, 180, 250, 300, 350, 400, 450, 500];
+const GAME = { round:0, score:0, target:0, phase:'aim', left:GAME_TIME, timer:null, order:[] };
+function stopGTimer(){ if(GAME.timer){ clearInterval(GAME.timer); GAME.timer=null; } }
+function startGame(){
+  GAME.round = 0; GAME.score = 0;
+  $('g-score').textContent = 0;
+  const idx = GAME_TARGETS.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=idx[i]; idx[i]=idx[j]; idx[j]=tmp; }
+  GAME.order = idx.slice(0, GAME_ROUNDS);
+  nextRound();
+}
+function nextRound(){
+  GAME.round++;
+  GAME.phase = 'aim';
+  GAME.left = GAME_TIME;
+  GAME.target = GAME_TARGETS[GAME.order[GAME.round-1]];
+  LG.N = 20; LG.T = 20; LG.V = 100;
+  syncParts(LG, LGEO); rescaleSpeeds(LG);
+  FLASH = null; CONCL = null; TIPK = 'tipIdle';
+  stopScene();
+  syncLab();
+  $('g-status').innerHTML = tf('gGo', {p:GAME.target});
+  gameSync();
+  stopGTimer();
+  GAME.timer = setInterval(()=>{
+    GAME.left--;
+    $('g-time').textContent = Math.max(0, GAME.left);
+    $('g-time').classList.toggle('low', GAME.left<=10);
+    if(GAME.left<=0) lockP(true);
+  }, 1000);
+}
+function lockP(timedOut){
+  if(GAME.phase === 'aim'){
+    stopGTimer();
+    const cur = labP();
+    const diff = Math.abs(cur - GAME.target);
+    const pts = diff<=5?100 : diff<=15?80 : diff<=30?50 : diff<=60?20 : 5;
+    GAME.score += pts;
+    const msg = (timedOut===true ? t('gTimeUp')+' ' : '') +
+      (diff<=5?t('gPerfect') : diff<=15?t('gGood') : diff<=30?t('gOk') : t('gMiss'));
+    GAME.phase = GAME.round >= GAME_ROUNDS ? 'done' : 'next';
+    let html = msg+'（'+pShow(cur)+' kPa · ±'+Math.round(diff)+' · +'+pts+'）';
+    if(GAME.phase === 'done'){
+      const rk = GAME.score>=270 ? t('gRank1') : GAME.score>=180 ? t('gRank2') : t('gRank3');
+      html += '<br>' + t('gFinal')+' '+GAME.score+' — '+rk;
+    }
+    $('g-status').innerHTML = html;
+    gameSync();
+  } else if(GAME.phase === 'next'){
+    nextRound();
+  } else {
+    startGame();
+  }
+}
+function syncGameBtn(){
+  $('g-lock').textContent = GAME.phase==='aim' ? '🎯 '+t('gLock')
+                          : GAME.phase==='next' ? t('gNextRound') : t('gPlayAgain');
+}
+function gameSync(){
+  $('g-round').textContent = GAME.round;
+  $('g-target').textContent = GAME.target;
+  $('g-target-side').textContent = GAME.target + ' kPa';
+  $('g-time').textContent = Math.max(0, GAME.left);
+  $('g-score').textContent = GAME.score;
+  syncGameBtn();
+  document.querySelectorAll('#ctl-game input[type=range]').forEach(el=>{ el.disabled = GAME.phase!=='aim'; });
+}
+function gameLive(){
+  const p = labP();
+  $('g-cur').textContent = p > P_MAX ? '600+' : pShow(p);
+  $('g-cur-hud').textContent = (p > P_MAX ? '600+' : pShow(p)) + ' kPa';
+}
+
+/* ============================================================
+   Main loop & mode switching
+============================================================ */
+let lastT = performance.now(), lastHits = -1;
+function mainLoop(now){
+  const dt = Math.min(0.04, (now-lastT)/1000);
+  lastT = now;
+  const labOn = $('panel-lab').classList.contains('on');
+  const gameOn = $('panel-game').classList.contains('on');
+  if(labOn || gameOn){
+    if(labOn && SCENE) stepScene(dt);
+    gasStep(LG, LGEO, dt);
+    drawLab();
+    /* the sidebar is rebuilt by the setters; here only the once-a-second hit count moves */
+    if(labOn){ if(LG.hitDisp !== lastHits){ lastHits = LG.hitDisp; syncLab(); } }
+    else gameLive();
+  } else if($('panel-cmp').classList.contains('on')){
+    if(CMP.running){
+      CMP.p += dt/5;
+      if(CMP.p >= 1){ CMP.p = 1; CMP.running = false; }
+      applySide(CA, side('a'), CMP.p);
+      applySide(CB, side('b'), CMP.p);
+      if(!CMP.running) finishCmp();
+    }
+    gasStep(CA, CGEO, dt);
+    gasStep(CB, CGEO, dt);
+    drawCmpBoth();
+  }
+  requestAnimationFrame(mainLoop);
+}
+function setMode(m){
+  stopTimer(); stopGTimer();
+  CMP.running = false;
+  for(const id of ['lab','cmp','quiz','game']){
+    $('tab-'+id).classList.toggle('on', id===m);
+    $('panel-'+id).classList.toggle('on', id===m);
+    $('ctl-'+id).classList.toggle('on', id===m);
+    $('sb-'+id).classList.toggle('on', id===m);
+  }
+  if(m==='lab'){ ($('panel-lab').querySelector('.cvarea')||$('panel-lab')).appendChild(labCv); syncLab(); }
+  if(m==='cmp'){ cmpLabels(); cmpReset(); }
+  if(m==='quiz') renderQ();
+  if(m==='game'){ $('game-cvhost').appendChild(labCv); startGame(); }
+}
+
+/* ---------- boot ---------- */
+syncParts(LG, LGEO);
+applyTheme();
+applyLang();
+syncExplain();
+playScene('sc5');
+presetCmp(0);
+renderQ();
+setMode('lab');
+requestAnimationFrame(mainLoop);
+
+</script>
+<script>
+window.LAB_SLUG='gas-pressure-lab-ScienceMaterial';
+(function(){
+  const setVH=()=>{const h=window.visualViewport?window.visualViewport.height:window.innerHeight;document.documentElement.style.setProperty('--app-height',h+'px')};
+  setVH(); window.addEventListener('resize',setVH); if(window.visualViewport) window.visualViewport.addEventListener('resize',setVH);
+  window.addEventListener('message',e=>{const d=e.data;if(!d)return;if(d==='reset'||d.type==='reset')location.reload()});
+  try{parent.postMessage({type:'ready',id:window.LAB_SLUG},'*')}catch{}
+})();
+</script>
+</body>
+</html>
