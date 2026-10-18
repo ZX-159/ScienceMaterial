@@ -193,5 +193,3 @@ All under 500KB, meet sandbox requirement, high contrast for readability.
 ---
 
 Everything required is in this README + 82 labs + lib/curriculum/data.ts + lib/experiments/data.ts + custom-index.json + Supabase clients + Admin CMS.
-#   S c i e n c e M a t e r i a l  
- 

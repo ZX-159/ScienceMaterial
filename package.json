@@ -6,7 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+    "db:push": "drizzle-kit push --config=drizzle.config.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
+    "db:check": "drizzle-kit check --config=drizzle.config.ts",
+    "test:e2e": "playwright test --project=chromium --reporter=list",
+    "test:e2e:all-labs": "playwright test tests/e2e/all-labs.spec.ts --project=chromium --reporter=list",
+    "test:e2e:gated": "playwright test tests/e2e/gated-access.spec.ts tests/e2e/gated-full-flow.spec.ts --project=chromium --reporter=list"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -51,6 +60,7 @@
     "eslint-config-next": "15.3.3",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.1",
     "typescript": "^5.8.3"
   },
   "license": "Apache-2.0"
