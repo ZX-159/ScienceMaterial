@@ -42,6 +42,5 @@
       "main": true
     }
   },
-  "regions": ["sin1"],
-  "public": false
+  "regions": ["sin1"]
 }
