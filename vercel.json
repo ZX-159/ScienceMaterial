@@ -43,5 +43,5 @@
     }
   },
   "regions": ["sin1"],
-  "public": true
+  "public": false
 }
